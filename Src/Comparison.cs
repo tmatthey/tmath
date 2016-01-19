@@ -13,6 +13,7 @@
         {
             return IsZero(x, Epsilon);
         }
+
         public static bool IsZero(double x, double eps)
         {
             return (-eps <= x && x <= eps);
@@ -22,6 +23,7 @@
         {
             return IsPositive(x, Epsilon);
         }
+
         public static bool IsPositive(double x, double eps)
         {
             return (eps < x && x < double.PositiveInfinity);
@@ -36,6 +38,5 @@
         {
             return (double.NegativeInfinity < x && x < -eps);
         }
-
     }
 }

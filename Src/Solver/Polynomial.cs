@@ -28,7 +28,7 @@ namespace Math
                 return res;
             }
 
-            // Normal form: x^2 + px + q = 0 
+            // Normal form: x^2 + px + q = 0
             var p = b / (2.0 * a);
             var q = c / a;
 
@@ -55,7 +55,7 @@ namespace Math
             }
             var res = new List<double>();
 
-            // Depressed cubic form: x^3 + px + q = 0 
+            // Depressed cubic form: x^3 + px + q = 0
             var p = 1.0 / 3.0 * (-1.0 / 3.0 * b / a * b / a + c / a);
             var q = 1.0 / 2 * (2.0 / 27.0 * b / a * b / a * b / a - 1.0 / 3.0 * b / a * c / a + d / a);
             var D = q * q + p * p * p;
@@ -100,6 +100,7 @@ namespace Math
             res.Sort();
             return res;
         }
+
         public static IList<double> Quartic(double a, double b, double c, double d, double e)
         {
             if (Comparison.IsZero(a))

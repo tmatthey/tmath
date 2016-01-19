@@ -27,6 +27,7 @@ namespace Math.Tests.Function
             var a3 = a * a * a;
             a3.ShouldBe(x);
         }
+
         [TestCase(27.1)]
         [TestCase(0.13)]
         [TestCase(0.0)]

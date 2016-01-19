@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace Math.Tests
@@ -8,6 +7,7 @@ namespace Math.Tests
     public class ComparisonlTests
     {
         private const double Epsilon = double.Epsilon;
+
         [TestCase(0, true)]
         [TestCase(Comparison.Epsilon, true)]
         [TestCase(-Comparison.Epsilon, true)]

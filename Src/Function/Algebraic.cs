@@ -24,7 +24,6 @@
                 y = -System.Math.Pow(-x, 1.0 / n);
             }
             return y;
-
         }
     }
 }

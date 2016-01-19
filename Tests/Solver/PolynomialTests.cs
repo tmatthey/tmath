@@ -27,7 +27,6 @@ namespace Math.Tests.Solver
             x.ShouldBe(double.NaN);
         }
 
-
         [TestCase(1.0)]
         [TestCase(-1.0)]
         [TestCase(13.17)]
@@ -44,7 +43,7 @@ namespace Math.Tests.Solver
 
         [TestCase(1.0, 13.1, 1.0)]
         [TestCase(-1.0, 13.1, 1.1)]
-        [TestCase(13.17, - 13.1, 1.2)]
+        [TestCase(13.17, -13.1, 1.2)]
         [TestCase(-13.17, -13.1, -1.1)]
         public void Quadratic_TwoRoots_ReturnsTwoSolutions(double x0, double x1, double f)
         {
@@ -68,7 +67,7 @@ namespace Math.Tests.Solver
             var a = 0.0;
             var root = Math.Solver.Quadratic(a, b, c);
             root.Count.ShouldBe(1);
-            var y = b*root[0] + c;
+            var y = b * root[0] + c;
             y.ShouldBe(0.0);
         }
 
@@ -105,7 +104,7 @@ namespace Math.Tests.Solver
             s.Sort();
             double a, b, c, d;
             CreateEq(x0, x1, x2, out a, out b, out c, out d);
-            a *= f; 
+            a *= f;
             b *= f;
             c *= f;
             d *= f;
@@ -160,6 +159,7 @@ namespace Math.Tests.Solver
             root.Count.ShouldBe(1);
             root[0].ShouldBe(s[0], Epsilon);
         }
+
         [Test]
         public void Qubic_OneSingleRoot_ReturnsSolutions()
         {
@@ -188,7 +188,7 @@ namespace Math.Tests.Solver
         [TestCase(1.0, 2.0, 0.0, -1.0, 1.4)]
         public void Quartic_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
         {
-            var s = new List<double>() { x0, x1, x2, x3};
+            var s = new List<double>() { x0, x1, x2, x3 };
             s.Sort();
             double a, b, c, d, e;
             CreateEq(x0, x1, x2, x3, out a, out b, out c, out d, out e);
@@ -225,13 +225,13 @@ namespace Math.Tests.Solver
         {
             a = 1.0;
             b = -(x0 + x1 + x2 + x3);
-            c = x0 * x1 + x0 * x2 + x0 * x3 + 
-                x1 * x2 + x1 * x3 + 
-                x2* x3;
+            c = x0 * x1 + x0 * x2 + x0 * x3 +
+                x1 * x2 + x1 * x3 +
+                x2 * x3;
             d = -x1 * x2 * x3 -
                  x0 * x2 * x3 -
                  x0 * x1 * x3 -
-                 x0 * x1 * x2;    
+                 x0 * x1 * x2;
             e = x0 * x1 * x2 * x3;
         }
     }
