@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Math
 {
@@ -42,7 +43,7 @@ namespace Math
                 var s = System.Math.Sqrt(D);
                 res.Add(s - p);
                 res.Add(-s - p);
-                res.Sort();
+                res = Comparison.UniqueSorted(res).ToList();
             }
             return res;
         }
@@ -97,7 +98,7 @@ namespace Math
             {
                 res[i] -= b / (3.0 * a);
             }
-            res.Sort();
+            res = Comparison.UniqueSorted(res).ToList();
             return res;
         }
 
@@ -141,7 +142,7 @@ namespace Math
             {
                 res[i] -= b / (4.0 * a);
             }
-            res.Sort();
+            res = Comparison.UniqueSorted(res).ToList();
             return res;
         }
     }

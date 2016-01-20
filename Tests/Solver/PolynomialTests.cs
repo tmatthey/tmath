@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.Tests.Solver
 {
@@ -186,10 +187,12 @@ namespace Math.Tests.Solver
 
         [TestCase(-1.0, -2.0, 0.0, 1.0, 1.4)]
         [TestCase(1.0, 2.0, 0.0, -1.0, 1.4)]
+        [TestCase(1.0, 2.0, 2.0, 1.0, 1.4)]
+        [TestCase(1.0, 2.0, 2.0, 2.0, 1.4)]
+        [TestCase(2.0, 2.0, 2.0, 2.0, 1.4)]
         public void Quartic_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
         {
             var s = new List<double>() { x0, x1, x2, x3 };
-            s.Sort();
             double a, b, c, d, e;
             CreateEq(x0, x1, x2, x3, out a, out b, out c, out d, out e);
             a *= f;
@@ -198,6 +201,8 @@ namespace Math.Tests.Solver
             d *= f;
             e *= f;
 
+            s = s.Distinct().ToList<double>();
+            s.Sort();
             var root = Math.Solver.Quartic(a, b, c, d, e);
             root.Count.ShouldBe(s.Count);
             if (s.Count > 0) root[0].ShouldBe(s[0], Epsilon);
