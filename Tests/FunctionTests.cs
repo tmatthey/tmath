@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Function
+namespace Math.Tests
 {
     [TestFixture]
-    public class AlgebraicTests
+    public class FunctionTests
     {
         [TestCase(27.1)]
         [TestCase(0.13)]

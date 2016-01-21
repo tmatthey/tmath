@@ -3,10 +3,10 @@ using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Math.Tests.Solver
+namespace Math.Tests
 {
     [TestFixture]
-    public class PolynomialTests
+    public class SolverTests
     {
         private const double Epsilon = 1e-13;
 

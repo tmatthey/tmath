@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Math.Tests
 {
     [TestFixture]
-    public class ComparisonlTests
+    public class ComparisonTests
     {
         private const double Epsilon = double.Epsilon;
 
