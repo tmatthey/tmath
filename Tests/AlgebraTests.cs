@@ -45,12 +45,10 @@ namespace Math.Test
         {
             double a2, a1, a0;
             CreateEq(x0, x1, out a2, out a1, out a0);
-            var p = new Polynomial(new List<double>() {a0, a1, a2});
+            var p = new Polynomial(new List<double>() { a0, a1, a2 });
 
             p.p(x0).ShouldBe(0.0);
             p.p(x1).ShouldBe(0.0);
-
-
         }
 
         [TestCase(1.0, 2.0)]
@@ -68,9 +66,8 @@ namespace Math.Test
             var res = new Polynomial(p.dp()).P();
             res.Count.ShouldBe(p.p().Count);
             // Constant not preserved since first applying derivative
-            for (var i = 1; i < res.Count; ++i) 
+            for (var i = 1; i < res.Count; ++i)
                 res[i].ShouldBe(p.p()[i]);
-
         }
 
         [TestCase(1.0, 2.0)]
@@ -89,7 +86,6 @@ namespace Math.Test
             res.Count.ShouldBe(p.p().Count);
             for (var i = 0; i < res.Count; ++i)
                 res[i].ShouldBe(p.p()[i]);
-
         }
 
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)

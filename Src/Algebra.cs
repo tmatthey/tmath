@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Math.Algebra
 {
@@ -32,23 +28,45 @@ namespace Math.Algebra
             _P.Add(0.0);
             for (var i = 0; i < _p.Count; i++)
             {
-                _P.Add(_p[i] / (i+1));
+                _P.Add(_p[i] / (i + 1));
             }
         }
 
-        public IList<double> p() { return _p; }
-        public IList<double> dp() { return _dp; }
-        public IList<double> P() { return _P; }
+        public IList<double> p()
+        {
+            return _p;
+        }
 
-        public double p(double x) { return eval(x, _p); }
-        public double dp(double x) { return eval(x, _dp); }
-        public double P(double x) { return eval(x, _P); }
+        public IList<double> dp()
+        {
+            return _dp;
+        }
+
+        public IList<double> P()
+        {
+            return _P;
+        }
+
+        public double p(double x)
+        {
+            return eval(x, _p);
+        }
+
+        public double dp(double x)
+        {
+            return eval(x, _dp);
+        }
+
+        public double P(double x)
+        {
+            return eval(x, _P);
+        }
 
         private double eval(double x, IList<double> p)
         {
             double y = 0;
             double u = 1;
-            foreach(var c in p)
+            foreach (var c in p)
             {
                 y += u * c;
                 u *= x;
