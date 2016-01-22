@@ -58,6 +58,30 @@ namespace Math.Test
         [TestCase(-1.0, -1.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
+        public void Polynomial_FindRoot_ReturnsRoot(double x0, double x1)
+        {
+            double a2, a1, a0;
+            CreateEq(x0, x1, out a2, out a1, out a0);
+            var p = new Polynomial(new List<double>() { a0, a1, a2 });
+
+            var u00 = p.FindRoot(x0 - 1e-5).Real;
+            var u01 = p.FindRoot(x0 + 1e-5).Real;
+            var u10 = p.FindRoot(x1 - 1e-5).Real;
+            var u11 = p.FindRoot(x1 + 1e-5).Real;
+
+            u00.ShouldBe(x0, 1e-8);
+            u01.ShouldBe(x0, 1e-8);
+            u10.ShouldBe(x1, 1e-8);
+            u11.ShouldBe(x1, 1e-8);
+        }
+
+        [TestCase(1.0, 2.0)]
+        [TestCase(-1.0, 2.0)]
+        [TestCase(1.0, -2.0)]
+        [TestCase(-1.0, -2.0)]
+        [TestCase(-1.0, -1.0)]
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, 1.0)]
         public void Polynomial_IntegrateDerivative_ReturnsPolynomial(double x0, double x1)
         {
             double a2, a1, a0;
