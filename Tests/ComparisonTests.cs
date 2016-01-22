@@ -149,11 +149,11 @@ namespace Math.Tests
             result.ShouldBe(expected);
         }
 
-        [TestCase(12.0, 12.0, true)]
-        [TestCase(12.0, 12.05, false)]
+        [TestCase(11.0, 11.0, true)]
+        [TestCase(13.0, 13.05, false)]
         [TestCase(0.0, 1e-13, false)]
-        [TestCase(0.0, 1e-14, true)]
         [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
+        [TestCase(0.0, 1e-14, true)]
         public void IsEqual(double x, double y, bool expected)
         {
             var result = Comparison.IsEqual(x, y);

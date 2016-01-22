@@ -42,7 +42,7 @@ namespace Math.Tests
         [TestCase(-1.2, 2.3)]
         [TestCase(1.2, -2.3)]
         [TestCase(-1.2, -2.3)]
-        public void Linear_ValidInput_ReturnsOneSolution(double a, double b)
+        public void LinearEq_ValidInput_ReturnsOneSolution(double a, double b)
         {
             var x = Solver.LinearEq(a, b);
             var y = a * x + b;
@@ -50,7 +50,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Linear_InvalidInput_ReturnsNaN()
+        public void LinearEq_InvalidInput_ReturnsNaN()
         {
             var x = Solver.LinearEq(0.0, 1.0);
             x.ShouldBe(double.NaN);
@@ -60,7 +60,7 @@ namespace Math.Tests
         [TestCase(-1.0)]
         [TestCase(13.17)]
         [TestCase(-13.17)]
-        public void Quadratic_OneRoot_ReturnsOneSolution(double x)
+        public void QuadraticEq_OneRoot_ReturnsOneSolution(double x)
         {
             double a, b, c;
             CreateEq(x, x, out a, out b, out c);
@@ -74,7 +74,7 @@ namespace Math.Tests
         [TestCase(-1.0, 13.1, 1.1)]
         [TestCase(13.17, -13.1, 1.2)]
         [TestCase(-13.17, -13.1, -1.1)]
-        public void Quadratic_TwoRoots_ReturnsTwoSolutions(double x0, double x1, double f)
+        public void QuadraticEq_TwoRoots_ReturnsTwoSolutions(double x0, double x1, double f)
         {
             double a, b, c;
             CreateEq(x0, x1, out a, out b, out c);
@@ -91,7 +91,7 @@ namespace Math.Tests
         [TestCase(-1.2, 2.3)]
         [TestCase(1.2, -2.3)]
         [TestCase(-1.2, -2.3)]
-        public void Quadratic_Linear_ReturnsOneSolution(double b, double c)
+        public void QuadraticEq_Linear_ReturnsOneSolution(double b, double c)
         {
             var a = 0.0;
             var root = Solver.QuadraticEq(a, b, c);
@@ -101,7 +101,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Quadratic_NoRoot_ReturnsEmptyList()
+        public void QuadraticEq_NoRoot_ReturnsEmptyList()
         {
             var root = Solver.QuadraticEq(1, 0, 1);
             root.Count.ShouldBe(0);
@@ -127,7 +127,7 @@ namespace Math.Tests
         [TestCase(-1.0, 2.0, 0.0, 1.2)]
         [TestCase(1.0, -2.0, 0.0, 1.3)]
         [TestCase(-1.0, -2.0, 0.0, 1.4)]
-        public void Qubic_ThreeDifferentRoots_ReturnsSolutions(double x0, double x1, double x2, double f)
+        public void QubicEq_ThreeDifferentRoots_ReturnsSolutions(double x0, double x1, double x2, double f)
         {
             var s = new List<double>() { x0, x1, x2 };
             s.Sort();
@@ -153,7 +153,7 @@ namespace Math.Tests
         [TestCase(0.0, -2.0, 1.4)]
         [TestCase(-3.0, 0.0, 1.4)]
         [TestCase(3.0, 0.0, 1.4)]
-        public void Qubic_TwoDifferentRoots_ReturnsSolutions(double x0, double x1, double f)
+        public void QubicEq_TwoDifferentRoots_ReturnsSolutions(double x0, double x1, double f)
         {
             var s = new List<double>() { x0, x1 };
             s.Sort();
@@ -173,7 +173,7 @@ namespace Math.Tests
         [TestCase(-3.0, 1.4)]
         [TestCase(0.0, 1.4)]
         [TestCase(3.0, 1.4)]
-        public void Qubic_OneDifferentRoots_ReturnsSolutions(double x0, double f)
+        public void QubicEq_OneDifferentRoots_ReturnsSolutions(double x0, double f)
         {
             var s = new List<double>() { x0 };
             s.Sort();
@@ -190,7 +190,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Qubic_OneSingleRoot_ReturnsSolutions()
+        public void QubicEq_OneSingleRoot_ReturnsSolutions()
         {
             var a = 1.0;
             var b = -9;
@@ -202,7 +202,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Qubic_Qudratic_ReturnsOneSolutions()
+        public void QubicEq_Qudratic_ReturnsOneSolutions()
         {
             var a = 0.0;
             var b = 1;
@@ -218,7 +218,7 @@ namespace Math.Tests
         [TestCase(1.0, 2.0, 2.0, 1.0, 1.4)]
         [TestCase(1.0, 2.0, 2.0, 2.0, 1.4)]
         [TestCase(2.0, 2.0, 2.0, 2.0, 1.4)]
-        public void Quartic_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
+        public void QuarticEq_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
         {
             var s = new List<double>() { x0, x1, x2, x3 };
             double a, b, c, d, e;
@@ -240,7 +240,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Quartic_ZeroA_ReturnsCubicSolution()
+        public void QuarticEq_ZeroA_ReturnsCubicSolution()
         {
             var a = 0.0;
             double b, c, d, e;
@@ -250,8 +250,60 @@ namespace Math.Tests
             root[0].ShouldBe(1.0, Epsilon);
             root[1].ShouldBe(2.0, Epsilon);
             root[2].ShouldBe(3.0, Epsilon);
+        }
 
+        [Test]
+        public void PolynomialEq_EmptyCoefficients_ReturnsEmpty()
+        {
+            var root = Solver.PolynomialEq(new List<double>());
+            root.Count.ShouldBe(0);
+        }
 
+        [Test]
+        public void PolynomialEq_ZeroCoefficients_ReturnsEmpty()
+        {
+            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0 });
+            root.Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void PolynomialEq_OneNonZeroCoefficients_ReturnsZero()
+        {
+            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0, 17.0, 0.0 });
+            root.Count.ShouldBe(1);
+            root[0].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void PolynomialEq_QudraticAndMultipleZeroRoot_ReturnsExpected()
+        {
+            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0, 2.0, -3.0, 1.0 });
+            root.Count.ShouldBe(3);
+            root[0].ShouldBe(0.0);
+            root[1].ShouldBe(1.0);
+            root[2].ShouldBe(2.0);
+        }
+
+        [Test]
+        public void PolynomialEq_QubicOneRootAndZeroRoot_ReturnsTwoRoots()
+        {
+            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, -87.0, 41.0, -7.0, 1.0 });
+            root.Count.ShouldBe(2);
+            root[0].ShouldBe(0.0);
+            root[1].ShouldBe(3.0, 1e-13);
+
+        }
+
+        [Test]
+        public void PolynomialEq_Septic_ReturnsRoots()
+        {
+            var p = new Polynomial(new List<double>() { 0.0, 0.0, 1.0, 3.0, -87.0, 41.0, -7.0, 1.0 });
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(4);
+            p.p(root[0]).ShouldBe(0.0, 1e-13);
+            p.p(root[1]).ShouldBe(0.0, 1e-13);
+            p.p(root[2]).ShouldBe(0.0, 1e-13);
+            p.p(root[3]).ShouldBe(0.0, 1e-13);
         }
 
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)

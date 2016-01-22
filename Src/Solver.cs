@@ -173,5 +173,70 @@ namespace Math
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
+
+        public static IList<double> PolynomialEq(List<double> coffecients)
+        {
+            var res = new List<double>();
+            var p = (new Polynomial(coffecients)).p();
+            // Less than linear
+            if (p.Count < 2)
+            {
+                return res;
+            }
+            // Handle zero roots
+            if (Comparison.IsZero(p[0]))
+            {
+                res.Add(0.0);
+                while (p.Count > 1 && Comparison.IsZero(p[0]))
+                {
+                    p.RemoveAt(0);
+                }
+                if (p.Count == 1)
+                {
+                    return res;
+                }
+            }
+            // Fall back to quartic if degree less equal quartic
+            if (p.Count <= 5)
+            {
+                while (p.Count < 5)
+                {
+                    p.Add(0.0);
+                }
+                res.AddRange(QuarticEq(p[4], p[3], p[2], p[1], p[0]));
+                res = Comparison.UniqueAverageSorted(res).ToList();
+                return res;
+            }
+            // General case
+            var r = new Polynomial(p);
+            while (r.p().Count > 1)
+            {
+                var x = r.FindRoot(0.0);
+                if (Comparison.IsZero(x.Imaginary))
+                {
+                    res.Add(x.Real);
+                    r = r.DivideByRoot(x.Real);
+                }
+                else
+                {
+                    r = r.DivideByRootAndConjugate(x);
+                }
+            }
+            var root = new List<double>();
+            var q = new Polynomial(p);
+            foreach (var x in res)
+            {
+                if (Comparison.IsZero(x))
+                {
+                    root.Add(0.0);
+                }
+                else
+                {
+                    root.Add(q.FindRoot(x).Real);
+                }
+            }
+            root = Comparison.UniqueAverageSorted(root).ToList();
+            return root;
+        }
     }
 }

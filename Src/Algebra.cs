@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Math
@@ -42,6 +43,11 @@ namespace Math
         {
             // Polynomial
             _p = new List<double>(coefficients);
+            while (_p.Count > 1 && Comparison.IsZero(_p.Last()))
+            {
+                _p.RemoveAt(_p.Count-1);
+            }
+
 
             if (_p.Count == 0)
                 _p.Add(0.0);
@@ -150,6 +156,26 @@ namespace Math
 
             }
             return new Polynomial(coefficients);
+        }
+
+        public Polynomial DivideByRootAndConjugate(Complex c)
+        {
+            var n = _p.Count;
+            var c0 = new List<Complex>(new Complex[n - 1]);
+            for (var i = n - 1; i > 0; i--)
+            {
+                c0[i - 1] = _p[i] + (i < n - 1 ? c0[i] * c : 0);
+
+            }
+            n--;
+            var c1 = new List<double>(new double[n - 1]);
+            var d = new Complex(c.Real, -c.Imaginary);
+            for (var i = n - 1; i > 0; i--)
+            {
+                c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * c : 0)).Real;
+
+            }
+            return new Polynomial(c1);
         }
 
         private static Complex Eval(Complex x, IList<double> p)
