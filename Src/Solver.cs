@@ -94,7 +94,7 @@ namespace Math
             }
 
             // Resubstitute
-            for (int i = 0; i < res.Count; ++i)
+            for (var i = 0; i < res.Count; ++i)
             {
                 res[i] -= b / (3.0 * a);
             }
@@ -106,7 +106,7 @@ namespace Math
         {
             if (Comparison.IsZero(a))
             {
-                return Quadratic(b, c, d);
+                return Cubic(b, c, d, e);
             }
 
             //	Reduced form: x^4 + px^2 + qx + r = 0
@@ -138,7 +138,7 @@ namespace Math
             }
 
             // Resubstitute
-            for (int i = 0; i < res.Count; ++i)
+            for (var i = 0; i < res.Count; ++i)
             {
                 res[i] -= b / (4.0 * a);
             }

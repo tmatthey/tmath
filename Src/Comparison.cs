@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Math
 {
@@ -58,16 +59,30 @@ namespace Math
 
         public static IList<double> UniqueSorted(IList<double> v, double eps)
         {
-            var res = new List<double>(v);
-            res.Sort();
-            for (int i = 0; i + 1 < res.Count;)
+            var vTmp = new List<double>(v);
+            vTmp.Sort();
+            var res = new List<double>();
+            var tmp = new List<double>();
+            for (var i = 0; i < vTmp.Count; )
             {
-                if (IsEqual(res[i], res[i + 1], eps))
+                if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps * 2.0))
                 {
-                    res.RemoveAt(i + 1);
+                    if (tmp.Count == 0)
+                    {
+                        tmp.Add(vTmp[i]);
+                    }
+                    tmp.Add(vTmp[i + 1]);
+                    vTmp.RemoveAt(i + 1);
+                }
+                else if (tmp.Count > 0)
+                {
+                    res.Add(tmp.Sum()/tmp.Count);
+                    tmp.Clear();
+                    i++;
                 }
                 else
                 {
+                    res.Add(vTmp[i]);
                     i++;
                 }
             }

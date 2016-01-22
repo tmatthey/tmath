@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace Math.Algebra
+namespace Math
 {
     public class Polynomial
     {
@@ -10,7 +10,7 @@ namespace Math.Algebra
         private readonly IList<double> _dp2;
         private readonly IList<double> _P;
 
-        public Polynomial(IList<double> coefficients)
+        public Polynomial(IEnumerable<double> coefficients)
         {
             // Polynomial
             _p = new List<double>(coefficients);
@@ -32,8 +32,7 @@ namespace Math.Algebra
             }
 
             // Integral
-            _P = new List<double>();
-            _P.Add(0.0);
+            _P = new List<double> {0.0};
             for (var i = 0; i < _p.Count; i++)
             {
                 _P.Add(_p[i] / (i + 1));
@@ -72,53 +71,68 @@ namespace Math.Algebra
 
         public Complex p(Complex x)
         {
-            return eval(x, _p);
+            return Eval(x, _p);
         }
 
         public Complex dp(Complex x)
         {
-            return eval(x, _dp);
+            return Eval(x, _dp);
         }
 
         public Complex P(Complex x)
         {
-            return eval(x, _P);
+            return Eval(x, _P);
         }
 
         public Complex FindRoot(Complex x)
         {
+            // https://en.wikipedia.org/wiki/Laguerre's_method
             var n = new Complex(_p.Count - 1, 0.0);
             var n1 = new Complex(_p.Count - 2, 0.0);
             var x0 = x;
-            for (int step = 0; step < 10000; step++)
+            for (var step = 0; step < 10000; step++)
             {
-                var y0 = eval(x, _p);
+                var y0 = Eval(x, _p);
                 if (System.Math.Abs(y0.Magnitude) <= double.Epsilon)
                     break;
-                var G = eval(x, _dp) / y0;
-                var H = G * G - eval(x, _dp2) - y0;
+                var G = Eval(x, _dp) / y0;
+                var H = G * G - Eval(x, _dp2) - y0;
                 var R = Complex.Sqrt(n1 * (H * n - G * G));
                 var D1 = G + R;
                 var D2 = G - R;
                 var a = n / (D1.Magnitude > D2.Magnitude ? D1 : D2);
-                if (double.IsNaN(a.Real) || double.IsNaN(a.Imaginary))
+                if (double.IsNaN(a.Real) ||
+                    double.IsNaN(a.Imaginary) ||
+                    System.Math.Abs(a.Magnitude) <= double.Epsilon ||
+                    System.Math.Abs((x0 - (x - a)).Magnitude) <= double.Epsilon)
                     break;
                 x -= a;
-                if (System.Math.Abs((x0 - x).Magnitude) <= double.Epsilon || System.Math.Abs(a.Magnitude) <= double.Epsilon)
-                    break;
                 x0 = x;
             }
             return x;
         }
 
-        private Complex eval(Complex x, IList<double> p)
+        public Polynomial DivideByRoot(double c)
+        {
+            var n = _p.Count;
+            var coefficients = new List<double>(new double[n - 1]);
+            for (var i = n - 1; i > 0; i--)
+            {
+                coefficients[i - 1] = _p[i] + (i < n - 1 ? coefficients[i] * c : 0);
+
+            }
+            return new Polynomial(coefficients);
+        }
+
+        private static Complex Eval(Complex x, IList<double> p)
         {
             Complex y = 0.0;
-            for (var i = p.Count-1; i >=0 ; i--)
+            for (var i = p.Count - 1; i >= 0; i--)
             {
-                y = y*x+ p[i];
+                y = y * x + p[i];
             }
             return y;
         }
+
     }
 }

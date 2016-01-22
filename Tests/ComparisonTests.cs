@@ -148,7 +148,7 @@ namespace Math.Tests
             var vec = new List<double>() { 1.02, 1.0, 1.0 + 1e-14, 3.0 };
             var res = Comparison.UniqueSorted(vec);
             res.Count.ShouldBe(3);
-            res[0].ShouldBe(1.0);
+            res[0].ShouldBe(1.0 + 0.5e-15, 1e-10);
             res[1].ShouldBe(1.02);
             res[2].ShouldBe(3.0);
         }
@@ -156,11 +156,11 @@ namespace Math.Tests
         [Test]
         public void UniqueSortedWithUserDefinedEpsilon()
         {
-            var vec = new List<double>() { 1.02, 1.01, 0.99, 3.0 };
+            var vec = new List<double>() { -1.2, 1.02, 1.01, 0.99 };
             var res = Comparison.UniqueSorted(vec, 0.1);
             res.Count.ShouldBe(2);
-            res[0].ShouldBe(0.99);
-            res[1].ShouldBe(3.0);
+            res[1].ShouldBe((1.02+1.01+0.99)/3.0, 1e-10);
+            res[0].ShouldBe(-1.2);
         }
     }
 }

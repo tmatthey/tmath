@@ -1,9 +1,8 @@
-﻿using Math.Algebra;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 
-namespace Math.Test
+namespace Math.Tests
 {
     [TestFixture]
     public class AlgebraTests
@@ -11,7 +10,7 @@ namespace Math.Test
         [Test]
         public void Polynomial_WithEmptyCoefficients_ReturnsZeroFunction()
         {
-            var p = new Polynomial(new List<double>() { });
+            var p = new Polynomial(new List<double>());
             p.dp().Count.ShouldBe(0);
             p.p().Count.ShouldBe(1);
             p.p()[0].ShouldBe(0.0);
@@ -34,6 +33,30 @@ namespace Math.Test
             p.P()[1].ShouldBe(c);
         }
 
+        [TestCase(2.3)]
+        [TestCase(-23.3)]
+        [TestCase(0.0)]
+        public void Polynomial_QudraticDerivative_ReturnsExpected(double x)
+        {
+            double a2, a1, a0;
+            CreateEq(2.0, 3.0, out a2, out a1, out a0);
+            var p = new Polynomial(new List<double>() { a0, a1, a2 });
+            p.dp(x).ShouldBe(x * 2.0 * a2 + a1);
+
+        }
+
+        [TestCase(2.3)]
+        [TestCase(-23.3)]
+        [TestCase(0.0)]
+        public void Polynomial_QudraticIntegral_ReturnsExpected(double x)
+        {
+            double a2, a1, a0;
+            CreateEq(2.0, 3.0, out a2, out a1, out a0);
+            var p = new Polynomial(new List<double>() { a0, a1, a2 });
+            p.P(x).ShouldBe(x * x* x / 3.0 * a2 + x*x /2.0 *a1 + x* a0, 1e-10);
+
+        }
+
         [TestCase(1.0, 2.0)]
         [TestCase(-1.0, 2.0)]
         [TestCase(1.0, -2.0)]
@@ -51,13 +74,14 @@ namespace Math.Test
             p.p(x1).ShouldBe(0.0);
         }
 
-        [TestCase(1.0, 2.0)]
-        [TestCase(-1.0, 2.0)]
-        [TestCase(1.0, -2.0)]
-        [TestCase(-1.0, -2.0)]
-        [TestCase(-1.0, -1.0)]
-        [TestCase(0.0, 0.0)]
-        [TestCase(1.0, 1.0)]
+       [TestCase(1.0, 2.0)]
+       [TestCase(-1.0, 2.0)]
+       [TestCase(1.0, -2.0)]
+       [TestCase(-1.0, -2.0)]
+       [TestCase(-1.0, -1.0)]
+       [TestCase(0.0, 0.0)]
+       [TestCase(0.0, 0.0)]
+       [TestCase(1.0, 1.0)]
         public void Polynomial_FindRoot_ReturnsRoot(double x0, double x1)
         {
             double a2, a1, a0;
@@ -112,11 +136,49 @@ namespace Math.Test
                 res[i].ShouldBe(p.p()[i]);
         }
 
+        [TestCase(1.0, 2.0)]
+        public void Polynomial_DivideByRootWithCubicEq_ReturnsExpectedReducedPolynomial(double x0, double x1)
+        {
+            double a3, a2, a1, a0;
+            CreateEq(x0, x1, x1, out a3, out a2, out a1, out a0);
+            var p = new Polynomial(new List<double>() { a0, a1, a2, a3 });
+
+            double b2, b1, b0;
+            CreateEq(x0, x1, out b2, out b1, out b0);
+            var p0 = new Polynomial(new List<double>() { b0, b1, b2 });
+
+            CreateEq(x1, x1, out b2, out b1, out b0);
+            var p1 = new Polynomial(new List<double>() { b0, b1, b2 });
+
+            var r0 = p.DivideByRoot(x1);
+            r0.p().Count.ShouldBe(p0.p().Count);
+            for (var i = 0; i < r0.p().Count; i++)
+            {
+                r0.p()[i].ShouldBe(p0.p()[i]);
+            }
+
+            var r1 = p.DivideByRoot(x0);
+            r1.p().Count.ShouldBe(p1.p().Count);
+            for(var i=0;i<r1.p().Count;i++)
+            {
+                r1.p()[i].ShouldBe(p1.p()[i]);
+            }
+
+        }
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
         {
             a = 1.0;
             b = -(x0 + x1);
             c = x0 * x1;
         }
+
+        private void CreateEq(double x0, double x1, double x2, out double a, out double b, out double c, out double d)
+        {
+            a = 1.0;
+            b = -(x0 + x1 + x2);
+            c = x0 * x1 + x0 * x2 + x1 * x2;
+            d = -x0 * x1 * x2;
+        }
+
     }
 }

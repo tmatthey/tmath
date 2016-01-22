@@ -13,7 +13,7 @@ namespace Math.Tests
         [TestCase(-0.13)]
         public void Cbrt_WithNumber_ReturnsExpectedResult(double x)
         {
-            var a = Math.Function.Cbrt(x);
+            var a = Function.Cbrt(x);
             var a3 = a * a * a;
             a3.ShouldBe(x, 1e-13);
         }
@@ -23,7 +23,7 @@ namespace Math.Tests
         [TestCase(double.PositiveInfinity)]
         public void Cbrt_WithNotNumber_ReturnsInput(double x)
         {
-            var a = Math.Function.Cbrt(x);
+            var a = Function.Cbrt(x);
             var a3 = a * a * a;
             a3.ShouldBe(x);
         }
@@ -35,7 +35,7 @@ namespace Math.Tests
         [TestCase(-0.13)]
         public void Qnrt_WithNumber_ReturnsExpectedResult(double x)
         {
-            var a = Math.Function.Qnrt(x);
+            var a = Function.Qnrt(x);
             var a3 = a * a * a * a * a;
             a3.ShouldBe(x, 1e-13);
         }
@@ -45,7 +45,7 @@ namespace Math.Tests
         [TestCase(double.PositiveInfinity)]
         public void Qnrt_WithNotNumber_ReturnsInput(double x)
         {
-            var a = Math.Function.Qnrt(x);
+            var a = Function.Qnrt(x);
             var a3 = a * a * a * a * a;
             a3.ShouldBe(x);
         }
