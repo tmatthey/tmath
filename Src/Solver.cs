@@ -33,7 +33,7 @@ namespace Math
 {
     public class Solver
     {
-        public static double Linear(double a, double b)
+        public static double LinearEq(double a, double b)
         {
             if (Comparison.IsZero(a))
             {
@@ -42,14 +42,14 @@ namespace Math
             return -b / a;
         }
 
-        public static IList<double> Quadratic(double a, double b, double c)
+        public static IList<double> QuadraticEq(double a, double b, double c)
         {
             var res = new List<double>();
 
             // Linar case
             if (Comparison.IsZero(a))
             {
-                var x = Linear(b, c);
+                var x = LinearEq(b, c);
                 if (!double.IsNaN(x))
                 {
                     res.Add(x);
@@ -71,16 +71,16 @@ namespace Math
                 var s = System.Math.Sqrt(D);
                 res.Add(s - p);
                 res.Add(-s - p);
-                res = Comparison.UniqueSorted(res).ToList();
+                res = Comparison.UniqueAverageSorted(res).ToList();
             }
             return res;
         }
 
-        public static IList<double> Cubic(double a, double b, double c, double d)
+        public static IList<double> CubicEq(double a, double b, double c, double d)
         {
             if (Comparison.IsZero(a))
             {
-                return Quadratic(b, c, d);
+                return QuadraticEq(b, c, d);
             }
             var res = new List<double>();
 
@@ -126,15 +126,15 @@ namespace Math
             {
                 res[i] -= b / (3.0 * a);
             }
-            res = Comparison.UniqueSorted(res).ToList();
+            res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
 
-        public static IList<double> Quartic(double a, double b, double c, double d, double e)
+        public static IList<double> QuarticEq(double a, double b, double c, double d, double e)
         {
             if (Comparison.IsZero(a))
             {
-                return Cubic(b, c, d, e);
+                return CubicEq(b, c, d, e);
             }
 
             //	Reduced form: x^4 + px^2 + qx + r = 0
@@ -146,12 +146,12 @@ namespace Math
             if (Comparison.IsZero(r))
             {
                 //  y(y^3 + py + q) = 0
-                res.AddRange(Cubic(1.0, 0.0, p, q));
+                res.AddRange(CubicEq(1.0, 0.0, p, q));
                 res.Add(0.0);
             }
             else
             {
-                var z = Cubic(1.0, -1.0 / 2.0 * p, -r, 1.0 / 2.0 * r * p - 1.0 / 8 * q * q)[0];
+                var z = CubicEq(1.0, -1.0 / 2.0 * p, -r, 1.0 / 2.0 * r * p - 1.0 / 8 * q * q)[0];
                 var u = z * z - r;
                 var v = 2 * z - p;
                 if (Comparison.IsZero(u)) u = 0.0;
@@ -160,8 +160,8 @@ namespace Math
                 {
                     u = System.Math.Sqrt(u);
                     v = System.Math.Sqrt(v);
-                    res.AddRange(Quadratic(1.0, q < 0 ? -v : v, z - u));
-                    res.AddRange(Quadratic(1.0, q < 0 ? v : -v, z + u));
+                    res.AddRange(QuadraticEq(1.0, q < 0 ? -v : v, z - u));
+                    res.AddRange(QuadraticEq(1.0, q < 0 ? v : -v, z + u));
                 }
             }
 
@@ -170,7 +170,7 @@ namespace Math
             {
                 res[i] -= b / (4.0 * a);
             }
-            res = Comparison.UniqueSorted(res).ToList();
+            res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
     }

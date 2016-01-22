@@ -171,10 +171,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void UniqueSorted()
+        public void UniqueAverageSorted()
         {
             var vec = new List<double>() { 1.02, 1.0, 1.0 + 1e-14, 3.0 };
-            var res = Comparison.UniqueSorted(vec);
+            var res = Comparison.UniqueAverageSorted(vec);
             res.Count.ShouldBe(3);
             res[0].ShouldBe(1.0 + 0.5e-15, 1e-10);
             res[1].ShouldBe(1.02);
@@ -182,10 +182,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void UniqueSortedWithUserDefinedEpsilon()
+        public void UniqueAverageSortedWithUserDefinedEpsilon()
         {
             var vec = new List<double>() { -1.2, 1.02, 1.01, 0.99 };
-            var res = Comparison.UniqueSorted(vec, 0.1);
+            var res = Comparison.UniqueAverageSorted(vec, 0.1);
             res.Count.ShouldBe(2);
             res[1].ShouldBe((1.02+1.01+0.99)/3.0, 1e-10);
             res[0].ShouldBe(-1.2);

@@ -44,7 +44,7 @@ namespace Math.Tests
         [TestCase(-1.2, -2.3)]
         public void Linear_ValidInput_ReturnsOneSolution(double a, double b)
         {
-            var x = Solver.Linear(a, b);
+            var x = Solver.LinearEq(a, b);
             var y = a * x + b;
             y.ShouldBe(0.0);
         }
@@ -52,7 +52,7 @@ namespace Math.Tests
         [Test]
         public void Linear_InvalidInput_ReturnsNaN()
         {
-            var x = Solver.Linear(0.0, 1.0);
+            var x = Solver.LinearEq(0.0, 1.0);
             x.ShouldBe(double.NaN);
         }
 
@@ -65,7 +65,7 @@ namespace Math.Tests
             double a, b, c;
             CreateEq(x, x, out a, out b, out c);
 
-            var root = Solver.Quadratic(a, b, c);
+            var root = Solver.QuadraticEq(a, b, c);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(x);
         }
@@ -81,7 +81,7 @@ namespace Math.Tests
             a *= f;
             b *= f;
             c *= f;
-            var root = Solver.Quadratic(a, b, c);
+            var root = Solver.QuadraticEq(a, b, c);
             root.Count.ShouldBe(2);
             root[0].ShouldBe(System.Math.Min(x0, x1), Epsilon);
             root[1].ShouldBe(System.Math.Max(x0, x1), Epsilon);
@@ -94,7 +94,7 @@ namespace Math.Tests
         public void Quadratic_Linear_ReturnsOneSolution(double b, double c)
         {
             var a = 0.0;
-            var root = Solver.Quadratic(a, b, c);
+            var root = Solver.QuadraticEq(a, b, c);
             root.Count.ShouldBe(1);
             var y = b * root[0] + c;
             y.ShouldBe(0.0);
@@ -103,7 +103,7 @@ namespace Math.Tests
         [Test]
         public void Quadratic_NoRoot_ReturnsEmptyList()
         {
-            var root = Solver.Quadratic(1, 0, 1);
+            var root = Solver.QuadraticEq(1, 0, 1);
             root.Count.ShouldBe(0);
         }
 
@@ -138,7 +138,7 @@ namespace Math.Tests
             c *= f;
             d *= f;
 
-            var root = Solver.Cubic(a, b, c, d);
+            var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(3);
             root[0].ShouldBe(s[0], Epsilon);
             root[1].ShouldBe(s[1], Epsilon);
@@ -164,7 +164,7 @@ namespace Math.Tests
             c *= f;
             d *= f;
 
-            var root = Solver.Cubic(a, b, c, d);
+            var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(2);
             root[0].ShouldBe(s[0], Epsilon);
             root[1].ShouldBe(s[1], Epsilon);
@@ -184,7 +184,7 @@ namespace Math.Tests
             c *= f;
             d *= f;
 
-            var root = Solver.Cubic(a, b, c, d);
+            var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(s[0], Epsilon);
         }
@@ -196,7 +196,7 @@ namespace Math.Tests
             var b = -9;
             var c = -9;
             var d = -10;
-            var root = Solver.Cubic(a, b, c, d);
+            var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(10.0, Epsilon);
         }
@@ -208,7 +208,7 @@ namespace Math.Tests
             var b = 1;
             var c = -2;
             var d = 1;
-            var root = Solver.Cubic(a, b, c, d);
+            var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(1, Epsilon);
         }
@@ -231,7 +231,7 @@ namespace Math.Tests
 
             s = s.Distinct().ToList();
             s.Sort();
-            var root = Solver.Quartic(a, b, c, d, e);
+            var root = Solver.QuarticEq(a, b, c, d, e);
             root.Count.ShouldBe(s.Count);
             if (s.Count > 0) root[0].ShouldBe(s[0], Epsilon);
             if (s.Count > 1) root[1].ShouldBe(s[1], Epsilon);
@@ -245,7 +245,7 @@ namespace Math.Tests
             var a = 0.0;
             double b, c, d, e;
             CreateEq(1.0, 2.0, 3.0, out b, out c, out d, out e);
-            var root = Solver.Quartic(a, b, c, d, e);
+            var root = Solver.QuarticEq(a, b, c, d, e);
             root.Count.ShouldBe(3);
             root[0].ShouldBe(1.0, Epsilon);
             root[1].ShouldBe(2.0, Epsilon);

@@ -80,12 +80,12 @@ namespace Math
             return (double.NegativeInfinity < x && x < -eps);
         }
 
-        public static IList<double> UniqueSorted(IList<double> v)
+        public static IList<double> UniqueAverageSorted(IList<double> v)
         {
-            return UniqueSorted(v, Epsilon);
+            return UniqueAverageSorted(v, Epsilon);
         }
 
-        public static IList<double> UniqueSorted(IList<double> v, double eps)
+        public static IList<double> UniqueAverageSorted(IList<double> v, double eps)
         {
             var vTmp = new List<double>(v);
             vTmp.Sort();
