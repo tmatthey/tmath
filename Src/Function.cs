@@ -40,6 +40,23 @@ namespace Math
             return Root(x, 5);
         }
 
+        // Fast sin(x) [-PI/2, -PI/2] with absolute error < 0.0205
+        public static double FastSin(double x)
+        {
+            return x / System.Math.PI * (3.0 - x * x * 4.0 / System.Math.PI / System.Math.PI);
+        }
+
+        public static double NormalizeAngle(double a)
+        {
+            if (Comparison.IsNumber(a))
+            {
+                while (a < 0) a += System.Math.PI*2;
+                while (a >= System.Math.PI*2) a -= System.Math.PI*2;
+            }
+            return a;
+        }
+
+
         private static double Root(double x, int n)
         {
             var y = x;

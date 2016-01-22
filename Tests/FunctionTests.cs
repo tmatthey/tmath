@@ -64,8 +64,8 @@ namespace Math.Tests
         public void Qnrt_WithNumber_ReturnsExpectedResult(double x)
         {
             var a = Function.Qnrt(x);
-            var a3 = a * a * a * a * a;
-            a3.ShouldBe(x, 1e-13);
+            var a5 = a * a * a * a * a;
+            a5.ShouldBe(x, 1e-13);
         }
 
         [TestCase(double.NaN)]
@@ -76,6 +76,28 @@ namespace Math.Tests
             var a = Function.Qnrt(x);
             var a3 = a * a * a * a * a;
             a3.ShouldBe(x);
+        }
+
+        [TestCase(-System.Math.PI/2.0)]
+        [TestCase(-0.1)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(System.Math.PI / 2.0)]
+        public void FastSin_WithInRange_ReturnsExpected(double a)
+        {
+            var y = Function.FastSin(a);
+            y.ShouldBe(System.Math.Sin(a), 0.0205);
+        }
+
+        [TestCase(7, 7 - System.Math.PI * 2)]
+        [TestCase(-1, -1 + System.Math.PI * 2)]
+        [TestCase(3.1, 3.1)]
+        [TestCase(0.0, 0.0)]
+        [TestCase(System.Math.PI * 2, 0.0)]
+        public void NormalizeAngle(double a, double expected)
+        {
+            var y = Function.NormalizeAngle(a);
+            y.ShouldBe(expected);
         }
     }
 }
