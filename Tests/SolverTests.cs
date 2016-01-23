@@ -315,6 +315,17 @@ namespace Math.Tests
             p.p(root[1]).ShouldBe(0.0, 1e-13);
         }
 
+        [Test]
+        public void PolynomialEq_Quintic_ReturnsRoots()
+        {
+            var p = new Polynomial(new List<double>() { 120.0, -44, 14.0, -7.0, -4, 1.0 });
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(3);
+            root[0].ShouldBe(-3.0, 1e-13);
+            root[1].ShouldBe(2.0, 1e-13);
+            root[2].ShouldBe(5.0, 1e-13);
+        }
+
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
         {
             a = 1.0;
