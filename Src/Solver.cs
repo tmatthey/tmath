@@ -183,11 +183,9 @@ namespace Math
             {
                 return res;
             }
-            // Handle zero roots and remove them 
-            bool hasZero = false;
+            // Handle zero roots and remove them
             if (Comparison.IsZero(p[0]))
             {
-                hasZero = true;
                 res.Add(0.0);
                 while (p.Count > 1 && Comparison.IsZero(p[0]))
                 {
@@ -212,39 +210,32 @@ namespace Math
             // General case
             // Get roots
             var r = new Polynomial(p);
-            var x0 = 0.0;
-            res.Clear();
+            var root = new List<double>();
             while (r.p().Count > 1)
             {
-                var x = r.FindRoot(x0);
-                if (Comparison.IsZero(x.Imaginary))
+                var x = r.FindRoot(0.0);
+                if (Comparison.IsZero(r.p(x.Real)))
                 {
-                    res.Add(x.Real);
+                    root.Add(x.Real);
                     r = r.DivideByRoot(x.Real);
                 }
                 else
                 {
                     r = r.DivideByRootAndConjugate(x);
                 }
-                x0 = x.Real;
             }
             // Polish roots
-            var root = new List<double>();
-            if (hasZero)
-            {
-                root.Add(0.0);
-            }
             var q = new Polynomial(p);
-            foreach (var x in res)
+            foreach (var x in root)
             {
                 var y = q.FindRoot(x);
                 if (Comparison.IsZero(y.Imaginary) && !Comparison.IsZero(y.Real))
                 {
-                    root.Add(y.Real);
+                    res.Add(y.Real);
                 }
             }
-            root = Comparison.UniqueAverageSorted(root).ToList();
-            return root;
+            res = Comparison.UniqueAverageSorted(res).ToList();
+            return res;
         }
     }
 }

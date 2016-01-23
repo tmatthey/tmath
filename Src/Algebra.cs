@@ -39,8 +39,14 @@ namespace Math
         private readonly IList<double> _dp2;
         private readonly IList<double> _P;
 
+        private readonly IList<double> frac = new List<double> { 0.0, 0.5, 0.25, 0.13, 0.38, 0.62, 0.88, 1.0 };
+        private readonly int MR;
+        private readonly int MT = 10;
+
         public Polynomial(IEnumerable<double> coefficients)
         {
+            MR = frac.Count - 1;
+
             // Polynomial
             _p = new List<double>(coefficients);
             while (_p.Count > 1 && Comparison.IsZero(_p.Last()))
@@ -120,27 +126,36 @@ namespace Math
         public Complex FindRoot(Complex x)
         {
             // https://en.wikipedia.org/wiki/Laguerre's_method
+            // Numerical Recipes
             var n = new Complex(_p.Count - 1, 0.0);
             var n1 = new Complex(_p.Count - 2, 0.0);
-            var x0 = x;
-            for (var step = 0; step < 10000; step++)
+            for (var i = 0; i < MT * MR; i++)
             {
                 var y0 = Eval(x, _p);
-                if (System.Math.Abs(y0.Magnitude) <= double.Epsilon)
+                if (y0.Magnitude <= double.Epsilon)
                     break;
                 var G = Eval(x, _dp) / y0;
-                var H = G * G - Eval(x, _dp2) - y0;
-                var R = Complex.Sqrt(n1 * (H * n - G * G));
-                var D1 = G + R;
-                var D2 = G - R;
-                var a = n / (D1.Magnitude > D2.Magnitude ? D1 : D2);
-                if (double.IsNaN(a.Real) ||
-                    double.IsNaN(a.Imaginary) ||
-                    System.Math.Abs(a.Magnitude) <= double.Epsilon ||
-                    System.Math.Abs((x0 - (x - a)).Magnitude) <= double.Epsilon)
+                var G2 = G * G;
+                var H = G2 - Eval(x, _dp2) / y0;
+                var R = Complex.Sqrt(n1 * (H * n - G2));
+                var GP = G + R;
+                var gp = GP.Magnitude;
+                var GM = G - R;
+                var gm = GM.Magnitude;
+                var dx = (System.Math.Max(gp, gm) > 0.0 ? n / (gp > gm ? GP : GM) : Complex.FromPolarCoordinates(1.0 + x.Magnitude, i + 1));
+                var x0 = x - dx;
+                if (x == x0)
+                {
                     break;
-                x -= a;
-                x0 = x;
+                }
+                else if ((i + 1) % MT != 0)
+                {
+                    x -= dx;
+                }
+                else
+                {
+                    x -= frac[(i + 1) / MT] * dx;
+                }
             }
             return x;
         }
@@ -166,7 +181,7 @@ namespace Math
             }
             n--;
             var c1 = new List<double>(new double[n - 1]);
-            var d = new Complex(c.Real, -c.Imaginary);
+            var d = Complex.Conjugate(c);
             for (var i = n - 1; i > 0; i--)
             {
                 c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * c : 0)).Real;

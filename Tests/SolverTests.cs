@@ -253,6 +253,17 @@ namespace Math.Tests
         }
 
         [Test]
+        public void QuarticEq_WithFourRoots_ReturnsSolitions()
+        {
+            var root = Solver.QuarticEq(1.0, 0.4, -6.49, 7.244, -2.112);
+            root.Count.ShouldBe(4);
+            root[0].ShouldBe(-3.2, Epsilon);
+            root[1].ShouldBe(0.5, Epsilon);
+            root[2].ShouldBe(1.1, Epsilon);
+            root[3].ShouldBe(1.2, Epsilon);
+        }
+
+        [Test]
         public void PolynomialEq_EmptyCoefficients_ReturnsEmpty()
         {
             var root = Solver.PolynomialEq(new List<double>());
@@ -316,7 +327,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void PolynomialEq_Quintic_ReturnsRoots()
+        public void PolynomialEq_Quintic_ReturnsThreeRoots()
         {
             var p = new Polynomial(new List<double>() { 120.0, -44, 14.0, -7.0, -4, 1.0 });
             var root = Solver.PolynomialEq(p.p().ToList());
@@ -324,6 +335,19 @@ namespace Math.Tests
             root[0].ShouldBe(-3.0, 1e-13);
             root[1].ShouldBe(2.0, 1e-13);
             root[2].ShouldBe(5.0, 1e-13);
+        }
+
+        [Test]
+        public void PolynomialEq_QuinticNonInts_ReturnsFiveRoots()
+        {
+            var p = new Polynomial(new List<double>() { 54.0, -36.0, -37.5, 10.0, 8.5, 1.0 });
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(5);
+            root[0].ShouldBe(-6.0, 1e-13);
+            root[1].ShouldBe(-3.0, 1e-13);
+            root[2].ShouldBe(-2.0, 1e-13);
+            root[3].ShouldBe(1.0, 1e-13);
+            root[4].ShouldBe(1.5, 1e-13);
         }
 
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
