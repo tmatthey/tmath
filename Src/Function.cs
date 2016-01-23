@@ -50,12 +50,11 @@ namespace Math
         {
             if (Comparison.IsNumber(a))
             {
-                while (a < 0) a += System.Math.PI*2;
-                while (a >= System.Math.PI*2) a -= System.Math.PI*2;
+                while (a < 0) a += System.Math.PI * 2;
+                while (a >= System.Math.PI * 2) a -= System.Math.PI * 2;
             }
             return a;
         }
-
 
         private static double Root(double x, int n)
         {

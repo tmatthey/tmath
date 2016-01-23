@@ -187,7 +187,7 @@ namespace Math.Tests
             var vec = new List<double>() { -1.2, 1.02, 1.01, 0.99 };
             var res = Comparison.UniqueAverageSorted(vec, 0.1);
             res.Count.ShouldBe(2);
-            res[1].ShouldBe((1.02+1.01+0.99)/3.0, 1e-10);
+            res[1].ShouldBe((1.02 + 1.01 + 0.99) / 3.0, 1e-10);
             res[0].ShouldBe(-1.2);
         }
     }

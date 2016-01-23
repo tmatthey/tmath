@@ -291,7 +291,6 @@ namespace Math.Tests
             root.Count.ShouldBe(2);
             root[0].ShouldBe(0.0);
             root[1].ShouldBe(3.0, 1e-13);
-
         }
 
         [Test]
@@ -304,6 +303,16 @@ namespace Math.Tests
             p.p(root[1]).ShouldBe(0.0, 1e-13);
             p.p(root[2]).ShouldBe(0.0, 1e-13);
             p.p(root[3]).ShouldBe(0.0, 1e-13);
+        }
+
+        [Test]
+        public void PolynomialEq_Sextic_ReturnsRoots()
+        {
+            var p = new Polynomial(new List<double>() { 2.0, -3.0, 3.0, -3.0, 3.0, -3.0, 1 });
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(2);
+            p.p(root[0]).ShouldBe(0.0, 1e-13);
+            p.p(root[1]).ShouldBe(0.0, 1e-13);
         }
 
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)

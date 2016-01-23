@@ -78,7 +78,7 @@ namespace Math.Tests
             a3.ShouldBe(x);
         }
 
-        [TestCase(-System.Math.PI/2.0)]
+        [TestCase(-System.Math.PI / 2.0)]
         [TestCase(-0.1)]
         [TestCase(0.0)]
         [TestCase(0.1)]

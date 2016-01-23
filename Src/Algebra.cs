@@ -45,9 +45,8 @@ namespace Math
             _p = new List<double>(coefficients);
             while (_p.Count > 1 && Comparison.IsZero(_p.Last()))
             {
-                _p.RemoveAt(_p.Count-1);
+                _p.RemoveAt(_p.Count - 1);
             }
-
 
             if (_p.Count == 0)
                 _p.Add(0.0);
@@ -66,7 +65,7 @@ namespace Math
             }
 
             // Integral
-            _P = new List<double> {0.0};
+            _P = new List<double> { 0.0 };
             for (var i = 0; i < _p.Count; i++)
             {
                 _P.Add(_p[i] / (i + 1));
@@ -153,7 +152,6 @@ namespace Math
             for (var i = n - 1; i > 0; i--)
             {
                 coefficients[i - 1] = _p[i] + (i < n - 1 ? coefficients[i] * c : 0);
-
             }
             return new Polynomial(coefficients);
         }
@@ -165,7 +163,6 @@ namespace Math
             for (var i = n - 1; i > 0; i--)
             {
                 c0[i - 1] = _p[i] + (i < n - 1 ? c0[i] * c : 0);
-
             }
             n--;
             var c1 = new List<double>(new double[n - 1]);
@@ -173,7 +170,6 @@ namespace Math
             for (var i = n - 1; i > 0; i--)
             {
                 c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * c : 0)).Real;
-
             }
             return new Polynomial(c1);
         }
@@ -187,6 +183,5 @@ namespace Math
             }
             return y;
         }
-
     }
 }

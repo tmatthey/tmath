@@ -91,7 +91,7 @@ namespace Math
             vTmp.Sort();
             var res = new List<double>();
             var tmp = new List<double>();
-            for (var i = 0; i < vTmp.Count; )
+            for (var i = 0; i < vTmp.Count;)
             {
                 if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps * 2.0))
                 {
@@ -104,7 +104,7 @@ namespace Math
                 }
                 else if (tmp.Count > 0)
                 {
-                    res.Add(tmp.Sum()/tmp.Count);
+                    res.Add(tmp.Sum() / tmp.Count);
                     tmp.Clear();
                     i++;
                 }

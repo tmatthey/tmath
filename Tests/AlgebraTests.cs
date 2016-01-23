@@ -86,7 +86,6 @@ namespace Math.Tests
             CreateEq(2.0, 3.0, out a2, out a1, out a0);
             var p = new Polynomial(new List<double>() { a0, a1, a2 });
             p.dp(x).ShouldBe(x * 2.0 * a2 + a1);
-
         }
 
         [TestCase(2.3)]
@@ -98,7 +97,6 @@ namespace Math.Tests
             CreateEq(2.0, 3.0, out a2, out a1, out a0);
             var p = new Polynomial(new List<double>() { a0, a1, a2 });
             p.P(x).ShouldBe(x * x * x / 3.0 * a2 + x * x / 2.0 * a1 + x * a0, 1e-10);
-
         }
 
         [TestCase(1.0, 2.0)]
@@ -218,7 +216,7 @@ namespace Math.Tests
         [TestCase(-1.5, -2.0)]
         public void Polynomial_DivideByRootLinear_ReturnsZeroRemaining(double a, double b)
         {
-            var p = new Polynomial(new List<double>{a, b});
+            var p = new Polynomial(new List<double> { a, b });
             var r = p.DivideByRoot(-p.p()[0] / p.p()[1]);
             r.p().Count.ShouldBe(1);
             r.p()[0].ShouldBe(p.p()[1]);
@@ -238,6 +236,5 @@ namespace Math.Tests
             c = x0 * x1 + x0 * x2 + x1 * x2;
             d = -x0 * x1 * x2;
         }
-
     }
 }
