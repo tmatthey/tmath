@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -237,5 +238,61 @@ namespace Math
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
+
+        public static double Bisection(int n, double eps, double x0, double x1, Func<double, double> f)
+        {
+            if (x1 < x0)
+            {
+                var tmp = x0;
+                x0 = x1;
+                x1 = tmp;
+            }
+            var y0 = f(x0);
+            var y1 = f(x1);
+            if (Comparison.IsZero(y0, eps))
+            {
+                return x0;
+            }
+            if (Comparison.IsZero(y1, eps))
+            {
+                return x1;
+            }
+            if (y0 * y1 > 0)
+            {
+                return double.NaN;
+            }
+
+            // http://en.wikipedia.org/wiki/Bisection_method
+            for (var i = 0; i < n; i++)
+            {
+                var x = (x0 + x1) / 2.0;
+                var y = f(x);
+
+                if (Comparison.IsZero(y, eps) || Comparison.IsZero(x1 - x0, eps))
+                {
+                    return x;
+                }
+                if (y * y0 > 0.0)
+                {
+                    y0 = y;
+                    x0 = x;
+                }
+                else if (y * y1 > 0.0)
+                {
+                    y1 = y;
+                    x1 = x;
+                }
+                else
+                {
+                    return double.NaN;
+                }
+            }
+            // linear interpolation
+            var dx = x1 - x0;
+            var dy = y1 - y0;
+            var a = -y0 / dy;
+            return x0 + a * dx;
+        }
+
     }
 }

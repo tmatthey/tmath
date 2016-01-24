@@ -350,6 +350,69 @@ namespace Math.Tests
             root[4].ShouldBe(1.5);
         }
 
+        [TestCase(-1, 2, 1e-15)]
+        [TestCase(-1, 2, 1e-6)]
+        [TestCase(-1, 2, 1e-5)]
+        [TestCase(-1, 2, 1e-4)]
+        public void Bisection_ReturnsRootsWithEpsilon(double x0, double x1, double eps)
+        {
+            double a, b, c;
+            CreateEq(x0, x1, out a, out b, out c);
+            var p = new Polynomial(new List<double> { c, b, a });
+            var x = Solver.Bisection(100, eps, x0 - 5.0, x0 +2.0, p.p);
+            var y = p.p(x);
+            y.ShouldBe(0.0, eps);
+        }
+
+        [Test]
+        public void Bisection_NoRoot_ReturnsNaN()
+        {
+            var p = new Polynomial(new List<double> { 1, 0, 1 });
+            var x = Solver.Bisection(10, 1e-15, 3, -1.1, p.p);
+            x.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Bisection_RootAtX0_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var x = Solver.Bisection(100, 1e-15, 1, 1.5, p.p);
+            x.ShouldBe(1);
+        }
+
+        [Test]
+        public void Bisection_RootAtX1_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
+            x.ShouldBe(2);
+        }
+
+        [Test]
+        public void Bisection_RootAtMiddle_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var x = Solver.Bisection(5, 1e-15, 1.5, 2.5, p.p);
+            x.ShouldBe(2);
+        }
+
+        [Test]
+        public void Bisection_RootCloseAtMiddle_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var x = Solver.Bisection(10, 1e-15, 1.4, 2.5, p.p);
+            x.ShouldBe(2, 1e-5);
+        }
+
+        [Test]
+        public void Bisection_FunctionIsNaN_ReturnsNaN()
+        {
+            var p = new Polynomial(new List<double> { 1, -3, double.NaN });
+            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
+            x.ShouldBe(double.NaN);
+        }
+
+
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
         {
             a = 1.0;
@@ -378,5 +441,7 @@ namespace Math.Tests
                  x0 * x1 * x2;
             e = x0 * x1 * x2 * x3;
         }
+
+
     }
 }
