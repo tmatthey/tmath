@@ -39,13 +39,13 @@ namespace Math
         private readonly IList<double> _dp2;
         private readonly IList<double> _P;
 
-        private readonly IList<double> frac = new List<double> { 0.0, 0.5, 0.25, 0.13, 0.38, 0.62, 0.88, 1.0 };
+        private readonly IList<double> _frac = new List<double> { 0.0, 0.5, 0.25, 0.13, 0.38, 0.62, 0.88, 1.0 };
         private readonly int MR;
         private readonly int MT = 10;
 
         public Polynomial(IEnumerable<double> coefficients)
         {
-            MR = frac.Count - 1;
+            MR = _frac.Count - 1;
 
             // Polynomial
             _p = new List<double>(coefficients);
@@ -154,7 +154,7 @@ namespace Math
                 }
                 else
                 {
-                    x -= frac[(i + 1) / MT] * dx;
+                    x -= _frac[(i + 1) / MT] * dx;
                 }
             }
             return x;
@@ -184,7 +184,7 @@ namespace Math
             var d = Complex.Conjugate(c);
             for (var i = n - 1; i > 0; i--)
             {
-                c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * c : 0)).Real;
+                c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * d : 0)).Real;
             }
             return new Polynomial(c1);
         }

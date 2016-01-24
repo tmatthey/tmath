@@ -322,8 +322,8 @@ namespace Math.Tests
             var p = new Polynomial(new List<double>() { 2.0, -3.0, 3.0, -3.0, 3.0, -3.0, 1 });
             var root = Solver.PolynomialEq(p.p().ToList());
             root.Count.ShouldBe(2);
-            p.p(root[0]).ShouldBe(0.0, 1e-13);
-            p.p(root[1]).ShouldBe(0.0, 1e-13);
+            p.p(root[0]).ShouldBe(0.0, 1e-15);
+            p.p(root[1]).ShouldBe(0.0, 1e-15);
         }
 
         [Test]
@@ -332,9 +332,9 @@ namespace Math.Tests
             var p = new Polynomial(new List<double>() { 120.0, -44, 14.0, -7.0, -4, 1.0 });
             var root = Solver.PolynomialEq(p.p().ToList());
             root.Count.ShouldBe(3);
-            root[0].ShouldBe(-3.0, 1e-13);
-            root[1].ShouldBe(2.0, 1e-13);
-            root[2].ShouldBe(5.0, 1e-13);
+            root[0].ShouldBe(-3.0);
+            root[1].ShouldBe(2.0);
+            root[2].ShouldBe(5.0);
         }
 
         [Test]
@@ -343,11 +343,11 @@ namespace Math.Tests
             var p = new Polynomial(new List<double>() { 54.0, -36.0, -37.5, 10.0, 8.5, 1.0 });
             var root = Solver.PolynomialEq(p.p().ToList());
             root.Count.ShouldBe(5);
-            root[0].ShouldBe(-6.0, 1e-13);
-            root[1].ShouldBe(-3.0, 1e-13);
-            root[2].ShouldBe(-2.0, 1e-13);
-            root[3].ShouldBe(1.0, 1e-13);
-            root[4].ShouldBe(1.5, 1e-13);
+            root[0].ShouldBe(-6.0);
+            root[1].ShouldBe(-3.0);
+            root[2].ShouldBe(-2.0);
+            root[3].ShouldBe(1.0);
+            root[4].ShouldBe(1.5);
         }
 
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
