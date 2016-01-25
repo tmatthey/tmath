@@ -412,7 +412,6 @@ namespace Math.Tests
             x.ShouldBe(double.NaN);
         }
 
-
         [TestCase(-17, 23, 1e-15)]
         [TestCase(-17, 23, 1e-6)]
         [TestCase(-17, 23, 1e-5)]
@@ -475,7 +474,6 @@ namespace Math.Tests
             x.ShouldBe(double.NaN);
         }
 
-
         private void CreateEq(double x0, double x1, out double a, out double b, out double c)
         {
             a = 1.0;
@@ -504,7 +502,5 @@ namespace Math.Tests
                  x0 * x1 * x2;
             e = x0 * x1 * x2 * x3;
         }
-
-
     }
 }

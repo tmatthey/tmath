@@ -320,6 +320,5 @@ namespace Math
             var a = -y0 / dy;
             return x0 + a * dx;
         }
-
     }
 }

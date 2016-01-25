@@ -56,6 +56,72 @@ namespace Math
             return a;
         }
 
+        public static readonly int MaxFactorialInt = 20;
+
+        public static ulong FactorialInt(int n)
+        {
+            if (n > MaxFactorialInt)
+            {
+                return 0ul;
+            }
+            ulong p = 1;
+            for (int i = 1; i <= n; i++)
+            {
+                p *= (ulong)i;
+            }
+            return p;
+        }
+
+        public static double Factorial(int n)
+        {
+            double p = 1;
+            for (int i = 1; i <= n; i++)
+            {
+                p *= i;
+            }
+            return p;
+        }
+
+        public static readonly int MaxFibonacciInt = 93;
+
+        public static ulong FibonacciInt(int n)
+        {
+            if (n > MaxFibonacciInt)
+            {
+                return 0ul;
+            }
+            ulong x = 0;
+            ulong y = 1;
+            ulong z = 1;
+            for (var i = 0; i < n; i++)
+            {
+                x = y;
+                y = z;
+                z = x + y;
+            }
+            return x;
+        }
+
+        public static double Fibonacci(int n)
+        {
+            var x = 0.0;
+            var y = 1.0;
+            var z = 1.0;
+            for (var i = 0; i < n; i++)
+            {
+                x = y;
+                y = z;
+                z = x + y;
+            }
+            return x;
+        }
+
+        public static int GCD(int a, int b)
+        {
+            // Greatest Common Denominator: Euclidian Algorithm
+            return b == 0 ? a : GCD(b, a % b);
+        }
+
         private static double Root(double x, int n)
         {
             var y = x;
