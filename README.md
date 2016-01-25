@@ -7,4 +7,4 @@ A collection of mathematical function and data structures written in C#.
 ### Root solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
 * Numerical general polynomial equation root solver
-* General root solver bisection or secant method
+* General root solver with either bisection or secant method
