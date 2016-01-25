@@ -239,6 +239,33 @@ namespace Math
             return res;
         }
 
+        public static double Secant(int n, double eps, double x0, double x1, Func<double, double> f)
+        {
+            var y0 = f(x0);
+            var y1 = f(x1);
+
+            // http://en.wikipedia.org/wiki/Secant_method
+            for (var i = 0; i < n; i++)
+            {
+                var x = x1 - (x1 - x0) / (y1 - y0) * y1;
+                var y = f(x);
+                if (!Comparison.IsNumber(y))
+                {
+                    return (i == 0 ? double.NaN : x1);
+                }
+                if (Comparison.IsZero(y, eps))
+                {
+                    return x;
+                }
+                x0 = x1;
+                y0 = y1;
+                x1 = x;
+                y1 = y;
+            }
+
+            return double.NaN;
+        }
+
         public static double Bisection(int n, double eps, double x0, double x1, Func<double, double> f)
         {
             if (x1 < x0)
@@ -268,7 +295,7 @@ namespace Math
                 var x = (x0 + x1) / 2.0;
                 var y = f(x);
 
-                if (Comparison.IsZero(y, eps) || Comparison.IsZero(x1 - x0, eps))
+                if (Comparison.IsZero(y, eps))
                 {
                     return x;
                 }
