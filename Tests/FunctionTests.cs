@@ -194,5 +194,16 @@ namespace Math.Tests
         {
             Function.GCD(a, b).ShouldBe(gcd);
         }
+
+        [TestCase(7, true)]
+        [TestCase(94439461, true)]
+        [TestCase(94439460, false)]
+        [TestCase(94439430, false)]
+        [TestCase(94439420, false)]
+        [TestCase(94439987, true)]
+        public void IsPrime(int n, bool prime)
+        {
+            Function.IsPrime(n).ShouldBe(prime);
+        }            
     }
 }

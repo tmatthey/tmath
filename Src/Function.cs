@@ -26,6 +26,9 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Math
 {
     public static class Function
@@ -121,6 +124,83 @@ namespace Math
             // Greatest Common Denominator: Euclidian Algorithm
             return b == 0 ? a : GCD(b, a % b);
         }
+
+        public static bool IsPrime(int n)
+        {
+            if (n < 2) return false;
+            if (_primes.Last().p > n)
+            {
+                foreach (var p in _primes)
+                {
+                    if (p.p == n)
+                    {
+                        return true;
+                    }
+                    if (p.p < n)
+                    {
+                        break;
+                    }
+                }
+                return false;
+            }
+            while (true)
+            {
+                var count = _primes.Count;
+                var i = count - 1;
+                var p = _primes[i].p + 2;
+                var s = System.Math.Sqrt(p);
+                while (i < count)
+                {
+                    while (_primes[i].n < p)
+                        _primes[i].n += _primes[i].p * 2;
+                    if (_primes[i].n == p)
+                    {
+                        _primes[i].n += _primes[i].p * 2;
+                        i = 1;
+                        p += 2;
+                        s = System.Math.Sqrt(p);
+                    }
+                    else if (s <= _primes[i].p)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
+
+                _primes.Add(new Prime(p));
+                if (p == n)
+                {
+                    return true;
+                }
+                if (p > n)
+                {
+                    break;
+                }
+            }
+
+            return false;
+        }
+
+        internal class Prime
+        {
+            public Prime()
+            {
+                p = 0; n = 0;
+            }
+
+            public Prime(int a)
+            {
+                p = a; n = a * 3;
+            }
+
+            public int p;
+            public int n;
+        }
+
+        private static IList<Prime> _primes = new List<Prime>() { new Prime(2), new Prime(3) };
 
         private static double Root(double x, int n)
         {
