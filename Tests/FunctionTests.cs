@@ -195,15 +195,37 @@ namespace Math.Tests
             Function.GCD(a, b).ShouldBe(gcd);
         }
 
+        [TestCase(1, false)]
+        [TestCase(2, true)]
+        [TestCase(3, true)]
+        [TestCase(4, false)]
+        [TestCase(5, true)]
+        [TestCase(6, false)]
         [TestCase(7, true)]
+        [TestCase(8, false)]
+        [TestCase(9, false)]
+        [TestCase(10, false)]
+        [TestCase(11, true)]
+        [TestCase(12, false)]
+        [TestCase(13, true)]
+        [TestCase(331, true)]
+        [TestCase(322, false)]
+        [TestCase(323, false)]
+        [TestCase(324, false)]
+        [TestCase(325, false)]
         [TestCase(94439461, true)]
         [TestCase(94439460, false)]
         [TestCase(94439430, false)]
         [TestCase(94439420, false)]
         [TestCase(94439987, true)]
-        public void IsPrime(int n, bool prime)
+        [TestCase(94439431, false)]
+        [TestCase(94439421, false)]
+        [TestCase(98764321261, true)]
+        [TestCase(103226621521, false)]
+        [TestCase(922337203685477647L, true)]
+        public void IsPrime(long n, bool prime)
         {
             Function.IsPrime(n).ShouldBe(prime);
-        }            
+        }
     }
 }
