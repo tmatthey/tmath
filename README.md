@@ -17,7 +17,7 @@ A collection of mathematical function and data structures written in C#.
 * Factorial; ulong (n <= 20) and double
 * Fibonacci; ulong (n <= 93) and double
 * Greatest common divisor (GDC)
-* IsPrime; no cache; ~10s for max long
+* IsPrime; no cache; ~3s for max long / 10
 
 ### Data structures
 * Polynomial
