@@ -124,22 +124,8 @@ namespace Math
             return b == 0 ? a : GCD(b, a % b);
         }
 
-       /* public static bool IsPrime(long n)
-        {
-            long c = 0;
-            for (long i = 1; i <= n && c < 3; i++)
-            {
-                if (n % i == 0)
-                {
-                    c++;
-                }
-            }
-            return c == 2;
-        }
-        */
         public static bool IsPrime(long n)
         {
-
             if (n < 2) return false;
             foreach (var p in PrimesUpTo30)
             {
@@ -163,8 +149,9 @@ namespace Math
             }
             return true;
         }
+
         private static readonly List<long> PrimesUpTo30 = new List<long> { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
-        
+
         private static double Root(double x, int n)
         {
             var y = x;
