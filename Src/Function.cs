@@ -26,6 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
+
 namespace Math
 {
     public static class Function
@@ -65,7 +67,7 @@ namespace Math
                 return 0ul;
             }
             ulong p = 1;
-            for (int i = 1; i <= n; i++)
+            for (var i = 1; i <= n; i++)
             {
                 p *= (ulong)i;
             }
@@ -122,21 +124,47 @@ namespace Math
             return b == 0 ? a : GCD(b, a % b);
         }
 
-        public static bool IsPrime(long n)
+       /* public static bool IsPrime(long n)
         {
-            if (n == 2 || n == 3) return true;
-            if (n < 2 || n % 2 == 0) return false;
-            long nsq = (long)System.Math.Sqrt(n) + 1;
-            for (var i = 3; i < nsq; i += 2)
+            long c = 0;
+            for (long i = 1; i <= n && c < 3; i++)
             {
                 if (n % i == 0)
+                {
+                    c++;
+                }
+            }
+            return c == 2;
+        }
+        */
+        public static bool IsPrime(long n)
+        {
+
+            if (n < 2) return false;
+            foreach (var p in PrimesUpTo30)
+            {
+                if (n == p) return true;
+                if (n % p == 0) return false;
+            }
+            var nsq = (long)System.Math.Sqrt(n) + 1;
+            for (long i = 30; i < nsq; i += 30)
+            {
+                if (n % (i + 1) == 0 ||
+                    n % (i + 7) == 0 ||
+                    n % (i + 11) == 0 ||
+                    n % (i + 13) == 0 ||
+                    n % (i + 17) == 0 ||
+                    n % (i + 19) == 0 ||
+                    n % (i + 23) == 0 ||
+                    n % (i + 29) == 0)
                 {
                     return false;
                 }
             }
             return true;
         }
-
+        private static readonly List<long> PrimesUpTo30 = new List<long> { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+        
         private static double Root(double x, int n)
         {
             var y = x;
