@@ -26,9 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Math
 {
     public static class Function
@@ -125,14 +122,12 @@ namespace Math
             return b == 0 ? a : GCD(b, a % b);
         }
 
- 
-
         public static bool IsPrime(long n)
         {
             if (n == 2 || n == 3) return true;
             if (n < 2 || n % 2 == 0) return false;
-            long nsq = (long)System.Math.Sqrt(n)+1;
-            for (var i = 3; i < nsq; i +=2)
+            long nsq = (long)System.Math.Sqrt(n) + 1;
+            for (var i = 3; i < nsq; i += 2)
             {
                 if (n % i == 0)
                 {
@@ -142,8 +137,7 @@ namespace Math
             return true;
         }
 
-
-         private static double Root(double x, int n)
+        private static double Root(double x, int n)
         {
             var y = x;
             if (Comparison.IsPositive(x))
