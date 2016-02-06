@@ -1,8 +1,8 @@
 # Math #
 
-A collection of mathematical function and data structures written in C#.
+A collection of mathematical function and data structures written in C#. The library based on Test Driven Development.
 
-(c) 2016 Thierry Matthey (matthey@gmail.com)
+(c) 2016 Thierry Matthey (matthey@gmail.com) -  MIT license
 
 ### Root solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
