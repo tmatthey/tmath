@@ -147,6 +147,25 @@ namespace Math
                 X * v.Y - Y * v.X);
         }
 
+        public double CrossNorm2(Vector3D v)
+        {
+            return Norm2(Y * v.Z - Z * v.Y,
+                Z * v.X - X * v.Z,
+                X * v.Y - Y * v.X);
+        }
+
+        public double CrossNorm(Vector3D v)
+        {
+            return System.Math.Sqrt(CrossNorm2(v));
+        }
+
+        public double Angle(Vector3D v)
+        {
+            var cross = CrossNorm(v);
+            var dot = Dot(v);
+            return System.Math.Atan2(cross, dot);
+        }
+
         public static Vector3D operator +(Vector3D v1, Vector3D v2)
         {
             var res = new Vector3D(v1);
@@ -179,12 +198,12 @@ namespace Math
 
         public static bool operator ==(Vector3D v1, Vector3D v2)
         {
-            return v1 != null && v1.IsEqual(v2);
+            return v1.IsEqual(v2);
         }
 
         public static bool operator !=(Vector3D v1, Vector3D v2)
         {
-            return !(v1 == v2);
+            return !v1.IsEqual(v2);
         }
 
         public static Vector3D operator *(Vector3D v, double c)

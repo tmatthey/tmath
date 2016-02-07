@@ -276,6 +276,11 @@ namespace Math.Tests
             e3.ShouldBe(Vector3D.E3);
         }
         [Test]
+        public void Vector3D_CrossNorm2xE1x3xE2_Returns6()
+        {
+            (2.0*Vector3D.E1).CrossNorm(3.0*Vector3D.E2).ShouldBe(6.0);
+        }
+        [Test]
         public void Vector3D_CrossProductE1xE1_ReturnsZero()
         {
             var e3 = (Vector3D.E1 ^ Vector3D.E1);
@@ -286,6 +291,12 @@ namespace Math.Tests
         {
             var e3 = (Vector3D.E2 ^ Vector3D.E1);
             e3.ShouldBe(-Vector3D.E3);
+        }
+
+        [Test]
+        public void Vector3D_AngleE1_E2_90Deg()
+        {
+            (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
         }
     }
 }
