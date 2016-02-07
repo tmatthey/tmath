@@ -196,6 +196,7 @@ namespace Math.Tests
             Function.GCD(a, b).ShouldBe(gcd);
         }
 
+        [TestCase(1, false)]
         [TestCase(94439461, true)]
         [TestCase(94439460, false)]
         [TestCase(94439430, false)]

@@ -30,6 +30,12 @@ namespace Math
 {
     public class Vector3D
     {
+
+        public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
+        public static readonly Vector3D E1 = new Vector3D(1, 0, 0);
+        public static readonly Vector3D E2 = new Vector3D(0, 1, 0);
+        public static readonly Vector3D E3 = new Vector3D(0, 0, 1);
+
         public Vector3D()
         {
         }
@@ -59,70 +65,59 @@ namespace Math
         public double Y { get; set; }
         public double Z { get; set; }
 
-        public void Add(Vector3D v)
+        public override bool Equals(object obj)
         {
-            X += v.X;
-            Y += v.Y;
-            Z += v.Z;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Vector3D)obj);
         }
 
-        public void Set(Vector3D v)
+        public override int GetHashCode()
         {
-            X = v.X;
-            Y = v.Y;
-            Z = v.Z;
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode * 397) ^ Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                return hashCode;
+            }
         }
 
-        public void Set(double c)
+        public bool IsEqual(Vector3D v)
         {
-            X = c;
-            Y = c;
-            Z = c;
+            return IsEqual(v, Comparison.Epsilon);
         }
 
-        public void Sub(Vector3D v)
+        public bool IsEqual(Vector3D v, double epsilon)
         {
-            X -= v.X;
-            Y -= v.Y;
-            Z -= v.Z;
-        }
-
-        public void Add(double c)
-        {
-            X += c;
-            Y += c;
-            Z += c;
-        }
-
-        public void Sub(double c)
-        {
-            X -= c;
-            Y -= c;
-            Z -= c;
-        }
-
-        public void Mul(double c)
-        {
-            X *= c;
-            Y *= c;
-            Z *= c;
-        }
-
-        public void Div(double c)
-        {
-            X /= c;
-            Y /= c;
-            Z /= c;
+            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) & Comparison.IsEqual(Z, v.Z, epsilon));
         }
 
         public double Normalize()
         {
+            return Normalize(Comparison.Epsilon);
+        }
+
+        public double Normalize(double epsilon)
+        {
             var d = Norm();
-            if (Comparison.IsPositive(d))
+            if (Comparison.IsPositive(d, epsilon))
             {
                 Div(d);
             }
             return d;
+        }
+
+        public Vector3D Normalized()
+        {
+            return Normalized(Comparison.Epsilon);
+        }
+
+        public Vector3D Normalized(double epsilon)
+        {
+            var res = new Vector3D(this);
+            res.Normalize(epsilon);
+            return res;
         }
 
         public double Norm2()
@@ -145,11 +140,11 @@ namespace Math
             return X * v.X + Y * v.Y + Z * v.Z;
         }
 
-        public Vector3D Normalized()
+        public Vector3D Cross(Vector3D v)
         {
-            var res = new Vector3D(this);
-            res.Normalize();
-            return res;
+            return new Vector3D(Y * v.Z - Z * v.Y,
+                Z * v.X - X * v.Z,
+                X * v.Y - Y * v.X);
         }
 
         public static Vector3D operator +(Vector3D v1, Vector3D v2)
@@ -165,10 +160,31 @@ namespace Math
             res.Sub(v2);
             return res;
         }
+        public static Vector3D operator -(Vector3D v)
+        {
+            var res = new Vector3D();
+            res.Sub(v);
+            return res;
+        }
 
         public static double operator *(Vector3D v1, Vector3D v2)
         {
             return v1.Dot(v2);
+        }
+
+        public static Vector3D operator ^(Vector3D v1, Vector3D v2)
+        {
+            return v1.Cross(v2);
+        }
+
+        public static bool operator ==(Vector3D v1, Vector3D v2)
+        {
+            return v1 != null && v1.IsEqual(v2);
+        }
+
+        public static bool operator !=(Vector3D v1, Vector3D v2)
+        {
+            return !(v1 == v2);
         }
 
         public static Vector3D operator *(Vector3D v, double c)
@@ -190,6 +206,34 @@ namespace Math
             var res = new Vector3D(v);
             res.Div(c);
             return res;
+        }
+
+        private void Add(Vector3D v)
+        {
+            X += v.X;
+            Y += v.Y;
+            Z += v.Z;
+        }
+
+        private void Sub(Vector3D v)
+        {
+            X -= v.X;
+            Y -= v.Y;
+            Z -= v.Z;
+        }
+
+        private void Mul(double c)
+        {
+            X *= c;
+            Y *= c;
+            Z *= c;
+        }
+
+        private void Div(double c)
+        {
+            X /= c;
+            Y /= c;
+            Z /= c;
         }
 
         static private double Norm2(double x, double y, double z)
