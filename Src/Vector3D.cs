@@ -30,7 +30,6 @@ namespace Math
 {
     public class Vector3D
     {
-
         public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
         public static readonly Vector3D E1 = new Vector3D(1, 0, 0);
         public static readonly Vector3D E2 = new Vector3D(0, 1, 0);
@@ -179,6 +178,7 @@ namespace Math
             res.Sub(v2);
             return res;
         }
+
         public static Vector3D operator -(Vector3D v)
         {
             var res = new Vector3D();
