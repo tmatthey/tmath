@@ -120,17 +120,18 @@ namespace Math
                 double s = System.Math.Sqrt(x2 + y2);
                 if (Comparison.IsPositive(s))
                 {
-                    phi = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y / s, -System.Math.PI * 0.5), System.Math.PI * 0.5));
-                    theta = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z / r, 0.0), System.Math.PI));
+                    theta = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z / r, -1.0), 1.0));
+                    phi = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y / s, -1.0), 1.0));
                     if (v.X < 0.0)
                     {
-                        theta = 2.0 * System.Math.PI - theta;
+                        phi = System.Math.PI - phi;
                     }
+                    phi = Function.NormalizeAngle(phi);
                 }
                 else
                 {
-                    theta = 0.0;
-                    phi = (v.Y > 0 ? 0.0 : System.Math.PI);
+                    theta = (v.Z >= 0.0 ? 0.0 : System.Math.PI);
+                    phi = 0.0;
                 }
             }
             else

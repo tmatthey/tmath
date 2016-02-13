@@ -300,5 +300,21 @@ namespace Math.Tests
         {
             (3.0 * Vector3D.E1).Angle(-17 * Vector3D.E2).ShouldBe(System.Math.PI / 2.0);
         }
+
+        [TestCase(0, -1, 1, 1, 1, -3, 0.1)]
+        [TestCase(1, 0, 1, 1, 0, -3, 0.1)]
+        [TestCase(1, -1, -1, 1, 1, 1.1, 0.1)]
+        [TestCase(1, 0, 1, 1, -1, -12, 0.1)]
+        public void Vector3D_RotateVecotor_AngleAsExpected(double vx, double vy, double vz,
+                                                           double rx, double ry, double rz,
+                                                           double a)
+        {
+            var r = new Vector3D(rx, ry, rz);
+            var v = new Vector3D(vx, vy, vz) ^ r;
+            var dot = r * v;
+            var res = v.Rotate(r, a);
+            var angle = v.Angle(res);
+            angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
+        }
     }
 }

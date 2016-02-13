@@ -158,6 +158,25 @@ namespace Math
             return System.Math.Sqrt(CrossNorm2(v));
         }
 
+        public Vector3D Rotate(Vector3D v, double alpha)
+        {
+            var c = System.Math.Cos(alpha);
+            var cm = 1.0 - c;
+            var s = System.Math.Sin(alpha);
+            var r = v.Normalized();
+            return new Vector3D((c + r.X * r.X * cm) * X +
+                                (r.X * r.Y * cm - r.Z * s) * Y +
+                                (r.X * r.Z * cm + r.Y * s) * Z,
+
+                                (r.X * r.Y * cm + r.Z * s) * X +
+                                (c + r.Y * r.Y * cm) * Y +
+                                (r.Y * r.Z * cm - r.X * s) * Z,
+
+                                (r.X * r.Z * cm - r.Y * s) * X +
+                                (r.Y * r.Z * cm + r.X * s) * Y +
+                                (c + r.Z * r.Z * cm) * Z);
+        }
+
         public double Angle(Vector3D v)
         {
             var cross = CrossNorm(v);

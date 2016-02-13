@@ -80,6 +80,16 @@ namespace Math
             return (double.NegativeInfinity < x && x < -eps);
         }
 
+        public static bool IsLessEqual(double x, double y)
+        {
+            return IsLessEqual(x, y, Epsilon);
+        }
+
+        public static bool IsLessEqual(double x, double y, double eps)
+        {
+            return IsEqual(x, y, Epsilon) || x <= y;
+        }
+
         public static IList<double> UniqueAverageSorted(IList<double> v)
         {
             return UniqueAverageSorted(v, Epsilon);

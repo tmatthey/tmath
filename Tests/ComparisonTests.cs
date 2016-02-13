@@ -170,6 +170,29 @@ namespace Math.Tests
             result.ShouldBe(expected);
         }
 
+        [TestCase(11.0, 11.0, true)]
+        [TestCase(13.05, 13.0, false)]
+        [TestCase(1e-13, 0.0, false)]
+        [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
+        [TestCase(0.0, 1e-14, true)]
+        [TestCase(5.0, 6.0, true)]
+        public void IsLessEqual(double x, double y, bool expected)
+        {
+            var result = Comparison.IsLessEqual(x, y);
+            result.ShouldBe(expected);
+        }
+
+        [TestCase(12.0, 12.0, 0.1, true)]
+        [TestCase(12.0, 12.05, 0.1, true)]
+        [TestCase(12.05, 12.0, double.Epsilon, false)]
+        [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
+        [TestCase(5.0, 6.0, 0.1, true)]
+        public void IsLessEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
+        {
+            var result = Comparison.IsLessEqual(x, y, eps);
+            result.ShouldBe(expected);
+        }
+
         [Test]
         public void UniqueAverageSorted()
         {
