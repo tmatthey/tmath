@@ -28,26 +28,40 @@
 
 namespace Math
 {
-    public static class Geodesy
+    public class GpsPoint
     {
-        // Latitude and longitude are in degrees, output in meter
-        public static double Haversine(double lat1, double long1, double lat2, double long2)
+        public double Latitude { get; set; }   // theta
+        public double Longitude { get; set; }   // phi
+        public double Elevation { get; set; }   // radius
+
+        public static implicit operator Polar3D(GpsPoint g)
         {
-            lat1 = Conversion.DegToRad(lat1);
-            long1 = Conversion.DegToRad(long1);
-            lat2 = Conversion.DegToRad(lat2);
-            long2 = Conversion.DegToRad(long2);
-
-            var dlong = long2 - long1;
-            var dlat = lat2 - lat1;
-            var a = System.Math.Pow(System.Math.Sin(dlat / 2.0), 2) + System.Math.Cos(lat1) * System.Math.Cos(lat2) * System.Math.Pow(System.Math.Sin(dlong / 2.0), 2);
-            var c = 2 * System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a));
-            var d = EarthRadius * c;
-
-            return d;
+            return new Polar3D
+            {
+                Theta = Conversion.DegToRad(90.0 - g.Latitude),
+                Phi = Conversion.DegToRad(g.Longitude),
+                R = Geodesy.EarthRadius + g.Elevation
+            };
         }
 
-        public static readonly double EarthRadius = 6367000.0;
-        public static readonly double DistanceOneDeg = EarthRadius * System.Math.PI / 180.0;
+        public static implicit operator Vector3D(GpsPoint g)
+        {
+            return (Polar3D)g;
+        }
+
+        public static implicit operator GpsPoint(Polar3D p)
+        {
+            return new GpsPoint
+            {
+                Latitude = 90.0 - Conversion.RadToDeg(p.Theta),
+                Longitude = Conversion.RadToDeg(p.Phi),
+                Elevation = p.R - Geodesy.EarthRadius
+            };
+        }
+
+        public static implicit operator GpsPoint(Vector3D v)
+        {
+            return (Polar3D)v;
+        }
     }
 }

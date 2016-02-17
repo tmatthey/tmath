@@ -134,7 +134,7 @@ namespace Math.Tests
         public void Polar3D_Zero_CasteToVector3D()
         {
             var p = new Polar3D(0, 0, 0);
-            var v = (Vector3D) p;
+            var v = (Vector3D)p;
             v.ShouldBe(Vector3D.Zero);
         }
 
@@ -142,7 +142,7 @@ namespace Math.Tests
         public void Polar3D_Zero_CasteToPolar3D()
         {
             var v = new Vector3D(0, 0, 0);
-            var p = (Polar3D) v;
+            var p = (Polar3D)v;
             p.ShouldBe(Polar3D.Zero);
         }
 
@@ -157,7 +157,7 @@ namespace Math.Tests
         public void Polar3D_EqualInput_Equal_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
-            var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.0);
+            var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.0);
             p.R.ShouldBe(1.0);
             (p == q).ShouldBe(true);
         }
@@ -166,7 +166,7 @@ namespace Math.Tests
         public void Polar3D_NotEqualInput_NotEqual_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
-            var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.1);
+            var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.1);
             p.R.ShouldBe(1.0);
             (p != q).ShouldBe(true);
         }
@@ -177,7 +177,6 @@ namespace Math.Tests
             var p = new Polar3D(0.1, 0.2);
             Polar3D q = null;
             p.Equals(q).ShouldBe(false);
-
         }
 
         [Test]
@@ -185,7 +184,6 @@ namespace Math.Tests
         {
             var p = new Polar3D(0.1, 0.2);
             p.Equals(p).ShouldBe(true);
-
         }
     }
 }

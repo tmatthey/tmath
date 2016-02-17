@@ -46,6 +46,7 @@
     <Compile Include="Conversion.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Geodesy.cs" />
+    <Compile Include="GpsPoint.cs" />
     <Compile Include="Polar3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver.cs" />
