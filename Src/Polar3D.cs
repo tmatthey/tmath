@@ -101,10 +101,14 @@ namespace Math
 
         public static implicit operator Vector3D(Polar3D p)
         {
+            double sinTheta, cosTheta, sinPhi, cosPhi;
+            Function.SinCos(p.Theta, out sinTheta, out cosTheta);
+            Function.SinCos(p.Phi, out sinPhi, out cosPhi);
+
             return new Vector3D(
-                p.R * System.Math.Sin(p.Theta) * System.Math.Cos(p.Phi),
-                p.R * System.Math.Sin(p.Theta) * System.Math.Sin(p.Phi),
-                p.R * System.Math.Cos(p.Theta));
+                p.R * sinTheta * cosPhi,
+                p.R * sinTheta * sinPhi,
+                p.R * cosTheta);
         }
 
         public static implicit operator Polar3D(Vector3D v)

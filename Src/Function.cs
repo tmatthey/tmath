@@ -45,15 +45,49 @@ namespace Math
         // Fast sin(x) [-PI/2, -PI/2] with absolute error < 0.0205
         public static double FastSin(double x)
         {
-            return x / System.Math.PI * (3.0 - x * x * 4.0 / System.Math.PI / System.Math.PI);
+            return x/System.Math.PI*(3.0 - x*x*4.0/System.Math.PI/System.Math.PI);
+        }
+
+        public static void SinCos(double alpha, out double sinAlpha, out double cosAlpha)
+        {
+            SinCos(alpha, out sinAlpha, out cosAlpha, Comparison.Epsilon);
+        }
+
+        
+        public static void SinCos(double alpha, out double sinAlpha, out double cosAlpha, double eps)
+        {
+            // From lsys by Jonathan P. Leech.
+            sinAlpha = System.Math.Sin(alpha);
+            cosAlpha = System.Math.Cos(alpha);
+            if (cosAlpha > 1.0 - eps)
+            {
+                cosAlpha = 1.0;
+                sinAlpha = 0.0;
+            }
+            else if (cosAlpha < -1.0 + eps)
+            {
+                cosAlpha = -1.0;
+                sinAlpha = 0.0;
+            }
+
+            if (sinAlpha > 1.0 - eps)
+            {
+                cosAlpha = 0.0;
+                sinAlpha = 1.0;
+            }
+            else if (sinAlpha < -1 + eps)
+            {
+                cosAlpha = 0.0;
+                sinAlpha = -1.0;
+            }
         }
 
         public static double NormalizeAngle(double a)
         {
             if (Comparison.IsNumber(a))
             {
-                while (a < 0) a += System.Math.PI * 2;
-                while (a >= System.Math.PI * 2) a -= System.Math.PI * 2;
+                while (a < 0) a += System.Math.PI*2;
+                while (a >= System.Math.PI*2) a -= System.Math.PI*2;
             }
             return a;
         }
@@ -69,7 +103,7 @@ namespace Math
             ulong p = 1;
             for (var i = 1; i <= n; i++)
             {
-                p *= (ulong)i;
+                p *= (ulong) i;
             }
             return p;
         }
@@ -121,7 +155,7 @@ namespace Math
         public static int GCD(int a, int b)
         {
             // Greatest Common Denominator: Euclidian Algorithm
-            return b == 0 ? a : GCD(b, a % b);
+            return b == 0 ? a : GCD(b, a%b);
         }
 
         public static bool IsPrime(long n)
@@ -130,19 +164,19 @@ namespace Math
             foreach (var p in PrimesUpTo30)
             {
                 if (n == p) return true;
-                if (n % p == 0) return false;
+                if (n%p == 0) return false;
             }
-            var nsq = (long)System.Math.Sqrt(n) + 1;
+            var nsq = (long) System.Math.Sqrt(n) + 1;
             for (long i = 30; i < nsq; i += 30)
             {
-                if (n % (i + 1) == 0 ||
-                    n % (i + 7) == 0 ||
-                    n % (i + 11) == 0 ||
-                    n % (i + 13) == 0 ||
-                    n % (i + 17) == 0 ||
-                    n % (i + 19) == 0 ||
-                    n % (i + 23) == 0 ||
-                    n % (i + 29) == 0)
+                if (n%(i + 1) == 0 ||
+                    n%(i + 7) == 0 ||
+                    n%(i + 11) == 0 ||
+                    n%(i + 13) == 0 ||
+                    n%(i + 17) == 0 ||
+                    n%(i + 19) == 0 ||
+                    n%(i + 23) == 0 ||
+                    n%(i + 29) == 0)
                 {
                     return false;
                 }
@@ -150,18 +184,18 @@ namespace Math
             return true;
         }
 
-        private static readonly List<long> PrimesUpTo30 = new List<long> { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+        private static readonly List<long> PrimesUpTo30 = new List<long> {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 
         private static double Root(double x, int n)
         {
             var y = x;
             if (Comparison.IsPositive(x))
             {
-                y = System.Math.Pow(x, 1.0 / n);
+                y = System.Math.Pow(x, 1.0/n);
             }
             else if (Comparison.IsNegative(x))
             {
-                y = -System.Math.Pow(-x, 1.0 / n);
+                y = -System.Math.Pow(-x, 1.0/n);
             }
             return y;
         }

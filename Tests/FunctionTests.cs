@@ -90,6 +90,19 @@ namespace Math.Tests
             y.ShouldBe(System.Math.Sin(a), 0.0205);
         }
 
+        [TestCase(0, 0, 1)]
+        [TestCase(90, 1, 0)]
+        [TestCase(180, 0, -1)]
+        [TestCase(270, -1, 0)]
+        [TestCase(360, 0, 1)]
+        public void SinCos_Angle_ReturnsExpected(double a, double s, double c)
+        {
+            double sin, cos;
+            Function.SinCos(Conversion.DegToRad(a), out sin, out cos);
+            sin.ShouldBe(s);
+            cos.ShouldBe(c);
+        }
+
         [TestCase(7, 7 - System.Math.PI * 2)]
         [TestCase(-1, -1 + System.Math.PI * 2)]
         [TestCase(3.1, 3.1)]
