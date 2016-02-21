@@ -32,29 +32,22 @@ namespace Math
 {
     public class GpsTrack
     {
-        private IList<GpsPoint> _track;
+        public IList<GpsPoint> Track { get; set; }
 
-        public IList<GpsPoint> Track
+        public Vector3D CalculateCenter()
         {
-            get
-            {
-                return _track;
-            }
-            set
-            {
-                _track = value;
-            }
+            return CalculateCenter(Track);
         }
 
-        public Vector3D Average()
+        static public Vector3D CalculateCenter(IList<GpsPoint> track)
         {
             var a = new Vector3D();
 
-            if (_track != null)
+            if (track != null)
             {
                 var d = 0.0;
                 var n = 0.0;
-                foreach (var g in _track)
+                foreach (var g in track)
                 {
                     Polar3D p = g;
                     if (Comparison.IsPositive(p.R))
