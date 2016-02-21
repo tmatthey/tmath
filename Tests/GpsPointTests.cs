@@ -27,6 +27,7 @@
  */
 
 using NUnit.Framework;
+using Shouldly;
 
 namespace Math.Tests
 {
@@ -34,8 +35,44 @@ namespace Math.Tests
     public class GpsPointTests
     {
         [Test]
-        public void NoTest()
+        public void GpsPoint_NorthPole_Vector3D()
         {
+            var g = new GpsPoint() {Latitude = 90, Longitude = 0, Elevation = 0.0};
+            Vector3D v = g;
+            v.X.ShouldBe(0.0);
+            v.Y.ShouldBe(0.0);
+            v.Z.ShouldBe(Geodesy.EarthRadius);
+        }
+
+        [Test]
+        public void GpsPoint_SouthPole_Vector3D()
+        {
+            var g = new GpsPoint() {Latitude = -90, Longitude = 0, Elevation = 0.0};
+            Vector3D v = g;
+            v.X.ShouldBe(0.0);
+            v.Y.ShouldBe(0.0);
+            v.Z.ShouldBe(-Geodesy.EarthRadius);
+        }
+
+        [Test]
+        public void GpsPoint_Vector3DConversion_ReturnsId()
+        {
+            var v = new Vector3D(1, 1, 1);
+            GpsPoint g = v;
+            Vector3D w = g;
+            v.X.ShouldBe(w.X, 1e-7);
+            v.Y.ShouldBe(w.Y, 1e-7);
+            v.Z.ShouldBe(w.Z, 1e-7);
+        }
+        [Test]
+        public void GpsPoint_Polar3DConversion_ReturnsId()
+        {
+            var p = new Polar3D(1, 1);
+            GpsPoint g = p;
+            Polar3D q = g;
+            p.Theta.ShouldBe(q.Theta);
+            p.Phi.ShouldBe(q.Phi);
+            p.R.ShouldBe(q.R);
         }
     }
 }
