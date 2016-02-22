@@ -37,7 +37,7 @@ namespace Math.Tests
         [Test]
         public void GpsPoint_NorthPole_Vector3D()
         {
-            var g = new GpsPoint() {Latitude = 90, Longitude = 0, Elevation = 0.0};
+            var g = new GpsPoint() { Latitude = 90, Longitude = 0, Elevation = 0.0 };
             Vector3D v = g;
             v.X.ShouldBe(0.0);
             v.Y.ShouldBe(0.0);
@@ -47,7 +47,7 @@ namespace Math.Tests
         [Test]
         public void GpsPoint_SouthPole_Vector3D()
         {
-            var g = new GpsPoint() {Latitude = -90, Longitude = 0, Elevation = 0.0};
+            var g = new GpsPoint() { Latitude = -90, Longitude = 0, Elevation = 0.0 };
             Vector3D v = g;
             v.X.ShouldBe(0.0);
             v.Y.ShouldBe(0.0);
@@ -64,6 +64,7 @@ namespace Math.Tests
             v.Y.ShouldBe(w.Y, 1e-7);
             v.Z.ShouldBe(w.Z, 1e-7);
         }
+
         [Test]
         public void GpsPoint_Polar3DConversion_ReturnsId()
         {

@@ -89,7 +89,7 @@ namespace Math
 
         public bool IsEqual(Vector3D v, double epsilon)
         {
-            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) & Comparison.IsEqual(Z, v.Z, epsilon));
+            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) && Comparison.IsEqual(Z, v.Z, epsilon));
         }
 
         public double Normalize()
