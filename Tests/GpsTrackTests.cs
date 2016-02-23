@@ -46,9 +46,6 @@ namespace Math.Tests
         public void GpsTrack_CreateLookup()
         {
             var gpsTrack = new GpsTrack(GpsTrackExample());
-            var rot = gpsTrack.Rotate(gpsTrack.Track);
-            GpsPoint g = rot[0];
-            GpsPoint c = gpsTrack.Center;
             gpsTrack.CreateLookup(50.0);
         }
 

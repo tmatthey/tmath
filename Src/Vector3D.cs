@@ -200,9 +200,7 @@ namespace Math
 
         public static Vector3D operator -(Vector3D v)
         {
-            var res = new Vector3D();
-            res.Sub(v);
-            return res;
+            return new Vector3D(-v.X, -v.Y, -v.Z);
         }
 
         public static double operator *(Vector3D v1, Vector3D v2)

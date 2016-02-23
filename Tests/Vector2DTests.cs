@@ -61,8 +61,8 @@ namespace Math.Tests
             u.X = a;
             u.Y = b;
             var v = new Vector2D(u);
-            u.X.ShouldBe(a);
-            u.Y.ShouldBe(b);
+            v.X.ShouldBe(a);
+            v.Y.ShouldBe(b);
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace Math.Tests
         public void Vector2D_SameVectorIsEqualOp_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
-            var u = v;
+            var u = new Vector2D(v);
             (v == u).ShouldBe(true);
         }
 
@@ -239,5 +239,40 @@ namespace Math.Tests
             var u = new Vector2D(1, 2.1);
             (v != u).ShouldBe(true);
         }
+
+        [Test]
+        public void Vector2D_SameVectorEquals_ReturnsTrue()
+        {
+            var v = new Vector2D(1, 2);
+            var u = new Vector2D(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Vector2D_SameRefVectorEquals_ReturnsTrue()
+        {
+            var v = new Vector2D(1, 2);
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+        [Test]
+        public void Vector2D_NullptrEquals_ReturnsFalse()
+        {
+            var v = new Vector2D(1, 2);
+            Vector2D u = null;
+            v.Equals(u).ShouldBe(false);
+        }
+
+        [Test]
+        public void Vector2D_NegationOp()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var u = new Vector2D(a, b);
+            var w = -u;
+            w.X.ShouldBe(-a);
+            w.Y.ShouldBe(-b);
+        }
+
     }
 }

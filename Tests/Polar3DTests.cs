@@ -88,7 +88,6 @@ namespace Math.Tests
             var v = new Vector3D(x, y, z).Normalized();
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi));
             Polar3D q = v;
-            Vector3D u = p;
             q.R.ShouldBe(p.R, 1e-13);
             q.Theta.ShouldBe(p.Theta, 1e-13);
             q.Phi.ShouldBe(p.Phi, 1e-13);

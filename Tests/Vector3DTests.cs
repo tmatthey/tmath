@@ -65,9 +65,9 @@ namespace Math.Tests
             u.Y = b;
             u.Z = c;
             var v = new Vector3D(u);
-            u.X.ShouldBe(a);
-            u.Y.ShouldBe(b);
-            u.Z.ShouldBe(c);
+            v.X.ShouldBe(a);
+            v.Y.ShouldBe(b);
+            v.Z.ShouldBe(c);
         }
 
         [Test]
@@ -311,10 +311,22 @@ namespace Math.Tests
         {
             var r = new Vector3D(rx, ry, rz);
             var v = new Vector3D(vx, vy, vz) ^ r;
-            var dot = r * v;
             var res = v.Rotate(r, a);
             var angle = v.Angle(res);
             angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
         }
+        [Test]
+        public void Vector3D_NegationOp()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = -31.0;
+            var u = new Vector3D(a, b, c);
+            var w = -u;
+            w.X.ShouldBe(-a);
+            w.Y.ShouldBe(-b);
+            w.Z.ShouldBe(-c);
+        }
+ 
     }
 }

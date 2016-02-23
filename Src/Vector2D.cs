@@ -149,9 +149,7 @@ namespace Math
 
         public static Vector2D operator -(Vector2D v)
         {
-            var res = new Vector2D();
-            res.Sub(v);
-            return res;
+            return new Vector2D(-v.X, -v.Y);
         }
 
         public static double operator *(Vector2D v1, Vector2D v2)

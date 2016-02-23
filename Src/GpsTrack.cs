@@ -32,10 +32,8 @@ namespace Math
 {
     public class GpsTrack
     {
-        private Vector3D _lookupRotationAxis;
-        private double _lookupRoationAngle;
-        private double _lookupGridSize;
-        private GpsPoint _lookupCenter;
+        private double _gridSize;
+        private GpsPoint _transformationReference;
         private Vector2D _lookupMin;
         private Vector2D _lookupMax;
         private List<int>[,] _lookupGrid;
@@ -55,7 +53,9 @@ namespace Math
         public Vector3D Center { get; private set; }
         public Vector3D RotationAxis { get; private set; }
         public double RotationAngle { get; private set; }
-        public List<Vector2D> _lookupPoints { get; private set; }
+        public List<Vector2D> TransformedTrack { get; private set; }
+        public Vector3D TransformationRotationAxis { get; private set; }
+        public double TransformationRotationAngle { get; private set; }
 
         public void CreateLookup(double gridSize)
         {
@@ -64,52 +64,42 @@ namespace Math
 
         public void CreateLookup(GpsPoint center, double gridSize)
         {
-            _lookupGridSize = gridSize;
-            _lookupCenter = center;
-            CalculateRotation(center, out _lookupRotationAxis, out _lookupRoationAngle);
-            _lookupPoints = new List<Vector2D>();
+            _gridSize = gridSize;
+            _transformationReference = center;
+            Vector3D axis;
+            double angle;
+            CalculateRotation(center, out axis, out angle);
+            TransformationRotationAxis = axis;
+            TransformationRotationAngle = angle;
+            TransformedTrack = new List<Vector2D>();
             _lookupMin = new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
             _lookupMax = new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
 
             foreach (var g in Track)
             {
-                GpsPoint u = Rotate(g, _lookupRotationAxis, _lookupRoationAngle);
+                GpsPoint u = Rotate(g, TransformationRotationAxis, TransformationRotationAngle);
                 var v = new Vector2D(u.Longitude, u.Latitude);
-                _lookupPoints.Add(v);
+                TransformedTrack.Add(v);
                 _lookupMin.X = System.Math.Min(v.X, _lookupMin.X);
                 _lookupMin.Y = System.Math.Min(v.Y, _lookupMin.Y);
                 _lookupMax.X = System.Math.Max(v.X, _lookupMax.X);
                 _lookupMax.Y = System.Math.Max(v.Y, _lookupMax.Y);
             }
+
             var d = (_lookupMax - _lookupMin) * Geodesy.DistanceOneDeg;
             var nx = (int)(d.X / gridSize) + 1;
-            var ny = (int)(d.Y  / gridSize) + 1;
+            var ny = (int)(d.Y / gridSize) + 1;
             _lookupGrid = new List<int>[nx, ny];
             for (var i = 0; i < nx; ++i)
                 for (var j = 0; j < ny; j++)
                     _lookupGrid[i, j] = new List<int>();
-            for (var k = 0; k < _lookupPoints.Count; k++)
+            for (var k = 0; k < TransformedTrack.Count; k++)
             {
-                var v = (_lookupPoints[k] - _lookupMin) * Geodesy.DistanceOneDeg;
+                var v = (TransformedTrack[k] - _lookupMin) * Geodesy.DistanceOneDeg;
                 var i = (int)(v.X / gridSize);
                 var j = (int)(v.Y / gridSize);
                 _lookupGrid[i, j].Add(k);
             }
-        }
-
-        public Vector3D Rotate(GpsPoint g)
-        {
-            return (Rotate(g, RotationAxis, RotationAngle));
-        }
-
-        public IList<Vector3D> Rotate(IList<GpsPoint> track)
-        {
-            var res = new List<Vector3D>();
-            foreach (var g in track)
-            {
-                res.Add(Rotate(g));
-            }
-            return res;
         }
 
         static private Vector3D Rotate(GpsPoint g, Vector3D axis, double angle)
