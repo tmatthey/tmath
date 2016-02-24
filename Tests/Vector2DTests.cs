@@ -255,6 +255,7 @@ namespace Math.Tests
             var u = v;
             v.Equals(u).ShouldBe(true);
         }
+
         [Test]
         public void Vector2D_NullptrEquals_ReturnsFalse()
         {
@@ -273,6 +274,5 @@ namespace Math.Tests
             w.X.ShouldBe(-a);
             w.Y.ShouldBe(-b);
         }
-
     }
 }

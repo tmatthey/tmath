@@ -30,64 +30,37 @@ using System.Collections.Generic;
 
 namespace Math
 {
-    public class GpsTrack
+    public class GpsTransformer
     {
-        public GpsTrack(IList<GpsPoint> track)
+        public GpsTransformer(IList<GpsPoint> gpsTrack, Vector3D center)
         {
-            Track = track;
-            Center = CalculateCenter();
+            Center = center;
             Vector3D axis;
             double angle;
-            CalculateRotation(Center, out axis, out angle);
+            GpsTrack.CalculateRotation(center, out axis, out angle);
             RotationAxis = axis;
             RotationAngle = angle;
+            Track = new List<Vector2D>();
+            Min = new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
+            Max = new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
+
+            foreach (var g in gpsTrack)
+            {
+                GpsPoint u = ((Vector3D)g).Rotate(RotationAxis, RotationAngle);
+                var v = new Vector2D(u.Longitude - 180.0, u.Latitude) * Geodesy.DistanceOneDeg;
+                Track.Add(v);
+                Min.X = System.Math.Min(v.X, Min.X);
+                Min.Y = System.Math.Min(v.Y, Min.Y);
+                Max.X = System.Math.Max(v.X, Max.X);
+                Max.Y = System.Math.Max(v.Y, Max.Y);
+            }
         }
 
-        public IList<GpsPoint> Track { get; private set; }
         public Vector3D Center { get; private set; }
+        public List<Vector2D> Track { get; private set; }
         public Vector3D RotationAxis { get; private set; }
         public double RotationAngle { get; private set; }
-        public GpsTransformer TransformedTrack { get; private set; }
-        public GpsGridLookup Grid { get; private set; }
-
-        public void CreateLookup(GpsPoint center, double gridSize)
-        {
-            TransformedTrack = new GpsTransformer(Track, center);
-            Grid = new GpsGridLookup(TransformedTrack, gridSize);
-        }
-
-        public static void CalculateRotation(Vector3D center, out Vector3D axis, out double angle)
-        {
-            axis = (center ^ -Vector3D.E1).Normalized();
-            angle = center.Angle(-Vector3D.E1);
-        }
-
-        private Vector3D CalculateCenter()
-        {
-            var a = new Vector3D();
-
-            if (Track != null)
-            {
-                var d = 0.0;
-                var n = 0.0;
-                foreach (var g in Track)
-                {
-                    Polar3D p = g;
-                    if (Comparison.IsPositive(p.R))
-                    {
-                        n++;
-                        d += p.R;
-                        p.R = 1.0;
-                        a += p;
-                    }
-                }
-                if (n > 0)
-                {
-                    a.Normalize();
-                    a *= d / n;
-                }
-            }
-            return a;
-        }
+        public Vector2D Min { get; private set; }
+        public Vector2D Max { get; private set; }
     }
 }

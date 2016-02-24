@@ -315,6 +315,7 @@ namespace Math.Tests
             var angle = v.Angle(res);
             angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
         }
+
         [Test]
         public void Vector3D_NegationOp()
         {
@@ -327,6 +328,5 @@ namespace Math.Tests
             w.Y.ShouldBe(-b);
             w.Z.ShouldBe(-c);
         }
- 
     }
 }
