@@ -34,14 +34,6 @@ namespace Math.Tests
     [TestFixture]
     public class Vector2DTests
     {
-        [Test]
-        public void Vector2D_EmptyConstructor_NullVector()
-        {
-            var v = new Vector2D();
-            v.X.ShouldBe(0);
-            v.Y.ShouldBe(0);
-        }
-
         [TestCase(1.123)]
         [TestCase(-1.123)]
         [TestCase(0.0)]
@@ -50,6 +42,18 @@ namespace Math.Tests
             var v = new Vector2D(c);
             v.X.ShouldBe(c);
             v.Y.ShouldBe(c);
+        }
+
+        [Test]
+        public void Vector2D_ConstMulOpVector2D()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var d = 27.05;
+            var u = new Vector2D(a, b);
+            var w = u*d;
+            w.X.ShouldBe(a*d);
+            w.Y.ShouldBe(b*d);
         }
 
         [Test]
@@ -66,24 +70,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Norm2()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var v = new Vector2D(a, b);
-            v.Norm2().ShouldBe(a * a + b * b);
-        }
-
-        [Test]
-        public void Vector2D_Norm()
-        {
-            var a = -17.0;
-            var b = -19.0;
-            var v = new Vector2D(a, b);
-            v.Norm().ShouldBe(System.Math.Sqrt(a * a + b * b));
-        }
-
-        [Test]
         public void Vector2D_Distance()
         {
             var a = 17.0;
@@ -94,7 +80,7 @@ namespace Math.Tests
             var v = new Vector2D(d, e);
             var x = a - d;
             var y = b - e;
-            v.Distance(u).ShouldBe(System.Math.Sqrt(x * x + y * y));
+            v.Distance(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
         }
 
         [Test]
@@ -106,7 +92,44 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            v.Dot(u).ShouldBe(a * d + b * e);
+            v.Dot(u).ShouldBe(a*d + b*e);
+        }
+
+        [Test]
+        public void Vector2D_EmptyConstructor_NullVector()
+        {
+            var v = new Vector2D();
+            v.X.ShouldBe(0);
+            v.Y.ShouldBe(0);
+        }
+
+        [Test]
+        public void Vector2D_NegationOp()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var u = new Vector2D(a, b);
+            var w = -u;
+            w.X.ShouldBe(-a);
+            w.Y.ShouldBe(-b);
+        }
+
+        [Test]
+        public void Vector2D_Norm()
+        {
+            var a = -17.0;
+            var b = -19.0;
+            var v = new Vector2D(a, b);
+            v.Norm().ShouldBe(System.Math.Sqrt(a*a + b*b));
+        }
+
+        [Test]
+        public void Vector2D_Norm2()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var v = new Vector2D(a, b);
+            v.Norm2().ShouldBe(a*a + b*b);
         }
 
         [Test]
@@ -120,14 +143,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ZeroVector_Normalize()
-        {
-            var v = new Vector2D();
-            v.Normalize();
-            v.Norm().ShouldBe(0.0);
-        }
-
-        [Test]
         public void Vector2D_Normalized()
         {
             var a = 17.0;
@@ -138,11 +153,43 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ZeroVector_Normalized()
+        public void Vector2D_NotSameVectorIsNotEqualOp_ReturnsTrue()
         {
-            var v = new Vector2D();
-            var u = v.Normalized();
-            u.Norm().ShouldBe(0.0);
+            var v = new Vector2D(1, 2);
+            var u = new Vector2D(1, 2.1);
+            (v != u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Vector2D_NullptrEquals_ReturnsFalse()
+        {
+            var v = new Vector2D(1, 2);
+            Vector2D u = null;
+            v.Equals(u).ShouldBe(false);
+        }
+
+        [Test]
+        public void Vector2D_SameRefVectorEquals_ReturnsTrue()
+        {
+            var v = new Vector2D(1, 2);
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Vector2D_SameVectorEquals_ReturnsTrue()
+        {
+            var v = new Vector2D(1, 2);
+            var u = new Vector2D(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Vector2D_SameVectorIsEqualOp_ReturnsTrue()
+        {
+            var v = new Vector2D(1, 2);
+            var u = new Vector2D(v);
+            (v == u).ShouldBe(true);
         }
 
         [Test]
@@ -158,6 +205,30 @@ namespace Math.Tests
 
             w.X.ShouldBe(a + d);
             w.Y.ShouldBe(b + e);
+        }
+
+        [Test]
+        public void Vector2D_Vector2DDivOpConst()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var d = 27.05;
+            var u = new Vector2D(a, b);
+            var w = u/d;
+            w.X.ShouldBe(a/d);
+            w.Y.ShouldBe(b/d);
+        }
+
+        [Test]
+        public void Vector2D_Vector2DMulOpConst()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var d = 27.05;
+            var u = new Vector2D(a, b);
+            var w = d*u;
+            w.X.ShouldBe(a*d);
+            w.Y.ShouldBe(b*d);
         }
 
         [Test]
@@ -184,95 +255,24 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            var w = u * v;
+            var w = u*v;
             w.ShouldBe(u.Dot(v));
         }
 
         [Test]
-        public void Vector2D_Vector2DMulOpConst()
+        public void Vector2D_ZeroVector_Normalize()
         {
-            var a = 17.0;
-            var b = 19.0;
-            var d = 27.05;
-            var u = new Vector2D(a, b);
-            var w = d * u;
-            w.X.ShouldBe(a * d);
-            w.Y.ShouldBe(b * d);
+            var v = new Vector2D();
+            v.Normalize();
+            v.Norm().ShouldBe(0.0);
         }
 
         [Test]
-        public void Vector2D_ConstMulOpVector2D()
+        public void Vector2D_ZeroVector_Normalized()
         {
-            var a = 17.0;
-            var b = 19.0;
-            var d = 27.05;
-            var u = new Vector2D(a, b);
-            var w = u * d;
-            w.X.ShouldBe(a * d);
-            w.Y.ShouldBe(b * d);
-        }
-
-        [Test]
-        public void Vector2D_Vector2DDivOpConst()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var d = 27.05;
-            var u = new Vector2D(a, b);
-            var w = u / d;
-            w.X.ShouldBe(a / d);
-            w.Y.ShouldBe(b / d);
-        }
-
-        [Test]
-        public void Vector2D_SameVectorIsEqualOp_ReturnsTrue()
-        {
-            var v = new Vector2D(1, 2);
-            var u = new Vector2D(v);
-            (v == u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector2D_NotSameVectorIsNotEqualOp_ReturnsTrue()
-        {
-            var v = new Vector2D(1, 2);
-            var u = new Vector2D(1, 2.1);
-            (v != u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector2D_SameVectorEquals_ReturnsTrue()
-        {
-            var v = new Vector2D(1, 2);
-            var u = new Vector2D(v);
-            v.Equals(u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector2D_SameRefVectorEquals_ReturnsTrue()
-        {
-            var v = new Vector2D(1, 2);
-            var u = v;
-            v.Equals(u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector2D_NullptrEquals_ReturnsFalse()
-        {
-            var v = new Vector2D(1, 2);
-            Vector2D u = null;
-            v.Equals(u).ShouldBe(false);
-        }
-
-        [Test]
-        public void Vector2D_NegationOp()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var u = new Vector2D(a, b);
-            var w = -u;
-            w.X.ShouldBe(-a);
-            w.Y.ShouldBe(-b);
+            var v = new Vector2D();
+            var u = v.Normalized();
+            u.Norm().ShouldBe(0.0);
         }
     }
 }

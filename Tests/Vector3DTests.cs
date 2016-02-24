@@ -34,15 +34,6 @@ namespace Math.Tests
     [TestFixture]
     public class Vector3DTests
     {
-        [Test]
-        public void Vector3D_EmptyConstructor_NullVector()
-        {
-            var v = new Vector3D();
-            v.X.ShouldBe(0);
-            v.Y.ShouldBe(0);
-            v.Z.ShouldBe(0);
-        }
-
         [TestCase(1.123)]
         [TestCase(-1.123)]
         [TestCase(0.0)]
@@ -52,6 +43,41 @@ namespace Math.Tests
             v.X.ShouldBe(c);
             v.Y.ShouldBe(c);
             v.Z.ShouldBe(c);
+        }
+
+        [TestCase(0, -1, 1, 1, 1, -3, 0.1)]
+        [TestCase(1, 0, 1, 1, 0, -3, 0.1)]
+        [TestCase(1, -1, -1, 1, 1, 1.1, 0.1)]
+        [TestCase(1, 0, 1, 1, -1, -12, 0.1)]
+        public void Vector3D_RotateVecotor_AngleAsExpected(double vx, double vy, double vz,
+            double rx, double ry, double rz,
+            double a)
+        {
+            var r = new Vector3D(rx, ry, rz);
+            var v = new Vector3D(vx, vy, vz) ^ r;
+            var res = v.Rotate(r, a);
+            var angle = v.Angle(res);
+            angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
+        }
+
+        [Test]
+        public void Vector3D_AngleE1_E2_90Deg()
+        {
+            (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
+        }
+
+        [Test]
+        public void Vector3D_ConstMulOpVector3D()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var d = 27.05;
+            var u = new Vector3D(a, b, c);
+            var w = u*d;
+            w.X.ShouldBe(a*d);
+            w.Y.ShouldBe(b*d);
+            w.Z.ShouldBe(c*d);
         }
 
         [Test]
@@ -71,23 +97,30 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Norm2()
+        public void Vector3D_CrossNorm2xE1x3xE2_Returns6()
         {
-            var a = 17.0;
-            var b = 19.0;
-            var c = 23.0;
-            var v = new Vector3D(a, b, c);
-            v.Norm2().ShouldBe(a * a + b * b + c * c);
+            (2.0*Vector3D.E1).CrossNorm(3.0*Vector3D.E2).ShouldBe(6.0);
         }
 
         [Test]
-        public void Vector3D_Norm()
+        public void Vector3D_CrossProductE1xE1_ReturnsZero()
         {
-            var a = -17.0;
-            var b = -19.0;
-            var c = -23.0;
-            var v = new Vector3D(a, b, c);
-            v.Norm().ShouldBe(System.Math.Sqrt(a * a + b * b + c * c));
+            var e3 = (Vector3D.E1 ^ Vector3D.E1);
+            e3.ShouldBe(Vector3D.Zero);
+        }
+
+        [Test]
+        public void Vector3D_CrossProductE1xE2_ReturnsE3()
+        {
+            var e3 = (Vector3D.E1 ^ Vector3D.E2);
+            e3.ShouldBe(Vector3D.E3);
+        }
+
+        [Test]
+        public void Vector3D_CrossProductE2xE1_ReturnsMinusE3()
+        {
+            var e3 = (Vector3D.E2 ^ Vector3D.E1);
+            e3.ShouldBe(-Vector3D.E3);
         }
 
         [Test]
@@ -104,7 +137,7 @@ namespace Math.Tests
             var x = a - d;
             var y = b - e;
             var z = c - f;
-            v.Distance(u).ShouldBe(System.Math.Sqrt(x * x + y * y + z * z));
+            v.Distance(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
         }
 
         [Test]
@@ -118,7 +151,49 @@ namespace Math.Tests
             var f = -1.1;
             var u = new Vector3D(a, b, c);
             var v = new Vector3D(d, e, f);
-            v.Dot(u).ShouldBe(a * d + b * e + c * f);
+            v.Dot(u).ShouldBe(a*d + b*e + c*f);
+        }
+
+        [Test]
+        public void Vector3D_EmptyConstructor_NullVector()
+        {
+            var v = new Vector3D();
+            v.X.ShouldBe(0);
+            v.Y.ShouldBe(0);
+            v.Z.ShouldBe(0);
+        }
+
+        [Test]
+        public void Vector3D_NegationOp()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = -31.0;
+            var u = new Vector3D(a, b, c);
+            var w = -u;
+            w.X.ShouldBe(-a);
+            w.Y.ShouldBe(-b);
+            w.Z.ShouldBe(-c);
+        }
+
+        [Test]
+        public void Vector3D_Norm()
+        {
+            var a = -17.0;
+            var b = -19.0;
+            var c = -23.0;
+            var v = new Vector3D(a, b, c);
+            v.Norm().ShouldBe(System.Math.Sqrt(a*a + b*b + c*c));
+        }
+
+        [Test]
+        public void Vector3D_Norm2()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var v = new Vector3D(a, b, c);
+            v.Norm2().ShouldBe(a*a + b*b + c*c);
         }
 
         [Test]
@@ -133,14 +208,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_ZeroVector_Normalize()
-        {
-            var v = new Vector3D();
-            v.Normalize();
-            v.Norm().ShouldBe(0.0);
-        }
-
-        [Test]
         public void Vector3D_Normalized()
         {
             var a = 17.0;
@@ -152,11 +219,19 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_ZeroVector_Normalized()
+        public void Vector3D_NotSameVectorIsNotEqualOp_ReturnsTrue()
         {
-            var v = new Vector3D();
-            var u = v.Normalized();
-            u.Norm().ShouldBe(0.0);
+            var v = new Vector3D(1, 2, 3);
+            var u = new Vector3D(1, 2, 3.1);
+            (v != u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Vector3D_SameVectorIsEqualOp_ReturnsTrue()
+        {
+            var v = new Vector3D(1, 2, 3);
+            var u = v;
+            (v == u).ShouldBe(true);
         }
 
         [Test]
@@ -175,6 +250,34 @@ namespace Math.Tests
             w.X.ShouldBe(a + d);
             w.Y.ShouldBe(b + e);
             w.Z.ShouldBe(c + f);
+        }
+
+        [Test]
+        public void Vector3D_Vector3DDivOpConst()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var d = 27.05;
+            var u = new Vector3D(a, b, c);
+            var w = u/d;
+            w.X.ShouldBe(a/d);
+            w.Y.ShouldBe(b/d);
+            w.Z.ShouldBe(c/d);
+        }
+
+        [Test]
+        public void Vector3D_Vector3DMulOpConst()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var d = 27.05;
+            var u = new Vector3D(a, b, c);
+            var w = d*u;
+            w.X.ShouldBe(a*d);
+            w.Y.ShouldBe(b*d);
+            w.Z.ShouldBe(c*d);
         }
 
         [Test]
@@ -206,127 +309,24 @@ namespace Math.Tests
             var f = -1.1;
             var u = new Vector3D(a, b, c);
             var v = new Vector3D(d, e, f);
-            var w = u * v;
+            var w = u*v;
             w.ShouldBe(u.Dot(v));
         }
 
         [Test]
-        public void Vector3D_Vector3DMulOpConst()
+        public void Vector3D_ZeroVector_Normalize()
         {
-            var a = 17.0;
-            var b = 19.0;
-            var c = 23.0;
-            var d = 27.05;
-            var u = new Vector3D(a, b, c);
-            var w = d * u;
-            w.X.ShouldBe(a * d);
-            w.Y.ShouldBe(b * d);
-            w.Z.ShouldBe(c * d);
+            var v = new Vector3D();
+            v.Normalize();
+            v.Norm().ShouldBe(0.0);
         }
 
         [Test]
-        public void Vector3D_ConstMulOpVector3D()
+        public void Vector3D_ZeroVector_Normalized()
         {
-            var a = 17.0;
-            var b = 19.0;
-            var c = 23.0;
-            var d = 27.05;
-            var u = new Vector3D(a, b, c);
-            var w = u * d;
-            w.X.ShouldBe(a * d);
-            w.Y.ShouldBe(b * d);
-            w.Z.ShouldBe(c * d);
-        }
-
-        [Test]
-        public void Vector3D_Vector3DDivOpConst()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var c = 23.0;
-            var d = 27.05;
-            var u = new Vector3D(a, b, c);
-            var w = u / d;
-            w.X.ShouldBe(a / d);
-            w.Y.ShouldBe(b / d);
-            w.Z.ShouldBe(c / d);
-        }
-
-        [Test]
-        public void Vector3D_SameVectorIsEqualOp_ReturnsTrue()
-        {
-            var v = new Vector3D(1, 2, 3);
-            var u = v;
-            (v == u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector3D_NotSameVectorIsNotEqualOp_ReturnsTrue()
-        {
-            var v = new Vector3D(1, 2, 3);
-            var u = new Vector3D(1, 2, 3.1);
-            (v != u).ShouldBe(true);
-        }
-
-        [Test]
-        public void Vector3D_CrossProductE1xE2_ReturnsE3()
-        {
-            var e3 = (Vector3D.E1 ^ Vector3D.E2);
-            e3.ShouldBe(Vector3D.E3);
-        }
-
-        [Test]
-        public void Vector3D_CrossNorm2xE1x3xE2_Returns6()
-        {
-            (2.0 * Vector3D.E1).CrossNorm(3.0 * Vector3D.E2).ShouldBe(6.0);
-        }
-
-        [Test]
-        public void Vector3D_CrossProductE1xE1_ReturnsZero()
-        {
-            var e3 = (Vector3D.E1 ^ Vector3D.E1);
-            e3.ShouldBe(Vector3D.Zero);
-        }
-
-        [Test]
-        public void Vector3D_CrossProductE2xE1_ReturnsMinusE3()
-        {
-            var e3 = (Vector3D.E2 ^ Vector3D.E1);
-            e3.ShouldBe(-Vector3D.E3);
-        }
-
-        [Test]
-        public void Vector3D_AngleE1_E2_90Deg()
-        {
-            (3.0 * Vector3D.E1).Angle(-17 * Vector3D.E2).ShouldBe(System.Math.PI / 2.0);
-        }
-
-        [TestCase(0, -1, 1, 1, 1, -3, 0.1)]
-        [TestCase(1, 0, 1, 1, 0, -3, 0.1)]
-        [TestCase(1, -1, -1, 1, 1, 1.1, 0.1)]
-        [TestCase(1, 0, 1, 1, -1, -12, 0.1)]
-        public void Vector3D_RotateVecotor_AngleAsExpected(double vx, double vy, double vz,
-                                                           double rx, double ry, double rz,
-                                                           double a)
-        {
-            var r = new Vector3D(rx, ry, rz);
-            var v = new Vector3D(vx, vy, vz) ^ r;
-            var res = v.Rotate(r, a);
-            var angle = v.Angle(res);
-            angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
-        }
-
-        [Test]
-        public void Vector3D_NegationOp()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var c = -31.0;
-            var u = new Vector3D(a, b, c);
-            var w = -u;
-            w.X.ShouldBe(-a);
-            w.Y.ShouldBe(-b);
-            w.Z.ShouldBe(-c);
+            var v = new Vector3D();
+            var u = v.Normalized();
+            u.Norm().ShouldBe(0.0);
         }
     }
 }

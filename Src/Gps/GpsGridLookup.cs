@@ -27,26 +27,13 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Math
+namespace Math.Gps
 {
     public class GpsGridLookup
     {
         private readonly Vector2D _gridOffset;
-
-        public class GpsDistance
-        {
-            public GpsDistance(int reference, int target, double distance)
-            {
-                Reference = reference;
-                Traget = target;
-                Distance = distance;
-            }
-
-            public int Reference { get; private set; }
-            public int Traget { get; private set; }
-            public double Distance { get; private set; }
-        }
 
         public GpsGridLookup(GpsTransformer transformed, double gridSize)
         {
@@ -99,6 +86,29 @@ namespace Math
             return list;
         }
 
+        public static IList<List<GpsDistance>> ReferenceOrdering(IList<List<GpsDistance>> current)
+        {
+            var map = new Dictionary<int, List<GpsDistance>>();
+            foreach (var point in current)
+            {
+                foreach (var distance in point)
+                {
+                    if (!map.ContainsKey(distance.Reference))
+                    {
+                        map[distance.Reference] = new List<GpsDistance>();
+                    }
+                    map[distance.Reference].Add(distance);
+                }
+            }
+
+            foreach (var point in map)
+            {
+                point.Value.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            }
+
+            return map.OrderBy(i => i.Key).Select(point => point.Value).ToList();
+        }
+
         private List<GpsDistance> Find(Vector2D point, double radius, int referenceIndex)
         {
             int minI, minJ;
@@ -121,7 +131,7 @@ namespace Math
                     foreach (var k in Grid[i, j])
                     {
                         var pt = Track[k];
-                        double r = point.Distance(pt);
+                        var r = point.Distance(pt);
                         if (Comparison.IsLessEqual(r, radius))
                         {
                             list.Add(new GpsDistance(k, referenceIndex, r));
@@ -136,8 +146,22 @@ namespace Math
         private void Index(Vector2D u, out int i, out int j)
         {
             var v = u - Offset;
-            i = (int)System.Math.Floor(v.X / Size);
-            j = (int)System.Math.Floor(v.Y / Size);
+            i = (int) System.Math.Floor(v.X/Size);
+            j = (int) System.Math.Floor(v.Y/Size);
+        }
+
+        public class GpsDistance
+        {
+            public GpsDistance(int reference, int current, double distance)
+            {
+                Reference = reference;
+                Current = current;
+                Distance = distance;
+            }
+
+            public int Reference { get; private set; }
+            public int Current { get; private set; }
+            public double Distance { get; private set; }
         }
     }
 }

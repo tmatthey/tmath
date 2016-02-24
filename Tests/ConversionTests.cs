@@ -35,24 +35,24 @@ namespace Math.Tests
     public class ConversionTests
     {
         [TestCase(0, 0)]
-        [TestCase(90, 0.5 * System.Math.PI)]
+        [TestCase(90, 0.5*System.Math.PI)]
         [TestCase(180, System.Math.PI)]
-        [TestCase(360, 2.0 * System.Math.PI)]
-        [TestCase(-90, -0.5 * System.Math.PI)]
+        [TestCase(360, 2.0*System.Math.PI)]
+        [TestCase(-90, -0.5*System.Math.PI)]
         [TestCase(-180, -System.Math.PI)]
-        [TestCase(-360, -2.0 * System.Math.PI)]
+        [TestCase(-360, -2.0*System.Math.PI)]
         public void DegToRad(double d, double r)
         {
             Conversion.DegToRad(d).ShouldBe(r);
         }
 
         [TestCase(0, 0)]
-        [TestCase(90, 0.5 * System.Math.PI)]
+        [TestCase(90, 0.5*System.Math.PI)]
         [TestCase(180, System.Math.PI)]
-        [TestCase(360, 2.0 * System.Math.PI)]
-        [TestCase(-90, -0.5 * System.Math.PI)]
+        [TestCase(360, 2.0*System.Math.PI)]
+        [TestCase(-90, -0.5*System.Math.PI)]
         [TestCase(-180, -System.Math.PI)]
-        [TestCase(-360, -2.0 * System.Math.PI)]
+        [TestCase(-360, -2.0*System.Math.PI)]
         public void RadToDeg(double d, double r)
         {
             Conversion.RadToDeg(r).ShouldBe(d);

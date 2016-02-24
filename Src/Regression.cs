@@ -34,7 +34,7 @@ namespace Math
     public class Regression
     {
         // First order regression without weight : a*x + b
-        static public void Linear(IList<double> x, IList<double> y, out double a, out double b)
+        public static void Linear(IList<double> x, IList<double> y, out double a, out double b)
         {
             IList<double> w = Enumerable.Repeat(1.0, x.Count).ToList();
             Linear(x, y, w, out a, out b);
@@ -42,7 +42,7 @@ namespace Math
 
         // First order regression weighted : a*x + b
         // http://academic.macewan.ca/burok/Stat252/notes/regression1.pdf
-        static public void Linear(IList<double> x, IList<double> y, IList<double> w, out double a, out double b)
+        public static void Linear(IList<double> x, IList<double> y, IList<double> w, out double a, out double b)
         {
             a = double.NaN;
             b = double.NaN;
@@ -54,22 +54,22 @@ namespace Math
                 for (var i = 0; i < x.Count; ++i)
                 {
                     ss += w[i];
-                    sx += x[i] * w[i];
-                    sy += y[i] * w[i];
+                    sx += x[i]*w[i];
+                    sy += y[i]*w[i];
                 }
                 var st2 = 0.0;
                 var aa = 0.0;
-                var sxdss = sx / ss;
+                var sxdss = sx/ss;
                 for (var i = 0; i < x.Count; ++i)
                 {
                     var t = x[i] - sxdss;
-                    st2 += t * t * w[i];
-                    aa += t * y[i] * w[i];
+                    st2 += t*t*w[i];
+                    aa += t*y[i]*w[i];
                 }
                 if (!Comparison.IsEqual(st2, 0.0) && !Comparison.IsEqual(ss, 0.0))
                 {
-                    a = aa / st2;
-                    b = (sy - sx * a) / ss;
+                    a = aa/st2;
+                    b = (sy - sx*a)/ss;
                 }
             }
         }

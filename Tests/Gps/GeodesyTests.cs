@@ -26,28 +26,31 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math
+using Math.Gps;
+using NUnit.Framework;
+using Shouldly;
+
+namespace Math.Tests.Gps
 {
-    public static class Geodesy
+    [TestFixture]
+    public class GeodesyTests
     {
-        // Latitude and longitude are in degrees, output in meter
-        public static double Haversine(double lat1, double long1, double lat2, double long2)
+        [Test]
+        public void Haversine_LatMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
         {
-            lat1 = Conversion.DegToRad(lat1);
-            long1 = Conversion.DegToRad(long1);
-            lat2 = Conversion.DegToRad(lat2);
-            long2 = Conversion.DegToRad(long2);
-
-            var dlong = long2 - long1;
-            var dlat = lat2 - lat1;
-            var a = System.Math.Pow(System.Math.Sin(dlat / 2.0), 2) + System.Math.Cos(lat1) * System.Math.Cos(lat2) * System.Math.Pow(System.Math.Sin(dlong / 2.0), 2);
-            var c = 2 * System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a));
-            var d = EarthRadius * c;
-
-            return d;
+            Geodesy.Haversine(87, -10, 87 + 45, -10).ShouldBe(System.Math.PI*6367000.0/4.0);
         }
 
-        public static readonly double EarthRadius = 6367000.0;
-        public static readonly double DistanceOneDeg = EarthRadius * System.Math.PI / 180.0;
+        [Test]
+        public void Haversine_LongMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
+        {
+            Geodesy.Haversine(0, 10, 0, 10 + 45).ShouldBe(System.Math.PI*6367000.0/4.0);
+        }
+
+        [Test]
+        public void Haversine_StartEndSameLocation_ReturnsZeroDistance()
+        {
+            Geodesy.Haversine(17, 19, 17, 19).ShouldBe(0);
+        }
     }
 }

@@ -38,12 +38,46 @@ namespace Math.Tests
         [Test]
         public void Linear_WithDifferentListCounts_ReturnsNaN()
         {
-            var x = new List<double> { 2.4 };
-            var y = new List<double> { 225, 184, 220, 240, 180, 184, 186, 215 };
+            var x = new List<double> {2.4};
+            var y = new List<double> {225, 184, 220, 240, 180, 184, 186, 215};
             double a, b;
             Regression.Linear(x, y, out a, out b);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Linear_WithOnePoint_ReturnsNaN()
+        {
+            var x = new List<double> {1};
+            var y = new List<double> {1};
+            double a, b;
+            Regression.Linear(x, y, out a, out b);
+            a.ShouldBe(double.NaN);
+            b.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Linear_WithoutWeightExample2_ReturnsExpected()
+        {
+            // http://academic.macewan.ca/burok/Stat252/notes/regression1.pdf
+            var x = new List<double> {2.4, 1.6, 2.0, 2.6, 1.4, 1.6, 2.0, 2.2};
+            var y = new List<double> {225, 184, 220, 240, 180, 184, 186, 215};
+            double a, b;
+            Regression.Linear(x, y, out a, out b);
+            a.ShouldBe(62.65/1.235, 1e-10);
+            b.ShouldBe(1634.0/8.0 - (62.65/1.235)*15.8/8.0, 1e-10);
+        }
+
+        [Test]
+        public void Linear_WithTwoPoints_ReturnsNaN()
+        {
+            var x = new List<double> {1, 2};
+            var y = new List<double> {1, 1};
+            double a, b;
+            Regression.Linear(x, y, out a, out b);
+            a.ShouldBe(0.0);
+            b.ShouldBe(1.0);
         }
 
         [Test]
@@ -55,40 +89,6 @@ namespace Math.Tests
             Regression.Linear(x, y, out a, out b);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
-        }
-
-        [Test]
-        public void Linear_WithOnePoint_ReturnsNaN()
-        {
-            var x = new List<double> { 1 };
-            var y = new List<double> { 1 };
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
-            a.ShouldBe(double.NaN);
-            b.ShouldBe(double.NaN);
-        }
-
-        [Test]
-        public void Linear_WithTwoPoints_ReturnsNaN()
-        {
-            var x = new List<double> { 1, 2 };
-            var y = new List<double> { 1, 1 };
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
-            a.ShouldBe(0.0);
-            b.ShouldBe(1.0);
-        }
-
-        [Test]
-        public void Linear_WithoutWeightExample2_ReturnsExpected()
-        {
-            // http://academic.macewan.ca/burok/Stat252/notes/regression1.pdf
-            var x = new List<double>() { 2.4, 1.6, 2.0, 2.6, 1.4, 1.6, 2.0, 2.2 };
-            var y = new List<double>() { 225, 184, 220, 240, 180, 184, 186, 215 };
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
-            a.ShouldBe(62.65 / 1.235, 1e-10);
-            b.ShouldBe(1634.0 / 8.0 - (62.65 / 1.235) * 15.8 / 8.0, 1e-10);
         }
     }
 }

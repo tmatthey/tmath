@@ -33,7 +33,7 @@ namespace Math
 {
     public static class Comparison
     {
-        public const double Epsilon = 1e-13;//double.Epsilon;
+        public const double Epsilon = 1e-13; //double.Epsilon;
 
         public static bool IsEqual(double x, double y)
         {
@@ -103,7 +103,7 @@ namespace Math
             var tmp = new List<double>();
             for (var i = 0; i < vTmp.Count;)
             {
-                if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps * 2.0))
+                if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps*2.0))
                 {
                     if (tmp.Count == 0)
                     {
@@ -114,7 +114,7 @@ namespace Math
                 }
                 else if (tmp.Count > 0)
                 {
-                    res.Add(tmp.Sum() / tmp.Count);
+                    res.Add(tmp.Sum()/tmp.Count);
                     tmp.Clear();
                     i++;
                 }

@@ -68,7 +68,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Vector3D)obj);
+            return obj.GetType() == GetType() && IsEqual((Vector3D) obj);
         }
 
         public override int GetHashCode()
@@ -76,8 +76,8 @@ namespace Math
             unchecked
             {
                 var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                hashCode = (hashCode*397) ^ Z.GetHashCode();
                 return hashCode;
             }
         }
@@ -89,7 +89,8 @@ namespace Math
 
         public bool IsEqual(Vector3D v, double epsilon)
         {
-            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) && Comparison.IsEqual(Z, v.Z, epsilon));
+            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) &&
+                    Comparison.IsEqual(Z, v.Z, epsilon));
         }
 
         public double Normalize()
@@ -136,21 +137,21 @@ namespace Math
 
         public double Dot(Vector3D v)
         {
-            return X * v.X + Y * v.Y + Z * v.Z;
+            return X*v.X + Y*v.Y + Z*v.Z;
         }
 
         public Vector3D Cross(Vector3D v)
         {
-            return new Vector3D(Y * v.Z - Z * v.Y,
-                Z * v.X - X * v.Z,
-                X * v.Y - Y * v.X);
+            return new Vector3D(Y*v.Z - Z*v.Y,
+                Z*v.X - X*v.Z,
+                X*v.Y - Y*v.X);
         }
 
         public double CrossNorm2(Vector3D v)
         {
-            return Norm2(Y * v.Z - Z * v.Y,
-                Z * v.X - X * v.Z,
-                X * v.Y - Y * v.X);
+            return Norm2(Y*v.Z - Z*v.Y,
+                Z*v.X - X*v.Z,
+                X*v.Y - Y*v.X);
         }
 
         public double CrossNorm(Vector3D v)
@@ -164,17 +165,15 @@ namespace Math
             var cm = 1.0 - c;
             var s = System.Math.Sin(alpha);
             var r = v.Normalized();
-            return new Vector3D((c + r.X * r.X * cm) * X +
-                                (r.X * r.Y * cm - r.Z * s) * Y +
-                                (r.X * r.Z * cm + r.Y * s) * Z,
-
-                                (r.X * r.Y * cm + r.Z * s) * X +
-                                (c + r.Y * r.Y * cm) * Y +
-                                (r.Y * r.Z * cm - r.X * s) * Z,
-
-                                (r.X * r.Z * cm - r.Y * s) * X +
-                                (r.Y * r.Z * cm + r.X * s) * Y +
-                                (c + r.Z * r.Z * cm) * Z);
+            return new Vector3D((c + r.X*r.X*cm)*X +
+                                (r.X*r.Y*cm - r.Z*s)*Y +
+                                (r.X*r.Z*cm + r.Y*s)*Z,
+                (r.X*r.Y*cm + r.Z*s)*X +
+                (c + r.Y*r.Y*cm)*Y +
+                (r.Y*r.Z*cm - r.X*s)*Z,
+                (r.X*r.Z*cm - r.Y*s)*X +
+                (r.Y*r.Z*cm + r.X*s)*Y +
+                (c + r.Z*r.Z*cm)*Z);
         }
 
         public double Angle(Vector3D v)
@@ -272,12 +271,12 @@ namespace Math
             Z /= c;
         }
 
-        static private double Norm2(double x, double y, double z)
+        private static double Norm2(double x, double y, double z)
         {
-            return x * x + y * y + z * z;
+            return x*x + y*y + z*z;
         }
 
-        static private double Norm(double x, double y, double z)
+        private static double Norm(double x, double y, double z)
         {
             return System.Math.Sqrt(Norm2(x, y, z));
         }

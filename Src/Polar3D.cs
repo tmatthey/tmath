@@ -58,7 +58,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Polar3D)obj);
+            return obj.GetType() == GetType() && IsEqual((Polar3D) obj);
         }
 
         public override int GetHashCode()
@@ -66,8 +66,8 @@ namespace Math
             unchecked
             {
                 var hashCode = R.GetHashCode();
-                hashCode = (hashCode * 397) ^ Theta.GetHashCode();
-                hashCode = (hashCode * 397) ^ Phi.GetHashCode();
+                hashCode = (hashCode*397) ^ Theta.GetHashCode();
+                hashCode = (hashCode*397) ^ Phi.GetHashCode();
                 return hashCode;
             }
         }
@@ -106,26 +106,26 @@ namespace Math
             Function.SinCos(p.Phi, out sinPhi, out cosPhi);
 
             return new Vector3D(
-                p.R * sinTheta * cosPhi,
-                p.R * sinTheta * sinPhi,
-                p.R * cosTheta);
+                p.R*sinTheta*cosPhi,
+                p.R*sinTheta*sinPhi,
+                p.R*cosTheta);
         }
 
         public static implicit operator Polar3D(Vector3D v)
         {
-            double x2 = v.X * v.X;
-            double y2 = v.Y * v.Y;
-            double z2 = v.Z * v.Z;
-            double r = System.Math.Sqrt(x2 + y2 + z2);
-            double theta = 0.0;
-            double phi = 0.0;
+            var x2 = v.X*v.X;
+            var y2 = v.Y*v.Y;
+            var z2 = v.Z*v.Z;
+            var r = System.Math.Sqrt(x2 + y2 + z2);
+            var theta = 0.0;
+            var phi = 0.0;
             if (Comparison.IsPositive(r))
             {
-                double s = System.Math.Sqrt(x2 + y2);
+                var s = System.Math.Sqrt(x2 + y2);
                 if (Comparison.IsPositive(s))
                 {
-                    theta = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z / r, -1.0), 1.0));
-                    phi = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y / s, -1.0), 1.0));
+                    theta = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z/r, -1.0), 1.0));
+                    phi = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y/s, -1.0), 1.0));
                     if (v.X < 0.0)
                     {
                         phi = System.Math.PI - phi;
@@ -142,7 +142,7 @@ namespace Math
             {
                 r = 0.0;
             }
-            return new Polar3D() { Theta = theta, Phi = phi, R = r };
+            return new Polar3D {Theta = theta, Phi = phi, R = r};
         }
     }
 }

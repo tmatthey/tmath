@@ -28,7 +28,7 @@
 
 using System.Collections.Generic;
 
-namespace Math
+namespace Math.Gps
 {
     public class GpsTransformer
     {
@@ -46,8 +46,8 @@ namespace Math
 
             foreach (var g in gpsTrack)
             {
-                GpsPoint u = ((Vector3D)g).Rotate(RotationAxis, RotationAngle);
-                var v = new Vector2D(u.Longitude - 180.0, u.Latitude) * Geodesy.DistanceOneDeg;
+                GpsPoint u = ((Vector3D) g).Rotate(RotationAxis, RotationAngle);
+                var v = new Vector2D(u.Longitude - 180.0, u.Latitude)*Geodesy.DistanceOneDeg;
                 Track.Add(v);
                 Min.X = System.Math.Min(v.X, Min.X);
                 Min.Y = System.Math.Min(v.Y, Min.Y);

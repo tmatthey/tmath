@@ -26,10 +26,10 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using NUnit.Framework;
-using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using Shouldly;
 
 namespace Math.Tests
 {
@@ -45,15 +45,8 @@ namespace Math.Tests
         public void LinearEq_ValidInput_ReturnsOneSolution(double a, double b)
         {
             var x = Solver.LinearEq(a, b);
-            var y = a * x + b;
+            var y = a*x + b;
             y.ShouldBe(0.0);
-        }
-
-        [Test]
-        public void LinearEq_InvalidInput_ReturnsNaN()
-        {
-            var x = Solver.LinearEq(0.0, 1.0);
-            x.ShouldBe(double.NaN);
         }
 
         [TestCase(1.0)]
@@ -96,15 +89,8 @@ namespace Math.Tests
             var a = 0.0;
             var root = Solver.QuadraticEq(a, b, c);
             root.Count.ShouldBe(1);
-            var y = b * root[0] + c;
+            var y = b*root[0] + c;
             y.ShouldBe(0.0);
-        }
-
-        [Test]
-        public void QuadraticEq_NoRoot_ReturnsEmptyList()
-        {
-            var root = Solver.QuadraticEq(1, 0, 1);
-            root.Count.ShouldBe(0);
         }
 
         [TestCase(1.0, 2.0, 3.0, 1.1)]
@@ -129,7 +115,7 @@ namespace Math.Tests
         [TestCase(-1.0, -2.0, 0.0, 1.4)]
         public void QubicEq_ThreeDifferentRoots_ReturnsSolutions(double x0, double x1, double x2, double f)
         {
-            var s = new List<double>() { x0, x1, x2 };
+            var s = new List<double> {x0, x1, x2};
             s.Sort();
             double a, b, c, d;
             CreateEq(x0, x1, x2, out a, out b, out c, out d);
@@ -155,7 +141,7 @@ namespace Math.Tests
         [TestCase(3.0, 0.0, 1.4)]
         public void QubicEq_TwoDifferentRoots_ReturnsSolutions(double x0, double x1, double f)
         {
-            var s = new List<double>() { x0, x1 };
+            var s = new List<double> {x0, x1};
             s.Sort();
             double a, b, c, d;
             CreateEq(x0, x1, x1, out a, out b, out c, out d);
@@ -175,7 +161,7 @@ namespace Math.Tests
         [TestCase(3.0, 1.4)]
         public void QubicEq_OneDifferentRoots_ReturnsSolutions(double x0, double f)
         {
-            var s = new List<double>() { x0 };
+            var s = new List<double> {x0};
             s.Sort();
             double a, b, c, d;
             CreateEq(x0, x0, x0, out a, out b, out c, out d);
@@ -187,6 +173,263 @@ namespace Math.Tests
             var root = Solver.CubicEq(a, b, c, d);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(s[0], Epsilon);
+        }
+
+        [TestCase(-1.0, -2.0, 0.0, 1.0, 1.4)]
+        [TestCase(1.0, 2.0, 0.0, -1.0, 1.4)]
+        [TestCase(1.0, 2.0, 2.0, 1.0, 1.4)]
+        [TestCase(1.0, 2.0, 2.0, 2.0, 1.4)]
+        [TestCase(2.0, 2.0, 2.0, 2.0, 1.4)]
+        public void QuarticEq_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
+        {
+            var s = new List<double> {x0, x1, x2, x3};
+            double a, b, c, d, e;
+            CreateEq(x0, x1, x2, x3, out a, out b, out c, out d, out e);
+            a *= f;
+            b *= f;
+            c *= f;
+            d *= f;
+            e *= f;
+
+            s = s.Distinct().ToList();
+            s.Sort();
+            var root = Solver.QuarticEq(a, b, c, d, e);
+            root.Count.ShouldBe(s.Count);
+            if (s.Count > 0) root[0].ShouldBe(s[0], Epsilon);
+            if (s.Count > 1) root[1].ShouldBe(s[1], Epsilon);
+            if (s.Count > 2) root[2].ShouldBe(s[2], Epsilon);
+            if (s.Count > 3) root[3].ShouldBe(s[3], Epsilon);
+        }
+
+        [TestCase(-17, 23, 1e-15)]
+        [TestCase(-17, 23, 1e-6)]
+        [TestCase(-17, 23, 1e-5)]
+        [TestCase(-17, 23, 1e-4)]
+        public void Bisection_ReturnsRootsWithEpsilon(double x0, double x1, double eps)
+        {
+            double a, b, c;
+            CreateEq(x0, x1, out a, out b, out c);
+            var p = new Polynomial(new List<double> {c, b, a});
+            var x = Solver.Bisection(100, eps, x0 - 5.0, x0 + 2.0, p.p);
+            var y = p.p(x);
+            y.ShouldBe(0.0, eps);
+        }
+
+        [TestCase(-17, 23, 1e-15)]
+        [TestCase(-17, 23, 1e-6)]
+        [TestCase(-17, 23, 1e-5)]
+        [TestCase(-17, 23, 1e-4)]
+        public void Secant_ReturnsRootsWithEpsilon(double x0, double x1, double eps)
+        {
+            double a, b, c;
+            CreateEq(x0, x1, out a, out b, out c);
+            var p = new Polynomial(new List<double> {c, b, a});
+            var x = Solver.Secant(100, eps, x0 - 5.0, x0 + 2.0, p.p);
+            var y = p.p(x);
+            y.ShouldBe(0.0, eps);
+        }
+
+        private void CreateEq(double x0, double x1, out double a, out double b, out double c)
+        {
+            a = 1.0;
+            b = -(x0 + x1);
+            c = x0*x1;
+        }
+
+        private void CreateEq(double x0, double x1, double x2, out double a, out double b, out double c, out double d)
+        {
+            a = 1.0;
+            b = -(x0 + x1 + x2);
+            c = x0*x1 + x0*x2 + x1*x2;
+            d = -x0*x1*x2;
+        }
+
+        private void CreateEq(double x0, double x1, double x2, double x3, out double a, out double b, out double c,
+            out double d, out double e)
+        {
+            a = 1.0;
+            b = -(x0 + x1 + x2 + x3);
+            c = x0*x1 + x0*x2 + x0*x3 +
+                x1*x2 + x1*x3 +
+                x2*x3;
+            d = -x1*x2*x3 -
+                x0*x2*x3 -
+                x0*x1*x3 -
+                x0*x1*x2;
+            e = x0*x1*x2*x3;
+        }
+
+        [Test]
+        public void Bisection_FunctionIsNaN_ReturnsNaN()
+        {
+            var p = new Polynomial(new List<double> {1, -3, double.NaN});
+            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
+            x.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Bisection_NoRoot_ReturnsNaN()
+        {
+            var p = new Polynomial(new List<double> {1, 0, 1});
+            var x = Solver.Bisection(10, 1e-15, 3, -1.1, p.p);
+            x.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Bisection_RootAtMiddle_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> {2, -3, 1});
+            var x = Solver.Bisection(5, 1e-15, 1.5, 2.5, p.p);
+            x.ShouldBe(2);
+        }
+
+        [Test]
+        public void Bisection_RootAtX0_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> {2, -3, 1});
+            var x = Solver.Bisection(100, 1e-15, 1, 1.5, p.p);
+            x.ShouldBe(1);
+        }
+
+        [Test]
+        public void Bisection_RootAtX1_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> {2, -3, 1});
+            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
+            x.ShouldBe(2);
+        }
+
+        [Test]
+        public void Bisection_RootCloseAtMiddle_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> {2, -3, 1});
+            var x = Solver.Bisection(15, 1e-5, 1.4, 2.5, p.p);
+            x.ShouldBe(2, 1e-5);
+        }
+
+        [Test]
+        public void LinearEq_InvalidInput_ReturnsNaN()
+        {
+            var x = Solver.LinearEq(0.0, 1.0);
+            x.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void PolynomialEq_EmptyCoefficients_ReturnsEmpty()
+        {
+            var root = Solver.PolynomialEq(new List<double>());
+            root.Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void PolynomialEq_OneNonZeroCoefficients_ReturnsZero()
+        {
+            var root = Solver.PolynomialEq(new List<double> {0.0, 0.0, 0.0, 17.0, 0.0});
+            root.Count.ShouldBe(1);
+            root[0].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void PolynomialEq_QubicOneRootAndZeroRoot_ReturnsTwoRoots()
+        {
+            var root = Solver.PolynomialEq(new List<double> {0.0, 0.0, -87.0, 41.0, -7.0, 1.0});
+            root.Count.ShouldBe(2);
+            root[0].ShouldBe(0.0);
+            root[1].ShouldBe(3.0, 1e-13);
+        }
+
+        [Test]
+        public void PolynomialEq_QudraticAndMultipleZeroRoot_ReturnsExpected()
+        {
+            var root = Solver.PolynomialEq(new List<double> {0.0, 0.0, 0.0, 2.0, -3.0, 1.0});
+            root.Count.ShouldBe(3);
+            root[0].ShouldBe(0.0);
+            root[1].ShouldBe(1.0);
+            root[2].ShouldBe(2.0);
+        }
+
+        [Test]
+        public void PolynomialEq_Quintic_ReturnsThreeRoots()
+        {
+            var p = new Polynomial(new List<double> {120.0, -44, 14.0, -7.0, -4, 1.0});
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(3);
+            root[0].ShouldBe(-3.0);
+            root[1].ShouldBe(2.0);
+            root[2].ShouldBe(5.0);
+        }
+
+        [Test]
+        public void PolynomialEq_QuinticNonInts_ReturnsFiveRoots()
+        {
+            var p = new Polynomial(new List<double> {54.0, -36.0, -37.5, 10.0, 8.5, 1.0});
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(5);
+            root[0].ShouldBe(-6.0);
+            root[1].ShouldBe(-3.0);
+            root[2].ShouldBe(-2.0);
+            root[3].ShouldBe(1.0);
+            root[4].ShouldBe(1.5);
+        }
+
+        [Test]
+        public void PolynomialEq_Septic_ReturnsRoots()
+        {
+            var p = new Polynomial(new List<double> {0.0, 0.0, 1.0, 3.0, -87.0, 41.0, -7.0, 1.0});
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(4);
+            p.p(root[0]).ShouldBe(0.0, 1e-13);
+            p.p(root[1]).ShouldBe(0.0, 1e-13);
+            p.p(root[2]).ShouldBe(0.0, 1e-13);
+            p.p(root[3]).ShouldBe(0.0, 1e-13);
+        }
+
+        [Test]
+        public void PolynomialEq_Sextic_ReturnsRoots()
+        {
+            var p = new Polynomial(new List<double> {2.0, -3.0, 3.0, -3.0, 3.0, -3.0, 1});
+            var root = Solver.PolynomialEq(p.p().ToList());
+            root.Count.ShouldBe(2);
+            p.p(root[0]).ShouldBe(0.0, 1e-15);
+            p.p(root[1]).ShouldBe(0.0, 1e-15);
+        }
+
+        [Test]
+        public void PolynomialEq_ZeroCoefficients_ReturnsEmpty()
+        {
+            var root = Solver.PolynomialEq(new List<double> {0.0, 0.0, 0.0});
+            root.Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void QuadraticEq_NoRoot_ReturnsEmptyList()
+        {
+            var root = Solver.QuadraticEq(1, 0, 1);
+            root.Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void QuarticEq_WithFourRoots_ReturnsSolitions()
+        {
+            var root = Solver.QuarticEq(1.0, 0.4, -6.49, 7.244, -2.112);
+            root.Count.ShouldBe(4);
+            root[0].ShouldBe(-3.2, Epsilon);
+            root[1].ShouldBe(0.5, Epsilon);
+            root[2].ShouldBe(1.1, Epsilon);
+            root[3].ShouldBe(1.2, Epsilon);
+        }
+
+        [Test]
+        public void QuarticEq_ZeroA_ReturnsCubicSolution()
+        {
+            var a = 0.0;
+            double b, c, d, e;
+            CreateEq(1.0, 2.0, 3.0, out b, out c, out d, out e);
+            var root = Solver.QuarticEq(a, b, c, d, e);
+            root.Count.ShouldBe(3);
+            root[0].ShouldBe(1.0, Epsilon);
+            root[1].ShouldBe(2.0, Epsilon);
+            root[2].ShouldBe(3.0, Epsilon);
         }
 
         [Test]
@@ -213,231 +456,34 @@ namespace Math.Tests
             root[0].ShouldBe(1, Epsilon);
         }
 
-        [TestCase(-1.0, -2.0, 0.0, 1.0, 1.4)]
-        [TestCase(1.0, 2.0, 0.0, -1.0, 1.4)]
-        [TestCase(1.0, 2.0, 2.0, 1.0, 1.4)]
-        [TestCase(1.0, 2.0, 2.0, 2.0, 1.4)]
-        [TestCase(2.0, 2.0, 2.0, 2.0, 1.4)]
-        public void QuarticEq_GivenRoots_ReturnsSolutions(double x0, double x1, double x2, double x3, double f)
-        {
-            var s = new List<double>() { x0, x1, x2, x3 };
-            double a, b, c, d, e;
-            CreateEq(x0, x1, x2, x3, out a, out b, out c, out d, out e);
-            a *= f;
-            b *= f;
-            c *= f;
-            d *= f;
-            e *= f;
-
-            s = s.Distinct().ToList();
-            s.Sort();
-            var root = Solver.QuarticEq(a, b, c, d, e);
-            root.Count.ShouldBe(s.Count);
-            if (s.Count > 0) root[0].ShouldBe(s[0], Epsilon);
-            if (s.Count > 1) root[1].ShouldBe(s[1], Epsilon);
-            if (s.Count > 2) root[2].ShouldBe(s[2], Epsilon);
-            if (s.Count > 3) root[3].ShouldBe(s[3], Epsilon);
-        }
-
         [Test]
-        public void QuarticEq_ZeroA_ReturnsCubicSolution()
+        public void Secant_FunctionIsNaN_ReturnsNaN()
         {
-            var a = 0.0;
-            double b, c, d, e;
-            CreateEq(1.0, 2.0, 3.0, out b, out c, out d, out e);
-            var root = Solver.QuarticEq(a, b, c, d, e);
-            root.Count.ShouldBe(3);
-            root[0].ShouldBe(1.0, Epsilon);
-            root[1].ShouldBe(2.0, Epsilon);
-            root[2].ShouldBe(3.0, Epsilon);
-        }
-
-        [Test]
-        public void QuarticEq_WithFourRoots_ReturnsSolitions()
-        {
-            var root = Solver.QuarticEq(1.0, 0.4, -6.49, 7.244, -2.112);
-            root.Count.ShouldBe(4);
-            root[0].ShouldBe(-3.2, Epsilon);
-            root[1].ShouldBe(0.5, Epsilon);
-            root[2].ShouldBe(1.1, Epsilon);
-            root[3].ShouldBe(1.2, Epsilon);
-        }
-
-        [Test]
-        public void PolynomialEq_EmptyCoefficients_ReturnsEmpty()
-        {
-            var root = Solver.PolynomialEq(new List<double>());
-            root.Count.ShouldBe(0);
-        }
-
-        [Test]
-        public void PolynomialEq_ZeroCoefficients_ReturnsEmpty()
-        {
-            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0 });
-            root.Count.ShouldBe(0);
-        }
-
-        [Test]
-        public void PolynomialEq_OneNonZeroCoefficients_ReturnsZero()
-        {
-            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0, 17.0, 0.0 });
-            root.Count.ShouldBe(1);
-            root[0].ShouldBe(0.0);
-        }
-
-        [Test]
-        public void PolynomialEq_QudraticAndMultipleZeroRoot_ReturnsExpected()
-        {
-            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, 0.0, 2.0, -3.0, 1.0 });
-            root.Count.ShouldBe(3);
-            root[0].ShouldBe(0.0);
-            root[1].ShouldBe(1.0);
-            root[2].ShouldBe(2.0);
-        }
-
-        [Test]
-        public void PolynomialEq_QubicOneRootAndZeroRoot_ReturnsTwoRoots()
-        {
-            var root = Solver.PolynomialEq(new List<double>() { 0.0, 0.0, -87.0, 41.0, -7.0, 1.0 });
-            root.Count.ShouldBe(2);
-            root[0].ShouldBe(0.0);
-            root[1].ShouldBe(3.0, 1e-13);
-        }
-
-        [Test]
-        public void PolynomialEq_Septic_ReturnsRoots()
-        {
-            var p = new Polynomial(new List<double>() { 0.0, 0.0, 1.0, 3.0, -87.0, 41.0, -7.0, 1.0 });
-            var root = Solver.PolynomialEq(p.p().ToList());
-            root.Count.ShouldBe(4);
-            p.p(root[0]).ShouldBe(0.0, 1e-13);
-            p.p(root[1]).ShouldBe(0.0, 1e-13);
-            p.p(root[2]).ShouldBe(0.0, 1e-13);
-            p.p(root[3]).ShouldBe(0.0, 1e-13);
-        }
-
-        [Test]
-        public void PolynomialEq_Sextic_ReturnsRoots()
-        {
-            var p = new Polynomial(new List<double>() { 2.0, -3.0, 3.0, -3.0, 3.0, -3.0, 1 });
-            var root = Solver.PolynomialEq(p.p().ToList());
-            root.Count.ShouldBe(2);
-            p.p(root[0]).ShouldBe(0.0, 1e-15);
-            p.p(root[1]).ShouldBe(0.0, 1e-15);
-        }
-
-        [Test]
-        public void PolynomialEq_Quintic_ReturnsThreeRoots()
-        {
-            var p = new Polynomial(new List<double>() { 120.0, -44, 14.0, -7.0, -4, 1.0 });
-            var root = Solver.PolynomialEq(p.p().ToList());
-            root.Count.ShouldBe(3);
-            root[0].ShouldBe(-3.0);
-            root[1].ShouldBe(2.0);
-            root[2].ShouldBe(5.0);
-        }
-
-        [Test]
-        public void PolynomialEq_QuinticNonInts_ReturnsFiveRoots()
-        {
-            var p = new Polynomial(new List<double>() { 54.0, -36.0, -37.5, 10.0, 8.5, 1.0 });
-            var root = Solver.PolynomialEq(p.p().ToList());
-            root.Count.ShouldBe(5);
-            root[0].ShouldBe(-6.0);
-            root[1].ShouldBe(-3.0);
-            root[2].ShouldBe(-2.0);
-            root[3].ShouldBe(1.0);
-            root[4].ShouldBe(1.5);
-        }
-
-        [TestCase(-17, 23, 1e-15)]
-        [TestCase(-17, 23, 1e-6)]
-        [TestCase(-17, 23, 1e-5)]
-        [TestCase(-17, 23, 1e-4)]
-        public void Bisection_ReturnsRootsWithEpsilon(double x0, double x1, double eps)
-        {
-            double a, b, c;
-            CreateEq(x0, x1, out a, out b, out c);
-            var p = new Polynomial(new List<double> { c, b, a });
-            var x = Solver.Bisection(100, eps, x0 - 5.0, x0 + 2.0, p.p);
-            var y = p.p(x);
-            y.ShouldBe(0.0, eps);
-        }
-
-        [Test]
-        public void Bisection_NoRoot_ReturnsNaN()
-        {
-            var p = new Polynomial(new List<double> { 1, 0, 1 });
-            var x = Solver.Bisection(10, 1e-15, 3, -1.1, p.p);
+            var p = new Polynomial(new List<double> {1, -3, double.NaN});
+            var x = Solver.Secant(100, 1e-15, 1.5, 2, p.p);
             x.ShouldBe(double.NaN);
-        }
-
-        [Test]
-        public void Bisection_RootAtX0_ReturnsRoot()
-        {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
-            var x = Solver.Bisection(100, 1e-15, 1, 1.5, p.p);
-            x.ShouldBe(1);
-        }
-
-        [Test]
-        public void Bisection_RootAtX1_ReturnsRoot()
-        {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
-            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
-            x.ShouldBe(2);
-        }
-
-        [Test]
-        public void Bisection_RootAtMiddle_ReturnsRoot()
-        {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
-            var x = Solver.Bisection(5, 1e-15, 1.5, 2.5, p.p);
-            x.ShouldBe(2);
-        }
-
-        [Test]
-        public void Bisection_RootCloseAtMiddle_ReturnsRoot()
-        {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
-            var x = Solver.Bisection(15, 1e-5, 1.4, 2.5, p.p);
-            x.ShouldBe(2, 1e-5);
-        }
-
-        [Test]
-        public void Bisection_FunctionIsNaN_ReturnsNaN()
-        {
-            var p = new Polynomial(new List<double> { 1, -3, double.NaN });
-            var x = Solver.Bisection(100, 1e-15, 1.5, 2, p.p);
-            x.ShouldBe(double.NaN);
-        }
-
-        [TestCase(-17, 23, 1e-15)]
-        [TestCase(-17, 23, 1e-6)]
-        [TestCase(-17, 23, 1e-5)]
-        [TestCase(-17, 23, 1e-4)]
-        public void Secant_ReturnsRootsWithEpsilon(double x0, double x1, double eps)
-        {
-            double a, b, c;
-            CreateEq(x0, x1, out a, out b, out c);
-            var p = new Polynomial(new List<double> { c, b, a });
-            var x = Solver.Secant(100, eps, x0 - 5.0, x0 + 2.0, p.p);
-            var y = p.p(x);
-            y.ShouldBe(0.0, eps);
         }
 
         [Test]
         public void Secant_NoRoot_ReturnsNaN()
         {
-            var p = new Polynomial(new List<double> { 1, 0, 1 });
+            var p = new Polynomial(new List<double> {1, 0, 1});
             var x = Solver.Secant(50, 1e-15, 3, -1.1, p.p);
             x.ShouldBe(double.NaN);
         }
 
         [Test]
+        public void Secant_RootAtMiddle_ReturnsRoot()
+        {
+            var p = new Polynomial(new List<double> {2, -3, 1});
+            var x = Solver.Secant(50, 1e-15, 1.5, 2.5, p.p);
+            x.ShouldBe(2);
+        }
+
+        [Test]
         public void Secant_RootAtX0_ReturnsRoot()
         {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var p = new Polynomial(new List<double> {2, -3, 1});
             var x = Solver.Secant(100, 1e-15, 1, 1.5, p.p);
             x.ShouldBe(1);
         }
@@ -445,62 +491,17 @@ namespace Math.Tests
         [Test]
         public void Secant_RootAtX1_ReturnsRoot()
         {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var p = new Polynomial(new List<double> {2, -3, 1});
             var x = Solver.Secant(100, 1e-15, 1.5, 2, p.p);
-            x.ShouldBe(2);
-        }
-
-        [Test]
-        public void Secant_RootAtMiddle_ReturnsRoot()
-        {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
-            var x = Solver.Secant(50, 1e-15, 1.5, 2.5, p.p);
             x.ShouldBe(2);
         }
 
         [Test]
         public void Secant_RootCloseAtMiddle_ReturnsRoot()
         {
-            var p = new Polynomial(new List<double> { 2, -3, 1 });
+            var p = new Polynomial(new List<double> {2, -3, 1});
             var x = Solver.Secant(10, 1e-15, 1.4, 2.5, p.p);
             x.ShouldBe(2, 1e-5);
-        }
-
-        [Test]
-        public void Secant_FunctionIsNaN_ReturnsNaN()
-        {
-            var p = new Polynomial(new List<double> { 1, -3, double.NaN });
-            var x = Solver.Secant(100, 1e-15, 1.5, 2, p.p);
-            x.ShouldBe(double.NaN);
-        }
-
-        private void CreateEq(double x0, double x1, out double a, out double b, out double c)
-        {
-            a = 1.0;
-            b = -(x0 + x1);
-            c = x0 * x1;
-        }
-
-        private void CreateEq(double x0, double x1, double x2, out double a, out double b, out double c, out double d)
-        {
-            a = 1.0;
-            b = -(x0 + x1 + x2);
-            c = x0 * x1 + x0 * x2 + x1 * x2;
-            d = -x0 * x1 * x2;
-        }
-
-        private void CreateEq(double x0, double x1, double x2, double x3, out double a, out double b, out double c, out double d, out double e)
-        {
-            a = 1.0;
-            b = -(x0 + x1 + x2 + x3);
-            c = x0 * x1 + x0 * x2 + x0 * x3 +
-                x1 * x2 + x1 * x3 +
-                x2 * x3;
-            d = -x1 * x2 * x3 -
-                 x0 * x2 * x3 -
-                 x0 * x1 * x3 -
-                 x0 * x1 * x2;
-            e = x0 * x1 * x2 * x3;
         }
     }
 }

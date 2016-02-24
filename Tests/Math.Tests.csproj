@@ -53,11 +53,12 @@
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />
     <Compile Include="FunctionTests.cs" />
-    <Compile Include="GeodesyTests.cs" />
-    <Compile Include="GpsGridLookupTests.cs" />
-    <Compile Include="GpsPointTests.cs" />
-    <Compile Include="GpsTrackTests.cs" />
-    <Compile Include="GpsTransformerTests.cs" />
+    <Compile Include="Gps\GeodesyTests.cs" />
+    <Compile Include="Gps\GpsGridLookupTests.cs" />
+    <Compile Include="Gps\GpsPointTests.cs" />
+    <Compile Include="Gps\GpsTrackExamples.cs" />
+    <Compile Include="Gps\GpsTrackTests.cs" />
+    <Compile Include="Gps\GpsTransformerTests.cs" />
     <Compile Include="Polar3DTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegressionTests.cs" />

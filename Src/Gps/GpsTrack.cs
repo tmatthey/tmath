@@ -28,7 +28,7 @@
 
 using System.Collections.Generic;
 
-namespace Math
+namespace Math.Gps
 {
     public class GpsTrack
     {
@@ -84,7 +84,7 @@ namespace Math
                 if (n > 0)
                 {
                     a.Normalize();
-                    a *= d / n;
+                    a *= d/n;
                 }
             }
             return a;

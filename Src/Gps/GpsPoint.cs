@@ -26,18 +26,42 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using NUnit.Framework;
-using Shouldly;
-
-namespace Math.Tests
+namespace Math.Gps
 {
-    [TestFixture]
-    public class GpsTransformerTests
+    public class GpsPoint
     {
-        [Test]
-        public void NoTest()
+        public double Latitude { get; set; } // theta
+        public double Longitude { get; set; } // phi
+        public double Elevation { get; set; } // radius
+
+        public static implicit operator Polar3D(GpsPoint g)
         {
-            1.ShouldBe(1);
+            return new Polar3D
+            {
+                Theta = Conversion.DegToRad(90.0 - g.Latitude),
+                Phi = Conversion.DegToRad(g.Longitude),
+                R = Geodesy.EarthRadius + g.Elevation
+            };
+        }
+
+        public static implicit operator Vector3D(GpsPoint g)
+        {
+            return (Polar3D) g;
+        }
+
+        public static implicit operator GpsPoint(Polar3D p)
+        {
+            return new GpsPoint
+            {
+                Latitude = 90.0 - Conversion.RadToDeg(p.Theta),
+                Longitude = Conversion.RadToDeg(p.Phi),
+                Elevation = p.R - Geodesy.EarthRadius
+            };
+        }
+
+        public static implicit operator GpsPoint(Vector3D v)
+        {
+            return (Polar3D) v;
         }
     }
 }
