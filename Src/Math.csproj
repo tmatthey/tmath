@@ -45,11 +45,12 @@
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="Gps\Distance.cs" />
     <Compile Include="Gps\Geodesy.cs" />
-    <Compile Include="Gps\GpsGridLookup.cs" />
+    <Compile Include="Gps\GridLookup.cs" />
     <Compile Include="Gps\GpsPoint.cs" />
     <Compile Include="Gps\GpsTrack.cs" />
-    <Compile Include="Gps\GpsTransformer.cs" />
+    <Compile Include="Gps\Transformer.cs" />
     <Compile Include="Polar3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regression.cs" />

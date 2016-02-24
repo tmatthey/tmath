@@ -33,7 +33,7 @@ using Shouldly;
 namespace Math.Tests.Gps
 {
     [TestFixture]
-    public class GpsGridLookupTests
+    public class GridLookupTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
@@ -51,7 +51,7 @@ namespace Math.Tests.Gps
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
             var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var trackCur = new GpsTransformer(gpsTrackCur.Track, gpsTrackRef.Center);
+            var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
             var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, gpsTrackRef.Grid.Size);
             var i = -1;
             foreach (var point in neighboursCur)
@@ -79,9 +79,9 @@ namespace Math.Tests.Gps
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
             var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var trackCur = new GpsTransformer(gpsTrackCur.Track, gpsTrackRef.Center);
+            var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
             var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, gpsTrackRef.Grid.Size);
-            var neighboursRef = GpsGridLookup.ReferenceOrdering(neighboursCur);
+            var neighboursRef = GridLookup.ReferenceOrdering(neighboursCur);
             var i = -1;
             foreach (var point in neighboursRef)
             {

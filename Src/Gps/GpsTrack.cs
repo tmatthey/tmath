@@ -47,13 +47,13 @@ namespace Math.Gps
         public Vector3D Center { get; private set; }
         public Vector3D RotationAxis { get; private set; }
         public double RotationAngle { get; private set; }
-        public GpsTransformer TransformedTrack { get; private set; }
-        public GpsGridLookup Grid { get; private set; }
+        public Transformer TransformedTrack { get; private set; }
+        public GridLookup Grid { get; private set; }
 
         public void CreateLookup(GpsPoint center, double gridSize)
         {
-            TransformedTrack = new GpsTransformer(Track, center);
-            Grid = new GpsGridLookup(TransformedTrack, gridSize);
+            TransformedTrack = new Transformer(Track, center);
+            Grid = new GridLookup(TransformedTrack, gridSize);
         }
 
         public static void CalculateRotation(Vector3D center, out Vector3D axis, out double angle)

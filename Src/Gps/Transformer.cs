@@ -30,9 +30,9 @@ using System.Collections.Generic;
 
 namespace Math.Gps
 {
-    public class GpsTransformer
+    public class Transformer
     {
-        public GpsTransformer(IList<GpsPoint> gpsTrack, Vector3D center)
+        public Transformer(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
             Center = center;
             Vector3D axis;

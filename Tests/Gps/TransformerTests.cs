@@ -34,7 +34,7 @@ using Shouldly;
 namespace Math.Tests.Gps
 {
     [TestFixture]
-    public class GpsTransformerTests
+    public class TransformerTests
     {
         [Test]
         public void GpsTransformer_Constructor_TrackEqualCountAsInput()
@@ -47,7 +47,7 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new GpsTransformer(track, center);
+            var transformed = new Transformer(track, center);
             transformed.Track.Count.ShouldBe(track.Count);
         }
 
@@ -62,7 +62,7 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new GpsTransformer(track, center);
+            var transformed = new Transformer(track, center);
             var track2D = transformed.Track;
             track2D[0].X.ShouldBe(transformed.Min.X);
             track2D[0].Y.ShouldBe(transformed.Max.Y);
@@ -86,7 +86,7 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new GpsTransformer(track, center);
+            var transformed = new Transformer(track, center);
             var track2D = transformed.Track;
             track2D[0].X.ShouldBe(-Geodesy.DistanceOneDeg);
             track2D[0].Y.ShouldBe(Geodesy.DistanceOneDeg);
