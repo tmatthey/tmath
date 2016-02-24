@@ -37,7 +37,7 @@ namespace Math.Tests.Gps
     public class TransformerTests
     {
         [Test]
-        public void GpsTransformer_Constructor_TrackEqualCountAsInput()
+        public void Transformer_Constructor_TrackEqualCountAsInput()
         {
             var track = new List<GpsPoint>
             {
@@ -52,7 +52,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsTransformer_ConstructorQudraticTrack_CreatesCorrectTransformedCoordinatesEqualMinMax()
+        public void Transformer_ConstructorQudraticTrack_CreatesCorrectTransformedCoordinatesEqualMinMax()
         {
             var track = new List<GpsPoint>
             {
@@ -75,8 +75,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void
-            GpsTransformer_ConstructorQudraticTrackOneDegFromOrigin_TransformedCoordinatesDistanceHaveOneDegScale()
+        public void Transformer_ConstructorQudraticTrackOneDegFromOrigin_TransformedCoordinatesDistanceHaveOneDegScale()
         {
             var track = new List<GpsPoint>
             {

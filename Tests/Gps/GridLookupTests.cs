@@ -38,7 +38,7 @@ namespace Math.Tests.Gps
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void GpsGridLookup_FindWithPointFarAway_ReturnsEmptyList()
+        public void GridLookup_FindWithPointFarAway_ReturnsEmptyList()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
@@ -46,7 +46,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsGridLookup_FindWithTrack_ReturnsCorretOrderedList()
+        public void GridLookup_FindWithTrack_ReturnsCorretOrderedList()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
@@ -74,7 +74,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsGridLookup_ReferenceOrdering_ReturnsCorretOrderedList()
+        public void GridLookup_ReferenceOrdering_ReturnsCorretOrderedList()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);

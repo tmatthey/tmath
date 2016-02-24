@@ -53,6 +53,7 @@
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />
     <Compile Include="FunctionTests.cs" />
+    <Compile Include="Gps\AnalyzerTests.cs" />
     <Compile Include="Gps\GeodesyTests.cs" />
     <Compile Include="Gps\GridLookupTests.cs" />
     <Compile Include="Gps\GpsPointTests.cs" />
