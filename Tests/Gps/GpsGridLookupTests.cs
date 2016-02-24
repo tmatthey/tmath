@@ -71,8 +71,18 @@ namespace Math.Tests.Gps
                 j.ShouldBeGreaterThan(i);
                 i = j;
             }
+        }
+
+        [Test]
+        public void GpsGridLookup_ReferenceOrdering_ReturnsCorretOrderedList()
+        {
+            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
+            var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
+            var trackCur = new GpsTransformer(gpsTrackCur.Track, gpsTrackRef.Center);
+            var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, gpsTrackRef.Grid.Size);
             var neighboursRef = GpsGridLookup.ReferenceOrdering(neighboursCur);
-            i = -1;
+            var i = -1;
             foreach (var point in neighboursRef)
             {
                 var j = -1;
