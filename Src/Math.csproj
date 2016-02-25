@@ -46,6 +46,7 @@
     <Compile Include="Conversion.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Gps\Analyzer.cs" />
+    <Compile Include="Gps\AnalyzerTrackWrapper.cs" />
     <Compile Include="Gps\Distance.cs" />
     <Compile Include="Gps\Geodesy.cs" />
     <Compile Include="Gps\GridLookup.cs" />

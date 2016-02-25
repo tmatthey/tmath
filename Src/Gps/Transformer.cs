@@ -62,5 +62,24 @@ namespace Math.Gps
         public double RotationAngle { get; private set; }
         public Vector2D Min { get; private set; }
         public Vector2D Max { get; private set; }
+
+        public static IList<double> Distance(IList<Vector2D> track)
+        {
+            var list = new List<double>();
+            var d = 0.0;
+            for (var i = 0; i < track.Count; i++)
+            {
+                if (i == 0)
+                {
+                    list.Add(d);
+                }
+                else
+                {
+                    d += track[i - 1].Distance(track[i]);
+                    list.Add(d);
+                }
+            }
+            return list;
+        }
     }
 }

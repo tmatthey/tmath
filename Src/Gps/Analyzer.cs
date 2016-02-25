@@ -25,15 +25,39 @@
  * SOFTWARE.
  * ***** END LICENSE BLOCK *****
  */
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Math.Gps
 {
     public class Analyzer
     {
+
+        public Analyzer(IList<GpsPoint> reference, IList<GpsPoint> current, double radius)
+        {
+            var gpsTrackRef = new GpsTrack(reference);
+            gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
+            var gpsTrackCur = new GpsTrack(current);
+            var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
+            var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, radius);
+            var neighboursRef = GridLookup.ReferenceOrdering(neighboursCur);
+
+            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef);
+            Current = new AnalyzerTrackWrapper(current, trackCur.Track, neighboursCur);
+
+            var x = new List<double>();
+            var y = new List<double>();
+            foreach (var point in neighboursRef)
+            {
+                x.Add(point.First().Reference);
+                y.Add(point.First().Current);
+            }
+            double a, b;
+            Regression.Linear(x, y, out a, out b);
+        }
+
+        public AnalyzerTrackWrapper Current { get; private set; }
+        public AnalyzerTrackWrapper Reference { get; private set; }
     }
 }

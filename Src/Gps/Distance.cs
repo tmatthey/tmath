@@ -28,17 +28,17 @@
 
 namespace Math.Gps
 {
-    public class GpsDistance
+    public class Distance
     {
-        public GpsDistance(int reference, int current, double distance)
+        public Distance(int reference, int current, double dist)
         {
             Reference = reference;
             Current = current;
-            Distance = distance;
+            Dist = dist;
         }
 
         public int Reference { get; private set; }
         public int Current { get; private set; }
-        public double Distance { get; private set; }
+        public double Dist { get; private set; }
     }
 }

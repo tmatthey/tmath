@@ -27,34 +27,23 @@
  */
 
 using System.Collections.Generic;
-using Math.Gps;
-using NUnit.Framework;
-using Shouldly;
+using System.Linq;
 
-namespace Math.Tests.Gps
+namespace Math.Gps
 {
-    [TestFixture]
-    public class AnalyzerTests
+    public class AnalyzerTrackWrapper
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
-        [Test]
-        public void AnalyzerTests_TotalDistance_ReturnsExpeced()
+        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours)
         {
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
-            analyzer.Reference.TotalDistance.ShouldBe(Distance(analyzer.Reference.Track), 1e-1);
-            analyzer.Current.TotalDistance.ShouldBe(Distance(analyzer.Current.Track), 1e-1);
+            Track = track;
+            Transformed = transformed;
+            Neighbours = neighbours;
+            Distance = Transformer.Distance(transformed);
         }
-
-        private double Distance(IList<GpsPoint> track)
-        {
-            var d = 0.0;
-            for (var i = 0; i + 1 < track.Count; i++)
-            {
-                d += Geodesy.Haversine(track[i].Latitude, track[i].Longitude, track[i + 1].Latitude,
-                    track[i + 1].Longitude);
-            }
-            return d;
-        }
+        public IList<GpsPoint> Track { get; private set; }
+        public IList<Vector2D> Transformed { get; private set; }
+        public IList<List<Distance>> Neighbours { get; private set; }
+        public IList<double> Distance { get; private set; }
+        public double TotalDistance { get { return Distance.LastOrDefault(); } }
     }
 }

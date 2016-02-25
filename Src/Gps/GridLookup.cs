@@ -66,14 +66,14 @@ namespace Math.Gps
         public double Size { get; private set; }
         public List<Vector2D> Track { get; private set; }
 
-        public IList<GpsDistance> Find(Vector2D point, double radius)
+        public IList<Distance> Find(Vector2D point, double radius)
         {
             return Find(point, radius, -1);
         }
 
-        public IList<List<GpsDistance>> Find(IList<Vector2D> track, double radius)
+        public IList<List<Distance>> Find(IList<Vector2D> track, double radius)
         {
-            var list = new List<List<GpsDistance>>();
+            var list = new List<List<Distance>>();
             for (var i = 0; i < track.Count; i++)
             {
                 var a = Find(track[i], radius, i);
@@ -86,16 +86,16 @@ namespace Math.Gps
             return list;
         }
 
-        public static IList<List<GpsDistance>> ReferenceOrdering(IList<List<GpsDistance>> current)
+        public static IList<List<Distance>> ReferenceOrdering(IList<List<Distance>> current)
         {
-            var map = new Dictionary<int, List<GpsDistance>>();
+            var map = new Dictionary<int, List<Distance>>();
             foreach (var point in current)
             {
                 foreach (var distance in point)
                 {
                     if (!map.ContainsKey(distance.Reference))
                     {
-                        map[distance.Reference] = new List<GpsDistance>();
+                        map[distance.Reference] = new List<Distance>();
                     }
                     map[distance.Reference].Add(distance);
                 }
@@ -103,19 +103,19 @@ namespace Math.Gps
 
             foreach (var point in map)
             {
-                point.Value.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+                point.Value.Sort((x, y) => x.Dist.CompareTo(y.Dist));
             }
 
             return map.OrderBy(i => i.Key).Select(point => point.Value).ToList();
         }
 
-        private List<GpsDistance> Find(Vector2D point, double radius, int referenceIndex)
+        private List<Distance> Find(Vector2D point, double radius, int referenceIndex)
         {
             int minI, minJ;
             Index(point - _gridOffset, out minI, out minJ);
             int maxI, maxJ;
             Index(point + _gridOffset, out maxI, out maxJ);
-            var list = new List<GpsDistance>();
+            var list = new List<Distance>();
             if (maxI < 0 || maxJ < 0 || NX <= minI || NY <= minJ)
             {
                 return list;
@@ -134,12 +134,12 @@ namespace Math.Gps
                         var r = point.Distance(pt);
                         if (Comparison.IsLessEqual(r, radius))
                         {
-                            list.Add(new GpsDistance(k, referenceIndex, r));
+                            list.Add(new Distance(k, referenceIndex, r));
                         }
                     }
                 }
             }
-            list.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            list.Sort((x, y) => x.Dist.CompareTo(y.Dist));
             return list;
         }
 
