@@ -63,7 +63,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Vector2D) obj);
+            return obj.GetType() == GetType() && IsEqual((Vector2D)obj);
         }
 
         public override int GetHashCode()
@@ -71,7 +71,7 @@ namespace Math
             unchecked
             {
                 var hashCode = X.GetHashCode();
-                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ Y.GetHashCode();
                 return hashCode;
             }
         }
@@ -130,7 +130,7 @@ namespace Math
 
         public double Dot(Vector2D v)
         {
-            return X*v.X + Y*v.Y;
+            return X * v.X + Y * v.Y;
         }
 
         public static Vector2D operator +(Vector2D v1, Vector2D v2)
@@ -188,6 +188,35 @@ namespace Math
             return res;
         }
 
+        public static double PerpendicularDistance(Vector2D a, Vector2D b, Vector2D p)
+        {
+            var l = a.Distance(b);
+            if (Comparison.IsZero(l))
+            {
+                return a.Distance(p);
+            }
+            return System.Math.Abs(Cross(b - a, p - a) / l);
+        }
+
+        public static double PerpendicularSegementDistance(Vector2D a, Vector2D b, Vector2D p)
+        {
+            var dist = PerpendicularDistance(a, b, p);
+            if (a == b)
+                return dist;
+
+            if ((b - a) * (p - b) >= 0.0)
+                return b.Distance(p);
+            if ((a - b) * (p - a) >= 0.0)
+                return a.Distance(p);
+
+            return dist;
+        }
+
+        public static double Cross(Vector2D a, Vector2D b)
+        {
+            return a.X * b.Y - a.Y * b.X;
+        }
+
         private void Add(Vector2D v)
         {
             X += v.X;
@@ -214,7 +243,7 @@ namespace Math
 
         private static double Norm2(double x, double y)
         {
-            return x*x + y*y;
+            return x * x + y * y;
         }
 
         private static double Norm(double x, double y)

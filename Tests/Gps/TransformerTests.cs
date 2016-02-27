@@ -111,7 +111,7 @@ namespace Math.Tests.Gps
             };
             var center = new GpsPoint { Longitude = 180, Latitude = 0 };
             var transformed = new Transformer(track, center);
-            var distance = Transformer.Distance(transformed.Track);
+            var distance = transformed.Distance;
             distance.Count.ShouldBe(track.Count);
             distance.Last().ShouldBe(4 * 2* Geodesy.DistanceOneDeg);
         }

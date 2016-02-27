@@ -46,6 +46,24 @@ namespace Math.Tests.Gps
             analyzer.Current.TotalDistance.ShouldBe(Distance(analyzer.Current.Track), 1e-1);
         }
 
+        [Test]
+        public void AnalyzerTests_Neighbours_InRange()
+        {
+            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
+            foreach (var point in analyzer.Reference.Neighbours)
+            {
+                foreach (var p in point)
+                {
+                    var r = p.Reference;
+                    var c = p.Current;
+                    r.ShouldBeGreaterThanOrEqualTo(0);
+                    r.ShouldBeLessThan(analyzer.Reference.Track.Count);
+                    c.ShouldBeGreaterThanOrEqualTo(0);
+                    c.ShouldBeLessThan(analyzer.Current.Track.Count);
+                }
+            }
+        }
+
         private double Distance(IList<GpsPoint> track)
         {
             var d = 0.0;

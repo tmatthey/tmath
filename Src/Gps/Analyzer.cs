@@ -40,21 +40,117 @@ namespace Math.Gps
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
+
             var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, radius);
-            var neighboursRef = GridLookup.ReferenceOrdering(neighboursCur);
+            var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, gpsTrackRef.TransformedTrack);
+            var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, gpsTrackRef.TransformedTrack, trackCur);
 
-            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef);
-            Current = new AnalyzerTrackWrapper(current, trackCur.Track, neighboursCur);
+            var neighboursRef = GridLookup.ReferenceOrdering(adjustedNeighboursCur);
+            var d = CommonCurLength(neighboursCur, trackCur.Displacement);
 
-            var x = new List<double>();
-            var y = new List<double>();
-            foreach (var point in neighboursRef)
+            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance);
+            Current = new AnalyzerTrackWrapper(current, trackCur.Track, reducedNeighboursCur, trackCur.Distance);
+        }
+
+        private static double CommonCurLength(IList<List<Distance>> neighboursCur, IList<double> displacement)
+        {
+            var d = 0.0;
+            for (var i = 1; i < neighboursCur.Count; i++)
             {
-                x.Add(point.First().Reference);
-                y.Add(point.First().Current);
+                if (neighboursCur[i - 1][0].Current + 1 == neighboursCur[i][0].Current)
+                    d += displacement[i];
             }
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            return d;
+        }
+
+        private static List<List<Distance>> AjustDistance(IList<List<Distance>> neighboursCur, Transformer trackRef, Transformer trackCur)
+        {
+            var adjsuteddNeighboursCur = new List<List<Distance>>();
+            foreach (var points in neighboursCur)
+            {
+                var newPoints = new List<Distance>();
+                foreach (var d in points)
+                {
+                    var d0 = new Distance(d);
+                    var d1 = new Distance(d);
+                    var ir = d.Reference;
+                    var ic = d.Current;
+                    var refDp = trackRef.Track[ir];
+                    var curDp = trackCur.Track[ic];
+                    if (ir > 0)
+                    {
+                        d0 = new Distance(ir - 1, ic, Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp), Fraction(trackRef.Track[ir - 1], refDp, curDp));
+                    }
+                    if (ir + 1 < trackRef.Track.Count)
+                    {
+                        d1 = new Distance(ir, ic, Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp), Fraction(refDp, trackRef.Track[ir + 1], curDp));
+                    }
+                    var dNew = (d0.Dist < d1.Dist ? d0 : d1);
+
+                    if (newPoints.All(q => q.Reference != dNew.Reference))
+                    {
+                        newPoints.Add(dNew);
+                    }
+                }
+                newPoints.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
+                adjsuteddNeighboursCur.Add(newPoints);
+            }
+            return adjsuteddNeighboursCur;
+        }
+
+        private static double Fraction(Vector2D x0, Vector2D x1, Vector2D p)
+        {
+            var d = (x1 - x0).Norm2();
+            if (Comparison.IsZero(d))
+                return 0.0;
+            var a = (p - x0);
+            var b = (x1 - x0);
+            var u = (a * b) / d;
+            return System.Math.Max(System.Math.Min(u, 1.0), 0.0);
+
+        }
+
+        private static IList<List<Distance>> RemoveNonAdjacentPoints(double radius, IList<List<Distance>> neighboursCur, Transformer trackRef)
+        {
+            var index = 0;
+            var reducedNeighboursCur = new List<List<Distance>>();
+            foreach (var points in neighboursCur)
+            {
+                var refList = points.Select(p => p.Reference).ToList();
+                refList.Sort();
+
+                var segments = new List<List<int>>();
+                for (var i = 1; i < refList.Count; )
+                {
+                    if (Comparison.IsLessEqual(radius,
+                        trackRef.Distance[refList[i]] -
+                        trackRef.Distance[refList[i - 1]]))
+                    {
+                        segments.Add(refList.GetRange(0, i));
+                        refList.RemoveRange(0, i);
+                        i = 1;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+                if (refList.Count > 0)
+                {
+                    segments.Add(refList);
+                }
+                var segmentAvg =
+                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum / s.Count).ToList();
+                var segmentDiff =
+                    segments.Select(s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d) / s.Count - index)))
+                        .ToList();
+                var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());
+                var newPoint = segments[minSegmentIndex].Select(s => points.First(p => p.Reference == s)).ToList();
+                newPoint.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
+                reducedNeighboursCur.Add(newPoint);
+                index = (int)segmentAvg[minSegmentIndex];
+            }
+            return reducedNeighboursCur;
         }
 
         public AnalyzerTrackWrapper Current { get; private set; }

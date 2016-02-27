@@ -54,6 +54,21 @@ namespace Math.Gps
                 Max.X = System.Math.Max(v.X, Max.X);
                 Max.Y = System.Math.Max(v.Y, Max.Y);
             }
+
+            Distance = new List<double>();;
+            Displacement = new List<double>();;
+            var d = 0.0;
+            for (var i = 0; i < Track.Count; i++)
+            {
+                var ds = 0.0;
+                if (i > 0)
+                {
+                    ds = Track[i - 1].Distance(Track[i]);
+                }
+                d += ds;
+                Distance.Add(d);
+                Displacement.Add(ds);
+            }
         }
 
         public Vector3D Center { get; private set; }
@@ -62,24 +77,7 @@ namespace Math.Gps
         public double RotationAngle { get; private set; }
         public Vector2D Min { get; private set; }
         public Vector2D Max { get; private set; }
-
-        public static IList<double> Distance(IList<Vector2D> track)
-        {
-            var list = new List<double>();
-            var d = 0.0;
-            for (var i = 0; i < track.Count; i++)
-            {
-                if (i == 0)
-                {
-                    list.Add(d);
-                }
-                else
-                {
-                    d += track[i - 1].Distance(track[i]);
-                    list.Add(d);
-                }
-            }
-            return list;
-        }
+        public IList<double> Distance { get; private set; }
+        public IList<double> Displacement { get; private set; }
     }
 }

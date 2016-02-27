@@ -35,10 +35,28 @@ namespace Math.Gps
             Reference = reference;
             Current = current;
             Dist = dist;
+            Fraction = 0.0;
+        }
+
+        public Distance(int reference, int current, double dist, double fraction)
+        {
+            Reference = reference;
+            Current = current;
+            Dist = dist;
+            Fraction = fraction;
+        }
+
+        public Distance(Distance d)
+        {
+            Reference = d.Reference;
+            Current = d.Current;
+            Dist = d.Dist;
+            Fraction = d.Fraction;
         }
 
         public int Reference { get; private set; }
         public int Current { get; private set; }
         public double Dist { get; private set; }
+        public double Fraction { get; private set; }
     }
 }

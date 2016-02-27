@@ -33,12 +33,12 @@ namespace Math.Gps
 {
     public class AnalyzerTrackWrapper
     {
-        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours)
+        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours, IList<double> distance)
         {
             Track = track;
             Transformed = transformed;
             Neighbours = neighbours;
-            Distance = Transformer.Distance(transformed);
+            Distance = distance;
         }
         public IList<GpsPoint> Track { get; private set; }
         public IList<Vector2D> Transformed { get; private set; }

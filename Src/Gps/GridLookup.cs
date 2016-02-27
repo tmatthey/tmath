@@ -97,7 +97,7 @@ namespace Math.Gps
                     {
                         map[distance.Reference] = new List<Distance>();
                     }
-                    map[distance.Reference].Add(distance);
+                    map[distance.Reference].Add(new Distance(distance));
                 }
             }
 
