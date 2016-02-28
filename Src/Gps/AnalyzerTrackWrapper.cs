@@ -33,17 +33,35 @@ namespace Math.Gps
 {
     public class AnalyzerTrackWrapper
     {
-        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours, IList<double> distance)
+        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours, IList<double> distance, IList<double> displacement, bool refTrack)
         {
             Track = track;
             Transformed = transformed;
             Neighbours = neighbours;
             Distance = distance;
+            Displacement = displacement;
+            CommonDistance = 0.0;
+            for (var i = 1; i < neighbours.Count; i++)
+            {
+                if (refTrack)
+                {
+                    if (neighbours[i - 1][0].Reference + 1 == neighbours[i][0].Reference)
+                        CommonDistance += displacement[i];
+                    
+                }
+                else
+                {
+                    if (neighbours[i - 1][0].Current + 1 == neighbours[i][0].Current)
+                        CommonDistance += displacement[i];
+                }
+            }
         }
         public IList<GpsPoint> Track { get; private set; }
         public IList<Vector2D> Transformed { get; private set; }
         public IList<List<Distance>> Neighbours { get; private set; }
         public IList<double> Distance { get; private set; }
+        public IList<double> Displacement { get; private set; }
         public double TotalDistance { get { return Distance.LastOrDefault(); } }
+        public double CommonDistance { get; private set; }
     }
 }

@@ -76,5 +76,37 @@ namespace Math.Tests.Gps
             v.Y.ShouldBe(w.Y, 1e-7);
             v.Z.ShouldBe(w.Z, 1e-7);
         }
+
+        [Test]
+        public void GpsPoint_InterpolateZeroFraction_ReturnsSecond()
+        {
+            var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
+            var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
+            var g = a.Interpolate(b, 0.0);
+            g.Latitude.ShouldBe(b.Latitude, 1e-10);
+            g.Longitude.ShouldBe(b.Longitude, 1e-10);
+            g.Elevation.ShouldBe(b.Elevation, 1e-10);
+        }
+        [Test]
+        public void GpsPoint_InterpolateOneFraction_ReturnsFirst()
+        {
+            var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
+            var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
+            var g = a.Interpolate(b, 1.0);
+            g.Latitude.ShouldBe(a.Latitude, 1e-10);
+            g.Longitude.ShouldBe(a.Longitude, 1e-10);
+            g.Elevation.ShouldBe(a.Elevation, 1e-10);
+        }
+
+        [Test]
+        public void GpsPoint_InterpolateHalfFraction_ReturnsInterpolated()
+        {
+            var a = new GpsPoint() { Longitude = 91.0, Latitude = 1.0, Elevation = 11.0 };
+            var b = new GpsPoint() { Longitude = 93.0, Latitude = -1.0, Elevation = 12.0 };
+            var g = a.Interpolate(b, 0.5);
+            g.Latitude.ShouldBe(0.0, 1e-7);
+            g.Longitude.ShouldBe(92, 1e-7);
+            g.Elevation.ShouldBe(11.5, 1e-7);
+        }
     }
 }

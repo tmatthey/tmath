@@ -34,6 +34,15 @@ namespace Math.Gps
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
 
+        public GpsPoint Interpolate(GpsPoint g, double x)
+        {
+            Vector3D a = this;
+            Vector3D b = g;
+            GpsPoint q = a*x + b*(1.0-x);
+            q.Elevation = Elevation*x + g.Elevation*(1.0-x);
+            return q;
+        }
+
         public static implicit operator Polar3D(GpsPoint g)
         {
             return new Polar3D

@@ -51,9 +51,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = u*d;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
+            var w = u * d;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace Math.Tests
             var v = new Vector2D(d, e);
             var x = a - d;
             var y = b - e;
-            v.Distance(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
+            v.Distance(u).ShouldBe(System.Math.Sqrt(x * x + y * y));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            v.Dot(u).ShouldBe(a*d + b*e);
+            v.Dot(u).ShouldBe(a * d + b * e);
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace Math.Tests
             var a = -17.0;
             var b = -19.0;
             var v = new Vector2D(a, b);
-            v.Norm().ShouldBe(System.Math.Sqrt(a*a + b*b));
+            v.Norm().ShouldBe(System.Math.Sqrt(a * a + b * b));
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace Math.Tests
             var a = 17.0;
             var b = 19.0;
             var v = new Vector2D(a, b);
-            v.Norm2().ShouldBe(a*a + b*b);
+            v.Norm2().ShouldBe(a * a + b * b);
         }
 
         [Test]
@@ -214,9 +214,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = u/d;
-            w.X.ShouldBe(a/d);
-            w.Y.ShouldBe(b/d);
+            var w = u / d;
+            w.X.ShouldBe(a / d);
+            w.Y.ShouldBe(b / d);
         }
 
         [Test]
@@ -226,9 +226,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = d*u;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
+            var w = d * u;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            var w = u*v;
+            var w = u * v;
             w.ShouldBe(u.Dot(v));
         }
 
@@ -273,6 +273,42 @@ namespace Math.Tests
             var v = new Vector2D();
             var u = v.Normalized();
             u.Norm().ShouldBe(0.0);
+        }
+
+        [TestCase(0, 1, 1)]
+        [TestCase(0, 2, 2)]
+        [TestCase(-34, 1, 1)]
+        [TestCase(-34, 2, 2)]
+        [TestCase(0, 0, 0)]
+        public void Vector2D_PerpendicularDistance_RetursnExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Vector2D.PerpendicularDistance(a, b, p).ShouldBe(l);
+        }
+        [TestCase(1, 1, 1)]
+        [TestCase(1, 2, 2)]
+        [TestCase(1.5, 1, 1)]
+        [TestCase(1.5, 2, 2)]
+        [TestCase(2, 1, 1)]
+        [TestCase(2, 2, 2)]
+        [TestCase(1, -1, 1)]
+        [TestCase(1, -2, 2)]
+        [TestCase(1.5, -1, 1)]
+        [TestCase(1.5, -2, 2)]
+        [TestCase(2, -1, 1)]
+        [TestCase(2, -2, 2)]
+        [TestCase(0, 1, 1.4142135623731)]
+        [TestCase(-1, 2, 2.82842712474619)]
+        [TestCase(0, 0, 1)]
+        [TestCase(3, 0, 1)]
+        public void Vector2D_PerpendicularSegementDistance_RetursnExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Vector2D.PerpendicularSegementDistance(a, b, p).ShouldBe(l, 1e-13);
         }
     }
 }

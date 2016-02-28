@@ -41,26 +41,20 @@ namespace Math.Gps
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
 
-            var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, radius);
+            var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, radius*2.0);
             var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, gpsTrackRef.TransformedTrack);
             var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, gpsTrackRef.TransformedTrack, trackCur);
+            var cutNeighboursCur = CutOffDistance(adjustedNeighboursCur, radius);
 
-            var neighboursRef = GridLookup.ReferenceOrdering(adjustedNeighboursCur);
-            var d = CommonCurLength(neighboursCur, trackCur.Displacement);
+            var neighboursRef = GridLookup.ReferenceOrdering(cutNeighboursCur);
 
-            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance);
-            Current = new AnalyzerTrackWrapper(current, trackCur.Track, reducedNeighboursCur, trackCur.Distance);
+            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance, gpsTrackRef.TransformedTrack.Displacement, true);
+            Current = new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance, trackCur.Displacement, false);
         }
 
-        private static double CommonCurLength(IList<List<Distance>> neighboursCur, IList<double> displacement)
+        private static List<List<Distance>> CutOffDistance(IList<List<Distance>> neighboursCur, double radius)
         {
-            var d = 0.0;
-            for (var i = 1; i < neighboursCur.Count; i++)
-            {
-                if (neighboursCur[i - 1][0].Current + 1 == neighboursCur[i][0].Current)
-                    d += displacement[i];
-            }
-            return d;
+            return neighboursCur.Select(points => (from d in points where d.Dist <= radius select new Distance(d)).ToList()).Where(newPoints => newPoints.Count > 0).ToList();
         }
 
         private static List<List<Distance>> AjustDistance(IList<List<Distance>> neighboursCur, Transformer trackRef, Transformer trackCur)
