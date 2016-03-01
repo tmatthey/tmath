@@ -73,11 +73,11 @@ namespace Math.Gps
                     var curDp = trackCur.Track[ic];
                     if (ir > 0)
                     {
-                        d0 = new Distance(ir - 1, ic, Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp), Fraction(trackRef.Track[ir - 1], refDp, curDp));
+                        d0 = new Distance(ir - 1, ic, Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp), Vector2D.PerpendicularSegementParameter(trackRef.Track[ir - 1], refDp, curDp));
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
-                        d1 = new Distance(ir, ic, Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp), Fraction(refDp, trackRef.Track[ir + 1], curDp));
+                        d1 = new Distance(ir, ic, Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp), Vector2D.PerpendicularSegementParameter(refDp, trackRef.Track[ir + 1], curDp));
                     }
                     var dNew = (d0.Dist < d1.Dist ? d0 : d1);
 
@@ -92,17 +92,6 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
-        private static double Fraction(Vector2D x0, Vector2D x1, Vector2D p)
-        {
-            var d = (x1 - x0).Norm2();
-            if (Comparison.IsZero(d))
-                return 0.0;
-            var a = (p - x0);
-            var b = (x1 - x0);
-            var u = (a * b) / d;
-            return System.Math.Max(System.Math.Min(u, 1.0), 0.0);
-
-        }
 
         private static IList<List<Distance>> RemoveNonAdjacentPoints(double radius, IList<List<Distance>> neighboursCur, Transformer trackRef)
         {

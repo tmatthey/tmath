@@ -30,16 +30,37 @@ namespace Math.Gps
 {
     public class GpsPoint
     {
+
+        public GpsPoint() { }
+        public GpsPoint(double latitude, double longitude)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+            
+        }
+        public GpsPoint(GpsPoint g)
+        {
+            Latitude = g.Latitude;
+            Longitude = g.Longitude;
+            Elevation = g.Elevation;
+        }
+
         public double Latitude { get; set; } // theta
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
 
         public GpsPoint Interpolate(GpsPoint g, double x)
         {
-            Vector3D a = this;
-            Vector3D b = g;
-            GpsPoint q = a*x + b*(1.0-x);
-            q.Elevation = Elevation*x + g.Elevation*(1.0-x);
+            Vector3D x0 = this;
+            Vector3D x1 = g;
+            var angle = x0.Angle(x1);
+            var q = new GpsPoint(g);
+            if (!Comparison.IsZero(angle))
+            {                
+                var axis = x0^x1;
+                q = x0.Rotate(axis, angle*x);
+            }
+            q.Elevation = Elevation*(1.0-x) + g.Elevation*x;
             return q;
         }
 

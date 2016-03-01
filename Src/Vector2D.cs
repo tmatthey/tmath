@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
+ * obtaining x0 copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy,
  * modify, merge, publish, distribute, sublicense, and/or sell copies
@@ -198,18 +198,33 @@ namespace Math
             return System.Math.Abs(Cross(b - a, p - a) / l);
         }
 
-        public static double PerpendicularSegementDistance(Vector2D a, Vector2D b, Vector2D p)
+        public static double PerpendicularSegementDistance(Vector2D x0, Vector2D x1, Vector2D p)
         {
-            var dist = PerpendicularDistance(a, b, p);
-            if (a == b)
+            var dist = PerpendicularDistance(x0, x1, p);
+            if (x0 == x1)
                 return dist;
 
-            if ((b - a) * (p - b) >= 0.0)
-                return b.Distance(p);
-            if ((a - b) * (p - a) >= 0.0)
-                return a.Distance(p);
+            if ((x1 - x0) * (p - x1) >= 0.0)
+                return x1.Distance(p);
+            if ((x0 - x1) * (p - x0) >= 0.0)
+                return x0.Distance(p);
 
             return dist;
+        }
+        public static double PerpendicularParameter(Vector2D x0, Vector2D x1, Vector2D p)
+        {
+            var d = (x1 - x0).Norm2();
+            if (Comparison.IsZero(d))
+                return 0.0;
+            var a = (p - x0);
+            var b = (x1 - x0);
+            return (a * b) / d;
+
+        }
+
+        public static double PerpendicularSegementParameter(Vector2D x0, Vector2D x1, Vector2D p)
+        {
+            return System.Math.Max(System.Math.Min(PerpendicularParameter(x0, x1, p), 1.0), 0.0);
         }
 
         public static double Cross(Vector2D a, Vector2D b)

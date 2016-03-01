@@ -59,7 +59,7 @@ namespace Math.Tests.Gps
         [Test]
         public void GpsPoint_SouthPole_Vector3D()
         {
-            var g = new GpsPoint {Latitude = -90, Longitude = 0, Elevation = 0.0};
+            var g = new GpsPoint(-90, 0);
             Vector3D v = g;
             v.X.ShouldBe(0.0);
             v.Y.ShouldBe(0.0);
@@ -78,24 +78,24 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_InterpolateZeroFraction_ReturnsSecond()
+        public void GpsPoint_InterpolateZeroFraction_ReturnsFirst()
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
             var g = a.Interpolate(b, 0.0);
-            g.Latitude.ShouldBe(b.Latitude, 1e-10);
-            g.Longitude.ShouldBe(b.Longitude, 1e-10);
-            g.Elevation.ShouldBe(b.Elevation, 1e-10);
+            g.Latitude.ShouldBe(a.Latitude, 1e-10);
+            g.Longitude.ShouldBe(a.Longitude, 1e-10);
+            g.Elevation.ShouldBe(a.Elevation, 1e-10);
         }
         [Test]
-        public void GpsPoint_InterpolateOneFraction_ReturnsFirst()
+        public void GpsPoint_InterpolateOneFraction_ReturnsSecond()
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
             var g = a.Interpolate(b, 1.0);
-            g.Latitude.ShouldBe(a.Latitude, 1e-10);
-            g.Longitude.ShouldBe(a.Longitude, 1e-10);
-            g.Elevation.ShouldBe(a.Elevation, 1e-10);
+            g.Latitude.ShouldBe(b.Latitude, 1e-10);
+            g.Longitude.ShouldBe(b.Longitude, 1e-10);
+            g.Elevation.ShouldBe(b.Elevation, 1e-10);
         }
 
         [Test]
@@ -104,9 +104,25 @@ namespace Math.Tests.Gps
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 1.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = -1.0, Elevation = 12.0 };
             var g = a.Interpolate(b, 0.5);
-            g.Latitude.ShouldBe(0.0, 1e-7);
-            g.Longitude.ShouldBe(92, 1e-7);
-            g.Elevation.ShouldBe(11.5, 1e-7);
+            g.Latitude.ShouldBe(0.0, 1e-10);
+            g.Longitude.ShouldBe(92, 1e-10);
+            g.Elevation.ShouldBe(11.5, 1e-10);
+        }
+
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(0.2)]
+        public void GpsPoint_InterpolateFraction_ReturnsGpsWithCorrectAngle(double f)
+        {
+            var a = new GpsPoint() { Longitude = 91.0, Latitude = 11.0, Elevation = 11.0 };
+            var b = new GpsPoint() { Longitude = 93.0, Latitude = 12.0, Elevation = 12.0 };
+            var g = a.Interpolate(b, f);
+            Vector3D x = g;
+            Vector3D x0 = a;
+            Vector3D x1 = b;
+            var angle = x0.Angle(x1);
+            g.Elevation.ShouldBe(a.Elevation*(1.0-f) + b.Elevation*f, 1e-10);
+            x0.Angle(x).ShouldBe(angle * f,1e-10);
         }
     }
 }

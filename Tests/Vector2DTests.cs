@@ -280,13 +280,29 @@ namespace Math.Tests
         [TestCase(-34, 1, 1)]
         [TestCase(-34, 2, 2)]
         [TestCase(0, 0, 0)]
-        public void Vector2D_PerpendicularDistance_RetursnExpected(double x, double y, double l)
+        public void Vector2D_PerpendicularDistance_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
             Vector2D.PerpendicularDistance(a, b, p).ShouldBe(l);
         }
+
+        [TestCase(0, 1, -1)]
+        [TestCase(0, 2, -1)]
+        [TestCase(3, 1, 2)]
+        [TestCase(3, 2, 2)]
+        [TestCase(-34, 1, -35)]
+        [TestCase(-34, 2, -35)]
+        [TestCase(0, 0, -1)]
+        public void Vector2D_PerpendicularParameter_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Vector2D.PerpendicularParameter(a, b, p).ShouldBe(l);
+        }
+
         [TestCase(1, 1, 1)]
         [TestCase(1, 2, 2)]
         [TestCase(1.5, 1, 1)]
@@ -303,12 +319,25 @@ namespace Math.Tests
         [TestCase(-1, 2, 2.82842712474619)]
         [TestCase(0, 0, 1)]
         [TestCase(3, 0, 1)]
-        public void Vector2D_PerpendicularSegementDistance_RetursnExpected(double x, double y, double l)
+        public void Vector2D_PerpendicularSegementDistance_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
             Vector2D.PerpendicularSegementDistance(a, b, p).ShouldBe(l, 1e-13);
         }
+        [TestCase(0, 1, 0)]
+        [TestCase(0, 2, 0)]
+        [TestCase(1.12, 2, 0.12)]
+        [TestCase(3, 1, 1)]
+        [TestCase(3, 2, 1)]
+        public void Vector2D_PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Vector2D.PerpendicularSegementParameter(a, b, p).ShouldBe(l,1e-13);
+        }
+
     }
 }
