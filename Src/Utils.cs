@@ -26,6 +26,9 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
+using System.IO;
+
 namespace Math
 {
     public class Utils
@@ -35,6 +38,24 @@ namespace Math
             T t = y;
             y = x;
             x = t;
+        }
+
+        public static void WritePGM(string fileName, double[,] bitmap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var header = "P5\n" + width + " " + height + "\n255\n";
+            var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
+            writer.Write(System.Text.Encoding.ASCII.GetBytes(header));
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = width-1; i >= 0; i--)
+                {
+                    var c = (byte)(System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0) * 255.0);
+                    writer.Write(c);
+                }
+            }
+            writer.Close();
         }
     }
 }

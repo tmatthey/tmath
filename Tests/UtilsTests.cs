@@ -26,7 +26,10 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Linq;
+using Math.Gps;
+using Math.Tests.Gps;
 using NUnit.Framework;
 using Shouldly;
 
@@ -35,6 +38,8 @@ namespace Math.Tests
     [TestFixture]
     public class UtilsTests
     {
+        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+        
         [Test]
         public void Swap()
         {
@@ -43,6 +48,22 @@ namespace Math.Tests
             Utils.Swap(ref a, ref b);
             a.ShouldBe(3);
             b.ShouldBe(2);
+        }
+
+        [Test]
+        public void WritePGM_WritesTrackOneToDisk()
+        {
+            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrackRef.CreateLookup(gpsTrackRef.Center, 10.0);
+            var grid = gpsTrackRef.Grid.Grid;
+            var max = 0;
+            foreach (var list in grid)
+                max = System.Math.Max(max, list.Count);
+            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
+            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
+                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                    bitmap[i, j] = grid[i, j].Count/(double)max;
+            Utils.WritePGM("trackOne.pgm", bitmap);
         }
     }
 }
