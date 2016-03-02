@@ -26,41 +26,23 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using Math.Gps;
+using System.Linq;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Tests
 {
     [TestFixture]
-    public class GpsTrackTests
+    public class UtilsTests
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
         [Test]
-        public void Constructor_CorrectCenter()
+        public void Swap()
         {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var sum = new Vector3D();
-            var d = 0.0;
-            foreach (var g in gpsTrack.Track)
-            {
-                Vector3D v = g;
-                sum += v.Normalized();
-                d += v.Norm();
-            }
-            sum.Normalize();
-            sum *= d/_gpsTrackExamples.TrackOne().Count;
-            sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
-            sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
-            sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);
-        }
-
-        [Test]
-        public void Constructor_CorrectTrack()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrack.Track.Count.ShouldBe(_gpsTrackExamples.TrackOne().Count);
+            var a = 2;
+            var b = 3;
+            Utils.Swap(ref a, ref b);
+            a.ShouldBe(3);
+            b.ShouldBe(2);
         }
     }
 }

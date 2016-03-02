@@ -133,6 +133,18 @@ namespace Math
             return X * v.X + Y * v.Y;
         }
 
+        public double Angle(Vector2D v)
+        {
+            var sin = X * v.Y - v.X * Y;
+            var cos = X * v.X + Y * v.Y;
+            return System.Math.Atan2(sin, cos);
+        }
+
+        public double AngleAbs(Vector2D v)
+        {
+            return System.Math.Abs(Angle(v));
+        }
+
         public static Vector2D operator +(Vector2D v1, Vector2D v2)
         {
             var res = new Vector2D(v1);
@@ -230,6 +242,41 @@ namespace Math
         public static double Cross(Vector2D a, Vector2D b)
         {
             return a.X * b.Y - a.Y * b.X;
+        }
+
+        // Trajectory clustering: a partition-and-group framework
+        // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
+        // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
+        public static double TrajectoryHausdorffDistance(Vector2D a, Vector2D b, Vector2D c, Vector2D d, double wPerpendicular,
+            double wParallel, double wAngular)
+        {
+            var l1 = a.Distance(b);
+            var l2 = c.Distance(d);
+            if (l1 > l2 )
+            {
+                Utils.Swap(ref a, ref c);
+                Utils.Swap(ref b, ref d);
+                Utils.Swap(ref l1, ref l2);
+            }
+            var dPerpA = PerpendicularDistance(c, d, a);
+            var dPerpB = PerpendicularDistance(c, d, b);
+            var dPerpendicular = 0.0;
+            if (Comparison.IsPositive(dPerpA + dPerpB))
+            {
+                dPerpendicular = (dPerpA * dPerpA + dPerpB * dPerpB) / (dPerpA + dPerpB);
+            }
+            var pa = PerpendicularParameter(c, d, a);
+            var pb = PerpendicularParameter(c, d, b);
+            if (pa > pb)
+            {
+                Utils.Swap(ref pa, ref pb);
+            }
+
+            var dParallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0)) * l2;
+            var angle = System.Math.Min((b - a).AngleAbs(d - c), System.Math.PI / 2.0);
+            var dAngular = l1 * System.Math.Sin(angle);
+
+            return wPerpendicular * dPerpendicular + wParallel * dParallel + wAngular * dAngular;
         }
 
         private void Add(Vector2D v)

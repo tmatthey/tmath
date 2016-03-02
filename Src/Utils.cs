@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
+ * obtaining x0 copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy,
  * modify, merge, publish, distribute, sublicense, and/or sell copies
@@ -26,41 +26,15 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using Math.Gps;
-using NUnit.Framework;
-using Shouldly;
-
-namespace Math.Tests.Gps
+namespace Math
 {
-    [TestFixture]
-    public class GpsTrackTests
+    public class Utils
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
-        [Test]
-        public void Constructor_CorrectCenter()
+        static public void Swap<T>(ref T x, ref T y)
         {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var sum = new Vector3D();
-            var d = 0.0;
-            foreach (var g in gpsTrack.Track)
-            {
-                Vector3D v = g;
-                sum += v.Normalized();
-                d += v.Norm();
-            }
-            sum.Normalize();
-            sum *= d/_gpsTrackExamples.TrackOne().Count;
-            sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
-            sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
-            sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);
-        }
-
-        [Test]
-        public void Constructor_CorrectTrack()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrack.Track.Count.ShouldBe(_gpsTrackExamples.TrackOne().Count);
+            T t = y;
+            y = x;
+            x = t;
         }
     }
 }

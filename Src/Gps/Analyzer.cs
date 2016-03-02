@@ -65,8 +65,8 @@ namespace Math.Gps
                 var newPoints = new List<Distance>();
                 foreach (var d in points)
                 {
-                    var d0 = new Distance(d);
-                    var d1 = new Distance(d);
+                    var d0 = d;
+                    var d1 = d;
                     var ir = d.Reference;
                     var ic = d.Current;
                     var refDp = trackRef.Track[ir];

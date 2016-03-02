@@ -33,12 +33,12 @@ using Shouldly;
 namespace Math.Tests
 {
     [TestFixture]
-    public class AlgebraTests
+    public class PolynomialTests
     {
         [TestCase(1.1)]
         [TestCase(-1.1)]
         [TestCase(0)]
-        public void Polynomial_WithConstant_ReturnsConstantFunction(double c)
+        public void WithConstant_ReturnsConstantFunction(double c)
         {
             var p = new Polynomial(new List<double> {c});
             p.dp().Count.ShouldBe(0);
@@ -52,7 +52,7 @@ namespace Math.Tests
         [TestCase(2.3)]
         [TestCase(-23.3)]
         [TestCase(0.0)]
-        public void Polynomial_QudraticDerivative_ReturnsExpected(double x)
+        public void QudraticDerivative_ReturnsExpected(double x)
         {
             double a2, a1, a0;
             CreateEq(2.0, 3.0, out a2, out a1, out a0);
@@ -63,7 +63,7 @@ namespace Math.Tests
         [TestCase(2.3)]
         [TestCase(-23.3)]
         [TestCase(0.0)]
-        public void Polynomial_QudraticIntegral_ReturnsExpected(double x)
+        public void QudraticIntegral_ReturnsExpected(double x)
         {
             double a2, a1, a0;
             CreateEq(2.0, 3.0, out a2, out a1, out a0);
@@ -78,7 +78,7 @@ namespace Math.Tests
         [TestCase(-1.0, -1.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
-        public void Polynomial_pWithRoot_ReturnsZero(double x0, double x1)
+        public void pWithRoot_ReturnsZero(double x0, double x1)
         {
             double a2, a1, a0;
             CreateEq(x0, x1, out a2, out a1, out a0);
@@ -96,7 +96,7 @@ namespace Math.Tests
         [TestCase(0.0, 0.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
-        public void Polynomial_FindRoot_ReturnsRoot(double x0, double x1)
+        public void FindRoot_ReturnsRoot(double x0, double x1)
         {
             double a2, a1, a0;
             CreateEq(x0, x1, out a2, out a1, out a0);
@@ -120,7 +120,7 @@ namespace Math.Tests
         [TestCase(-1.0, -1.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
-        public void Polynomial_IntegrateDerivative_ReturnsPolynomial(double x0, double x1)
+        public void IntegrateDerivative_ReturnsPolynomial(double x0, double x1)
         {
             double a2, a1, a0;
             CreateEq(x0, x1, out a2, out a1, out a0);
@@ -139,7 +139,7 @@ namespace Math.Tests
         [TestCase(-1.0, -1.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
-        public void Polynomial_DerivativeIntegrate_ReturnsPolynomial(double x0, double x1)
+        public void DerivativeIntegrate_ReturnsPolynomial(double x0, double x1)
         {
             double a2, a1, a0;
             CreateEq(x0, x1, out a2, out a1, out a0);
@@ -154,7 +154,7 @@ namespace Math.Tests
         [TestCase(2.0, 1.0)]
         [TestCase(1.0, -2.0)]
         [TestCase(-1.0, 2.0)]
-        public void Polynomial_DivideByRootWithCubicEq_ReturnsExpectedReducedPolynomial(double x0, double x1)
+        public void DivideByRootWithCubicEq_ReturnsExpectedReducedPolynomial(double x0, double x1)
         {
             double a3, a2, a1, a0;
             CreateEq(x0, x1, x1, out a3, out a2, out a1, out a0);
@@ -186,7 +186,7 @@ namespace Math.Tests
         [TestCase(-1.5, 2.0)]
         [TestCase(1.5, -2.0)]
         [TestCase(-1.5, -2.0)]
-        public void Polynomial_DivideByRootLinear_ReturnsZeroRemaining(double a, double b)
+        public void DivideByRootLinear_ReturnsZeroRemaining(double a, double b)
         {
             var p = new Polynomial(new List<double> {a, b});
             var r = p.DivideByRoot(-p.p()[0]/p.p()[1]);
@@ -210,7 +210,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polynomial_AllZeroCoeff_ReturnZeroFunction()
+        public void AllZeroCoeff_ReturnZeroFunction()
         {
             var p = new Polynomial(new List<double> {0.0, 0.0, 0.0});
             p.p().Count.ShouldBe(1);
@@ -218,7 +218,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polynomial_WithEmptyCoefficients_ReturnsZeroFunction()
+        public void WithEmptyCoefficients_ReturnsZeroFunction()
         {
             var p = new Polynomial(new List<double>());
             p.dp().Count.ShouldBe(0);
@@ -230,7 +230,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polynomial_WithHeadingZeroCoeff_AreRemoved()
+        public void WithHeadingZeroCoeff_AreRemoved()
         {
             var p = new Polynomial(new List<double> {1.112, 0.0, 0.0});
             p.p().Count.ShouldBe(1);

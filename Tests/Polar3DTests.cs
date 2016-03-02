@@ -50,7 +50,7 @@ namespace Math.Tests
         [TestCase(270, 90, 0, -1, 0)]
         [TestCase(270, 180, 1, 0, 0)]
         [TestCase(270, 270, 0, 1, 0)]
-        public void Polar3D_CastVector3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
+        public void CastVector3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
         {
             var v = new Vector3D(x, y, z).Normalized();
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi));
@@ -66,7 +66,7 @@ namespace Math.Tests
         [TestCase(90, 180, -5, 0, 0)]
         [TestCase(90, 270, 0, -6, 0)]
         [TestCase(180, 0, 0, 0, -7)]
-        public void Polar3D_CastPolar3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
+        public void CastPolar3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
         {
             var v = new Vector3D(x, y, z).Normalized();
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi));
@@ -102,7 +102,7 @@ namespace Math.Tests
         [TestCase(135, 270)]
         [TestCase(135, 315)]
         [TestCase(180, 0)]
-        public void Polar3D_Scan_ConversionId(double theta, double phi)
+        public void Scan_ConversionId(double theta, double phi)
         {
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi), 3.14);
             Vector3D v = p;
@@ -113,14 +113,14 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_ConstructorTheataPhi_ReturnsWithRadiusOne()
+        public void ConstructorTheataPhi_ReturnsWithRadiusOne()
         {
             var p = new Polar3D(0.1, 0.2);
             p.R.ShouldBe(1.0);
         }
 
         [Test]
-        public void Polar3D_EmptyConstructor_ZeroElement()
+        public void EmptyConstructor_ZeroElement()
         {
             var v = new Polar3D();
             v.R.ShouldBe(0);
@@ -129,7 +129,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_EqualInput_Equal_ReturnsTrue()
+        public void EqualInput_Equal_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
             var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.0);
@@ -138,7 +138,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_Equals_WithNull_ReturnsFalse()
+        public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Polar3D(0.1, 0.2);
             Polar3D q = null;
@@ -146,14 +146,14 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_Equalsl_WithItself_ReturnsTrue()
+        public void Equalsl_WithItself_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
             p.Equals(p).ShouldBe(true);
         }
 
         [Test]
-        public void Polar3D_NotEqualInput_NotEqual_ReturnsTrue()
+        public void NotEqualInput_NotEqual_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
             var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.1);
@@ -162,7 +162,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_Zero_CasteToPolar3D()
+        public void Zero_CastToPolar3D_ZeroPolar3D()
         {
             var v = new Vector3D(0, 0, 0);
             var p = (Polar3D) v;
@@ -170,7 +170,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_Zero_CasteToVector3D()
+        public void Zero_CastToVector3D_ZeroVector3D()
         {
             var p = new Polar3D(0, 0, 0);
             var v = (Vector3D) p;
@@ -178,7 +178,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Polar3D_ZeroElement_IsZero()
+        public void ZeroElement_IsZero()
         {
             Polar3D.Zero.R.ShouldBe(0);
             Polar3D.Zero.Phi.ShouldBe(0);

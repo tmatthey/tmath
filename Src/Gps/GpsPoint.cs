@@ -36,7 +36,7 @@ namespace Math.Gps
         {
             Latitude = latitude;
             Longitude = longitude;
-            
+
         }
         public GpsPoint(GpsPoint g)
         {
@@ -56,12 +56,17 @@ namespace Math.Gps
             var angle = x0.Angle(x1);
             var q = new GpsPoint(g);
             if (!Comparison.IsZero(angle))
-            {                
-                var axis = x0^x1;
-                q = x0.Rotate(axis, angle*x);
+            {
+                var axis = x0 ^ x1;
+                q = x0.Rotate(axis, angle * x);
             }
-            q.Elevation = Elevation*(1.0-x) + g.Elevation*x;
+            q.Elevation = Elevation * (1.0 - x) + g.Elevation * x;
             return q;
+        }
+
+        public double HaversineDistance(GpsPoint g)
+        {
+            return Geodesy.Haversine(Latitude, Longitude, g.Latitude, g.Longitude);
         }
 
         public static implicit operator Polar3D(GpsPoint g)
@@ -76,7 +81,7 @@ namespace Math.Gps
 
         public static implicit operator Vector3D(GpsPoint g)
         {
-            return (Polar3D) g;
+            return (Polar3D)g;
         }
 
         public static implicit operator GpsPoint(Polar3D p)
@@ -91,7 +96,7 @@ namespace Math.Gps
 
         public static implicit operator GpsPoint(Vector3D v)
         {
-            return (Polar3D) v;
+            return (Polar3D)v;
         }
     }
 }

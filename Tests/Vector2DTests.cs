@@ -37,7 +37,7 @@ namespace Math.Tests
         [TestCase(1.123)]
         [TestCase(-1.123)]
         [TestCase(0.0)]
-        public void Vector2D_ConstructorWithConstant_ConstantVector(double c)
+        public void ConstructorWithConstant(double c)
         {
             var v = new Vector2D(c);
             v.X.ShouldBe(c);
@@ -45,7 +45,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ConstMulOpVector2D()
+        public void ConstMulOpVector2D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -57,7 +57,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ConstructorWithVector2D_Vector2D()
+        public void ConstructorWithVector2D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -70,7 +70,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Distance()
+        public void Distance()
         {
             var a = 17.0;
             var b = 19.0;
@@ -84,7 +84,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Dot()
+        public void Dot()
         {
             var a = 17.0;
             var b = 19.0;
@@ -96,7 +96,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_EmptyConstructor_NullVector()
+        public void EmptyConstructor_NullVector2D()
         {
             var v = new Vector2D();
             v.X.ShouldBe(0);
@@ -104,7 +104,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_NegationOp()
+        public void NegationOp()
         {
             var a = 17.0;
             var b = 19.0;
@@ -115,7 +115,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Norm()
+        public void Norm()
         {
             var a = -17.0;
             var b = -19.0;
@@ -124,7 +124,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Norm2()
+        public void Norm2()
         {
             var a = 17.0;
             var b = 19.0;
@@ -133,7 +133,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Normalize()
+        public void Normalize()
         {
             var a = 17.0;
             var b = 19.0;
@@ -143,7 +143,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Normalized()
+        public void Normalized()
         {
             var a = 17.0;
             var b = 19.0;
@@ -153,7 +153,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_NotSameVectorIsNotEqualOp_ReturnsTrue()
+        public void NotSameVector2DIsNotEqualOp_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(1, 2.1);
@@ -161,7 +161,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_NullptrEquals_ReturnsFalse()
+        public void NullptrEquals_ReturnsFalse()
         {
             var v = new Vector2D(1, 2);
             Vector2D u = null;
@@ -169,7 +169,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_SameRefVectorEquals_ReturnsTrue()
+        public void Equals_SameRefVector2D_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
             var u = v;
@@ -177,7 +177,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_SameVectorEquals_ReturnsTrue()
+        public void Equals_SameVector2D_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
@@ -185,7 +185,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_SameVectorIsEqualOp_ReturnsTrue()
+        public void SameVectorIsEqualOp_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
@@ -193,7 +193,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Vector2DAddOpVector2D()
+        public void Vector2DAddOpVector2D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -208,7 +208,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Vector2DDivOpConst()
+        public void Vector2DDivOpConst()
         {
             var a = 17.0;
             var b = 19.0;
@@ -220,7 +220,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Vector2DMulOpConst()
+        public void Vector2DMulOpConst()
         {
             var a = 17.0;
             var b = 19.0;
@@ -232,7 +232,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Vector2DSubOpVector2D()
+        public void Vector2DSubOpVector2D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -247,7 +247,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_Vector3MulOpVector2D()
+        public void Vector2DMulOpVector2D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -260,7 +260,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ZeroVector_Normalize()
+        public void Normalize_ZeroVector2D_ZeroVector2D()
         {
             var v = new Vector2D();
             v.Normalize();
@@ -268,7 +268,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector2D_ZeroVector_Normalized()
+        public void Normalized_ZeroVector2D_ReturnsZeroVector2D()
         {
             var v = new Vector2D();
             var u = v.Normalized();
@@ -280,7 +280,7 @@ namespace Math.Tests
         [TestCase(-34, 1, 1)]
         [TestCase(-34, 2, 2)]
         [TestCase(0, 0, 0)]
-        public void Vector2D_PerpendicularDistance_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularDistance_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
@@ -295,7 +295,7 @@ namespace Math.Tests
         [TestCase(-34, 1, -35)]
         [TestCase(-34, 2, -35)]
         [TestCase(0, 0, -1)]
-        public void Vector2D_PerpendicularParameter_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularParameter_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
@@ -319,25 +319,118 @@ namespace Math.Tests
         [TestCase(-1, 2, 2.82842712474619)]
         [TestCase(0, 0, 1)]
         [TestCase(3, 0, 1)]
-        public void Vector2D_PerpendicularSegementDistance_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularSegementDistance_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
             Vector2D.PerpendicularSegementDistance(a, b, p).ShouldBe(l, 1e-13);
         }
+
         [TestCase(0, 1, 0)]
         [TestCase(0, 2, 0)]
         [TestCase(1.12, 2, 0.12)]
         [TestCase(3, 1, 1)]
         [TestCase(3, 2, 1)]
-        public void Vector2D_PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
-            Vector2D.PerpendicularSegementParameter(a, b, p).ShouldBe(l,1e-13);
+            Vector2D.PerpendicularSegementParameter(a, b, p).ShouldBe(l, 1e-13);
         }
 
+        [Test]
+        public void Angle_WithPos45_ReturnsPos45()
+        {
+            var v = new Vector2D(1, 1);
+            var w = new Vector2D(0, 1);
+            var a = v.Angle(w);
+            a.ShouldBe(System.Math.PI / 180.0 * 45.0);
+        }
+
+        [Test]
+        public void Angle_WithNeg45_returnsNeg45()
+        {
+            var v = new Vector2D(0, 1);
+            var w = new Vector2D(1, 1);
+            var a = v.Angle(w);
+            a.ShouldBe(-System.Math.PI / 180.0 * 45.0);
+        }
+
+        [Test]
+        public void AngleAbs_WithNeg45_returnsPos45()
+        {
+            var v = new Vector2D(0, 1);
+            var w = new Vector2D(1, 1);
+            var a = v.AngleAbs(w);
+            a.ShouldBe(System.Math.PI / 180.0 * 45.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSameSegment_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(0, 2);
+            var d = new Vector2D(3, 2);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0));
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSameSegmentOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(3, 2);
+            var d = new Vector2D(0, 2);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentSmall_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(-5, 2);
+            var d = new Vector2D(4, 2);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentSmallOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(4, 2);
+            var d = new Vector2D(-5, 2);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentBig_returnsExpected()
+        {
+            var a = new Vector2D(-5, 2);
+            var b = new Vector2D(4, 2);
+            var c = new Vector2D(0, 0);
+            var d = new Vector2D(3, 0);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentBigOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(4, 2);
+            var b = new Vector2D(-5, 2);
+            var c = new Vector2D(0, 0);
+            var d = new Vector2D(3, 0);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
+        }
     }
 }

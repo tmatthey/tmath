@@ -39,7 +39,7 @@ namespace Math.Tests.Gps
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void AnalyzerTests_TotalDistance_ReturnsExpeced()
+        public void TotalDistance_ReturnsExpeced()
         {
             var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
             analyzer.Reference.TotalDistance.ShouldBe(Distance(analyzer.Reference.Track), 1e-1);
@@ -47,7 +47,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void AnalyzerTests_Neighbours_InRange()
+        public void ListOfNeighbours_InRange()
         {
             var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
             foreach (var point in analyzer.Reference.Neighbours)
@@ -69,8 +69,7 @@ namespace Math.Tests.Gps
             var d = 0.0;
             for (var i = 0; i + 1 < track.Count; i++)
             {
-                d += Geodesy.Haversine(track[i].Latitude, track[i].Longitude, track[i + 1].Latitude,
-                    track[i + 1].Longitude);
+                d += track[i].HaversineDistance(track[i + 1]);
             }
             return d;
         }

@@ -37,7 +37,7 @@ namespace Math.Tests
         [TestCase(1.123)]
         [TestCase(-1.123)]
         [TestCase(0.0)]
-        public void Vector3D_ConstructorWithConstant_ConstantVector(double c)
+        public void ConstructorWithConstant_ConstantVector(double c)
         {
             var v = new Vector3D(c);
             v.X.ShouldBe(c);
@@ -49,7 +49,7 @@ namespace Math.Tests
         [TestCase(1, 0, 1, 1, 0, -3, 0.1)]
         [TestCase(1, -1, -1, 1, 1, 1.1, 0.1)]
         [TestCase(1, 0, 1, 1, -1, -12, 0.1)]
-        public void Vector3D_RotateVecotor_AngleAsExpected(double vx, double vy, double vz,
+        public void Rotate_WithAxisAndAngle_AngleAsExpected(double vx, double vy, double vz,
             double rx, double ry, double rz,
             double a)
         {
@@ -61,13 +61,13 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_AngleE1_E2_90Deg()
+        public void AngleE1_E2_90Deg()
         {
             (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
         }
 
         [Test]
-        public void Vector3D_ConstMulOpVector3D()
+        public void ConstMulOpVector3D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -81,7 +81,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_ConstructorWithVector3D_Vector3D()
+        public void ConstructorWithVector3D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -97,34 +97,34 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_CrossNorm2xE1x3xE2_Returns6()
+        public void CrossNorm2xE1x3xE2_Returns6()
         {
             (2.0*Vector3D.E1).CrossNorm(3.0*Vector3D.E2).ShouldBe(6.0);
         }
 
         [Test]
-        public void Vector3D_CrossProductE1xE1_ReturnsZero()
+        public void CrossProductE1xE1_ReturnsZero()
         {
             var e3 = (Vector3D.E1 ^ Vector3D.E1);
             e3.ShouldBe(Vector3D.Zero);
         }
 
         [Test]
-        public void Vector3D_CrossProductE1xE2_ReturnsE3()
+        public void CrossProductE1xE2_ReturnsE3()
         {
             var e3 = (Vector3D.E1 ^ Vector3D.E2);
             e3.ShouldBe(Vector3D.E3);
         }
 
         [Test]
-        public void Vector3D_CrossProductE2xE1_ReturnsMinusE3()
+        public void CrossProductE2xE1_ReturnsMinusE3()
         {
             var e3 = (Vector3D.E2 ^ Vector3D.E1);
             e3.ShouldBe(-Vector3D.E3);
         }
 
         [Test]
-        public void Vector3D_Distance()
+        public void Distance()
         {
             var a = 17.0;
             var b = 19.0;
@@ -141,7 +141,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Dot()
+        public void Dot()
         {
             var a = 17.0;
             var b = 19.0;
@@ -155,7 +155,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_EmptyConstructor_NullVector()
+        public void EmptyConstructor_NullVector3D()
         {
             var v = new Vector3D();
             v.X.ShouldBe(0);
@@ -164,7 +164,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_NegationOp()
+        public void NegationOp()
         {
             var a = 17.0;
             var b = 19.0;
@@ -177,7 +177,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Norm()
+        public void Norm()
         {
             var a = -17.0;
             var b = -19.0;
@@ -187,7 +187,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Norm2()
+        public void Norm2()
         {
             var a = 17.0;
             var b = 19.0;
@@ -197,7 +197,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Normalize()
+        public void Normalize()
         {
             var a = 17.0;
             var b = 19.0;
@@ -208,7 +208,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Normalized()
+        public void Normalized()
         {
             var a = 17.0;
             var b = 19.0;
@@ -219,7 +219,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_NotSameVectorIsNotEqualOp_ReturnsTrue()
+        public void NotSameVectorIsNotEqualOp_ReturnsTrue()
         {
             var v = new Vector3D(1, 2, 3);
             var u = new Vector3D(1, 2, 3.1);
@@ -227,7 +227,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_SameVectorIsEqualOp_ReturnsTrue()
+        public void SameVectorIsEqualOp_ReturnsTrue()
         {
             var v = new Vector3D(1, 2, 3);
             var u = v;
@@ -235,7 +235,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Vector3DAddOpVector3D()
+        public void Vector3DAddOpVector3D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -253,7 +253,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Vector3DDivOpConst()
+        public void Vector3DDivOpConst()
         {
             var a = 17.0;
             var b = 19.0;
@@ -267,7 +267,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Vector3DMulOpConst()
+        public void Vector3DMulOpConst()
         {
             var a = 17.0;
             var b = 19.0;
@@ -281,7 +281,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Vector3DSubOpVector3D()
+        public void Vector3DSubOpVector3D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -299,7 +299,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_Vector3MulOpVector3D()
+        public void Vector3MulOpVector3D()
         {
             var a = 17.0;
             var b = 19.0;
@@ -314,7 +314,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_ZeroVector_Normalize()
+        public void Normalize_ZeroVector3D_ZeroVector3D()
         {
             var v = new Vector3D();
             v.Normalize();
@@ -322,7 +322,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Vector3D_ZeroVector_Normalized()
+        public void Normalized_ZeroVector3D_returnsZeroVector3D()
         {
             var v = new Vector3D();
             var u = v.Normalized();

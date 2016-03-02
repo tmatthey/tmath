@@ -36,7 +36,7 @@ namespace Math.Tests.Gps
     public class GpsPointTests
     {
         [Test]
-        public void GpsPoint_NorthPole_Vector3D()
+        public void GpsPointNorthPole_ReturnsCorrectVector3D()
         {
             var g = new GpsPoint {Latitude = 90, Longitude = 0, Elevation = 0.0};
             Vector3D v = g;
@@ -46,7 +46,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_Polar3DConversion_ReturnsId()
+        public void Polar3DGpsPointPolar3DConversion_ReturnsId()
         {
             var p = new Polar3D(1, 1);
             GpsPoint g = p;
@@ -57,7 +57,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_SouthPole_Vector3D()
+        public void GpsPointSouthPole_ReturnsCorrectVector3D()
         {
             var g = new GpsPoint(-90, 0);
             Vector3D v = g;
@@ -67,7 +67,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_Vector3DConversion_ReturnsId()
+        public void Vector3DGpsPointVector3DConversion_ReturnsId()
         {
             var v = new Vector3D(1, 1, 1);
             GpsPoint g = v;
@@ -78,7 +78,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_InterpolateZeroFraction_ReturnsFirst()
+        public void InterpolateZeroFraction_ReturnsFirst()
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
@@ -88,7 +88,7 @@ namespace Math.Tests.Gps
             g.Elevation.ShouldBe(a.Elevation, 1e-10);
         }
         [Test]
-        public void GpsPoint_InterpolateOneFraction_ReturnsSecond()
+        public void InterpolateOneFraction_ReturnsSecond()
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 2.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = 4.0, Elevation = 12.0 };
@@ -99,7 +99,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void GpsPoint_InterpolateHalfFraction_ReturnsInterpolated()
+        public void InterpolateHalfFraction_ReturnsInterpolated()
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 1.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = -1.0, Elevation = 12.0 };
@@ -112,7 +112,7 @@ namespace Math.Tests.Gps
         [TestCase(0.0)]
         [TestCase(0.1)]
         [TestCase(0.2)]
-        public void GpsPoint_InterpolateFraction_ReturnsGpsWithCorrectAngle(double f)
+        public void InterpolateFraction_ReturnsGpsWithCorrectAngle(double f)
         {
             var a = new GpsPoint() { Longitude = 91.0, Latitude = 11.0, Elevation = 11.0 };
             var b = new GpsPoint() { Longitude = 93.0, Latitude = 12.0, Elevation = 12.0 };
