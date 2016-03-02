@@ -55,7 +55,7 @@ namespace Math.Tests
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
             gpsTrackRef.CreateLookup(gpsTrackRef.Center, 10.0);
-            var grid = gpsTrackRef.Grid.Grid;
+            var grid = gpsTrackRef.Lookup.Grid;
             var max = 0;
             foreach (var list in grid)
                 max = System.Math.Max(max, list.Count);

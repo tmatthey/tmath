@@ -41,14 +41,14 @@ namespace Math.Gps
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
 
-            var neighboursCur = gpsTrackRef.Grid.Find(trackCur.Track, radius*2.0);
+            var neighboursCur = gpsTrackRef.Lookup.Find(trackCur.Track, radius*2.0);
             var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, gpsTrackRef.TransformedTrack);
             var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, gpsTrackRef.TransformedTrack, trackCur);
             var cutNeighboursCur = CutOffDistance(adjustedNeighboursCur, radius);
 
             var neighboursRef = GridLookup.ReferenceOrdering(cutNeighboursCur);
 
-            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Grid.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance, gpsTrackRef.TransformedTrack.Displacement, true);
+            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Lookup.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance, gpsTrackRef.TransformedTrack.Displacement, true);
             Current = new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance, trackCur.Displacement, false);
         }
 
