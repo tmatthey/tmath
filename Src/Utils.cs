@@ -26,8 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Math
 {
@@ -46,7 +46,7 @@ namespace Math
             var height = bitmap.GetLength(1);
             var header = "P5\n" + width + " " + height + "\n255\n";
             var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
-            writer.Write(System.Text.Encoding.ASCII.GetBytes(header));
+            writer.Write(Encoding.ASCII.GetBytes(header));
             for (var j = 0; j < height; j++)
             {
                 for (var i = width-1; i >= 0; i--)
