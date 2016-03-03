@@ -34,17 +34,24 @@ namespace Math.Gps
     public class GridLookup
     {
         private readonly Vector2D _gridOffset;
-
-        public GridLookup(Transformer transformed, double gridSize)
+        public GridLookup(Transformer transformed, double gridSize) 
+            : this(transformed, gridSize, transformed.Min,transformed.Max)
         {
+        }
+
+        public GridLookup(Transformer transformed, double gridSize, Vector2D min, Vector2D max)
+        {
+            min.X = System.Math.Min(min.X, transformed.Min.X);
+            min.Y = System.Math.Min(min.Y, transformed.Min.Y);
+            max.X = System.Math.Max(max.X, transformed.Max.X);
+            max.Y = System.Math.Max(max.Y, transformed.Max.Y);
+            Min = min;
+            Max = min;
             Size = gridSize;
-            Offset = transformed.Min;
             Track = transformed.Track;
             _gridOffset = new Vector2D(gridSize, gridSize);
-
-            var d = (transformed.Max - transformed.Min);
             int nx, ny;
-            Index(d + Offset, out nx, out ny);
+            Index(max, out nx, out ny);
             NX = nx + 1;
             NY = ny + 1;
             Grid = new List<int>[NX, NY];
@@ -62,7 +69,8 @@ namespace Math.Gps
         public List<int>[,] Grid { get; private set; }
         public int NX { get; private set; }
         public int NY { get; private set; }
-        public Vector2D Offset { get; private set; }
+        public Vector2D Min { get; private set; }
+        public Vector2D Max { get; private set; }
         public double Size { get; private set; }
         public List<Vector2D> Track { get; private set; }
 
@@ -145,7 +153,7 @@ namespace Math.Gps
 
         private void Index(Vector2D u, out int i, out int j)
         {
-            var v = u - Offset;
+            var v = u - Min;
             i = (int)System.Math.Floor(v.X / Size);
             j = (int)System.Math.Floor(v.Y / Size);
         }

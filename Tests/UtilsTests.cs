@@ -54,7 +54,7 @@ namespace Math.Tests
         public void WritePGM_WritesTrackOneToDisk()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrackRef.CreateLookup(gpsTrackRef.Center, 10.0);
+            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
             var grid = gpsTrackRef.Lookup.Grid;
             var max = 0;
             foreach (var list in grid)

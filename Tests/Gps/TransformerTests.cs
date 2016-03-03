@@ -37,6 +37,8 @@ namespace Math.Tests.Gps
     [TestFixture]
     public class TransformerTests
     {
+        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
         [Test]
         public void Constructor_TrackEqualCountAsInput()
         {
@@ -114,6 +116,28 @@ namespace Math.Tests.Gps
             var distance = transformed.Distance;
             distance.Count.ShouldBe(track.Count);
             distance.Last().ShouldBe(4 * 2* Geodesy.DistanceOneDeg);
+        }
+
+        [Test]
+        public void Distance_WithTrackOne_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var track = gpsTrack.CreateTransformedTrack();
+            var d = 0.0;
+            for (var i = 0; i + 1 < track.Track.Count; i++)
+                d += track.Track[i].Distance(track.Track[i + 1]);
+            d.ShouldBe(8522.9, 1e-1);
+        }
+
+        [Test]
+        public void Distance_WithTrackTwo_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackTwo());
+            var track = gpsTrack.CreateTransformedTrack();
+            var d = 0.0;
+            for (var i = 0; i + 1 < track.Track.Count; i++)
+                d += track.Track[i].Distance(track.Track[i + 1]);
+            d.ShouldBe(9523.0, 1e-1);
         }
     }
 }

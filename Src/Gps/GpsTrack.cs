@@ -50,9 +50,19 @@ namespace Math.Gps
         public Transformer TransformedTrack { get; private set; }
         public GridLookup Lookup { get; private set; }
 
-        public void CreateLookup(GpsPoint center, double gridSize)
+        public Transformer CreateTransformedTrack()
         {
-            TransformedTrack = new Transformer(Track, center);
+            return new Transformer(Track, Center);
+        }
+
+        public Transformer CreateTransformedTrack(GpsPoint center)
+        {
+            return new Transformer(Track, center);
+        }
+
+        public void SetupLookup(GpsPoint center, double gridSize)
+        {
+            TransformedTrack = CreateTransformedTrack(center);
             Lookup = new GridLookup(TransformedTrack, gridSize);
         }
 

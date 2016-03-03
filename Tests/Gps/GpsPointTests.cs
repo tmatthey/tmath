@@ -35,6 +35,8 @@ namespace Math.Tests.Gps
     [TestFixture]
     public class GpsPointTests
     {
+        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
         [Test]
         public void GpsPointNorthPole_ReturnsCorrectVector3D()
         {
@@ -123,6 +125,26 @@ namespace Math.Tests.Gps
             var angle = x0.Angle(x1);
             g.Elevation.ShouldBe(a.Elevation*(1.0-f) + b.Elevation*f, 1e-10);
             x0.Angle(x).ShouldBe(angle * f,1e-10);
+        }
+
+        [Test]
+        public void HaversineDistance_WithTrackOne_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var d = 0.0;
+            for (var i = 0; i + 1 < gpsTrack.Track.Count; i++)
+                d += gpsTrack.Track[i].HaversineDistance(gpsTrack.Track[i + 1]);
+            d.ShouldBe(8522.9, 1e-1);
+        }
+
+        [Test]
+        public void HaversineDistance_WithTrackTwo_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackTwo());
+            var d = 0.0;
+            for (var i = 0; i + 1 < gpsTrack.Track.Count; i++)
+                d += gpsTrack.Track[i].HaversineDistance(gpsTrack.Track[i + 1]);
+            d.ShouldBe(9523.0, 1e-1);
         }
     }
 }

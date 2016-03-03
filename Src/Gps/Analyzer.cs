@@ -37,7 +37,7 @@ namespace Math.Gps
         public Analyzer(IList<GpsPoint> reference, IList<GpsPoint> current, double radius)
         {
             var gpsTrackRef = new GpsTrack(reference);
-            gpsTrackRef.CreateLookup(gpsTrackRef.Center, 50.0);
+            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 50.0);
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
 
