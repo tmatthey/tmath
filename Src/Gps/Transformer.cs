@@ -55,8 +55,8 @@ namespace Math.Gps
                 Max.Y = System.Math.Max(v.Y, Max.Y);
             }
 
-            Distance = new List<double>();;
-            Displacement = new List<double>();;
+            Distance = new List<double>();
+            Displacement = new List<double>();
             var d = 0.0;
             for (var i = 0; i < Track.Count; i++)
             {

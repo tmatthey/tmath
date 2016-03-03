@@ -26,6 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
@@ -49,13 +51,29 @@ namespace Math
             writer.Write(Encoding.ASCII.GetBytes(header));
             for (var j = 0; j < height; j++)
             {
-                for (var i = width-1; i >= 0; i--)
+                for (var i = width - 1; i >= 0; i--)
                 {
                     var c = (byte)(System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0) * 255.0);
                     writer.Write(c);
                 }
             }
             writer.Close();
+        }
+
+        public static void WritePNG(string fileName, double[,] bitmap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var image = new Bitmap(width, height);
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = width - 1; i >= 0; i--)
+                {
+                    var c = (byte)(System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0) * 255.0);
+                    image.SetPixel(i, j, Color.FromArgb(c, c, c));
+                }
+            }
+            image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);
         }
     }
 }

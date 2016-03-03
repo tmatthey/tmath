@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Linq;
 using Math.Gps;
 using Math.Tests.Gps;
@@ -62,8 +61,24 @@ namespace Math.Tests
             var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count/(double)max;
+                    bitmap[i, j] = grid[i, j].Count / (double)max;
             Utils.WritePGM("trackOne.pgm", bitmap);
+        }
+
+        [Test]
+        public void WritePNG_WritesTrackOneToDisk()
+        {
+            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
+            var grid = gpsTrackRef.Lookup.Grid;
+            var max = 0;
+            foreach (var list in grid)
+                max = System.Math.Max(max, list.Count);
+            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
+            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
+                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                    bitmap[i, j] = grid[i, j].Count / (double)max;
+            Utils.WritePNG("trackOne.png", bitmap);
         }
     }
 }
