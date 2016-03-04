@@ -26,22 +26,45 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Gfx;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests.Gfx
 {
     [TestFixture]
-    public class UtilsTests
+    public class BitmapAddTests
     {
+
         [Test]
-        public void Swap()
+        public void Constructor_WithCorrectDimesions()
         {
-            var a = 2;
-            var b = 3;
-            Utils.Swap(ref a, ref b);
-            a.ShouldBe(3);
-            b.ShouldBe(2);
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            bitmap.Bitmap.GetLength(0).ShouldBe(4);
+            bitmap.Bitmap.GetLength(1).ShouldBe(3);
+        }
+
+        [Test]
+        public void Constructor_ZeroBitmap()
+        {
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            foreach (var pt in bitmap.Bitmap)
+            {
+                pt.ShouldBe(0.0);
+            }
+        }
+
+        [Test]
+        public void Pick_ValidCoordsInitialBitMap_ReturnsZero()
+        {
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            bitmap.Pick(1, 1).ShouldBe(0.0);
+        }
+        [Test]
+        public void Pick_UnValidCoordsInitialBitMap_ReturnsZero()
+        {
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            bitmap.Pick(1000, 1).ShouldBe(double.NaN);
         }
     }
 }

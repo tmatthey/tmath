@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
- * obtaining x0 copy of this software and associated documentation
+ * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy,
  * modify, merge, publish, distribute, sublicense, and/or sell copies
@@ -26,15 +26,38 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math
+using Math.Gfx;
+using NUnit.Framework;
+using Shouldly;
+
+namespace Math.Tests.Gfx
 {
-    public class Utils
+    [TestFixture]
+    public class DrawLineTests
     {
-        static public void Swap<T>(ref T x, ref T y)
+
+        [Test]
+        public void XiaolinWu()
         {
-            T t = y;
-            y = x;
-            x = t;
+            var bitmap = new BitmapAdd(new Vector2D(0.0, 0.5), new Vector2D(2.9999, 0.9999), 1.0);
+            Draw.XiaolinWu(new Vector2D(0.5, 0.5), new Vector2D(2.5, 0.5), bitmap);
+
+            bitmap.Bitmap[0, 0].ShouldBe(0.0);
+            bitmap.Bitmap[1, 0].ShouldBe(0.0);
+            bitmap.Bitmap[2, 0].ShouldBe(0.0);
+            bitmap.Bitmap[3, 0].ShouldBe(0.0);
+            bitmap.Bitmap[4, 0].ShouldBe(0.0);
+            bitmap.Bitmap[0, 1].ShouldBe(0.0);
+            bitmap.Bitmap[1, 1].ShouldBe(0.0);
+            bitmap.Bitmap[2, 1].ShouldBe(1.0);
+            bitmap.Bitmap[3, 1].ShouldBe(1.0);
+            bitmap.Bitmap[4, 1].ShouldBe(0.0);
+            bitmap.Bitmap[0, 2].ShouldBe(0.0);
+            bitmap.Bitmap[1, 2].ShouldBe(0.0);
+            bitmap.Bitmap[2, 2].ShouldBe(0.0);
+            bitmap.Bitmap[3, 2].ShouldBe(0.0);
+            bitmap.Bitmap[4, 2].ShouldBe(0.0);
         }
+
     }
 }

@@ -26,15 +26,13 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math
+namespace Math.Gfx
 {
-    public class Utils
+    public interface IBitmap
     {
-        static public void Swap<T>(ref T x, ref T y)
-        {
-            T t = y;
-            y = x;
-            x = t;
-        }
+        void Plot(double x, double y, double c);
+        double Pick(double x, double y);
+        Vector2D Convert(Vector2D x);
+        double[,] Bitmap { get; }
     }
 }

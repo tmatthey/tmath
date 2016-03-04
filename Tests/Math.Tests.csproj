@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gfx\BitmapAddTests.cs" />
+    <Compile Include="Gfx\FileBitmapWriterTests.cs" />
+    <Compile Include="Gfx\DrawLineTests.cs" />
     <Compile Include="PolynomialTests.cs" />
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />

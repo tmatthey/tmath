@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gfx\BitmapAdd.cs" />
+    <Compile Include="Gfx\Draw.cs" />
+    <Compile Include="Gfx\FileBitmapWriter.cs" />
+    <Compile Include="Gfx\IBitmap.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />
