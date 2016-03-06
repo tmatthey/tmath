@@ -36,7 +36,7 @@ using NUnit.Framework;
 namespace Math.Tests.Gfx
 {
     [TestFixture]
-    public class FileBitmapWriterTests
+    public class BitmapFileWriterTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
@@ -53,7 +53,7 @@ namespace Math.Tests.Gfx
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count / (double)max;
-            FileBitmapWriter.PGM("trackOne.pgm", bitmap);
+            BitmapFileWriter.PGM("trackOne.pgm", bitmap);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Math.Tests.Gfx
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count / (double)max;
-            FileBitmapWriter.PNG("trackOne.png", bitmap);
+            BitmapFileWriter.PNG("trackOne.png", bitmap);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Math.Tests.Gfx
                     bitmap.Bitmap[i, j] = 1.0 - c;
                 }
             
-            FileBitmapWriter.PNG("heatMap.png", bitmap.Bitmap);
+            BitmapFileWriter.PNG("heatMap.png", bitmap.Bitmap);
         }
     }
 }

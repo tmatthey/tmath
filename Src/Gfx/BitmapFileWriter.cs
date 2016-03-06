@@ -33,7 +33,7 @@ using System.Text;
 
 namespace Math.Gfx
 {
-    static public class FileBitmapWriter
+    static public class BitmapFileWriter
     {
         public static void PGM(string fileName, double[,] bitmap)
         {
