@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundingBoxTests.cs" />
+    <Compile Include="BoundingRectTests.cs" />
     <Compile Include="Gfx\BitmapAddTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawLineTests.cs" />

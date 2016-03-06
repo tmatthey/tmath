@@ -41,19 +41,17 @@ namespace Math.Gps
             RotationAxis = axis;
             RotationAngle = angle;
             Track = new List<Vector2D>();
-            Min = new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
-            Max = new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
+            var b = new BoundingRect();
 
             foreach (var g in gpsTrack)
             {
                 GpsPoint u = ((Vector3D) g).Rotate(RotationAxis, RotationAngle);
                 var v = new Vector2D(u.Longitude - 180.0, u.Latitude)*Geodesy.DistanceOneDeg;
                 Track.Add(v);
-                Min.X = System.Math.Min(v.X, Min.X);
-                Min.Y = System.Math.Min(v.Y, Min.Y);
-                Max.X = System.Math.Max(v.X, Max.X);
-                Max.Y = System.Math.Max(v.Y, Max.Y);
+                b.Expand(v);
             }
+            Min = b.Min;
+            Max = b.Max;
 
             Distance = new List<double>();
             Displacement = new List<double>();

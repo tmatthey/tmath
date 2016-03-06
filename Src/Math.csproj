@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="BoundingRect.cs" />
     <Compile Include="Gfx\BitmapAdd.cs" />
     <Compile Include="Gfx\Draw.cs" />
     <Compile Include="Gfx\BitmapFileWriter.cs" />
