@@ -22,16 +22,24 @@ A collection of mathematical function and data structures written in C#. The lib
 * IsPrime; no cache; ~3s for max long / 10
 
 ### Data structures
+* BoundingBox
+* BoundingRect
 * Polar3D
-* Vector2D
-* Vecotr3D
 * Polynomial
 * * Division by real roots (linear root), and imaginary and conjugated (quadratic root) 
 * * Evaluation of polynomial and its derivative and integral
+* Vector2D
+* Vector3D
 
 ### GPS 
 * GpsPoint
 * GpsTrack
+* Transformer to local 2D
 * Geodesy
 * * Haversine distance
-* Finding neighbors of two GPS tracks in O(N)
+* GridLookup / Analyzer : Finding neighbors of two GPS tracks in O(N)
+
+### Gfx
+* PNG and PGM bitmap writer
+* Simple bitmap
+* Line draw - antialiasing (Xiaolin Wu's line algorithm) 

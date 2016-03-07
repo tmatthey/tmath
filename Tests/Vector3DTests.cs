@@ -187,6 +187,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Norm_CloseMaxDouble_returnsExpected()
+        {
+            var a = double.MaxValue / 2.0;
+            var v = new Vector3D(a);
+            v.Norm().ShouldBe(System.Math.Sqrt(3.0) * a);
+        }
+
+        [Test]
         public void Norm2()
         {
             var a = 17.0;

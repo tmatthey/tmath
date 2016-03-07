@@ -278,7 +278,14 @@ namespace Math
 
         private static double Norm(double x, double y, double z)
         {
-            return System.Math.Sqrt(Norm2(x, y, z));
+            var a = System.Math.Max(System.Math.Max(System.Math.Abs(x), System.Math.Abs(y)), System.Math.Abs(z));
+            if (Comparison.IsPositive(a))
+            {
+                x /= a;
+                y /= a;
+                z /= a;
+            }
+            return System.Math.Sqrt(Norm2(x, y, z))*a;
         }
     }
 }

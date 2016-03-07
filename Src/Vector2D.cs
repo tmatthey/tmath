@@ -310,7 +310,13 @@ namespace Math
 
         private static double Norm(double x, double y)
         {
-            return System.Math.Sqrt(Norm2(x, y));
+            var a = System.Math.Max(System.Math.Abs(x), System.Math.Abs(y));
+            if (Comparison.IsPositive(a))
+            {
+                x /= a;
+                y /= a;
+            }
+            return System.Math.Sqrt(Norm2(x, y))*a;
         }
     }
 }
