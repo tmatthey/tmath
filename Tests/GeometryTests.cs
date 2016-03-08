@@ -27,6 +27,9 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
+using Math.Gps;
+using Math.Tests.Gps;
 using NUnit.Framework;
 using Shouldly;
 
@@ -35,15 +38,16 @@ namespace Math.Tests
     [TestFixture]
     public class GeometryTests
     {
+        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
         public void ConvexHull_WithEmptyList_returnsEmpty()
         {
             var points = new List<Vector2D>();
             var expected = new List<Vector2D>();
-            
+
             var result = Geometry.ConvexHull(points);
-            
+
             result.Count.ShouldBe(expected.Count);
 
         }
@@ -91,7 +95,7 @@ namespace Math.Tests
         public void ConvexHull_WithFourPointsOnLine_returnsTwoPoints()
         {
             var points = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(2, 0), new Vector2D(3, 0), new Vector2D(4, 0) };
-            var expected = new List<Vector2D> { new Vector2D(1,0), new Vector2D(4,0) };
+            var expected = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(4, 0) };
 
             var result = Geometry.ConvexHull(points);
 
@@ -115,7 +119,7 @@ namespace Math.Tests
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(expected.Count);
-            for(var i=0;i<result.Count;i++)
+            for (var i = 0; i < result.Count; i++)
                 result[i].ShouldBe(expected[i]);
         }
 
@@ -136,6 +140,35 @@ namespace Math.Tests
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(expected.Count);
+        }
+
+        [Test]
+        public void ConvexHull_FiveGpsTracks()
+        {
+            var rawTracks = new List<List<GpsPoint>>();
+            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
+            var gpsTracks = new List<GpsTrack>();
+            var center = new Vector3D();
+            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
+            {
+                center += gpsTrack.Center;
+                gpsTracks.Add(gpsTrack);
+            }
+            center /= gpsTracks.Count;
+            var points = new List<Vector2D>();
+            foreach (var track in gpsTracks)
+            {
+                points.AddRange(track.CreateTransformedTrack(center).Track);
+            }
+
+            var result = Geometry.ConvexHull(points);
+            result.Count.ShouldBe(34);
+
+
         }
     }
 }

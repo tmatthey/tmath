@@ -35,10 +35,11 @@ namespace Math
     {
         public static IList<Vector2D> ConvexHull(IList<Vector2D> allPoints)
         {
-            // Make unique, O(N)
-            var hs = new HashSet<Vector2D>();
-            allPoints.All(x => hs.Add(x));
-            var points = hs.ToList();
+            // Make unique, O(N) (?)
+            var points = allPoints.Distinct().ToList();
+
+            // Reduce point set to O(sqrt(N))
+            points = Eliminate(points);
 
             // Sort, O(N*log(N))
             points.Sort((a, b) => (a == b ? 0 : (a.X < b.X || ((Comparison.IsEqual(a.X, b.X) && a.Y < b.Y)) ? -1 : 1)));
@@ -70,5 +71,64 @@ namespace Math
         {
             return Vector2D.Cross(a - o, b - o);
         }
+
+        //  Analysis of a Simple Yet Efficient Convex Hull Algorithm; Golin, Sedgewick, ACM 1988
+        private static List<Vector2D> Eliminate(List<Vector2D> points)
+        {
+            if (points.Count < 2)
+                return points;
+            var array = points.ToArray();
+            int i2, i3, i4;
+            double a3, a4;
+
+            var i1 = i2 = i3 = i4 = 1;
+            var a1 = a4 = array[0].X + array[0].Y;
+            var a2 = a3 = array[0].X - array[0].Y;
+
+            for (var j = 1; j < array.Length; j++)
+            {
+                if ((array[j].X + array[j].Y) < a1)
+                {
+                    i1 = j; a1 = array[j].X + array[j].Y;
+                }
+                else if ((array[j].X + array[j].Y) > a4)
+                {
+                    i4 = j; a4 = array[j].X + array[j].Y;
+                }
+
+                if ((array[j].X - array[j].Y) < a2)
+                {
+                    i2 = j; a2 = array[j].X - array[j].Y;
+                }
+                else if ((array[j].X - array[j].Y) > a3)
+                {
+                    i3 = j; a3 = array[j].X - array[j].Y;
+                }
+            }
+
+            var lowX = System.Math.Max(array[i1].X, array[i2].X);
+            var highX = System.Math.Min(array[i3].X, array[i4].X);
+            var lowY = System.Math.Max(array[i1].Y, array[i3].Y);
+            var highY = System.Math.Min(array[i2].Y, array[i4].Y);
+            var n = 0;
+            var i = array.Length - 1;
+
+            while (i > n)
+            {
+                if ((lowX < array[i].X) && (array[i].X < highX) &&
+                    (lowY < array[i].Y) && (array[i].Y < highY))
+                {
+                    i--;
+                }
+                else
+                {
+                    n++;
+
+                    Utils.Swap(ref array[n], ref array[i]);
+                }
+            }
+            return array.Take(n + 1).ToList();
+        }
+
     }
 }
