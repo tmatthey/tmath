@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BoundingBoxTests.cs" />
     <Compile Include="BoundingRectTests.cs" />
+    <Compile Include="GeometryTests.cs" />
     <Compile Include="Gfx\BitmapAddTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawLineTests.cs" />
