@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="BoundingRect.cs" />
+    <Compile Include="Circle2D.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Gfx\BitmapAdd.cs" />
     <Compile Include="Gfx\Draw.cs" />
