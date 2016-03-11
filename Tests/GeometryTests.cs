@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Math.Gps;
@@ -55,8 +56,8 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithOnePoint_returnsOnePoint()
         {
-            var points = new List<Vector2D> { new Vector2D(4.4, 14) };
-            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
+            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
 
             var result = Geometry.ConvexHull(points);
 
@@ -68,8 +69,8 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithTwoSamePoint_returnsOnePoint()
         {
-            var points = new List<Vector2D> { new Vector2D(4.4, 14), new Vector2D(4.4, 14) };
-            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
+            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
 
             var result = Geometry.ConvexHull(points);
 
@@ -81,8 +82,14 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithFourSamePoint_returnsOnePoint()
         {
-            var points = new List<Vector2D> { new Vector2D(4.4, 14), new Vector2D(4.4, 14), new Vector2D(4.4, 14), new Vector2D(4.4, 14) };
-            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
+            var points = new List<Vector2D>
+            {
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14)
+            };
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
 
             var result = Geometry.ConvexHull(points);
 
@@ -94,8 +101,14 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithFourPointsOnLine_returnsTwoPoints()
         {
-            var points = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(2, 0), new Vector2D(3, 0), new Vector2D(4, 0) };
-            var expected = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(4, 0) };
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 0),
+                new Vector2D(2, 0),
+                new Vector2D(3, 0),
+                new Vector2D(4, 0)
+            };
+            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
 
             var result = Geometry.ConvexHull(points);
 
@@ -107,15 +120,39 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_Sample1()
         {
-            var points = new List<Vector2D> { new Vector2D(4.4, 14), new Vector2D(6.7, 15.25), new Vector2D(6.9, 12.8), new Vector2D(2.1, 11.1), 
-                                                new Vector2D(9.5, 14.9), new Vector2D(13.2, 11.9), new Vector2D(10.3, 12.3), new Vector2D(6.8, 9.5), new Vector2D(3.3, 7.7), 
-                                                new Vector2D(0.6, 5.1), new Vector2D(5.3, 2.4),  new Vector2D(8.45, 4.7), new Vector2D(11.5, 9.6), new Vector2D(13.8, 7.3), 
-                                                new Vector2D(12.9, 3.1), new Vector2D(11, 1.1) };
+            var points = new List<Vector2D>
+            {
+                new Vector2D(4.4, 14),
+                new Vector2D(6.7, 15.25),
+                new Vector2D(6.9, 12.8),
+                new Vector2D(2.1, 11.1),
+                new Vector2D(9.5, 14.9),
+                new Vector2D(13.2, 11.9),
+                new Vector2D(10.3, 12.3),
+                new Vector2D(6.8, 9.5),
+                new Vector2D(3.3, 7.7),
+                new Vector2D(0.6, 5.1),
+                new Vector2D(5.3, 2.4),
+                new Vector2D(8.45, 4.7),
+                new Vector2D(11.5, 9.6),
+                new Vector2D(13.8, 7.3),
+                new Vector2D(12.9, 3.1),
+                new Vector2D(11, 1.1)
+            };
 
-            var expected = new List<Vector2D> {new Vector2D(0.6, 5.1), new Vector2D(5.3, 2.4), 
-                                                new Vector2D(11, 1.1), new Vector2D(12.9, 3.1), new Vector2D(13.8, 7.3), 
-                                                new Vector2D(13.2, 11.9), new Vector2D(9.5, 14.9), new Vector2D(6.7, 15.25), 
-                                                new Vector2D(4.4, 14), new Vector2D(2.1, 11.1)};
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(0.6, 5.1),
+                new Vector2D(5.3, 2.4),
+                new Vector2D(11, 1.1),
+                new Vector2D(12.9, 3.1),
+                new Vector2D(13.8, 7.3),
+                new Vector2D(13.2, 11.9),
+                new Vector2D(9.5, 14.9),
+                new Vector2D(6.7, 15.25),
+                new Vector2D(4.4, 14),
+                new Vector2D(2.1, 11.1)
+            };
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(expected.Count);
@@ -126,17 +163,43 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_Sample2()
         {
-            var points = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(1, 1), new Vector2D(1, -1), new Vector2D(0.68957, 0.283647), new Vector2D(0.909487, 0.644276), 
-                                                new Vector2D(0.0361877, 0.803816), new Vector2D(0.583004, 0.91555), new Vector2D(-0.748169, 0.210483), 
-                                                new Vector2D(-0.553528, -0.967036), new Vector2D(0.316709, -0.153861), new Vector2D(-0.79267, 0.585945),
-                                                new Vector2D(-0.700164, -0.750994), new Vector2D(0.452273, -0.604434), new Vector2D(-0.79134, -0.249902), 
-                                                new Vector2D(-0.594918, -0.397574), new Vector2D(-0.547371, -0.434041), new Vector2D(0.958132, -0.499614), 
-                                                new Vector2D(0.039941, 0.0990732), new Vector2D(-0.891471, -0.464943), new Vector2D(0.513187, -0.457062), 
-                                                new Vector2D(-0.930053, 0.60341), new Vector2D(0.656995, 0.854205)};
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 0),
+                new Vector2D(1, 1),
+                new Vector2D(1, -1),
+                new Vector2D(0.68957, 0.283647),
+                new Vector2D(0.909487, 0.644276),
+                new Vector2D(0.0361877, 0.803816),
+                new Vector2D(0.583004, 0.91555),
+                new Vector2D(-0.748169, 0.210483),
+                new Vector2D(-0.553528, -0.967036),
+                new Vector2D(0.316709, -0.153861),
+                new Vector2D(-0.79267, 0.585945),
+                new Vector2D(-0.700164, -0.750994),
+                new Vector2D(0.452273, -0.604434),
+                new Vector2D(-0.79134, -0.249902),
+                new Vector2D(-0.594918, -0.397574),
+                new Vector2D(-0.547371, -0.434041),
+                new Vector2D(0.958132, -0.499614),
+                new Vector2D(0.039941, 0.0990732),
+                new Vector2D(-0.891471, -0.464943),
+                new Vector2D(0.513187, -0.457062),
+                new Vector2D(-0.930053, 0.60341),
+                new Vector2D(0.656995, 0.854205)
+            };
 
-            var expected = new List<Vector2D> { new Vector2D(1, -1), new Vector2D(1, 1), new Vector2D(0.583004, 0.91555), new Vector2D(0.0361877, 0.803816), 
-                                                new Vector2D(-0.930053, 0.60341), new Vector2D(-0.891471, -0.464943), new Vector2D(-0.700164, -0.750994), 
-                                                new Vector2D(-0.553528, -0.967036)};
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(1, -1),
+                new Vector2D(1, 1),
+                new Vector2D(0.583004, 0.91555),
+                new Vector2D(0.0361877, 0.803816),
+                new Vector2D(-0.930053, 0.60341),
+                new Vector2D(-0.891471, -0.464943),
+                new Vector2D(-0.700164, -0.750994),
+                new Vector2D(-0.553528, -0.967036)
+            };
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(expected.Count);
@@ -167,8 +230,131 @@ namespace Math.Tests
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(34);
-
-
         }
+
+        [Test]
+        public static void MinCircle_EmptyList_returnsNaNCircle()
+        {
+            var points = new List<Vector2D>();
+            var c = Geometry.MinCircle(points);
+            c.Center.X.ShouldBe(double.NaN);
+            c.Center.Y.ShouldBe(double.NaN);
+            c.Radius.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public static void MinCircle_OnePoints_returnsPointRadiusZero()
+        {
+            var points = new List<Vector2D> { new Vector2D(1, 2) };
+            var c = Geometry.MinCircle(points);
+            c.Center.X.ShouldBe(1);
+            c.Center.Y.ShouldBe(2);
+            c.Radius.ShouldBe(0);
+        }
+
+        [Test]
+        public static void MinCircle_FourSamePoints_returnsPointRadiusZero()
+        {
+            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(1, 2), new Vector2D(1, 2), new Vector2D(1, 2) };
+            var c = Geometry.MinCircle(points);
+            c.Center.X.ShouldBe(1);
+            c.Center.Y.ShouldBe(2);
+            c.Radius.ShouldBe(0);
+        }
+
+        [Test]
+        public static void MinCircle_TwoDiffrentPoints_returnsMidpoint()
+        {
+            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(3, 4), new Vector2D(1, 2) };
+            var c = Geometry.MinCircle(points);
+            c.Center.X.ShouldBe(2);
+            c.Center.Y.ShouldBe(3);
+            c.Radius.ShouldBe(System.Math.Sqrt(2.0));
+        }
+
+        [Test]
+        public static void MinCircle_ThreeDiffrentPoints_returnsMidpoint()
+        {
+            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(5, 4), new Vector2D(1, 2) };
+            var c = Geometry.MinCircle(points);
+            var expected = Circle2D.Create(new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(5, 4));
+            c.ShouldBe(expected);
+        }
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        [TestCase(20)]
+        public static void MinCircle_4PlusNDiffrentPoints_returnsExpected(int n)
+        {
+            var points = new List<Vector2D> { new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1), new Vector2D(1, 0) };
+            for (var i = 4; i < 4 + n; i++)
+                points.Add(new Vector2D(1.0 + i / (n + 4.0) * 0.99, 0.0));
+            var c = Geometry.MinCircle(points);
+            var expected = new Circle2D(new Vector2D(1, 0), 1);
+            c.ShouldBe(expected);
+
+            points.Reverse();
+            c = Geometry.MinCircle(points);
+            c.ShouldBe(expected);
+        }
+   
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        [TestCase(20)]
+        public static void MinCircle_3PlusNSpiralDiffrentPoints_returnsExpected(int n)
+        {
+            var points = new List<Vector2D> { new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1) };
+            var center = new Vector2D(1.0, 0.0);
+            for (var i = 0; i < n; i++)
+            {
+                var fraction = i/(double) n;
+                var angle = fraction*System.Math.PI*2.0;
+                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle))*fraction);
+            }
+            var c = Geometry.MinCircle(points);
+            var expected = new Circle2D(new Vector2D(1, 0), 1);
+            c.ShouldBe(expected);
+
+            points.Reverse();
+            c = Geometry.MinCircle(points);
+            c.ShouldBe(expected);
+        }
+
     }
 }

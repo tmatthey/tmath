@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,6 +66,49 @@ namespace Math
                 k--;
             return hull.Take(k).ToList();
 
+        }
+
+        // Minimal boundary circle based on Welzl's algorithm
+        public static Circle2D MinCircle(IList<Vector2D> allPoints)
+        {
+            // Make unique, O(N) (?)
+            var points = allPoints.Distinct().ToList();
+
+            // Reduce point set to O(sqrt(N))
+            points = Eliminate(points);
+
+            // Trival cases
+            if (points.Count == 0)
+                return new Circle2D(new Vector2D(double.NaN), double.NaN);
+            if (points.Count == 1)
+                return new Circle2D(points[0], 0.0);
+            if (points.Count == 2)
+                return Circle2D.Create(points[0], points[1]);
+            if (points.Count == 3)
+                return Circle2D.Create(points[0], points[1], points[2]);
+
+            var array = new Vector2D[3];
+
+            return DoMinCricle(points, points.Count, array, 0);
+        }
+
+        public static Circle2D DoMinCricle(IList<Vector2D> points, int n, Vector2D[] array, int k)
+        {
+            if (k == 3)
+                return Circle2D.Create(array[0], array[1], array[2]);
+            if (n == 1 && k == 0)
+                return new Circle2D(points[0], 0);
+            if (n == 0 && k == 2)
+                return Circle2D.Create(array[0], array[1]);
+            if (n == 1 && k == 1)
+                return Circle2D.Create(array[0], points[0]);
+
+            var c = DoMinCricle(points, n - 1, array, k);
+            if (c.IsInside(points[n - 1])) 
+                return c;
+            array[k++] = points[n - 1];
+            c = DoMinCricle(points, n - 1, array, k);
+            return c;
         }
 
         private static double Cross(Vector2D o, Vector2D a, Vector2D b)
