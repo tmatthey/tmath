@@ -50,6 +50,43 @@ namespace Math
         public Vector2D Center { get; set; }
         public double Radius { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Circle2D)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Center.GetHashCode();
+                hashCode = (hashCode * 397) ^ Radius.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        public bool IsEqual(Circle2D c)
+        {
+            return IsEqual(c, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Circle2D c, double epsilon)
+        {
+            return Center.IsEqual(c.Center, epsilon) && Comparison.IsEqual(Radius, c.Radius, epsilon);
+        }
+
+
+        public static bool operator ==(Circle2D c1, Circle2D c2)
+        {
+            return c1.IsEqual(c2);
+        }
+
+        public static bool operator !=(Circle2D c1, Circle2D c2)
+        {
+            return !c1.IsEqual(c2);
+        }
 
         public bool IsInside(Vector2D p, double epsilon)
         {

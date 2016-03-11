@@ -38,6 +38,13 @@ namespace Math.Gps
             Longitude = longitude;
 
         }
+        public GpsPoint(double latitude, double longitude, double elevation)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+            Elevation = elevation;
+
+        }
         public GpsPoint(GpsPoint g)
         {
             Latitude = g.Latitude;
@@ -48,6 +55,53 @@ namespace Math.Gps
         public double Latitude { get; set; } // theta
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
+
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((GpsPoint)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Elevation.GetHashCode();
+                hashCode = (hashCode * 397) ^ Latitude.GetHashCode();
+                hashCode = (hashCode * 397) ^ Longitude.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        public bool IsEqual(GpsPoint g)
+        {
+            return IsEqual(g, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(GpsPoint g, double epsilon)
+        {
+            if (Comparison.IsZero(Geodesy.EarthRadius + Elevation, epsilon) && Comparison.IsZero(Geodesy.EarthRadius + g.Elevation, epsilon))
+                return true;
+
+            if (!Comparison.IsEqual(Elevation, g.Elevation, epsilon))
+                return false;
+
+            return Function.NormalizeAngle(Conversion.DegToRad(Longitude - g.Longitude)) < epsilon &&
+                   Function.NormalizeAngle(Conversion.DegToRad(Latitude - g.Latitude)) < epsilon;
+        }
+
+        public static bool operator ==(GpsPoint g1, GpsPoint g2)
+        {
+            return g1.IsEqual(g2);
+        }
+
+        public static bool operator !=(GpsPoint g1, GpsPoint g2)
+        {
+            return !g1.IsEqual(g2);
+        }
+
 
         public GpsPoint Interpolate(GpsPoint g, double x)
         {

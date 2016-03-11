@@ -131,6 +131,7 @@ namespace Math.Tests
             c.Center.ShouldBe(new Vector2D(1, 0));
             c.Radius.ShouldBe(1.0);
         }
+
         [Test]
         public void Create_WithThreePointsBigCircle_returnsCorrectCircle()
         {
@@ -140,6 +141,45 @@ namespace Math.Tests
             var c = Circle2D.Create(u, v, w);
             c.Center.X.ShouldBe(1, 1e-13);
             c.Radius.ShouldBe(5000000000);
+        }
+
+        [Test]
+        public void Equals_WithNull_ReturnsFalse()
+        {
+            var p = new Circle2D(new Vector2D(1,2), 0.2);
+            Circle2D q = null;
+            p.Equals(q).ShouldBe(false);
+        }
+
+        [Test]
+        public void Equals_WithItself_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            p.Equals(p).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_NotEqualRadius_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2), 0.201);
+            (p != q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpEqual_WithDiffrentRef_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2), 0.2);
+            (p == q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_NotEqualCenter_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2.01), 0.2);
+            (p != q).ShouldBe(true);
         }
 
     }

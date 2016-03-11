@@ -227,7 +227,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void NotSameVectorIsNotEqualOp_ReturnsTrue()
+        public void OpNotEqual_WithNotSameVector_ReturnsTrue()
         {
             var v = new Vector3D(1, 2, 3);
             var u = new Vector3D(1, 2, 3.1);
@@ -235,7 +235,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void SameVectorIsEqualOp_ReturnsTrue()
+        public void OpEqual_WithSameVector_ReturnsTrue()
         {
             var v = new Vector3D(1, 2, 3);
             var u = v;

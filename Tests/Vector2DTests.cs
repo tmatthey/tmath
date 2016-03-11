@@ -169,7 +169,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void NullptrEquals_ReturnsFalse()
+        public void Equals_WihtNullptr_ReturnsFalse()
         {
             var v = new Vector2D(1, 2);
             Vector2D u = null;
@@ -193,7 +193,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void SameVectorIsEqualOp_ReturnsTrue()
+        public void OpEqual_WithSameVector_ReturnsTrue()
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);

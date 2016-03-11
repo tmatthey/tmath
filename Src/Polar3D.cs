@@ -72,9 +72,9 @@ namespace Math
             }
         }
 
-        public bool IsEqual(Polar3D v)
+        public bool IsEqual(Polar3D p)
         {
-            return IsEqual(v, Comparison.Epsilon);
+            return IsEqual(p, Comparison.Epsilon);
         }
 
         public bool IsEqual(Polar3D p, double epsilon)

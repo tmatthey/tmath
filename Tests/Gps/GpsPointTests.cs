@@ -146,5 +146,69 @@ namespace Math.Tests.Gps
                 d += gpsTrack.Track[i].HaversineDistance(gpsTrack.Track[i + 1]);
             d.ShouldBe(9523.0, 1e-1);
         }
+
+        [Test]
+        public void Equals_WithNull_ReturnsFalse()
+        {
+            var p = new GpsPoint(12, 14);
+            GpsPoint q = null;
+            p.Equals(q).ShouldBe(false);
+        }
+
+        [Test]
+        public void Equals_WithItself_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17);
+            p.Equals(p).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WithSameVecotr_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17);
+            var q = new GpsPoint(12, 14, 17);
+            p.Equals(q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_NotEqualElevation_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17);
+            var q = new GpsPoint(12, 14, 17.1);
+            (p != q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpEqual_WithDiffrentRef_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17.1);
+            var q = new GpsPoint(12, 14, 17.1);
+            (p == q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_NotEqualLong_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17.1);
+            var q = new GpsPoint(12, 14.1, 17.1);
+            (p != q).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_NotEqualLat_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, 17.1);
+            var q = new GpsPoint(12, 14.1, 17.1);
+            (p != q).ShouldBe(true);
+        }
+
+        [Test]
+        public void IsEqual_WithCenterOfEarth_ReturnsTrue()
+        {
+            var p = new GpsPoint(12, 14, -Geodesy.EarthRadius);
+            var q = new GpsPoint(12, 14.1, -Geodesy.EarthRadius);
+            p.IsEqual(q).ShouldBe(true);
+        }
+
     }
 }
