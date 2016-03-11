@@ -35,7 +35,6 @@ namespace Math.Tests.Gfx
     [TestFixture]
     public class DrawLineTests
     {
-
         [Test]
         public void XiaolinWu()
         {
@@ -58,6 +57,5 @@ namespace Math.Tests.Gfx
             bitmap.Bitmap[3, 2].ShouldBe(0.0);
             bitmap.Bitmap[4, 2].ShouldBe(0.0);
         }
-
     }
 }

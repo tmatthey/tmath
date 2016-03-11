@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Math.Gps;
@@ -41,80 +40,112 @@ namespace Math.Tests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
-        [Test]
-        public void ConvexHull_WithEmptyList_returnsEmpty()
-        {
-            var points = new List<Vector2D>();
-            var expected = new List<Vector2D>();
-
-            var result = Geometry.ConvexHull(points);
-
-            result.Count.ShouldBe(expected.Count);
-
-        }
-
-        [Test]
-        public void ConvexHull_WithOnePoint_returnsOnePoint()
-        {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHull(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHull_WithTwoSamePoint_returnsOnePoint()
-        {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHull(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHull_WithFourSamePoint_returnsOnePoint()
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        [TestCase(20)]
+        public static void MinCircle_4PlusNDiffrentPoints_returnsExpected(int n)
         {
             var points = new List<Vector2D>
             {
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14)
-            };
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHull(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHull_WithFourPointsOnLine_returnsTwoPoints()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(1, 0),
+                new Vector2D(0, 0),
                 new Vector2D(2, 0),
-                new Vector2D(3, 0),
-                new Vector2D(4, 0)
+                new Vector2D(1, 1),
+                new Vector2D(1, 0)
             };
-            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
+            for (var i = 4; i < 4 + n; i++)
+                points.Add(new Vector2D(1.0 + i/(n + 4.0)*0.99, 0.0));
+            var c = Geometry.MinCircle(points);
+            var expected = new Circle2D(new Vector2D(1, 0), 1);
+            c.ShouldBe(expected);
+
+            points.Reverse();
+            c = Geometry.MinCircle(points);
+            c.ShouldBe(expected);
+        }
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        [TestCase(20)]
+        public static void MinCircle_3PlusNSpiralDiffrentPoints_returnsExpected(int n)
+        {
+            var points = new List<Vector2D> {new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1)};
+            var center = new Vector2D(1.0, 0.0);
+            for (var i = 0; i < n; i++)
+            {
+                var fraction = i/(double) n;
+                var angle = fraction*System.Math.PI*2.0;
+                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle))*fraction);
+            }
+            var c = Geometry.MinCircle(points);
+            var expected = new Circle2D(new Vector2D(1, 0), 1);
+            c.ShouldBe(expected);
+
+            points.Reverse();
+            c = Geometry.MinCircle(points);
+            c.ShouldBe(expected);
+        }
+
+        [Test]
+        public void ConvexHull_FiveGpsTracks()
+        {
+            var rawTracks = new List<List<GpsPoint>>();
+            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
+            var gpsTracks = new List<GpsTrack>();
+            var center = new Vector3D();
+            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
+            {
+                center += gpsTrack.Center;
+                gpsTracks.Add(gpsTrack);
+            }
+            center /= gpsTracks.Count;
+            var points = new List<Vector2D>();
+            foreach (var track in gpsTracks)
+            {
+                points.AddRange(track.CreateTransformedTrack(center).Track);
+            }
 
             var result = Geometry.ConvexHull(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
+            result.Count.ShouldBe(34);
         }
 
         [Test]
@@ -206,30 +237,78 @@ namespace Math.Tests
         }
 
         [Test]
-        public void ConvexHull_FiveGpsTracks()
+        public void ConvexHull_WithEmptyList_returnsEmpty()
         {
-            var rawTracks = new List<List<GpsPoint>>();
-            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
-            var gpsTracks = new List<GpsTrack>();
-            var center = new Vector3D();
-            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
-            {
-                center += gpsTrack.Center;
-                gpsTracks.Add(gpsTrack);
-            }
-            center /= gpsTracks.Count;
             var points = new List<Vector2D>();
-            foreach (var track in gpsTracks)
-            {
-                points.AddRange(track.CreateTransformedTrack(center).Track);
-            }
+            var expected = new List<Vector2D>();
 
             var result = Geometry.ConvexHull(points);
-            result.Count.ShouldBe(34);
+
+            result.Count.ShouldBe(expected.Count);
+        }
+
+        [Test]
+        public void ConvexHull_WithFourPointsOnLine_returnsTwoPoints()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 0),
+                new Vector2D(2, 0),
+                new Vector2D(3, 0),
+                new Vector2D(4, 0)
+            };
+            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
+
+            var result = Geometry.ConvexHull(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHull_WithFourSamePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14)
+            };
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHull(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHull_WithOnePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHull(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHull_WithTwoSamePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHull(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
         }
 
         [Test]
@@ -243,19 +322,15 @@ namespace Math.Tests
         }
 
         [Test]
-        public static void MinCircle_OnePoints_returnsPointRadiusZero()
-        {
-            var points = new List<Vector2D> { new Vector2D(1, 2) };
-            var c = Geometry.MinCircle(points);
-            c.Center.X.ShouldBe(1);
-            c.Center.Y.ShouldBe(2);
-            c.Radius.ShouldBe(0);
-        }
-
-        [Test]
         public static void MinCircle_FourSamePoints_returnsPointRadiusZero()
         {
-            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(1, 2), new Vector2D(1, 2), new Vector2D(1, 2) };
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 2),
+                new Vector2D(1, 2),
+                new Vector2D(1, 2),
+                new Vector2D(1, 2)
+            };
             var c = Geometry.MinCircle(points);
             c.Center.X.ShouldBe(1);
             c.Center.Y.ShouldBe(2);
@@ -263,98 +338,44 @@ namespace Math.Tests
         }
 
         [Test]
-        public static void MinCircle_TwoDiffrentPoints_returnsMidpoint()
+        public static void MinCircle_OnePoints_returnsPointRadiusZero()
         {
-            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(3, 4), new Vector2D(1, 2) };
+            var points = new List<Vector2D> {new Vector2D(1, 2)};
             var c = Geometry.MinCircle(points);
-            c.Center.X.ShouldBe(2);
-            c.Center.Y.ShouldBe(3);
-            c.Radius.ShouldBe(System.Math.Sqrt(2.0));
+            c.Center.X.ShouldBe(1);
+            c.Center.Y.ShouldBe(2);
+            c.Radius.ShouldBe(0);
         }
 
         [Test]
         public static void MinCircle_ThreeDiffrentPoints_returnsMidpoint()
         {
-            var points = new List<Vector2D> { new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(5, 4), new Vector2D(1, 2) };
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 2),
+                new Vector2D(3, 4),
+                new Vector2D(5, 4),
+                new Vector2D(1, 2)
+            };
             var c = Geometry.MinCircle(points);
             var expected = Circle2D.Create(new Vector2D(1, 2), new Vector2D(3, 4), new Vector2D(5, 4));
             c.ShouldBe(expected);
         }
 
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        [TestCase(7)]
-        [TestCase(8)]
-        [TestCase(9)]
-        [TestCase(10)]
-        [TestCase(11)]
-        [TestCase(12)]
-        [TestCase(13)]
-        [TestCase(14)]
-        [TestCase(15)]
-        [TestCase(16)]
-        [TestCase(17)]
-        [TestCase(18)]
-        [TestCase(19)]
-        [TestCase(20)]
-        public static void MinCircle_4PlusNDiffrentPoints_returnsExpected(int n)
+        [Test]
+        public static void MinCircle_TwoDiffrentPoints_returnsMidpoint()
         {
-            var points = new List<Vector2D> { new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1), new Vector2D(1, 0) };
-            for (var i = 4; i < 4 + n; i++)
-                points.Add(new Vector2D(1.0 + i / (n + 4.0) * 0.99, 0.0));
-            var c = Geometry.MinCircle(points);
-            var expected = new Circle2D(new Vector2D(1, 0), 1);
-            c.ShouldBe(expected);
-
-            points.Reverse();
-            c = Geometry.MinCircle(points);
-            c.ShouldBe(expected);
-        }
-   
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        [TestCase(7)]
-        [TestCase(8)]
-        [TestCase(9)]
-        [TestCase(10)]
-        [TestCase(11)]
-        [TestCase(12)]
-        [TestCase(13)]
-        [TestCase(14)]
-        [TestCase(15)]
-        [TestCase(16)]
-        [TestCase(17)]
-        [TestCase(18)]
-        [TestCase(19)]
-        [TestCase(20)]
-        public static void MinCircle_3PlusNSpiralDiffrentPoints_returnsExpected(int n)
-        {
-            var points = new List<Vector2D> { new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1) };
-            var center = new Vector2D(1.0, 0.0);
-            for (var i = 0; i < n; i++)
+            var points = new List<Vector2D>
             {
-                var fraction = i/(double) n;
-                var angle = fraction*System.Math.PI*2.0;
-                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle))*fraction);
-            }
+                new Vector2D(1, 2),
+                new Vector2D(3, 4),
+                new Vector2D(3, 4),
+                new Vector2D(1, 2)
+            };
             var c = Geometry.MinCircle(points);
-            var expected = new Circle2D(new Vector2D(1, 0), 1);
-            c.ShouldBe(expected);
-
-            points.Reverse();
-            c = Geometry.MinCircle(points);
-            c.ShouldBe(expected);
+            c.Center.X.ShouldBe(2);
+            c.Center.Y.ShouldBe(3);
+            c.Radius.ShouldBe(System.Math.Sqrt(2.0));
         }
-
     }
 }

@@ -102,7 +102,5 @@ namespace Math
             }
             return a;
         }
-
-
     }
 }

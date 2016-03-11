@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,7 +45,7 @@ namespace Math
             points.Sort((a, b) => (a == b ? 0 : (a.X < b.X || ((Comparison.IsEqual(a.X, b.X) && a.Y < b.Y)) ? -1 : 1)));
 
             var k = 0;
-            var hull = new Vector2D[points.Count * 2];
+            var hull = new Vector2D[points.Count*2];
 
             // Build lower hull
             for (var i = 0; i < points.Count; ++i)
@@ -65,7 +64,6 @@ namespace Math
             if (k > 1)
                 k--;
             return hull.Take(k).ToList();
-
         }
 
         // Minimal boundary circle based on Welzl's algorithm
@@ -104,7 +102,7 @@ namespace Math
                 return Circle2D.Create(array[0], points[0]);
 
             var c = DoMinCricle(points, n - 1, array, k);
-            if (c.IsInside(points[n - 1])) 
+            if (c.IsInside(points[n - 1]))
                 return c;
             array[k++] = points[n - 1];
             c = DoMinCricle(points, n - 1, array, k);
@@ -133,20 +131,24 @@ namespace Math
             {
                 if ((array[j].X + array[j].Y) < a1)
                 {
-                    i1 = j; a1 = array[j].X + array[j].Y;
+                    i1 = j;
+                    a1 = array[j].X + array[j].Y;
                 }
                 else if ((array[j].X + array[j].Y) > a4)
                 {
-                    i4 = j; a4 = array[j].X + array[j].Y;
+                    i4 = j;
+                    a4 = array[j].X + array[j].Y;
                 }
 
                 if ((array[j].X - array[j].Y) < a2)
                 {
-                    i2 = j; a2 = array[j].X - array[j].Y;
+                    i2 = j;
+                    a2 = array[j].X - array[j].Y;
                 }
                 else if ((array[j].X - array[j].Y) > a3)
                 {
-                    i3 = j; a3 = array[j].X - array[j].Y;
+                    i3 = j;
+                    a3 = array[j].X - array[j].Y;
                 }
             }
 
@@ -173,6 +175,5 @@ namespace Math
             }
             return array.Take(n + 1).ToList();
         }
-
     }
 }

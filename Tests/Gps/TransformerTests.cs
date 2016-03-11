@@ -87,7 +87,7 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = -1},
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
-            var center = new GpsPoint { Longitude = 180, Latitude = 0 };
+            var center = new GpsPoint {Longitude = 180, Latitude = 0};
             var transformed = new Transformer(track, center);
             var track2D = transformed.Track;
             track2D[0].X.ShouldBe(-Geodesy.DistanceOneDeg);
@@ -98,24 +98,6 @@ namespace Math.Tests.Gps
             track2D[2].Y.ShouldBe(-Geodesy.DistanceOneDeg);
             track2D[3].X.ShouldBe(Geodesy.DistanceOneDeg);
             track2D[3].Y.ShouldBe(Geodesy.DistanceOneDeg);
-        }
-
-        [Test]
-        public void DistanceOfQudraticOneDeg_8OneDegDistance()
-        {
-            var track = new List<GpsPoint>
-            {
-                new GpsPoint {Longitude = 179, Latitude = 1},
-                new GpsPoint {Longitude = 179, Latitude = -1},
-                new GpsPoint {Longitude = 181, Latitude = -1},
-                new GpsPoint {Longitude = 181, Latitude = 1},
-                new GpsPoint {Longitude = 179, Latitude = 1}
-            };
-            var center = new GpsPoint { Longitude = 180, Latitude = 0 };
-            var transformed = new Transformer(track, center);
-            var distance = transformed.Distance;
-            distance.Count.ShouldBe(track.Count);
-            distance.Last().ShouldBe(4 * 2* Geodesy.DistanceOneDeg);
         }
 
         [Test]
@@ -138,6 +120,24 @@ namespace Math.Tests.Gps
             for (var i = 0; i + 1 < track.Track.Count; i++)
                 d += track.Track[i].Distance(track.Track[i + 1]);
             d.ShouldBe(9523.0, 1e-1);
+        }
+
+        [Test]
+        public void DistanceOfQudraticOneDeg_8OneDegDistance()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Longitude = 179, Latitude = 1},
+                new GpsPoint {Longitude = 179, Latitude = -1},
+                new GpsPoint {Longitude = 181, Latitude = -1},
+                new GpsPoint {Longitude = 181, Latitude = 1},
+                new GpsPoint {Longitude = 179, Latitude = 1}
+            };
+            var center = new GpsPoint {Longitude = 180, Latitude = 0};
+            var transformed = new Transformer(track, center);
+            var distance = transformed.Distance;
+            distance.Count.ShouldBe(track.Count);
+            distance.Last().ShouldBe(4*2*Geodesy.DistanceOneDeg);
         }
     }
 }

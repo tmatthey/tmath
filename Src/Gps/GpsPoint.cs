@@ -30,21 +30,23 @@ namespace Math.Gps
 {
     public class GpsPoint
     {
+        public GpsPoint()
+        {
+        }
 
-        public GpsPoint() { }
         public GpsPoint(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
-
         }
+
         public GpsPoint(double latitude, double longitude, double elevation)
         {
             Latitude = latitude;
             Longitude = longitude;
             Elevation = elevation;
-
         }
+
         public GpsPoint(GpsPoint g)
         {
             Latitude = g.Latitude;
@@ -56,12 +58,11 @@ namespace Math.Gps
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
 
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((GpsPoint)obj);
+            return obj.GetType() == GetType() && IsEqual((GpsPoint) obj);
         }
 
         public override int GetHashCode()
@@ -69,8 +70,8 @@ namespace Math.Gps
             unchecked
             {
                 var hashCode = Elevation.GetHashCode();
-                hashCode = (hashCode * 397) ^ Latitude.GetHashCode();
-                hashCode = (hashCode * 397) ^ Longitude.GetHashCode();
+                hashCode = (hashCode*397) ^ Latitude.GetHashCode();
+                hashCode = (hashCode*397) ^ Longitude.GetHashCode();
                 return hashCode;
             }
         }
@@ -82,7 +83,8 @@ namespace Math.Gps
 
         public bool IsEqual(GpsPoint g, double epsilon)
         {
-            if (Comparison.IsZero(Geodesy.EarthRadius + Elevation, epsilon) && Comparison.IsZero(Geodesy.EarthRadius + g.Elevation, epsilon))
+            if (Comparison.IsZero(Geodesy.EarthRadius + Elevation, epsilon) &&
+                Comparison.IsZero(Geodesy.EarthRadius + g.Elevation, epsilon))
                 return true;
 
             if (!Comparison.IsEqual(Elevation, g.Elevation, epsilon))
@@ -102,7 +104,6 @@ namespace Math.Gps
             return !g1.IsEqual(g2);
         }
 
-
         public GpsPoint Interpolate(GpsPoint g, double x)
         {
             Vector3D x0 = this;
@@ -112,9 +113,9 @@ namespace Math.Gps
             if (!Comparison.IsZero(angle))
             {
                 var axis = x0 ^ x1;
-                q = x0.Rotate(axis, angle * x);
+                q = x0.Rotate(axis, angle*x);
             }
-            q.Elevation = Elevation * (1.0 - x) + g.Elevation * x;
+            q.Elevation = Elevation*(1.0 - x) + g.Elevation*x;
             return q;
         }
 
@@ -135,7 +136,7 @@ namespace Math.Gps
 
         public static implicit operator Vector3D(GpsPoint g)
         {
-            return (Polar3D)g;
+            return (Polar3D) g;
         }
 
         public static implicit operator GpsPoint(Polar3D p)
@@ -150,7 +151,7 @@ namespace Math.Gps
 
         public static implicit operator GpsPoint(Vector3D v)
         {
-            return (Polar3D)v;
+            return (Polar3D) v;
         }
     }
 }

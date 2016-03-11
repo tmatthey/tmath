@@ -28,7 +28,7 @@
 
 namespace Math.Gfx
 {
-    static public class Draw
+    public static class Draw
     {
         //
         // Xiaolin Wu's line algorithm is an algorithm for line antialiasing, which was presented 
@@ -38,7 +38,7 @@ namespace Math.Gfx
         //
         // https://en.wikipedia.org/wiki/Xiaolin_Wu's_line_algorithm
         //
-        static public void XiaolinWu(Vector2D a, Vector2D b, IBitmap p)
+        public static void XiaolinWu(Vector2D a, Vector2D b, IBitmap p)
         {
             if (Comparison.IsZero(a.Distance(b)))
                 return;
@@ -48,8 +48,12 @@ namespace Math.Gfx
 
             if (steep)
             {
-                var t = a.X; a.X = a.Y; a.Y = t;
-                t = b.X; b.X = b.Y; b.Y = t;
+                var t = a.X;
+                a.X = a.Y;
+                a.Y = t;
+                t = b.X;
+                b.X = b.Y;
+                b.Y = t;
             }
             if (a.X > b.X)
             {
@@ -58,41 +62,41 @@ namespace Math.Gfx
 
             var dx = b.X - a.X;
             var dy = b.Y - a.Y;
-            var gradient = dy / dx;
+            var gradient = dy/dx;
 
             // handle first endpoint
             var xend = round(a.X);
-            var yend = a.Y + gradient * (xend - a.X);
+            var yend = a.Y + gradient*(xend - a.X);
             var xgap = rfpart(a.X + 0.5);
             var xpxl1 = xend; // this will be used in the main loop
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                p.Plot(ypxl1, xpxl1, rfpart(yend) * xgap);
-                p.Plot(ypxl1 + 1, xpxl1, fpart(yend) * xgap);
+                p.Plot(ypxl1, xpxl1, rfpart(yend)*xgap);
+                p.Plot(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
             }
             else
             {
-                p.Plot(xpxl1, ypxl1, rfpart(yend) * xgap);
-                p.Plot(xpxl1, ypxl1 + 1, fpart(yend) * xgap);
+                p.Plot(xpxl1, ypxl1, rfpart(yend)*xgap);
+                p.Plot(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
             // handle second endpoint
             xend = round(b.X);
-            yend = b.Y + gradient * (xend - b.X);
+            yend = b.Y + gradient*(xend - b.X);
             xgap = fpart(b.X + 0.5);
             var xpxl2 = xend; //this will be used in the main loop
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                p.Plot(ypxl2, xpxl2, rfpart(yend) * xgap);
-                p.Plot(ypxl2 + 1, xpxl2, fpart(yend) * xgap);
+                p.Plot(ypxl2, xpxl2, rfpart(yend)*xgap);
+                p.Plot(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
             }
             else
             {
-                p.Plot(xpxl2, ypxl2, rfpart(yend) * xgap);
-                p.Plot(xpxl2, ypxl2 + 1, fpart(yend) * xgap);
+                p.Plot(xpxl2, ypxl2, rfpart(yend)*xgap);
+                p.Plot(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
             }
 
             // main loop
@@ -110,7 +114,6 @@ namespace Math.Gfx
                 }
                 intery = intery + gradient;
             }
-
         }
 
         private static double fpart(double x)
@@ -121,7 +124,7 @@ namespace Math.Gfx
 
         private static int ipart(double x)
         {
-            return (int)x;
+            return (int) x;
         }
 
         private static double rfpart(double x)

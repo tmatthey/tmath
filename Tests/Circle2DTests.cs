@@ -25,6 +25,7 @@
  * SOFTWARE.
  * ***** END LICENSE BLOCK *****
  */
+
 using NUnit.Framework;
 using Shouldly;
 
@@ -33,15 +34,6 @@ namespace Math.Tests
     [TestFixture]
     public class Circle2DTests
     {
-
-        [Test]
-        public void Constructor_ZeroCenterAndRadius()
-        {
-            var c = new Circle2D();
-            c.Radius.ShouldBe(0.0);
-            c.Center.ShouldBe(Vector2D.Zero);
-        }
-
         [TestCase(0.0)]
         [TestCase(1.0)]
         [TestCase(13.17)]
@@ -51,17 +43,6 @@ namespace Math.Tests
             var c = new Circle2D(r);
             c.Radius.ShouldBe(r);
             c.Center.ShouldBe(Vector2D.Zero);
-        }
-
-        [Test]
-        public void Constructor_WithCenterRadius_CreatesExpected()
-        {
-            var r = 13.17;
-            var v = new Vector2D(12,-14.3);
-            var c = new Circle2D(v, r);
-            c.Radius.ShouldBe(r);
-            c.Center.ShouldBe(v);
-
         }
 
         [TestCase(2, false)]
@@ -82,43 +63,21 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Create_WithTwoPoints_returnsCorrectCircle()
+        public void Constructor_WithCenterRadius_CreatesExpected()
         {
-            var u = new Vector2D(1, 2);
-            var v = new Vector2D(2, 1);
-            var c = Circle2D.Create(u, v);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+            var r = 13.17;
+            var v = new Vector2D(12, -14.3);
+            var c = new Circle2D(v, r);
+            c.Radius.ShouldBe(r);
+            c.Center.ShouldBe(v);
         }
 
         [Test]
-        public void Create_WithTwoSamePoints_returnsCorrectCenterZeroRadius()
+        public void Constructor_ZeroCenterAndRadius()
         {
-            var u = new Vector2D(1, 2);
-            var c = Circle2D.Create(u, u);
-            c.Center.ShouldBe(u);
+            var c = new Circle2D();
             c.Radius.ShouldBe(0.0);
-        }
-
-        [Test]
-        public void Create_WithTwoSamePointsOneDiffrent_returnsCorrectCircleTwoPoints()
-        {
-            var u = new Vector2D(1, 2);
-            var v = new Vector2D(2, 1);
-            var c = Circle2D.Create(u, v, v);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
-        }
-
-        [Test]
-        public void Create_WithThreePointsCollinear_returnsCorrectCircleTwoPoints()
-        {
-            var u = new Vector2D(1, 2);
-            var v = new Vector2D(2, 1);
-            var w = new Vector2D(1.5, 1.5);
-            var c = Circle2D.Create(u, v, w);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+            c.Center.ShouldBe(Vector2D.Zero);
         }
 
         [Test]
@@ -144,11 +103,43 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Equals_WithNull_ReturnsFalse()
+        public void Create_WithThreePointsCollinear_returnsCorrectCircleTwoPoints()
         {
-            var p = new Circle2D(new Vector2D(1,2), 0.2);
-            Circle2D q = null;
-            p.Equals(q).ShouldBe(false);
+            var u = new Vector2D(1, 2);
+            var v = new Vector2D(2, 1);
+            var w = new Vector2D(1.5, 1.5);
+            var c = Circle2D.Create(u, v, w);
+            c.Center.ShouldBe((u + v)*0.5);
+            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+        }
+
+        [Test]
+        public void Create_WithTwoPoints_returnsCorrectCircle()
+        {
+            var u = new Vector2D(1, 2);
+            var v = new Vector2D(2, 1);
+            var c = Circle2D.Create(u, v);
+            c.Center.ShouldBe((u + v)*0.5);
+            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+        }
+
+        [Test]
+        public void Create_WithTwoSamePoints_returnsCorrectCenterZeroRadius()
+        {
+            var u = new Vector2D(1, 2);
+            var c = Circle2D.Create(u, u);
+            c.Center.ShouldBe(u);
+            c.Radius.ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Create_WithTwoSamePointsOneDiffrent_returnsCorrectCircleTwoPoints()
+        {
+            var u = new Vector2D(1, 2);
+            var v = new Vector2D(2, 1);
+            var c = Circle2D.Create(u, v, v);
+            c.Center.ShouldBe((u + v)*0.5);
+            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 
         [Test]
@@ -159,11 +150,11 @@ namespace Math.Tests
         }
 
         [Test]
-        public void OpNotEqual_NotEqualRadius_ReturnsTrue()
+        public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
-            var q = new Circle2D(new Vector2D(1, 2), 0.201);
-            (p != q).ShouldBe(true);
+            Circle2D q = null;
+            p.Equals(q).ShouldBe(false);
         }
 
         [Test]
@@ -182,5 +173,12 @@ namespace Math.Tests
             (p != q).ShouldBe(true);
         }
 
+        [Test]
+        public void OpNotEqual_NotEqualRadius_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2), 0.201);
+            (p != q).ShouldBe(true);
+        }
     }
 }

@@ -2190,6 +2190,7 @@ namespace Math.Tests.Gps
             };
             return gpsTrack;
         }
+
         public IList<GpsPoint> TrackFour()
         {
             var gpsTrack = new List<GpsPoint>
@@ -2876,6 +2877,7 @@ namespace Math.Tests.Gps
             };
             return gpsTrack;
         }
+
         public IList<GpsPoint> TrackFive()
         {
             var gpsTrack = new List<GpsPoint>
@@ -3553,7 +3555,8 @@ namespace Math.Tests.Gps
                 new GpsPoint {Latitude = 60.3898950, Longitude = 5.3476800},
                 new GpsPoint {Latitude = 60.3898520, Longitude = 5.3479300},
                 new GpsPoint {Latitude = 60.3898020, Longitude = 5.3481400},
-                new GpsPoint {Latitude = 60.3897700, Longitude = 5.3483800}            };
+                new GpsPoint {Latitude = 60.3897700, Longitude = 5.3483800}
+            };
             return gpsTrack;
         }
     }

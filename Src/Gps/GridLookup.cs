@@ -34,8 +34,9 @@ namespace Math.Gps
     public class GridLookup
     {
         private readonly Vector2D _gridOffset;
-        public GridLookup(Transformer transformed, double gridSize) 
-            : this(transformed, gridSize, transformed.Min,transformed.Max)
+
+        public GridLookup(Transformer transformed, double gridSize)
+            : this(transformed, gridSize, transformed.Min, transformed.Max)
         {
         }
 
@@ -154,9 +155,8 @@ namespace Math.Gps
         private void Index(Vector2D u, out int i, out int j)
         {
             var v = u - Min;
-            i = (int)System.Math.Floor(v.X / Size);
-            j = (int)System.Math.Floor(v.Y / Size);
+            i = (int) System.Math.Floor(v.X/Size);
+            j = (int) System.Math.Floor(v.Y/Size);
         }
-
     }
 }

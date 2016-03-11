@@ -54,7 +54,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Circle2D)obj);
+            return obj.GetType() == GetType() && IsEqual((Circle2D) obj);
         }
 
         public override int GetHashCode()
@@ -62,7 +62,7 @@ namespace Math
             unchecked
             {
                 var hashCode = Center.GetHashCode();
-                hashCode = (hashCode * 397) ^ Radius.GetHashCode();
+                hashCode = (hashCode*397) ^ Radius.GetHashCode();
                 return hashCode;
             }
         }
@@ -76,7 +76,6 @@ namespace Math
         {
             return Center.IsEqual(c.Center, epsilon) && Comparison.IsEqual(Radius, c.Radius, epsilon);
         }
-
 
         public static bool operator ==(Circle2D c1, Circle2D c2)
         {
@@ -98,10 +97,9 @@ namespace Math
             return IsInside(p, Comparison.Epsilon);
         }
 
-
         public static Circle2D Create(Vector2D a, Vector2D b)
         {
-            return new Circle2D((a + b) * 0.5, a.Distance(b) * 0.5);
+            return new Circle2D((a + b)*0.5, a.Distance(b)*0.5);
         }
 
         public static Circle2D Create(Vector2D a, Vector2D b, Vector2D c)
@@ -109,17 +107,18 @@ namespace Math
             var d0 = a.Distance(b);
             var d1 = b.Distance(c);
             var d2 = c.Distance(a);
-            if (Comparison.IsEqual((b - a) * (c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) || Comparison.IsZero(d2))
+            if (Comparison.IsEqual((b - a)*(c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
+                Comparison.IsZero(d2))
             {
                 return (d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a));
             }
 
             var offset = b.Norm2();
-            var bc = (a.Norm2() - offset) / 2.0;
-            var cd = (offset - c.Norm2()) / 2.0;
-            var det = (a.X - b.X) * (b.Y - c.Y) - (b.X - c.X) * (a.Y - b.Y);
-            var center = new Vector2D((bc * (b.Y - c.Y) - cd * (a.Y - b.Y))/det,
-                                      (cd * (a.X - b.X) - bc * (b.X - c.X))/det);
+            var bc = (a.Norm2() - offset)/2.0;
+            var cd = (offset - c.Norm2())/2.0;
+            var det = (a.X - b.X)*(b.Y - c.Y) - (b.X - c.X)*(a.Y - b.Y);
+            var center = new Vector2D((bc*(b.Y - c.Y) - cd*(a.Y - b.Y))/det,
+                (cd*(a.X - b.X) - bc*(b.X - c.X))/det);
             var radius = b.Distance(center);
 
             return new Circle2D(center, radius);

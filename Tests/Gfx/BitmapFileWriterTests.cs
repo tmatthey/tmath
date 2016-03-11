@@ -41,38 +41,6 @@ namespace Math.Tests.Gfx
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void WritePGM_WritesTrackOneToDisk()
-        {
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
-            var grid = gpsTrackRef.Lookup.Grid;
-            var max = 0;
-            foreach (var list in grid)
-                max = System.Math.Max(max, list.Count);
-            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
-            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
-                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count / (double)max;
-            BitmapFileWriter.PGM("trackOne.pgm", bitmap);
-        }
-
-        [Test]
-        public void WritePNG_WritesTrackOneToDisk()
-        {
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
-            var grid = gpsTrackRef.Lookup.Grid;
-            var max = 0;
-            foreach (var list in grid)
-                max = System.Math.Max(max, list.Count);
-            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
-            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
-                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count / (double)max;
-            BitmapFileWriter.PNG("trackOne.png", bitmap);
-        }
-
-        [Test]
         public void BitmapAdd_GreatesHeatmap()
         {
             var rawTracks = new List<List<GpsPoint>>();
@@ -106,7 +74,7 @@ namespace Math.Tests.Gfx
             {
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
-                    Draw.XiaolinWu(track[i], track[i+1], bitmap);
+                    Draw.XiaolinWu(track[i], track[i + 1], bitmap);
                 }
             }
             var cMax = 0.0;
@@ -119,11 +87,43 @@ namespace Math.Tests.Gfx
                 {
                     var c = bitmap.Bitmap[i, j];
                     if (Comparison.IsPositive(c))
-                        c = c / cMax / 0.95 + 0.05;
+                        c = c/cMax/0.95 + 0.05;
                     bitmap.Bitmap[i, j] = 1.0 - c;
                 }
-            
+
             BitmapFileWriter.PNG("heatMap.png", bitmap.Bitmap);
+        }
+
+        [Test]
+        public void WritePGM_WritesTrackOneToDisk()
+        {
+            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
+            var grid = gpsTrackRef.Lookup.Grid;
+            var max = 0;
+            foreach (var list in grid)
+                max = System.Math.Max(max, list.Count);
+            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
+            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
+                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                    bitmap[i, j] = grid[i, j].Count/(double) max;
+            BitmapFileWriter.PGM("trackOne.pgm", bitmap);
+        }
+
+        [Test]
+        public void WritePNG_WritesTrackOneToDisk()
+        {
+            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
+            var grid = gpsTrackRef.Lookup.Grid;
+            var max = 0;
+            foreach (var list in grid)
+                max = System.Math.Max(max, list.Count);
+            var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
+            foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
+                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                    bitmap[i, j] = grid[i, j].Count/(double) max;
+            BitmapFileWriter.PNG("trackOne.png", bitmap);
         }
     }
 }

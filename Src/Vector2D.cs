@@ -63,7 +63,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Vector2D)obj);
+            return obj.GetType() == GetType() && IsEqual((Vector2D) obj);
         }
 
         public override int GetHashCode()
@@ -71,7 +71,7 @@ namespace Math
             unchecked
             {
                 var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
+                hashCode = (hashCode*397) ^ Y.GetHashCode();
                 return hashCode;
             }
         }
@@ -130,13 +130,13 @@ namespace Math
 
         public double Dot(Vector2D v)
         {
-            return X * v.X + Y * v.Y;
+            return X*v.X + Y*v.Y;
         }
 
         public double Angle(Vector2D v)
         {
-            var sin = X * v.Y - v.X * Y;
-            var cos = X * v.X + Y * v.Y;
+            var sin = X*v.Y - v.X*Y;
+            var cos = X*v.X + Y*v.Y;
             return System.Math.Atan2(sin, cos);
         }
 
@@ -207,7 +207,7 @@ namespace Math
             {
                 return a.Distance(p);
             }
-            return System.Math.Abs(Cross(b - a, p - a) / l);
+            return System.Math.Abs(Cross(b - a, p - a)/l);
         }
 
         public static double PerpendicularSegementDistance(Vector2D x0, Vector2D x1, Vector2D p)
@@ -216,13 +216,14 @@ namespace Math
             if (x0 == x1)
                 return dist;
 
-            if ((x1 - x0) * (p - x1) >= 0.0)
+            if ((x1 - x0)*(p - x1) >= 0.0)
                 return x1.Distance(p);
-            if ((x0 - x1) * (p - x0) >= 0.0)
+            if ((x0 - x1)*(p - x0) >= 0.0)
                 return x0.Distance(p);
 
             return dist;
         }
+
         public static double PerpendicularParameter(Vector2D x0, Vector2D x1, Vector2D p)
         {
             var d = (x1 - x0).Norm2();
@@ -230,8 +231,7 @@ namespace Math
                 return 0.0;
             var a = (p - x0);
             var b = (x1 - x0);
-            return (a * b) / d;
-
+            return (a*b)/d;
         }
 
         public static double PerpendicularSegementParameter(Vector2D x0, Vector2D x1, Vector2D p)
@@ -241,18 +241,19 @@ namespace Math
 
         public static double Cross(Vector2D a, Vector2D b)
         {
-            return a.X * b.Y - a.Y * b.X;
+            return a.X*b.Y - a.Y*b.X;
         }
 
         // Trajectory clustering: a partition-and-group framework
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
-        public static double TrajectoryHausdorffDistance(Vector2D a, Vector2D b, Vector2D c, Vector2D d, double wPerpendicular,
+        public static double TrajectoryHausdorffDistance(Vector2D a, Vector2D b, Vector2D c, Vector2D d,
+            double wPerpendicular,
             double wParallel, double wAngular)
         {
             var l1 = a.Distance(b);
             var l2 = c.Distance(d);
-            if (l1 > l2 )
+            if (l1 > l2)
             {
                 Utils.Swap(ref a, ref c);
                 Utils.Swap(ref b, ref d);
@@ -263,7 +264,7 @@ namespace Math
             var dPerpendicular = 0.0;
             if (Comparison.IsPositive(dPerpA + dPerpB))
             {
-                dPerpendicular = (dPerpA * dPerpA + dPerpB * dPerpB) / (dPerpA + dPerpB);
+                dPerpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
             }
             var pa = PerpendicularParameter(c, d, a);
             var pb = PerpendicularParameter(c, d, b);
@@ -272,11 +273,11 @@ namespace Math
                 Utils.Swap(ref pa, ref pb);
             }
 
-            var dParallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0)) * l2;
-            var angle = System.Math.Min((b - a).AngleAbs(d - c), System.Math.PI / 2.0);
-            var dAngular = l1 * System.Math.Sin(angle);
+            var dParallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
+            var angle = System.Math.Min((b - a).AngleAbs(d - c), System.Math.PI/2.0);
+            var dAngular = l1*System.Math.Sin(angle);
 
-            return wPerpendicular * dPerpendicular + wParallel * dParallel + wAngular * dAngular;
+            return wPerpendicular*dPerpendicular + wParallel*dParallel + wAngular*dAngular;
         }
 
         private void Add(Vector2D v)
@@ -305,7 +306,7 @@ namespace Math
 
         private static double Norm2(double x, double y)
         {
-            return x * x + y * y;
+            return x*x + y*y;
         }
 
         private static double Norm(double x, double y)

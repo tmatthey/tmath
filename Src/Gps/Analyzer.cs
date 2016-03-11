@@ -33,7 +33,6 @@ namespace Math.Gps
 {
     public class Analyzer
     {
-
         public Analyzer(IList<GpsPoint> reference, IList<GpsPoint> current, double radius)
         {
             var gpsTrackRef = new GpsTrack(reference);
@@ -48,16 +47,25 @@ namespace Math.Gps
 
             var neighboursRef = GridLookup.ReferenceOrdering(cutNeighboursCur);
 
-            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Lookup.Track, neighboursRef, gpsTrackRef.TransformedTrack.Distance, gpsTrackRef.TransformedTrack.Displacement, true);
-            Current = new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance, trackCur.Displacement, false);
+            Reference = new AnalyzerTrackWrapper(reference, gpsTrackRef.Lookup.Track, neighboursRef,
+                gpsTrackRef.TransformedTrack.Distance, gpsTrackRef.TransformedTrack.Displacement, true);
+            Current = new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
+                trackCur.Displacement, false);
         }
+
+        public AnalyzerTrackWrapper Current { get; private set; }
+        public AnalyzerTrackWrapper Reference { get; private set; }
 
         private static List<List<Distance>> CutOffDistance(IList<List<Distance>> neighboursCur, double radius)
         {
-            return neighboursCur.Select(points => (from d in points where d.Dist <= radius select new Distance(d)).ToList()).Where(newPoints => newPoints.Count > 0).ToList();
+            return
+                neighboursCur.Select(points => (from d in points where d.Dist <= radius select new Distance(d)).ToList())
+                    .Where(newPoints => newPoints.Count > 0)
+                    .ToList();
         }
 
-        private static List<List<Distance>> AjustDistance(IList<List<Distance>> neighboursCur, Transformer trackRef, Transformer trackCur)
+        private static List<List<Distance>> AjustDistance(IList<List<Distance>> neighboursCur, Transformer trackRef,
+            Transformer trackCur)
         {
             var adjsuteddNeighboursCur = new List<List<Distance>>();
             foreach (var points in neighboursCur)
@@ -73,11 +81,15 @@ namespace Math.Gps
                     var curDp = trackCur.Track[ic];
                     if (ir > 0)
                     {
-                        d0 = new Distance(ir - 1, ic, Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp), Vector2D.PerpendicularSegementParameter(trackRef.Track[ir - 1], refDp, curDp));
+                        d0 = new Distance(ir - 1, ic,
+                            Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp),
+                            Vector2D.PerpendicularSegementParameter(trackRef.Track[ir - 1], refDp, curDp));
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
-                        d1 = new Distance(ir, ic, Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp), Vector2D.PerpendicularSegementParameter(refDp, trackRef.Track[ir + 1], curDp));
+                        d1 = new Distance(ir, ic,
+                            Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp),
+                            Vector2D.PerpendicularSegementParameter(refDp, trackRef.Track[ir + 1], curDp));
                     }
                     var dNew = (d0.Dist < d1.Dist ? d0 : d1);
 
@@ -92,8 +104,8 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
-
-        private static IList<List<Distance>> RemoveNonAdjacentPoints(double radius, IList<List<Distance>> neighboursCur, Transformer trackRef)
+        private static IList<List<Distance>> RemoveNonAdjacentPoints(double radius, IList<List<Distance>> neighboursCur,
+            Transformer trackRef)
         {
             var index = 0;
             var reducedNeighboursCur = new List<List<Distance>>();
@@ -103,7 +115,7 @@ namespace Math.Gps
                 refList.Sort();
 
                 var segments = new List<List<int>>();
-                for (var i = 1; i < refList.Count; )
+                for (var i = 1; i < refList.Count;)
                 {
                     if (Comparison.IsLessEqual(radius,
                         trackRef.Distance[refList[i]] -
@@ -123,20 +135,19 @@ namespace Math.Gps
                     segments.Add(refList);
                 }
                 var segmentAvg =
-                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum / s.Count).ToList();
+                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum/s.Count)
+                        .ToList();
                 var segmentDiff =
-                    segments.Select(s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d) / s.Count - index)))
+                    segments.Select(
+                        s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
                         .ToList();
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());
                 var newPoint = segments[minSegmentIndex].Select(s => points.First(p => p.Reference == s)).ToList();
                 newPoint.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
                 reducedNeighboursCur.Add(newPoint);
-                index = (int)segmentAvg[minSegmentIndex];
+                index = (int) segmentAvg[minSegmentIndex];
             }
             return reducedNeighboursCur;
         }
-
-        public AnalyzerTrackWrapper Current { get; private set; }
-        public AnalyzerTrackWrapper Reference { get; private set; }
     }
 }

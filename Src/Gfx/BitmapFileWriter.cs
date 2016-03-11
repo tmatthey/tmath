@@ -33,7 +33,7 @@ using System.Text;
 
 namespace Math.Gfx
 {
-    static public class BitmapFileWriter
+    public static class BitmapFileWriter
     {
         public static void PGM(string fileName, double[,] bitmap)
         {
@@ -44,9 +44,9 @@ namespace Math.Gfx
             writer.Write(Encoding.ASCII.GetBytes(header));
             for (var j = 0; j < height; j++)
             {
-                for (var i = width-1; i >=0; i--)
+                for (var i = width - 1; i >= 0; i--)
                 {
-                    var c = (byte)(System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0) * 255.0);
+                    var c = (byte) (System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0)*255.0);
                     writer.Write(c);
                 }
             }
@@ -62,8 +62,8 @@ namespace Math.Gfx
             {
                 for (var i = 0; i < width; i++)
                 {
-                    var c = (byte)(System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0) * 255.0);
-                    image.SetPixel(width-i-1, j, Color.FromArgb(c, c, c));
+                    var c = (byte) (System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0)*255.0);
+                    image.SetPixel(width - i - 1, j, Color.FromArgb(c, c, c));
                 }
             }
             image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);

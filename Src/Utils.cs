@@ -30,9 +30,9 @@ namespace Math
 {
     public class Utils
     {
-        static public void Swap<T>(ref T x, ref T y)
+        public static void Swap<T>(ref T x, ref T y)
         {
-            T t = y;
+            var t = y;
             y = x;
             x = t;
         }

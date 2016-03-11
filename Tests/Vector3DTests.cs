@@ -189,9 +189,9 @@ namespace Math.Tests
         [Test]
         public void Norm_CloseMaxDouble_returnsExpected()
         {
-            var a = double.MaxValue / 2.0;
+            var a = double.MaxValue/2.0;
             var v = new Vector3D(a);
-            v.Norm().ShouldBe(System.Math.Sqrt(3.0) * a);
+            v.Norm().ShouldBe(System.Math.Sqrt(3.0)*a);
         }
 
         [Test]
@@ -216,6 +216,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Normalize_ZeroVector3D_ZeroVector3D()
+        {
+            var v = new Vector3D();
+            v.Normalize();
+            v.Norm().ShouldBe(0.0);
+        }
+
+        [Test]
         public void Normalized()
         {
             var a = 17.0;
@@ -227,11 +235,11 @@ namespace Math.Tests
         }
 
         [Test]
-        public void OpNotEqual_WithNotSameVector_ReturnsTrue()
+        public void Normalized_ZeroVector3D_returnsZeroVector3D()
         {
-            var v = new Vector3D(1, 2, 3);
-            var u = new Vector3D(1, 2, 3.1);
-            (v != u).ShouldBe(true);
+            var v = new Vector3D();
+            var u = v.Normalized();
+            u.Norm().ShouldBe(0.0);
         }
 
         [Test]
@@ -240,6 +248,14 @@ namespace Math.Tests
             var v = new Vector3D(1, 2, 3);
             var u = v;
             (v == u).ShouldBe(true);
+        }
+
+        [Test]
+        public void OpNotEqual_WithNotSameVector_ReturnsTrue()
+        {
+            var v = new Vector3D(1, 2, 3);
+            var u = new Vector3D(1, 2, 3.1);
+            (v != u).ShouldBe(true);
         }
 
         [Test]
@@ -319,22 +335,6 @@ namespace Math.Tests
             var v = new Vector3D(d, e, f);
             var w = u*v;
             w.ShouldBe(u.Dot(v));
-        }
-
-        [Test]
-        public void Normalize_ZeroVector3D_ZeroVector3D()
-        {
-            var v = new Vector3D();
-            v.Normalize();
-            v.Norm().ShouldBe(0.0);
-        }
-
-        [Test]
-        public void Normalized_ZeroVector3D_returnsZeroVector3D()
-        {
-            var v = new Vector3D();
-            var u = v.Normalized();
-            u.Norm().ShouldBe(0.0);
         }
     }
 }

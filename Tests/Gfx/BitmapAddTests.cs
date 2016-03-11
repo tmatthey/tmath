@@ -35,7 +35,6 @@ namespace Math.Tests.Gfx
     [TestFixture]
     public class BitmapAddTests
     {
-
         [Test]
         public void Constructor_WithCorrectDimesions()
         {
@@ -55,16 +54,17 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
-        public void Pick_ValidCoordsInitialBitMap_ReturnsZero()
-        {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
-            bitmap.Pick(1, 1).ShouldBe(0.0);
-        }
-        [Test]
         public void Pick_UnValidCoordsInitialBitMap_ReturnsZero()
         {
             var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
             bitmap.Pick(1000, 1).ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Pick_ValidCoordsInitialBitMap_ReturnsZero()
+        {
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            bitmap.Pick(1, 1).ShouldBe(0.0);
         }
     }
 }

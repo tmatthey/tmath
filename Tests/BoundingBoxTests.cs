@@ -25,6 +25,7 @@
  * SOFTWARE.
  * ***** END LICENSE BLOCK *****
  */
+
 using NUnit.Framework;
 using Shouldly;
 
@@ -33,21 +34,14 @@ namespace Math.Tests
     [TestFixture]
     public class BoundingBoxTests
     {
-        private Vector3D _min = new Vector3D(double.PositiveInfinity);
-        private Vector3D _max = new Vector3D(double.NegativeInfinity);
+        private readonly Vector3D _min = new Vector3D(double.PositiveInfinity);
+        private readonly Vector3D _max = new Vector3D(double.NegativeInfinity);
 
         [Test]
         public void Constructor_Empty_True()
         {
             var bb = new BoundingBox();
             bb.IsEmpty().ShouldBe(true);
-        }
-
-        [Test]
-        public void Constructor_Min_returnsPosInfitity()
-        {
-            var bb = new BoundingBox();
-            bb.Min.ShouldBe(_min);
         }
 
         [Test]
@@ -58,13 +52,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Expand_WithVector3D_returnsMinMaxVector3D()
+        public void Constructor_Min_returnsPosInfitity()
         {
             var bb = new BoundingBox();
-            var v = new Vector3D(1, -2, 3);
-            bb.Expand(v);
-            bb.Min.ShouldBe(v);
-            bb.Max.ShouldBe(v);
+            bb.Min.ShouldBe(_min);
         }
 
         [Test]
@@ -116,6 +107,16 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Expand_WithVector3D_returnsMinMaxVector3D()
+        {
+            var bb = new BoundingBox();
+            var v = new Vector3D(1, -2, 3);
+            bb.Expand(v);
+            bb.Min.ShouldBe(v);
+            bb.Max.ShouldBe(v);
+        }
+
+        [Test]
         public void Reset_MinMax_returnsInfitity()
         {
             var bb = new BoundingBox();
@@ -127,4 +128,3 @@ namespace Math.Tests
         }
     }
 }
-

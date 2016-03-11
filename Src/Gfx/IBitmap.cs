@@ -30,9 +30,9 @@ namespace Math.Gfx
 {
     public interface IBitmap
     {
+        double[,] Bitmap { get; }
         void Plot(double x, double y, double c);
         double Pick(double x, double y);
         Vector2D Convert(Vector2D x);
-        double[,] Bitmap { get; }
     }
 }

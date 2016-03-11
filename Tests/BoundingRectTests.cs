@@ -25,6 +25,7 @@
  * SOFTWARE.
  * ***** END LICENSE BLOCK *****
  */
+
 using NUnit.Framework;
 using Shouldly;
 
@@ -33,21 +34,14 @@ namespace Math.Tests
     [TestFixture]
     public class BoundingRectTests
     {
-        private Vector2D _min = new Vector2D(double.PositiveInfinity);
-        private Vector2D _max = new Vector2D(double.NegativeInfinity);
+        private readonly Vector2D _min = new Vector2D(double.PositiveInfinity);
+        private readonly Vector2D _max = new Vector2D(double.NegativeInfinity);
 
         [Test]
         public void Constructor_Empty_True()
         {
             var bb = new BoundingRect();
             bb.IsEmpty().ShouldBe(true);
-        }
-
-        [Test]
-        public void Constructor_Min_returnsPosInfitity()
-        {
-            var bb = new BoundingRect();
-            bb.Min.ShouldBe(_min);
         }
 
         [Test]
@@ -58,13 +52,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Expand_WithVector2D_returnsMinMaxVector2D()
+        public void Constructor_Min_returnsPosInfitity()
         {
             var bb = new BoundingRect();
-            var v = new Vector2D(1, -2);
-            bb.Expand(v);
-            bb.Min.ShouldBe(v);
-            bb.Max.ShouldBe(v);
+            bb.Min.ShouldBe(_min);
         }
 
         [Test]
@@ -116,6 +107,16 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Expand_WithVector2D_returnsMinMaxVector2D()
+        {
+            var bb = new BoundingRect();
+            var v = new Vector2D(1, -2);
+            bb.Expand(v);
+            bb.Min.ShouldBe(v);
+            bb.Max.ShouldBe(v);
+        }
+
+        [Test]
         public void Reset_MinMax_returnsInfitity()
         {
             var bb = new BoundingRect();
@@ -127,4 +128,3 @@ namespace Math.Tests
         }
     }
 }
-

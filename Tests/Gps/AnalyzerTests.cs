@@ -38,12 +38,14 @@ namespace Math.Tests.Gps
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
-        [Test]
-        public void TotalDistance_ReturnsExpeced()
+        private double Distance(IList<GpsPoint> track)
         {
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
-            analyzer.Reference.TotalDistance.ShouldBe(Distance(analyzer.Reference.Track), 1e-1);
-            analyzer.Current.TotalDistance.ShouldBe(Distance(analyzer.Current.Track), 1e-1);
+            var d = 0.0;
+            for (var i = 0; i + 1 < track.Count; i++)
+            {
+                d += track[i].HaversineDistance(track[i + 1]);
+            }
+            return d;
         }
 
         [Test]
@@ -64,14 +66,12 @@ namespace Math.Tests.Gps
             }
         }
 
-        private double Distance(IList<GpsPoint> track)
+        [Test]
+        public void TotalDistance_ReturnsExpeced()
         {
-            var d = 0.0;
-            for (var i = 0; i + 1 < track.Count; i++)
-            {
-                d += track[i].HaversineDistance(track[i + 1]);
-            }
-            return d;
+            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
+            analyzer.Reference.TotalDistance.ShouldBe(Distance(analyzer.Reference.Track), 1e-1);
+            analyzer.Current.TotalDistance.ShouldBe(Distance(analyzer.Current.Track), 1e-1);
         }
     }
 }
