@@ -79,7 +79,7 @@ namespace Math
             if (points.Count == 0)
                 return new Circle2D(new Vector2D(double.NaN), double.NaN);
             if (points.Count == 1)
-                return new Circle2D(points[0], 0.0);
+                return Circle2D.Create(points[0]);
             if (points.Count == 2)
                 return Circle2D.Create(points[0], points[1]);
             if (points.Count == 3)
@@ -95,7 +95,7 @@ namespace Math
             if (k == 3)
                 return Circle2D.Create(array[0], array[1], array[2]);
             if (n == 1 && k == 0)
-                return new Circle2D(points[0], 0);
+                return Circle2D.Create(points[0]);
             if (n == 0 && k == 2)
                 return Circle2D.Create(array[0], array[1]);
             if (n == 1 && k == 1)
