@@ -52,6 +52,7 @@
     <Compile Include="BoundingBoxTests.cs" />
     <Compile Include="BoundingRectTests.cs" />
     <Compile Include="Circle2DTests.cs" />
+    <Compile Include="Circle3DTests.cs" />
     <Compile Include="GeometryTests.cs" />
     <Compile Include="Gfx\BitmapAddTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
