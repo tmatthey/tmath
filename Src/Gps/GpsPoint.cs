@@ -121,7 +121,7 @@ namespace Math.Gps
 
         public double HaversineDistance(GpsPoint g)
         {
-            return Geodesy.Haversine(Latitude, Longitude, g.Latitude, g.Longitude);
+            return Geodesy.Distance.Haversine(this, g);
         }
 
         public static implicit operator Polar3D(GpsPoint g)

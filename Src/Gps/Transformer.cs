@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.Gps
 {
@@ -77,5 +78,10 @@ namespace Math.Gps
         public Vector2D Max { get; private set; }
         public IList<double> Distance { get; private set; }
         public IList<double> Displacement { get; private set; }
+        public double TotalDistance
+        {
+            get { return Distance.LastOrDefault(); }
+        }
+
     }
 }

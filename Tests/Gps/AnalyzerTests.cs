@@ -38,21 +38,13 @@ namespace Math.Tests.Gps
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
-        private double Distance(IList<GpsPoint> track)
-        {
-            var d = 0.0;
-            for (var i = 0; i + 1 < track.Count; i++)
-            {
-                d += track[i].HaversineDistance(track[i + 1]);
-            }
-            return d;
-        }
 
         [Test]
         public void ListOfNeighbours_InRange()
         {
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
-            foreach (var point in analyzer.Reference.Neighbours)
+            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
+            var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+            foreach (var point in current.Neighbours)
             {
                 foreach (var p in point)
                 {
@@ -61,7 +53,7 @@ namespace Math.Tests.Gps
                     r.ShouldBeGreaterThanOrEqualTo(0);
                     r.ShouldBeLessThan(analyzer.Reference.Track.Count);
                     c.ShouldBeGreaterThanOrEqualTo(0);
-                    c.ShouldBeLessThan(analyzer.Current.Track.Count);
+                    c.ShouldBeLessThan(current.Track.Count);
                 }
             }
         }
@@ -69,9 +61,10 @@ namespace Math.Tests.Gps
         [Test]
         public void TotalDistance_ReturnsExpeced()
         {
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne(), _gpsTrackExamples.TrackTwo(), 50.0);
-            analyzer.Reference.TotalDistance.ShouldBe(Distance(analyzer.Reference.Track), 1e-1);
-            analyzer.Current.TotalDistance.ShouldBe(Distance(analyzer.Current.Track), 1e-1);
+            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
+            var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+            analyzer.Reference.TransformedTrack.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(analyzer.Reference.Track), 1e-1);
+            current.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(current.Track), 1e-1);
         }
     }
 }

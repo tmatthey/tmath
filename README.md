@@ -21,9 +21,16 @@ A collection of mathematical function and data structures written in C#. The lib
 * Greatest common divisor (GDC)
 * IsPrime; no cache; ~3s for max long / 10
 
+### Geometry
+* Convex hull 2D
+* Minimal boudning circle 2D
+* Minimal boudning circle on Sphere 3D
+
 ### Data structures
 * BoundingBox
 * BoundingRect
+* Circle2D
+* Circle3D
 * Polar3D
 * Polynomial
 * * Division by real roots (linear root), and imaginary and conjugated (quadratic root) 

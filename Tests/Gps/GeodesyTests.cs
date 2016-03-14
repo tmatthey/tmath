@@ -38,19 +38,19 @@ namespace Math.Tests.Gps
         [Test]
         public void Haversine_LatMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
         {
-            Geodesy.Haversine(87, -10, 87 + 45, -10).ShouldBe(System.Math.PI*6367000.0/4.0);
+            Geodesy.Distance.Haversine(87, -10, 87 + 45, -10).ShouldBe(System.Math.PI*6367000.0/4.0);
         }
 
         [Test]
         public void Haversine_LongMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
         {
-            Geodesy.Haversine(0, 10, 0, 10 + 45).ShouldBe(System.Math.PI*6367000.0/4.0);
+            Geodesy.Distance.Haversine(0, 10, 0, 10 + 45).ShouldBe(System.Math.PI * 6367000.0 / 4.0);
         }
 
         [Test]
         public void Haversine_StartEndSameLocation_ReturnsZeroDistance()
         {
-            Geodesy.Haversine(17, 19, 17, 19).ShouldBe(0);
+            Geodesy.Distance.Haversine(17, 19, 17, 19).ShouldBe(0);
         }
     }
 }
