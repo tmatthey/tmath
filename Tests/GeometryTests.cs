@@ -176,7 +176,7 @@ namespace Math.Tests
                 new Vector2D(3, 0),
                 new Vector2D(4, 0)
             };
-            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
+            var expected = new List<Vector2D> { new Vector2D(1, 0), new Vector2D(4, 0) };
 
             var result = Geometry.ConvexHull(points);
 
@@ -195,7 +195,7 @@ namespace Math.Tests
                 new Vector2D(4.4, 14),
                 new Vector2D(4.4, 14)
             };
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
 
             var result = Geometry.ConvexHull(points);
 
@@ -207,8 +207,8 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithOnePoint_returnsOnePoint()
         {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var points = new List<Vector2D> { new Vector2D(4.4, 14) };
+            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
 
             var result = Geometry.ConvexHull(points);
 
@@ -220,8 +220,8 @@ namespace Math.Tests
         [Test]
         public void ConvexHull_WithTwoSamePoint_returnsOnePoint()
         {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var points = new List<Vector2D> { new Vector2D(4.4, 14), new Vector2D(4.4, 14) };
+            var expected = new List<Vector2D> { new Vector2D(4.4, 14) };
 
             var result = Geometry.ConvexHull(points);
 
@@ -261,7 +261,7 @@ namespace Math.Tests
                 new Vector2D(1, 0)
             };
             for (var i = 4; i < 4 + n; i++)
-                points.Add(new Vector2D(1.0 + i/(n + 4.0)*0.99, 0.0));
+                points.Add(new Vector2D(1.0 + i / (n + 4.0) * 0.99, 0.0));
             var c = Geometry.MinCircle(points);
             var expected = new Circle2D(new Vector2D(1, 0), 1);
             c.ShouldBe(expected);
@@ -294,13 +294,13 @@ namespace Math.Tests
         [TestCase(20)]
         public void MinCircle_3PlusNSpiralDiffrentPoints_returnsExpected(int n)
         {
-            var points = new List<Vector2D> {new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1)};
+            var points = new List<Vector2D> { new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(1, 1) };
             var center = new Vector2D(1.0, 0.0);
             for (var i = 0; i < n; i++)
             {
-                var fraction = i/(double) n;
-                var angle = fraction*System.Math.PI*2.0;
-                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle))*fraction);
+                var fraction = i / (double)n;
+                var angle = fraction * System.Math.PI * 2.0;
+                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle)) * fraction);
             }
             var c = Geometry.MinCircle(points);
             var expected = new Circle2D(new Vector2D(1, 0), 1);
@@ -340,7 +340,7 @@ namespace Math.Tests
         [Test]
         public void MinCircle_OnePoints_returnsPointRadiusZero()
         {
-            var points = new List<Vector2D> {new Vector2D(1, 2)};
+            var points = new List<Vector2D> { new Vector2D(1, 2) };
             var c = Geometry.MinCircle(points);
             c.Center.X.ShouldBe(1);
             c.Center.Y.ShouldBe(2);
@@ -411,7 +411,7 @@ namespace Math.Tests
                 MakeVectorOnSphere(1, 0)
             };
             for (var i = 4; i < 4 + n; i++)
-                points.Add(MakeVectorOnSphere(1.0 + i/(n + 4.0)*0.99, 0.0));
+                points.Add(MakeVectorOnSphere(1.0 + i / (n + 4.0) * 0.99, 0.0));
             var c = Geometry.MinCircleOnSphere(points);
             c.Center.X.ShouldBe(1.0);
             c.Center.Y.ShouldBe(0.0);
@@ -447,12 +447,12 @@ namespace Math.Tests
         [TestCase(2000)]
         public void MinCircleOnSphere_3PlusNSpiralDiffrentPoints_returnsExpected(int n)
         {
-            var points = new List<Vector3D> {MakeVectorOnSphere(-1, 0), MakeVectorOnSphere(0, 1), MakeVectorOnSphere(1, 0)};
+            var points = new List<Vector3D> { MakeVectorOnSphere(-1, 0), MakeVectorOnSphere(0, 1), MakeVectorOnSphere(1, 0) };
             var center = MakeVectorOnSphere(0.0, 0.0);
             for (var i = 0; i < n; i++)
             {
-                var fraction = i/(double) n;
-                var angle = fraction*System.Math.PI*2.0;
+                var fraction = i / (double)n;
+                var angle = fraction * System.Math.PI * 2.0;
                 points.Add(MakeVectorOnSphere(center.X + System.Math.Sin(angle) * fraction * .9, center.Y + System.Math.Cos(angle) * fraction * .9));
             }
             var c = Geometry.MinCircleOnSphere(points);
@@ -496,7 +496,7 @@ namespace Math.Tests
         [Test]
         public void MinCircleOnSphere_OnePoints_returnsPointRadiusZero()
         {
-            var points = new List<Vector3D> {MakeVectorOnSphere(1, 2)};
+            var points = new List<Vector3D> { MakeVectorOnSphere(1, 2) };
             var c = Geometry.MinCircleOnSphere(points);
             c.Center.X.ShouldBe(1);
             c.Center.Y.ShouldBe(2);
@@ -519,6 +519,22 @@ namespace Math.Tests
         }
 
         [Test]
+        public void MinCircleOnSphere_FiveDiffrentPoints_returnsCorrectCircle()
+        {
+            var points = new List<Vector3D>
+            {
+                MakeVectorOnSphere(3, 3),
+                MakeVectorOnSphere(-3, 3),
+                MakeVectorOnSphere(0, 0),
+                MakeVectorOnSphere(3, -3),
+                MakeVectorOnSphere(-3, 3)
+            };
+            var c = Geometry.MinCircleOnSphere(points);
+            var expected = Circle3D.Create(MakeVectorOnSphere(3, 3), MakeVectorOnSphere(3, -3), MakeVectorOnSphere(-3, -3));
+            c.ShouldBe(expected);
+        }
+
+        [Test]
         public void MinCircleOnSphere_TwoDiffrentPoints_returnsMidpoint()
         {
             var a = MakeVectorOnSphere(1, 2);
@@ -531,16 +547,21 @@ namespace Math.Tests
                 a
             };
             var c = Geometry.MinCircleOnSphere(points);
-            var center = (a+b)/2.0;
+            var center = (a + b) / 2.0;
             c.Center.ShouldBe(center);
             c.Normal.ShouldBe(center);
-            c.Radius.ShouldBe(a.Distance(b)/2.0);
+            c.Radius.ShouldBe(a.Distance(b) / 2.0);
         }
 
         [Test]
-        public void MinCircleOnSphere_TrackOne()
+        public void MinCircleOnSphere_FiveGpsTracks()
         {
-            var gps = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var allGps = _gpsTrackExamples.TrackOne().ToList();
+            allGps.AddRange(_gpsTrackExamples.TrackTwo().ToList());
+            allGps.AddRange(_gpsTrackExamples.TrackThree().ToList());
+            allGps.AddRange(_gpsTrackExamples.TrackFour().ToList());
+            allGps.AddRange(_gpsTrackExamples.TrackFive().ToList());
+            var gps = new GpsTrack(allGps);
             var points = new List<Vector3D>();
             foreach (var gpsPoint in gps.Track)
             {
@@ -551,21 +572,55 @@ namespace Math.Tests
             var c = Geometry.MinCircleOnSphere(points);
             var c0 = c.Center.Normalized();
             var c1 = gps.Center.Normalized();
-            var d = c0.Angle(c1)/System.Math.PI*Geodesy.EarthRadius;
+            var d = c0.Angle(c1) / System.Math.PI * Geodesy.EarthRadius;
             d.ShouldBeLessThan(c.Radius * Geodesy.EarthRadius);
 
+            var n = 0;
             foreach (var p in points)
             {
-                Geometry.CircleOriginLineIntersect(c, p).ShouldBe(true);
+                Geometry.CircleLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
+                var l = c.Center.Distance(p);
+                c.Radius.ShouldBeGreaterThanOrEqualTo(l);
+                if (Comparison.IsEqual(c.Radius, l))
+                    n++;
             }
+            n.ShouldBeGreaterThan(1);
+        }
+
+        [TestCase(0.0, 1.1, true)]
+        [TestCase(0.0, 1.0, true)]
+        [TestCase(0.0, 0.9, true)]
+        [TestCase(1.0, 1.1, true)]
+        [TestCase(1.0, 1.0, true)]
+        [TestCase(1.0, 0.9, true)]
+        [TestCase(1.001, 1.1, false)]
+        [TestCase(1.001, 1.0, false)]
+        [TestCase(1.001, 0.9, false)]
+        [TestCase(-1.001, 1.1, false)]
+        [TestCase(-1.001, 1.0, false)]
+        [TestCase(-1.001, 0.9, false)]
+        public void CircleLineIntersect_returnsExpected(double x, double f, bool expected)
+        {
+            var center = new Vector3D(1, 0, 1);
+            var a = new Vector3D(center.X, center.Y, 0.0);
+            var b = new Vector3D(center.X + x * f, center.Y, f);
+            var c = new Circle3D(center, Vector3D.E3, 1);
+            Geometry.CircleLineIntersect(c, a, b).ShouldBe(expected);
+        }
+
+        [Test]
+        public void CircleLineIntersect_coplanar_returnsFalse()
+        {
+            var c = new Circle3D(new Vector3D(1, 0, 1), Vector3D.E3, 1);
+            Geometry.CircleLineIntersect(c, -Vector3D.E2, Vector3D.E2).ShouldBe(false);
         }
 
         private Vector3D MakeVectorOnSphere(double x, double y)
         {
             var r = 7;
-            var z = System.Math.Sqrt(r*r - x*x - y*y);
-            return new Vector3D(x,y,z);
-        } 
+            var z = System.Math.Sqrt(r * r - x * x - y * y);
+            return new Vector3D(x, y, z);
+        }
 
     }
 }
