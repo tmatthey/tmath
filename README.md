@@ -23,8 +23,8 @@ A collection of mathematical function and data structures written in C#. The lib
 
 ### Geometry
 * Convex hull 2D
-* Minimal boudning circle 2D
-* Minimal boudning circle on Sphere 3D
+* Minimal bounding circle 2D
+* Minimal bounding circle on Sphere 3D
 
 ### Data structures
 * BoundingBox
