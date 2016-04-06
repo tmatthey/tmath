@@ -74,7 +74,7 @@ namespace Math.Tests.Gfx
             {
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
-                    Draw.XiaolinWu(track[i], track[i + 1], bitmap);
+                    Draw.XiaolinWu(bitmap.Convert(track[i]), bitmap.Convert(track[i + 1]), bitmap);
                 }
             }
             var cMax = 0.0;

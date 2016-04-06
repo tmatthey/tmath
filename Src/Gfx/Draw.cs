@@ -42,8 +42,6 @@ namespace Math.Gfx
         {
             if (Comparison.IsZero(a.Distance(b)))
                 return;
-            a = p.Convert(a);
-            b = p.Convert(b);
             var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);
 
             if (steep)
