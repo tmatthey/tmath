@@ -38,7 +38,7 @@ namespace Math.Tests.Gfx
         [Test]
         public void XiaolinWu()
         {
-            var bitmap = new BitmapAdd(new Vector2D(0.0, 0.5), new Vector2D(2.9999, 0.9999), 1.0);
+            var bitmap = new BitmapAdd(new Vector2D(0.0, 0.0), new Vector2D(3.0, 1.0), 1.0);
             Draw.XiaolinWu(bitmap.Convert(new Vector2D(0.5, 0.5)), bitmap.Convert(new Vector2D(2.5, 0.5)), bitmap);
 
             bitmap.Bitmap[0, 0].ShouldBe(0.0);
@@ -47,9 +47,9 @@ namespace Math.Tests.Gfx
             bitmap.Bitmap[3, 0].ShouldBe(0.0);
             bitmap.Bitmap[4, 0].ShouldBe(0.0);
             bitmap.Bitmap[0, 1].ShouldBe(0.0);
-            bitmap.Bitmap[1, 1].ShouldBe(0.0);
+            bitmap.Bitmap[1, 1].ShouldBe(0.5,0);
             bitmap.Bitmap[2, 1].ShouldBe(1.0);
-            bitmap.Bitmap[3, 1].ShouldBe(1.0);
+            bitmap.Bitmap[3, 1].ShouldBe(0.5,0);
             bitmap.Bitmap[4, 1].ShouldBe(0.0);
             bitmap.Bitmap[0, 2].ShouldBe(0.0);
             bitmap.Bitmap[1, 2].ShouldBe(0.0);

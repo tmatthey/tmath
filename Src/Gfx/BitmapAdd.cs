@@ -39,12 +39,12 @@ namespace Math.Gfx
         public BitmapAdd(Vector2D min, Vector2D max, double pixelSize)
         {
             _pixelSize = pixelSize;
-            var d = new Vector2D(pixelSize);
+            var d = new Vector2D(pixelSize*0.5);
             _min = min - d;
             _max = max + d;
             var v = _max - _min;
-            _nx = (int) System.Math.Floor(v.X/pixelSize) + 1;
-            _ny = (int) System.Math.Floor(v.Y/pixelSize) + 1;
+            _nx = (int) System.Math.Floor(v.X/pixelSize+0.5) + 1;
+            _ny = (int) System.Math.Floor(v.Y/pixelSize+0.5) + 1;
             Bitmap = new double[_nx, _ny];
         }
 
@@ -58,7 +58,7 @@ namespace Math.Gfx
             {
                 Bitmap[i, j] += c;
             }
-        }
+       }
 
         public double Pick(double x, double y)
         {

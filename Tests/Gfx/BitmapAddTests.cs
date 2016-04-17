@@ -38,7 +38,7 @@ namespace Math.Tests.Gfx
         [Test]
         public void Constructor_WithCorrectDimesions()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
             bitmap.Bitmap.GetLength(0).ShouldBe(4);
             bitmap.Bitmap.GetLength(1).ShouldBe(3);
         }
