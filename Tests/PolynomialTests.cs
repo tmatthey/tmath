@@ -94,7 +94,6 @@ namespace Math.Tests
         [TestCase(-1.0, -2.0)]
         [TestCase(-1.0, -1.0)]
         [TestCase(0.0, 0.0)]
-        [TestCase(0.0, 0.0)]
         [TestCase(1.0, 1.0)]
         public void FindRoot_ReturnsRoot(double x0, double x1)
         {

@@ -41,18 +41,17 @@ namespace Math.Gps
             GpsTrack.CalculateRotation(center, out axis, out angle);
             RotationAxis = axis;
             RotationAngle = angle;
+            Size = new BoundingRect();
             Track = new List<Vector2D>();
-            var b = new BoundingRect();
+            
 
             foreach (var g in gpsTrack)
             {
                 GpsPoint u = ((Vector3D) g).Rotate(RotationAxis, RotationAngle);
                 var v = new Vector2D(u.Longitude - 180.0, u.Latitude)*Geodesy.DistanceOneDeg;
                 Track.Add(v);
-                b.Expand(v);
+                Size.Expand(v);
             }
-            Min = b.Min;
-            Max = b.Max;
 
             Distance = new List<double>();
             Displacement = new List<double>();
@@ -74,8 +73,8 @@ namespace Math.Gps
         public List<Vector2D> Track { get; private set; }
         public Vector3D RotationAxis { get; private set; }
         public double RotationAngle { get; private set; }
-        public Vector2D Min { get; private set; }
-        public Vector2D Max { get; private set; }
+        public Vector2D Min { get { return Size.Min; } }
+        public Vector2D Max { get { return Size.Max; } }
         public IList<double> Distance { get; private set; }
         public IList<double> Displacement { get; private set; }
         public double TotalDistance
@@ -83,5 +82,6 @@ namespace Math.Gps
             get { return Distance.LastOrDefault(); }
         }
 
+        public BoundingRect Size { get; private set; }
     }
 }

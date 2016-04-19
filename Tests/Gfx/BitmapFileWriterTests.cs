@@ -95,6 +95,19 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
+        public void HeatMap_GreatesHeatmap()
+        {
+            var heatMap = new HeatMap();
+            heatMap.Add(_gpsTrackExamples.TrackOne());
+            heatMap.Add(_gpsTrackExamples.TrackTwo());
+            heatMap.Add(_gpsTrackExamples.TrackThree());
+            heatMap.Add(_gpsTrackExamples.TrackFour());
+            heatMap.Add(_gpsTrackExamples.TrackFive());
+            var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
+            BitmapFileWriter.PNG("heatMap2.png", bitmap);
+        }
+
+        [Test]
         public void WritePGM_WritesTrackOneToDisk()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());

@@ -50,6 +50,7 @@
     <Compile Include="Gfx\BitmapAdd.cs" />
     <Compile Include="Gfx\Draw.cs" />
     <Compile Include="Gfx\BitmapFileWriter.cs" />
+    <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\IBitmap.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
