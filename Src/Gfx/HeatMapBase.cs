@@ -32,12 +32,12 @@ using Math.Gps;
 
 namespace Math.Gfx
 {
-    public class HeatMap
+    public abstract class HeatMapBase
     {
         private readonly List<GpsTrack> _gpsTracks;
         private readonly List<Vector3D> _allPoints;
 
-        public HeatMap()
+        protected HeatMapBase()
         {
             _gpsTracks = new List<GpsTrack>();
             _allPoints = new List<Vector3D>();
@@ -56,12 +56,12 @@ namespace Math.Gfx
 
         public IBitmap Raw(double pixelSize)
         {
-            var minCricle = Geometry.MinCircleOnSphere(_allPoints);
+            var center = CalculateCenter(_gpsTracks, _allPoints);
             var tracks = new List<List<Vector2D>>();
             var size = new BoundingRect();
             foreach (var track in _gpsTracks)
             {
-                var transformed = track.CreateTransformedTrack(minCricle.Center);
+                var transformed = track.CreateTransformedTrack(center);
                 tracks.Add(transformed.Track);
                 size.Expand(transformed.Size);
             }
@@ -96,5 +96,7 @@ namespace Math.Gfx
             }
             return bitmap.Bitmap;
         }
+
+        protected abstract Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints);
     }
 }
