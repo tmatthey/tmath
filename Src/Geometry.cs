@@ -45,7 +45,7 @@ namespace Math
             points.Sort((a, b) => (a == b ? 0 : (a.X < b.X || ((Comparison.IsEqual(a.X, b.X) && a.Y < b.Y)) ? -1 : 1)));
 
             var k = 0;
-            var hull = new Vector2D[points.Count * 2];
+            var hull = new Vector2D[points.Count*2];
 
             // Build lower hull
             for (var i = 0; i < points.Count; ++i)
@@ -69,12 +69,12 @@ namespace Math
         public static bool CircleLineIntersect(Circle3D c, Vector3D a, Vector3D b)
         {
             var u = b - a;
-            var area = c.Normal * u;
+            var area = c.Normal*u;
             if (Comparison.IsZero(area))
                 return false;
             var w = a - c.Center;
-            var t = -(c.Normal * w) / area;
-            var v = u * t + a;
+            var t = -(c.Normal*w)/area;
+            var v = u*t + a;
             return Comparison.IsLessEqual(c.Center.Distance(v), c.Radius);
         }
 
@@ -226,101 +226,5 @@ namespace Math
             }
             return array.Take(n + 1).ToList();
         }
-
-        /*
-        private static List<Vector3D> Eliminate(List<Vector3D> points)
-        {
-            if (points.Count < 2)
-                return points;
-            var array = points.ToArray();
-            int i2, i3, i4, i5, i6, i7, i8;
-
-            var i1 = i2 = i3 = i4 = i5 = i6 = i7 = i8 = 1;
-            var a1 = +array[0].X + array[0].Y + array[0].Z;
-            var a2 = +array[0].X + array[0].Y - array[0].Z;
-            var a3 = +array[0].X - array[0].Y + array[0].Z;
-            var a4 = +array[0].X - array[0].Y - array[0].Z;
-            var a5 = -array[0].X + array[0].Y + array[0].Z;
-            var a6 = -array[0].X + array[0].Y - array[0].Z;
-            var a7 = -array[0].X - array[0].Y + array[0].Z;
-            var a8 = -array[0].X - array[0].Y - array[0].Z;
-
-            for (var j = 1; j < array.Length; j++)
-            {
-                var d = +array[j].X + array[j].Y + array[j].Z;
-                if (d < a1)
-                {
-                    i1 = j;
-                    a1 = d;
-                }
-                d = +array[j].X + array[j].Y - array[j].Z;
-                if (d < a2)
-                {
-                    i2 = j;
-                    a2 = d;
-                }
-                d = +array[j].X - array[j].Y + array[j].Z;
-                if (d < a3)
-                {
-                    i3 = j;
-                    a3 = d;
-                }
-                d = +array[j].X - array[j].Y - array[j].Z;
-                if (d < a4)
-                {
-                    i4 = j;
-                    a4 = d;
-                }
-                d = -array[j].X + array[j].Y + array[j].Z;
-                if (d < a5)
-                {
-                    i5 = j;
-                    a5 = d;
-                }
-                d = -array[j].X + array[j].Y - array[j].Z;
-                if (d < a6)
-                {
-                    i6 = j;
-                    a6 = d;
-                }
-                d = -array[j].X - array[j].Y + array[j].Z;
-                if (d < a7)
-                {
-                    i7 = j;
-                    a7 = d;
-                }
-                d = -array[j].X - array[j].Y - array[j].Z;
-                if (d < a8)
-                {
-                    i8 = j;
-                    a8 = d;
-                }
-            }
-            var lowX  = new List<double> { array[i1].X, array[i2].X, array[i3].X, array[i4].X }.Max();
-            var highX = new List<double> { array[i5].X, array[i6].X, array[i7].X, array[i8].X }.Min();
-            var lowY  = new List<double> { array[i1].Y, array[i2].Y, array[i5].Y, array[i6].Y }.Max();
-            var highY = new List<double> { array[i3].Y, array[i4].Y, array[i7].Y, array[i8].Y }.Min();
-            var lowZ  = new List<double> { array[i1].Z, array[i3].Z, array[i5].Z, array[i7].Z }.Max();
-            var highZ = new List<double> { array[i2].Z, array[i4].Z, array[i6].Z, array[i8].Z }.Min();
-            var n = 0;
-            var i = array.Length - 1;
-
-            while (i > n)
-            {
-                if ((lowX < array[i].X) && (array[i].X < highX) &&
-                    (lowY < array[i].Y) && (array[i].Y < highY) &&
-                    (lowZ < array[i].Z) && (array[i].Z < highZ))
-                {
-                    i--;
-                }
-                else
-                {
-                    n++;
-                    Utils.Swap(ref array[n], ref array[i]);
-                }
-            }
-            return array.Take(n + 1).ToList();
-        }
-        */
     }
 }

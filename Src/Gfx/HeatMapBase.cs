@@ -34,8 +34,8 @@ namespace Math.Gfx
 {
     public abstract class HeatMapBase
     {
-        private readonly List<GpsTrack> _gpsTracks;
         private readonly List<Vector3D> _allPoints;
+        private readonly List<GpsTrack> _gpsTracks;
 
         protected HeatMapBase()
         {
@@ -51,7 +51,7 @@ namespace Math.Gfx
         public void Add(GpsTrack track)
         {
             _gpsTracks.Add(track);
-            _allPoints.AddRange(track.Track.Select(p => ((Vector3D)p).Normalized()).ToList());
+            _allPoints.AddRange(track.Track.Select(p => ((Vector3D) p).Normalized()).ToList());
         }
 
         public IBitmap Raw(double pixelSize)
@@ -90,7 +90,7 @@ namespace Math.Gfx
                 {
                     var c = bitmap.Bitmap[i, j];
                     if (Comparison.IsPositive(c))
-                        c = c/cMax/(max-min) + min;
+                        c = c/cMax/(max - min) + min;
                     bitmap.Bitmap[i, j] = max - c;
                 }
             }

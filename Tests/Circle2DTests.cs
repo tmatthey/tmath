@@ -152,6 +152,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Equals_WithDiffrentRef_ReturnsTrue()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2), 0.2);
+            p.Equals(q).ShouldBe(true);
+        }
+
+        [Test]
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
@@ -172,14 +180,6 @@ namespace Math.Tests
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
             var q = new Circle2D(new Vector2D(1, 2), 0.2);
             (p == q).ShouldBe(true);
-        }
-
-        [Test]
-        public void Equals_WithDiffrentRef_ReturnsTrue()
-        {
-            var p = new Circle2D(new Vector2D(1, 2), 0.2);
-            var q = new Circle2D(new Vector2D(1, 2), 0.2);
-            p.Equals(q).ShouldBe(true);
         }
 
         [Test]

@@ -51,15 +51,14 @@ namespace Math.Gps
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
 
-            var neighboursCur = Reference.Lookup.Find(trackCur.Track, radius * 2.0);
+            var neighboursCur = Reference.Lookup.Find(trackCur.Track, radius*2.0);
             var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, Reference.TransformedTrack);
             var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, Reference.TransformedTrack, trackCur);
             var cutNeighboursCur = CutOffDistance(adjustedNeighboursCur, radius);
 
-            return new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance, trackCur.Displacement);
+            return new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
+                trackCur.Displacement);
         }
-
-
 
         private static List<List<Distance>> CutOffDistance(IList<List<Distance>> neighboursCur, double radius)
         {
@@ -120,7 +119,7 @@ namespace Math.Gps
                 refList.Sort();
 
                 var segments = new List<List<int>>();
-                for (var i = 1; i < refList.Count; )
+                for (var i = 1; i < refList.Count;)
                 {
                     if (Comparison.IsLessEqual(radius,
                         trackRef.Distance[refList[i]] -
@@ -140,17 +139,17 @@ namespace Math.Gps
                     segments.Add(refList);
                 }
                 var segmentAvg =
-                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum / s.Count)
+                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum/s.Count)
                         .ToList();
                 var segmentDiff =
                     segments.Select(
-                        s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d) / s.Count - index)))
+                        s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
                         .ToList();
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());
                 var newPoint = segments[minSegmentIndex].Select(s => points.First(p => p.Reference == s)).ToList();
                 newPoint.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
                 reducedNeighboursCur.Add(newPoint);
-                index = (int)segmentAvg[minSegmentIndex];
+                index = (int) segmentAvg[minSegmentIndex];
             }
             return reducedNeighboursCur;
         }

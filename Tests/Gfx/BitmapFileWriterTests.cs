@@ -39,20 +39,6 @@ namespace Math.Tests.Gfx
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
-
-        [Test]
-        public void HeatMapMinCricle_GeneratesHeatmap()
-        {
-            var heatMap = new HeatMapMinCircle();
-            heatMap.Add(_gpsTrackExamples.TrackOne());
-            heatMap.Add(_gpsTrackExamples.TrackTwo());
-            heatMap.Add(_gpsTrackExamples.TrackThree());
-            heatMap.Add(_gpsTrackExamples.TrackFour());
-            heatMap.Add(_gpsTrackExamples.TrackFive());
-            var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
-            BitmapFileWriter.PNG("heatMapMinCircle.png", bitmap);
-        }
-
         [Test]
         public void HeatMapCenter_GeneratesHeatmap()
         {
@@ -106,8 +92,19 @@ namespace Math.Tests.Gfx
                 }
             }
             BitmapFileWriter.PNG("heatMapDiff.png", bitmapCenter);
+        }
 
-
+        [Test]
+        public void HeatMapMinCricle_GeneratesHeatmap()
+        {
+            var heatMap = new HeatMapMinCircle();
+            heatMap.Add(_gpsTrackExamples.TrackOne());
+            heatMap.Add(_gpsTrackExamples.TrackTwo());
+            heatMap.Add(_gpsTrackExamples.TrackThree());
+            heatMap.Add(_gpsTrackExamples.TrackFour());
+            heatMap.Add(_gpsTrackExamples.TrackFive());
+            var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
+            BitmapFileWriter.PNG("heatMapMinCircle.png", bitmap);
         }
 
         [Test]
@@ -122,7 +119,7 @@ namespace Math.Tests.Gfx
             var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count / (double)max;
+                    bitmap[i, j] = grid[i, j].Count/(double) max;
             BitmapFileWriter.PGM("trackOne.pgm", bitmap);
         }
 
@@ -138,7 +135,7 @@ namespace Math.Tests.Gfx
             var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count / (double)max;
+                    bitmap[i, j] = grid[i, j].Count/(double) max;
             BitmapFileWriter.PNG("trackOne.png", bitmap);
         }
     }

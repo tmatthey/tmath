@@ -104,7 +104,7 @@ namespace Math
 
         public static Circle2D Create(Vector2D a, Vector2D b)
         {
-            return new Circle2D((a + b) * 0.5, a.Distance(b) * 0.5);
+            return new Circle2D((a + b)*0.5, a.Distance(b)*0.5);
         }
 
         public static Circle2D Create(Vector2D a, Vector2D b, Vector2D c)

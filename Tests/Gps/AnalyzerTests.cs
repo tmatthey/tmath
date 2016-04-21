@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -37,7 +36,6 @@ namespace Math.Tests.Gps
     public class AnalyzerTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
 
         [Test]
         public void ListOfNeighbours_InRange()
@@ -63,7 +61,8 @@ namespace Math.Tests.Gps
         {
             var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
             var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            analyzer.Reference.TransformedTrack.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(analyzer.Reference.Track), 1e-1);
+            analyzer.Reference.TransformedTrack.TotalDistance.ShouldBe(
+                Geodesy.Distance.Haversine(analyzer.Reference.Track), 1e-1);
             current.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(current.Track), 1e-1);
         }
     }

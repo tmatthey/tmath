@@ -43,7 +43,7 @@ namespace Math.Gps
             RotationAngle = angle;
             Size = new BoundingRect();
             Track = new List<Vector2D>();
-            
+
 
             foreach (var g in gpsTrack)
             {
@@ -73,10 +73,20 @@ namespace Math.Gps
         public List<Vector2D> Track { get; private set; }
         public Vector3D RotationAxis { get; private set; }
         public double RotationAngle { get; private set; }
-        public Vector2D Min { get { return Size.Min; } }
-        public Vector2D Max { get { return Size.Max; } }
+
+        public Vector2D Min
+        {
+            get { return Size.Min; }
+        }
+
+        public Vector2D Max
+        {
+            get { return Size.Max; }
+        }
+
         public IList<double> Distance { get; private set; }
         public IList<double> Displacement { get; private set; }
+
         public double TotalDistance
         {
             get { return Distance.LastOrDefault(); }

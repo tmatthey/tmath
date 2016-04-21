@@ -30,7 +30,6 @@ namespace Math.Gfx
 {
     public class BitmapAdd : IBitmap
     {
-        private readonly Vector2D _max;
         private readonly Vector2D _min;
         private readonly int _nx;
         private readonly int _ny;
@@ -39,12 +38,11 @@ namespace Math.Gfx
         public BitmapAdd(Vector2D min, Vector2D max, double pixelSize)
         {
             _pixelSize = pixelSize;
-            var d = new Vector2D(pixelSize*0.5);
+            var d = new Vector2D(pixelSize * 0.5);
             _min = min - d;
-            _max = max + d;
-            var v = _max - _min;
-            _nx = (int) System.Math.Floor(v.X/pixelSize+0.5) + 1;
-            _ny = (int) System.Math.Floor(v.Y/pixelSize+0.5) + 1;
+            var v = (max + d) - _min;
+            _nx = (int)System.Math.Floor(v.X / pixelSize + 0.5) + 1;
+            _ny = (int)System.Math.Floor(v.Y / pixelSize + 0.5) + 1;
             Bitmap = new double[_nx, _ny];
         }
 
@@ -52,18 +50,18 @@ namespace Math.Gfx
 
         public void Plot(double x, double y, double c)
         {
-            var i = (int) x;
-            var j = (int) y;
+            var i = (int)x;
+            var j = (int)y;
             if (0 <= i && 0 <= j && i < _nx && j < _ny)
             {
                 Bitmap[i, j] += c;
             }
-       }
+        }
 
         public double Pick(double x, double y)
         {
-            var i = (int) x;
-            var j = (int) y;
+            var i = (int)x;
+            var j = (int)y;
             if (0 <= i && 0 <= j && i < _nx && j < _ny)
             {
                 return Bitmap[i, j];
@@ -73,7 +71,7 @@ namespace Math.Gfx
 
         public Vector2D Convert(Vector2D x)
         {
-            return (x - _min)/_pixelSize;
+            return (x - _min) / _pixelSize;
         }
     }
 }

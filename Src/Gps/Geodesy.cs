@@ -33,7 +33,7 @@ namespace Math.Gps
     public static class Geodesy
     {
         public static readonly double EarthRadius = 6367000.0;
-        public static readonly double DistanceOneDeg = EarthRadius * System.Math.PI / 180.0;
+        public static readonly double DistanceOneDeg = EarthRadius*System.Math.PI/180.0;
 
         public static class Distance
         {
@@ -47,10 +47,10 @@ namespace Math.Gps
 
                 var dlong = long2 - long1;
                 var dlat = lat2 - lat1;
-                var a = System.Math.Pow(System.Math.Sin(dlat / 2.0), 2) +
-                        System.Math.Cos(lat1) * System.Math.Cos(lat2) * System.Math.Pow(System.Math.Sin(dlong / 2.0), 2);
-                var c = 2 * System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a));
-                var d = EarthRadius * c;
+                var a = System.Math.Pow(System.Math.Sin(dlat/2.0), 2) +
+                        System.Math.Cos(lat1)*System.Math.Cos(lat2)*System.Math.Pow(System.Math.Sin(dlong/2.0), 2);
+                var c = 2*System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a));
+                var d = EarthRadius*c;
 
                 return d;
             }

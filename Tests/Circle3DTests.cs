@@ -79,9 +79,9 @@ namespace Math.Tests
         [Test]
         public void Create_WithThreePoints_returnsCorrectCircle()
         {
-            var u = new Vector3D(0, 0,2);
-            var v = new Vector3D(1, 1,2);
-            var w = new Vector3D(2, 0,2);
+            var u = new Vector3D(0, 0, 2);
+            var v = new Vector3D(1, 1, 2);
+            var w = new Vector3D(2, 0, 2);
             var c = Circle3D.Create(u, v, w);
             c.Center.ShouldBe(new Vector3D(1, 0, 2));
             c.Normal.ShouldBe(-Vector3D.E3);
@@ -103,7 +103,7 @@ namespace Math.Tests
         [Test]
         public void Create_WithThreePointsCollinear_returnsCorrectCircleTwoPoints()
         {
-            var u = new Vector3D(1, 2,2);
+            var u = new Vector3D(1, 2, 2);
             var v = new Vector3D(2, 1, 2);
             var w = new Vector3D(1.5, 1.5, 2);
             var c = Circle3D.Create(u, v, w);
@@ -141,6 +141,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Equals_WithDiffrentRef_ReturnsTrue()
+        {
+            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+            p.Equals(q).ShouldBe(true);
+        }
+
+        [Test]
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), 0.2);
@@ -161,14 +169,6 @@ namespace Math.Tests
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             (p == q).ShouldBe(true);
-        }
-
-        [Test]
-        public void Equals_WithDiffrentRef_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            p.Equals(q).ShouldBe(true);
         }
 
         [Test]

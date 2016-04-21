@@ -47,9 +47,9 @@ namespace Math.Tests.Gfx
             bitmap.Bitmap[3, 0].ShouldBe(0.0);
             bitmap.Bitmap[4, 0].ShouldBe(0.0);
             bitmap.Bitmap[0, 1].ShouldBe(0.0);
-            bitmap.Bitmap[1, 1].ShouldBe(0.5,0);
+            bitmap.Bitmap[1, 1].ShouldBe(0.5, 0);
             bitmap.Bitmap[2, 1].ShouldBe(1.0);
-            bitmap.Bitmap[3, 1].ShouldBe(0.5,0);
+            bitmap.Bitmap[3, 1].ShouldBe(0.5, 0);
             bitmap.Bitmap[4, 1].ShouldBe(0.0);
             bitmap.Bitmap[0, 2].ShouldBe(0.0);
             bitmap.Bitmap[1, 2].ShouldBe(0.0);
