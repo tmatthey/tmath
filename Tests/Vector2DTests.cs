@@ -109,6 +109,28 @@ namespace Math.Tests
             Vector2D.PerpendicularSegementParameter(a, b, p).ShouldBe(l, 1e-13);
         }
 
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Vector2D() : null;
+            var y = b ? new Vector2D() : null;
+            (x == y).ShouldBe(a == b);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Vector2D() : null;
+            var y = b ? new Vector2D() : null;
+            (x != y).ShouldBe(a != b);
+        }
+
         [Test]
         public void Angle_WithNeg45_returnsNeg45()
         {

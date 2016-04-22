@@ -214,11 +214,19 @@ namespace Math
 
         public static bool operator ==(Vector3D v1, Vector3D v2)
         {
+            if ((object) v1 == null && (object) v2 == null)
+                return true;
+            if ((object) v1 == null || (object) v2 == null)
+                return false;
             return v1.IsEqual(v2);
         }
 
         public static bool operator !=(Vector3D v1, Vector3D v2)
         {
+            if ((object) v1 == null && (object) v2 == null)
+                return false;
+            if ((object) v1 == null || (object) v2 == null)
+                return true;
             return !v1.IsEqual(v2);
         }
 

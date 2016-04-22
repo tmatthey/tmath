@@ -91,11 +91,19 @@ namespace Math
 
         public static bool operator ==(Polar3D p1, Polar3D p2)
         {
+            if ((object) p1 == null && (object) p2 == null)
+                return true;
+            if ((object) p1 == null || (object) p2 == null)
+                return false;
             return p1.IsEqual(p2);
         }
 
         public static bool operator !=(Polar3D p1, Polar3D p2)
         {
+            if ((object) p1 == null && (object) p2 == null)
+                return false;
+            if ((object) p1 == null || (object) p2 == null)
+                return true;
             return !p1.IsEqual(p2);
         }
 

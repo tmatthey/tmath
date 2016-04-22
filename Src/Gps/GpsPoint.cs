@@ -96,11 +96,19 @@ namespace Math.Gps
 
         public static bool operator ==(GpsPoint g1, GpsPoint g2)
         {
+            if ((object) g1 == null && (object) g2 == null)
+                return true;
+            if ((object) g1 == null || (object) g2 == null)
+                return false;
             return g1.IsEqual(g2);
         }
 
         public static bool operator !=(GpsPoint g1, GpsPoint g2)
         {
+            if ((object) g1 == null && (object) g2 == null)
+                return false;
+            if ((object) g1 == null || (object) g2 == null)
+                return true;
             return !g1.IsEqual(g2);
         }
 

@@ -46,6 +46,28 @@ namespace Math.Tests
             c.Normal.ShouldBe(Vector3D.E3);
         }
 
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Circle3D() : null;
+            var y = b ? new Circle3D() : null;
+            (x == y).ShouldBe(a == b);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Circle3D() : null;
+            var y = b ? new Circle3D() : null;
+            (x != y).ShouldBe(a != b);
+        }
+
         [Test]
         public void Constructor_WithCenterRadius_CreatesExpected()
         {

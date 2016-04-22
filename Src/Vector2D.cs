@@ -171,11 +171,19 @@ namespace Math
 
         public static bool operator ==(Vector2D v1, Vector2D v2)
         {
+            if ((object) v1 == null && (object) v2 == null)
+                return true;
+            if ((object) v1 == null || (object) v2 == null)
+                return false;
             return v1.IsEqual(v2);
         }
 
         public static bool operator !=(Vector2D v1, Vector2D v2)
         {
+            if ((object) v1 == null && (object) v2 == null)
+                return false;
+            if ((object) v1 == null || (object) v2 == null)
+                return true;
             return !v1.IsEqual(v2);
         }
 

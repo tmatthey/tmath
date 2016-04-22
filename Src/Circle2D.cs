@@ -79,11 +79,19 @@ namespace Math
 
         public static bool operator ==(Circle2D c1, Circle2D c2)
         {
+            if ((object) c1 == null && (object) c2 == null)
+                return true;
+            if ((object) c1 == null || (object) c2 == null)
+                return false;
             return c1.IsEqual(c2);
         }
 
         public static bool operator !=(Circle2D c1, Circle2D c2)
         {
+            if ((object) c1 == null && (object) c2 == null)
+                return false;
+            if ((object) c1 == null || (object) c2 == null)
+                return true;
             return !c1.IsEqual(c2);
         }
 

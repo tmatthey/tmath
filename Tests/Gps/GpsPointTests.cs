@@ -53,6 +53,28 @@ namespace Math.Tests.Gps
             x0.Angle(x).ShouldBe(angle*f, 1e-10);
         }
 
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new GpsPoint() : null;
+            var y = b ? new GpsPoint() : null;
+            (x == y).ShouldBe(a == b);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new GpsPoint() : null;
+            var y = b ? new GpsPoint() : null;
+            (x != y).ShouldBe(a != b);
+        }
+
         [Test]
         public void Equals_WithItself_ReturnsTrue()
         {

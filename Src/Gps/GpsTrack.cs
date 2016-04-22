@@ -32,21 +32,46 @@ namespace Math.Gps
 {
     public class GpsTrack
     {
+        private double _angle;
+        private Vector3D _axis;
+        private Vector3D _center;
+
         public GpsTrack(IList<GpsPoint> track)
         {
             Track = track;
-            Center = CalculateCenter();
-            Vector3D axis;
-            double angle;
-            CalculateRotation(Center, out axis, out angle);
-            RotationAxis = axis;
-            RotationAngle = angle;
         }
 
         public IList<GpsPoint> Track { get; private set; }
-        public Vector3D Center { get; private set; }
-        public Vector3D RotationAxis { get; private set; }
-        public double RotationAngle { get; private set; }
+
+        public Vector3D Center
+        {
+            get { return _center ?? (_center = CalculateCenter()); }
+        }
+
+        public Vector3D RotationAxis
+        {
+            get
+            {
+                if (_axis == null)
+                {
+                    CalculateRotation(Center, out _axis, out _angle);
+                }
+                return _axis;
+            }
+        }
+
+        public double RotationAngle
+        {
+            get
+            {
+                if (_axis == null)
+                {
+                    CalculateRotation(Center, out _axis, out _angle);
+                }
+                return _angle;
+            }
+        }
+
         public Transformer TransformedTrack { get; private set; }
         public GridLookup Lookup { get; private set; }
 

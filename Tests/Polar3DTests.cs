@@ -112,6 +112,28 @@ namespace Math.Tests
             q.Phi.ShouldBe(p.Phi, 1e-13);
         }
 
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Polar3D() : null;
+            var y = b ? new Polar3D() : null;
+            (x == y).ShouldBe(a == b);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Polar3D() : null;
+            var y = b ? new Polar3D() : null;
+            (x != y).ShouldBe(a != b);
+        }
+
         [Test]
         public void ConstructorTheataPhi_ReturnsWithRadiusOne()
         {

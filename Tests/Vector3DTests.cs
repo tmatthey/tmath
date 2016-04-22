@@ -60,6 +60,28 @@ namespace Math.Tests
             angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
         }
 
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Vector3D() : null;
+            var y = b ? new Vector3D() : null;
+            (x == y).ShouldBe(a == b);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+        {
+            var x = a ? new Vector3D() : null;
+            var y = b ? new Vector3D() : null;
+            (x != y).ShouldBe(a != b);
+        }
+
         [Test]
         public void AngleE1_E2_90Deg()
         {

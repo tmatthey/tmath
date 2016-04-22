@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -38,7 +39,7 @@ namespace Math.Tests.Gps
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void Constructor_CorrectCenter()
+        public void Center_ReturnsExpected()
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var sum = new Vector3D();
@@ -54,6 +55,20 @@ namespace Math.Tests.Gps
             sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
             sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
             sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);
+        }
+
+        [Test]
+        public void RotationAxis_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint> { new GpsPoint { Latitude = 0, Longitude = 180 } });
+            gpsTrack.RotationAxis.ShouldBe(new Vector3D(0, 0, 0));
+        }
+
+        [Test]
+        public void RotationAngle_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint> { new GpsPoint { Latitude = 0, Longitude = 180 } });
+            gpsTrack.RotationAngle.ShouldBe(0.0);
         }
 
         [Test]
