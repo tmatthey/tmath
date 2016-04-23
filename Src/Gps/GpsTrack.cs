@@ -36,6 +36,7 @@ namespace Math.Gps
         private double _angle;
         private Vector3D _axis;
         private Vector3D _center;
+        private double _minCircleAngle;
         private Vector3D _minCircleCenter;
 
         public GpsTrack(IList<GpsPoint> track)
@@ -78,10 +79,23 @@ namespace Math.Gps
         {
             get
             {
-                return _minCircleCenter ??
-                       (_minCircleCenter =
-                           Geometry.MinCircleOnSphere(Track.Select(p => ((Vector3D) p).Normalized()).ToList()).Center*
-                           Geodesy.EarthRadius);
+                if (_minCircleCenter == null)
+                {
+                    CalculateMinCircle();
+                }
+                return _minCircleCenter;
+            }
+        }
+
+        public double MinCircleAngle
+        {
+            get
+            {
+                if (_minCircleCenter == null)
+                {
+                    CalculateMinCircle();
+                }
+                return _minCircleAngle;
             }
         }
 
@@ -108,6 +122,13 @@ namespace Math.Gps
         {
             axis = (center ^ -Vector3D.E1).Normalized();
             angle = center.Angle(-Vector3D.E1);
+        }
+
+        private void CalculateMinCircle()
+        {
+            var c = Geometry.MinCircleOnSphere(Track.Select(p => ((Vector3D) p).Normalized()).ToList());
+            _minCircleCenter = c.Center.Normalized()*Geodesy.EarthRadius;
+            _minCircleAngle = System.Math.Asin(c.Radius);
         }
 
         private Vector3D CalculateCenter()

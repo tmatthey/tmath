@@ -38,6 +38,21 @@ namespace Math.Tests.Gps
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
+        [TestCase(1.0)]
+        [TestCase(0.5)]
+        [TestCase(0.1)]
+        [TestCase(0.01)]
+        public void MinCircleAngle_ReturnsExpected(double f)
+        {
+            var gpsTrack =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 90*f, Longitude = 180}
+                });
+            gpsTrack.MinCircleAngle.ShouldBe(System.Math.PI*0.25*f, 1e-13);
+        }
+
         [Test]
         public void Center_ReturnsExpected()
         {
@@ -85,6 +100,7 @@ namespace Math.Tests.Gps
             c.X.ShouldBe(double.NaN);
             c.Y.ShouldBe(double.NaN);
             c.Z.ShouldBe(double.NaN);
+            gpsTrack.MinCircleAngle.ShouldBe(double.NaN);
         }
 
         [Test]
@@ -98,7 +114,7 @@ namespace Math.Tests.Gps
             var cl = c.Norm();
             var dl = d.Norm();
             var f = System.Math.Abs(cl - dl);
-            f.ShouldBeLessThan(1.0);
+            f.ShouldBeLessThan(1e-8);
         }
 
         [Test]
