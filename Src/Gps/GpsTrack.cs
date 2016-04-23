@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.Gps
 {
@@ -35,6 +36,7 @@ namespace Math.Gps
         private double _angle;
         private Vector3D _axis;
         private Vector3D _center;
+        private Vector3D _minCircleCenter;
 
         public GpsTrack(IList<GpsPoint> track)
         {
@@ -72,6 +74,17 @@ namespace Math.Gps
             }
         }
 
+        public Vector3D MinCircleCenter
+        {
+            get
+            {
+                return _minCircleCenter ??
+                       (_minCircleCenter =
+                           Geometry.MinCircleOnSphere(Track.Select(p => ((Vector3D) p).Normalized()).ToList()).Center*
+                           Geodesy.EarthRadius);
+            }
+        }
+
         public Transformer TransformedTrack { get; private set; }
         public GridLookup Lookup { get; private set; }
 
@@ -99,29 +112,34 @@ namespace Math.Gps
 
         private Vector3D CalculateCenter()
         {
-            var a = new Vector3D();
+            var a = new Vector3D(double.NaN);
 
-            if (Track != null)
+            var d = 0.0;
+            var n = 0.0;
+            foreach (var g in Track)
             {
-                var d = 0.0;
-                var n = 0.0;
-                foreach (var g in Track)
+                Polar3D p = g;
+                if (Comparison.IsPositive(p.R))
                 {
-                    Polar3D p = g;
-                    if (Comparison.IsPositive(p.R))
+                    d += p.R;
+                    p.R = 1.0;
+                    if (n < 0.5)
                     {
-                        n++;
-                        d += p.R;
-                        p.R = 1.0;
+                        a = p;
+                    }
+                    else
+                    {
                         a += p;
                     }
-                }
-                if (n > 0)
-                {
-                    a.Normalize();
-                    a *= d/n;
+                    n++;
                 }
             }
+            if (n > 0)
+            {
+                a.Normalize();
+                a *= d/n;
+            }
+
             return a;
         }
     }

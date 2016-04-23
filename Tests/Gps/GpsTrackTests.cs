@@ -65,6 +65,43 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void EmptyList_CenterAndRotation_ReturnsNaN()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint>());
+            gpsTrack.Center.X.ShouldBe(double.NaN);
+            gpsTrack.Center.Y.ShouldBe(double.NaN);
+            gpsTrack.Center.Z.ShouldBe(double.NaN);
+            gpsTrack.RotationAxis.X.ShouldBe(double.NaN);
+            gpsTrack.RotationAxis.Y.ShouldBe(double.NaN);
+            gpsTrack.RotationAxis.Z.ShouldBe(double.NaN);
+            gpsTrack.RotationAngle.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void EmptyList_MinCircleCenter_ReturnsNaN()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint>());
+            var c = gpsTrack.MinCircleCenter;
+            c.X.ShouldBe(double.NaN);
+            c.Y.ShouldBe(double.NaN);
+            c.Z.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void MinCircleCenter_SimilarAsCenter()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var c = gpsTrack.Center;
+            var d = gpsTrack.MinCircleCenter;
+            var e = d.Distance(c);
+            e.ShouldBeLessThan(500.0);
+            var cl = c.Norm();
+            var dl = d.Norm();
+            var f = System.Math.Abs(cl - dl);
+            f.ShouldBeLessThan(1.0);
+        }
+
+        [Test]
         public void RotationAngle_ReturnsExpected()
         {
             var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
