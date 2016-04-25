@@ -105,6 +105,5 @@ namespace Math.Tests.Gfx
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
             BitmapFileWriter.PNG("heatMapMinCircle.png", bitmap);
         }
-
     }
 }
