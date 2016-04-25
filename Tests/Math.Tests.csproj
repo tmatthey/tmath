@@ -57,6 +57,7 @@
     <Compile Include="Gfx\BitmapAddTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawLineTests.cs" />
+    <Compile Include="Gfx\HeatmapTests.cs" />
     <Compile Include="PolynomialTests.cs" />
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />
