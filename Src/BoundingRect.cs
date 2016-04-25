@@ -76,7 +76,21 @@ namespace Math
             Max.Y = ExpandMax(Max.Y, y);
         }
 
-        private double ExpandMin(double a, double b)
+        public bool IsInside(Vector2D v)
+        {
+            return IsInside(v, Comparison.Epsilon);
+        }
+
+        public bool IsInside(Vector2D v, double eps)
+        {
+            if (IsEmpty())
+                return false;
+
+            return Comparison.IsLessEqual(Min.X, v.X, eps) && Comparison.IsLessEqual(Min.Y, v.Y, eps) &&
+                   Comparison.IsLessEqual(v.X, Max.X, eps) && Comparison.IsLessEqual(v.Y, Max.Y, eps);
+        }
+
+        static private double ExpandMin(double a, double b)
         {
             if (Comparison.IsNumber(b))
             {
@@ -85,7 +99,7 @@ namespace Math
             return a;
         }
 
-        private double ExpandMax(double a, double b)
+        static private double ExpandMax(double a, double b)
         {
             if (Comparison.IsNumber(b))
             {

@@ -117,6 +117,35 @@ namespace Math.Tests
         }
 
         [Test]
+        public void IsInside_EmptyBox_ReturnsFalse()
+        {
+            var bb = new BoundingRect();
+            bb.IsInside(Vector2D.E1).ShouldBe(false);
+        }
+
+        [Test]
+        public void IsInside_MidpointOfBox_ReturnsTrue()
+        {
+            var bb = new BoundingRect();
+            var u = new Vector2D(1, -2);
+            var v = new Vector2D(2, -1);
+            bb.Expand(u);
+            bb.Expand(v);
+            bb.IsInside((bb.Min + bb.Max)*0.5).ShouldBe(true);
+        }
+
+        [Test]
+        public void IsInside_OutSidetOfBox_ReturnsFalse()
+        {
+            var bb = new BoundingRect();
+            var u = new Vector2D(1, -2);
+            var v = new Vector2D(2, -1);
+            bb.Expand(u);
+            bb.Expand(v);
+            bb.IsInside(bb.Min - bb.Max).ShouldBe(false);
+        }
+
+        [Test]
         public void Reset_MinMax_returnsInfitity()
         {
             var bb = new BoundingRect();

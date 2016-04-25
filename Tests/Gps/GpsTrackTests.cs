@@ -26,7 +26,9 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -80,7 +82,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void EmptyList_CenterAndRotation_ReturnsNaN()
+        public void EmptyTrack_CenterAndRotation_ReturnsNaN()
         {
             var gpsTrack = new GpsTrack(new List<GpsPoint>());
             gpsTrack.Center.X.ShouldBe(double.NaN);
@@ -93,7 +95,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void EmptyList_MinCircleCenter_ReturnsNaN()
+        public void EmptyTrack_MinCircleCenter_ReturnsNaN()
         {
             var gpsTrack = new GpsTrack(new List<GpsPoint>());
             var c = gpsTrack.MinCircleCenter;
@@ -101,6 +103,147 @@ namespace Math.Tests.Gps
             c.Y.ShouldBe(double.NaN);
             c.Z.ShouldBe(double.NaN);
             gpsTrack.MinCircleAngle.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_DifferentTracks_ReturnsOverlapping()
+        {
+            var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_EmptyTracks_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_ReferenceTrackEmpty_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_SameTrack_ReturnsSame()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Same);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TargetTrackEmpty_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TargetTracksInside_ReturnsInside()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 0.99, Longitude = 180}
+                });
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Inside);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TargetTracksOutside_ReturnsInside()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 0.99, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Outside);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TracksNotIntersecting_ReturnsNotIntersecting()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 1.5, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.NotIntersecting);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TracksOverlapping_ReturnsOverlapping()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void IsCircleIntersecting_TracksTouching_ReturnsOverlapping()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 1, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsCricleIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void MinCircleAngle_WithOnePoint_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            gpsTrack.MinCircleAngle.ShouldBe(0.0);
         }
 
         [Test]
@@ -115,6 +258,162 @@ namespace Math.Tests.Gps
             var dl = d.Norm();
             var f = System.Math.Abs(cl - dl);
             f.ShouldBeLessThan(1e-8);
+        }
+
+        [Test]
+        public void RectIntersecting_DifferentTracks_ReturnsOverlapping()
+        {
+            var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void RectIntersecting_EmptyTracks_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void RectIntersecting_ReferenceTrackEmpty_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void RectIntersecting_SameTrack_ReturnsSame()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Same);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+        }
+
+        [Test]
+        public void RectIntersecting_TargetTrackEmpty_ReturnsUndefined()
+        {
+            var gpsTrack1 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Undefined);
+        }
+
+        [Test]
+        public void RectIntersecting_TargetTracksInside_ReturnsInside()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 0.99, Longitude = 180}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Inside);
+        }
+
+        [Test]
+        public void RectIntersecting_TargetTracksOutside_ReturnsInside()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 0.99, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Outside);
+        }
+
+        [Test]
+        public void RectIntersecting_TracksCloseNotTouching_ReturnsNotIntersecting()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180},
+                    new GpsPoint {Latitude = 0, Longitude = 179},
+                    new GpsPoint {Latitude = 1, Longitude = 179}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 1.01, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180},
+                    new GpsPoint {Latitude = 1.01, Longitude = 179},
+                    new GpsPoint {Latitude = 2, Longitude = 179}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.NotIntersecting);
+        }
+
+        [Test]
+        public void RectIntersecting_TracksNotFastIntersecting_ReturnsNotFastIntersecting()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 1.5, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.NotIntersecting);
+        }
+
+        [Test]
+        public void RectIntersecting_TracksOverlapping_ReturnsOverlapping()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0.01, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void RectIntersecting_TracksTouching_ReturnsOverlapping()
+        {
+            var gpsTrack1 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 0, Longitude = 180},
+                    new GpsPoint {Latitude = 1, Longitude = 180}
+                });
+            var gpsTrack2 =
+                new GpsTrack(new List<GpsPoint>
+                {
+                    new GpsPoint {Latitude = 1, Longitude = 180},
+                    new GpsPoint {Latitude = 2, Longitude = 180}
+                });
+            gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
         }
 
         [Test]

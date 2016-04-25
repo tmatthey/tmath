@@ -26,6 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
+using System.Diagnostics;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -40,8 +42,12 @@ namespace Math.Tests.Gps
         [Test]
         public void ListOfNeighbours_InRange()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
             var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
             foreach (var point in current.Neighbours)
             {
                 foreach (var p in point)
