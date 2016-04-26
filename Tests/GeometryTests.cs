@@ -26,7 +26,9 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Math.Gps;
 using Math.Tests.Gps;
@@ -363,6 +365,19 @@ namespace Math.Tests
 
             var result = Geometry.ConvexHull(points);
             result.Count.ShouldBe(expected.Count);
+        }
+
+        [Test]
+        public void ConvexHull_TrackOne_returnExpected()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var transform = gpsTrack.CreateTransformedTrack();
+            var result = Geometry.ConvexHull(transform.Track);
+            result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
         }
 
         [Test]

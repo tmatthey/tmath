@@ -240,28 +240,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void MinCircleAngle_WithOnePoint_ReturnsExpected()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
-            gpsTrack.MinCircleAngle.ShouldBe(0.0);
-        }
-
-        [Test]
-        public void MinCircleCenter_SimilarAsCenter()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var c = gpsTrack.Center;
-            var d = gpsTrack.MinCircleCenter;
-            var e = d.Distance(c);
-            e.ShouldBeLessThan(500.0);
-            var cl = c.Norm();
-            var dl = d.Norm();
-            var f = System.Math.Abs(cl - dl);
-            f.ShouldBeLessThan(1e-8);
-        }
-
-        [Test]
-        public void RectIntersecting_DifferentTracks_ReturnsOverlapping()
+        public void IsRectIntersecting_DifferentTracks_ReturnsOverlapping()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
@@ -269,7 +248,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_EmptyTracks_ReturnsUndefined()
+        public void IsRectIntersecting_EmptyTracks_ReturnsUndefined()
         {
             var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
             var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
@@ -277,7 +256,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_ReferenceTrackEmpty_ReturnsUndefined()
+        public void IsRectIntersecting_ReferenceTrackEmpty_ReturnsUndefined()
         {
             var gpsTrack1 = new GpsTrack(new List<GpsPoint>());
             var gpsTrack2 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
@@ -285,7 +264,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_SameTrack_ReturnsSame()
+        public void IsRectIntersecting_SameTrack_ReturnsSame()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -297,7 +276,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TargetTrackEmpty_ReturnsUndefined()
+        public void IsRectIntersecting_TargetTrackEmpty_ReturnsUndefined()
         {
             var gpsTrack1 = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
             var gpsTrack2 = new GpsTrack(new List<GpsPoint>());
@@ -305,7 +284,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TargetTracksInside_ReturnsInside()
+        public void IsRectIntersecting_TargetTracksInside_ReturnsInside()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -323,7 +302,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TargetTracksOutside_ReturnsInside()
+        public void IsRectIntersecting_TargetTracksOutside_ReturnsInside()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -341,7 +320,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TracksCloseNotTouching_ReturnsNotIntersecting()
+        public void IsRectIntersecting_TracksCloseNotTouching_ReturnsNotIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -363,7 +342,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TracksNotFastIntersecting_ReturnsNotFastIntersecting()
+        public void IsRectIntersecting_TracksNotFastIntersecting_ReturnsNotFastIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -381,7 +360,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TracksOverlapping_ReturnsOverlapping()
+        public void IsRectIntersecting_TracksOverlapping_ReturnsOverlapping()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -399,7 +378,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RectIntersecting_TracksTouching_ReturnsOverlapping()
+        public void IsRectIntersecting_TracksTouching_ReturnsOverlapping()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -414,6 +393,27 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
             gpsTrack1.IsRectIntersecting(gpsTrack2).ShouldBe(GpsTrack.IntersectingEnum.Overlapping);
+        }
+
+        [Test]
+        public void MinCircleAngle_WithOnePoint_ReturnsExpected()
+        {
+            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            gpsTrack.MinCircleAngle.ShouldBe(0.0);
+        }
+
+        [Test]
+        public void MinCircleCenter_SimilarAsCenter()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var c = gpsTrack.Center;
+            var d = gpsTrack.MinCircleCenter;
+            var e = d.Distance(c);
+            e.ShouldBeLessThan(500.0);
+            var cl = c.Norm();
+            var dl = d.Norm();
+            var f = System.Math.Abs(cl - dl);
+            f.ShouldBeLessThan(1e-8);
         }
 
         [Test]

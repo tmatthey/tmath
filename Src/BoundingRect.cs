@@ -90,7 +90,7 @@ namespace Math
                    Comparison.IsLessEqual(v.X, Max.X, eps) && Comparison.IsLessEqual(v.Y, Max.Y, eps);
         }
 
-        static private double ExpandMin(double a, double b)
+        private static double ExpandMin(double a, double b)
         {
             if (Comparison.IsNumber(b))
             {
@@ -99,7 +99,7 @@ namespace Math
             return a;
         }
 
-        static private double ExpandMax(double a, double b)
+        private static double ExpandMax(double a, double b)
         {
             if (Comparison.IsNumber(b))
             {
