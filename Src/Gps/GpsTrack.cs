@@ -33,16 +33,6 @@ namespace Math.Gps
 {
     public class GpsTrack
     {
-        public enum IntersectingEnum
-        {
-            Undefined,
-            NotIntersecting,
-            Same,
-            Inside,
-            Outside,
-            Overlapping
-        }
-
         private double _angle;
         private Vector3D _axis;
         private Vector3D _center;
@@ -126,66 +116,6 @@ namespace Math.Gps
         {
             TransformedTrack = CreateTransformedTrack(center);
             Lookup = new GridLookup(TransformedTrack, gridSize);
-        }
-
-        public IntersectingEnum IsCricleIntersecting(GpsTrack target)
-        {
-            if (double.IsNaN(MinCircleAngle) || double.IsNaN(target.MinCircleAngle))
-                return IntersectingEnum.Undefined;
-
-            var r1 = MinCircleAngle*2.0*Geodesy.EarthRadius;
-            var r2 = target.MinCircleAngle*2.0*Geodesy.EarthRadius;
-            if (Center.Distance(target.Center) < 1.0 && Comparison.IsEqual(r1, r2, 1.0))
-                return IntersectingEnum.Same;
-
-            var r12 = System.Math.Abs(MinCircleCenter.Angle(target.MinCircleCenter))*2.0*Geodesy.EarthRadius;
-            if (Comparison.IsLessEqual(r12 + r1, r2, 1.0))
-                return IntersectingEnum.Outside;
-
-            if (Comparison.IsLessEqual(r12 + r2, r1, 1.0))
-                return IntersectingEnum.Inside;
-
-            if (Comparison.IsLessEqual(r12, r1 + r2, 1.0))
-                return IntersectingEnum.Overlapping;
-
-            return IntersectingEnum.NotIntersecting;
-        }
-
-        public IntersectingEnum IsRectIntersecting(GpsTrack target)
-        {
-            if (double.IsNaN(RotationAngle) || double.IsNaN(target.RotationAngle))
-                return IntersectingEnum.Undefined;
-
-            var t1 = CreateTransformedTrack();
-            var t2 = target.CreateTransformedTrack();
-            var r1 = t1.Size.Min.Distance(t1.Size.Max);
-            var r2 = t2.Size.Min.Distance(t2.Size.Max);
-            var r12 = System.Math.Abs(Center.Angle(target.Center))*2.0*Geodesy.EarthRadius;
-            if (!Comparison.IsLessEqual(r12, r1 + r2, 1.0))
-                return IntersectingEnum.NotIntersecting;
-
-            t2 = target.CreateTransformedTrack(Center);
-            if (t1.Size.Min.Distance(t2.Size.Min) < 1.0 && t1.Size.Max.Distance(t2.Size.Max) < 1.0)
-                return IntersectingEnum.Same;
-
-            var insideMin = t1.Size.IsInside(t2.Size.Min);
-            var insideMax = t1.Size.IsInside(t2.Size.Max);
-            var outsideMin = t2.Size.IsInside(t1.Size.Min);
-            var outsideMax = t2.Size.IsInside(t1.Size.Max);
-
-            if (insideMax && insideMin)
-            {
-                return IntersectingEnum.Inside;
-            }
-            if (outsideMin && outsideMax)
-            {
-                return IntersectingEnum.Outside;
-            }
-
-            if (insideMax || insideMin || outsideMin || outsideMax)
-                return IntersectingEnum.Overlapping;
-
-            return IntersectingEnum.NotIntersecting;
         }
 
         public static void CalculateRotation(Vector3D center, out Vector3D axis, out double angle)

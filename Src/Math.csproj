@@ -54,6 +54,7 @@
     <Compile Include="Gfx\HeatMapBase.cs" />
     <Compile Include="Gfx\IBitmap.cs" />
     <Compile Include="Gfx\HeatMapMinCircle.cs" />
+    <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />
