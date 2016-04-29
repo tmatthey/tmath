@@ -33,7 +33,76 @@ namespace Math
 {
     public static class Geometry
     {
-        public static IList<Vector2D> ConvexHull(IList<Vector2D> allPoints)
+        public static IList<Vector2D> ConvexHullJarvismarch(IList<Vector2D> allPoints)
+        {
+            // Make unique, O(N) (?)
+            var points = allPoints.Distinct().ToList();
+
+            // Reduce point set to O(sqrt(N))
+            points = Eliminate(points);
+
+            // Sort, O(N*log(N))
+            points.Sort((a, b) => (a == b ? 0 : (a.Y < b.Y || ((Comparison.IsEqual(a.Y, b.Y) && a.X < b.X)) ? -1 : 1)));
+
+            if (points.Count < 3)
+                return points;
+
+            var hull = new List<Vector2D>();
+
+            var m = 0;
+            var n = -1;
+
+            var tmp = new List<Vector2D>(points) {points.First()};
+            var l = tmp.Count;
+            var lastAngle = 0.0;
+            do
+            {
+                n++;
+                hull.Add(tmp[m]);
+                if (n != m)
+                {
+                    var v = new Vector2D(tmp[m]);
+                    tmp[m] = tmp[n];
+                    tmp[n] = v;
+                }
+                var newAngle = System.Math.PI*2.0;
+                var newDistance = 0.0;
+                m = l - 1;
+                for (var i = n + 1; i < l; i++)
+                {
+                    var v = tmp[i] - tmp[n];
+                    var distance = v.Norm2();
+                    var a = System.Math.Atan2(v.Y, v.X);
+                    if (a < 0.0)
+                    {
+                        a += System.Math.PI*2.0;
+                    }
+                    if (Comparison.IsEqual(a, lastAngle))
+                    {
+                        if (distance > newDistance)
+                        {
+                            newAngle = a;
+                            m = i;
+                            newDistance = distance;
+                        }
+                    }
+                    else if (a > lastAngle && Comparison.IsLessEqual(a, newAngle))
+                    {
+                        if (a < newAngle || (Comparison.IsEqual(a, newAngle) && distance > newDistance))
+                        {
+                            newAngle = a;
+                            m = i;
+                            newDistance = distance;
+                        }
+                    }
+                }
+
+                lastAngle = newAngle;
+            } while (m != l - 1);
+            return hull;
+        }
+
+        public static IList<Vector2D> ConvexHullGrahamscan(IList<Vector2D> allPoints)
         {
             // Make unique, O(N) (?)
             var points = allPoints.Distinct().ToList();

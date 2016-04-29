@@ -43,5 +43,17 @@ namespace Math.Tests
             a.ShouldBe(3);
             b.ShouldBe(2);
         }
+
+        [Test]
+        public void Swap_Vector2D()
+        {
+            var a = new Vector2D(2, 3);
+            var b = new Vector2D(4, 5);
+            Utils.Swap(ref a, ref b);
+            a.X.ShouldBe(4);
+            a.Y.ShouldBe(5);
+            b.X.ShouldBe(2);
+            b.Y.ShouldBe(3);
+        }
     }
 }
