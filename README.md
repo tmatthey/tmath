@@ -56,4 +56,4 @@ A collection of mathematical function and data structures written in C#. The lib
 * Line draw - antialiasing (Xiaolin Wu's line algorithm)
 * Heatmap for arbitrary set of GPS tracks
 
-![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/1341651157-heatMapCenter.png)
+![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/4106320861-heatMapCenter.png)
