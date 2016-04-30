@@ -151,6 +151,13 @@ namespace Math
             return x;
         }
 
+        public static double FibonacciBinet(int n)
+        {
+            var sqrt5 = System.Math.Sqrt(5.0);
+            var phi = (1 + sqrt5)/2;
+            return System.Math.Floor((System.Math.Pow(phi, n) - System.Math.Pow(-phi, -n))/sqrt5);
+        }
+
         public static int GCD(int a, int b)
         {
             // Greatest Common Denominator: Euclidian Algorithm

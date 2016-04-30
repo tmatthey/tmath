@@ -127,9 +127,38 @@ namespace Math.Tests
         [TestCase(10, 55)]
         [TestCase(11, 89)]
         [TestCase(12, 144)]
-        public void FibonacciInt(int n, int f)
+        [TestCase(60, 1548008755920)]
+        public void FibonacciInt(int n, long f)
         {
             Function.FibonacciInt(n).ShouldBe((ulong) f);
+        }
+
+        [TestCase(0, 0)]
+        [TestCase(1, 1)]
+        [TestCase(2, 1)]
+        [TestCase(3, 2)]
+        [TestCase(4, 3)]
+        [TestCase(5, 5)]
+        [TestCase(6, 8)]
+        [TestCase(7, 13)]
+        [TestCase(8, 21)]
+        [TestCase(9, 34)]
+        [TestCase(10, 55)]
+        [TestCase(11, 89)]
+        [TestCase(12, 144)]
+        [TestCase(60, 1548008755920)]
+        public void FibonacciBinet(int n, double f)
+        {
+            Function.FibonacciBinet(n).ShouldBe(f);
+        }
+
+        [TestCase(100)]
+        [TestCase(200)]
+        [TestCase(300)]
+        public void FibonacciBinet_Equal_Fibonacci(int n)
+        {
+            var f = Function.Fibonacci(n);
+            Function.FibonacciBinet(n).ShouldBe(f, f*1e-13);
         }
 
         [TestCase(0, 1ul)]
