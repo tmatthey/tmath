@@ -45,10 +45,15 @@ A collection of mathematical function and data structures written in C#. The lib
 * Geodesy
 * * Haversine distance
 * GridLookup / Analyzer : Finding neighbors of two GPS tracks in O(N)
-* Intersection test (overestimating) of two GPS track based either on minimal rectangular bounding box or minimal circle on sphere
+* Intersection / overlapping (overestimating) of two GPS tracks
+* * grid / lookup table based - fastest and pretty precise depending on given resolution
+* * minimal rectangular bounding box 
+* * minimal circle on sphere - slow on 1st call to calculate min cricle 
 
 ### Gfx
 * PNG and PGM bitmap writer
 * Simple bitmap
 * Line draw - antialiasing (Xiaolin Wu's line algorithm)
 * Heatmap for arbitrary set of GPS tracks
+
+![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/1341651157-heatMapCenter.png)
