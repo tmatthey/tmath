@@ -407,10 +407,10 @@ namespace Math.Tests
         [Test]
         public void ConvexHullGrahamscan_TrackOne_returnExpected()
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var transform = gpsTrack.CreateTransformedTrack();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             var result = Geometry.ConvexHullGrahamscan(transform.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
             stopwatch.Stop();
@@ -676,10 +676,10 @@ namespace Math.Tests
         [Test]
         public void ConvexHullJarvismarch_TrackOne_returnExpected()
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var transform = gpsTrack.CreateTransformedTrack();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             var result = Geometry.ConvexHullJarvismarch(transform.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
             stopwatch.Stop();

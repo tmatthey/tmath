@@ -26,6 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
+
 namespace Math.Gps
 {
     public static class Intersection
@@ -98,6 +100,50 @@ namespace Math.Gps
                 return Result.Overlapping;
 
             return Result.NotIntersecting;
+        }
+
+        public static Result Grid(GpsTrack one, GpsTrack two, int resolution = 1000)
+        {
+            if (one.Track.Count == 0 || two.Track.Count == 0)
+                return Result.Undefined;
+            var grid = new Dictionary<int, int>();
+
+            var size1 = one.Track.Count;
+            var size2 = two.Track.Count;
+            var size = System.Math.Max(size1, size2);
+            for (var i = 0; i < size; i++)
+            {
+                if (i < size1)
+                {
+                    if (UpdateGrid(ref grid, resolution, 1, one.Track[i]) != 1)
+                    {
+                        return Result.Overlapping;
+                    }
+                }
+                if (i < size2)
+                {
+                    if (UpdateGrid(ref grid, resolution, 2, two.Track[i]) != 2)
+                    {
+                        return Result.Overlapping;
+                    }
+                }
+            }
+            return Result.NotIntersecting;
+        }
+
+        private static int UpdateGrid(ref Dictionary<int, int> grid, int resolution, int index, GpsPoint pt)
+        {
+            var i = (90.0 - pt.Latitude)/180.0*resolution;
+            var j = i < 0.5 || i > resolution - 0.5 ? 0 : (pt.Longitude + 180.0)/180.0*resolution;
+            var n = (int) j*resolution + (int) i;
+
+            int value;
+            if (grid.TryGetValue(n, out value))
+            {
+                return value;
+            }
+            grid.Add(n, index);
+            return index;
         }
     }
 }
