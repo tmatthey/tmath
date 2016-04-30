@@ -253,35 +253,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void ConvexHullGrahamscan_WithCollinearPoints_returnsExpected()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(0, 0.25),
-                new Vector2D(0, 0.5),
-                new Vector2D(0, 1),
-                new Vector2D(0.5, 1.5),
-                new Vector2D(0.25, 1.25),
-                new Vector2D(1, 2),
-                new Vector2D(1, 0)
-            };
-            var expected = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(1, 0),
-                new Vector2D(1, 2),
-                new Vector2D(0, 1)
-            };
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
         public void ConvexHullGrahamscan_FiveGpsTracks()
         {
             var rawTracks = new List<List<GpsPoint>>();
@@ -447,6 +418,35 @@ namespace Math.Tests
         }
 
         [Test]
+        public void ConvexHullGrahamscan_WithCollinearPoints_returnsExpected()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(0, 0.25),
+                new Vector2D(0, 0.5),
+                new Vector2D(0, 1),
+                new Vector2D(0.5, 1.5),
+                new Vector2D(0.25, 1.25),
+                new Vector2D(1, 2),
+                new Vector2D(1, 0)
+            };
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(1, 0),
+                new Vector2D(1, 2),
+                new Vector2D(0, 1)
+            };
+
+            var result = Geometry.ConvexHullGrahamscan(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
         public void ConvexHullGrahamscan_WithEmptyList_returnsEmpty()
         {
             var points = new List<Vector2D>();
@@ -515,35 +515,6 @@ namespace Math.Tests
             var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
 
             var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullJarvismarch_WithCollinearPoints_returnsExpected()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(0, 0.25),
-                new Vector2D(0, 0.5),
-                new Vector2D(0, 1),
-                new Vector2D(0.5, 1.5),
-                new Vector2D(0.25, 1.25),
-                new Vector2D(1, 2),
-                new Vector2D(1, 0)
-            };
-            var expected = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(1, 0),
-                new Vector2D(1, 2),
-                new Vector2D(0, 1)
-            };
-
-            var result = Geometry.ConvexHullJarvismarch(points);
 
             result.Count.ShouldBe(expected.Count);
             for (var i = 0; i < result.Count; i++)
@@ -713,6 +684,35 @@ namespace Math.Tests
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
             stopwatch.Stop();
             Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+        }
+
+        [Test]
+        public void ConvexHullJarvismarch_WithCollinearPoints_returnsExpected()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(0, 0.25),
+                new Vector2D(0, 0.5),
+                new Vector2D(0, 1),
+                new Vector2D(0.5, 1.5),
+                new Vector2D(0.25, 1.25),
+                new Vector2D(1, 2),
+                new Vector2D(1, 0)
+            };
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(1, 0),
+                new Vector2D(1, 2),
+                new Vector2D(0, 1)
+            };
+
+            var result = Geometry.ConvexHullJarvismarch(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
         }
 
         [Test]
