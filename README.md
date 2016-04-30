@@ -22,7 +22,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * IsPrime; no cache; ~3s for max long / 10
 
 ### Geometry
-* Convex hull 2D (Jarvis march & Graham scan; point reduction algorithm)
+* Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
 * Minimal bounding circle 2D
 * Minimal bounding circle on Sphere 3D
 

@@ -102,8 +102,9 @@ namespace Math
             return hull;
         }
 
-        public static IList<Vector2D> ConvexHullGrahamscan(IList<Vector2D> allPoints)
+        public static IList<Vector2D> ConvexHullMonotoneChain(IList<Vector2D> allPoints)
         {
+            // https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain
             // Make unique, O(N) (?)
             var points = allPoints.Distinct().ToList();
 
@@ -116,6 +117,7 @@ namespace Math
             var k = 0;
             var hull = new Vector2D[points.Count*2];
 
+            // O(N)
             // Build lower hull
             for (var i = 0; i < points.Count; ++i)
             {

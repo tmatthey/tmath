@@ -253,275 +253,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void ConvexHullGrahamscan_FiveGpsTracks()
-        {
-            var rawTracks = new List<List<GpsPoint>>();
-            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
-            var gpsTracks = new List<GpsTrack>();
-            var center = new Vector3D();
-            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
-            {
-                center += gpsTrack.Center;
-                gpsTracks.Add(gpsTrack);
-            }
-            center /= gpsTracks.Count;
-            var points = new List<Vector2D>();
-            foreach (var track in gpsTracks)
-            {
-                points.AddRange(track.CreateTransformedTrack(center).Track);
-            }
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var result = Geometry.ConvexHullGrahamscan(points);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
-            result.Count.ShouldBe(34);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_Sample1()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(4.4, 14),
-                new Vector2D(6.7, 15.25),
-                new Vector2D(6.9, 12.8),
-                new Vector2D(2.1, 11.1),
-                new Vector2D(9.5, 14.9),
-                new Vector2D(13.2, 11.9),
-                new Vector2D(10.3, 12.3),
-                new Vector2D(6.8, 9.5),
-                new Vector2D(3.3, 7.7),
-                new Vector2D(0.6, 5.1),
-                new Vector2D(5.3, 2.4),
-                new Vector2D(8.45, 4.7),
-                new Vector2D(11.5, 9.6),
-                new Vector2D(13.8, 7.3),
-                new Vector2D(12.9, 3.1),
-                new Vector2D(11, 1.1)
-            };
-
-            var expected = new List<Vector2D>
-            {
-                new Vector2D(0.6, 5.1),
-                new Vector2D(5.3, 2.4),
-                new Vector2D(11, 1.1),
-                new Vector2D(12.9, 3.1),
-                new Vector2D(13.8, 7.3),
-                new Vector2D(13.2, 11.9),
-                new Vector2D(9.5, 14.9),
-                new Vector2D(6.7, 15.25),
-                new Vector2D(4.4, 14),
-                new Vector2D(2.1, 11.1)
-            };
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_Sample2()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(1, 0),
-                new Vector2D(1, 1),
-                new Vector2D(1, -1),
-                new Vector2D(0.68957, 0.283647),
-                new Vector2D(0.909487, 0.644276),
-                new Vector2D(0.0361877, 0.803816),
-                new Vector2D(0.583004, 0.91555),
-                new Vector2D(-0.748169, 0.210483),
-                new Vector2D(-0.553528, -0.967036),
-                new Vector2D(0.316709, -0.153861),
-                new Vector2D(-0.79267, 0.585945),
-                new Vector2D(-0.700164, -0.750994),
-                new Vector2D(0.452273, -0.604434),
-                new Vector2D(-0.79134, -0.249902),
-                new Vector2D(-0.594918, -0.397574),
-                new Vector2D(-0.547371, -0.434041),
-                new Vector2D(0.958132, -0.499614),
-                new Vector2D(0.039941, 0.0990732),
-                new Vector2D(-0.891471, -0.464943),
-                new Vector2D(0.513187, -0.457062),
-                new Vector2D(-0.930053, 0.60341),
-                new Vector2D(0.656995, 0.854205)
-            };
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-            result.Count.ShouldBe(8);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_Sample3()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(0.3215348546593775, 0.03629583077160248),
-                new Vector2D(0.02402358131857918, -0.2356728797179394),
-                new Vector2D(0.04590851212470659, -0.4156409924995536),
-                new Vector2D(0.3218384001607433, 0.1379850698988746),
-                new Vector2D(0.11506479756447, -0.1059521474930943),
-                new Vector2D(0.2622539999543261, -0.29702873322836),
-                new Vector2D(-0.161920957418085, -0.4055339716426413),
-                new Vector2D(0.1905378631228002, 0.3698601009043493),
-                new Vector2D(0.2387090918968516, -0.01629827079949742),
-                new Vector2D(0.07495888748668034, -0.1659825110491202),
-                new Vector2D(0.3319341836794598, -0.1821814101954749),
-                new Vector2D(0.07703635755650362, -0.2499430638271785),
-                new Vector2D(0.2069242999022122, -0.2232970760420869),
-                new Vector2D(0.04604079532068295, -0.1923573186549892),
-                new Vector2D(0.05054295812784038, 0.4754929463150845),
-                new Vector2D(-0.3900589168910486, 0.2797829520700341),
-                new Vector2D(0.3120693385713448, -0.0506329867529059),
-                new Vector2D(0.01138812723698857, 0.4002504701728471),
-                new Vector2D(0.009645149586391732, 0.1060251100976254),
-                new Vector2D(-0.03597933197019559, 0.2953639456959105),
-                new Vector2D(0.1818290866742182, 0.001454397571696298),
-                new Vector2D(0.444056063372694, 0.2502497166863175),
-                new Vector2D(-0.05301752458607545, -0.06553921621808712),
-                new Vector2D(0.4823896228171788, -0.4776170002088109),
-                new Vector2D(-0.3089226845734964, -0.06356112199235814),
-                new Vector2D(-0.271780741188471, 0.1810810595574612),
-                new Vector2D(0.4293626522918815, 0.2980897964891882),
-                new Vector2D(-0.004796652127799228, 0.382663812844701),
-                new Vector2D(0.430695573269106, -0.2995073500084759),
-                new Vector2D(0.1799668387323309, -0.2973467472915973),
-                new Vector2D(0.4932166845474547, 0.4928094162538735),
-                new Vector2D(-0.3521487911717489, 0.4352656197131292),
-                new Vector2D(-0.4907368011686362, 0.1865826865533206),
-                new Vector2D(-0.1047924716070224, -0.247073392148198)
-            };
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-            result.Count.ShouldBe(6);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_TrackOne_returnExpected()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var transform = gpsTrack.CreateTransformedTrack();
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var result = Geometry.ConvexHullGrahamscan(transform.Track);
-            result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithCollinearPoints_returnsExpected()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(0, 0.25),
-                new Vector2D(0, 0.5),
-                new Vector2D(0, 1),
-                new Vector2D(0.5, 1.5),
-                new Vector2D(0.25, 1.25),
-                new Vector2D(1, 2),
-                new Vector2D(1, 0)
-            };
-            var expected = new List<Vector2D>
-            {
-                new Vector2D(0, 0),
-                new Vector2D(1, 0),
-                new Vector2D(1, 2),
-                new Vector2D(0, 1)
-            };
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithEmptyList_returnsEmpty()
-        {
-            var points = new List<Vector2D>();
-            var expected = new List<Vector2D>();
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithFourPointsOnLine_returnsTwoPoints()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(1, 0),
-                new Vector2D(2, 0),
-                new Vector2D(3, 0),
-                new Vector2D(4, 0)
-            };
-            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithFourSamePoint_returnsOnePoint()
-        {
-            var points = new List<Vector2D>
-            {
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14),
-                new Vector2D(4.4, 14)
-            };
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithOnePoint_returnsOnePoint()
-        {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
-        public void ConvexHullGrahamscan_WithTwoSamePoint_returnsOnePoint()
-        {
-            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
-            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
-
-            var result = Geometry.ConvexHullGrahamscan(points);
-
-            result.Count.ShouldBe(expected.Count);
-            for (var i = 0; i < result.Count; i++)
-                result[i].ShouldBe(expected[i]);
-        }
-
-        [Test]
         public void ConvexHullJarvismarch_FiveGpsTracks()
         {
             var rawTracks = new List<List<GpsPoint>>();
@@ -791,6 +522,275 @@ namespace Math.Tests
         }
 
         [Test]
+        public void ConvexHullMonotoneChain_FiveGpsTracks()
+        {
+            var rawTracks = new List<List<GpsPoint>>();
+            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
+            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
+            var gpsTracks = new List<GpsTrack>();
+            var center = new Vector3D();
+            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
+            {
+                center += gpsTrack.Center;
+                gpsTracks.Add(gpsTrack);
+            }
+            center /= gpsTracks.Count;
+            var points = new List<Vector2D>();
+            foreach (var track in gpsTracks)
+            {
+                points.AddRange(track.CreateTransformedTrack(center).Track);
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = Geometry.ConvexHullMonotoneChain(points);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            result.Count.ShouldBe(34);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_Sample1()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(4.4, 14),
+                new Vector2D(6.7, 15.25),
+                new Vector2D(6.9, 12.8),
+                new Vector2D(2.1, 11.1),
+                new Vector2D(9.5, 14.9),
+                new Vector2D(13.2, 11.9),
+                new Vector2D(10.3, 12.3),
+                new Vector2D(6.8, 9.5),
+                new Vector2D(3.3, 7.7),
+                new Vector2D(0.6, 5.1),
+                new Vector2D(5.3, 2.4),
+                new Vector2D(8.45, 4.7),
+                new Vector2D(11.5, 9.6),
+                new Vector2D(13.8, 7.3),
+                new Vector2D(12.9, 3.1),
+                new Vector2D(11, 1.1)
+            };
+
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(0.6, 5.1),
+                new Vector2D(5.3, 2.4),
+                new Vector2D(11, 1.1),
+                new Vector2D(12.9, 3.1),
+                new Vector2D(13.8, 7.3),
+                new Vector2D(13.2, 11.9),
+                new Vector2D(9.5, 14.9),
+                new Vector2D(6.7, 15.25),
+                new Vector2D(4.4, 14),
+                new Vector2D(2.1, 11.1)
+            };
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_Sample2()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 0),
+                new Vector2D(1, 1),
+                new Vector2D(1, -1),
+                new Vector2D(0.68957, 0.283647),
+                new Vector2D(0.909487, 0.644276),
+                new Vector2D(0.0361877, 0.803816),
+                new Vector2D(0.583004, 0.91555),
+                new Vector2D(-0.748169, 0.210483),
+                new Vector2D(-0.553528, -0.967036),
+                new Vector2D(0.316709, -0.153861),
+                new Vector2D(-0.79267, 0.585945),
+                new Vector2D(-0.700164, -0.750994),
+                new Vector2D(0.452273, -0.604434),
+                new Vector2D(-0.79134, -0.249902),
+                new Vector2D(-0.594918, -0.397574),
+                new Vector2D(-0.547371, -0.434041),
+                new Vector2D(0.958132, -0.499614),
+                new Vector2D(0.039941, 0.0990732),
+                new Vector2D(-0.891471, -0.464943),
+                new Vector2D(0.513187, -0.457062),
+                new Vector2D(-0.930053, 0.60341),
+                new Vector2D(0.656995, 0.854205)
+            };
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+            result.Count.ShouldBe(8);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_Sample3()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(0.3215348546593775, 0.03629583077160248),
+                new Vector2D(0.02402358131857918, -0.2356728797179394),
+                new Vector2D(0.04590851212470659, -0.4156409924995536),
+                new Vector2D(0.3218384001607433, 0.1379850698988746),
+                new Vector2D(0.11506479756447, -0.1059521474930943),
+                new Vector2D(0.2622539999543261, -0.29702873322836),
+                new Vector2D(-0.161920957418085, -0.4055339716426413),
+                new Vector2D(0.1905378631228002, 0.3698601009043493),
+                new Vector2D(0.2387090918968516, -0.01629827079949742),
+                new Vector2D(0.07495888748668034, -0.1659825110491202),
+                new Vector2D(0.3319341836794598, -0.1821814101954749),
+                new Vector2D(0.07703635755650362, -0.2499430638271785),
+                new Vector2D(0.2069242999022122, -0.2232970760420869),
+                new Vector2D(0.04604079532068295, -0.1923573186549892),
+                new Vector2D(0.05054295812784038, 0.4754929463150845),
+                new Vector2D(-0.3900589168910486, 0.2797829520700341),
+                new Vector2D(0.3120693385713448, -0.0506329867529059),
+                new Vector2D(0.01138812723698857, 0.4002504701728471),
+                new Vector2D(0.009645149586391732, 0.1060251100976254),
+                new Vector2D(-0.03597933197019559, 0.2953639456959105),
+                new Vector2D(0.1818290866742182, 0.001454397571696298),
+                new Vector2D(0.444056063372694, 0.2502497166863175),
+                new Vector2D(-0.05301752458607545, -0.06553921621808712),
+                new Vector2D(0.4823896228171788, -0.4776170002088109),
+                new Vector2D(-0.3089226845734964, -0.06356112199235814),
+                new Vector2D(-0.271780741188471, 0.1810810595574612),
+                new Vector2D(0.4293626522918815, 0.2980897964891882),
+                new Vector2D(-0.004796652127799228, 0.382663812844701),
+                new Vector2D(0.430695573269106, -0.2995073500084759),
+                new Vector2D(0.1799668387323309, -0.2973467472915973),
+                new Vector2D(0.4932166845474547, 0.4928094162538735),
+                new Vector2D(-0.3521487911717489, 0.4352656197131292),
+                new Vector2D(-0.4907368011686362, 0.1865826865533206),
+                new Vector2D(-0.1047924716070224, -0.247073392148198)
+            };
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+            result.Count.ShouldBe(6);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_TrackOne_returnExpected()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var transform = gpsTrack.CreateTransformedTrack();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = Geometry.ConvexHullMonotoneChain(transform.Track);
+            result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithCollinearPoints_returnsExpected()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(0, 0.25),
+                new Vector2D(0, 0.5),
+                new Vector2D(0, 1),
+                new Vector2D(0.5, 1.5),
+                new Vector2D(0.25, 1.25),
+                new Vector2D(1, 2),
+                new Vector2D(1, 0)
+            };
+            var expected = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(1, 0),
+                new Vector2D(1, 2),
+                new Vector2D(0, 1)
+            };
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithEmptyList_returnsEmpty()
+        {
+            var points = new List<Vector2D>();
+            var expected = new List<Vector2D>();
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithFourPointsOnLine_returnsTwoPoints()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(1, 0),
+                new Vector2D(2, 0),
+                new Vector2D(3, 0),
+                new Vector2D(4, 0)
+            };
+            var expected = new List<Vector2D> {new Vector2D(1, 0), new Vector2D(4, 0)};
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithFourSamePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D>
+            {
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14),
+                new Vector2D(4.4, 14)
+            };
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithOnePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D> {new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void ConvexHullMonotoneChain_WithTwoSamePoint_returnsOnePoint()
+        {
+            var points = new List<Vector2D> {new Vector2D(4.4, 14), new Vector2D(4.4, 14)};
+            var expected = new List<Vector2D> {new Vector2D(4.4, 14)};
+
+            var result = Geometry.ConvexHullMonotoneChain(points);
+
+            result.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < result.Count; i++)
+                result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
         public void MinCircle_EmptyList_returnsNaNCircle()
         {
             var points = new List<Vector2D>();
@@ -855,6 +855,39 @@ namespace Math.Tests
             c.Center.X.ShouldBe(2);
             c.Center.Y.ShouldBe(3);
             c.Radius.ShouldBe(System.Math.Sqrt(2.0));
+        }
+
+        [Test]
+        public void MinCircle_WithFiveTracks_returnsExpected()
+        {
+            var rawTracks = new List<List<GpsPoint>>
+            {
+                _gpsTrackExamples.TrackOne().ToList(),
+                _gpsTrackExamples.TrackTwo().ToList(),
+                _gpsTrackExamples.TrackThree().ToList(),
+                _gpsTrackExamples.TrackFour().ToList(),
+                _gpsTrackExamples.TrackFive().ToList()
+            };
+            var gpsTracks = new List<GpsTrack>();
+            var center = new Vector3D();
+            foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
+            {
+                center += gpsTrack.Center;
+                gpsTracks.Add(gpsTrack);
+            }
+            center /= gpsTracks.Count;
+            var points = new List<Vector2D>();
+            foreach (var track in gpsTracks)
+            {
+                points.AddRange(track.CreateTransformedTrack(center).Track);
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var c = Geometry.MinCircle(points);
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            c.Radius.ShouldBe(1243.50116557008, 1e-8);
         }
 
         [Test]
