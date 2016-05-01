@@ -33,6 +33,8 @@ namespace Math.Gfx
         double[,] Bitmap { get; }
         void Plot(double x, double y, double c);
         double Pick(double x, double y);
-        Vector2D Convert(Vector2D x);
+        Vector2D ConvertToBitmap(Vector2D x);
+        void Plot(Vector2D x, double c);
+        double Pick(Vector2D x);
     }
 }

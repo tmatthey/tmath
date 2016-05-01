@@ -70,7 +70,7 @@ namespace Math.Gfx
             {
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
-                    Draw.XiaolinWu(bitmap.Convert(track[i]), bitmap.Convert(track[i + 1]), bitmap);
+                    Draw.XiaolinWu(bitmap.ConvertToBitmap(track[i]), bitmap.ConvertToBitmap(track[i + 1]), bitmap);
                 }
             }
             return bitmap;

@@ -58,6 +58,12 @@ namespace Math.Gfx
             }
         }
 
+        public void Plot(Vector2D x, double c)
+        {
+            var v = ConvertToBitmap(x);
+            Plot(v.X, v.Y, c);
+        }
+
         public double Pick(double x, double y)
         {
             var i = (int) x;
@@ -69,7 +75,13 @@ namespace Math.Gfx
             return double.NaN;
         }
 
-        public Vector2D Convert(Vector2D x)
+        public double Pick(Vector2D x)
+        {
+            var v = ConvertToBitmap(x);
+            return Pick(v.X, v.Y);
+        }
+
+        public Vector2D ConvertToBitmap(Vector2D x)
         {
             return (x - _min)/_pixelSize;
         }

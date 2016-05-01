@@ -54,7 +54,7 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
-        public void Pick_UnValidCoordsInitialBitMap_ReturnsZero()
+        public void Pick_UnValidCoordsInitialBitMap_ReturnsNaN()
         {
             var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
             bitmap.Pick(1000, 1).ShouldBe(double.NaN);
@@ -64,7 +64,18 @@ namespace Math.Tests.Gfx
         public void Pick_ValidCoordsInitialBitMap_ReturnsZero()
         {
             var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
-            bitmap.Pick(1, 1).ShouldBe(0.0);
+            bitmap.Pick(new Vector2D(1, 1)).ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Plot_WithVector_ReturnsPointValue()
+        {
+            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var pt = new Vector2D(1, 1);
+            var c = 17.19;
+            bitmap.Plot(pt, c);
+
+            bitmap.Pick(pt).ShouldBe(c);
         }
     }
 }
