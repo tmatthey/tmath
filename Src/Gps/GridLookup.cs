@@ -59,11 +59,33 @@ namespace Math.Gps
             for (var i = 0; i < NX; ++i)
                 for (var j = 0; j < NY; j++)
                     Grid[i, j] = new List<int>();
+            var i0 = -1;
+            var j0 = -1;
             for (var k = 0; k < transformed.Track.Count; k++)
             {
                 int i, j;
                 Index(transformed.Track[k], out i, out j);
                 Grid[i, j].Add(k);
+                if (k > 0)
+                {
+                    if (System.Math.Abs(i - i0) > 1 || System.Math.Abs(j - j0) > 1)
+                    {   
+                        var i3 = System.Math.Min(i0, i);
+                        var i4 = System.Math.Max(i0, i);
+                        var j3 = System.Math.Min(j0, j);
+                        var j4 = System.Math.Max(j0, j);
+                        for (var i2 = i3 + 1; i2 < i4 - 1; i2++)
+                        {
+                            for (var j2 = j3 + 1; j2 < j4 - 1; j2++)
+                            {
+                                Grid[i2, j2].Add(k);
+                                Grid[i2, j2].Add(k-1);
+                            }
+                        }
+                    }
+                }
+                i0 = i;
+                j0 = j;
             }
         }
 
@@ -85,7 +107,8 @@ namespace Math.Gps
             var list = new List<List<Distance>>();
             for (var i = 0; i < track.Count; i++)
             {
-                var a = Find(track[i], radius, i);
+                var d = (track.Count < 2 ? 0.0 : (i == 0 ? track[i].Distance(track[i + 1]) : track[i - 1].Distance(track[i])))/2.0;
+                var a = Find(track[i], System.Math.Max(radius, d), i);
                 if (a.Count > 0)
                 {
                     list.Add(a);
@@ -121,9 +144,10 @@ namespace Math.Gps
         private List<Distance> Find(Vector2D point, double radius, int referenceIndex)
         {
             int minI, minJ;
-            Index(point - _gridOffset, out minI, out minJ);
+            var v = new Vector2D(radius);
+            Index(point - _gridOffset - v, out minI, out minJ);
             int maxI, maxJ;
-            Index(point + _gridOffset, out maxI, out maxJ);
+            Index(point + _gridOffset + v, out maxI, out maxJ);
             var list = new List<Distance>();
             if (maxI < 0 || maxJ < 0 || NX <= minI || NY <= minJ)
             {
@@ -139,8 +163,7 @@ namespace Math.Gps
                 {
                     foreach (var k in Grid[i, j])
                     {
-                        var pt = Track[k];
-                        var r = point.Distance(pt);
+                        var r = point.Distance(Track[k]);
                         if (Comparison.IsLessEqual(r, radius))
                         {
                             list.Add(new Distance(k, referenceIndex, r));
@@ -148,6 +171,7 @@ namespace Math.Gps
                     }
                 }
             }
+            list = list.Distinct().ToList();
             list.Sort((x, y) => x.Dist.CompareTo(y.Dist));
             return list;
         }

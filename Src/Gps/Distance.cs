@@ -58,5 +58,27 @@ namespace Math.Gps
         public int Current { get; private set; }
         public double Dist { get; private set; }
         public double Fraction { get; private set; }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Distance) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Reference.GetHashCode();
+                hashCode = (hashCode*397) ^ Current.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        public bool IsEqual(Distance d)
+        {
+            return d != null && Reference == d.Reference && Current == d.Current;
+        }
     }
 }

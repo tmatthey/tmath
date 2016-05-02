@@ -51,7 +51,7 @@ namespace Math.Gps
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
 
-            var neighboursCur = Reference.Lookup.Find(trackCur.Track, radius*2.0);
+            var neighboursCur = Reference.Lookup.Find(trackCur.Track, radius);
             var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, Reference.TransformedTrack);
             var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, Reference.TransformedTrack, trackCur);
             var cutNeighboursCur = CutOffDistance(adjustedNeighboursCur, radius);
