@@ -33,26 +33,15 @@ namespace Math.Gps
 {
     public class GridLookup
     {
-        private readonly Vector2D _gridOffset;
-
         public GridLookup(Transformer transformed, double gridSize)
-            : this(transformed, gridSize, transformed.Min, transformed.Max)
         {
-        }
-
-        public GridLookup(Transformer transformed, double gridSize, Vector2D min, Vector2D max)
-        {
-            min.X = System.Math.Min(min.X, transformed.Min.X);
-            min.Y = System.Math.Min(min.Y, transformed.Min.Y);
-            max.X = System.Math.Max(max.X, transformed.Max.X);
-            max.Y = System.Math.Max(max.Y, transformed.Max.Y);
-            Min = min;
-            Max = min;
+            Min = transformed.Size.Min;
+            Max = transformed.Size.Max;
             Size = gridSize;
             Track = transformed.Track;
-            _gridOffset = new Vector2D(gridSize, gridSize);
+            new Vector2D(gridSize);
             int nx, ny;
-            Index(max, out nx, out ny);
+            Index(Max, out nx, out ny);
             NX = nx + 1;
             NY = ny + 1;
             Grid = new List<int>[NX, NY];
@@ -69,21 +58,23 @@ namespace Math.Gps
                 if (k > 0)
                 {
                     if (System.Math.Abs(i - i0) > 1 || System.Math.Abs(j - j0) > 1)
-                    {   
+                    {
                         var i3 = System.Math.Min(i0, i);
                         var i4 = System.Math.Max(i0, i);
                         var j3 = System.Math.Min(j0, j);
                         var j4 = System.Math.Max(j0, j);
-                        for (var i2 = i3 + 1; i2 < i4 - 1; i2++)
+                        for (var i2 = i3; i2 <= i4; i2++)
                         {
-                            for (var j2 = j3 + 1; j2 < j4 - 1; j2++)
+                            for (var j2 = j3; j2 <= j4; j2++)
                             {
                                 Grid[i2, j2].Add(k);
-                                Grid[i2, j2].Add(k-1);
+                                Grid[i2, j2].Add(k - 1);
+                                Grid[i2, j2] = Grid[i2, j2].Distinct().ToList();
                             }
                         }
                     }
                 }
+                Grid[i, j] = Grid[i, j].Distinct().ToList();
                 i0 = i;
                 j0 = j;
             }
@@ -102,12 +93,14 @@ namespace Math.Gps
             return Find(point, radius, -1);
         }
 
-        public IList<List<Distance>> Find(IList<Vector2D> track, double radius)
+        public IList<List<Distance>> Find(IList<Vector2D> track, IList<double> displacement, double radius)
         {
             var list = new List<List<Distance>>();
             for (var i = 0; i < track.Count; i++)
             {
-                var d = (track.Count < 2 ? 0.0 : (i == 0 ? track[i].Distance(track[i + 1]) : track[i - 1].Distance(track[i])))/2.0;
+                var d0 = displacement[i];
+                var d1 = i + 1 < track.Count ? displacement[i + 1] : 0.0;
+                var d = System.Math.Max(d0, d1)/2.0;
                 var a = Find(track[i], System.Math.Max(radius, d), i);
                 if (a.Count > 0)
                 {
@@ -144,10 +137,10 @@ namespace Math.Gps
         private List<Distance> Find(Vector2D point, double radius, int referenceIndex)
         {
             int minI, minJ;
-            var v = new Vector2D(radius);
-            Index(point - _gridOffset - v, out minI, out minJ);
+            var dp = new Vector2D(radius + Size);
+            Index(point - dp, out minI, out minJ);
             int maxI, maxJ;
-            Index(point + _gridOffset + v, out maxI, out maxJ);
+            Index(point + dp, out maxI, out maxJ);
             var list = new List<Distance>();
             if (maxI < 0 || maxJ < 0 || NX <= minI || NY <= minJ)
             {
@@ -163,16 +156,12 @@ namespace Math.Gps
                 {
                     foreach (var k in Grid[i, j])
                     {
-                        var r = point.Distance(Track[k]);
-                        if (Comparison.IsLessEqual(r, radius))
-                        {
-                            list.Add(new Distance(k, referenceIndex, r));
-                        }
+                        list.Add(new Distance(k, referenceIndex, point.Distance(Track[k])));
                     }
                 }
             }
             list = list.Distinct().ToList();
-            list.Sort((x, y) => x.Dist.CompareTo(y.Dist));
+            list.Sort((x, y) => x.CompareTo(y));
             return list;
         }
 

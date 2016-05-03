@@ -80,5 +80,16 @@ namespace Math.Gps
         {
             return d != null && Reference == d.Reference && Current == d.Current;
         }
+
+        public int CompareTo(Distance d)
+        {
+            if (Comparison.IsEqual(Dist, d.Dist))
+            {
+                if (Current == d.Current && Reference == d.Reference)
+                    return 0;
+                return (Current == d.Current ? (Reference < d.Reference ? -1 : 1) : (Current < d.Current ? -1 : 1));
+            }
+            return Dist < d.Dist ? -1 : 1;
+        }
     }
 }

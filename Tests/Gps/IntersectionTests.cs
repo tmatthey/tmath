@@ -26,9 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -69,11 +67,9 @@ namespace Math.Tests.Gps
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -86,11 +82,9 @@ namespace Math.Tests.Gps
             }
             var gpsTrack1 = new GpsTrack(track);
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             Intersection.Grid(gpsTrack1, gpsTrack2, 2000).ShouldBe(Intersection.Result.NotIntersecting);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -244,11 +238,9 @@ namespace Math.Tests.Gps
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Same);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -379,11 +371,9 @@ namespace Math.Tests.Gps
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Same);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -396,11 +386,9 @@ namespace Math.Tests.Gps
             }
             var gpsTrack1 = new GpsTrack(track);
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.NotIntersecting);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]

@@ -26,9 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Math.Gps;
 using Math.Tests.Gps;
@@ -275,11 +273,9 @@ namespace Math.Tests
                 points.AddRange(track.CreateTransformedTrack(center).Track);
             }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var result = Geometry.ConvexHullJarvismarch(points);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
             result.Count.ShouldBe(34);
         }
 
@@ -409,12 +405,10 @@ namespace Math.Tests
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var transform = gpsTrack.CreateTransformedTrack();
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var result = Geometry.ConvexHullJarvismarch(transform.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -544,11 +538,9 @@ namespace Math.Tests
                 points.AddRange(track.CreateTransformedTrack(center).Track);
             }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var result = Geometry.ConvexHullMonotoneChain(points);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
             result.Count.ShouldBe(34);
         }
 
@@ -678,12 +670,10 @@ namespace Math.Tests
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var transform = gpsTrack.CreateTransformedTrack();
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var result = Geometry.ConvexHullMonotoneChain(transform.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
         }
 
         [Test]
@@ -882,11 +872,9 @@ namespace Math.Tests
                 points.AddRange(track.CreateTransformedTrack(center).Track);
             }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var c = Geometry.MinCircle(points);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
             c.Radius.ShouldBe(1243.50116557008, 1e-8);
         }
 

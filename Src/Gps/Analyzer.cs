@@ -51,10 +51,10 @@ namespace Math.Gps
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
 
-            var neighboursCur = Reference.Lookup.Find(trackCur.Track, radius);
-            var reducedNeighboursCur = RemoveNonAdjacentPoints(radius, neighboursCur, Reference.TransformedTrack);
-            var adjustedNeighboursCur = AjustDistance(reducedNeighboursCur, Reference.TransformedTrack, trackCur);
-            var cutNeighboursCur = CutOffDistance(adjustedNeighboursCur, radius);
+            var neighboursCur = Reference.Lookup.Find(trackCur.Track, trackCur.Displacement, radius);
+            var adjustedNeighboursCur = AjustDistance(neighboursCur, Reference.TransformedTrack, trackCur);
+            var cutNeighboursCutoff = CutOffDistance(adjustedNeighboursCur, radius);
+            var cutNeighboursCur = RemoveDisconnectedPoints(radius, cutNeighboursCutoff, Reference.TransformedTrack);
 
             return new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
                 trackCur.Displacement);
@@ -108,7 +108,7 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
-        private static IList<List<Distance>> RemoveNonAdjacentPoints(double radius, IList<List<Distance>> neighboursCur,
+        private static IList<List<Distance>> RemoveDisconnectedPoints(double radius, IList<List<Distance>> neighboursCur,
             Transformer trackRef)
         {
             var index = 0;

@@ -26,8 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
-using System.Diagnostics;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -40,14 +38,35 @@ namespace Math.Tests.Gps
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
+        public void Analyze_WithDifferentGridSize_ReturnsSameList()
+        {
+            TestUtils.StartTimer();
+            var analyzer1 = new Analyzer(_gpsTrackExamples.TrackOne(), 4.56);
+            var current1 = analyzer1.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+            TestUtils.StopTimer();
+            TestUtils.StartTimer();
+            var analyzer2 = new Analyzer(_gpsTrackExamples.TrackOne(), 51.37);
+            var current2 = analyzer2.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+            TestUtils.StopTimer();
+
+            current1.Neighbours.Count.ShouldBe(current2.Neighbours.Count);
+            for (var i = 0; i < System.Math.Min(current1.Neighbours.Count, current2.Neighbours.Count); i++)
+            {
+                current1.Neighbours[i].Count.ShouldBe(current2.Neighbours[i].Count);
+                for (var j = 0; j < System.Math.Min(current1.Neighbours[i].Count, current2.Neighbours[i].Count); j++)
+                {
+                    current1.Neighbours[i][j].IsEqual(current2.Neighbours[i][j]).ShouldBe(true);
+                }
+            }
+        }
+
+        [Test]
         public void ListOfNeighbours_InRange()
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            TestUtils.StartTimer();
             var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
             var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            TestUtils.StopTimer();
             foreach (var point in current.Neighbours)
             {
                 foreach (var p in point)
