@@ -399,6 +399,35 @@ namespace Math.Tests
         }
 
         [Test]
+        public void TrajectoryHausdorffDistance_PointPoint_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(1, 1);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, a, b, b, 1, 1, 1);
+            dist.ShouldBe(a.Distance(b), 1e-13);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_PointSegment_returnsExpected()
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(0, 1);
+            var c = new Vector2D(2, 1);
+            var dist = Vector2D.TrajectoryHausdorffDistance(a, a, b, c, 1, 1, 1);
+            dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_SegmentPoint_returnsExpected()
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(0, 1);
+            var c = new Vector2D(2, 1);
+            var dist = Vector2D.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
+            dist.ShouldBe(2.0);
+        }
+
+        [Test]
         public void Vector2DAddOpVector2D()
         {
             var a = 17.0;

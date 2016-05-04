@@ -47,7 +47,7 @@ namespace Math.Gps
             // Perpendicular parameter off point on segment [Reference, Reference+1] 
             Fraction = fraction;
             // Distance along reference track of perpendicular point
-            RefDistance = refDistance;  
+            RefDistance = refDistance;
         }
 
         public Distance(Distance d)
