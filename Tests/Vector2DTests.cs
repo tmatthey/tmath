@@ -88,17 +88,19 @@ namespace Math.Tests
         [TestCase(-1, 2, 2.82842712474619)]
         [TestCase(0, 0, 1)]
         [TestCase(3, 0, 1)]
-        public void PerpendicularSegementDistance_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularSegmentDistance_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
-            Vector2D.PerpendicularSegementDistance(a, b, p).ShouldBe(l, 1e-13);
+            Vector2D.PerpendicularSegmentDistance(a, b, p).ShouldBe(l, 1e-13);
         }
 
         [TestCase(0, 1, 0)]
         [TestCase(0, 2, 0)]
+        [TestCase(1, 1, 0)]
         [TestCase(1.12, 2, 0.12)]
+        [TestCase(2, 1, 1)]
         [TestCase(3, 1, 1)]
         [TestCase(3, 2, 1)]
         public void PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
@@ -106,7 +108,7 @@ namespace Math.Tests
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
-            Vector2D.PerpendicularSegementParameter(a, b, p).ShouldBe(l, 1e-13);
+            Vector2D.PerpendicularSegmentParameter(a, b, p).ShouldBe(l, 1e-13);
         }
 
         [TestCase(false, false)]

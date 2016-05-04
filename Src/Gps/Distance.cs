@@ -38,12 +38,16 @@ namespace Math.Gps
             Fraction = 0.0;
         }
 
-        public Distance(int reference, int current, double minDistance, double fraction)
+        public Distance(int reference, int current, double minDistance, double fraction, double refDistance)
         {
             Reference = reference;
             Current = current;
+            // Perpendicular distance from current point to reference track (segement of point [Reference, Reference+1])
             MinDistance = minDistance;
+            // Perpendicular parameter off point on segment [Reference, Reference+1] 
             Fraction = fraction;
+            // Distance along reference track of perpendicular point
+            RefDistance = refDistance;  
         }
 
         public Distance(Distance d)
@@ -58,6 +62,7 @@ namespace Math.Gps
         public int Current { get; private set; }
         public double MinDistance { get; private set; }
         public double Fraction { get; private set; }
+        public double RefDistance { get; private set; }
 
         public override bool Equals(object obj)
         {

@@ -218,7 +218,7 @@ namespace Math
             return System.Math.Abs(Cross(b - a, p - a)/l);
         }
 
-        public static double PerpendicularSegementDistance(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularSegmentDistance(Vector2D x0, Vector2D x1, Vector2D p)
         {
             var dist = PerpendicularDistance(x0, x1, p);
             if (x0 == x1)
@@ -242,7 +242,7 @@ namespace Math
             return (a*b)/d;
         }
 
-        public static double PerpendicularSegementParameter(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularSegmentParameter(Vector2D x0, Vector2D x1, Vector2D p)
         {
             return System.Math.Max(System.Math.Min(PerpendicularParameter(x0, x1, p), 1.0), 0.0);
         }

@@ -52,7 +52,7 @@ namespace Math.Gps
             var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
 
             var neighboursCur = Reference.Lookup.Find(trackCur.Track, trackCur.Displacement, radius);
-            var adjustedNeighboursCur = AjustDistance(neighboursCur, Reference.TransformedTrack, trackCur);
+            var adjustedNeighboursCur = PerpendicularDistance(neighboursCur, Reference.TransformedTrack, trackCur);
             var cutNeighboursCutoff = CutOffDistance(adjustedNeighboursCur, radius);
             var cutNeighboursCur = RemoveDisconnectedPoints(radius, cutNeighboursCutoff, Reference.TransformedTrack);
 
@@ -69,7 +69,8 @@ namespace Math.Gps
                     .ToList();
         }
 
-        private static List<List<Distance>> AjustDistance(IList<List<Distance>> neighboursCur, Transformer trackRef,
+        private static List<List<Distance>> PerpendicularDistance(IList<List<Distance>> neighboursCur,
+            Transformer trackRef,
             Transformer trackCur)
         {
             var adjsuteddNeighboursCur = new List<List<Distance>>();
@@ -86,15 +87,17 @@ namespace Math.Gps
                     var curDp = trackCur.Track[ic];
                     if (ir > 0)
                     {
+                        var f = Vector2D.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
                         d0 = new Distance(ir - 1, ic,
-                            Vector2D.PerpendicularSegementDistance(trackRef.Track[ir - 1], refDp, curDp),
-                            Vector2D.PerpendicularSegementParameter(trackRef.Track[ir - 1], refDp, curDp));
+                            Vector2D.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
+                            f, (f - 1.0)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]);
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
+                        var f = Vector2D.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
                         d1 = new Distance(ir, ic,
-                            Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp),
-                            Vector2D.PerpendicularSegementParameter(refDp, trackRef.Track[ir + 1], curDp));
+                            Vector2D.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
+                            f, (f - 1.0)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]);
                     }
                     var dNew = (d0.MinDistance < d1.MinDistance ? d0 : d1);
 
