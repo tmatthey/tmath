@@ -63,7 +63,8 @@ namespace Math.Gps
         private static List<List<Distance>> CutOffDistance(IList<List<Distance>> neighboursCur, double radius)
         {
             return
-                neighboursCur.Select(points => (from d in points where d.Dist <= radius select new Distance(d)).ToList())
+                neighboursCur.Select(
+                    points => (from d in points where d.MinDistance <= radius select new Distance(d)).ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
         }
@@ -95,14 +96,14 @@ namespace Math.Gps
                             Vector2D.PerpendicularSegementDistance(refDp, trackRef.Track[ir + 1], curDp),
                             Vector2D.PerpendicularSegementParameter(refDp, trackRef.Track[ir + 1], curDp));
                     }
-                    var dNew = (d0.Dist < d1.Dist ? d0 : d1);
+                    var dNew = (d0.MinDistance < d1.MinDistance ? d0 : d1);
 
                     if (newPoints.All(q => q.Reference != dNew.Reference))
                     {
                         newPoints.Add(dNew);
                     }
                 }
-                newPoints.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
+                newPoints.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));
                 adjsuteddNeighboursCur.Add(newPoints);
             }
             return adjsuteddNeighboursCur;
@@ -147,7 +148,7 @@ namespace Math.Gps
                         .ToList();
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());
                 var newPoint = segments[minSegmentIndex].Select(s => points.First(p => p.Reference == s)).ToList();
-                newPoint.Sort((p0, p1) => p0.Dist.CompareTo(p1.Dist));
+                newPoint.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));
                 reducedNeighboursCur.Add(newPoint);
                 index = (int) segmentAvg[minSegmentIndex];
             }

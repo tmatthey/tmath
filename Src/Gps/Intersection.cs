@@ -26,7 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
+using System.Collections;
 
 namespace Math.Gps
 {
@@ -106,7 +106,7 @@ namespace Math.Gps
         {
             if (one.Track.Count == 0 || two.Track.Count == 0)
                 return Result.Undefined;
-            var grid = new Dictionary<int, int>();
+            var grid = new Hashtable();
 
             var size1 = one.Track.Count;
             var size2 = two.Track.Count;
@@ -115,14 +115,14 @@ namespace Math.Gps
             {
                 if (i < size1)
                 {
-                    if (UpdateGrid(ref grid, resolution, 1, one.Track[i]) != 1)
+                    if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i]))
                     {
                         return Result.Overlapping;
                     }
                 }
                 if (i < size2)
                 {
-                    if (UpdateGrid(ref grid, resolution, 2, two.Track[i]) != 2)
+                    if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i]))
                     {
                         return Result.Overlapping;
                     }
@@ -131,19 +131,18 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
-        private static int UpdateGrid(ref Dictionary<int, int> grid, int resolution, int index, GpsPoint pt)
+        private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt)
         {
             var i = (90.0 - pt.Latitude)/180.0*resolution;
             var j = i < 0.5 || i > resolution - 0.5 ? 0 : (pt.Longitude + 180.0)/180.0*resolution;
             var n = (int) j*resolution + (int) i;
 
-            int value;
-            if (grid.TryGetValue(n, out value))
+            if (grid.ContainsKey(n))
             {
-                return value;
+                return (int) grid[n] != index;
             }
             grid.Add(n, index);
-            return index;
+            return false;
         }
     }
 }

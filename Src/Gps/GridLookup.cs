@@ -128,7 +128,7 @@ namespace Math.Gps
 
             foreach (var point in map)
             {
-                point.Value.Sort((x, y) => x.Dist.CompareTo(y.Dist));
+                point.Value.Sort((x, y) => x.MinDistance.CompareTo(y.MinDistance));
             }
 
             return map.OrderBy(i => i.Key).Select(point => point.Value).ToList();

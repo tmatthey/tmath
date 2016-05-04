@@ -74,19 +74,20 @@ namespace Math.Tests.Gps
             gpsTrackRef.SetupLookup(gpsTrackRef.Center, 0.5);
             var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
             var trackCur = new Transformer(gpsTrackCur.Track, gpsTrackRef.Center);
+            TestUtils.StartTimer();
             var neighboursCur1 = gpsTrackRef.Lookup.Find(trackCur.Track, trackCur.Displacement, radius);
-
+            TestUtils.StopTimer();
             gpsTrackRef.SetupLookup(gpsTrackRef.Center, radius);
             var neighboursCur2 = gpsTrackRef.Lookup.Find(trackCur.Track, trackCur.Displacement, radius);
 
             neighboursCur1 =
                 neighboursCur1.Select(
-                    points => (from d in points where d.Dist <= radius select new Distance(d)).ToList())
+                    points => (from d in points where d.MinDistance <= radius select new Distance(d)).ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
             neighboursCur2 =
                 neighboursCur2.Select(
-                    points => (from d in points where d.Dist <= radius select new Distance(d)).ToList())
+                    points => (from d in points where d.MinDistance <= radius select new Distance(d)).ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
 

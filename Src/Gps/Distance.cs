@@ -30,19 +30,19 @@ namespace Math.Gps
 {
     public class Distance
     {
-        public Distance(int reference, int current, double dist)
+        public Distance(int reference, int current, double minDistance)
         {
             Reference = reference;
             Current = current;
-            Dist = dist;
+            MinDistance = minDistance;
             Fraction = 0.0;
         }
 
-        public Distance(int reference, int current, double dist, double fraction)
+        public Distance(int reference, int current, double minDistance, double fraction)
         {
             Reference = reference;
             Current = current;
-            Dist = dist;
+            MinDistance = minDistance;
             Fraction = fraction;
         }
 
@@ -50,13 +50,13 @@ namespace Math.Gps
         {
             Reference = d.Reference;
             Current = d.Current;
-            Dist = d.Dist;
+            MinDistance = d.MinDistance;
             Fraction = d.Fraction;
         }
 
         public int Reference { get; private set; }
         public int Current { get; private set; }
-        public double Dist { get; private set; }
+        public double MinDistance { get; private set; }
         public double Fraction { get; private set; }
 
         public override bool Equals(object obj)
@@ -83,13 +83,13 @@ namespace Math.Gps
 
         public int CompareTo(Distance d)
         {
-            if (Comparison.IsEqual(Dist, d.Dist))
+            if (Comparison.IsEqual(MinDistance, d.MinDistance))
             {
                 if (Current == d.Current && Reference == d.Reference)
                     return 0;
                 return (Current == d.Current ? (Reference < d.Reference ? -1 : 1) : (Current < d.Current ? -1 : 1));
             }
-            return Dist < d.Dist ? -1 : 1;
+            return MinDistance < d.MinDistance ? -1 : 1;
         }
     }
 }
