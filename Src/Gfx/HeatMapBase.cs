@@ -54,7 +54,7 @@ namespace Math.Gfx
             _allPoints.AddRange(track.Track.Select(p => ((Vector3D) p).Normalized()).ToList());
         }
 
-        public IBitmap Raw(double pixelSize)
+        public Bitmap Raw(double pixelSize)
         {
             var center = CalculateCenter(_gpsTracks, _allPoints);
             var tracks = new List<List<Vector2D>>();
@@ -65,12 +65,12 @@ namespace Math.Gfx
                 tracks.Add(transformed.Track);
                 size.Expand(transformed.Size);
             }
-            var bitmap = new BitmapAdd(size.Min, size.Max, pixelSize);
+            var bitmap = new Bitmap(size.Min, size.Max, pixelSize);
             foreach (var track in tracks)
             {
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
-                    Draw.XiaolinWu(bitmap.ConvertToBitmap(track[i]), bitmap.ConvertToBitmap(track[i + 1]), bitmap);
+                    Draw.XiaolinWu(track[i], track[i + 1], bitmap.ConvertToBitmap, bitmap.PlotAdd);
                 }
             }
             return bitmap;
@@ -80,21 +80,21 @@ namespace Math.Gfx
         {
             var bitmap = Raw(pixelSize);
             var cMax = 0.0;
-            foreach (var c in bitmap.Bitmap)
+            foreach (var c in bitmap.Pixels)
             {
                 cMax = System.Math.Max(c, cMax);
             }
-            foreach (var i in Enumerable.Range(0, bitmap.Bitmap.GetLength(0)))
+            foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
             {
-                foreach (var j in Enumerable.Range(0, bitmap.Bitmap.GetLength(1)))
+                foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
                 {
-                    var c = bitmap.Bitmap[i, j];
+                    var c = bitmap.Pixels[i, j];
                     if (Comparison.IsPositive(c))
                         c = c/cMax/(max - min) + min;
-                    bitmap.Bitmap[i, j] = max - c;
+                    bitmap.Pixels[i, j] = max - c;
                 }
             }
-            return bitmap.Bitmap;
+            return bitmap.Pixels;
         }
 
         protected abstract Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints);

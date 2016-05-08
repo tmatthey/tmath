@@ -54,7 +54,7 @@
     <Compile Include="Circle2DTests.cs" />
     <Compile Include="Circle3DTests.cs" />
     <Compile Include="GeometryTests.cs" />
-    <Compile Include="Gfx\BitmapAddTests.cs" />
+    <Compile Include="Gfx\BitmapTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawLineTests.cs" />
     <Compile Include="Gfx\HeatmapTests.cs" />

@@ -38,25 +38,24 @@ namespace Math.Tests.Gfx
         [Test]
         public void XiaolinWu()
         {
-            var bitmap = new BitmapAdd(new Vector2D(0.0, 0.0), new Vector2D(3.0, 1.0), 1.0);
-            Draw.XiaolinWu(bitmap.ConvertToBitmap(new Vector2D(0.5, 0.5)),
-                bitmap.ConvertToBitmap(new Vector2D(2.5, 0.5)), bitmap);
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 1.0), 1.0);
+            Draw.XiaolinWu(new Vector2D(0.5, 0.5), new Vector2D(2.5, 0.5), bitmap.ConvertToBitmap, bitmap.PlotAdd);
 
-            bitmap.Bitmap[0, 0].ShouldBe(0.0);
-            bitmap.Bitmap[1, 0].ShouldBe(0.0);
-            bitmap.Bitmap[2, 0].ShouldBe(0.0);
-            bitmap.Bitmap[3, 0].ShouldBe(0.0);
-            bitmap.Bitmap[4, 0].ShouldBe(0.0);
-            bitmap.Bitmap[0, 1].ShouldBe(0.0);
-            bitmap.Bitmap[1, 1].ShouldBe(0.5, 0);
-            bitmap.Bitmap[2, 1].ShouldBe(1.0);
-            bitmap.Bitmap[3, 1].ShouldBe(0.5, 0);
-            bitmap.Bitmap[4, 1].ShouldBe(0.0);
-            bitmap.Bitmap[0, 2].ShouldBe(0.0);
-            bitmap.Bitmap[1, 2].ShouldBe(0.0);
-            bitmap.Bitmap[2, 2].ShouldBe(0.0);
-            bitmap.Bitmap[3, 2].ShouldBe(0.0);
-            bitmap.Bitmap[4, 2].ShouldBe(0.0);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.5, 0);
+            bitmap.Pixels[2, 1].ShouldBe(1.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.5, 0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
         }
     }
 }

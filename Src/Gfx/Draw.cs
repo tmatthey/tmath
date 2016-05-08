@@ -38,10 +38,14 @@ namespace Math.Gfx
         //
         // https://en.wikipedia.org/wiki/Xiaolin_Wu's_line_algorithm
         //
-        public static void XiaolinWu(Vector2D a, Vector2D b, IBitmap p)
+        public static void XiaolinWu(Vector2D a, Vector2D b, Bitmap.DelegateConvert convert, Bitmap.DelegatePlot plot)
         {
+            a = convert(a);
+            b = convert(b);
+
             if (Comparison.IsZero(a.Distance(b)))
                 return;
+
             var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);
 
             if (steep)
@@ -70,13 +74,13 @@ namespace Math.Gfx
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                p.Plot(ypxl1, xpxl1, rfpart(yend)*xgap);
-                p.Plot(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
+                plot(ypxl1, xpxl1, rfpart(yend)*xgap);
+                plot(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
             }
             else
             {
-                p.Plot(xpxl1, ypxl1, rfpart(yend)*xgap);
-                p.Plot(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
+                plot(xpxl1, ypxl1, rfpart(yend)*xgap);
+                plot(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
@@ -88,13 +92,13 @@ namespace Math.Gfx
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                p.Plot(ypxl2, xpxl2, rfpart(yend)*xgap);
-                p.Plot(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
+                plot(ypxl2, xpxl2, rfpart(yend)*xgap);
+                plot(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
             }
             else
             {
-                p.Plot(xpxl2, ypxl2, rfpart(yend)*xgap);
-                p.Plot(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
+                plot(xpxl2, ypxl2, rfpart(yend)*xgap);
+                plot(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
             }
 
             // main loop
@@ -102,13 +106,13 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    p.Plot(ipart(intery), x, rfpart(intery));
-                    p.Plot(ipart(intery) + 1, x, fpart(intery));
+                    plot(ipart(intery), x, rfpart(intery));
+                    plot(ipart(intery) + 1, x, fpart(intery));
                 }
                 else
                 {
-                    p.Plot(x, ipart(intery), rfpart(intery));
-                    p.Plot(x, ipart(intery) + 1, fpart(intery));
+                    plot(x, ipart(intery), rfpart(intery));
+                    plot(x, ipart(intery) + 1, fpart(intery));
                 }
                 intery = intery + gradient;
             }

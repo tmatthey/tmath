@@ -33,21 +33,21 @@ using Shouldly;
 namespace Math.Tests.Gfx
 {
     [TestFixture]
-    public class BitmapAddTests
+    public class BitmapTests
     {
         [Test]
         public void Constructor_WithCorrectDimesions()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
-            bitmap.Bitmap.GetLength(0).ShouldBe(4);
-            bitmap.Bitmap.GetLength(1).ShouldBe(3);
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
+            bitmap.Pixels.GetLength(0).ShouldBe(4);
+            bitmap.Pixels.GetLength(1).ShouldBe(3);
         }
 
         [Test]
         public void Constructor_ZeroBitmap()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
-            foreach (var pt in bitmap.Bitmap)
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            foreach (var pt in bitmap.Pixels)
             {
                 pt.ShouldBe(0.0);
             }
@@ -56,26 +56,27 @@ namespace Math.Tests.Gfx
         [Test]
         public void Pick_UnValidCoordsInitialBitMap_ReturnsNaN()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
             bitmap.Pick(1000, 1).ShouldBe(double.NaN);
         }
 
         [Test]
         public void Pick_ValidCoordsInitialBitMap_ReturnsZero()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
-            bitmap.Pick(new Vector2D(1, 1)).ShouldBe(0.0);
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 1.0);
+            bitmap.Pick(1, 1).ShouldBe(0.0);
         }
 
         [Test]
         public void Plot_WithVector_ReturnsPointValue()
         {
-            var bitmap = new BitmapAdd(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
             var pt = new Vector2D(1, 1);
+            var st = bitmap.ConvertToBitmap(pt);
             var c = 17.19;
-            bitmap.Plot(pt, c);
+            bitmap.PlotAdd(st.X, st.Y, c);
 
-            bitmap.Pick(pt).ShouldBe(c);
+            bitmap.Pick(st.X, st.Y).ShouldBe(c);
         }
     }
 }

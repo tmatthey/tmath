@@ -57,7 +57,7 @@ namespace Math.Gfx
         {
             var width = bitmap.GetLength(0);
             var height = bitmap.GetLength(1);
-            var image = new Bitmap(width, height);
+            var image = new System.Drawing.Bitmap(width, height);
             for (var j = 0; j < height; j++)
             {
                 for (var i = 0; i < width; i++)

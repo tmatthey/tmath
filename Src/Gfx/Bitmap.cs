@@ -28,14 +28,18 @@
 
 namespace Math.Gfx
 {
-    public class BitmapAdd : IBitmap
+    public class Bitmap
     {
+        public delegate Vector2D DelegateConvert(Vector2D x);
+
+        public delegate void DelegatePlot(double x, double y, double c);
+
         private readonly Vector2D _min;
         private readonly int _nx;
         private readonly int _ny;
         private readonly double _pixelSize;
 
-        public BitmapAdd(Vector2D min, Vector2D max, double pixelSize)
+        public Bitmap(Vector2D min, Vector2D max, double pixelSize)
         {
             _pixelSize = pixelSize;
             var d = new Vector2D(pixelSize*0.5);
@@ -43,25 +47,19 @@ namespace Math.Gfx
             var v = (max + d) - _min;
             _nx = (int) System.Math.Floor(v.X/pixelSize + 0.5) + 1;
             _ny = (int) System.Math.Floor(v.Y/pixelSize + 0.5) + 1;
-            Bitmap = new double[_nx, _ny];
+            Pixels = new double[_nx, _ny];
         }
 
-        public double[,] Bitmap { get; private set; }
+        public double[,] Pixels { get; private set; }
 
-        public void Plot(double x, double y, double c)
+        public void PlotAdd(double x, double y, double c)
         {
             var i = (int) x;
             var j = (int) y;
             if (0 <= i && 0 <= j && i < _nx && j < _ny)
             {
-                Bitmap[i, j] += c;
+                Pixels[i, j] += c;
             }
-        }
-
-        public void Plot(Vector2D x, double c)
-        {
-            var v = ConvertToBitmap(x);
-            Plot(v.X, v.Y, c);
         }
 
         public double Pick(double x, double y)
@@ -70,15 +68,9 @@ namespace Math.Gfx
             var j = (int) y;
             if (0 <= i && 0 <= j && i < _nx && j < _ny)
             {
-                return Bitmap[i, j];
+                return Pixels[i, j];
             }
             return double.NaN;
-        }
-
-        public double Pick(Vector2D x)
-        {
-            var v = ConvertToBitmap(x);
-            return Pick(v.X, v.Y);
         }
 
         public Vector2D ConvertToBitmap(Vector2D x)
