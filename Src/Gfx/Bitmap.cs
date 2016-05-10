@@ -30,10 +30,6 @@ namespace Math.Gfx
 {
     public class Bitmap
     {
-        public delegate Vector2D DelegateConvert(Vector2D x);
-
-        public delegate void DelegatePlot(double x, double y, double c);
-
         private readonly Vector2D _min;
         private readonly int _nx;
         private readonly int _ny;
@@ -44,31 +40,40 @@ namespace Math.Gfx
             _pixelSize = pixelSize;
             var d = new Vector2D(pixelSize*0.5);
             _min = min - d;
-            var v = (max + d) - _min;
-            _nx = (int) System.Math.Floor(v.X/pixelSize + 0.5) + 1;
-            _ny = (int) System.Math.Floor(v.Y/pixelSize + 0.5) + 1;
+            var v = max - min;
+            _nx = (int) System.Math.Floor(System.Math.Max(v.X/pixelSize, 0.0) + 2.0 - 1e-9);
+            _ny = (int) System.Math.Floor(System.Math.Max(v.Y/pixelSize, 0.0) + 2.0 - 1e-9);
             Pixels = new double[_nx, _ny];
+
+            Add = new PlotWrapper(ConvertToBitmap, PlotAdd);
+            Set = new PlotWrapper(ConvertToBitmap, PlotSet);
         }
 
+        public PlotWrapper Add { get; private set; }
+        public PlotWrapper Set { get; private set; }
         public double[,] Pixels { get; private set; }
 
-        public void PlotAdd(double x, double y, double c)
+        public void PlotAdd(int x, int y, double c)
         {
-            var i = (int) x;
-            var j = (int) y;
-            if (0 <= i && 0 <= j && i < _nx && j < _ny)
+            if (0 <= x && 0 <= y && x < _nx && y < _ny)
             {
-                Pixels[i, j] += c;
+                Pixels[x, y] += c;
             }
         }
 
-        public double Pick(double x, double y)
+        public void PlotSet(int x, int y, double c)
         {
-            var i = (int) x;
-            var j = (int) y;
-            if (0 <= i && 0 <= j && i < _nx && j < _ny)
+            if (0 <= x && 0 <= y && x < _nx && y < _ny)
             {
-                return Pixels[i, j];
+                Pixels[x, y] = c;
+            }
+        }
+
+        public double Pick(int x, int y)
+        {
+            if (0 <= x && 0 <= y && x < _nx && y < _ny)
+            {
+                return Pixels[x, y];
             }
             return double.NaN;
         }

@@ -56,7 +56,7 @@
     <Compile Include="GeometryTests.cs" />
     <Compile Include="Gfx\BitmapTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
-    <Compile Include="Gfx\DrawLineTests.cs" />
+    <Compile Include="Gfx\DrawTests.cs" />
     <Compile Include="Gfx\HeatmapTests.cs" />
     <Compile Include="Gps\DistanceTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />

@@ -26,36 +26,21 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using Math.Gfx;
-using NUnit.Framework;
-using Shouldly;
-
-namespace Math.Tests.Gfx
+namespace Math.Gfx
 {
-    [TestFixture]
-    public class DrawLineTests
-    {
-        [Test]
-        public void XiaolinWu()
-        {
-            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 1.0), 1.0);
-            Draw.XiaolinWu(new Vector2D(0.5, 0.5), new Vector2D(2.5, 0.5), bitmap.ConvertToBitmap, bitmap.PlotAdd);
+    public delegate void DelegatePlotFunction(int x, int y, double c);
 
-            bitmap.Pixels[0, 0].ShouldBe(0.0);
-            bitmap.Pixels[1, 0].ShouldBe(0.0);
-            bitmap.Pixels[2, 0].ShouldBe(0.0);
-            bitmap.Pixels[3, 0].ShouldBe(0.0);
-            bitmap.Pixels[4, 0].ShouldBe(0.0);
-            bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(0.5, 0);
-            bitmap.Pixels[2, 1].ShouldBe(1.0);
-            bitmap.Pixels[3, 1].ShouldBe(0.5, 0);
-            bitmap.Pixels[4, 1].ShouldBe(0.0);
-            bitmap.Pixels[0, 2].ShouldBe(0.0);
-            bitmap.Pixels[1, 2].ShouldBe(0.0);
-            bitmap.Pixels[2, 2].ShouldBe(0.0);
-            bitmap.Pixels[3, 2].ShouldBe(0.0);
-            bitmap.Pixels[4, 2].ShouldBe(0.0);
+    public delegate Vector2D DelegatePlotConvert(Vector2D x);
+
+    public class PlotWrapper
+    {
+        public PlotWrapper(DelegatePlotConvert converter, DelegatePlotFunction plot)
+        {
+            Converter = converter;
+            Plot = plot;
         }
+
+        public DelegatePlotConvert Converter { get; private set; }
+        public DelegatePlotFunction Plot { get; private set; }
     }
 }

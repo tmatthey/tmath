@@ -39,8 +39,8 @@ namespace Math.Tests.Gfx
         public void Constructor_WithCorrectDimesions()
         {
             var bitmap = new Bitmap(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
-            bitmap.Pixels.GetLength(0).ShouldBe(4);
-            bitmap.Pixels.GetLength(1).ShouldBe(3);
+            bitmap.Pixels.GetLength(0).ShouldBe(3);
+            bitmap.Pixels.GetLength(1).ShouldBe(2);
         }
 
         [Test]
@@ -68,15 +68,41 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
-        public void Plot_WithVector_ReturnsPointValue()
+        public void PlotAdd_ReturnsValue()
         {
             var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
-            var pt = new Vector2D(1, 1);
-            var st = bitmap.ConvertToBitmap(pt);
+            var x = 1;
+            var y = 1;
             var c = 17.19;
-            bitmap.PlotAdd(st.X, st.Y, c);
+            bitmap.PlotAdd(x, y, c);
 
-            bitmap.Pick(st.X, st.Y).ShouldBe(c);
+            bitmap.Pick(x, y).ShouldBe(c);
+        }
+
+        [Test]
+        public void PlotAdd_Twice_ReturnsDoubleValue()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            bitmap.PlotAdd(x, y, c);
+            bitmap.PlotAdd(x, y, c);
+
+            bitmap.Pick(x, y).ShouldBe(c*2.0);
+        }
+
+        [Test]
+        public void PlotSet_Twice_ReturnsValue()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            bitmap.PlotSet(x, y, c);
+            bitmap.PlotSet(x, y, c);
+
+            bitmap.Pick(x, y).ShouldBe(c);
         }
     }
 }

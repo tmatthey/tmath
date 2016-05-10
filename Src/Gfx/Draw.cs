@@ -30,6 +30,7 @@ namespace Math.Gfx
 {
     public static class Draw
     {
+        private static readonly Vector2D HalfPixel = new Vector2D(0.5);
         //
         // Xiaolin Wu's line algorithm is an algorithm for line antialiasing, which was presented 
         // in the article An Efficient Antialiasing Technique in the July 1991 issue of Computer 
@@ -38,13 +39,21 @@ namespace Math.Gfx
         //
         // https://en.wikipedia.org/wiki/Xiaolin_Wu's_line_algorithm
         //
-        public static void XiaolinWu(Vector2D a, Vector2D b, Bitmap.DelegateConvert convert, Bitmap.DelegatePlot plot)
+        public static void XiaolinWu(Vector2D a, Vector2D b, PlotWrapper w)
         {
-            a = convert(a);
-            b = convert(b);
+            a = w.Converter(a);
+            b = w.Converter(b);
+            XiaolinWu(a, b, w.Plot);
+        }
 
+        public static void XiaolinWu(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction)
+        {
             if (Comparison.IsZero(a.Distance(b)))
                 return;
+
+            // Integer part is in the center of the pixel
+            a -= HalfPixel;
+            b -= HalfPixel;
 
             var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);
 
@@ -74,13 +83,13 @@ namespace Math.Gfx
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                plot(ypxl1, xpxl1, rfpart(yend)*xgap);
-                plot(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
+                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap);
+                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
             }
             else
             {
-                plot(xpxl1, ypxl1, rfpart(yend)*xgap);
-                plot(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
+                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap);
+                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
@@ -92,13 +101,13 @@ namespace Math.Gfx
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                plot(ypxl2, xpxl2, rfpart(yend)*xgap);
-                plot(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
+                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap);
+                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
             }
             else
             {
-                plot(xpxl2, ypxl2, rfpart(yend)*xgap);
-                plot(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
+                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap);
+                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
             }
 
             // main loop
@@ -106,16 +115,27 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    plot(ipart(intery), x, rfpart(intery));
-                    plot(ipart(intery) + 1, x, fpart(intery));
+                    plotFunction(ipart(intery), x, rfpart(intery));
+                    plotFunction(ipart(intery) + 1, x, fpart(intery));
                 }
                 else
                 {
-                    plot(x, ipart(intery), rfpart(intery));
-                    plot(x, ipart(intery) + 1, fpart(intery));
+                    plotFunction(x, ipart(intery), rfpart(intery));
+                    plotFunction(x, ipart(intery) + 1, fpart(intery));
                 }
                 intery = intery + gradient;
             }
+        }
+
+        public static void Plot(Vector2D a, double c, PlotWrapper w)
+        {
+            a = w.Converter(a);
+            Plot((int) a.X, (int) a.Y, c, w.Plot);
+        }
+
+        public static void Plot(int x, int y, double c, DelegatePlotFunction plotFunction)
+        {
+            plotFunction(x, y, c);
         }
 
         private static double fpart(double x)
