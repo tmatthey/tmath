@@ -30,6 +30,7 @@ using System.Linq;
 using Math.Gfx;
 using Math.Tests.Gps;
 using NUnit.Framework;
+using Shouldly;
 
 namespace Math.Tests.Gfx
 {
@@ -41,7 +42,7 @@ namespace Math.Tests.Gfx
         [Test]
         public void HeatMapCenter_GeneratesHeatmap()
         {
-            var heatMap = new HeatMapCenter();
+            var heatMap = new HeatMap(HeatMap.CalculateCenter);
             heatMap.Add(_gpsTrackExamples.TrackOne());
             heatMap.Add(_gpsTrackExamples.TrackTwo());
             heatMap.Add(_gpsTrackExamples.TrackThree());
@@ -54,7 +55,7 @@ namespace Math.Tests.Gfx
         [Test]
         public void HeatMapDiff_GeneratesHeatmap()
         {
-            var heatMapMinCircle = new HeatMapMinCircle();
+            var heatMapMinCircle = new HeatMap(HeatMap.CalculateMinCircle);
             heatMapMinCircle.Add(_gpsTrackExamples.TrackOne());
             heatMapMinCircle.Add(_gpsTrackExamples.TrackTwo());
             heatMapMinCircle.Add(_gpsTrackExamples.TrackThree());
@@ -62,7 +63,7 @@ namespace Math.Tests.Gfx
             heatMapMinCircle.Add(_gpsTrackExamples.TrackFive());
             var bitmapMinCircle = heatMapMinCircle.Normalized(2.5, 0.05, 1.0);
 
-            var heatMapCenter = new HeatMapCenter();
+            var heatMapCenter = new HeatMap(HeatMap.CalculateCenter);
             heatMapCenter.Add(_gpsTrackExamples.TrackOne());
             heatMapCenter.Add(_gpsTrackExamples.TrackTwo());
             heatMapCenter.Add(_gpsTrackExamples.TrackThree());
@@ -91,12 +92,13 @@ namespace Math.Tests.Gfx
                 }
             }
             BitmapFileWriter.PNG("heatMapDiff.png", bitmapCenter);
+            cMax.ShouldBeGreaterThan(0.0);
         }
 
         [Test]
         public void HeatMapMinCricle_GeneratesHeatmap()
         {
-            var heatMap = new HeatMapMinCircle();
+            var heatMap = new HeatMap(HeatMap.CalculateMinCircle);
             heatMap.Add(_gpsTrackExamples.TrackOne());
             heatMap.Add(_gpsTrackExamples.TrackTwo());
             heatMap.Add(_gpsTrackExamples.TrackThree());

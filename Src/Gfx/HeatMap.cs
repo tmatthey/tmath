@@ -32,15 +32,35 @@ using Math.Gps;
 
 namespace Math.Gfx
 {
-    public abstract class HeatMapBase
+    public delegate Vector3D DelegateCalculateHeatMapCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints);
+
+    public class HeatMap
     {
         private readonly List<Vector3D> _allPoints;
+        private readonly DelegateCalculateHeatMapCenter _calculateCenter;
         private readonly List<GpsTrack> _gpsTracks;
 
-        protected HeatMapBase()
+        public HeatMap(DelegateCalculateHeatMapCenter calculateCenter)
         {
             _gpsTracks = new List<GpsTrack>();
             _allPoints = new List<Vector3D>();
+            _calculateCenter = calculateCenter;
+        }
+
+        public static Vector3D CalculateMinCircle(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints)
+        {
+            return Geometry.MinCircleOnSphere(allPoints).Center;
+        }
+
+        public static Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints)
+        {
+            var center = new Vector3D();
+            foreach (var item in gpsTracks)
+            {
+                center += item.Center;
+            }
+            center /= gpsTracks.Count;
+            return center;
         }
 
         public void Add(IList<GpsPoint> track)
@@ -56,7 +76,7 @@ namespace Math.Gfx
 
         public Bitmap Raw(double pixelSize)
         {
-            var center = CalculateCenter(_gpsTracks, _allPoints);
+            var center = _calculateCenter(_gpsTracks, _allPoints);
             var tracks = new List<List<Vector2D>>();
             var size = new BoundingRect();
             foreach (var track in _gpsTracks)
@@ -96,7 +116,5 @@ namespace Math.Gfx
             }
             return bitmap.Pixels;
         }
-
-        protected abstract Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints);
     }
 }

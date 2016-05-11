@@ -48,11 +48,9 @@
     <Compile Include="Circle3D.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Gfx\Bitmap.cs" />
-    <Compile Include="Gfx\HeatMapCenter.cs" />
     <Compile Include="Gfx\Draw.cs" />
     <Compile Include="Gfx\BitmapFileWriter.cs" />
-    <Compile Include="Gfx\HeatMapBase.cs" />
-    <Compile Include="Gfx\HeatMapMinCircle.cs" />
+    <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Polynomial.cs" />
