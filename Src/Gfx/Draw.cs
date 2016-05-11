@@ -30,7 +30,6 @@ namespace Math.Gfx
 {
     public static class Draw
     {
-        private static readonly Vector2D HalfPixel = new Vector2D(0.5);
         //
         // Xiaolin Wu's line algorithm is an algorithm for line antialiasing, which was presented 
         // in the article An Efficient Antialiasing Technique in the July 1991 issue of Computer 
@@ -50,10 +49,6 @@ namespace Math.Gfx
         {
             if (Comparison.IsZero(a.Distance(b)))
                 return;
-
-            // Integer part is in the center of the pixel
-            a -= HalfPixel;
-            b -= HalfPixel;
 
             var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);
 
@@ -130,12 +125,25 @@ namespace Math.Gfx
         public static void Plot(Vector2D a, double c, PlotWrapper w)
         {
             a = w.Converter(a);
-            Plot((int) a.X, (int) a.Y, c, w.Plot);
+            const double eps = 1e-9;
+            var x = ipart(a.X);
+            var y = ipart(a.Y);
+            var dx1 = fpart(a.X);
+            var dx0 = 1.0 - dx1;
+            var dy1 = fpart(a.Y);
+            var dy0 = 1.0 - dy1;
+            PlotAreaFraction(x, y, dx0, dy0, eps, c, w.Plot);
+            PlotAreaFraction(x + 1, y, dx1, dy0, eps, c, w.Plot);
+            PlotAreaFraction(x, y + 1, dx0, dy1, eps, c, w.Plot);
+            PlotAreaFraction(x + 1, y + 1, dx1, dy1, eps, c, w.Plot);
         }
 
-        public static void Plot(int x, int y, double c, DelegatePlotFunction plotFunction)
+        private static void PlotAreaFraction(int x, int y, double dx, double dy, double eps, double c,
+            DelegatePlotFunction plotFunction)
         {
-            plotFunction(x, y, c);
+            var f = dx*dy;
+            if (dx > eps && dy > eps && f > eps)
+                plotFunction(x, y, c*dx*dy);
         }
 
         private static double fpart(double x)

@@ -74,7 +74,7 @@ namespace Math.Tests.Gfx
             var x = 1;
             var y = 1;
             var c = 17.19;
-            bitmap.PlotAdd(x, y, c);
+            bitmap.PixelAdd(x, y, c);
 
             bitmap.Pick(x, y).ShouldBe(c);
         }
@@ -86,8 +86,8 @@ namespace Math.Tests.Gfx
             var x = 1;
             var y = 1;
             var c = 17.19;
-            bitmap.PlotAdd(x, y, c);
-            bitmap.PlotAdd(x, y, c);
+            bitmap.PixelAdd(x, y, c);
+            bitmap.PixelAdd(x, y, c);
 
             bitmap.Pick(x, y).ShouldBe(c*2.0);
         }
@@ -99,8 +99,8 @@ namespace Math.Tests.Gfx
             var x = 1;
             var y = 1;
             var c = 17.19;
-            bitmap.PlotSet(x, y, c);
-            bitmap.PlotSet(x, y, c);
+            bitmap.PixelSet(x, y, c);
+            bitmap.PixelSet(x, y, c);
 
             bitmap.Pick(x, y).ShouldBe(c);
         }

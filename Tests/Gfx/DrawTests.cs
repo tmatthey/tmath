@@ -36,7 +36,89 @@ namespace Math.Tests.Gfx
     public class DrawTests
     {
         [Test]
-        public void Plot_OnInteger()
+        public void Plot_TwiceWithAdd_OnInteger()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
+            var a = new Vector2D(1.0);
+            const double c = 1.17;
+            Draw.Plot(a, c, bitmap.Add);
+            Draw.Plot(a, c, bitmap.Add);
+
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(c*2.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Plot_TwiceWithSet_OnInteger()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
+            var a = new Vector2D(1.0);
+            const double c = 1.17;
+            Draw.Plot(a, c, bitmap.Set);
+            Draw.Plot(a, c, bitmap.Set);
+
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(c);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Plot_WithAdd_OnInteger()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
+            var a = new Vector2D(1.0);
+            const double c = 1.17;
+            Draw.Plot(a, c, bitmap.Add);
+
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(c);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+        }
+
+        [TestCase(0.25, 0.6, 1.17)]
+        [TestCase(0.78, 0.11, 3.59)]
+        [TestCase(0.0, 0.0, 3.57)]
+        [TestCase(0.5, 0.5, 3.56)]
+        [TestCase(0.9999, 0.9999, 3.55)]
+        public void Plot_WithSet_Inbetween(double dx, double dy, double c)
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
+            var a = new Vector2D(1.0 + dx, 1.0 + dy);
+
+            Draw.Plot(a, c, bitmap.Set);
+
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(c*(1.0 - dx)*(1.0 - dy), 1e-9);
+            bitmap.Pixels[1, 2].ShouldBe(c*(1.0 - dx)*dy, 1e-9);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(c*dx*(1.0 - dy), 1e-9);
+            bitmap.Pixels[2, 2].ShouldBe(c*dx*dy, 1e-9);
+        }
+
+        [Test]
+        public void Plot_WithSet_OnInteger()
         {
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0);

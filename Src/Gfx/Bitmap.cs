@@ -39,21 +39,21 @@ namespace Math.Gfx
         {
             _pixelSize = pixelSize;
             var d = new Vector2D(pixelSize*0.5);
-            _min = min - d;
+            _min = min;
             var v = max - min;
             _nx = (int) System.Math.Floor(System.Math.Max(v.X/pixelSize, 0.0) + 2.0 - 1e-9);
             _ny = (int) System.Math.Floor(System.Math.Max(v.Y/pixelSize, 0.0) + 2.0 - 1e-9);
             Pixels = new double[_nx, _ny];
 
-            Add = new PlotWrapper(ConvertToBitmap, PlotAdd);
-            Set = new PlotWrapper(ConvertToBitmap, PlotSet);
+            Add = new PlotWrapper(ConvertToBitmap, PixelAdd);
+            Set = new PlotWrapper(ConvertToBitmap, PixelSet);
         }
 
         public PlotWrapper Add { get; private set; }
         public PlotWrapper Set { get; private set; }
         public double[,] Pixels { get; private set; }
 
-        public void PlotAdd(int x, int y, double c)
+        public void PixelAdd(int x, int y, double c)
         {
             if (0 <= x && 0 <= y && x < _nx && y < _ny)
             {
@@ -61,7 +61,7 @@ namespace Math.Gfx
             }
         }
 
-        public void PlotSet(int x, int y, double c)
+        public void PixelSet(int x, int y, double c)
         {
             if (0 <= x && 0 <= y && x < _nx && y < _ny)
             {
