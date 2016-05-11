@@ -28,6 +28,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Gfx;
 
 namespace Math.Gps
 {
@@ -39,7 +40,6 @@ namespace Math.Gps
             Max = transformed.Size.Max;
             Size = gridSize;
             Track = transformed.Track;
-            new Vector2D(gridSize);
             int nx, ny;
             Index(Max, out nx, out ny);
             NX = nx + 1;
@@ -55,26 +55,36 @@ namespace Math.Gps
                 int i, j;
                 Index(transformed.Track[k], out i, out j);
                 Grid[i, j].Add(k);
-                if (k > 0)
+                if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
-                    if (System.Math.Abs(i - i0) > 1 || System.Math.Abs(j - j0) > 1)
+                    var l = k;
+                    var i1 = i0;
+                    var j1 = j0;
+                    Draw.XiaolinWu(new Vector2D(i0, j0), new Vector2D(i, j), delegate(int x, int y, double c)
                     {
-                        var i3 = System.Math.Min(i0, i);
-                        var i4 = System.Math.Max(i0, i);
-                        var j3 = System.Math.Min(j0, j);
-                        var j4 = System.Math.Max(j0, j);
-                        for (var i2 = i3; i2 <= i4; i2++)
+                        if (c > Comparison.Epsilon)
                         {
-                            for (var j2 = j3; j2 <= j4; j2++)
+                            if (x == i1 && y == j1)
                             {
-                                Grid[i2, j2].Add(k);
-                                Grid[i2, j2].Add(k - 1);
-                                Grid[i2, j2] = Grid[i2, j2].Distinct().ToList();
+                                Grid[x, y].Add(l - 1);
                             }
+                            else if (x == i && y == j)
+                            {
+                                Grid[x, y].Add(l);
+                            }
+                            else
+                            {
+                                Grid[x, y].Add(l);
+                                Grid[x, y].Add(l - 1);
+                            }
+                            Grid[x, y] = Grid[x, y].Distinct().ToList();
                         }
-                    }
+                    });
                 }
-                Grid[i, j] = Grid[i, j].Distinct().ToList();
+                else
+                {
+                    Grid[i, j] = Grid[i, j].Distinct().ToList();
+                }
                 i0 = i;
                 j0 = j;
             }
