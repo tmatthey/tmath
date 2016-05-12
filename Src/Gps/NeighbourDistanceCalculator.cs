@@ -31,22 +31,26 @@ using System.Linq;
 
 namespace Math.Gps
 {
-    public class Analyzer
+    //
+    // Aggregates all points, which are at least as close (perpendicular distance) 
+    // as given radius to the given reference track.
+    //
+    public class NeighbourDistanceCalculator
     {
-        public Analyzer(IList<GpsPoint> reference, double gridSize)
+        public NeighbourDistanceCalculator(IList<GpsPoint> reference, double gridSize)
         {
             Reference = new GpsTrack(reference);
             Reference.SetupLookup(Reference.Center, gridSize);
         }
 
-        public Analyzer(IList<GpsPoint> reference)
+        public NeighbourDistanceCalculator(IList<GpsPoint> reference)
             : this(reference, 50.0)
         {
         }
 
         public GpsTrack Reference { get; private set; }
 
-        public AnalyzerTrackWrapper Analyze(IList<GpsPoint> current, double radius)
+        public NeighbourDistance Analyze(IList<GpsPoint> current, double radius)
         {
             var gpsTrackCur = new GpsTrack(current);
             var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
@@ -56,27 +60,30 @@ namespace Math.Gps
             var cutNeighboursCutoff = CutOffDistance(adjustedNeighboursCur, radius);
             var cutNeighboursCur = RemoveDisconnectedPoints(radius, cutNeighboursCutoff, Reference.TransformedTrack);
 
-            return new AnalyzerTrackWrapper(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
+            return new NeighbourDistance(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
                 trackCur.Displacement);
         }
 
-        private static List<List<Distance>> CutOffDistance(IList<List<Distance>> neighboursCur, double radius)
+        private static IEnumerable<List<NeighbourDistancePoint>> CutOffDistance(
+            IEnumerable<List<NeighbourDistancePoint>> neighboursCur, double radius)
         {
             return
                 neighboursCur.Select(
-                    points => (from d in points where d.MinDistance <= radius select new Distance(d)).ToList())
+                    points =>
+                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d)).ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
         }
 
-        private static List<List<Distance>> PerpendicularDistance(IList<List<Distance>> neighboursCur,
+        private static IEnumerable<List<NeighbourDistancePoint>> PerpendicularDistance(
+            IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
             Transformer trackRef,
             Transformer trackCur)
         {
-            var adjsuteddNeighboursCur = new List<List<Distance>>();
+            var adjsuteddNeighboursCur = new List<List<NeighbourDistancePoint>>();
             foreach (var points in neighboursCur)
             {
-                var newPoints = new List<Distance>();
+                var newPoints = new List<NeighbourDistancePoint>();
                 foreach (var d in points)
                 {
                     var d0 = d;
@@ -88,14 +95,14 @@ namespace Math.Gps
                     if (ir > 0)
                     {
                         var f = Vector2D.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
-                        d0 = new Distance(ir - 1, ic,
+                        d0 = new NeighbourDistancePoint(ir - 1, ic,
                             Vector2D.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
                             f, (f - 1.0)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]);
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
                         var f = Vector2D.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
-                        d1 = new Distance(ir, ic,
+                        d1 = new NeighbourDistancePoint(ir, ic,
                             Vector2D.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
                             f, (f - 1.0)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]);
                     }
@@ -112,11 +119,12 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
-        private static IList<List<Distance>> RemoveDisconnectedPoints(double radius, IList<List<Distance>> neighboursCur,
+        private static IList<List<NeighbourDistancePoint>> RemoveDisconnectedPoints(double radius,
+            IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
             Transformer trackRef)
         {
             var index = 0;
-            var reducedNeighboursCur = new List<List<Distance>>();
+            var reducedNeighboursCur = new List<List<NeighbourDistancePoint>>();
             foreach (var points in neighboursCur)
             {
                 var refList = points.Select(p => p.Reference).ToList();

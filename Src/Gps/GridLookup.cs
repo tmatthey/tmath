@@ -57,8 +57,9 @@ namespace Math.Gps
                 Grid[i, j].Add(k);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
-                    // To handle corner case when two consecutive points do not share an edge
-                    // Normally the grid size is superior to the distance between to consecutive points
+                    // To handle corner case when two consecutive points do not share an edge or reside 
+                    // in the same grid point. Normally the grid size is superior to the distance between 
+                    // to consecutive points.
                     var l = k;
                     var i1 = i0;
                     var j1 = j0;
@@ -100,14 +101,14 @@ namespace Math.Gps
         public double Size { get; private set; }
         public List<Vector2D> Track { get; private set; }
 
-        public IList<Distance> Find(Vector2D point, double radius)
+        public IList<NeighbourDistancePoint> Find(Vector2D point, double radius)
         {
             return Find(point, radius, -1);
         }
 
-        public IList<List<Distance>> Find(IList<Vector2D> track, IList<double> displacement, double radius)
+        public IList<List<NeighbourDistancePoint>> Find(IList<Vector2D> track, IList<double> displacement, double radius)
         {
-            var list = new List<List<Distance>>();
+            var list = new List<List<NeighbourDistancePoint>>();
             for (var i = 0; i < track.Count; i++)
             {
                 var d0 = displacement[i];
@@ -123,16 +124,16 @@ namespace Math.Gps
             return list;
         }
 
-        public static IList<List<Distance>> ReferenceOrdering(IList<List<Distance>> current)
+        public static IList<List<NeighbourDistancePoint>> ReferenceOrdering(IList<List<NeighbourDistancePoint>> current)
         {
-            var map = new Dictionary<int, List<Distance>>();
+            var map = new Dictionary<int, List<NeighbourDistancePoint>>();
             foreach (var point in current)
             {
                 foreach (var distance in point)
                 {
                     if (!map.ContainsKey(distance.Reference))
                     {
-                        map[distance.Reference] = new List<Distance>();
+                        map[distance.Reference] = new List<NeighbourDistancePoint>();
                     }
                     map[distance.Reference].Add(distance);
                 }
@@ -146,14 +147,14 @@ namespace Math.Gps
             return map.OrderBy(i => i.Key).Select(point => point.Value).ToList();
         }
 
-        private List<Distance> Find(Vector2D point, double radius, int referenceIndex)
+        private List<NeighbourDistancePoint> Find(Vector2D point, double radius, int referenceIndex)
         {
             int minI, minJ;
             var dp = new Vector2D(radius + Size);
             Index(point - dp, out minI, out minJ);
             int maxI, maxJ;
             Index(point + dp, out maxI, out maxJ);
-            var list = new List<Distance>();
+            var list = new List<NeighbourDistancePoint>();
             if (maxI < 0 || maxJ < 0 || NX <= minI || NY <= minJ)
             {
                 return list;
@@ -168,7 +169,7 @@ namespace Math.Gps
                 {
                     foreach (var k in Grid[i, j])
                     {
-                        list.Add(new Distance(k, referenceIndex, point.Distance(Track[k])));
+                        list.Add(new NeighbourDistancePoint(k, referenceIndex, point.Distance(Track[k])));
                     }
                 }
             }

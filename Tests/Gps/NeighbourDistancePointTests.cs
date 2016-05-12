@@ -26,40 +26,34 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
-using System.Linq;
+using Math.Gps;
+using NUnit.Framework;
+using Shouldly;
 
-namespace Math.Gps
+namespace Math.Tests.Gps
 {
-    public class AnalyzerTrackWrapper
+    [TestFixture]
+    public class NeighbourDistancePointTests
     {
-        public AnalyzerTrackWrapper(IList<GpsPoint> track, IList<Vector2D> transformed, IList<List<Distance>> neighbours,
-            IList<double> distance, IList<double> displacement)
+        [Test]
+        public void Equals_Nullptr_ReturnFalse()
         {
-            Track = track;
-            Transformed = transformed;
-            Neighbours = neighbours;
-            Distance = distance;
-            Displacement = displacement;
-            CommonDistance = 0.0;
-            for (var i = 1; i < neighbours.Count; i++)
-            {
-                if (neighbours[i - 1][0].Current + 1 == neighbours[i][0].Current)
-                    CommonDistance += displacement[i];
-            }
+            var d = new NeighbourDistancePoint(1, 2, 13.17);
+            d.Equals(null).ShouldBe(false);
         }
 
-        public IList<GpsPoint> Track { get; private set; }
-        public IList<Vector2D> Transformed { get; private set; }
-        public IList<List<Distance>> Neighbours { get; private set; }
-        public IList<double> Distance { get; private set; }
-        public IList<double> Displacement { get; private set; }
-
-        public double TotalDistance
+        [Test]
+        public void Equals_SameRef_ReturnTrue()
         {
-            get { return Distance.LastOrDefault(); }
+            var d = new NeighbourDistancePoint(1, 2, 13.17);
+            d.Equals(d).ShouldBe(true);
         }
 
-        public double CommonDistance { get; private set; }
+        [Test]
+        public void IsEqual_Nullptr_ReturnFalse()
+        {
+            var d = new NeighbourDistancePoint(1, 2, 13.17);
+            d.IsEqual(null).ShouldBe(false);
+        }
     }
 }

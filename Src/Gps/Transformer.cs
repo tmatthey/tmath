@@ -44,7 +44,6 @@ namespace Math.Gps
             Size = new BoundingRect();
             Track = new List<Vector2D>();
 
-
             foreach (var g in gpsTrack)
             {
                 GpsPoint u = ((Vector3D) g).Rotate(RotationAxis, RotationAngle);

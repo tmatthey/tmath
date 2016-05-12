@@ -4,6 +4,10 @@ A collection of mathematical function and data structures written in C#. The lib
 
 (c) 2016 Thierry Matthey (matthey@gmail.com) -  MIT license
 
+### Base ###
+* Floating point comparison and epsilon
+* Conversion radian-degree
+
 ### Solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
 * Numerical general polynomial equation root solver
@@ -44,7 +48,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Transformer to local 2D
 * Geodesy
 * * Haversine distance
-* GridLookup / Analyzer : Finding neighbors of two GPS tracks in O(N)
+* GridLookup / NeighbourDistanceCalculator : Finding neighbors of two GPS tracks in O(N)
 * Intersection / overlapping (overestimating) of two GPS tracks
 * * grid / lookup table based - fastest and pretty precise depending on given resolution
 * * minimal rectangular bounding box 
@@ -54,6 +58,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * PNG and PGM bitmap writer
 * Simple bitmap
 * Line draw - antialiasing (Xiaolin Wu's line algorithm)
+* Point plot (antialiasing)
 * Heatmap for arbitrary set of GPS tracks
 
 ![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/4106320861-heatMapCenter.png)

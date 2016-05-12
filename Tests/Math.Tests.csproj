@@ -58,13 +58,13 @@
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawTests.cs" />
     <Compile Include="Gfx\HeatmapTests.cs" />
-    <Compile Include="Gps\DistanceTests.cs" />
+    <Compile Include="Gps\NeighbourDistancePointTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />
     <Compile Include="PolynomialTests.cs" />
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />
     <Compile Include="FunctionTests.cs" />
-    <Compile Include="Gps\AnalyzerTests.cs" />
+    <Compile Include="Gps\NeighbourDistanceCalculatorTests.cs" />
     <Compile Include="Gps\GeodesyTests.cs" />
     <Compile Include="Gps\GridLookupTests.cs" />
     <Compile Include="Gps\GpsPointTests.cs" />

@@ -28,9 +28,9 @@
 
 namespace Math.Gps
 {
-    public class Distance
+    public class NeighbourDistancePoint
     {
-        public Distance(int reference, int current, double minDistance)
+        public NeighbourDistancePoint(int reference, int current, double minDistance)
         {
             Reference = reference;
             Current = current;
@@ -38,9 +38,12 @@ namespace Math.Gps
             Fraction = 0.0;
         }
 
-        public Distance(int reference, int current, double minDistance, double fraction, double refDistance)
+        public NeighbourDistancePoint(int reference, int current, double minDistance, double fraction,
+            double refDistance)
         {
+            // Index of reference track
             Reference = reference;
+            // Index of current / this track
             Current = current;
             // Perpendicular distance from current point to reference track (segement of point [Reference, Reference+1])
             MinDistance = minDistance;
@@ -50,7 +53,7 @@ namespace Math.Gps
             RefDistance = refDistance;
         }
 
-        public Distance(Distance d)
+        public NeighbourDistancePoint(NeighbourDistancePoint d)
         {
             Reference = d.Reference;
             Current = d.Current;
@@ -68,7 +71,7 @@ namespace Math.Gps
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Distance) obj);
+            return obj.GetType() == GetType() && IsEqual((NeighbourDistancePoint) obj);
         }
 
         public override int GetHashCode()
@@ -81,12 +84,12 @@ namespace Math.Gps
             }
         }
 
-        public bool IsEqual(Distance d)
+        public bool IsEqual(NeighbourDistancePoint d)
         {
             return d != null && Reference == d.Reference && Current == d.Current;
         }
 
-        public int CompareTo(Distance d)
+        public int CompareTo(NeighbourDistancePoint d)
         {
             if (Comparison.IsEqual(MinDistance, d.MinDistance))
             {

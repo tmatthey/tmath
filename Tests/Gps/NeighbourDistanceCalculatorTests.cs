@@ -33,7 +33,7 @@ using Shouldly;
 namespace Math.Tests.Gps
 {
     [TestFixture]
-    public class AnalyzerTests
+    public class NeighbourDistanceCalculatorTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
@@ -41,11 +41,11 @@ namespace Math.Tests.Gps
         public void Analyze_WithDifferentGridSize_ReturnsSameList()
         {
             TestUtils.StartTimer();
-            var analyzer1 = new Analyzer(_gpsTrackExamples.TrackOne(), 4.56);
+            var analyzer1 = new NeighbourDistanceCalculator(_gpsTrackExamples.TrackOne(), 4.56);
             var current1 = analyzer1.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
             TestUtils.StopTimer();
             TestUtils.StartTimer();
-            var analyzer2 = new Analyzer(_gpsTrackExamples.TrackOne(), 51.37);
+            var analyzer2 = new NeighbourDistanceCalculator(_gpsTrackExamples.TrackOne(), 51.37);
             var current2 = analyzer2.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
             TestUtils.StopTimer();
 
@@ -64,7 +64,7 @@ namespace Math.Tests.Gps
         public void ListOfNeighbours_InRange()
         {
             TestUtils.StartTimer();
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
+            var analyzer = new NeighbourDistanceCalculator(_gpsTrackExamples.TrackOne());
             var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
             TestUtils.StopTimer();
             foreach (var point in current.Neighbours)
@@ -84,7 +84,7 @@ namespace Math.Tests.Gps
         [Test]
         public void TotalDistance_ReturnsExpeced()
         {
-            var analyzer = new Analyzer(_gpsTrackExamples.TrackOne());
+            var analyzer = new NeighbourDistanceCalculator(_gpsTrackExamples.TrackOne());
             var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
             analyzer.Reference.TransformedTrack.TotalDistance.ShouldBe(
                 Geodesy.Distance.Haversine(analyzer.Reference.Track), 1e-1);

@@ -34,14 +34,17 @@ namespace Math.Gps
     {
         public enum Result
         {
-            Undefined,
-            NotIntersecting,
-            Same,
-            Inside,
-            Outside,
-            Overlapping
+            Undefined,       // MinCircle and Rect: A GPS track list zero or empty, or calculation of center failed
+            NotIntersecting, // All               : The GPS tracks do neither intersect nor overlap, but may close to each other
+
+            Same,            // MinCircle and Rect: Same bounding rectangle or min circle
+            Inside,          // MinCircle and Rect: Track one contained in bounding area of track two
+            Outside,         // MinCircle and Rect: Track two contained in bounding area of track one
+            Overlapping      // All               : The GPS tracks can overlap or intersection, but must not
         }
 
+        // Intersection by minimal circles
+        // Note: Unrestricted where the circles reside on the sphere
         public static Result MinCircle(GpsTrack one, GpsTrack two)
         {
             if (double.IsNaN(one.MinCircleAngle) || double.IsNaN(two.MinCircleAngle))
@@ -65,6 +68,8 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
+        // Intersection by bounding rectangle
+        // Note: Both rectangles must reside on a half sphere
         public static Result Rect(GpsTrack one, GpsTrack two)
         {
             if (double.IsNaN(one.RotationAngle) || double.IsNaN(two.RotationAngle))
@@ -102,6 +107,8 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
+        // Intersection based on latitude and longitude  grid
+        // Note: Unrestricted where the GPS points reside on the sphere
         public static Result Grid(GpsTrack one, GpsTrack two, int resolution = 1000)
         {
             if (one.Track.Count == 0 || two.Track.Count == 0)
@@ -133,9 +140,9 @@ namespace Math.Gps
 
         private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt)
         {
-            var i = (90.0 - pt.Latitude)/180.0*resolution;
-            var j = i < 0.5 || i > resolution - 0.5 ? 0 : (pt.Longitude + 180.0)/180.0*resolution;
-            var n = (int) j*resolution + (int) i;
+            int i, j;
+            pt.GridIndex(resolution, out i, out j);
+            var n = j*resolution + i;
 
             if (grid.ContainsKey(n))
             {
