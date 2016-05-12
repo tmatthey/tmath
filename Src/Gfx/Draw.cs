@@ -38,14 +38,14 @@ namespace Math.Gfx
         //
         // https://en.wikipedia.org/wiki/Xiaolin_Wu's_line_algorithm
         //
-        public static void XiaolinWu(Vector2D a, Vector2D b, PlotWrapper w)
+        public static void XiaolinWu(Vector2D a, Vector2D b, PlotWrapper w, double magnitude = 1.0)
         {
             a = w.Converter(a);
             b = w.Converter(b);
-            XiaolinWu(a, b, w.Plot);
+            XiaolinWu(a, b, w.Plot, magnitude);
         }
 
-        public static void XiaolinWu(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction)
+        public static void XiaolinWu(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction, double magnitude = 1.0)
         {
             if (Comparison.IsZero(a.Distance(b)))
                 return;
@@ -78,13 +78,13 @@ namespace Math.Gfx
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap);
-                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap);
+                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap*magnitude);
+                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap*magnitude);
             }
             else
             {
-                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap);
-                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap);
+                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap*magnitude);
+                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap*magnitude);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
@@ -96,13 +96,13 @@ namespace Math.Gfx
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap);
-                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap);
+                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap*magnitude);
+                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap*magnitude);
             }
             else
             {
-                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap);
-                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap);
+                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap*magnitude);
+                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap*magnitude);
             }
 
             // main loop
@@ -110,19 +110,19 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    plotFunction(ipart(intery), x, rfpart(intery));
-                    plotFunction(ipart(intery) + 1, x, fpart(intery));
+                    plotFunction(ipart(intery), x, rfpart(intery)*magnitude);
+                    plotFunction(ipart(intery) + 1, x, fpart(intery)*magnitude);
                 }
                 else
                 {
-                    plotFunction(x, ipart(intery), rfpart(intery));
-                    plotFunction(x, ipart(intery) + 1, fpart(intery));
+                    plotFunction(x, ipart(intery), rfpart(intery)*magnitude);
+                    plotFunction(x, ipart(intery) + 1, fpart(intery)*magnitude);
                 }
                 intery = intery + gradient;
             }
         }
 
-        public static void Plot(Vector2D a, double c, PlotWrapper w)
+        public static void Plot(Vector2D a, double magnitude, PlotWrapper w)
         {
             a = w.Converter(a);
             const double eps = 1e-9;
@@ -132,18 +132,18 @@ namespace Math.Gfx
             var dx0 = 1.0 - dx1;
             var dy1 = fpart(a.Y);
             var dy0 = 1.0 - dy1;
-            PlotAreaFraction(x, y, dx0, dy0, eps, c, w.Plot);
-            PlotAreaFraction(x + 1, y, dx1, dy0, eps, c, w.Plot);
-            PlotAreaFraction(x, y + 1, dx0, dy1, eps, c, w.Plot);
-            PlotAreaFraction(x + 1, y + 1, dx1, dy1, eps, c, w.Plot);
+            PlotAreaFraction(x, y, dx0, dy0, eps, magnitude, w.Plot);
+            PlotAreaFraction(x + 1, y, dx1, dy0, eps, magnitude, w.Plot);
+            PlotAreaFraction(x, y + 1, dx0, dy1, eps, magnitude, w.Plot);
+            PlotAreaFraction(x + 1, y + 1, dx1, dy1, eps, magnitude, w.Plot);
         }
 
-        private static void PlotAreaFraction(int x, int y, double dx, double dy, double eps, double c,
+        private static void PlotAreaFraction(int x, int y, double dx, double dy, double eps, double magnitude,
             DelegatePlotFunction plotFunction)
         {
             var f = dx*dy;
             if (dx > eps && dy > eps && f > eps)
-                plotFunction(x, y, c*dx*dy);
+                plotFunction(x, y, magnitude*dx*dy);
         }
 
         private static double fpart(double x)

@@ -38,7 +38,6 @@ namespace Math.Gfx
         public Bitmap(Vector2D min, Vector2D max, double pixelSize)
         {
             _pixelSize = pixelSize;
-            var d = new Vector2D(pixelSize*0.5);
             _min = min;
             var v = max - min;
             _nx = (int) System.Math.Floor(System.Math.Max(v.X/pixelSize, 0.0) + 2.0 - 1e-9);
@@ -55,7 +54,7 @@ namespace Math.Gfx
 
         public void PixelAdd(int x, int y, double c)
         {
-            if (0 <= x && 0 <= y && x < _nx && y < _ny)
+            if (IsInRange(x, y))
             {
                 Pixels[x, y] += c;
             }
@@ -63,7 +62,7 @@ namespace Math.Gfx
 
         public void PixelSet(int x, int y, double c)
         {
-            if (0 <= x && 0 <= y && x < _nx && y < _ny)
+            if (IsInRange(x, y))
             {
                 Pixels[x, y] = c;
             }
@@ -71,16 +70,17 @@ namespace Math.Gfx
 
         public double Pick(int x, int y)
         {
-            if (0 <= x && 0 <= y && x < _nx && y < _ny)
-            {
-                return Pixels[x, y];
-            }
-            return double.NaN;
+            return IsInRange(x, y) ? Pixels[x, y] : double.NaN;
         }
 
         public Vector2D ConvertToBitmap(Vector2D x)
         {
             return (x - _min)/_pixelSize;
+        }
+
+        private bool IsInRange(int x, int y)
+        {
+            return 0 <= x && 0 <= y && x < _nx && y < _ny;
         }
     }
 }

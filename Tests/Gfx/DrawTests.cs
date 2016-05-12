@@ -139,17 +139,18 @@ namespace Math.Tests.Gfx
         [Test]
         public void XiaolinWu_Inbetween()
         {
-            var eps = 10*double.Epsilon;
+            const double eps = 10*double.Epsilon;
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 2.0), 1.0);
-            Draw.XiaolinWu(new Vector2D(0.5 - eps, 0.5 - eps), new Vector2D(2.5 - eps, 0.5 - eps), bitmap.Add);
+            const double c = 1.17;
+            Draw.XiaolinWu(new Vector2D(0.5 - eps, 0.5 - eps), new Vector2D(2.5 - eps, 0.5 - eps), bitmap.Add, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
-            bitmap.Pixels[1, 0].ShouldBe(0.5);
-            bitmap.Pixels[2, 0].ShouldBe(0.5);
+            bitmap.Pixels[1, 0].ShouldBe(0.5*c);
+            bitmap.Pixels[2, 0].ShouldBe(0.5*c);
             bitmap.Pixels[3, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(0.5);
-            bitmap.Pixels[2, 1].ShouldBe(0.5);
+            bitmap.Pixels[1, 1].ShouldBe(0.5*c);
+            bitmap.Pixels[2, 1].ShouldBe(0.5*c);
             bitmap.Pixels[3, 1].ShouldBe(0.0);
             bitmap.Pixels[0, 2].ShouldBe(0.0);
             bitmap.Pixels[1, 2].ShouldBe(0.0);
@@ -161,7 +162,8 @@ namespace Math.Tests.Gfx
         public void XiaolinWu_OnIntegerHorizontal()
         {
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 2.0), 1.0);
-            Draw.XiaolinWu(new Vector2D(1.0, 1.0), new Vector2D(3.0, 1.0), bitmap.Add);
+            const double c = 1.17;
+            Draw.XiaolinWu(new Vector2D(1.0, 1.0), new Vector2D(3.0, 1.0), bitmap.Add, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[1, 0].ShouldBe(0.0);
@@ -169,9 +171,9 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[3, 0].ShouldBe(0.0);
             bitmap.Pixels[4, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(0.5);
-            bitmap.Pixels[2, 1].ShouldBe(1.0);
-            bitmap.Pixels[3, 1].ShouldBe(0.5);
+            bitmap.Pixels[1, 1].ShouldBe(0.5*c);
+            bitmap.Pixels[2, 1].ShouldBe(1.0*c);
+            bitmap.Pixels[3, 1].ShouldBe(0.5*c);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
             bitmap.Pixels[0, 2].ShouldBe(0.0);
             bitmap.Pixels[1, 2].ShouldBe(0.0);
@@ -184,19 +186,20 @@ namespace Math.Tests.Gfx
         public void XiaolinWu_OnIntegerVertical()
         {
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(2.0, 4.0), 1.0);
-            Draw.XiaolinWu(new Vector2D(1.0, 1.0), new Vector2D(1.0, 3.0), bitmap.Set);
+            const double c = 1.17;
+            Draw.XiaolinWu(new Vector2D(1.0, 1.0), new Vector2D(1.0, 3.0), bitmap.Set, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[1, 0].ShouldBe(0.0);
             bitmap.Pixels[2, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(0.5);
+            bitmap.Pixels[1, 1].ShouldBe(0.5*c);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
             bitmap.Pixels[0, 2].ShouldBe(0.0);
-            bitmap.Pixels[1, 2].ShouldBe(1.0);
+            bitmap.Pixels[1, 2].ShouldBe(1.0*c);
             bitmap.Pixels[2, 2].ShouldBe(0.0);
             bitmap.Pixels[0, 3].ShouldBe(0.0);
-            bitmap.Pixels[1, 3].ShouldBe(0.5);
+            bitmap.Pixels[1, 3].ShouldBe(0.5*c);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
             bitmap.Pixels[0, 4].ShouldBe(0.0);
             bitmap.Pixels[1, 4].ShouldBe(0.0);

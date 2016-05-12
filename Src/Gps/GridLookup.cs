@@ -57,6 +57,8 @@ namespace Math.Gps
                 Grid[i, j].Add(k);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
+                    // To handle corner case when two consecutive points do not share an edge
+                    // Normally the grid size is superior to the distance between to consecutive points
                     var l = k;
                     var i1 = i0;
                     var j1 = j0;
