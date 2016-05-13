@@ -1,6 +1,6 @@
 # Math #
 
-A collection of mathematical function and data structures written in C#. The library based on Test Driven Development.
+A collection of mathematical function and data structures written in C#. The library is based on Test Driven Development.
 
 (c) 2016 Thierry Matthey (matthey@gmail.com) -  MIT license
 
