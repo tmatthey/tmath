@@ -34,13 +34,14 @@ namespace Math.Gps
     {
         public enum Result
         {
-            Undefined,       // MinCircle and Rect: A GPS track list zero or empty, or calculation of center failed
-            NotIntersecting, // All               : The GPS tracks do neither intersect nor overlap, but may close to each other
+            Undefined, // MinCircle and Rect: A GPS track list zero or empty, or calculation of center failed
+            NotIntersecting,
+            // All               : The GPS tracks do neither intersect nor overlap, but may close to each other
 
-            Same,            // MinCircle and Rect: Same bounding rectangle or min circle
-            Inside,          // MinCircle and Rect: Track one contained in bounding area of track two
-            Outside,         // MinCircle and Rect: Track two contained in bounding area of track one
-            Overlapping      // All               : The GPS tracks can overlap or intersection, but must not
+            Same, // MinCircle and Rect: Same bounding rectangle or min circle
+            Inside, // MinCircle and Rect: Track one contained in bounding area of track two
+            Outside, // MinCircle and Rect: Track two contained in bounding area of track one
+            Overlapping // All               : The GPS tracks can overlap or intersection, but must not
         }
 
         // Intersection by minimal circles
@@ -140,9 +141,7 @@ namespace Math.Gps
 
         private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt)
         {
-            int i, j;
-            pt.GridIndex(resolution, out i, out j);
-            var n = j*resolution + i;
+            var n = pt.GridLinearIndex(resolution);
 
             if (grid.ContainsKey(n))
             {

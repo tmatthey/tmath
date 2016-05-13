@@ -89,13 +89,34 @@ namespace Math.Tests.Gps
         [TestCase(89.9, -50.0, 180, 0, 0)]
         [TestCase(-89.9, 50.0, 180, 179, 0)]
         [TestCase(-89.9, -50.0, 180, 179, 0)]
-        public void GridIndex(double latitude, double longitude, int resultion, int expectedI, int expectedJ)
+        public void GridIndex(double latitude, double longitude, int resolution, int expectedI, int expectedJ)
         {
             var p = new GpsPoint {Latitude = latitude, Longitude = longitude};
             int i, j;
-            p.GridIndex(resultion, out i, out j);
+            p.GridIndex(resolution, out i, out j);
             i.ShouldBe(expectedI);
             j.ShouldBe(expectedJ);
+        }
+
+        [TestCase(10.0, 20.0, 180, 80, 200)]
+        [TestCase(10.0, -20.0, 180, 80, 160)]
+        [TestCase(-10.0, 20.0, 180, 100, 200)]
+        [TestCase(-10.0, -20.0, 180, 100, 160)]
+        [TestCase(-10.5, -20.5, 180, 100, 159)]
+        [TestCase(0.0, -0.1, 180, 90, 179)]
+        [TestCase(0.0, 0.1, 180, 90, 180)]
+        [TestCase(-0.1, 0.0, 180, 90, 180)]
+        [TestCase(0.0, 0.0, 180, 90, 180)]
+        [TestCase(0.1, 0.0, 180, 89, 180)]
+        [TestCase(89.9, 50.0, 180, 0, 0)]
+        [TestCase(89.9, -50.0, 180, 0, 0)]
+        [TestCase(-89.9, 50.0, 180, 179, 0)]
+        [TestCase(-89.9, -50.0, 180, 179, 0)]
+        public void GridLinearIndex(double latitude, double longitude, int resolution, int expectedI, int expectedJ)
+        {
+            var p = new GpsPoint {Latitude = latitude, Longitude = longitude};
+            var expectedN = expectedJ*resolution + expectedI;
+            p.GridLinearIndex(resolution).ShouldBe(expectedN);
         }
 
         [Test]

@@ -167,5 +167,12 @@ namespace Math.Gps
             i = (int) ((90.0 - Latitude)/180.0*resolution);
             j = (int) (i < 1.0 || i >= resolution - 1.0 ? 0 : (Longitude + 180.0)/180.0*resolution);
         }
+
+        public int GridLinearIndex(int resolution)
+        {
+            int i, j;
+            GridIndex(resolution, out i, out j);
+            return j*resolution + i;
+        }
     }
 }
