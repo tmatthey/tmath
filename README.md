@@ -21,7 +21,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Normalize angle
 * Nomerical stable sin-cos evaluation
 * Factorial; ulong (n <= 20) and double
-* Fibonacci; ulong (n <= 93) and double
+* Fibonacci; ulong (n <= 93), double and Binet
 * Greatest common divisor (GDC)
 * IsPrime; no cache; ~3s for max long / 10
 

@@ -151,6 +151,9 @@ namespace Math
             return x;
         }
 
+        //
+        // https://en.wikipedia.org/wiki/Fibonacci_number#Recognizing_Fibonacci_numbers
+        //
         public static double FibonacciBinet(int n)
         {
             var sqrt5 = System.Math.Sqrt(5.0);
