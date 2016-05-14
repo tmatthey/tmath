@@ -110,7 +110,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 0].ShouldBe(0.0);
 
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.95, 1e-10);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
             bitmap.Pixels[3, 1].ShouldBe(0.0);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
@@ -124,7 +124,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 3].ShouldBe(0.0);
             bitmap.Pixels[1, 3].ShouldBe(0.0);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
-            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.95, 1e-10);
             bitmap.Pixels[4, 3].ShouldBe(0.0);
 
             bitmap.Pixels[0, 4].ShouldBe(0.0);
@@ -146,7 +146,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 0].ShouldBe(0.0);
 
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.5);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
             bitmap.Pixels[3, 1].ShouldBe(0.0);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
@@ -160,7 +160,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 3].ShouldBe(0.0);
             bitmap.Pixels[1, 3].ShouldBe(0.0);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
-            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.5);
             bitmap.Pixels[4, 3].ShouldBe(0.0);
 
             bitmap.Pixels[0, 4].ShouldBe(0.0);
@@ -184,7 +184,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 1].ShouldBe(0.0);
             bitmap.Pixels[1, 1].ShouldBe(0.0);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
-            bitmap.Pixels[3, 1].ShouldBe(1.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.5);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
 
             bitmap.Pixels[0, 2].ShouldBe(0.0);
@@ -194,7 +194,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 2].ShouldBe(0.0);
 
             bitmap.Pixels[0, 3].ShouldBe(0.0);
-            bitmap.Pixels[1, 3].ShouldBe(1.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.5);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
             bitmap.Pixels[3, 3].ShouldBe(0.0);
             bitmap.Pixels[4, 3].ShouldBe(0.0);
@@ -218,7 +218,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 0].ShouldBe(0.0);
 
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.5);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
             bitmap.Pixels[3, 1].ShouldBe(0.0);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
@@ -232,7 +232,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 3].ShouldBe(0.0);
             bitmap.Pixels[1, 3].ShouldBe(0.0);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
-            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.5);
             bitmap.Pixels[4, 3].ShouldBe(0.0);
 
             bitmap.Pixels[0, 4].ShouldBe(0.0);
@@ -256,7 +256,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 1].ShouldBe(0.0);
             bitmap.Pixels[1, 1].ShouldBe(0.0);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
-            bitmap.Pixels[3, 1].ShouldBe(1.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.5);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
 
             bitmap.Pixels[0, 2].ShouldBe(0.0);
@@ -266,7 +266,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 2].ShouldBe(0.0);
 
             bitmap.Pixels[0, 3].ShouldBe(0.0);
-            bitmap.Pixels[1, 3].ShouldBe(1.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.5);
             bitmap.Pixels[2, 3].ShouldBe(0.0);
             bitmap.Pixels[3, 3].ShouldBe(0.0);
             bitmap.Pixels[4, 3].ShouldBe(0.0);
@@ -290,7 +290,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[4, 0].ShouldBe(0.0);
 
             bitmap.Pixels[0, 1].ShouldBe(0.0);
-            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.5);
             bitmap.Pixels[2, 1].ShouldBe(0.0);
             bitmap.Pixels[3, 1].ShouldBe(0.0);
             bitmap.Pixels[4, 1].ShouldBe(0.0);
@@ -310,7 +310,7 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 4].ShouldBe(0.0);
             bitmap.Pixels[1, 4].ShouldBe(0.0);
             bitmap.Pixels[2, 4].ShouldBe(0.0);
-            bitmap.Pixels[3, 4].ShouldBe(1.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.5);
             bitmap.Pixels[4, 4].ShouldBe(0.0);
         }
 

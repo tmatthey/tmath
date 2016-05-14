@@ -74,16 +74,27 @@ namespace Math.Gfx
             var ystep = (a.Y < b.Y ? 1 : -1);
             var y = (int) System.Math.Round(a.Y);
 
+            var ax = (int) System.Math.Round(a.X);
+            var bx = (int) System.Math.Round(b.X);
 
-            for (var x = (int) System.Math.Round(a.X); x <= (int) System.Math.Round(b.X); ++x)
+            for (var x = ax; x <= bx; ++x)
             {
+                var c = magnitude;
+                if (x == ax)
+                {
+                    c = (0.5 + ax - a.X)*magnitude;
+                }
+                else if (x == bx)
+                {
+                    c = (0.5 + b.X - bx)*magnitude;
+                }
                 if (steep)
                 {
-                    plotFunction(y, x, magnitude);
+                    plotFunction(y, x, c);
                 }
                 else
                 {
-                    plotFunction(x, y, magnitude);
+                    plotFunction(x, y, c);
                 }
                 err -= dy;
                 if (err < 0)
