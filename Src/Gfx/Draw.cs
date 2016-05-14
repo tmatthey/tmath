@@ -30,6 +30,70 @@ namespace Math.Gfx
 {
     public static class Draw
     {
+        // 
+        // Modified Bresenham's line algorithm supporting non-integer start end end point. 
+        // Each point is rounded to nearest integer.
+        //
+        // https://en.wikipedia.org/wiki/Bresenham's_line_algorithm
+        //
+        public static void Bresenham(Vector2D a, Vector2D b, PlotWrapper w, double magnitude = 1.0)
+        {
+            a = w.Converter(a);
+            b = w.Converter(b);
+            Bresenham(a, b, w.Plot, magnitude);
+        }
+
+        public static void Bresenham(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction, double magnitude = 1.0)
+        {
+            if ((int) System.Math.Round(a.X) == (int) System.Math.Round(b.X) &&
+                (int) System.Math.Round(a.Y) == (int) System.Math.Round(b.Y))
+            {
+                plotFunction((int) System.Math.Round(a.X), (int) System.Math.Round(a.Y), magnitude);
+                return;
+            }
+
+            var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);
+
+            if (steep)
+            {
+                var t = a.X;
+                a.X = a.Y;
+                a.Y = t;
+                t = b.X;
+                b.X = b.Y;
+                b.Y = t;
+            }
+            if (a.X > b.X)
+            {
+                Utils.Swap(ref a, ref b);
+            }
+
+            var dx = b.X - a.X;
+            var dy = System.Math.Abs(b.Y - a.Y);
+            var err = (dx/2.0);
+            var ystep = (a.Y < b.Y ? 1 : -1);
+            var y = (int) System.Math.Round(a.Y);
+
+
+            for (var x = (int) System.Math.Round(a.X); x <= (int) System.Math.Round(b.X); ++x)
+            {
+                if (steep)
+                {
+                    plotFunction(y, x, magnitude);
+                }
+                else
+                {
+                    plotFunction(x, y, magnitude);
+                }
+                err -= dy;
+                if (err < 0)
+                {
+                    y += ystep;
+                    err += dx;
+                }
+            }
+        }
+
         //
         // Xiaolin Wu's line algorithm is an algorithm for line antialiasing, which was presented 
         // in the article An Efficient Antialiasing Technique in the July 1991 issue of Computer 

@@ -50,11 +50,11 @@ namespace Math.Gps
                     Grid[i, j] = new List<int>();
             var i0 = -1;
             var j0 = -1;
+            var dh = new Vector2D(0.5 - 1e-9);
             for (var k = 0; k < transformed.Track.Count; k++)
             {
                 int i, j;
                 Index(transformed.Track[k], out i, out j);
-                Grid[i, j].Add(k);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
                     // To handle corner case when two consecutive points do not share an edge or reside 
@@ -63,7 +63,7 @@ namespace Math.Gps
                     var l = k;
                     var i1 = i0;
                     var j1 = j0;
-                    Draw.XiaolinWu(new Vector2D(i0, j0), new Vector2D(i, j), delegate(int x, int y, double c)
+                    Draw.Bresenham(new Vector2D(i0, j0), new Vector2D(i, j), delegate(int x, int y, double c)
                     {
                         if (c > Comparison.Epsilon)
                         {
@@ -86,6 +86,7 @@ namespace Math.Gps
                 }
                 else
                 {
+                    Grid[i, j].Add(k);
                     Grid[i, j] = Grid[i, j].Distinct().ToList();
                 }
                 i0 = i;

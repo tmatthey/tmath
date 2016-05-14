@@ -57,7 +57,7 @@ A collection of mathematical function and data structures written in C#. The lib
 ### Gfx
 * PNG and PGM bitmap writer
 * Simple bitmap
-* Line draw - antialiasing (Xiaolin Wu's line algorithm)
+* Line draw - Bresenham and antialiasing (Xiaolin Wu's line algorithm)
 * Point plot (antialiasing)
 * Heatmap for arbitrary set of GPS tracks
 

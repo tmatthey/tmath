@@ -58,6 +58,262 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[2, 2].ShouldBe(c*dx*dy, 1e-9);
         }
 
+        [TestCase(-0.45)]
+        [TestCase(0.0)]
+        [TestCase(0.45)]
+        public void Bresenham_ZeroDistance_OnePoint(double d)
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(2.0, 2.0), 1.0);
+            Draw.Bresenham(new Vector2D(1.0 + d, 1.0 + d), new Vector2D(1.0 + d, 1.0 + d), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+        }
+
+        [TestCase(-0.45, 0.45)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.45, -0.45)]
+        public void Bresenham_PointsSamePixel_OnePoint(double da, double db)
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(2.0, 2.0), 1.0);
+            Draw.Bresenham(new Vector2D(1.0 + da, 1.0 + da), new Vector2D(1.0 + db, 1.0 + db), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_DiagonalInbetween()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(0.55, 0.55), new Vector2D(3.45, 3.45), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.0);
+            bitmap.Pixels[2, 3].ShouldBe(0.0);
+            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_DiagonalQ1()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(1.0, 1.0), new Vector2D(3.0, 3.0), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.0);
+            bitmap.Pixels[2, 3].ShouldBe(0.0);
+            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_DiagonalQ2()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(1.0, 3.0), new Vector2D(3.0, 1.0), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(1.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(1.0);
+            bitmap.Pixels[2, 3].ShouldBe(0.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_DiagonalQ3()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(3.0, 3.0), new Vector2D(1.0, 1.0), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.0);
+            bitmap.Pixels[2, 3].ShouldBe(0.0);
+            bitmap.Pixels[3, 3].ShouldBe(1.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_DiagonalQ4()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(3.0, 1.0), new Vector2D(1.0, 3.0), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(0.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(1.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(1.0);
+            bitmap.Pixels[2, 3].ShouldBe(0.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(0.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_Steep()
+        {
+            var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(4.0, 4.0), 1.0);
+            Draw.Bresenham(new Vector2D(1.0, 1.0), new Vector2D(3.0, 4.0), bitmap.Set);
+            bitmap.Pixels[0, 0].ShouldBe(0.0);
+            bitmap.Pixels[1, 0].ShouldBe(0.0);
+            bitmap.Pixels[2, 0].ShouldBe(0.0);
+            bitmap.Pixels[3, 0].ShouldBe(0.0);
+            bitmap.Pixels[4, 0].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 1].ShouldBe(0.0);
+            bitmap.Pixels[1, 1].ShouldBe(1.0);
+            bitmap.Pixels[2, 1].ShouldBe(0.0);
+            bitmap.Pixels[3, 1].ShouldBe(0.0);
+            bitmap.Pixels[4, 1].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 2].ShouldBe(0.0);
+            bitmap.Pixels[1, 2].ShouldBe(0.0);
+            bitmap.Pixels[2, 2].ShouldBe(1.0);
+            bitmap.Pixels[3, 2].ShouldBe(0.0);
+            bitmap.Pixels[4, 2].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 3].ShouldBe(0.0);
+            bitmap.Pixels[1, 3].ShouldBe(0.0);
+            bitmap.Pixels[2, 3].ShouldBe(1.0);
+            bitmap.Pixels[3, 3].ShouldBe(0.0);
+            bitmap.Pixels[4, 3].ShouldBe(0.0);
+
+            bitmap.Pixels[0, 4].ShouldBe(0.0);
+            bitmap.Pixels[1, 4].ShouldBe(0.0);
+            bitmap.Pixels[2, 4].ShouldBe(0.0);
+            bitmap.Pixels[3, 4].ShouldBe(1.0);
+            bitmap.Pixels[4, 4].ShouldBe(0.0);
+        }
+
         [Test]
         public void Plot_TwiceWithAdd_OnInteger()
         {
