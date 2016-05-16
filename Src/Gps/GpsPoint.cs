@@ -164,8 +164,8 @@ namespace Math.Gps
 
         public void GridIndex(int resolution, out int i, out int j)
         {
-            i = (int) ((90.0 - Latitude)/180.0*resolution);
-            j = (int) (i < 1.0 || i >= resolution - 1.0 ? 0 : (Longitude + 180.0)/180.0*resolution);
+            i = System.Math.Min((int) ((90.0 - Latitude)/180.0*resolution), resolution - 1);
+            j = (int) (i < 1 || i >= resolution - 1 ? 0 : (Longitude + 180.0)/180.0*resolution);
         }
 
         public int GridLinearIndex(int resolution)

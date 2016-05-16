@@ -108,7 +108,7 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
-        // Intersection based on latitude and longitude  grid
+        // Intersection based on latitude and longitude grid
         // Note: Unrestricted where the GPS points reside on the sphere
         public static Result Grid(GpsTrack one, GpsTrack two, int resolution = 1000)
         {
@@ -123,14 +123,14 @@ namespace Math.Gps
             {
                 if (i < size1)
                 {
-                    if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i]))
+                    if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i > 0 ? i - 1 : 0], one.Track[i]))
                     {
                         return Result.Overlapping;
                     }
                 }
                 if (i < size2)
                 {
-                    if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i]))
+                    if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i > 0 ? i - 1 : 0], two.Track[i]))
                     {
                         return Result.Overlapping;
                     }
@@ -139,10 +139,63 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
-        private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt)
+        private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt0,
+            GpsPoint pt1)
         {
-            var n = pt.GridLinearIndex(resolution);
+            int k, l;
+            pt1.GridIndex(resolution, out k, out l);
+            var n = l*resolution + k;
 
+            int i, j;
+            pt0.GridIndex(resolution, out i, out j);
+            var m = j*resolution + i;
+
+            var closePoints = m == n;
+            var di = 0;
+            var dj = 0;
+            if (!closePoints)
+            {
+                if (i == 0 || i == resolution - 1)
+                {
+                    j = l;
+                }
+                else if (k == 0 || k == resolution - 1)
+                {
+                    l = j;
+                }
+
+                var a = System.Math.Abs((l + resolution*2 - j)%(resolution*2));
+                var b = System.Math.Abs((j + resolution*2 - l)%(resolution*2));
+                dj = System.Math.Min(a, b);
+                di = System.Math.Abs(i - k);
+                closePoints = (di + dj < 2);
+            }
+            var isOccupied = UpdateGrid(ref grid, index, n);
+            if (closePoints || isOccupied)
+            {
+                return isOccupied;
+            }
+
+            if (di == 1 && dj == 1)
+            {
+                if (UpdateGrid(ref grid, index, j*resolution + k) ||
+                    UpdateGrid(ref grid, index, l*resolution + i))
+                    return true;
+            }
+            var v0 = ((Vector3D) (pt0)).Normalized();
+            var v1 = ((Vector3D) (pt1)).Normalized();
+            var axis = (v0 ^ v1).Normalized();
+            var angle = v0.Angle(v1);
+            GpsPoint pt = v0.Rotate(axis, angle*0.5);
+            pt.Elevation = 0.0;
+            if (IsGridPointOccupied(ref grid, resolution, index, pt0, pt) ||
+                IsGridPointOccupied(ref grid, resolution, index, pt, pt1))
+                return true;
+            return false;
+        }
+
+        private static bool UpdateGrid(ref Hashtable grid, int index, int n)
+        {
             if (grid.ContainsKey(n))
             {
                 return (int) grid[n] != index;
