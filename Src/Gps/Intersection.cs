@@ -121,16 +121,17 @@ namespace Math.Gps
             var size = System.Math.Max(size1, size2);
             for (var i = 0; i < size; i++)
             {
+                var i0 = i > 0 ? i - 1 : 0;
                 if (i < size1)
                 {
-                    if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i > 0 ? i - 1 : 0], one.Track[i]))
+                    if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i0], one.Track[i]))
                     {
                         return Result.Overlapping;
                     }
                 }
                 if (i < size2)
                 {
-                    if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i > 0 ? i - 1 : 0], two.Track[i]))
+                    if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i0], two.Track[i]))
                     {
                         return Result.Overlapping;
                     }
@@ -142,46 +143,54 @@ namespace Math.Gps
         private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt0,
             GpsPoint pt1)
         {
-            int k, l;
-            pt1.GridIndex(resolution, out k, out l);
-            var n = l*resolution + k;
-
             int i, j;
             pt0.GridIndex(resolution, out i, out j);
             var m = j*resolution + i;
 
-            var closePoints = m == n;
+            int k, l;
+            pt1.GridIndex(resolution, out k, out l);
+            var n = l*resolution + k;
+
+            // Find grid distance (di, dj)
             var di = 0;
             var dj = 0;
-            if (!closePoints)
+            if (m != n)
             {
+                // If a point is a pole use same longitude as 
+                // other point for grid distance
+                var jj = j;
+                var ll = l;
                 if (i == 0 || i == resolution - 1)
                 {
-                    j = l;
+                    jj = ll;
                 }
                 else if (k == 0 || k == resolution - 1)
                 {
-                    l = j;
+                    ll = jj;
                 }
 
-                var a = System.Math.Abs((l + resolution*2 - j)%(resolution*2));
-                var b = System.Math.Abs((j + resolution*2 - l)%(resolution*2));
+                var a = System.Math.Abs((ll + resolution*2 - jj)%(resolution*2));
+                var b = System.Math.Abs((jj + resolution*2 - ll)%(resolution*2));
                 dj = System.Math.Min(a, b);
                 di = System.Math.Abs(i - k);
-                closePoints = (di + dj < 2);
             }
-            var isOccupied = UpdateGrid(ref grid, index, n);
-            if (closePoints || isOccupied)
+
+            // Same grid box / common edge or occupied true
+            var isOccupied = UpdateGrid(ref grid, index, n) || UpdateGrid(ref grid, index, m);
+            if (di + dj < 2 || isOccupied)
             {
                 return isOccupied;
             }
 
+            // Touching in one vertex and check of other two quadrants
             if (di == 1 && dj == 1)
             {
                 if (UpdateGrid(ref grid, index, j*resolution + k) ||
                     UpdateGrid(ref grid, index, l*resolution + i))
                     return true;
             }
+
+            // Divide and conquer for corner cases
             var v0 = ((Vector3D) (pt0)).Normalized();
             var v1 = ((Vector3D) (pt1)).Normalized();
             var axis = (v0 ^ v1).Normalized();
