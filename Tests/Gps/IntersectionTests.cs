@@ -39,7 +39,7 @@ namespace Math.Tests.Gps
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void IntersectionGrid_CrossingPoleAndOnePolePoint_ReturnsOverlapping()
+        public void IntersectionGrid_CrossingPoleAndOnePolePoint_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -52,15 +52,15 @@ namespace Math.Tests.Gps
                 {
                     new GpsPoint {Latitude = 90, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_DifferentTracks_ReturnsOverlapping()
+        public void IntersectionGrid_DifferentTracks_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            Intersection.Grid(gpsTrack1, gpsTrack2, 1000).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2, 1000).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_OnePolePointAndCrossingPole_ReturnsOverlapping()
+        public void IntersectionGrid_OnePolePointAndCrossingPole_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -85,7 +85,7 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 75, Longitude = 90},
                     new GpsPoint {Latitude = 70, Longitude = -90}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -97,17 +97,17 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_SameTrack_ReturnsOverlapping()
+        public void IntersectionGrid_SameTrack_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
             TestUtils.StartTimer();
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
             TestUtils.StopTimer();
         }
 
         [Test]
-        public void IntersectionGrid_SameTrackWithTranslation_ReturnsOverlapping()
+        public void IntersectionGrid_SameTrackWithTranslation_ReturnsIntersecting()
         {
             var track = _gpsTrackExamples.TrackOne();
             foreach (var pt in track)
@@ -122,12 +122,12 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_SimilarTrack_ReturnsOverlapping()
+        public void IntersectionGrid_SimilarTrack_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
             TestUtils.StartTimer();
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
             TestUtils.StopTimer();
         }
 
@@ -140,7 +140,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_TargetTracksInside_ReturnsOverlapping()
+        public void IntersectionGrid_TargetTracksInside_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -154,11 +154,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0.01, Longitude = 180},
                     new GpsPoint {Latitude = 0.99, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_TargetTracksOutside_ReturnsOverlapping()
+        public void IntersectionGrid_TargetTracksOutside_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -172,7 +172,7 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0, Longitude = 180},
                     new GpsPoint {Latitude = 1, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_TracksCrossAPoleWithDefaultResolution_ReturnsOverlapping()
+        public void IntersectionGrid_TracksCrossAPoleWithDefaultResolution_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -213,11 +213,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 89, Longitude = 0},
                     new GpsPoint {Latitude = 89, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_TracksCrossWith180Resolution_ReturnsOverlapping()
+        public void IntersectionGrid_TracksCrossWith180Resolution_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -231,11 +231,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0, Longitude = 181},
                     new GpsPoint {Latitude = 1, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2, 180).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2, 180).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_TracksCrossWithDefaultResolution_ReturnsOverlapping()
+        public void IntersectionGrid_TracksCrossWithDefaultResolution_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -249,7 +249,7 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0, Longitude = 181},
                     new GpsPoint {Latitude = 1, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionGrid_TracksOverlapping_ReturnsOverlapping()
+        public void IntersectionGrid_TracksOverlapping_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -286,11 +286,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0.005, Longitude = 180},
                     new GpsPoint {Latitude = 0.015, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_TracksTouching_ReturnsOverlapping()
+        public void IntersectionGrid_TracksTouching_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -304,11 +304,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 1, Longitude = 180},
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_WithOneSamePoint_ReturnsOverlapping()
+        public void IntersectionGrid_WithOneSamePoint_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -320,11 +320,11 @@ namespace Math.Tests.Gps
                 {
                     new GpsPoint {Latitude = 0, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionGrid_WithSamePole_ReturnsOverlapping()
+        public void IntersectionGrid_WithSamePole_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -336,15 +336,15 @@ namespace Math.Tests.Gps
                 {
                     new GpsPoint {Latitude = 90, Longitude = 180}
                 });
-            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionMinCircle_DifferentTracks_ReturnsOverlapping()
+        public void IntersectionMinCircle_DifferentTracks_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -437,7 +437,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionMinCircle_TracksOverlapping_ReturnsOverlapping()
+        public void IntersectionMinCircle_TracksOverlapping_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -451,11 +451,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0.01, Longitude = 180},
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
-            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionMinCircle_TracksTouching_ReturnsOverlapping()
+        public void IntersectionMinCircle_TracksTouching_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -469,25 +469,25 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 1, Longitude = 180},
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
-            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionMinCricle_SimilarTrack_ReturnsOverlapping()
+        public void IntersectionMinCricle_SimilarTrack_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
             TestUtils.StartTimer();
-            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.MinCircle(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
             TestUtils.StopTimer();
         }
 
         [Test]
-        public void IntersectionRect_DifferentTracks_ReturnsOverlapping()
+        public void IntersectionRect_DifferentTracks_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
@@ -517,7 +517,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionRect_SameTrackWithTranslation_ReturnsOverlapping()
+        public void IntersectionRect_SameTrackWithTranslation_ReturnsIntersecting()
         {
             var track = _gpsTrackExamples.TrackOne();
             foreach (var pt in track)
@@ -532,12 +532,12 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionRect_SimilarTrack_ReturnsOverlapping()
+        public void IntersectionRect_SimilarTrack_ReturnsIntersecting()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
             TestUtils.StartTimer();
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
             TestUtils.StopTimer();
         }
 
@@ -628,7 +628,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionRect_TracksOverlapping_ReturnsOverlapping()
+        public void IntersectionRect_TracksOverlapping_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -642,11 +642,11 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 0.01, Longitude = 180},
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]
-        public void IntersectionRect_TracksTouching_ReturnsOverlapping()
+        public void IntersectionRect_TracksTouching_ReturnsIntersecting()
         {
             var gpsTrack1 =
                 new GpsTrack(new List<GpsPoint>
@@ -660,7 +660,7 @@ namespace Math.Tests.Gps
                     new GpsPoint {Latitude = 1, Longitude = 180},
                     new GpsPoint {Latitude = 2, Longitude = 180}
                 });
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Overlapping);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
     }
 }

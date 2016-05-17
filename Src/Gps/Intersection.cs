@@ -34,14 +34,15 @@ namespace Math.Gps
     {
         public enum Result
         {
-            Undefined, // MinCircle and Rect: A GPS track list zero or empty, or calculation of center failed
-            NotIntersecting,
-            // All               : The GPS tracks do neither intersect nor overlap, but may close to each other
+            Undefined, // A GPS track list is zero or empty, or calculation of center failed
+            NotIntersecting, //The GPS tracks do neither intersect nor overlap, but may be close to each other
 
-            Same, // MinCircle and Rect: Same bounding rectangle or min circle
-            Inside, // MinCircle and Rect: Track one contained in bounding area of track two
-            Outside, // MinCircle and Rect: Track two contained in bounding area of track one
-            Overlapping // All               : The GPS tracks can overlap or intersection, but must not
+            Intersecting, // The GPS tracks can overlap or intersect, but must not
+
+            // MinCricle and Rect:
+            Same, // Same bounding rectangle or min circle
+            Inside, // Track one contained in bounding area of track two
+            Outside //Track two contained in bounding area of track one
         }
 
         // Intersection by minimal circles
@@ -64,7 +65,7 @@ namespace Math.Gps
                 return Result.Inside;
 
             if (Comparison.IsLessEqual(r12, r1 + r2, 1.0))
-                return Result.Overlapping;
+                return Result.Intersecting;
 
             return Result.NotIntersecting;
         }
@@ -103,7 +104,7 @@ namespace Math.Gps
             }
 
             if (insideMax || insideMin || outsideMin || outsideMax)
-                return Result.Overlapping;
+                return Result.Intersecting;
 
             return Result.NotIntersecting;
         }
@@ -126,14 +127,14 @@ namespace Math.Gps
                 {
                     if (IsGridPointOccupied(ref grid, resolution, 1, one.Track[i0], one.Track[i]))
                     {
-                        return Result.Overlapping;
+                        return Result.Intersecting;
                     }
                 }
                 if (i < size2)
                 {
                     if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i0], two.Track[i]))
                     {
-                        return Result.Overlapping;
+                        return Result.Intersecting;
                     }
                 }
             }
