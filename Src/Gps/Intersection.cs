@@ -177,7 +177,7 @@ namespace Math.Gps
             }
 
             // Same grid box / common edge or occupied true
-            var isOccupied = UpdateGrid(ref grid, index, n) || UpdateGrid(ref grid, index, m);
+            var isOccupied = UpdateGrid(ref grid, index, n);
             if (di + dj < 2 || isOccupied)
             {
                 return isOccupied;
@@ -198,8 +198,9 @@ namespace Math.Gps
             var angle = v0.Angle(v1);
             GpsPoint pt = v0.Rotate(axis, angle*0.5);
             pt.Elevation = 0.0;
-            if (IsGridPointOccupied(ref grid, resolution, index, pt0, pt) ||
-                IsGridPointOccupied(ref grid, resolution, index, pt, pt1))
+            if (IsGridPointOccupied(ref grid, resolution, index, pt0, pt))
+                return true;
+            if (IsGridPointOccupied(ref grid, resolution, index, pt, pt1))
                 return true;
             return false;
         }
