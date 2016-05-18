@@ -243,6 +243,73 @@ namespace Math.Tests
             return new Vector3D(x, y, z);
         }
 
+        [TestCase(0, 1, 1)]
+        [TestCase(0, 2, 2)]
+        [TestCase(-34, 1, 1)]
+        [TestCase(-34, 2, 2)]
+        [TestCase(0, 0, 0)]
+        public void PerpendicularDistance_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Geometry.PerpendicularDistance(a, b, p).ShouldBe(l);
+        }
+
+        [TestCase(0, 1, -1)]
+        [TestCase(0, 2, -1)]
+        [TestCase(3, 1, 2)]
+        [TestCase(3, 2, 2)]
+        [TestCase(-34, 1, -35)]
+        [TestCase(-34, 2, -35)]
+        [TestCase(0, 0, -1)]
+        public void PerpendicularParameter_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Geometry.PerpendicularParameter(a, b, p).ShouldBe(l);
+        }
+
+        [TestCase(1, 1, 1)]
+        [TestCase(1, 2, 2)]
+        [TestCase(1.5, 1, 1)]
+        [TestCase(1.5, 2, 2)]
+        [TestCase(2, 1, 1)]
+        [TestCase(2, 2, 2)]
+        [TestCase(1, -1, 1)]
+        [TestCase(1, -2, 2)]
+        [TestCase(1.5, -1, 1)]
+        [TestCase(1.5, -2, 2)]
+        [TestCase(2, -1, 1)]
+        [TestCase(2, -2, 2)]
+        [TestCase(0, 1, 1.4142135623731)]
+        [TestCase(-1, 2, 2.82842712474619)]
+        [TestCase(0, 0, 1)]
+        [TestCase(3, 0, 1)]
+        public void PerpendicularSegmentDistance_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Geometry.PerpendicularSegmentDistance(a, b, p).ShouldBe(l, 1e-13);
+        }
+
+        [TestCase(0, 1, 0)]
+        [TestCase(0, 2, 0)]
+        [TestCase(1, 1, 0)]
+        [TestCase(1.12, 2, 0.12)]
+        [TestCase(2, 1, 1)]
+        [TestCase(3, 1, 1)]
+        [TestCase(3, 2, 1)]
+        public void PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(2, 0);
+            var p = new Vector2D(x, y);
+            Geometry.PerpendicularSegmentParameter(a, b, p).ShouldBe(l, 1e-13);
+        }
+
         [Test]
         public void CircleLineIntersect_coplanar_returnsFalse()
         {
@@ -997,6 +1064,101 @@ namespace Math.Tests
             c.Center.ShouldBe(center);
             c.Normal.ShouldBe(center);
             c.Radius.ShouldBe(a.Distance(b)/2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSameSegment_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(0, 2);
+            var d = new Vector2D(3, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSameSegmentOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(3, 2);
+            var d = new Vector2D(0, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentBig_returnsExpected()
+        {
+            var a = new Vector2D(-5, 2);
+            var b = new Vector2D(4, 2);
+            var c = new Vector2D(0, 0);
+            var d = new Vector2D(3, 0);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentBigOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(4, 2);
+            var b = new Vector2D(-5, 2);
+            var c = new Vector2D(0, 0);
+            var d = new Vector2D(3, 0);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentSmall_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(-5, 2);
+            var d = new Vector2D(4, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_ParallelSegmentSmallOppositeDirection_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(3, 0);
+            var c = new Vector2D(4, 2);
+            var d = new Vector2D(-5, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_PointPoint_returnsExpected()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b, 1, 1, 1);
+            dist.ShouldBe(a.Distance(b), 1e-13);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_PointSegment_returnsExpected()
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(0, 1);
+            var c = new Vector2D(2, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c, 1, 1, 1);
+            dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_SegmentPoint_returnsExpected()
+        {
+            var a = new Vector2D(1, 0);
+            var b = new Vector2D(0, 1);
+            var c = new Vector2D(2, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
+            dist.ShouldBe(2.0);
         }
     }
 }

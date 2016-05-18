@@ -208,84 +208,9 @@ namespace Math
             return res;
         }
 
-        public static double PerpendicularDistance(Vector2D a, Vector2D b, Vector2D p)
-        {
-            var l = a.Distance(b);
-            if (Comparison.IsZero(l))
-            {
-                return a.Distance(p);
-            }
-            return System.Math.Abs(Cross(b - a, p - a)/l);
-        }
-
-        public static double PerpendicularSegmentDistance(Vector2D x0, Vector2D x1, Vector2D p)
-        {
-            var dist = PerpendicularDistance(x0, x1, p);
-            if (x0 == x1)
-                return dist;
-
-            if ((x1 - x0)*(p - x1) >= 0.0)
-                return x1.Distance(p);
-            if ((x0 - x1)*(p - x0) >= 0.0)
-                return x0.Distance(p);
-
-            return dist;
-        }
-
-        public static double PerpendicularParameter(Vector2D x0, Vector2D x1, Vector2D p)
-        {
-            var d = (x1 - x0).Norm2();
-            if (Comparison.IsZero(d))
-                return 0.0;
-            var a = (p - x0);
-            var b = (x1 - x0);
-            return (a*b)/d;
-        }
-
-        public static double PerpendicularSegmentParameter(Vector2D x0, Vector2D x1, Vector2D p)
-        {
-            return System.Math.Max(System.Math.Min(PerpendicularParameter(x0, x1, p), 1.0), 0.0);
-        }
-
         public static double Cross(Vector2D a, Vector2D b)
         {
             return a.X*b.Y - a.Y*b.X;
-        }
-
-        // Trajectory clustering: a partition-and-group framework
-        // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
-        // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
-        public static double TrajectoryHausdorffDistance(Vector2D a, Vector2D b, Vector2D c, Vector2D d,
-            double wPerpendicular,
-            double wParallel, double wAngular)
-        {
-            var l1 = a.Distance(b);
-            var l2 = c.Distance(d);
-            if (l1 > l2)
-            {
-                Utils.Swap(ref a, ref c);
-                Utils.Swap(ref b, ref d);
-                Utils.Swap(ref l1, ref l2);
-            }
-            var dPerpA = PerpendicularDistance(c, d, a);
-            var dPerpB = PerpendicularDistance(c, d, b);
-            var dPerpendicular = 0.0;
-            if (Comparison.IsPositive(dPerpA + dPerpB))
-            {
-                dPerpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
-            }
-            var pa = PerpendicularParameter(c, d, a);
-            var pb = PerpendicularParameter(c, d, b);
-            if (pa > pb)
-            {
-                Utils.Swap(ref pa, ref pb);
-            }
-
-            var dParallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
-            var angle = System.Math.Min((b - a).AngleAbs(d - c), System.Math.PI/2.0);
-            var dAngular = l1*System.Math.Sin(angle);
-
-            return wPerpendicular*dPerpendicular + wParallel*dParallel + wAngular*dAngular;
         }
 
         private void Add(Vector2D v)

@@ -94,16 +94,16 @@ namespace Math.Gps
                     var curDp = trackCur.Track[ic];
                     if (ir > 0)
                     {
-                        var f = Vector2D.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
+                        var f = Geometry.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
                         d0 = new NeighbourDistancePoint(ir - 1, ic,
-                            Vector2D.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
+                            Geometry.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
                             f, (f - 1.0)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]);
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
-                        var f = Vector2D.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
+                        var f = Geometry.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
                         d1 = new NeighbourDistancePoint(ir, ic,
-                            Vector2D.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
+                            Geometry.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
                             f, (f - 1.0)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]);
                     }
                     var dNew = (d0.MinDistance < d1.MinDistance ? d0 : d1);
