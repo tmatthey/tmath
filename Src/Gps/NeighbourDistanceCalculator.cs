@@ -119,17 +119,20 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
+        // Removed faulty neighbour ref. points from list, e.g., detours, cross-overs, 
+        // opposite direction, mix-up of start and end of track, etc. 
         private static IList<List<NeighbourDistancePoint>> RemoveDisconnectedPoints(double radius,
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
             Transformer trackRef)
         {
-            var index = 0;
+            var index = 0; // Current average of ref. point index
             var reducedNeighboursCur = new List<List<NeighbourDistancePoint>>();
             foreach (var points in neighboursCur)
             {
                 var refList = points.Select(p => p.Reference).ToList();
                 refList.Sort();
 
+                // Group ref. points into segments such that distance <= radius to next point  
                 var segments = new List<List<int>>();
                 for (var i = 1; i < refList.Count;)
                 {
@@ -137,6 +140,7 @@ namespace Math.Gps
                         trackRef.Distance[refList[i]] -
                         trackRef.Distance[refList[i - 1]]))
                     {
+                        // Disconnected on ref. track, e.g., ref. track takes a detour 
                         segments.Add(refList.GetRange(0, i));
                         refList.RemoveRange(0, i);
                         i = 1;
@@ -146,6 +150,7 @@ namespace Math.Gps
                         i++;
                     }
                 }
+                // Find average ref. index of each segment
                 if (refList.Count > 0)
                 {
                     segments.Add(refList);
@@ -157,6 +162,7 @@ namespace Math.Gps
                     segments.Select(
                         s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
                         .ToList();
+                // Pick segment closest to previous index average
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());
                 var newPoint = segments[minSegmentIndex].Select(s => points.First(p => p.Reference == s)).ToList();
                 newPoint.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));
