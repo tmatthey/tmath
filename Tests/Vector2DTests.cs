@@ -43,6 +43,7 @@ namespace Math.Tests
             v.X.ShouldBe(c);
             v.Y.ShouldBe(c);
         }
+
         [TestCase(false, false)]
         [TestCase(true, false)]
         [TestCase(false, true)]

@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -342,8 +341,15 @@ namespace Math
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
         public static double TrajectoryHausdorffDistance(Vector2D a0, Vector2D a1, Vector2D b0, Vector2D b1,
-            double wPerpendicular,
-            double wParallel, double wAngular)
+            double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0)
+        {
+            double perpendicular, parallel, angular;
+            TrajectoryHausdorffDistances(a0, a1, b0, b1, out perpendicular, out parallel, out angular);
+            return wPerpendicular*perpendicular + wParallel*parallel + wAngular*angular;
+        }
+
+        public static void TrajectoryHausdorffDistances(Vector2D a0, Vector2D a1, Vector2D b0, Vector2D b1,
+            out double perpendicular, out double parallel, out double angular)
         {
             var l1 = a0.Distance(a1);
             var l2 = b0.Distance(b1);
@@ -355,10 +361,10 @@ namespace Math
             }
             var dPerpA = PerpendicularDistance(b0, b1, a0);
             var dPerpB = PerpendicularDistance(b0, b1, a1);
-            var dPerpendicular = 0.0;
+            perpendicular = 0.0;
             if (Comparison.IsPositive(dPerpA + dPerpB))
             {
-                dPerpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
+                perpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
             }
             var pa = PerpendicularParameter(b0, b1, a0);
             var pb = PerpendicularParameter(b0, b1, a1);
@@ -367,11 +373,9 @@ namespace Math
                 Utils.Swap(ref pa, ref pb);
             }
 
-            var dParallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
+            parallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
             var angle = System.Math.Min((a1 - a0).AngleAbs(b1 - b0), System.Math.PI/2.0);
-            var dAngular = l1*System.Math.Sin(angle);
-
-            return wPerpendicular*dPerpendicular + wParallel*dParallel + wAngular*dAngular;
+            angular = l1*System.Math.Sin(angle);
         }
     }
 }
