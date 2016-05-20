@@ -72,5 +72,60 @@ namespace Math.Tests.Gps
 
             list.Count.ShouldBe(55);
         }
+
+        [Test]
+        public void SignificantPoints_TrackOneWithUnrestrictedMDLCostAdwantage_ReturnsStartAndEndPoint()
+        {
+            var track = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var list = Clustering.SignificantPoints(track.CreateTransformedTrack().Track, int.MaxValue/10);
+            list.Count.ShouldBe(2);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(track.Track.Count - 1);
+        }
+
+        [Test]
+        public void SignificantPoints_Corner_Returns3Points()
+        {
+            var track = new GpsTrack(new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180.001},
+                new GpsPoint {Latitude = 0, Longitude = 180.002},
+                new GpsPoint {Latitude = 0, Longitude = 180.003},
+                new GpsPoint {Latitude = 0, Longitude = 180.004},
+                new GpsPoint {Latitude = 0, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.001, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.002, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.003, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.004, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.005, Longitude = 180.005}
+            });
+            var list = Clustering.SignificantPoints(track.CreateTransformedTrack().Track);
+            list.Count.ShouldBe(3);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(5);
+            list[2].ShouldBe(10);
+        }
+
+        [Test]
+        public void SignificantPoints_10EqualPoints_ReturnsOneZero()
+        {
+            var track = new GpsTrack(new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180}
+            });
+            var list = Clustering.SignificantPoints(track.CreateTransformedTrack().Track);
+            list.Count.ShouldBe(1);
+            list[0].ShouldBe(0);
+        }
     }
 }

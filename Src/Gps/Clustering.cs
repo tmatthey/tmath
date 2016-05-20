@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.Gps
 {
@@ -60,7 +61,11 @@ namespace Math.Gps
                     }
                 }
             } while (i + j < track.Count);
-            points.Add(track.Count - 1);
+            if (!(points.Count == 1 && track.First() == track.Last()))
+            {
+                points.Add(track.Count - 1);
+            }
+
 
             return points;
         }
