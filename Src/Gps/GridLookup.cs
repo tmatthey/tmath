@@ -50,7 +50,6 @@ namespace Math.Gps
                     Grid[i, j] = new List<int>();
             var i0 = -1;
             var j0 = -1;
-            var dh = new Vector2D(0.5 - 1e-9);
             for (var k = 0; k < transformed.Track.Count; k++)
             {
                 int i, j;
