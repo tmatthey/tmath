@@ -67,6 +67,18 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Add()
+        {
+            var a = new Vector2D(1, 2);
+            var b = new Vector2D(17.3, 19.2);
+
+            var r = a.Add(b);
+
+            r.X.ShouldBe(a.X + b.X);
+            r.Y.ShouldBe(a.Y + b.Y);
+        }
+
+        [Test]
         public void Angle_WithNeg45_returnsNeg45()
         {
             var v = new Vector2D(0, 1);
@@ -133,6 +145,18 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Div()
+        {
+            var a = new Vector2D(1, 2);
+            var b = 17.3;
+
+            var r = a.Div(b);
+
+            r.X.ShouldBe(a.X/b);
+            r.Y.ShouldBe(a.Y/b);
+        }
+
+        [Test]
         public void Dot()
         {
             var a = 17.0;
@@ -174,6 +198,18 @@ namespace Math.Tests
             var v = new Vector2D(1, 2);
             Vector2D u = null;
             v.Equals(u).ShouldBe(false);
+        }
+
+        [Test]
+        public void Mul()
+        {
+            var a = new Vector2D(1, 2);
+            var b = 17.3;
+
+            var r = a.Mul(b);
+
+            r.X.ShouldBe(a.X*b);
+            r.Y.ShouldBe(a.Y*b);
         }
 
         [Test]
@@ -263,6 +299,18 @@ namespace Math.Tests
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
             (v == u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Sub()
+        {
+            var a = new Vector2D(1, 2);
+            var b = new Vector2D(17.3, 19.2);
+
+            var r = a.Sub(b);
+
+            r.X.ShouldBe(a.X - b.X);
+            r.Y.ShouldBe(a.Y - b.Y);
         }
 
         [Test]

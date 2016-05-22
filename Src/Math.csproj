@@ -52,8 +52,8 @@
     <Compile Include="Gfx\BitmapFileWriter.cs" />
     <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
-    <Compile Include="Gps\Clustering.cs" />
     <Compile Include="Gps\Intersection.cs" />
+    <Compile Include="IVector.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />

@@ -28,6 +28,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Gfx;
 using Math.Gps;
 using Math.Tests.Gps;
 using NUnit.Framework;
@@ -248,7 +249,7 @@ namespace Math.Tests
         [TestCase(-34, 1, 1)]
         [TestCase(-34, 2, 2)]
         [TestCase(0, 0, 0)]
-        public void PerpendicularDistance_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularDistance2D_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
@@ -263,7 +264,7 @@ namespace Math.Tests
         [TestCase(-34, 1, -35)]
         [TestCase(-34, 2, -35)]
         [TestCase(0, 0, -1)]
-        public void PerpendicularParameter_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularParameter2D_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
@@ -287,7 +288,7 @@ namespace Math.Tests
         [TestCase(-1, 2, 2.82842712474619)]
         [TestCase(0, 0, 1)]
         [TestCase(3, 0, 1)]
-        public void PerpendicularSegmentDistance_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularSegmentDistance2D_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
@@ -302,11 +303,78 @@ namespace Math.Tests
         [TestCase(2, 1, 1)]
         [TestCase(3, 1, 1)]
         [TestCase(3, 2, 1)]
-        public void PerpendicularSegmentParameter_ReturnsExpected(double x, double y, double l)
+        public void PerpendicularSegmentParameter2D_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(2, 0);
             var p = new Vector2D(x, y);
+            Geometry.PerpendicularSegmentParameter(a, b, p).ShouldBe(l, 1e-13);
+        }
+
+        [TestCase(0, 1, 1)]
+        [TestCase(0, 2, 2)]
+        [TestCase(-34, 1, 1)]
+        [TestCase(-34, 2, 2)]
+        [TestCase(0, 0, 0)]
+        public void PerpendicularDistance3D_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector3D(13, 1, 0);
+            var b = new Vector3D(13, 2, 0);
+            var p = new Vector3D(13, x, y);
+            Geometry.PerpendicularDistance(a, b, p).ShouldBe(l);
+        }
+
+        [TestCase(0, 1, -1)]
+        [TestCase(0, 2, -1)]
+        [TestCase(3, 1, 2)]
+        [TestCase(3, 2, 2)]
+        [TestCase(-34, 1, -35)]
+        [TestCase(-34, 2, -35)]
+        [TestCase(0, 0, -1)]
+        public void PerpendicularParameter3D_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector3D(1, 13, 0);
+            var b = new Vector3D(2, 13, 0);
+            var p = new Vector3D(x, 13, y);
+            Geometry.PerpendicularParameter(a, b, p).ShouldBe(l);
+        }
+
+        [TestCase(1, 1, 1)]
+        [TestCase(1, 2, 2)]
+        [TestCase(1.5, 1, 1)]
+        [TestCase(1.5, 2, 2)]
+        [TestCase(2, 1, 1)]
+        [TestCase(2, 2, 2)]
+        [TestCase(1, -1, 1)]
+        [TestCase(1, -2, 2)]
+        [TestCase(1.5, -1, 1)]
+        [TestCase(1.5, -2, 2)]
+        [TestCase(2, -1, 1)]
+        [TestCase(2, -2, 2)]
+        [TestCase(0, 1, 1.4142135623731)]
+        [TestCase(-1, 2, 2.82842712474619)]
+        [TestCase(0, 0, 1)]
+        [TestCase(3, 0, 1)]
+        public void PerpendicularSegmentDistance3D_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector3D(1, 0, 13);
+            var b = new Vector3D(2, 0, 13);
+            var p = new Vector3D(x, y, 13);
+            Geometry.PerpendicularSegmentDistance(a, b, p).ShouldBe(l, 1e-13);
+        }
+
+        [TestCase(0, 1, 0)]
+        [TestCase(0, 2, 0)]
+        [TestCase(1, 1, 0)]
+        [TestCase(1.12, 2, 0.12)]
+        [TestCase(2, 1, 1)]
+        [TestCase(3, 1, 1)]
+        [TestCase(3, 2, 1)]
+        public void PerpendicularSegmentParameter3D_ReturnsExpected(double x, double y, double l)
+        {
+            var a = new Vector3D(1, 0, 13);
+            var b = new Vector3D(2, 0, 13);
+            var p = new Vector3D(x, y, 13);
             Geometry.PerpendicularSegmentParameter(a, b, p).ShouldBe(l, 1e-13);
         }
 
@@ -1067,7 +1135,158 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSameSegment_returnsExpected()
+        public void SignificantPoints_ListEmpty_ReturnsEmptyList()
+        {
+            Geometry.SignificantPoints(new List<Vector2D>()).Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void SignificantPoints_ListNullptr_ReturnsEmptyList()
+        {
+            Geometry.SignificantPoints<Vector2D>(null).Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void SignificantPoints_ListWithOnePoint_ReturnsIndexZero()
+        {
+            var list = Geometry.SignificantPoints(new List<Vector2D> {Vector2D.E1});
+            list.Count.ShouldBe(1);
+            list[0].ShouldBe(0);
+        }
+
+        [Test]
+        public void SignificantPoints2D_10EqualPoints_ReturnsOneZero()
+        {
+            var track = new GpsTrack(new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180}
+            });
+            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            list.Count.ShouldBe(1);
+            list[0].ShouldBe(0);
+        }
+
+        [Test]
+        public void SignificantPoints2D_Corner_Returns3Points()
+        {
+            var track = new GpsTrack(new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180.001},
+                new GpsPoint {Latitude = 0, Longitude = 180.002},
+                new GpsPoint {Latitude = 0, Longitude = 180.003},
+                new GpsPoint {Latitude = 0, Longitude = 180.004},
+                new GpsPoint {Latitude = 0, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.001, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.002, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.003, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.004, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.005, Longitude = 180.005}
+            });
+            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            list.Count.ShouldBe(3);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(5);
+            list[2].ShouldBe(10);
+        }
+
+        [Test]
+        public void SignificantPoints2D_TrackOne_ReturnsList()
+        {
+            var track = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            var heatMap = new HeatMap(HeatMap.CalculateCenter);
+            heatMap.Add(track.Track);
+            heatMap.Add(list.Select(i => track.Track[i]).ToList());
+            var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
+            BitmapFileWriter.PNG("SignificantPoints.png", bitmap);
+
+            list.Count.ShouldBe(55);
+        }
+
+        [Test]
+        public void SignificantPoints2D_TrackOneWithUnrestrictedMDLCostAdwantage_ReturnsStartAndEndPoint()
+        {
+            var track = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track, int.MaxValue/10);
+            list.Count.ShouldBe(2);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(track.Track.Count - 1);
+        }
+
+        [Test]
+        public void SignificantPoints3D_10EqualPoints_ReturnsOneZero()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180}
+            };
+            var list = Geometry.SignificantPoints(track.Select(p => (Vector3D) p).ToList());
+            list.Count.ShouldBe(1);
+            list[0].ShouldBe(0);
+        }
+
+        [Test]
+        public void SignificantPoints3D_Corner_Returns3Points()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180.001},
+                new GpsPoint {Latitude = 0, Longitude = 180.002},
+                new GpsPoint {Latitude = 0, Longitude = 180.003},
+                new GpsPoint {Latitude = 0, Longitude = 180.004},
+                new GpsPoint {Latitude = 0, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.001, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.002, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.003, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.004, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.005, Longitude = 180.005}
+            };
+            var list = Geometry.SignificantPoints(track.Select(p => (Vector3D) p).ToList());
+            list.Count.ShouldBe(3);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(5);
+            list[2].ShouldBe(10);
+        }
+
+        [Test]
+        public void SignificantPoints3D_TrackOne_ReturnsList()
+        {
+            var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList());
+            list.Count.ShouldBe(55);
+        }
+
+        [Test]
+        public void SignificantPoints3D_TrackOneWithUnrestrictedMDLCostAdwantage_ReturnsStartAndEndPoint()
+        {
+            var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList(),
+                int.MaxValue/10);
+            list.Count.ShouldBe(2);
+            list[0].ShouldBe(0);
+            list[1].ShouldBe(_gpsTrackExamples.TrackOne().Count - 1);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance2D_ParallelSameSegment_returnsExpected()
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(3, 0);
@@ -1078,7 +1297,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSameSegmentOppositeDirection_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_ParallelSameSegmentOppositeDirection_returnsExpected()
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(3, 0);
@@ -1089,7 +1308,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSegmentBig_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_ParallelSegmentBig_returnsExpected()
         {
             var a = new Vector2D(-5, 2);
             var b = new Vector2D(4, 2);
@@ -1100,7 +1319,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSegmentBigOppositeDirection_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_ParallelSegmentBigOppositeDirection_returnsExpected()
         {
             var a = new Vector2D(4, 2);
             var b = new Vector2D(-5, 2);
@@ -1111,7 +1330,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSegmentSmall_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_ParallelSegmentSmall_returnsExpected()
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(3, 0);
@@ -1122,7 +1341,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_ParallelSegmentSmallOppositeDirection_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_ParallelSegmentSmallOppositeDirection_returnsExpected()
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(3, 0);
@@ -1133,7 +1352,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_PointPoint_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_PointPoint_returnsExpected()
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(1, 1);
@@ -1142,7 +1361,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_PointSegment_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_PointSegment_returnsExpected()
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(0, 1);
@@ -1152,11 +1371,106 @@ namespace Math.Tests
         }
 
         [Test]
-        public void TrajectoryHausdorffDistance_SegmentPoint_returnsExpected()
+        public void TrajectoryHausdorffDistance2D_SegmentPoint_returnsExpected()
         {
             var a = new Vector2D(1, 0);
             var b = new Vector2D(0, 1);
             var c = new Vector2D(2, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
+            dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSameSegment_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(3, 17, 0);
+            var c = new Vector3D(0, 17, 2);
+            var d = new Vector3D(3, 17, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSameSegmentOppositeDirection_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(3, 17, 0);
+            var c = new Vector3D(3, 17, 2);
+            var d = new Vector3D(0, 17, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSegmentBig_returnsExpected()
+        {
+            var a = new Vector3D(-5, 17, 2);
+            var b = new Vector3D(4, 17, 2);
+            var c = new Vector3D(0, 17, 0);
+            var d = new Vector3D(3, 17, 0);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSegmentBigOppositeDirection_returnsExpected()
+        {
+            var a = new Vector3D(4, 17, 2);
+            var b = new Vector3D(-5, 17, 2);
+            var c = new Vector3D(0, 17, 0);
+            var d = new Vector3D(3, 17, 0);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSegmentSmall_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(3, 17, 0);
+            var c = new Vector3D(-5, 17, 2);
+            var d = new Vector3D(4, 17, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSegmentSmallOppositeDirection_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(3, 17, 0);
+            var c = new Vector3D(4, 17, 2);
+            var d = new Vector3D(-5, 17, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_PointPoint_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(1, 17, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b, 1, 1, 1);
+            dist.ShouldBe(a.Distance(b), 1e-13);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_PointSegment_returnsExpected()
+        {
+            var a = new Vector3D(1, 17, 0);
+            var b = new Vector3D(0, 17, 1);
+            var c = new Vector3D(2, 17, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c, 1, 1, 1);
+            dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_SegmentPoint_returnsExpected()
+        {
+            var a = new Vector3D(1, 17, 0);
+            var b = new Vector3D(0, 17, 1);
+            var c = new Vector3D(2, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
             dist.ShouldBe(2.0);
         }

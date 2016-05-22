@@ -28,7 +28,7 @@
 
 namespace Math
 {
-    public class Vector3D
+    public class Vector3D : IVector<Vector3D>
     {
         public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
         public static readonly Vector3D E1 = new Vector3D(1, 0, 0);
@@ -64,24 +64,6 @@ namespace Math
         public double Y { get; set; }
         public double Z { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Vector3D) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode*397) ^ Y.GetHashCode();
-                hashCode = (hashCode*397) ^ Z.GetHashCode();
-                return hashCode;
-            }
-        }
-
         public bool IsEqual(Vector3D v)
         {
             return IsEqual(v, Comparison.Epsilon);
@@ -103,7 +85,9 @@ namespace Math
             var d = Norm();
             if (Comparison.IsPositive(d, epsilon))
             {
-                Div(d);
+                X /= d;
+                Y /= d;
+                Z /= d;
             }
             return d;
         }
@@ -140,6 +124,61 @@ namespace Math
             return X*v.X + Y*v.Y + Z*v.Z;
         }
 
+        public double CrossNorm(Vector3D v)
+        {
+            return System.Math.Sqrt(CrossNorm2(v));
+        }
+
+        public double Angle(Vector3D v)
+        {
+            var cross = CrossNorm(v);
+            var dot = Dot(v);
+            return System.Math.Atan2(cross, dot);
+        }
+
+        public double AngleAbs(Vector3D v)
+        {
+            return System.Math.Abs(Angle(v));
+        }
+
+        public Vector3D Add(Vector3D v)
+        {
+            return new Vector3D(this + v);
+        }
+
+        public Vector3D Sub(Vector3D v)
+        {
+            return new Vector3D(this - v);
+        }
+
+        public Vector3D Mul(double c)
+        {
+            return new Vector3D(this*c);
+        }
+
+        public Vector3D Div(double c)
+        {
+            return new Vector3D(this/c);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Vector3D) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                hashCode = (hashCode*397) ^ Z.GetHashCode();
+                return hashCode;
+            }
+        }
+
         public Vector3D Cross(Vector3D v)
         {
             return new Vector3D(Y*v.Z - Z*v.Y,
@@ -152,11 +191,6 @@ namespace Math
             return Norm2(Y*v.Z - Z*v.Y,
                 Z*v.X - X*v.Z,
                 X*v.Y - Y*v.X);
-        }
-
-        public double CrossNorm(Vector3D v)
-        {
-            return System.Math.Sqrt(CrossNorm2(v));
         }
 
         public Vector3D Rotate(Vector3D v, double alpha)
@@ -176,25 +210,14 @@ namespace Math
                 (c + r.Z*r.Z*cm)*Z);
         }
 
-        public double Angle(Vector3D v)
-        {
-            var cross = CrossNorm(v);
-            var dot = Dot(v);
-            return System.Math.Atan2(cross, dot);
-        }
-
         public static Vector3D operator +(Vector3D v1, Vector3D v2)
         {
-            var res = new Vector3D(v1);
-            res.Add(v2);
-            return res;
+            return new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         }
 
         public static Vector3D operator -(Vector3D v1, Vector3D v2)
         {
-            var res = new Vector3D(v1);
-            res.Sub(v2);
-            return res;
+            return new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         }
 
         public static Vector3D operator -(Vector3D v)
@@ -232,51 +255,17 @@ namespace Math
 
         public static Vector3D operator *(Vector3D v, double c)
         {
-            var res = new Vector3D(v);
-            res.Mul(c);
-            return res;
+            return new Vector3D(v.X*c, v.Y*c, v.Z*c);
         }
 
         public static Vector3D operator *(double c, Vector3D v)
         {
-            var res = new Vector3D(v);
-            res.Mul(c);
-            return res;
+            return new Vector3D(v.X*c, v.Y*c, v.Z*c);
         }
 
         public static Vector3D operator /(Vector3D v, double c)
         {
-            var res = new Vector3D(v);
-            res.Div(c);
-            return res;
-        }
-
-        private void Add(Vector3D v)
-        {
-            X += v.X;
-            Y += v.Y;
-            Z += v.Z;
-        }
-
-        private void Sub(Vector3D v)
-        {
-            X -= v.X;
-            Y -= v.Y;
-            Z -= v.Z;
-        }
-
-        private void Mul(double c)
-        {
-            X *= c;
-            Y *= c;
-            Z *= c;
-        }
-
-        private void Div(double c)
-        {
-            X /= c;
-            Y /= c;
-            Z /= c;
+            return new Vector3D(v.X/c, v.Y/c, v.Z/c);
         }
 
         private static double Norm2(double x, double y, double z)

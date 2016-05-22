@@ -83,6 +83,19 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Add()
+        {
+            var a = new Vector3D(1, 2, 3);
+            var b = new Vector3D(17.3, 19.2, 31.3);
+
+            var r = a.Add(b);
+
+            r.X.ShouldBe(a.X + b.X);
+            r.Y.ShouldBe(a.Y + b.Y);
+            r.Z.ShouldBe(a.Z + b.Z);
+        }
+
+        [Test]
         public void AngleE1_E2_90Deg()
         {
             (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
@@ -163,6 +176,19 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Div()
+        {
+            var a = new Vector3D(1, 2, 3);
+            var b = 17.3;
+
+            var r = a.Div(b);
+
+            r.X.ShouldBe(a.X/b);
+            r.Y.ShouldBe(a.Y/b);
+            r.Z.ShouldBe(a.Z/b);
+        }
+
+        [Test]
         public void Dot()
         {
             var a = 17.0;
@@ -183,6 +209,19 @@ namespace Math.Tests
             v.X.ShouldBe(0);
             v.Y.ShouldBe(0);
             v.Z.ShouldBe(0);
+        }
+
+        [Test]
+        public void Mul()
+        {
+            var a = new Vector3D(1, 2, 3);
+            var b = 17.3;
+
+            var r = a.Mul(b);
+
+            r.X.ShouldBe(a.X*b);
+            r.Y.ShouldBe(a.Y*b);
+            r.Z.ShouldBe(a.Z*b);
         }
 
         [Test]
@@ -278,6 +317,19 @@ namespace Math.Tests
             var v = new Vector3D(1, 2, 3);
             var u = new Vector3D(1, 2, 3.1);
             (v != u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Sub()
+        {
+            var a = new Vector3D(1, 2, 3);
+            var b = new Vector3D(17.3, 19.2, 31.3);
+
+            var r = a.Sub(b);
+
+            r.X.ShouldBe(a.X - b.X);
+            r.Y.ShouldBe(a.Y - b.Y);
+            r.Z.ShouldBe(a.Z - b.Z);
         }
 
         [Test]

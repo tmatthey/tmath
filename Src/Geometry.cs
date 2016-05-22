@@ -298,41 +298,41 @@ namespace Math
             return array.Take(n + 1).ToList();
         }
 
-        public static double PerpendicularDistance(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularDistance<T>(T x0, T x1, T p) where T : IVector<T>
         {
             var l = x0.Distance(x1);
             if (Comparison.IsZero(l))
             {
                 return x0.Distance(p);
             }
-            return System.Math.Abs(Vector2D.Cross(x1 - x0, p - x0)/l);
+            return x1.Sub(x0).CrossNorm(p.Sub(x0))/l;
         }
 
-        public static double PerpendicularSegmentDistance(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularSegmentDistance<T>(T x0, T x1, T p) where T : IVector<T>
         {
             var dist = PerpendicularDistance(x0, x1, p);
-            if (x0 == x1)
+            if (x0.IsEqual(x1))
                 return dist;
 
-            if ((x1 - x0)*(p - x1) >= 0.0)
+            if (x1.Sub(x0).Dot(p.Sub(x1)) >= 0.0)
                 return x1.Distance(p);
-            if ((x0 - x1)*(p - x0) >= 0.0)
+            if (x0.Sub(x1).Dot(p.Sub(x0)) >= 0.0)
                 return x0.Distance(p);
 
             return dist;
         }
 
-        public static double PerpendicularParameter(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularParameter<T>(T x0, T x1, T p) where T : IVector<T>
         {
-            var d = (x1 - x0).Norm2();
+            var d = x1.Sub(x0).Norm2();
             if (Comparison.IsZero(d))
                 return 0.0;
-            var a = (p - x0);
-            var b = (x1 - x0);
-            return (a*b)/d;
+            var a = p.Sub(x0);
+            var b = x1.Sub(x0);
+            return a.Dot(b)/d;
         }
 
-        public static double PerpendicularSegmentParameter(Vector2D x0, Vector2D x1, Vector2D p)
+        public static double PerpendicularSegmentParameter<T>(T x0, T x1, T p) where T : IVector<T>
         {
             return System.Math.Max(System.Math.Min(PerpendicularParameter(x0, x1, p), 1.0), 0.0);
         }
@@ -340,16 +340,16 @@ namespace Math
         // Trajectory clustering: a partition-and-group framework
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
-        public static double TrajectoryHausdorffDistance(Vector2D a0, Vector2D a1, Vector2D b0, Vector2D b1,
-            double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0)
+        public static double TrajectoryHausdorffDistance<T>(T a0, T a1, T b0, T b1,
+            double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where T : IVector<T>
         {
             double perpendicular, parallel, angular;
             TrajectoryHausdorffDistances(a0, a1, b0, b1, out perpendicular, out parallel, out angular);
             return wPerpendicular*perpendicular + wParallel*parallel + wAngular*angular;
         }
 
-        public static void TrajectoryHausdorffDistances(Vector2D a0, Vector2D a1, Vector2D b0, Vector2D b1,
-            out double perpendicular, out double parallel, out double angular)
+        public static void TrajectoryHausdorffDistances<T>(T a0, T a1, T b0, T b1,
+            out double perpendicular, out double parallel, out double angular) where T : IVector<T>
         {
             var l1 = a0.Distance(a1);
             var l2 = b0.Distance(b1);
@@ -374,8 +374,69 @@ namespace Math
             }
 
             parallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
-            var angle = System.Math.Min((a1 - a0).AngleAbs(b1 - b0), System.Math.PI/2.0);
+            var angle = System.Math.Min(a1.Sub(a0).AngleAbs(b1.Sub(b0)), System.Math.PI/2.0);
             angular = l1*System.Math.Sin(angle);
+        }
+
+        public static IList<int> SignificantPoints<T>(IList<T> track, int mdlCostAdwantage = 25) where T : IVector<T>
+        {
+            if (track == null || track.Count < 1)
+                return new List<int>();
+            if (track.Count == 1)
+                return new List<int> {0};
+
+            var i = 0;
+            int j;
+            var points = new List<int> {0};
+            do
+            {
+                var globalCost = 0;
+
+                for (j = 1; i + j < track.Count; j++)
+                {
+                    globalCost += ModelCost(track[i + j - 1], track[i + j]);
+                    var localCost = ModelCost(track[i], track[i + j]) + EncodingCost(track, i, i + j);
+
+                    if (globalCost + mdlCostAdwantage < localCost)
+                    {
+                        points.Add(i + j - 1);
+                        i = i + j - 1;
+                        j = 0;
+                        break;
+                    }
+                }
+            } while (i + j < track.Count);
+            if (!(points.Count == 1 && track.First().IsEqual(track.Last())))
+            {
+                points.Add(track.Count - 1);
+            }
+
+
+            return points;
+        }
+
+        private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>
+        {
+            var cost = 0;
+            for (var i = i0; i < i1; i++)
+            {
+                double perpendicular, parallel, angular;
+                TrajectoryHausdorffDistances(track[i0], track[i1], track[i], track[i + 1],
+                    out perpendicular, out parallel, out angular);
+
+                perpendicular = System.Math.Max(perpendicular, 1.0);
+                angular = System.Math.Max(angular, 1.0);
+
+                cost += (int) System.Math.Ceiling(System.Math.Log(perpendicular, 2))
+                        + (int) System.Math.Ceiling(System.Math.Log(angular, 2));
+            }
+            return cost;
+        }
+
+        private static int ModelCost<T>(T p0, T p1) where T : IVector<T>
+        {
+            var d = System.Math.Max(p0.Distance(p1), 1.0);
+            return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
     }
 }

@@ -29,6 +29,9 @@ A collection of mathematical function and data structures written in C#. The lib
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
 * Minimal bounding circle 2D
 * Minimal bounding circle on Sphere 3D
+* Perpendicular (segment / line ) distance (2D & 3D)
+* Trajectory Hausdorff Distance (2D & 3D)
+* Filter of significant points based on Minimum Description Length Principle (2D & 3D)
 
 ### Data structures
 * BoundingBox

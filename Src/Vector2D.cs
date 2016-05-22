@@ -28,7 +28,7 @@
 
 namespace Math
 {
-    public class Vector2D
+    public class Vector2D : IVector<Vector2D>
     {
         public static readonly Vector2D Zero = new Vector2D(0, 0);
         public static readonly Vector2D E1 = new Vector2D(1, 0);
@@ -59,23 +59,6 @@ namespace Math
         public double X { get; set; }
         public double Y { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Vector2D) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode*397) ^ Y.GetHashCode();
-                return hashCode;
-            }
-        }
-
         public bool IsEqual(Vector2D v)
         {
             return IsEqual(v, Comparison.Epsilon);
@@ -96,7 +79,8 @@ namespace Math
             var d = Norm();
             if (Comparison.IsPositive(d, epsilon))
             {
-                Div(d);
+                X /= d;
+                Y /= d;
             }
             return d;
         }
@@ -133,6 +117,11 @@ namespace Math
             return X*v.X + Y*v.Y;
         }
 
+        public double CrossNorm(Vector2D v)
+        {
+            return System.Math.Abs(Cross(this, v));
+        }
+
         public double Angle(Vector2D v)
         {
             var sin = X*v.Y - v.X*Y;
@@ -145,18 +134,51 @@ namespace Math
             return System.Math.Abs(Angle(v));
         }
 
+        public Vector2D Add(Vector2D v)
+        {
+            return new Vector2D(this + v);
+        }
+
+        public Vector2D Sub(Vector2D v)
+        {
+            return new Vector2D(this - v);
+        }
+
+        public Vector2D Mul(double c)
+        {
+            return new Vector2D(this*c);
+        }
+
+        public Vector2D Div(double c)
+        {
+            return new Vector2D(this/c);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Vector2D) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                return hashCode;
+            }
+        }
+
         public static Vector2D operator +(Vector2D v1, Vector2D v2)
         {
-            var res = new Vector2D(v1);
-            res.Add(v2);
-            return res;
+            return new Vector2D(v1.X + v2.X, v1.Y + v2.Y);
         }
 
         public static Vector2D operator -(Vector2D v1, Vector2D v2)
         {
-            var res = new Vector2D(v1);
-            res.Sub(v2);
-            return res;
+            return new Vector2D(v1.X - v2.X, v1.Y - v2.Y);
         }
 
         public static Vector2D operator -(Vector2D v)
@@ -189,52 +211,22 @@ namespace Math
 
         public static Vector2D operator *(Vector2D v, double c)
         {
-            var res = new Vector2D(v);
-            res.Mul(c);
-            return res;
+            return new Vector2D(v.X*c, v.Y*c);
         }
 
         public static Vector2D operator *(double c, Vector2D v)
         {
-            var res = new Vector2D(v);
-            res.Mul(c);
-            return res;
+            return new Vector2D(v.X*c, v.Y*c);
         }
 
         public static Vector2D operator /(Vector2D v, double c)
         {
-            var res = new Vector2D(v);
-            res.Div(c);
-            return res;
+            return new Vector2D(v.X/c, v.Y/c);
         }
 
         public static double Cross(Vector2D a, Vector2D b)
         {
             return a.X*b.Y - a.Y*b.X;
-        }
-
-        private void Add(Vector2D v)
-        {
-            X += v.X;
-            Y += v.Y;
-        }
-
-        private void Sub(Vector2D v)
-        {
-            X -= v.X;
-            Y -= v.Y;
-        }
-
-        private void Mul(double c)
-        {
-            X *= c;
-            Y *= c;
-        }
-
-        private void Div(double c)
-        {
-            X /= c;
-            Y /= c;
         }
 
         private static double Norm2(double x, double y)

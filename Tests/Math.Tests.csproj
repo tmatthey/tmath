@@ -58,7 +58,6 @@
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />
     <Compile Include="Gfx\DrawTests.cs" />
     <Compile Include="Gfx\HeatmapTests.cs" />
-    <Compile Include="Gps\ClusteringTests.cs" />
     <Compile Include="Gps\NeighbourDistancePointTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />
     <Compile Include="PolynomialTests.cs" />
