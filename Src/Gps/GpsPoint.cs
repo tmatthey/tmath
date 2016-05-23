@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math.Gps
 {
-    public class GpsPoint
+    public class GpsPoint : IDistance<GpsPoint>
     {
         public GpsPoint()
         {
@@ -57,6 +59,12 @@ namespace Math.Gps
         public double Latitude { get; set; } // theta
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
+
+        public double Distance(GpsPoint d)
+        {
+            var f = (System.Math.Min(Elevation, d.Elevation) + Geodesy.EarthRadius)/Geodesy.EarthRadius;
+            return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm()*f;
+        }
 
         public override bool Equals(object obj)
         {

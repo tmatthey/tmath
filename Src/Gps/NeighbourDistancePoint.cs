@@ -45,7 +45,7 @@ namespace Math.Gps
             Reference = reference;
             // Index of current / this track
             Current = current;
-            // Perpendicular distance from current point to reference track (segement of point [Reference, Reference+1])
+            // Perpendicular distance from current point to reference track (segment of point [Reference, Reference+1])
             MinDistance = minDistance;
             // Perpendicular parameter of point on segment [Reference, Reference+1] 
             Fraction = fraction;

@@ -26,9 +26,9 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math
+namespace Math.Interfaces
 {
-    public interface IVector<T>
+    public interface IVector<T> : IDistance<T>
     {
         bool IsEqual(T v);
         bool IsEqual(T v, double epsilon);
@@ -38,7 +38,6 @@ namespace Math
         T Normalized(double epsilon);
         double Norm2();
         double Norm();
-        double Distance(T v);
         double Dot(T v);
         double CrossNorm(T v);
         double Angle(T v);

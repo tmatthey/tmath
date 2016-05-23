@@ -53,7 +53,9 @@
     <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gps\Intersection.cs" />
-    <Compile Include="IVector.cs" />
+    <Compile Include="Interfaces\IDistance.cs" />
+    <Compile Include="Interfaces\ISegment.cs" />
+    <Compile Include="Interfaces\IVector.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="Polar3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regression.cs" />
+    <Compile Include="Segment2D.cs" />
+    <Compile Include="Segment3D.cs" />
     <Compile Include="Solver.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2D.cs" />

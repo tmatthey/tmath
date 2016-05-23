@@ -26,6 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
     public class Vector2D : IVector<Vector2D>

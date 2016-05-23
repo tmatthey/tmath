@@ -1135,6 +1135,50 @@ namespace Math.Tests
         }
 
         [Test]
+        public void PerpendicularDistance3D_Example_returnsExpected()
+        {
+            var a = new Vector3D(3, 1, -1);
+            var b = a + new Vector3D(2, 1, 2);
+            var p = new Vector3D(0, 2, 3);
+            Geometry.PerpendicularDistance(a, b, p).ShouldBe(5.0);
+        }
+
+        [Test]
+        public void PolylineToSegments_3EqualPoints_ReturnsEmptyList()
+        {
+            var list = new List<Vector2D> {Vector2D.E1, Vector2D.E1, Vector2D.E1};
+            Geometry.PolylineToSegments<Segment2D, Vector2D>(list).Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void PolylineToSegments_3PointsAboveMinDistance_Returns2Segments()
+        {
+            var list = new List<Vector2D> {Vector2D.Zero, Vector2D.E1, Vector2D.E2};
+            Geometry.PolylineToSegments<Segment2D, Vector2D>(list, 0.5).Count.ShouldBe(2);
+        }
+
+        [Test]
+        public void PolylineToSegments_3PointsBelowMinDistance_ReturnsEmptyList()
+        {
+            var list = new List<Vector2D> {Vector2D.Zero, Vector2D.E1, Vector2D.E2};
+            Geometry.PolylineToSegments<Segment2D, Vector2D>(list, 10.0).Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void PolylineToSegments_EmptyList_ReturnsEmptyList()
+        {
+            var list = new List<Vector2D>();
+            var s = Geometry.PolylineToSegments<Segment2D, Vector2D>(list);
+            list.Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void PolylineToSegments_NullList_ReturnsEmptyList()
+        {
+            Geometry.PolylineToSegments<Segment3D, Vector3D>(null).Count.ShouldBe(0);
+        }
+
+        [Test]
         public void SignificantPoints_ListEmpty_ReturnsEmptyList()
         {
             Geometry.SignificantPoints(new List<Vector2D>()).Count.ShouldBe(0);

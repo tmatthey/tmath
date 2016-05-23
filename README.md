@@ -42,6 +42,8 @@ A collection of mathematical function and data structures written in C#. The lib
 * Polynomial
 * * Division by real roots (linear root), and imaginary and conjugated (quadratic root) 
 * * Evaluation of polynomial and its derivative and integral
+* Segment2D
+* Segment3D
 * Vector2D
 * Vector3D
 

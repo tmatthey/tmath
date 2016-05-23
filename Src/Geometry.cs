@@ -28,6 +28,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Interfaces;
 
 namespace Math
 {
@@ -437,6 +438,30 @@ namespace Math
         {
             var d = System.Math.Max(p0.Distance(p1), 1.0);
             return (int) System.Math.Ceiling(System.Math.Log(d, 2));
+        }
+
+        public static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = -1)
+            where TV : IVector<TV>
+            where TS : ISegment<TS, TV>, new()
+
+        {
+            var segments = new List<TS>();
+            if (polyline == null || polyline.Count <= 1)
+            {
+                return segments;
+            }
+
+            for (var i = 0; i + 1 < polyline.Count; i++)
+            {
+                var a = polyline[i];
+                var b = polyline[i + 1];
+                var d = a.Distance(b);
+                if (Comparison.IsLessEqual(minDistance, d) && Comparison.IsPositive(d))
+                {
+                    segments.Add(new TS {A = a, B = b});
+                }
+            }
+            return segments;
         }
     }
 }

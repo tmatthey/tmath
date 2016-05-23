@@ -120,6 +120,44 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void Distance_ElevationEarthRadius_ReturnsHaversineDistance()
+        {
+            var a = new GpsPoint {Latitude = 0, Longitude = 0, Elevation = Geodesy.EarthRadius};
+            var b = new GpsPoint {Latitude = 0, Longitude = 1, Elevation = Geodesy.EarthRadius};
+            a.Distance(b).ShouldBe(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude)*2.0);
+        }
+
+        [Test]
+        public void Distance_ElevationFromEarthRadius_ReturnsHaversineDistance()
+        {
+            var a = new GpsPoint {Latitude = 0, Longitude = 0, Elevation = Geodesy.EarthRadius};
+            var b = new GpsPoint {Latitude = 0, Longitude = 1, Elevation = 0};
+            a.Distance(b)
+                .ShouldBe(
+                    new Vector2D(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude),
+                        Geodesy.EarthRadius).Norm());
+        }
+
+        [Test]
+        public void Distance_ElevationToEarthRadius_ReturnsHaversineDistance()
+        {
+            var a = new GpsPoint {Latitude = 0, Longitude = 0, Elevation = 0.0};
+            var b = new GpsPoint {Latitude = 0, Longitude = 1, Elevation = Geodesy.EarthRadius};
+            a.Distance(b)
+                .ShouldBe(
+                    new Vector2D(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude),
+                        Geodesy.EarthRadius).Norm());
+        }
+
+        [Test]
+        public void Distance_NoElevation_ReturnsHaversineDistance()
+        {
+            var a = new GpsPoint {Latitude = 0, Longitude = 0};
+            var b = new GpsPoint {Latitude = 0, Longitude = 1};
+            a.Distance(b).ShouldBe(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude));
+        }
+
+        [Test]
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new GpsPoint(12, 14, 17);
