@@ -55,12 +55,7 @@ namespace Math.Gfx
         public static Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints)
         {
             var center = new Vector3D();
-            foreach (var item in gpsTracks)
-            {
-                center += item.Center;
-            }
-            center /= gpsTracks.Count;
-            return center;
+            return gpsTracks.Aggregate(center, (current, item) => current + item.Center)/gpsTracks.Count;
         }
 
         public void Add(IList<GpsPoint> track)

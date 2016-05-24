@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<TS, TV> : IDistance<TS>
+    public interface ISegment<in TS, TV> : IDistance<TS>
     {
         TV A { get; set; }
         TV B { get; set; }

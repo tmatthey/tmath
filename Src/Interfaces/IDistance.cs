@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface IDistance<T>
+    public interface IDistance<in T>
     {
         double Distance(T d);
     }
