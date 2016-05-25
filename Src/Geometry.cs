@@ -440,10 +440,9 @@ namespace Math
             return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
 
-        public static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = -1)
+        public static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = 0.0)
             where TV : IVector<TV>
             where TS : ISegment<TS, TV>, new()
-
         {
             var segments = new List<TS>();
             if (polyline == null || polyline.Count <= 1)
@@ -451,12 +450,13 @@ namespace Math
                 return segments;
             }
 
+            minDistance = System.Math.Max(minDistance, Comparison.Epsilon);
             for (var i = 0; i + 1 < polyline.Count; i++)
             {
                 var a = polyline[i];
                 var b = polyline[i + 1];
                 var d = a.Distance(b);
-                if (Comparison.IsLessEqual(minDistance, d) && Comparison.IsPositive(d))
+                if (Comparison.IsLessEqual(minDistance, d))
                 {
                     segments.Add(new TS {A = a, B = b});
                 }
