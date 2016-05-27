@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
@@ -159,6 +160,26 @@ namespace Math
         public int Dimensions
         {
             get { return 2; }
+        }
+
+        public double[] Array
+        {
+            get { return new[] {X, Y}; }
+        }
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return X;
+                    case 1:
+                        return Y;
+                }
+                throw new IndexOutOfRangeException();
+            }
         }
 
         public override bool Equals(object obj)

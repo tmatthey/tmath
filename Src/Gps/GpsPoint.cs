@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IDistance<GpsPoint>, IDimension
+    public class GpsPoint : IDistance<GpsPoint>, IArray
     {
         public GpsPoint()
         {
@@ -63,6 +64,28 @@ namespace Math.Gps
         public int Dimensions
         {
             get { return 3; }
+        }
+
+        public double[] Array
+        {
+            get { return new[] {Latitude, Longitude, Elevation}; }
+        }
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return Latitude;
+                    case 1:
+                        return Longitude;
+                    case 2:
+                        return Elevation;
+                }
+                throw new IndexOutOfRangeException();
+            }
         }
 
         public double Distance(GpsPoint d)

@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class Polar3D : IDistance<Polar3D>, IDimension
+    public class Polar3D : IDistance<Polar3D>, IArray
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
 
@@ -59,6 +60,28 @@ namespace Math
         public int Dimensions
         {
             get { return 3; }
+        }
+
+        public double[] Array
+        {
+            get { return new[] {Theta, Phi, R}; }
+        }
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return Theta;
+                    case 1:
+                        return Phi;
+                    case 2:
+                        return R;
+                }
+                throw new IndexOutOfRangeException();
+            }
         }
 
         public double Distance(Polar3D d)

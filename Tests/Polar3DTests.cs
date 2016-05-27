@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using NUnit.Framework;
 using Shouldly;
 
@@ -132,6 +133,40 @@ namespace Math.Tests
             var x = a ? new Polar3D() : null;
             var y = b ? new Polar3D() : null;
             (x != y).ShouldBe(a != b);
+        }
+
+        [TestCase(-1)]
+        [TestCase(3)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var v = new Polar3D();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new Polar3D(x, y, z);
+            var c = v.Array;
+            c.Length.ShouldBe(v.Dimensions);
+            c[0].ShouldBe(x);
+            c[1].ShouldBe(y);
+            c[2].ShouldBe(z);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new Polar3D(x, y, z);
+            v[0].ShouldBe(x);
+            v[1].ShouldBe(y);
+            v[2].ShouldBe(z);
         }
 
         [Test]

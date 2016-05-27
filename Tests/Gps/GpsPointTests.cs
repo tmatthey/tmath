@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -117,6 +118,40 @@ namespace Math.Tests.Gps
             var p = new GpsPoint {Latitude = latitude, Longitude = longitude};
             var expectedN = expectedJ*resolution + expectedI;
             p.GridLinearIndex(resolution).ShouldBe(expectedN);
+        }
+
+        [TestCase(-1)]
+        [TestCase(3)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var v = new GpsPoint();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new GpsPoint(x, y, z);
+            var c = v.Array;
+            c.Length.ShouldBe(v.Dimensions);
+            c[0].ShouldBe(x);
+            c[1].ShouldBe(y);
+            c[2].ShouldBe(z);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new GpsPoint(x, y, z);
+            v[0].ShouldBe(x);
+            v[1].ShouldBe(y);
+            v[2].ShouldBe(z);
         }
 
         [Test]

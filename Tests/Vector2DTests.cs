@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using NUnit.Framework;
 using Shouldly;
 
@@ -66,6 +67,14 @@ namespace Math.Tests
             (x != y).ShouldBe(a != b);
         }
 
+        [TestCase(-1)]
+        [TestCase(2)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var v = new Vector2D();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+        }
+
         [Test]
         public void Add()
         {
@@ -103,6 +112,28 @@ namespace Math.Tests
             var w = new Vector2D(1, 1);
             var a = v.AngleAbs(w);
             a.ShouldBe(System.Math.PI/180.0*45.0);
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            var v = new Vector2D(x, y);
+            var c = v.Array;
+            c.Length.ShouldBe(v.Dimensions);
+            c[0].ShouldBe(x);
+            c[1].ShouldBe(y);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            var v = new Vector2D(x, y);
+            v[0].ShouldBe(x);
+            v[1].ShouldBe(y);
         }
 
         [Test]

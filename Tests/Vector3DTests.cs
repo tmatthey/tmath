@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using NUnit.Framework;
 using Shouldly;
 
@@ -82,6 +83,14 @@ namespace Math.Tests
             (x != y).ShouldBe(a != b);
         }
 
+        [TestCase(-1)]
+        [TestCase(3)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var v = new Vector3D();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+        }
+
         [Test]
         public void Add()
         {
@@ -99,6 +108,32 @@ namespace Math.Tests
         public void AngleE1_E2_90Deg()
         {
             (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new Vector3D(x, y, z);
+            var c = v.Array;
+            c.Length.ShouldBe(v.Dimensions);
+            c[0].ShouldBe(x);
+            c[1].ShouldBe(y);
+            c[2].ShouldBe(z);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x = 0.1;
+            const double y = 0.2;
+            const double z = 0.3;
+            var v = new Vector3D(x, y, z);
+            v[0].ShouldBe(x);
+            v[1].ShouldBe(y);
+            v[2].ShouldBe(z);
         }
 
         [Test]
