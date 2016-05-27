@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface IVector<T> : IDistance<T>
+    public interface IVector<T> : IDistance<T>, IDimension
     {
         bool IsEqual(T v);
         bool IsEqual(T v, double epsilon);

@@ -142,6 +142,24 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is3()
+        {
+            var p = new Polar3D();
+            p.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
+        public void Distance_SameAsVEctor3D()
+        {
+            var p = new Polar3D(0, 1);
+            var q = new Polar3D(1, 0);
+            Vector3D v = p;
+            Vector3D u = q;
+            var d = v.Distance(u);
+            p.Distance(q).ShouldBe(d);
+        }
+
+        [Test]
         public void EmptyConstructor_ZeroElement()
         {
             var v = new Polar3D();

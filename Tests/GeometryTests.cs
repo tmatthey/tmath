@@ -1147,35 +1147,33 @@ namespace Math.Tests
         public void PolylineToSegments_3EqualPoints_ReturnsEmptyList()
         {
             var list = new List<Vector2D> {Vector2D.E1, Vector2D.E1, Vector2D.E1};
-            Geometry.PolylineToSegments<Segment2D, Vector2D>(list).Count.ShouldBe(0);
+            Geometry.PolylineToSegments(list).Count.ShouldBe(0);
         }
 
         [Test]
         public void PolylineToSegments_3PointsAboveMinDistance_Returns2Segments()
         {
             var list = new List<Vector2D> {Vector2D.Zero, Vector2D.E1, Vector2D.E2};
-            Geometry.PolylineToSegments<Segment2D, Vector2D>(list, 0.5).Count.ShouldBe(2);
+            Geometry.PolylineToSegments(list, 0.5).Count.ShouldBe(2);
         }
 
         [Test]
         public void PolylineToSegments_3PointsBelowMinDistance_ReturnsEmptyList()
         {
-            var list = new List<Vector2D> {Vector2D.Zero, Vector2D.E1, Vector2D.E2};
-            Geometry.PolylineToSegments<Segment2D, Vector2D>(list, 10.0).Count.ShouldBe(0);
+            var list = new List<Vector3D> {Vector3D.Zero, Vector3D.E1, Vector3D.E2};
+            Geometry.PolylineToSegments(list, 10.0).Count.ShouldBe(0);
         }
 
         [Test]
         public void PolylineToSegments_EmptyList_ReturnsEmptyList()
         {
-            var list = new List<Vector2D>();
-            var s = Geometry.PolylineToSegments<Segment2D, Vector2D>(list);
-            list.Count.ShouldBe(0);
+            Geometry.PolylineToSegments(new List<Vector2D>()).Count.ShouldBe(0);
         }
 
         [Test]
         public void PolylineToSegments_NullList_ReturnsEmptyList()
         {
-            Geometry.PolylineToSegments<Segment3D, Vector3D>(null).Count.ShouldBe(0);
+            Geometry.PolylineToSegments((List<Vector2D>) null).Count.ShouldBe(0);
         }
 
         [Test]
@@ -1336,7 +1334,7 @@ namespace Math.Tests
             var b = new Vector2D(3, 0);
             var c = new Vector2D(0, 2);
             var d = new Vector2D(3, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
         }
 
@@ -1347,7 +1345,7 @@ namespace Math.Tests
             var b = new Vector2D(3, 0);
             var c = new Vector2D(3, 2);
             var d = new Vector2D(0, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
         }
 
@@ -1358,7 +1356,7 @@ namespace Math.Tests
             var b = new Vector2D(4, 2);
             var c = new Vector2D(0, 0);
             var d = new Vector2D(3, 0);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
         }
 
@@ -1369,7 +1367,7 @@ namespace Math.Tests
             var b = new Vector2D(-5, 2);
             var c = new Vector2D(0, 0);
             var d = new Vector2D(3, 0);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
         }
 
@@ -1380,7 +1378,7 @@ namespace Math.Tests
             var b = new Vector2D(3, 0);
             var c = new Vector2D(-5, 2);
             var d = new Vector2D(4, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
         }
 
@@ -1391,7 +1389,7 @@ namespace Math.Tests
             var b = new Vector2D(3, 0);
             var c = new Vector2D(4, 2);
             var d = new Vector2D(-5, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
         }
 
@@ -1400,7 +1398,7 @@ namespace Math.Tests
         {
             var a = new Vector2D(0, 0);
             var b = new Vector2D(1, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b);
             dist.ShouldBe(a.Distance(b), 1e-13);
         }
 
@@ -1410,7 +1408,7 @@ namespace Math.Tests
             var a = new Vector2D(1, 0);
             var b = new Vector2D(0, 1);
             var c = new Vector2D(2, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c);
             dist.ShouldBe(2.0);
         }
 
@@ -1420,7 +1418,7 @@ namespace Math.Tests
             var a = new Vector2D(1, 0);
             var b = new Vector2D(0, 1);
             var c = new Vector2D(2, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a);
             dist.ShouldBe(2.0);
         }
 
@@ -1431,7 +1429,7 @@ namespace Math.Tests
             var b = new Vector3D(3, 17, 0);
             var c = new Vector3D(0, 17, 2);
             var d = new Vector3D(3, 17, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
         }
 
@@ -1442,7 +1440,7 @@ namespace Math.Tests
             var b = new Vector3D(3, 17, 0);
             var c = new Vector3D(3, 17, 2);
             var d = new Vector3D(0, 17, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
         }
 
@@ -1453,7 +1451,7 @@ namespace Math.Tests
             var b = new Vector3D(4, 17, 2);
             var c = new Vector3D(0, 17, 0);
             var d = new Vector3D(3, 17, 0);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
         }
 
@@ -1464,7 +1462,7 @@ namespace Math.Tests
             var b = new Vector3D(-5, 17, 2);
             var c = new Vector3D(0, 17, 0);
             var d = new Vector3D(3, 17, 0);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
         }
 
@@ -1475,7 +1473,7 @@ namespace Math.Tests
             var b = new Vector3D(3, 17, 0);
             var c = new Vector3D(-5, 17, 2);
             var d = new Vector3D(4, 17, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
         }
 
@@ -1486,7 +1484,7 @@ namespace Math.Tests
             var b = new Vector3D(3, 17, 0);
             var c = new Vector3D(4, 17, 2);
             var d = new Vector3D(-5, 17, 2);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
         }
 
@@ -1495,7 +1493,7 @@ namespace Math.Tests
         {
             var a = new Vector3D(0, 17, 0);
             var b = new Vector3D(1, 17, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b);
             dist.ShouldBe(a.Distance(b), 1e-13);
         }
 
@@ -1505,7 +1503,7 @@ namespace Math.Tests
             var a = new Vector3D(1, 17, 0);
             var b = new Vector3D(0, 17, 1);
             var c = new Vector3D(2, 17, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c);
             dist.ShouldBe(2.0);
         }
 
@@ -1515,7 +1513,7 @@ namespace Math.Tests
             var a = new Vector3D(1, 17, 0);
             var b = new Vector3D(0, 17, 1);
             var c = new Vector3D(2, 17, 1);
-            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a, 1, 1, 1);
+            var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a);
             dist.ShouldBe(2.0);
         }
     }

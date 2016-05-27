@@ -131,6 +131,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is2()
+        {
+            var s = new Vector2D();
+            s.Dimensions.ShouldBe(2);
+        }
+
+        [Test]
         public void Distance()
         {
             var a = 17.0;

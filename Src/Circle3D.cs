@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
-    public class Circle3D
+    public class Circle3D : IDimension
     {
         public Circle3D()
         {
@@ -60,6 +62,11 @@ namespace Math
         public Vector3D Center { get; set; }
         public Vector3D Normal { get; set; }
         public double Radius { get; set; }
+
+        public int Dimensions
+        {
+            get { return Center.Dimensions; }
+        }
 
         public override bool Equals(object obj)
         {

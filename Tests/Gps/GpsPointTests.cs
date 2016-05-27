@@ -120,6 +120,13 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void Dimension_Is3()
+        {
+            var v = new GpsPoint();
+            v.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
         public void Distance_ElevationEarthRadius_ReturnsHaversineDistance()
         {
             var a = new GpsPoint {Latitude = 0, Longitude = 0, Elevation = Geodesy.EarthRadius};

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
@@ -28,10 +28,8 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<in TS, TV> : IDistance<TS>, IDimension
+    public interface IDimension
     {
-        TV A { get; set; }
-        TV B { get; set; }
-        double Length();
+        int Dimensions { get; }
     }
 }

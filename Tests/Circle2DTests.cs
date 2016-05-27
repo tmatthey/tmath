@@ -174,6 +174,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is2()
+        {
+            var v = new Circle2D();
+            v.Dimensions.ShouldBe(2);
+        }
+
+        [Test]
         public void Equals_WithDiffrentRef_ReturnsTrue()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);

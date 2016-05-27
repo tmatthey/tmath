@@ -58,6 +58,11 @@ namespace Math
             return A.Distance(B);
         }
 
+        public int Dimensions
+        {
+            get { return A.Dimensions; }
+        }
+
         public double Distance(Segment3D d)
         {
             double per, par, angular;

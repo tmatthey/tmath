@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
-    public class Polar3D
+    public class Polar3D : IDistance<Polar3D>, IDimension
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
 
@@ -53,6 +55,16 @@ namespace Math
         public double R { get; set; }
         public double Theta { get; set; }
         public double Phi { get; set; }
+
+        public int Dimensions
+        {
+            get { return 3; }
+        }
+
+        public double Distance(Polar3D d)
+        {
+            return ((Vector3D) this).Distance(d);
+        }
 
         public override bool Equals(object obj)
         {

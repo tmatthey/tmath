@@ -65,6 +65,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is3()
+        {
+            var s = new Segment3D();
+            s.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
         public void Distance()
         {
             var v0 = new Vector3D(1, 2, 7);

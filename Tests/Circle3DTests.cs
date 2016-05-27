@@ -163,6 +163,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is3()
+        {
+            var v = new Circle3D();
+            v.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
         public void Equals_WithDiffrentRef_ReturnsTrue()
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);

@@ -65,6 +65,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is2()
+        {
+            var s = new Segment2D();
+            s.Dimensions.ShouldBe(2);
+        }
+
+        [Test]
         public void Distance()
         {
             var v0 = new Vector2D(1, 2);

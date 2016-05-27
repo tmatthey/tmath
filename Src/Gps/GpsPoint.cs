@@ -30,7 +30,7 @@ using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IDistance<GpsPoint>
+    public class GpsPoint : IDistance<GpsPoint>, IDimension
     {
         public GpsPoint()
         {
@@ -59,6 +59,11 @@ namespace Math.Gps
         public double Latitude { get; set; } // theta
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
+
+        public int Dimensions
+        {
+            get { return 3; }
+        }
 
         public double Distance(GpsPoint d)
         {

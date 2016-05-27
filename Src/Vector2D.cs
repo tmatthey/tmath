@@ -156,6 +156,11 @@ namespace Math
             return new Vector2D(this/c);
         }
 
+        public int Dimensions
+        {
+            get { return 2; }
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;

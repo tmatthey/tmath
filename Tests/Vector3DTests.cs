@@ -159,6 +159,13 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Dimension_Is3()
+        {
+            var s = new Vector3D();
+            s.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
         public void Distance()
         {
             var a = 17.0;

@@ -53,6 +53,7 @@
     <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gps\Intersection.cs" />
+    <Compile Include="Interfaces\IDimension.cs" />
     <Compile Include="Interfaces\IDistance.cs" />
     <Compile Include="Interfaces\ISegment.cs" />
     <Compile Include="Interfaces\IVector.cs" />

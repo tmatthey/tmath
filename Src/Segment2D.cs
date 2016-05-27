@@ -64,5 +64,10 @@ namespace Math
             Geometry.TrajectoryHausdorffDistances(A, B, d.A, d.B, out per, out par, out angular);
             return per;
         }
+
+        public int Dimensions
+        {
+            get { return A.Dimensions; }
+        }
     }
 }

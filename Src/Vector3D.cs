@@ -163,6 +163,11 @@ namespace Math
             return new Vector3D(this/c);
         }
 
+        public int Dimensions
+        {
+            get { return 3; }
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;

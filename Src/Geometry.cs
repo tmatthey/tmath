@@ -440,7 +440,17 @@ namespace Math
             return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
 
-        public static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = 0.0)
+        public static IList<Segment2D> PolylineToSegments(IList<Vector2D> polyline, double minDistance = 0.0)
+        {
+            return PolylineToSegments<Segment2D, Vector2D>(polyline, minDistance);
+        }
+
+        public static IList<Segment3D> PolylineToSegments(IList<Vector3D> polyline, double minDistance = 0.0)
+        {
+            return PolylineToSegments<Segment3D, Vector3D>(polyline, minDistance);
+        }
+
+        private static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = 0.0)
             where TV : IVector<TV>
             where TS : ISegment<TS, TV>, new()
         {

@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
-    public class Circle2D
+    public class Circle2D : IDimension
     {
         public Circle2D()
         {
@@ -49,6 +51,11 @@ namespace Math
 
         public Vector2D Center { get; set; }
         public double Radius { get; set; }
+
+        public int Dimensions
+        {
+            get { return Center.Dimensions; }
+        }
 
         public override bool Equals(object obj)
         {
