@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
@@ -68,6 +69,30 @@ namespace Math
         public int Dimensions
         {
             get { return A.Dimensions; }
+        }
+
+        public double[] Array
+        {
+            get { return new[] {A.X, A.Y, B.X, B.Y}; }
+        }
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return A.X;
+                    case 1:
+                        return A.Y;
+                    case 2:
+                        return B.X;
+                    case 3:
+                        return B.Y;
+                }
+                throw new IndexOutOfRangeException();
+            }
         }
     }
 }

@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using NUnit.Framework;
 using Shouldly;
 
@@ -34,6 +35,44 @@ namespace Math.Tests
     [TestFixture]
     public class Segment2DTests
     {
+        [TestCase(-1)]
+        [TestCase(4)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var s = new Segment2D();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = s[i]; });
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x0 = 0.1;
+            const double y0 = 0.2;
+            const double x1 = 0.1;
+            const double y1 = 0.2;
+            var s = new Segment2D(new Vector2D(x0, y0), new Vector2D(x1, y1));
+            var c = s.Array;
+            c.Length.ShouldBe(s.Dimensions*2);
+            c[0].ShouldBe(x0);
+            c[1].ShouldBe(y0);
+            c[2].ShouldBe(x1);
+            c[3].ShouldBe(y1);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x0 = 0.1;
+            const double y0 = 0.2;
+            const double x1 = 0.1;
+            const double y1 = 0.2;
+            var s = new Segment2D(new Vector2D(x0, y0), new Vector2D(x1, y1));
+            s[0].ShouldBe(x0);
+            s[1].ShouldBe(y0);
+            s[2].ShouldBe(x1);
+            s[3].ShouldBe(y1);
+        }
+
         [Test]
         public void ConstructorEmpty_ZeroVectors()
         {

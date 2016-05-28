@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using NUnit.Framework;
 using Shouldly;
 
@@ -34,6 +35,52 @@ namespace Math.Tests
     [TestFixture]
     public class Segment3DTests
     {
+        [TestCase(-1)]
+        [TestCase(6)]
+        public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
+        {
+            var s = new Segment3D();
+            Should.Throw<IndexOutOfRangeException>(() => { var a = s[i]; });
+        }
+
+        [Test]
+        public void Array_ReturnsExpected()
+        {
+            const double x0 = 0.1;
+            const double y0 = 0.2;
+            const double z0 = 0.3;
+            const double x1 = 0.1;
+            const double y1 = 0.2;
+            const double z1 = 0.3;
+            var s = new Segment3D(new Vector3D(x0, y0, z0), new Vector3D(x1, y1, z1));
+            var c = s.Array;
+            c.Length.ShouldBe(s.Dimensions*2);
+            c[0].ShouldBe(x0);
+            c[1].ShouldBe(y0);
+            c[2].ShouldBe(z0);
+            c[3].ShouldBe(x1);
+            c[4].ShouldBe(y1);
+            c[5].ShouldBe(z1);
+        }
+
+        [Test]
+        public void ArrayOp_ReturnsExpected()
+        {
+            const double x0 = 0.1;
+            const double y0 = 0.2;
+            const double z0 = 0.3;
+            const double x1 = 0.1;
+            const double y1 = 0.2;
+            const double z1 = 0.3;
+            var s = new Segment3D(new Vector3D(x0, y0, z0), new Vector3D(x1, y1, z1));
+            s[0].ShouldBe(x0);
+            s[1].ShouldBe(y0);
+            s[2].ShouldBe(z0);
+            s[3].ShouldBe(x1);
+            s[4].ShouldBe(y1);
+            s[5].ShouldBe(z1);
+        }
+
         [Test]
         public void ConstructorEmpty_ZeroVectors()
         {

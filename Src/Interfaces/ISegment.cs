@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<in TS, TV> : IDistance<TS>, IDimension
+    public interface ISegment<in TS, TV> : IDistance<TS>, IArray
     {
         TV A { get; set; }
         TV B { get; set; }
