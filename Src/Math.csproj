@@ -58,6 +58,10 @@
     <Compile Include="Interfaces\IDistance.cs" />
     <Compile Include="Interfaces\ISegment.cs" />
     <Compile Include="Interfaces\IVector.cs" />
+    <Compile Include="KDTree\EmptyTree.cs" />
+    <Compile Include="KDTree\ITree.cs" />
+    <Compile Include="KDTree\Tree.cs" />
+    <Compile Include="KDTree\TreeBuilder.cs" />
     <Compile Include="Polynomial.cs" />
     <Compile Include="Comparison.cs" />
     <Compile Include="Conversion.cs" />

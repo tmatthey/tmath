@@ -34,6 +34,7 @@ namespace Math
     public class Vector2D : IVector<Vector2D>
     {
         public static readonly Vector2D Zero = new Vector2D(0, 0);
+        public static readonly Vector2D One = new Vector2D(1, 1);
         public static readonly Vector2D E1 = new Vector2D(1, 0);
         public static readonly Vector2D E2 = new Vector2D(0, 1);
 

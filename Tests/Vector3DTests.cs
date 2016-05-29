@@ -439,6 +439,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Vector3DZero()
+        {
+            Vector3D.Zero.X.ShouldBe(0);
+            Vector3D.Zero.Y.ShouldBe(0);
+            Vector3D.Zero.Z.ShouldBe(0);
+        }
+
+        [Test]
         public void Vector3MulOpVector3D()
         {
             var a = 17.0;
@@ -451,6 +459,14 @@ namespace Math.Tests
             var v = new Vector3D(d, e, f);
             var w = u*v;
             w.ShouldBe(u.Dot(v));
+        }
+
+        [Test]
+        public void Vector3One()
+        {
+            Vector3D.One.X.ShouldBe(1);
+            Vector3D.One.Y.ShouldBe(1);
+            Vector3D.One.Z.ShouldBe(1);
         }
     }
 }

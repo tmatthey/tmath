@@ -60,6 +60,7 @@
     <Compile Include="Gfx\HeatmapTests.cs" />
     <Compile Include="Gps\NeighbourDistancePointTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />
+    <Compile Include="KDTree\KDTReeTests.cs" />
     <Compile Include="PolynomialTests.cs" />
     <Compile Include="ComparisonTests.cs" />
     <Compile Include="ConversionTests.cs" />

@@ -417,5 +417,19 @@ namespace Math.Tests
             w.X.ShouldBe(a - d);
             w.Y.ShouldBe(b - e);
         }
+
+        [Test]
+        public void Vector2DZero()
+        {
+            Vector2D.Zero.X.ShouldBe(0);
+            Vector2D.Zero.Y.ShouldBe(0);
+        }
+
+        [Test]
+        public void Vector2One()
+        {
+            Vector2D.One.X.ShouldBe(1);
+            Vector2D.One.Y.ShouldBe(1);
+        }
     }
 }
