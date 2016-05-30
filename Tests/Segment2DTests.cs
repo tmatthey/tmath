@@ -111,18 +111,94 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance()
+        public void Distance_Cross()
+        {
+            var v0 = new Vector2D(-1.1, 0);
+            var v1 = new Vector2D(1.2, 0);
+            var v2 = new Vector2D(0, -3.3);
+            var v3 = new Vector2D(0, 1.3);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.Distance(s1).ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Distance_Example()
         {
             var v0 = new Vector2D(1, 2);
             var v1 = new Vector2D(3, 4);
             var v2 = new Vector2D(7, 3);
             var v3 = new Vector2D(19, 17);
-            double per, par, angular;
-            Geometry.TrajectoryHausdorffDistances(v0, v1, v2, v3, out per, out par, out angular);
+            var per = v1.Distance(v2);
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
             s0.Distance(s1).ShouldBe(per);
+        }
+
+        [Test]
+        public void Distance_Orthogonal()
+        {
+            var v0 = new Vector2D(-1, 0);
+            var v1 = new Vector2D(1, 0);
+            var v2 = new Vector2D(0, 1);
+            var v3 = new Vector2D(0, 2);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.Distance(s1).ShouldBe(1.0);
+        }
+
+        [Test]
+        public void Distance_OrthogonalOpposite()
+        {
+            var v0 = new Vector2D(0, 1);
+            var v1 = new Vector2D(0, 2);
+            var v2 = new Vector2D(-1, 0);
+            var v3 = new Vector2D(1, 0);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.Distance(s1).ShouldBe(1.0);
+        }
+
+        [Test]
+        public void Distance_Parallel()
+        {
+            var v0 = new Vector2D(-1, 0);
+            var v1 = new Vector2D(1, 0);
+            var v2 = new Vector2D(1, 1);
+            var v3 = new Vector2D(2, 1);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.Distance(s1).ShouldBe(1.0);
+        }
+
+        [Test]
+        public void Distance_Point()
+        {
+            var v0 = new Vector2D(-1, 0);
+            var v1 = new Vector2D(1, 0);
+            var v2 = new Vector2D(2, 0);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v2);
+            s0.Distance(s1).ShouldBe(1.0);
+        }
+
+        [Test]
+        public void Distance_Touch()
+        {
+            var v0 = new Vector2D(-1, 0);
+            var v1 = new Vector2D(1, 0);
+            var v2 = new Vector2D(1, 0);
+            var v3 = new Vector2D(2, 2);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.Distance(s1).ShouldBe(0.0);
         }
 
         [Test]

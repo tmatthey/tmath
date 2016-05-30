@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface IVector<T> : IDistance<T>, IArray
+    public interface IVector<T> : IGeometryObject<T>
     {
         bool IsEqual(T v);
         bool IsEqual(T v, double epsilon);

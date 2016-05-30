@@ -84,6 +84,16 @@ namespace Math.Tests
             (x != y).ShouldBe(a != b);
         }
 
+        [TestCase(3, 3, 0)]
+        [TestCase(1, 1, 0)]
+        [TestCase(0.5, 0.1, 1.4)]
+        public void Distance(double r0, double r1, double expected)
+        {
+            var c0 = new Circle2D(Vector2D.Zero, r0);
+            var c1 = new Circle2D(Vector2D.E1*2, r1);
+            c0.Distance(c1).ShouldBe(expected);
+        }
+
         [Test]
         public void Constructor_WithCenterRadius_CreatesExpected()
         {

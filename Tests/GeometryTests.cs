@@ -1489,12 +1489,46 @@ namespace Math.Tests
         }
 
         [Test]
+        public void TrajectoryHausdorffDistance3D_ParallelSegmentTranslated_returnsExpected()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(3, 17, 0);
+            var c = new Vector3D(5, 17, 2);
+            var d = new Vector3D(4, 17, 2);
+            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
+            var pa = b.Distance(c);
+            var pb = b.Distance(d);
+            dist.ShouldBe((pa*pa + pb*pb)/(pa + pb) + 1.0, 1e-12);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_PointPoint_ReturnsAngularZero()
+        {
+            var a = new Vector3D(1, 17, 0);
+            var b = new Vector3D(0, 17, 1);
+            double per, par, angular;
+            Geometry.TrajectoryHausdorffDistances(a, a, b, b, out per, out par, out angular);
+            angular.ShouldBe(0.0);
+        }
+
+        [Test]
         public void TrajectoryHausdorffDistance3D_PointPoint_returnsExpected()
         {
             var a = new Vector3D(0, 17, 0);
             var b = new Vector3D(1, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b);
             dist.ShouldBe(a.Distance(b), 1e-13);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_PointSegment_ReturnsAngularZero()
+        {
+            var a = new Vector3D(1, 17, 0);
+            var b = new Vector3D(0, 17, 1);
+            var c = new Vector3D(2, 17, 1);
+            double per, par, angular;
+            Geometry.TrajectoryHausdorffDistances(a, a, b, c, out per, out par, out angular);
+            angular.ShouldBe(0.0);
         }
 
         [Test]
@@ -1505,6 +1539,17 @@ namespace Math.Tests
             var c = new Vector3D(2, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, c);
             dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance3D_SegmentPoint_ReturnsAngularZero()
+        {
+            var a = new Vector3D(1, 17, 0);
+            var b = new Vector3D(0, 17, 1);
+            var c = new Vector3D(2, 17, 1);
+            double per, par, angular;
+            Geometry.TrajectoryHausdorffDistances(b, c, a, a, out per, out par, out angular);
+            angular.ShouldBe(0.0);
         }
 
         [Test]

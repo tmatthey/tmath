@@ -32,7 +32,7 @@ using Math.Interfaces;
 
 namespace Math.KDTree
 {
-    internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray
+    internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray, IDimension
     {
         private readonly double _cut;
         private readonly int _dim;

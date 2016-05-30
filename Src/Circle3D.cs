@@ -68,6 +68,12 @@ namespace Math
             get { return Center.Dimensions; }
         }
 
+        public double Distance(Circle3D c)
+        {
+            var d = Center.Distance(c.Center) - Radius - c.Radius;
+            return System.Math.Max(d, 0.0);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;

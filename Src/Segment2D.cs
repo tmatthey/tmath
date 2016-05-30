@@ -61,9 +61,31 @@ namespace Math
 
         public double Distance(Segment2D d)
         {
-            double per, par, angular;
-            Geometry.TrajectoryHausdorffDistances(A, B, d.A, d.B, out per, out par, out angular);
-            return per;
+            var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
+            var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
+            var b0 = Geometry.PerpendicularSegmentDistance(d.A, d.B, A);
+            var b1 = Geometry.PerpendicularSegmentDistance(d.A, d.B, B);
+            var l = System.Math.Min(System.Math.Min(a0, a1), System.Math.Min(b0, b1));
+            if (Comparison.IsZero(l))
+                return 0.0;
+            if (Comparison.IsZero(Length()) || Comparison.IsZero(d.Length()))
+                return l;
+
+            var a = (B - A);
+            var b = (d.B - d.A);
+            var ab = Vector2D.Cross(a, b);
+            if (Comparison.IsZero(ab))
+                return l;
+
+            var c = (d.A - A);
+            var s = Vector2D.Cross(c, b)/ab;
+            var t = Vector2D.Cross(c, a)/ab;
+            ;
+            if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
+                Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
+                return l;
+
+            return 0.0;
         }
 
         public int Dimensions

@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IDistance<GpsPoint>, IArray
+    public class GpsPoint : IGeometryObject<GpsPoint>
     {
         public GpsPoint()
         {

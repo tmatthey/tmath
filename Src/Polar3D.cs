@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Polar3D : IDistance<Polar3D>, IArray
+    public class Polar3D : IGeometryObject<Polar3D>
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
 

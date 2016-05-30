@@ -360,15 +360,15 @@ namespace Math
                 Utils.Swap(ref a1, ref b1);
                 Utils.Swap(ref l1, ref l2);
             }
-            var dPerpA = PerpendicularDistance(b0, b1, a0);
-            var dPerpB = PerpendicularDistance(b0, b1, a1);
+            var dPerpA = PerpendicularSegmentDistance(b0, b1, a0);
+            var dPerpB = PerpendicularSegmentDistance(b0, b1, a1);
             perpendicular = 0.0;
             if (Comparison.IsPositive(dPerpA + dPerpB))
             {
                 perpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
             }
-            var pa = PerpendicularParameter(b0, b1, a0);
-            var pb = PerpendicularParameter(b0, b1, a1);
+            var pa = PerpendicularSegmentParameter(b0, b1, a0);
+            var pb = PerpendicularSegmentParameter(b0, b1, a1);
             if (pa > pb)
             {
                 Utils.Swap(ref pa, ref pb);

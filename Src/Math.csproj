@@ -56,6 +56,7 @@
     <Compile Include="Interfaces\IArray.cs" />
     <Compile Include="Interfaces\IDimension.cs" />
     <Compile Include="Interfaces\IDistance.cs" />
+    <Compile Include="Interfaces\IGeometryObject.cs" />
     <Compile Include="Interfaces\ISegment.cs" />
     <Compile Include="Interfaces\IVector.cs" />
     <Compile Include="KDTree\EmptyTree.cs" />

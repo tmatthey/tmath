@@ -56,14 +56,14 @@ namespace Math.KDTree
 
         private static ITree<T> Build<T, S>(IEnumerable<S> list)
             where T : IArray
-            where S : IArray
+            where S : IArray, IDimension
         {
             return Build<T, S>(list.Select((t, i) => new KeyValuePair<S, int>(t, i)).ToList(), 0);
         }
 
         private static ITree<T> Build<T, S>(IEnumerable<KeyValuePair<S, int>> data, int depth)
             where T : IArray
-            where S : IArray
+            where S : IArray, IDimension
         {
             if (data.Any() == false)
                 return new EmptyTree<T>();

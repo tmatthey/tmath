@@ -1,4 +1,4 @@
-/*
+﻿/*
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
@@ -29,10 +29,9 @@
 namespace Math.Interfaces
 {
     //
-    // Interface minimal (Euclidian) distance between two geometry objects
+    // Interface of geometry object
     //
-    public interface IDistance<in T>
+    public interface IGeometryObject<in T> : IDistance<T>, IArray, IDimension
     {
-        double Distance(T d);
     }
 }

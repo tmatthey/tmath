@@ -28,6 +28,9 @@
 
 namespace Math.Interfaces
 {
+    //
+    // Interface dimension of geometry object
+    //
     public interface IDimension
     {
         int Dimensions { get; }

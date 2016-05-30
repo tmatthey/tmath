@@ -30,7 +30,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle2D : IDimension
+    public class Circle2D : IDistance<Circle2D>, IDimension
     {
         public Circle2D()
         {
@@ -55,6 +55,12 @@ namespace Math
         public int Dimensions
         {
             get { return Center.Dimensions; }
+        }
+
+        public double Distance(Circle2D c)
+        {
+            var d = Center.Distance(c.Center) - Radius - c.Radius;
+            return System.Math.Max(d, 0.0);
         }
 
         public override bool Equals(object obj)
