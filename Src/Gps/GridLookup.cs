@@ -168,7 +168,8 @@ namespace Math.Gps
                 for (var j = minJ; j <= maxJ; j++)
                 {
                     list.AddRange(
-                        Grid[i, j].Select(k => new NeighbourDistancePoint(k, referenceIndex, point.Distance(Track[k]))));
+                        Grid[i, j].Select(
+                            k => new NeighbourDistancePoint(k, referenceIndex, point.EuclideanNorm(Track[k]))));
                 }
             }
             list = list.Distinct().ToList();

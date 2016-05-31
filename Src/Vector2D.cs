@@ -111,9 +111,14 @@ namespace Math
             return Norm(X, Y);
         }
 
-        public double Distance(Vector2D v)
+        public double EuclideanNorm(Vector2D v)
         {
             return Norm(v.X - X, v.Y - Y);
+        }
+
+        public double ModifiedNorm(Vector2D v)
+        {
+            return EuclideanNorm(v);
         }
 
         public double Dot(Vector2D v)

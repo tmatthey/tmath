@@ -201,23 +201,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var c = 23.0;
-            var d = 27.05;
-            var e = 49.9;
-            var f = -1.1;
-            var u = new Vector3D(a, b, c);
-            var v = new Vector3D(d, e, f);
-            var x = a - d;
-            var y = b - e;
-            var z = c - f;
-            v.Distance(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
-        }
-
-        [Test]
         public void Div()
         {
             var a = new Vector3D(1, 2, 3);
@@ -251,6 +234,40 @@ namespace Math.Tests
             v.X.ShouldBe(0);
             v.Y.ShouldBe(0);
             v.Z.ShouldBe(0);
+        }
+
+        [Test]
+        public void Euclidean()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var d = 27.05;
+            var e = 49.9;
+            var f = -1.1;
+            var u = new Vector3D(a, b, c);
+            var v = new Vector3D(d, e, f);
+            var x = a - d;
+            var y = b - e;
+            var z = c - f;
+            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
+        }
+
+        [Test]
+        public void ModifiedNorm()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var c = 23.0;
+            var d = 27.05;
+            var e = 49.9;
+            var f = -1.1;
+            var u = new Vector3D(a, b, c);
+            var v = new Vector3D(d, e, f);
+            var x = a - d;
+            var y = b - e;
+            var z = c - f;
+            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
         }
 
         [Test]

@@ -68,12 +68,6 @@ namespace Math
             get { return Center.Dimensions; }
         }
 
-        public double Distance(Circle3D c)
-        {
-            var d = Center.Distance(c.Center) - Radius - c.Radius;
-            return System.Math.Max(d, 0.0);
-        }
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -132,14 +126,14 @@ namespace Math
 
         public static Circle3D Create(Vector3D a, Vector3D b)
         {
-            return new Circle3D((a + b)*0.5, a.Distance(b)*0.5);
+            return new Circle3D((a + b)*0.5, a.EuclideanNorm(b)*0.5);
         }
 
         public static Circle3D Create(Vector3D a, Vector3D b, Vector3D c)
         {
-            var d0 = a.Distance(b);
-            var d1 = b.Distance(c);
-            var d2 = c.Distance(a);
+            var d0 = a.EuclideanNorm(b);
+            var d1 = b.EuclideanNorm(c);
+            var d2 = c.EuclideanNorm(a);
             if (Comparison.IsEqual((b - a)*(c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
                 Comparison.IsZero(d2))
             {

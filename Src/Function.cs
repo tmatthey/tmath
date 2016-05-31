@@ -163,7 +163,7 @@ namespace Math
 
         public static int GCD(int a, int b)
         {
-            // Greatest Common Denominator: Euclidian Algorithm
+            // Greatest Common Denominator: Euclidean Algorithm
             return b == 0 ? a : GCD(b, a%b);
         }
 

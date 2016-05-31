@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Segment2D, Vector2D>
+    public class Segment2D : ISegment<Vector2D>
     {
         public Segment2D()
         {
@@ -56,10 +56,10 @@ namespace Math
 
         public double Length()
         {
-            return A.Distance(B);
+            return A.EuclideanNorm(B);
         }
 
-        public double Distance(Segment2D d)
+        public double EuclideanNorm(ISegment<Vector2D> d)
         {
             var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
             var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
@@ -86,6 +86,11 @@ namespace Math
                 return l;
 
             return 0.0;
+        }
+
+        public double ModifiedNorm(ISegment<Vector2D> d)
+        {
+            return Geometry.TrajectoryHausdorffDistance(this, d);
         }
 
         public int Dimensions

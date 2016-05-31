@@ -31,7 +31,7 @@ namespace Math.Interfaces
     //
     // Interface of geometry object
     //
-    public interface IGeometryObject<in T> : IDistance<T>, IArray, IDimension
+    public interface IGeometryObject<in T> : INorm<T>, IArray, IDimension
     {
     }
 }

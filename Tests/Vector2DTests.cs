@@ -169,20 +169,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance()
-        {
-            var a = 17.0;
-            var b = 19.0;
-            var d = 27.05;
-            var e = 49.9;
-            var u = new Vector2D(a, b);
-            var v = new Vector2D(d, e);
-            var x = a - d;
-            var y = b - e;
-            v.Distance(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
-        }
-
-        [Test]
         public void Div()
         {
             var a = new Vector2D(1, 2);
@@ -236,6 +222,34 @@ namespace Math.Tests
             var v = new Vector2D(1, 2);
             Vector2D u = null;
             v.Equals(u).ShouldBe(false);
+        }
+
+        [Test]
+        public void Euclidean()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var d = 27.05;
+            var e = 49.9;
+            var u = new Vector2D(a, b);
+            var v = new Vector2D(d, e);
+            var x = a - d;
+            var y = b - e;
+            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
+        }
+
+        [Test]
+        public void ModifiedNorm()
+        {
+            var a = 17.0;
+            var b = 19.0;
+            var d = 27.05;
+            var e = 49.9;
+            var u = new Vector2D(a, b);
+            var v = new Vector2D(d, e);
+            var x = a - d;
+            var y = b - e;
+            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
         }
 
         [Test]

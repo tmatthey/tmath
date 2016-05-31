@@ -118,9 +118,14 @@ namespace Math
             return Norm(X, Y, Z);
         }
 
-        public double Distance(Vector3D v)
+        public double EuclideanNorm(Vector3D v)
         {
             return Norm(v.X - X, v.Y - Y, v.Z - Z);
+        }
+
+        public double ModifiedNorm(Vector3D v)
+        {
+            return EuclideanNorm(v);
         }
 
         public double Dot(Vector3D v)
@@ -314,6 +319,10 @@ namespace Math
                 z /= a;
             }
             return System.Math.Sqrt(Norm2(x, y, z))*a;
+        }
+
+        public class TVector : Vector3D
+        {
         }
     }
 }

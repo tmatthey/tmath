@@ -28,10 +28,10 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<in TS, TV> : IGeometryObject<TS>
+    public interface ISegment<T> : IGeometryObject<ISegment<T>>
     {
-        TV A { get; set; }
-        TV B { get; set; }
+        T A { get; set; }
+        T B { get; set; }
         double Length();
     }
 }

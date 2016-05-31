@@ -119,7 +119,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance_Cross()
+        public void Euclidean_Cross()
         {
             var v0 = new Vector3D(-1, -1, -1);
             var v1 = new Vector3D(1.5, 1.5, 1.5);
@@ -128,11 +128,11 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(0.0);
+            s0.EuclideanNorm(s1).ShouldBe(0.0);
         }
 
         [Test]
-        public void Distance_CrossPlanar()
+        public void Euclidean_CrossPlanar()
         {
             var v0 = new Vector3D(-1.5, -1.5, 0);
             var v1 = new Vector3D(1, 1, 0);
@@ -141,11 +141,11 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0, 1e-13);
+            s0.EuclideanNorm(s1).ShouldBe(1.0, 1e-13);
         }
 
         [Test]
-        public void Distance_Diagonal()
+        public void Euclidean_Diagonal()
         {
             var v0 = new Vector3D(0, 0, 0);
             var v1 = new Vector3D(1, 1, 1);
@@ -154,25 +154,25 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(v1.Distance(v2));
+            s0.EuclideanNorm(s1).ShouldBe(v1.EuclideanNorm(v2));
         }
 
         [Test]
-        public void Distance_Example()
+        public void Euclidean_Example()
         {
             var v0 = new Vector3D(1, 2, 7);
             var v1 = new Vector3D(3, 4, -9);
             var v2 = new Vector3D(7, 3, 13);
             var v3 = new Vector3D(19, 17, 17);
-            var per = v0.Distance(v2);
+            var per = v0.EuclideanNorm(v2);
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(per);
+            s0.EuclideanNorm(s1).ShouldBe(per);
         }
 
         [Test]
-        public void Distance_Orthogonal()
+        public void Euclidean_Orthogonal()
         {
             var v0 = new Vector3D(-1, 0, 0);
             var v1 = new Vector3D(1, 0, 0);
@@ -181,11 +181,11 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_OrthogonalOpposite()
+        public void Euclidean_OrthogonalOpposite()
         {
             var v0 = new Vector3D(0, 1, 0);
             var v1 = new Vector3D(0, 2, 0);
@@ -194,11 +194,11 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_Point()
+        public void Euclidean_Point()
         {
             var v0 = new Vector3D(-1, 0, 17);
             var v1 = new Vector3D(1, 0, 0);
@@ -206,11 +206,11 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v2);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_Touch()
+        public void Euclidean_Touch()
         {
             var v0 = new Vector3D(-1, 0, -17);
             var v1 = new Vector3D(1, 0, 0);
@@ -219,7 +219,7 @@ namespace Math.Tests
 
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
-            s0.Distance(s1).ShouldBe(0.0);
+            s0.EuclideanNorm(s1).ShouldBe(0.0);
         }
 
         [Test]
@@ -229,7 +229,20 @@ namespace Math.Tests
             var v1 = new Vector3D(3, 4, 11);
 
             var s = new Segment3D(v0, v1);
-            s.Length().ShouldBe(v0.Distance(v1));
+            s.Length().ShouldBe(v0.EuclideanNorm(v1));
+        }
+
+        [Test]
+        public void ModifiedNorm_ReturnsTrajectoryHausdorffDistance()
+        {
+            var v0 = new Vector3D(-1, -1, -1);
+            var v1 = new Vector3D(1.5, 1.5, 1.5);
+            var v2 = new Vector3D(2, -2, 0);
+            var v3 = new Vector3D(-3, 3, 0);
+
+            var s0 = new Segment3D(v0, v1);
+            var s1 = new Segment3D(v2, v3);
+            s0.ModifiedNorm(s1).ShouldBe(Geometry.TrajectoryHausdorffDistance(s0, s1));
         }
     }
 }

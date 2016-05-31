@@ -111,7 +111,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance_Cross()
+        public void Euclidean_Cross()
         {
             var v0 = new Vector2D(-1.1, 0);
             var v1 = new Vector2D(1.2, 0);
@@ -120,25 +120,25 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(0.0);
+            s0.EuclideanNorm(s1).ShouldBe(0.0);
         }
 
         [Test]
-        public void Distance_Example()
+        public void Euclidean_Example()
         {
             var v0 = new Vector2D(1, 2);
             var v1 = new Vector2D(3, 4);
             var v2 = new Vector2D(7, 3);
             var v3 = new Vector2D(19, 17);
-            var per = v1.Distance(v2);
+            var per = v1.EuclideanNorm(v2);
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(per);
+            s0.EuclideanNorm(s1).ShouldBe(per);
         }
 
         [Test]
-        public void Distance_Orthogonal()
+        public void Euclidean_Orthogonal()
         {
             var v0 = new Vector2D(-1, 0);
             var v1 = new Vector2D(1, 0);
@@ -147,11 +147,11 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_OrthogonalOpposite()
+        public void Euclidean_OrthogonalOpposite()
         {
             var v0 = new Vector2D(0, 1);
             var v1 = new Vector2D(0, 2);
@@ -160,11 +160,11 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_Parallel()
+        public void Euclidean_Parallel()
         {
             var v0 = new Vector2D(-1, 0);
             var v1 = new Vector2D(1, 0);
@@ -173,11 +173,11 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_Point()
+        public void Euclidean_Point()
         {
             var v0 = new Vector2D(-1, 0);
             var v1 = new Vector2D(1, 0);
@@ -185,11 +185,11 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v2);
-            s0.Distance(s1).ShouldBe(1.0);
+            s0.EuclideanNorm(s1).ShouldBe(1.0);
         }
 
         [Test]
-        public void Distance_Touch()
+        public void Euclidean_Touch()
         {
             var v0 = new Vector2D(-1, 0);
             var v1 = new Vector2D(1, 0);
@@ -198,7 +198,7 @@ namespace Math.Tests
 
             var s0 = new Segment2D(v0, v1);
             var s1 = new Segment2D(v2, v3);
-            s0.Distance(s1).ShouldBe(0.0);
+            s0.EuclideanNorm(s1).ShouldBe(0.0);
         }
 
         [Test]
@@ -208,7 +208,20 @@ namespace Math.Tests
             var v1 = new Vector2D(3, 4);
 
             var s = new Segment2D(v0, v1);
-            s.Length().ShouldBe(v0.Distance(v1));
+            s.Length().ShouldBe(v0.EuclideanNorm(v1));
+        }
+
+        [Test]
+        public void ModifiedNorm_ReturnsTrajectoryHausdorffDistance()
+        {
+            var v0 = new Vector2D(-1.1, 0);
+            var v1 = new Vector2D(1.2, 0);
+            var v2 = new Vector2D(0, -3.3);
+            var v3 = new Vector2D(0, 1.3);
+
+            var s0 = new Segment2D(v0, v1);
+            var s1 = new Segment2D(v2, v3);
+            s0.ModifiedNorm(s1).ShouldBe(Geometry.TrajectoryHausdorffDistance(s0, s1));
         }
     }
 }

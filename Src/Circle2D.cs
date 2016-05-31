@@ -30,7 +30,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle2D : IDistance<Circle2D>, IDimension
+    public class Circle2D : INorm<Circle2D>, IDimension
     {
         public Circle2D()
         {
@@ -57,10 +57,15 @@ namespace Math
             get { return Center.Dimensions; }
         }
 
-        public double Distance(Circle2D c)
+        public double EuclideanNorm(Circle2D c)
         {
-            var d = Center.Distance(c.Center) - Radius - c.Radius;
+            var d = Center.EuclideanNorm(c.Center) - Radius - c.Radius;
             return System.Math.Max(d, 0.0);
+        }
+
+        public double ModifiedNorm(Circle2D c)
+        {
+            return EuclideanNorm(c);
         }
 
         public override bool Equals(object obj)
@@ -110,7 +115,7 @@ namespace Math
 
         public bool IsInside(Vector2D p, double epsilon)
         {
-            return Center.Distance(p) <= Radius + epsilon;
+            return Center.EuclideanNorm(p) <= Radius + epsilon;
         }
 
         public bool IsInside(Vector2D p)
@@ -125,14 +130,14 @@ namespace Math
 
         public static Circle2D Create(Vector2D a, Vector2D b)
         {
-            return new Circle2D((a + b)*0.5, a.Distance(b)*0.5);
+            return new Circle2D((a + b)*0.5, a.EuclideanNorm(b)*0.5);
         }
 
         public static Circle2D Create(Vector2D a, Vector2D b, Vector2D c)
         {
-            var d0 = a.Distance(b);
-            var d1 = b.Distance(c);
-            var d2 = c.Distance(a);
+            var d0 = a.EuclideanNorm(b);
+            var d1 = b.EuclideanNorm(c);
+            var d2 = c.EuclideanNorm(a);
             if (Comparison.IsEqual((b - a)*(c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
                 Comparison.IsZero(d2))
             {
@@ -145,7 +150,7 @@ namespace Math
             var det = (a.X - b.X)*(b.Y - c.Y) - (b.X - c.X)*(a.Y - b.Y);
             var center = new Vector2D((bc*(b.Y - c.Y) - cd*(a.Y - b.Y))/det,
                 (cd*(a.X - b.X) - bc*(b.X - c.X))/det);
-            var radius = b.Distance(center);
+            var radius = b.EuclideanNorm(center);
 
             return new Circle2D(center, radius);
         }

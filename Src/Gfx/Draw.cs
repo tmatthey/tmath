@@ -122,7 +122,7 @@ namespace Math.Gfx
 
         public static void XiaolinWu(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction, double magnitude = 1.0)
         {
-            if (Comparison.IsZero(a.Distance(b)))
+            if (Comparison.IsZero(a.EuclideanNorm(b)))
                 return;
 
             var steep = System.Math.Abs(b.Y - a.Y) > System.Math.Abs(b.X - a.X);

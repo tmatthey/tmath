@@ -1066,7 +1066,7 @@ namespace Math.Tests
             foreach (var p in points)
             {
                 Geometry.CircleLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
-                var l = c.Center.Distance(p);
+                var l = c.Center.EuclideanNorm(p);
                 c.Radius.ShouldBeGreaterThanOrEqualTo(l);
                 if (Comparison.IsEqual(c.Radius, l))
                     n++;
@@ -1131,7 +1131,7 @@ namespace Math.Tests
             var center = (a + b)/2.0;
             c.Center.ShouldBe(center);
             c.Normal.ShouldBe(center);
-            c.Radius.ShouldBe(a.Distance(b)/2.0);
+            c.Radius.ShouldBe(a.EuclideanNorm(b)/2.0);
         }
 
         [Test]
@@ -1399,7 +1399,7 @@ namespace Math.Tests
             var a = new Vector2D(0, 0);
             var b = new Vector2D(1, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b);
-            dist.ShouldBe(a.Distance(b), 1e-13);
+            dist.ShouldBe(a.EuclideanNorm(b), 1e-13);
         }
 
         [Test]
@@ -1451,7 +1451,7 @@ namespace Math.Tests
             var b = new Vector3D(4, 17, 2);
             var c = new Vector3D(0, 17, 0);
             var d = new Vector3D(3, 17, 0);
-            var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
+            var dist = Geometry.TrajectoryHausdorffDistance(new Segment3D(a, b), new Segment3D(c, d));
             dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
         }
 
@@ -1496,8 +1496,8 @@ namespace Math.Tests
             var c = new Vector3D(5, 17, 2);
             var d = new Vector3D(4, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            var pa = b.Distance(c);
-            var pb = b.Distance(d);
+            var pa = b.EuclideanNorm(c);
+            var pb = b.EuclideanNorm(d);
             dist.ShouldBe((pa*pa + pb*pb)/(pa + pb) + 1.0, 1e-12);
         }
 
@@ -1517,7 +1517,7 @@ namespace Math.Tests
             var a = new Vector3D(0, 17, 0);
             var b = new Vector3D(1, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(a, a, b, b);
-            dist.ShouldBe(a.Distance(b), 1e-13);
+            dist.ShouldBe(a.EuclideanNorm(b), 1e-13);
         }
 
         [Test]

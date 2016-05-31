@@ -84,9 +84,14 @@ namespace Math
             }
         }
 
-        public double Distance(Polar3D d)
+        public double EuclideanNorm(Polar3D d)
         {
-            return ((Vector3D) this).Distance(d);
+            return ((Vector3D) this).EuclideanNorm(d);
+        }
+
+        public double ModifiedNorm(Polar3D d)
+        {
+            return EuclideanNorm(d);
         }
 
         public override bool Equals(object obj)

@@ -116,7 +116,7 @@ namespace Math.Tests.Gps
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
             var c = gpsTrack.Center;
             var d = gpsTrack.MinCircleCenter;
-            var e = d.Distance(c);
+            var e = d.EuclideanNorm(c);
             e.ShouldBeLessThan(500.0);
             var cl = c.Norm();
             var dl = d.Norm();

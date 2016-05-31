@@ -147,7 +147,7 @@ namespace Math
             var w = a - c.Center;
             var t = -(c.Normal*w)/area;
             var v = u*t + a;
-            return Comparison.IsLessEqual(c.Center.Distance(v), c.Radius);
+            return Comparison.IsLessEqual(c.Center.EuclideanNorm(v), c.Radius);
         }
 
         // Minimal boundary circle based on Welzl's algorithm
@@ -301,10 +301,10 @@ namespace Math
 
         public static double PerpendicularDistance<T>(T x0, T x1, T p) where T : IVector<T>
         {
-            var l = x0.Distance(x1);
+            var l = x0.EuclideanNorm(x1);
             if (Comparison.IsZero(l))
             {
-                return x0.Distance(p);
+                return x0.EuclideanNorm(p);
             }
             return x1.Sub(x0).CrossNorm(p.Sub(x0))/l;
         }
@@ -316,9 +316,9 @@ namespace Math
                 return dist;
 
             if (x1.Sub(x0).Dot(p.Sub(x1)) >= 0.0)
-                return x1.Distance(p);
+                return x1.EuclideanNorm(p);
             if (x0.Sub(x1).Dot(p.Sub(x0)) >= 0.0)
-                return x0.Distance(p);
+                return x0.EuclideanNorm(p);
 
             return dist;
         }
@@ -341,6 +341,12 @@ namespace Math
         // Trajectory clustering: a partition-and-group framework
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
+        public static double TrajectoryHausdorffDistance<TV>(ISegment<TV> a, ISegment<TV> b,
+            double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where TV : IVector<TV>
+        {
+            return TrajectoryHausdorffDistance(a.A, a.B, b.A, b.B, wPerpendicular, wParallel, wAngular);
+        }
+
         public static double TrajectoryHausdorffDistance<T>(T a0, T a1, T b0, T b1,
             double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where T : IVector<T>
         {
@@ -352,8 +358,8 @@ namespace Math
         public static void TrajectoryHausdorffDistances<T>(T a0, T a1, T b0, T b1,
             out double perpendicular, out double parallel, out double angular) where T : IVector<T>
         {
-            var l1 = a0.Distance(a1);
-            var l2 = b0.Distance(b1);
+            var l1 = a0.EuclideanNorm(a1);
+            var l2 = b0.EuclideanNorm(b1);
             if (l1 > l2)
             {
                 Utils.Swap(ref a0, ref b0);
@@ -436,7 +442,7 @@ namespace Math
 
         private static int ModelCost<T>(T p0, T p1) where T : IVector<T>
         {
-            var d = System.Math.Max(p0.Distance(p1), 1.0);
+            var d = System.Math.Max(p0.EuclideanNorm(p1), 1.0);
             return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
 
@@ -452,7 +458,7 @@ namespace Math
 
         private static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = 0.0)
             where TV : IVector<TV>
-            where TS : ISegment<TS, TV>, new()
+            where TS : ISegment<TV>, new()
         {
             var segments = new List<TS>();
             if (polyline == null || polyline.Count <= 1)
@@ -465,7 +471,7 @@ namespace Math
             {
                 var a = polyline[i];
                 var b = polyline[i + 1];
-                var d = a.Distance(b);
+                var d = a.EuclideanNorm(b);
                 if (Comparison.IsLessEqual(minDistance, d))
                 {
                     segments.Add(new TS {A = a, B = b});

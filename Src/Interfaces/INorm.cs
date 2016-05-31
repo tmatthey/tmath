@@ -28,11 +28,9 @@
 
 namespace Math.Interfaces
 {
-    //
-    // Interface minimal (Euclidian) distance between two geometry objects
-    //
-    public interface IDistance<in T>
+    public interface INorm<in T>
     {
-        double Distance(T d);
+        double EuclideanNorm(T d); // Minimal Euclidean norm betweeen to geometry obejcts
+        double ModifiedNorm(T d);
     }
 }

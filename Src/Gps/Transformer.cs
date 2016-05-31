@@ -60,7 +60,7 @@ namespace Math.Gps
                 var ds = 0.0;
                 if (i > 0)
                 {
-                    ds = Track[i - 1].Distance(Track[i]);
+                    ds = Track[i - 1].EuclideanNorm(Track[i]);
                 }
                 d += ds;
                 Distance.Add(d);

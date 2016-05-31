@@ -184,17 +184,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Distance_SameAsVEctor3D()
-        {
-            var p = new Polar3D(0, 1);
-            var q = new Polar3D(1, 0);
-            Vector3D v = p;
-            Vector3D u = q;
-            var d = v.Distance(u);
-            p.Distance(q).ShouldBe(d);
-        }
-
-        [Test]
         public void EmptyConstructor_ZeroElement()
         {
             var v = new Polar3D();
@@ -216,6 +205,28 @@ namespace Math.Tests
             var p = new Polar3D(0.1, 0.2);
             Polar3D q = null;
             p.Equals(q).ShouldBe(false);
+        }
+
+        [Test]
+        public void Euclidean_SameAsVector3D()
+        {
+            var p = new Polar3D(0, 1);
+            var q = new Polar3D(1, 0);
+            Vector3D v = p;
+            Vector3D u = q;
+            var d = v.EuclideanNorm(u);
+            p.EuclideanNorm(q).ShouldBe(d);
+        }
+
+        [Test]
+        public void ModifiedNorm_SameAsVector3DEuclideanNorm()
+        {
+            var p = new Polar3D(0, 1);
+            var q = new Polar3D(1, 0);
+            Vector3D v = p;
+            Vector3D u = q;
+            var d = v.EuclideanNorm(u);
+            p.ModifiedNorm(q).ShouldBe(d);
         }
 
         [Test]
