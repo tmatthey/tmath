@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\IVector.cs" />
     <Compile Include="KDTree\EmptyTree.cs" />
     <Compile Include="KDTree\ITree.cs" />
+    <Compile Include="KDTree\NoTree.cs" />
     <Compile Include="KDTree\Tree.cs" />
     <Compile Include="KDTree\TreeBuilder.cs" />
     <Compile Include="Polynomial.cs" />

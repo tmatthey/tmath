@@ -28,11 +28,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Math.Interfaces;
 
 namespace Math.KDTree
 {
-    internal class EmptyTree<T> : ITree<T> where T : IArray
+    internal class EmptyTree<T> : ITree<T>
     {
         public IEnumerable<int> Search(T min, T max)
         {

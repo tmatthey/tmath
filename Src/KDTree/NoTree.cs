@@ -26,16 +26,23 @@
  * ***** END LICENSE BLOCK *****
  */
 
-//
-// Based on https://github.com/ascjones/kd-tree
-//
-
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.KDTree
 {
-    public interface ITree<in T>
+    public class NoTree<T, S> : ITree<T>
     {
-        IEnumerable<int> Search(T min, T max);
+        private readonly IEnumerable<int> _allElements;
+
+        public NoTree(IEnumerable<S> list)
+        {
+            _allElements = Enumerable.Range(0, list.Count()).ToList();
+        }
+
+        public IEnumerable<int> Search(T min, T max)
+        {
+            return _allElements;
+        }
     }
 }

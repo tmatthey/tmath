@@ -37,6 +37,20 @@ namespace Math.Tests.KDTree
     [TestFixture]
     public class KDTreeTests
     {
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(17)]
+        [TestCase(19)]
+        public void NoTree_WitnNElements_ReturnsList0ToNMinusOne(int n)
+        {
+            var list = Enumerable.Range(100, n).ToList();
+            var tree = new NoTree<int, int>(list);
+            var res = tree.Search(1, 2).ToList();
+            res.Count.ShouldBe(n);
+            for (var i = 0; i < res.Count; i++)
+                res[i].ShouldBe(i);
+        }
+
         [Test]
         public void Builder_WithEmptyListVector2DAndInfRange_ReturnsEmpty()
         {
@@ -80,7 +94,9 @@ namespace Math.Tests.KDTree
                 new Segment3D(Vector3D.E1*5.0, Vector3D.E2*5.0),
                 new Segment3D(Vector3D.E1*1.5, Vector3D.E1*1.5 + Vector3D.E2*1.5),
                 new Segment3D(Vector3D.E2*0.5, Vector3D.E3*1.5),
-                new Segment3D(Vector3D.E3*0.5, Vector3D.E1*1.5)
+                new Segment3D(Vector3D.E3*0.5, Vector3D.E1*1.5),
+                new Segment3D(Vector3D.E1*0.5, Vector3D.E2*1.5),
+                new Segment3D(Vector3D.E1*5.0, Vector3D.E2*5.0)
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
@@ -124,7 +140,7 @@ namespace Math.Tests.KDTree
         [Test]
         public void Builder_WithListVector3DAndInfRange_ReturnsList()
         {
-            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+            var list = new List<Vector3D> { Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One, Vector3D.E2, Vector3D.E3, };
             var tree = TreeBuilder.Build(list);
             var res =
                 tree.Search(new Vector3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity),
