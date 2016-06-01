@@ -57,7 +57,7 @@ namespace Math.Tests.KDTree
         [TestCase(3)]
         [TestCase(4)]
         [TestCase(5)]
-        public void Builder_WithListSegment3DOnE1AndSegementRange_ReturnsTheSegment(int n)
+        public void Builder_WithListSegment3DOnE1AndSegmentRange_ReturnsTheSegment(int n)
         {
             var list = new List<Segment3D>
             {
