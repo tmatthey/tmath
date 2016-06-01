@@ -51,6 +51,29 @@ namespace Math.Tests.KDTree
                 res[i].ShouldBe(i);
         }
 
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        public void Builder_WithListSegment3DOnE1AndSegementRange_ReturnsTheSegment(int n)
+        {
+            var list = new List<Segment3D>
+            {
+                new Segment3D(Vector3D.E1*0.1, Vector3D.E1*1.0),
+                new Segment3D(Vector3D.E1*1.1, Vector3D.E1*2.0),
+                new Segment3D(Vector3D.E1*2.1, Vector3D.E1*3.0),
+                new Segment3D(Vector3D.E1*3.1, Vector3D.E1*4.0),
+                new Segment3D(Vector3D.E1*4.1, Vector3D.E1*5.0),
+                new Segment3D(Vector3D.E1*5.1, Vector3D.E1*6.0)
+            };
+            var tree = TreeBuilder.Build(list);
+            var res = tree.Search(list[n].A, list[n].B).ToList().Distinct().ToList();
+            res.Count.ShouldBe(1);
+            res[0].ShouldBe(n);
+        }
+
         [Test]
         public void Builder_WithEmptyListVector2DAndInfRange_ReturnsEmpty()
         {
@@ -140,7 +163,16 @@ namespace Math.Tests.KDTree
         [Test]
         public void Builder_WithListVector3DAndInfRange_ReturnsList()
         {
-            var list = new List<Vector3D> { Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One, Vector3D.E2, Vector3D.E3, };
+            var list = new List<Vector3D>
+            {
+                Vector3D.E1,
+                Vector3D.E2,
+                Vector3D.E3,
+                Vector3D.Zero,
+                Vector3D.One,
+                Vector3D.E2,
+                Vector3D.E3
+            };
             var tree = TreeBuilder.Build(list);
             var res =
                 tree.Search(new Vector3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity),
