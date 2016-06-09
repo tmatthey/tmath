@@ -41,14 +41,14 @@ namespace Math
 
         public Segment2D(Segment2D d)
         {
-            A = d.A;
-            B = d.B;
+            A = new Vector2D(d.A);
+            B = new Vector2D(d.B);
         }
 
         public Segment2D(Vector2D a, Vector2D b)
         {
-            A = a;
-            B = b;
+            A = new Vector2D(a);
+            B = new Vector2D(b);
         }
 
         public Vector2D A { get; set; }
@@ -57,6 +57,11 @@ namespace Math
         public double Length()
         {
             return A.EuclideanNorm(B);
+        }
+
+        public Vector2D Vector()
+        {
+            return B - A;
         }
 
         public double EuclideanNorm(ISegment<Vector2D> d)
@@ -80,7 +85,7 @@ namespace Math
             var c = (d.A - A);
             var s = Vector2D.Cross(c, b)/ab;
             var t = Vector2D.Cross(c, a)/ab;
-            ;
+
             if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
                 Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
                 return l;
@@ -120,6 +125,13 @@ namespace Math
                 }
                 throw new IndexOutOfRangeException();
             }
+        }
+
+        public IBounding<Vector2D> Bounding()
+        {
+            var b = new BoundingRect(A);
+            b.Expand(B);
+            return b;
         }
     }
 }

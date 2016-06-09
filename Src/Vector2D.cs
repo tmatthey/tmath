@@ -133,9 +133,7 @@ namespace Math
 
         public double Angle(Vector2D v)
         {
-            var sin = X*v.Y - v.X*Y;
-            var cos = X*v.X + Y*v.Y;
-            return System.Math.Atan2(sin, cos);
+            return System.Math.Atan2(v.Y, v.X) - System.Math.Atan2(Y, X);
         }
 
         public double AngleAbs(Vector2D v)
@@ -186,6 +184,11 @@ namespace Math
                 }
                 throw new IndexOutOfRangeException();
             }
+        }
+
+        public IBounding<Vector2D> Bounding()
+        {
+            return new BoundingRect(this);
         }
 
         public override bool Equals(object obj)
@@ -261,6 +264,14 @@ namespace Math
         public static double Cross(Vector2D a, Vector2D b)
         {
             return a.X*b.Y - a.Y*b.X;
+        }
+
+        public Vector2D Rotate(double angle)
+        {
+            var cosA = System.Math.Cos(angle);
+            var sinA = System.Math.Sin(angle);
+
+            return new Vector2D(cosA*X - sinA*Y, sinA*X + cosA*Y);
         }
 
         private static double Norm2(double x, double y)

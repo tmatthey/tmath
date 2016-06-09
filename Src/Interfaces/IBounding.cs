@@ -1,4 +1,4 @@
-﻿/*
+/*
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
@@ -28,23 +28,16 @@
 
 namespace Math.Interfaces
 {
-    public interface IVector<T> : IGeometryObject<T>, IBoundingFacade<T>
+    public interface IBounding<T>
     {
-        bool IsEqual(T v);
-        bool IsEqual(T v, double epsilon);
-        double Normalize();
-        double Normalize(double epsilon);
-        T Normalized();
-        T Normalized(double epsilon);
-        double Norm2();
-        double Norm();
-        double Dot(T v);
-        double CrossNorm(T v);
-        double Angle(T v);
-        double AngleAbs(T v);
-        T Add(T v);
-        T Sub(T v);
-        T Mul(double c);
-        T Div(double c);
+        T Min { get; }
+        T Max { get; }
+        bool IsEmpty();
+        void Reset();
+        void Expand(T v);
+        void Expand(IBounding<T> b);
+        void ExpandLayer(double r);
+        bool IsInside(T v);
+        bool IsInside(T v, double eps);
     }
 }

@@ -28,6 +28,8 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace Math.Tests
 {
@@ -45,6 +47,16 @@ namespace Math.Tests
         {
             _stopwatch.Stop();
             Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
+        }
+
+        public static StreamReader ReadResourceFile(string name)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var assemblyName = assembly.GetName().Name;
+
+            return
+                new StreamReader(
+                    assembly.GetManifestResourceStream(string.Format("{0}.Resources.{1}", assemblyName, name)));
         }
     }
 }

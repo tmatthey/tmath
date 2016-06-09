@@ -117,6 +117,53 @@ namespace Math.Tests
         }
 
         [Test]
+        public void ExpandLayer_ReturnExpandedBounding()
+        {
+            var bb = new BoundingBox();
+            var u = new Vector3D(1, -2, -0.1);
+            var v = new Vector3D(2, -1, 0.1);
+            var r = 10.0;
+            bb.Expand(u);
+            bb.Expand(v);
+            var min = new Vector3D(bb.Min);
+            var max = new Vector3D(bb.Max);
+
+            bb.ExpandLayer(r);
+
+            bb.Min.ShouldBe(min - Vector3D.One*r);
+            bb.Max.ShouldBe(max + Vector3D.One*r);
+        }
+
+        [Test]
+        public void IsInside_EmptyBox_ReturnsFalse()
+        {
+            var bb = new BoundingBox();
+            bb.IsInside(Vector3D.E1).ShouldBe(false);
+        }
+
+        [Test]
+        public void IsInside_MidpointOfBox_ReturnsTrue()
+        {
+            var bb = new BoundingBox();
+            var u = new Vector3D(1, -2, -0.1);
+            var v = new Vector3D(2, -1, 0.1);
+            bb.Expand(u);
+            bb.Expand(v);
+            bb.IsInside((bb.Min + bb.Max)*0.5).ShouldBe(true);
+        }
+
+        [Test]
+        public void IsInside_OutSidetOfBox_ReturnsFalse()
+        {
+            var bb = new BoundingBox();
+            var u = new Vector3D(1, -2, -0.1);
+            var v = new Vector3D(2, -1, 0.1);
+            bb.Expand(u);
+            bb.Expand(v);
+            bb.IsInside(bb.Min - bb.Max).ShouldBe(false);
+        }
+
+        [Test]
         public void Reset_MinMax_returnsInfitity()
         {
             var bb = new BoundingBox();

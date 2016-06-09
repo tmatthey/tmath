@@ -36,10 +36,10 @@ namespace Math.Gps
     {
         public GridLookup(Transformer transformed, double gridSize)
         {
-            Min = transformed.Size.Min;
-            Max = transformed.Size.Max;
+            Min = new Vector2D(transformed.Size.Min);
+            Max = new Vector2D(transformed.Size.Max);
             Size = gridSize;
-            Track = transformed.Track;
+            Track = new List<Vector2D>(transformed.Track);
             int nx, ny;
             Index(Max, out nx, out ny);
             NX = nx + 1;

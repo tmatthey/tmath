@@ -366,23 +366,27 @@ namespace Math
                 Utils.Swap(ref a1, ref b1);
                 Utils.Swap(ref l1, ref l2);
             }
-            var dPerpA = PerpendicularSegmentDistance(b0, b1, a0);
-            var dPerpB = PerpendicularSegmentDistance(b0, b1, a1);
+
+            var dPerpA = PerpendicularDistance(b0, b1, a0);
+            var dPerpB = PerpendicularDistance(b0, b1, a1);
             perpendicular = 0.0;
             if (Comparison.IsPositive(dPerpA + dPerpB))
             {
                 perpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
             }
-            var pa = PerpendicularSegmentParameter(b0, b1, a0);
-            var pb = PerpendicularSegmentParameter(b0, b1, a1);
-            if (pa > pb)
-            {
-                Utils.Swap(ref pa, ref pb);
-            }
 
-            parallel = System.Math.Min(System.Math.Abs(pa), System.Math.Abs(pb - 1.0))*l2;
-            var angle = System.Math.Min(a1.Sub(a0).AngleAbs(b1.Sub(b0)), System.Math.PI/2.0);
-            angular = l1*System.Math.Sin(angle);
+            var t0 = PerpendicularParameter(b0, b1, a0);
+            var p0 = b0.Mul(1.0 - t0).Add(b1.Mul(t0));
+            var d0 = t0 < 0.5 ? b0.EuclideanNorm(p0) : b1.EuclideanNorm(p0);
+
+            var t1 = PerpendicularParameter(b0, b1, a1);
+            var p1 = b0.Mul(1.0 - t1).Add(b1.Mul(t1));
+            var d1 = t1 < 0.5 ? b0.EuclideanNorm(p1) : b1.EuclideanNorm(p1);
+
+            parallel = System.Math.Min(d0, d1);
+
+            var angle = a1.Sub(a0).AngleAbs(b1.Sub(b0));
+            angular = l1*(Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
         public static IList<int> SignificantPoints<T>(IList<T> track, int mdlCostAdwantage = 25) where T : IVector<T>
@@ -422,15 +426,14 @@ namespace Math
             return points;
         }
 
-        private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>
+        private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>, INorm<T>
         {
             var cost = 0;
             for (var i = i0; i < i1; i++)
             {
                 double perpendicular, parallel, angular;
-                TrajectoryHausdorffDistances(track[i0], track[i1], track[i], track[i + 1],
-                    out perpendicular, out parallel, out angular);
-
+                TrajectoryHausdorffDistances(track[i0], track[i1], track[i], track[i + 1], out perpendicular,
+                    out parallel, out angular);
                 perpendicular = System.Math.Max(perpendicular, 1.0);
                 angular = System.Math.Max(angular, 1.0);
 
@@ -446,37 +449,42 @@ namespace Math
             return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
 
-        public static IList<Segment2D> PolylineToSegments(IList<Vector2D> polyline, double minDistance = 0.0)
+        public static IList<int> PolylineToSegmentPointList<T>(IList<T> polyline, double minDistance = 0.0)
+            where T : IVector<T>
         {
-            return PolylineToSegments<Segment2D, Vector2D>(polyline, minDistance);
-        }
-
-        public static IList<Segment3D> PolylineToSegments(IList<Vector3D> polyline, double minDistance = 0.0)
-        {
-            return PolylineToSegments<Segment3D, Vector3D>(polyline, minDistance);
-        }
-
-        private static IList<TS> PolylineToSegments<TS, TV>(IList<TV> polyline, double minDistance = 0.0)
-            where TV : IVector<TV>
-            where TS : ISegment<TV>, new()
-        {
-            var segments = new List<TS>();
+            var list = new List<int>();
             if (polyline == null || polyline.Count <= 1)
             {
-                return segments;
+                return list;
             }
 
             minDistance = System.Math.Max(minDistance, Comparison.Epsilon);
             for (var i = 0; i + 1 < polyline.Count; i++)
             {
-                var a = polyline[i];
-                var b = polyline[i + 1];
-                var d = a.EuclideanNorm(b);
-                if (Comparison.IsLessEqual(minDistance, d))
+                if (Comparison.IsLessEqual(minDistance, polyline[i].EuclideanNorm(polyline[i + 1])))
                 {
-                    segments.Add(new TS {A = a, B = b});
+                    list.Add(i);
+                    list.Add(i + 1);
                 }
             }
+            return list;
+        }
+
+        public static IList<Segment2D> PolylineToSegments(IList<Vector2D> polyline, double minDistance = 0.0)
+        {
+            var list = PolylineToSegmentPointList(polyline, minDistance);
+            var segments = new List<Segment2D>();
+            for (var i = 0; i < list.Count; i += 2)
+                segments.Add(new Segment2D(polyline[list[i]], polyline[list[i + 1]]));
+            return segments;
+        }
+
+        public static IList<Segment3D> PolylineToSegments(IList<Vector3D> polyline, double minDistance = 0.0)
+        {
+            var list = PolylineToSegmentPointList(polyline, minDistance);
+            var segments = new List<Segment3D>();
+            for (var i = 0; i < list.Count; i += 2)
+                segments.Add(new Segment3D(polyline[list[i]], polyline[list[i + 1]]));
             return segments;
         }
     }

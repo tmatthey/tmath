@@ -32,36 +32,23 @@ using Math.Interfaces;
 
 namespace Math.KDTree
 {
-    internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray, IDimension
+    internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray, IDimension, IBoundingFacade<T>
     {
         private readonly double _cut;
         private readonly int _dim;
-        private readonly int _index;
+        private readonly IList<int> _indices;
         private readonly ITree<T> _left;
-        private readonly double[] _max;
-        private readonly double[] _min;
+        private readonly IList<double[]> _max;
+        private readonly IList<double[]> _min;
         private readonly ITree<T> _right;
 
-        internal Tree(int depth, S key, double cut, int index, ITree<T> left, ITree<T> right)
+        internal Tree(int depth, IList<S> keys, double cut, IList<int> indices, ITree<T> left, ITree<T> right)
         {
-            _dim = depth%key.Dimensions;
+            _dim = depth%keys.First().Dimensions;
             _cut = cut;
-            if (key.Dimensions == key.Array.Length)
-            {
-                _min = key.Array;
-                _max = key.Array;
-            }
-            else
-            {
-                _min = new double[key.Dimensions];
-                _max = new double[key.Dimensions];
-                for (var i = 0; i < key.Dimensions; i++)
-                {
-                    _min[i] = System.Math.Min(key[i], key[i + key.Dimensions]);
-                    _max[i] = System.Math.Max(key[i], key[i + key.Dimensions]);
-                }
-            }
-            _index = index;
+            _min = keys.Select(key => key.Bounding().Min.Array).ToList();
+            _max = keys.Select(key => key.Bounding().Max.Array).ToList();
+            _indices = indices;
             _left = left;
             _right = right;
         }
@@ -74,10 +61,11 @@ namespace Math.KDTree
                     yield return index;
             }
 
-            if (_min.Select((coord, i) => new {coord, i}).All(x =>
-                Compare(min[x.i], _max[x.i]) <= 0 &&
-                Compare(_min[x.i], max[x.i]) <= 0))
-                yield return _index;
+            for (var j = 0; j < _indices.Count; j++)
+                if (_min[j].Select((coord, i) => new {coord, i}).All(x =>
+                    Compare(min[x.i], _max[j][x.i]) <= 0 &&
+                    Compare(_min[j][x.i], max[x.i]) <= 0))
+                    yield return _indices[j];
 
             if (Compare(max[_dim], _cut) >= 0)
             {

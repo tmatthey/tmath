@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
-    public class BoundingBox
+    public class BoundingBox : IBounding<Vector3D>
     {
         public BoundingBox()
         {
@@ -36,8 +38,14 @@ namespace Math
             Max = new Vector3D(double.NegativeInfinity);
         }
 
-        public Vector3D Min { get; private set; }
-        public Vector3D Max { get; private set; }
+        public BoundingBox(Vector3D v)
+        {
+            Min = new Vector3D(v);
+            Max = new Vector3D(v);
+        }
+
+        public Vector3D Min { get; protected set; }
+        public Vector3D Max { get; protected set; }
 
         public bool IsEmpty()
         {
@@ -61,7 +69,31 @@ namespace Math
             ExpandZ(v.Z);
         }
 
-        public void Expand(BoundingBox b)
+        public void ExpandLayer(double r)
+        {
+            var min = (!IsEmpty() ? Min : Vector3D.Zero) - Vector3D.One*r;
+            var max = (!IsEmpty() ? Max : Vector3D.Zero) + Vector3D.One*r;
+            Expand(min);
+            Expand(max);
+        }
+
+        public bool IsInside(Vector3D v)
+        {
+            return IsInside(v, Comparison.Epsilon);
+        }
+
+        public bool IsInside(Vector3D v, double eps)
+        {
+            if (IsEmpty())
+                return false;
+
+            return Comparison.IsLessEqual(Min.X, v.X, eps) && Comparison.IsLessEqual(Min.Y, v.Y, eps) &&
+                   Comparison.IsLessEqual(Min.Z, v.Z, eps) &&
+                   Comparison.IsLessEqual(v.X, Max.X, eps) && Comparison.IsLessEqual(v.Y, Max.Y, eps) &&
+                   Comparison.IsLessEqual(v.Z, Max.Z, eps);
+        }
+
+        public void Expand(IBounding<Vector3D> b)
         {
             Expand(b.Min);
             Expand(b.Max);

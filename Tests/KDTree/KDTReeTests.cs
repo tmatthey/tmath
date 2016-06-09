@@ -28,6 +28,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Interfaces;
 using Math.KDTree;
 using NUnit.Framework;
 using Shouldly;
@@ -59,7 +60,7 @@ namespace Math.Tests.KDTree
         [TestCase(5)]
         public void Builder_WithListSegment3DOnE1AndSegmentRange_ReturnsTheSegment(int n)
         {
-            var list = new List<Segment3D>
+            var list = new List<ISegment<Vector3D>>
             {
                 new Segment3D(Vector3D.E1*0.1, Vector3D.E1*1.0),
                 new Segment3D(Vector3D.E1*1.1, Vector3D.E1*2.0),
@@ -128,9 +129,23 @@ namespace Math.Tests.KDTree
         }
 
         [Test]
+        public void Builder_WithListOneOutSideVector2DAndUnitCubeRange_ReturnsListMinusOne()
+        {
+            var list = new List<Vector3D>
+            {
+                Vector3D.E1*0.5,
+                Vector3D.E1*1.5
+            };
+            var tree = TreeBuilder.Build(list);
+            var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
+            res.Count().ShouldBe(list.Count - 1);
+            res.Contains(1).ShouldBe(false);
+        }
+
+        [Test]
         public void Builder_WithListSegment3DAndUnitCubeRange_ReturnsList()
         {
-            var list = new List<Segment3D>
+            var list = new List<ISegment<Vector3D>>
             {
                 new Segment3D(Vector3D.E1*0.5, Vector3D.E2*1.5),
                 new Segment3D(Vector3D.E2*0.5, Vector3D.E3*1.5),

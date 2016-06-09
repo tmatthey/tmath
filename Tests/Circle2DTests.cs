@@ -105,6 +105,15 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Center_IsCopied()
+        {
+            var center = new Vector2D(1, 2);
+            var p = new Circle2D(center, 0.2);
+            p.Center.X = 0;
+            center.X.ShouldBe(1);
+        }
+
+        [Test]
         public void Constructor_WithCenterRadius_CreatesExpected()
         {
             var r = 13.17;

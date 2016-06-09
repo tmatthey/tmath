@@ -155,6 +155,18 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void Bounding_Equal_Vector3D()
+        {
+            var p = new GpsPoint(12, 14, 13);
+            Vector3D v = p;
+
+            var b = p.Bounding();
+
+            b.Min.ShouldBe(v);
+            b.Max.ShouldBe(v);
+        }
+
+        [Test]
         public void Dimension_Is3()
         {
             var v = new GpsPoint();

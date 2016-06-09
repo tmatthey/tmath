@@ -26,25 +26,45 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math.Interfaces
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Math.Tests
 {
-    public interface IVector<T> : IGeometryObject<T>, IBoundingFacade<T>
+    public static class TrajectoryExamples
     {
-        bool IsEqual(T v);
-        bool IsEqual(T v, double epsilon);
-        double Normalize();
-        double Normalize(double epsilon);
-        T Normalized();
-        T Normalized(double epsilon);
-        double Norm2();
-        double Norm();
-        double Dot(T v);
-        double CrossNorm(T v);
-        double Angle(T v);
-        double AngleAbs(T v);
-        T Add(T v);
-        T Sub(T v);
-        T Mul(double c);
-        T Div(double c);
+        private static IList<List<Vector2D>> ReadTracks(string name)
+        {
+            var tracks = new List<List<Vector2D>>();
+            var reader = TestUtils.ReadResourceFile(name);
+
+            var l = 0;
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                l++;
+                if (l < 3)
+                    continue;
+
+                var array = line.Split(' ');
+                var list = new List<Vector2D>();
+                for (var i = 2; i + 1 < array.Count(); i += 2)
+                {
+                    var x = Convert.ToDouble(array[i]);
+                    var y = Convert.ToDouble(array[i + 1]);
+                    list.Add(new Vector2D(x, y));
+                }
+                tracks.Add(list);
+            }
+
+
+            return tracks;
+        }
+
+        public static IList<List<Vector2D>> deer_1995()
+        {
+            return ReadTracks("deer_1995.tra");
+        }
     }
 }

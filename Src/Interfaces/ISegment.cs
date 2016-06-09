@@ -28,10 +28,11 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<T> : IGeometryObject<ISegment<T>>
+    public interface ISegment<T> : IGeometryObject<ISegment<T>>, IBoundingFacade<T>
     {
         T A { get; set; }
         T B { get; set; }
         double Length();
+        T Vector();
     }
 }

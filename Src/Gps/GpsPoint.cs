@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>
     {
         public GpsPoint()
         {
@@ -60,6 +60,11 @@ namespace Math.Gps
         public double Latitude { get; set; } // theta
         public double Longitude { get; set; } // phi
         public double Elevation { get; set; } // radius
+
+        public IBounding<Vector3D> Bounding()
+        {
+            return new BoundingBox(this);
+        }
 
         public int Dimensions
         {

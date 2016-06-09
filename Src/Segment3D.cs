@@ -41,14 +41,14 @@ namespace Math
 
         public Segment3D(Segment3D d)
         {
-            A = d.A;
-            B = d.B;
+            A = new Vector3D(d.A);
+            B = new Vector3D(d.B);
         }
 
         public Segment3D(Vector3D a, Vector3D b)
         {
-            A = a;
-            B = b;
+            A = new Vector3D(a);
+            B = new Vector3D(b);
         }
 
         public Vector3D A { get; set; }
@@ -59,9 +59,21 @@ namespace Math
             return A.EuclideanNorm(B);
         }
 
+        public Vector3D Vector()
+        {
+            return B - A;
+        }
+
         public int Dimensions
         {
             get { return A.Dimensions; }
+        }
+
+        public IBounding<Vector3D> Bounding()
+        {
+            var a = new BoundingBox(A);
+            a.Expand(B);
+            return a;
         }
 
         public double[] Array

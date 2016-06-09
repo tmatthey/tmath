@@ -1165,6 +1165,31 @@ namespace Math.Tests
         }
 
         [Test]
+        public void PolylineToSegments_CornerOnSphere_ReturnsAll()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 0, Longitude = 180.001},
+                new GpsPoint {Latitude = 0, Longitude = 180.002},
+                new GpsPoint {Latitude = 0, Longitude = 180.003},
+                new GpsPoint {Latitude = 0, Longitude = 180.004},
+                new GpsPoint {Latitude = 0, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.001, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.002, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.003, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.004, Longitude = 180.005},
+                new GpsPoint {Latitude = 0.005, Longitude = 180.005}
+            };
+            var points = track.Select(p => (Vector3D) p).ToList();
+            var min = double.PositiveInfinity;
+            for (var i = 0; i < points.Count - 1; i++)
+                min = System.Math.Min(min, points[i].EuclideanNorm(points[i + 1]));
+            var list = Geometry.PolylineToSegments(points, min*0.9999);
+            list.Count.ShouldBe(track.Count - 1);
+        }
+
+        [Test]
         public void PolylineToSegments_EmptyList_ReturnsEmptyList()
         {
             Geometry.PolylineToSegments(new List<Vector2D>()).Count.ShouldBe(0);
@@ -1239,6 +1264,186 @@ namespace Math.Tests
             list[0].ShouldBe(0);
             list[1].ShouldBe(5);
             list[2].ShouldBe(10);
+        }
+
+        [Test]
+        public void SignificantPoints2D_ExampleDeer1995_ReturnsExpected()
+        {
+            var expected = new List<int>
+            {
+                0,
+                10,
+                18,
+                22,
+                27,
+                33,
+                37,
+                41,
+                47,
+                53,
+                59,
+                65,
+                70,
+                76,
+                81,
+                85,
+                91,
+                98,
+                102,
+                107,
+                115,
+                125,
+                133,
+                137,
+                141,
+                146,
+                155,
+                159,
+                164,
+                169,
+                175,
+                179,
+                185,
+                191,
+                197,
+                201,
+                209,
+                216,
+                222,
+                229,
+                233,
+                240,
+                247,
+                253,
+                257,
+                262,
+                266,
+                273,
+                277,
+                282,
+                289,
+                294,
+                301,
+                307,
+                311,
+                316,
+                321,
+                327,
+                332,
+                338,
+                344,
+                349,
+                355,
+                359,
+                364,
+                369,
+                372,
+                378,
+                385,
+                391,
+                395,
+                401,
+                406,
+                410,
+                414,
+                417,
+                427,
+                433,
+                445,
+                451,
+                457,
+                465,
+                470,
+                476,
+                480,
+                486,
+                490,
+                493,
+                498,
+                503,
+                509,
+                512,
+                518,
+                521,
+                525,
+                530,
+                539,
+                544,
+                551,
+                555,
+                558,
+                564,
+                569,
+                575,
+                582,
+                589,
+                593,
+                597,
+                600,
+                605,
+                610,
+                613,
+                617,
+                623,
+                627,
+                632,
+                635,
+                639,
+                644,
+                647,
+                652,
+                658,
+                662,
+                667,
+                671,
+                675,
+                682,
+                687,
+                690,
+                693,
+                700,
+                706,
+                712,
+                717,
+                724,
+                731,
+                735,
+                742,
+                751,
+                758,
+                764,
+                770,
+                780,
+                786,
+                791,
+                797,
+                800,
+                805,
+                810,
+                815,
+                820,
+                824,
+                830,
+                835,
+                844,
+                850,
+                855,
+                860,
+                868,
+                872,
+                878,
+                884,
+                890,
+                896,
+                900,
+                904,
+                910
+            };
+            var track = TrajectoryExamples.deer_1995().First();
+            var list = Geometry.SignificantPoints(track).ToList();
+            list.Count.ShouldBe(expected.Count);
+            for (var i = 0; i < list.Count; i++)
+                list[i].ShouldBe(expected[i]);
         }
 
         [Test]
@@ -1496,9 +1701,7 @@ namespace Math.Tests
             var c = new Vector3D(5, 17, 2);
             var d = new Vector3D(4, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            var pa = b.EuclideanNorm(c);
-            var pb = b.EuclideanNorm(d);
-            dist.ShouldBe((pa*pa + pb*pb)/(pa + pb) + 1.0, 1e-12);
+            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0 + 1.0, 1e-12);
         }
 
         [Test]

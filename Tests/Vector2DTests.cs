@@ -88,6 +88,27 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Angle_Example()
+        {
+            var c = 180.0/System.Math.PI;
+            var v = new Vector2D(-0.8, -13.5);
+            var w = new Vector2D(30.9, 45.6);
+            var a0 = v.Angle(w)*c;
+            var a1 = System.Math.Acos(v.Dot(w)/(v.Norm()*w.Norm()))*c;
+            a0.ShouldBe(a1);
+        }
+
+        [Test]
+        public void Angle_RotateDiagonalBy45_ReturnsId()
+        {
+            var expected = 45.0/180*System.Math.PI;
+            var v = new Vector2D(System.Math.Sqrt(0.5));
+            var w = v.Rotate(expected);
+            var angle = v.Angle(w);
+            angle.ShouldBe(expected);
+        }
+
+        [Test]
         public void Angle_WithNeg45_returnsNeg45()
         {
             var v = new Vector2D(0, 1);
@@ -351,6 +372,14 @@ namespace Math.Tests
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
             (v == u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Rotate_DiagonalBy45_ReturnsE2()
+        {
+            var v = new Vector2D(System.Math.Sqrt(0.5));
+            var w = v.Rotate(45.0/180*System.Math.PI);
+            w.ShouldBe(Vector2D.E2);
         }
 
         [Test]

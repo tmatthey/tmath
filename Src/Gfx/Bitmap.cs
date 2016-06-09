@@ -38,7 +38,7 @@ namespace Math.Gfx
         public Bitmap(Vector2D min, Vector2D max, double pixelSize)
         {
             _pixelSize = pixelSize;
-            _min = min;
+            _min = new Vector2D(min);
             var v = max - min;
             _nx = (int) System.Math.Floor(System.Math.Max(v.X/pixelSize, 0.0) + 2.0 - 1e-9);
             _ny = (int) System.Math.Floor(System.Math.Max(v.Y/pixelSize, 0.0) + 2.0 - 1e-9);

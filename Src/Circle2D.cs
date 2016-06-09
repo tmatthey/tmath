@@ -46,7 +46,7 @@ namespace Math
         public Circle2D(Vector2D center, double radius)
         {
             Radius = radius;
-            Center = center;
+            Center = new Vector2D(center);
         }
 
         public Vector2D Center { get; set; }

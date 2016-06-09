@@ -170,6 +170,19 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Bounding_Equal_Vector3D()
+        {
+            var p = new Polar3D(0.1, 0.2, 0.3);
+
+            Vector3D v = p;
+
+            var b = p.Bounding();
+
+            b.Min.ShouldBe(v);
+            b.Max.ShouldBe(v);
+        }
+
+        [Test]
         public void ConstructorTheataPhi_ReturnsWithRadiusOne()
         {
             var p = new Polar3D(0.1, 0.2);

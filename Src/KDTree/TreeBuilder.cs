@@ -54,19 +54,30 @@ namespace Math.KDTree
             return Build<Vector3D, Segment3D>(list);
         }
 
-        private static ITree<T> Build<T, S>(IEnumerable<S> list)
-            where T : IArray
-            where S : IArray, IDimension
+        public static ITree<T> Build<T>(IList<ISegment<T>> list) where T : IArray, IDimension
+        {
+            return Build<T, ISegment<T>>(list.Select((t, i) => new KeyValuePair<ISegment<T>, int>(t, i)).ToList(), 0);
+        }
+
+        public static ITree<T> Build<T, S>(IEnumerable<S> list)
+            where T : IArray, IDimension
+            where S : IArray, IDimension, IBoundingFacade<T>
         {
             return Build<T, S>(list.Select((t, i) => new KeyValuePair<S, int>(t, i)).ToList(), 0);
         }
 
         private static ITree<T> Build<T, S>(IEnumerable<KeyValuePair<S, int>> data, int depth)
-            where T : IArray
-            where S : IArray, IDimension
+            where T : IArray, IDimension
+            where S : IArray, IDimension, IBoundingFacade<T>
         {
             if (data.Any() == false)
                 return new EmptyTree<T>();
+
+            if (data.Count() < 4)
+            {
+                return new Tree<T, S>(depth, data.Select(item => item.Key).ToList(), double.NaN,
+                    data.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());
+            }
 
             var k = data.First().Key.Dimensions;
             var l = data.First().Key.Array.Length;
@@ -80,36 +91,43 @@ namespace Math.KDTree
 
                 var leftTree = Build<T, S>(sorted.Take(index), depth + 1);
                 var rightTree = Build<T, S>(sorted.Skip(index + 1), depth + 1);
-                return new Tree<T, S>(depth, median.Key, median.Key[dim0], median.Value, leftTree, rightTree);
+                return new Tree<T, S>(depth, new List<S> {median.Key}, median.Key[dim0], new List<int> {median.Value},
+                    leftTree, rightTree);
             }
             else
             {
                 var dim1 = (dim0 + k)%l;
-                var sorted = data.OrderBy(p => System.Math.Min(p.Key[dim0], p.Key[dim1]));
+                var sorted = data.OrderBy(p => p.Key[dim0] + p.Key[dim1]);
 
-                var median = sorted.ElementAt(sorted.Count()/2);
+                var index = sorted.Count()/2;
+                var median = sorted.ElementAt(index);
                 var left = new List<KeyValuePair<S, int>>();
-                var rigth = new List<KeyValuePair<S, int>>();
-                var medianValue = System.Math.Min(median.Key[dim0], median.Key[dim1]);
-
+                var right = new List<KeyValuePair<S, int>>();
+                var medianValue = 0.5*(median.Key[dim0] + median.Key[dim1]);
+                var medians = new List<KeyValuePair<S, int>> {median};
                 foreach (var p in data)
                 {
                     if (median.Value == p.Value)
                         continue;
                     var min = System.Math.Min(p.Key[dim0], p.Key[dim1]);
                     var max = System.Math.Max(p.Key[dim0], p.Key[dim1]);
-                    if (max > medianValue)
+                    if (min > medianValue)
                     {
-                        rigth.Add(p);
+                        right.Add(p);
                     }
-                    if (min <= medianValue)
+                    else if (max < medianValue)
                     {
                         left.Add(p);
                     }
+                    else
+                    {
+                        medians.Add(p);
+                    }
                 }
                 var leftTree = Build<T, S>(left, depth + 1);
-                var rightTree = Build<T, S>(rigth, depth + 1);
-                return new Tree<T, S>(depth, median.Key, medianValue, median.Value, leftTree, rightTree);
+                var rightTree = Build<T, S>(right, depth + 1);
+                return new Tree<T, S>(depth, medians.Select(item => item.Key).ToList(), medianValue,
+                    medians.Select(item => item.Value).ToList(), leftTree, rightTree);
             }
         }
     }

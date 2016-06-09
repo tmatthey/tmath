@@ -244,5 +244,15 @@ namespace Math.Tests
             var s1 = new Segment3D(v2, v3);
             s0.ModifiedNorm(s1).ShouldBe(Geometry.TrajectoryHausdorffDistance(s0, s1));
         }
+
+        [Test]
+        public void Vector()
+        {
+            var v0 = new Vector3D(1, 2, 13);
+            var v1 = new Vector3D(3, 4, 11);
+
+            var s = new Segment3D(v0, v1);
+            s.Vector().ShouldBe(v1 - v0);
+        }
     }
 }

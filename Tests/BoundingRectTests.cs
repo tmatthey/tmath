@@ -117,6 +117,24 @@ namespace Math.Tests
         }
 
         [Test]
+        public void ExpandLayer_ReturnExpandedBounding()
+        {
+            var bb = new BoundingRect();
+            var u = new Vector2D(1, -2);
+            var v = new Vector2D(2, -1);
+            var r = 10.0;
+            bb.Expand(u);
+            bb.Expand(v);
+            var min = new Vector2D(bb.Min);
+            var max = new Vector2D(bb.Max);
+
+            bb.ExpandLayer(r);
+
+            bb.Min.ShouldBe(min - Vector2D.One*r);
+            bb.Max.ShouldBe(max + Vector2D.One*r);
+        }
+
+        [Test]
         public void IsInside_EmptyBox_ReturnsFalse()
         {
             var bb = new BoundingRect();

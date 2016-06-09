@@ -35,10 +35,10 @@ namespace Math.Gps
     {
         public Transformer(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
-            Center = center;
+            Center = new Vector3D(center);
             Vector3D axis;
             double angle;
-            GpsTrack.CalculateRotation(center, out axis, out angle);
+            GpsTrack.CalculateRotation(Center, out axis, out angle);
             RotationAxis = axis;
             RotationAngle = angle;
             Size = new BoundingRect();

@@ -48,15 +48,15 @@ namespace Math
         public Circle3D(Vector3D center, double radius)
         {
             Radius = radius;
-            Center = center;
-            Normal = center;
+            Center = new Vector3D(center);
+            Normal = new Vector3D(center);
         }
 
         public Circle3D(Vector3D center, Vector3D normal, double radius)
         {
             Radius = radius;
-            Center = center;
-            Normal = normal;
+            Center = new Vector3D(center);
+            Normal = new Vector3D(normal);
         }
 
         public Vector3D Center { get; set; }

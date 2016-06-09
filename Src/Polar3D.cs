@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Polar3D : IGeometryObject<Polar3D>
+    public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
 
@@ -56,6 +56,11 @@ namespace Math
         public double R { get; set; }
         public double Theta { get; set; }
         public double Phi { get; set; }
+
+        public IBounding<Vector3D> Bounding()
+        {
+            return new BoundingBox(this);
+        }
 
         public int Dimensions
         {

@@ -197,6 +197,11 @@ namespace Math
             }
         }
 
+        public IBounding<Vector3D> Bounding()
+        {
+            return new BoundingBox(this);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -319,10 +324,6 @@ namespace Math
                 z /= a;
             }
             return System.Math.Sqrt(Norm2(x, y, z))*a;
-        }
-
-        public class TVector : Vector3D
-        {
         }
     }
 }

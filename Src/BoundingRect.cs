@@ -26,9 +26,11 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using Math.Interfaces;
+
 namespace Math
 {
-    public class BoundingRect
+    public class BoundingRect : IBounding<Vector2D>
     {
         public BoundingRect()
         {
@@ -36,8 +38,14 @@ namespace Math
             Max = new Vector2D(double.NegativeInfinity);
         }
 
-        public Vector2D Min { get; private set; }
-        public Vector2D Max { get; private set; }
+        public BoundingRect(Vector2D v)
+        {
+            Min = new Vector2D(v);
+            Max = new Vector2D(v);
+        }
+
+        public Vector2D Min { get; protected set; }
+        public Vector2D Max { get; protected set; }
 
         public bool IsEmpty()
         {
@@ -58,22 +66,18 @@ namespace Math
             ExpandY(v.Y);
         }
 
-        public void Expand(BoundingRect b)
+        public void Expand(IBounding<Vector2D> b)
         {
             Expand(b.Min);
             Expand(b.Max);
         }
 
-        public void ExpandX(double x)
+        public void ExpandLayer(double r)
         {
-            Min.X = ExpandMin(Min.X, x);
-            Max.X = ExpandMax(Max.X, x);
-        }
-
-        public void ExpandY(double y)
-        {
-            Min.Y = ExpandMin(Min.Y, y);
-            Max.Y = ExpandMax(Max.Y, y);
+            var min = (!IsEmpty() ? Min : Vector2D.Zero) - Vector2D.One*r;
+            var max = (!IsEmpty() ? Max : Vector2D.Zero) + Vector2D.One*r;
+            Expand(min);
+            Expand(max);
         }
 
         public bool IsInside(Vector2D v)
@@ -88,6 +92,18 @@ namespace Math
 
             return Comparison.IsLessEqual(Min.X, v.X, eps) && Comparison.IsLessEqual(Min.Y, v.Y, eps) &&
                    Comparison.IsLessEqual(v.X, Max.X, eps) && Comparison.IsLessEqual(v.Y, Max.Y, eps);
+        }
+
+        public void ExpandX(double x)
+        {
+            Min.X = ExpandMin(Min.X, x);
+            Max.X = ExpandMax(Max.X, x);
+        }
+
+        public void ExpandY(double y)
+        {
+            Min.Y = ExpandMin(Min.Y, y);
+            Max.Y = ExpandMax(Max.Y, y);
         }
 
         private static double ExpandMin(double a, double b)
