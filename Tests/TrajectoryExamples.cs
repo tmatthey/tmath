@@ -66,5 +66,10 @@ namespace Math.Tests
         {
             return ReadTracks("deer_1995.tra");
         }
+
+        public static IList<List<Vector2D>> hurricane1950_2006()
+        {
+            return ReadTracks("hurricane1950_2006.tra");
+        }
     }
 }
