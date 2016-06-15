@@ -88,7 +88,10 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Vector3D();
-            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+            Should.Throw<IndexOutOfRangeException>(() =>
+            {
+                var a = v[i];
+            });
         }
 
         [Test]
@@ -175,21 +178,21 @@ namespace Math.Tests
         [Test]
         public void CrossProductE1xE1_ReturnsZero()
         {
-            var e3 = (Vector3D.E1 ^ Vector3D.E1);
+            var e3 = Vector3D.E1 ^ Vector3D.E1;
             e3.ShouldBe(Vector3D.Zero);
         }
 
         [Test]
         public void CrossProductE1xE2_ReturnsE3()
         {
-            var e3 = (Vector3D.E1 ^ Vector3D.E2);
+            var e3 = Vector3D.E1 ^ Vector3D.E2;
             e3.ShouldBe(Vector3D.E3);
         }
 
         [Test]
         public void CrossProductE2xE1_ReturnsMinusE3()
         {
-            var e3 = (Vector3D.E2 ^ Vector3D.E1);
+            var e3 = Vector3D.E2 ^ Vector3D.E1;
             e3.ShouldBe(-Vector3D.E3);
         }
 

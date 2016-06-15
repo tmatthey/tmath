@@ -94,11 +94,7 @@ namespace Math.Gfx
         public double[,] Normalized(double pixelSize, double min, double max)
         {
             var bitmap = Raw(pixelSize);
-            var cMax = 0.0;
-            foreach (var c in bitmap.Pixels)
-            {
-                cMax = System.Math.Max(c, cMax);
-            }
+            var cMax = bitmap.Pixels.Cast<double>().Aggregate(0.0, (current, c) => System.Math.Max(c, current));
             foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
             {
                 foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))

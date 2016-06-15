@@ -178,7 +178,7 @@ namespace Math
         public static IList<double> PolynomialEq(List<double> coffecients)
         {
             var res = new List<double>();
-            var p = (new Polynomial(coffecients)).p();
+            var p = new Polynomial(coffecients).p();
             // Less than linear
             if (p.Count < 2)
             {
@@ -251,7 +251,7 @@ namespace Math
                 var y = f(x);
                 if (!Comparison.IsNumber(y))
                 {
-                    return (i == 0 ? double.NaN : x1);
+                    return i == 0 ? double.NaN : x1;
                 }
                 if (Comparison.IsZero(y, eps))
                 {

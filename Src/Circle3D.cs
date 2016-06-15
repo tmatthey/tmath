@@ -95,10 +95,7 @@ namespace Math
         {
             if (!Center.IsEqual(c.Center, epsilon) || !Comparison.IsEqual(Radius, c.Radius, epsilon))
                 return false;
-            var angle = Normal.Angle(c.Normal);
-            return Comparison.IsZero(angle, epsilon) ||
-                   Comparison.IsZero(angle - System.Math.PI, epsilon) ||
-                   Comparison.IsZero(angle - System.Math.PI*2.0, epsilon);
+            return Comparison.IsZero(c.Normal.CrossNorm(Normal), epsilon);
         }
 
         public static bool operator ==(Circle3D c1, Circle3D c2)
@@ -137,7 +134,7 @@ namespace Math
             if (Comparison.IsEqual((b - a)*(c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
                 Comparison.IsZero(d2))
             {
-                return (d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a));
+                return d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a);
             }
 
             var t = b - a;

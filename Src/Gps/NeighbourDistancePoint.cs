@@ -95,7 +95,7 @@ namespace Math.Gps
             {
                 if (Current == d.Current && Reference == d.Reference)
                     return 0;
-                return (Current == d.Current ? (Reference < d.Reference ? -1 : 1) : (Current < d.Current ? -1 : 1));
+                return Current == d.Current ? (Reference < d.Reference ? -1 : 1) : (Current < d.Current ? -1 : 1);
             }
             return MinDistance < d.MinDistance ? -1 : 1;
         }

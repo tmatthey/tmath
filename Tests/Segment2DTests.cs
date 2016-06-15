@@ -40,7 +40,10 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var s = new Segment2D();
-            Should.Throw<IndexOutOfRangeException>(() => { var a = s[i]; });
+            Should.Throw<IndexOutOfRangeException>(() =>
+            {
+                var a = s[i];
+            });
         }
 
         [Test]

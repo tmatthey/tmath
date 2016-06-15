@@ -70,7 +70,7 @@ namespace Math
 
         public bool IsEqual(Vector2D v, double epsilon)
         {
-            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon));
+            return Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon);
         }
 
         public double Normalize()
@@ -133,7 +133,7 @@ namespace Math
 
         public double Angle(Vector2D v)
         {
-            return System.Math.Atan2(v.Y, v.X) - System.Math.Atan2(Y, X);
+            return Function.NormalizeAnglePi(System.Math.Atan2(v.Y, v.X) - System.Math.Atan2(Y, X));
         }
 
         public double AngleAbs(Vector2D v)

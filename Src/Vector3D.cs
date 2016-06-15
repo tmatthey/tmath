@@ -75,8 +75,8 @@ namespace Math
 
         public bool IsEqual(Vector3D v, double epsilon)
         {
-            return (Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) &&
-                    Comparison.IsEqual(Z, v.Z, epsilon));
+            return Comparison.IsEqual(X, v.X, epsilon) && Comparison.IsEqual(Y, v.Y, epsilon) &&
+                   Comparison.IsEqual(Z, v.Z, epsilon);
         }
 
         public double Normalize()
@@ -142,7 +142,7 @@ namespace Math
         {
             var cross = CrossNorm(v);
             var dot = Dot(v);
-            return System.Math.Atan2(cross, dot);
+            return Function.NormalizeAnglePi(System.Math.Atan2(cross, dot));
         }
 
         public double AngleAbs(Vector3D v)

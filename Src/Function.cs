@@ -95,6 +95,19 @@ namespace Math
             return a;
         }
 
+        public static double NormalizeAnglePi(double a)
+        {
+            if (Comparison.IsNumber(a))
+            {
+                a = NormalizeAngle(a);
+                if (a >= System.Math.PI)
+                {
+                    a -= System.Math.PI*2.0;
+                }
+            }
+            return a;
+        }
+
         public static ulong FactorialInt(int n)
         {
             if (n > MaxFactorialInt)

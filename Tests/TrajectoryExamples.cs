@@ -28,7 +28,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Math.Tests
 {
@@ -49,7 +48,7 @@ namespace Math.Tests
 
                 var array = line.Split(' ');
                 var list = new List<Vector2D>();
-                for (var i = 2; i + 1 < array.Count(); i += 2)
+                for (var i = 2; i + 1 < array.Length; i += 2)
                 {
                     var x = Convert.ToDouble(array[i]);
                     var y = Convert.ToDouble(array[i + 1]);

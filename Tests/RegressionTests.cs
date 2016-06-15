@@ -66,7 +66,7 @@ namespace Math.Tests
             double a, b;
             Regression.Linear(x, y, out a, out b);
             a.ShouldBe(62.65/1.235, 1e-10);
-            b.ShouldBe(1634.0/8.0 - (62.65/1.235)*15.8/8.0, 1e-10);
+            b.ShouldBe(1634.0/8.0 - 62.65/1.235*15.8/8.0, 1e-10);
         }
 
         [Test]

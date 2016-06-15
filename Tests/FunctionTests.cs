@@ -115,6 +115,20 @@ namespace Math.Tests
         }
 
         [TestCase(0, 0)]
+        [TestCase(179, 179)]
+        [TestCase(180, -180)]
+        [TestCase(181, -179)]
+        [TestCase(-179, -179)]
+        [TestCase(-180, -180)]
+        [TestCase(-181, 179)]
+        public void NormalizeAnglePi(double a, double expected)
+        {
+            a = Conversion.DegToRad(a);
+            var y = Conversion.RadToDeg(Function.NormalizeAnglePi(a));
+            y.ShouldBe(expected);
+        }
+
+        [TestCase(0, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 1)]
         [TestCase(3, 2)]

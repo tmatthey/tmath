@@ -59,7 +59,7 @@ namespace Math
 
         public static bool IsZero(double x, double eps)
         {
-            return (-eps <= x && x <= eps);
+            return -eps <= x && x <= eps;
         }
 
         public static bool IsPositive(double x)
@@ -69,7 +69,7 @@ namespace Math
 
         public static bool IsPositive(double x, double eps)
         {
-            return (eps < x && x < double.PositiveInfinity);
+            return eps < x && x < double.PositiveInfinity;
         }
 
         public static bool IsNegative(double x)
@@ -79,7 +79,7 @@ namespace Math
 
         public static bool IsNegative(double x, double eps)
         {
-            return (double.NegativeInfinity < x && x < -eps);
+            return double.NegativeInfinity < x && x < -eps;
         }
 
         public static bool IsLessEqual(double x, double y)

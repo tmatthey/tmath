@@ -76,13 +76,13 @@ namespace Math
             if (Comparison.IsZero(Length()) || Comparison.IsZero(d.Length()))
                 return l;
 
-            var a = (B - A);
-            var b = (d.B - d.A);
+            var a = B - A;
+            var b = d.B - d.A;
             var ab = Vector2D.Cross(a, b);
             if (Comparison.IsZero(ab))
                 return l;
 
-            var c = (d.A - A);
+            var c = d.A - A;
             var s = Vector2D.Cross(c, b)/ab;
             var t = Vector2D.Cross(c, a)/ab;
 

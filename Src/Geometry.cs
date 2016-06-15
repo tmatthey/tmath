@@ -43,7 +43,7 @@ namespace Math
             points = Eliminate(points);
 
             // Sort, O(N*log(N))
-            points.Sort((a, b) => (a == b ? 0 : (a.Y < b.Y || ((Comparison.IsEqual(a.Y, b.Y) && a.X < b.X)) ? -1 : 1)));
+            points.Sort((a, b) => a == b ? 0 : (a.Y < b.Y || Comparison.IsEqual(a.Y, b.Y) && a.X < b.X ? -1 : 1));
 
             if (points.Count < 3)
                 return points;
@@ -113,7 +113,7 @@ namespace Math
             points = Eliminate(points);
 
             // Sort, O(N*log(N))
-            points.Sort((a, b) => (a == b ? 0 : (a.X < b.X || ((Comparison.IsEqual(a.X, b.X) && a.Y < b.Y)) ? -1 : 1)));
+            points.Sort((a, b) => a == b ? 0 : (a.X < b.X || Comparison.IsEqual(a.X, b.X) && a.Y < b.Y ? -1 : 1));
 
             var k = 0;
             var hull = new Vector2D[points.Count*2];
@@ -253,23 +253,23 @@ namespace Math
 
             for (var j = 1; j < array.Length; j++)
             {
-                if ((array[j].X + array[j].Y) < a1)
+                if (array[j].X + array[j].Y < a1)
                 {
                     i1 = j;
                     a1 = array[j].X + array[j].Y;
                 }
-                else if ((array[j].X + array[j].Y) > a4)
+                else if (array[j].X + array[j].Y > a4)
                 {
                     i4 = j;
                     a4 = array[j].X + array[j].Y;
                 }
 
-                if ((array[j].X - array[j].Y) < a2)
+                if (array[j].X - array[j].Y < a2)
                 {
                     i2 = j;
                     a2 = array[j].X - array[j].Y;
                 }
-                else if ((array[j].X - array[j].Y) > a3)
+                else if (array[j].X - array[j].Y > a3)
                 {
                     i3 = j;
                     a3 = array[j].X - array[j].Y;
@@ -386,7 +386,7 @@ namespace Math
             parallel = System.Math.Min(d0, d1);
 
             var angle = a1.Sub(a0).AngleAbs(b1.Sub(b0));
-            angular = l1*(Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
+            angular = l1 * (Comparison.IsLessEqual(System.Math.PI / 2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
         public static IList<int> SignificantPoints<T>(IList<T> track, int mdlCostAdwantage = 25) where T : IVector<T>
@@ -417,7 +417,7 @@ namespace Math
                     }
                 }
             } while (i + j < track.Count);
-            if (!(points.Count == 1 && track.First().IsEqual(track.Last())))
+            if (points.Last() != track.Count - 1 && !track[points.Last()].IsEqual(track.Last()))
             {
                 points.Add(track.Count - 1);
             }
@@ -429,10 +429,11 @@ namespace Math
         private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>, INorm<T>
         {
             var cost = 0;
+            var d = track[i0].EuclideanNorm(track[i1]);
             for (var i = i0; i < i1; i++)
             {
                 double perpendicular, parallel, angular;
-                TrajectoryHausdorffDistances(track[i0], track[i1], track[i], track[i + 1], out perpendicular,
+                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], out perpendicular,
                     out parallel, out angular);
                 perpendicular = System.Math.Max(perpendicular, 1.0);
                 angular = System.Math.Max(angular, 1.0);

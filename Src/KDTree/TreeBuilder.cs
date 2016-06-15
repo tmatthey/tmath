@@ -70,21 +70,22 @@ namespace Math.KDTree
             where T : IArray, IDimension
             where S : IArray, IDimension, IBoundingFacade<T>
         {
-            if (data.Any() == false)
+            var list = data as IList<KeyValuePair<S, int>> ?? data.ToList();
+            if (list.Any() == false)
                 return new EmptyTree<T>();
 
-            if (data.Count() < 4)
+            if (list.Count < 4)
             {
-                return new Tree<T, S>(depth, data.Select(item => item.Key).ToList(), double.NaN,
-                    data.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());
+                return new Tree<T, S>(depth, list.Select(item => item.Key).ToList(), double.NaN,
+                    list.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());
             }
 
-            var k = data.First().Key.Dimensions;
-            var l = data.First().Key.Array.Length;
+            var k = list.First().Key.Dimensions;
+            var l = list.First().Key.Array.Length;
             var dim0 = depth%k;
             if (k == l)
             {
-                var sorted = data.OrderBy(p => p.Key[dim0]);
+                var sorted = list.OrderBy(p => p.Key[dim0]);
 
                 var index = sorted.Count()/2;
                 var median = sorted.ElementAt(index);
@@ -97,7 +98,7 @@ namespace Math.KDTree
             else
             {
                 var dim1 = (dim0 + k)%l;
-                var sorted = data.OrderBy(p => p.Key[dim0] + p.Key[dim1]);
+                var sorted = list.OrderBy(p => p.Key[dim0] + p.Key[dim1]);
 
                 var index = sorted.Count()/2;
                 var median = sorted.ElementAt(index);
@@ -105,7 +106,7 @@ namespace Math.KDTree
                 var right = new List<KeyValuePair<S, int>>();
                 var medianValue = 0.5*(median.Key[dim0] + median.Key[dim1]);
                 var medians = new List<KeyValuePair<S, int>> {median};
-                foreach (var p in data)
+                foreach (var p in list)
                 {
                     if (median.Value == p.Value)
                         continue;

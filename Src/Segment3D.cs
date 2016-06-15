@@ -116,13 +116,13 @@ namespace Math
             if (Comparison.IsZero(Length()) || Comparison.IsZero(d.Length()))
                 return l;
 
-            var a = (B - A);
-            var b = (d.B - d.A);
+            var a = B - A;
+            var b = d.B - d.A;
             var ab = a.CrossNorm2(b);
             if (Comparison.IsZero(ab))
                 return l;
 
-            var c = (d.A - A);
+            var c = d.A - A;
             var s = (c ^ b)*(a ^ b)/ab;
             var t = (c ^ a)*(a ^ b)/ab;
             if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||

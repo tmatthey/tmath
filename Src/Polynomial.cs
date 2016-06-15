@@ -141,9 +141,9 @@ namespace Math
                 var gp = GP.Magnitude;
                 var GM = G - R;
                 var gm = GM.Magnitude;
-                var dx = (System.Math.Max(gp, gm) > 0.0
+                var dx = System.Math.Max(gp, gm) > 0.0
                     ? n/(gp > gm ? GP : GM)
-                    : Complex.FromPolarCoordinates(1.0 + x.Magnitude, i + 1));
+                    : Complex.FromPolarCoordinates(1.0 + x.Magnitude, i + 1);
                 var x0 = x - dx;
                 if (x == x0)
                 {

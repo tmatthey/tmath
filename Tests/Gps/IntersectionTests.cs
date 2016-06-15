@@ -60,7 +60,7 @@ namespace Math.Tests.Gps
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            Intersection.Grid(gpsTrack1, gpsTrack2, 1000).ShouldBe(Intersection.Result.Intersecting);
+            Intersection.Grid(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
         }
 
         [Test]

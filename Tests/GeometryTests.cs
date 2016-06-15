@@ -579,11 +579,10 @@ namespace Math.Tests
         public void ConvexHullJarvismarch_WithEmptyList_returnsEmpty()
         {
             var points = new List<Vector2D>();
-            var expected = new List<Vector2D>();
 
             var result = Geometry.ConvexHullJarvismarch(points);
 
-            result.Count.ShouldBe(expected.Count);
+            result.Count.ShouldBe(0);
         }
 
         [Test]
@@ -844,11 +843,10 @@ namespace Math.Tests
         public void ConvexHullMonotoneChain_WithEmptyList_returnsEmpty()
         {
             var points = new List<Vector2D>();
-            var expected = new List<Vector2D>();
 
             var result = Geometry.ConvexHullMonotoneChain(points);
 
-            result.Count.ShouldBe(expected.Count);
+            result.Count.ShouldBe(0);
         }
 
         [Test]
@@ -1283,15 +1281,15 @@ namespace Math.Tests
                 53,
                 59,
                 65,
-                70,
-                76,
-                81,
-                85,
-                91,
-                98,
-                102,
-                107,
-                115,
+                72,
+                77,
+                82,
+                87,
+                96,
+                101,
+                105,
+                110,
+                117,
                 125,
                 133,
                 137,
@@ -1306,7 +1304,7 @@ namespace Math.Tests
                 185,
                 191,
                 197,
-                201,
+                202,
                 209,
                 216,
                 222,
@@ -1349,9 +1347,10 @@ namespace Math.Tests
                 417,
                 427,
                 433,
-                445,
-                451,
-                457,
+                446,
+                450,
+                453,
+                461,
                 465,
                 470,
                 476,
@@ -1396,13 +1395,12 @@ namespace Math.Tests
                 662,
                 667,
                 671,
-                675,
-                682,
-                687,
-                690,
-                693,
-                700,
-                706,
+                677,
+                683,
+                688,
+                692,
+                697,
+                704,
                 712,
                 717,
                 724,

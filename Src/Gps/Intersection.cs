@@ -192,8 +192,8 @@ namespace Math.Gps
             }
 
             // Divide and conquer for corner cases
-            var v0 = ((Vector3D) (pt0)).Normalized();
-            var v1 = ((Vector3D) (pt1)).Normalized();
+            var v0 = ((Vector3D) pt0).Normalized();
+            var v1 = ((Vector3D) pt1).Normalized();
             var axis = (v0 ^ v1).Normalized();
             var angle = v0.Angle(v1);
             GpsPoint pt = v0.Rotate(axis, angle*0.5);

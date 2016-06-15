@@ -106,7 +106,7 @@ namespace Math.Gps
                             Geometry.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
                             f, (f - 1.0)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]);
                     }
-                    var dNew = (d0.MinDistance < d1.MinDistance ? d0 : d1);
+                    var dNew = d0.MinDistance < d1.MinDistance ? d0 : d1;
 
                     if (newPoints.All(q => q.Reference != dNew.Reference))
                     {
@@ -160,7 +160,7 @@ namespace Math.Gps
                         .ToList();
                 var segmentDiff =
                     segments.Select(
-                        s => (System.Math.Abs(s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
+                        s => System.Math.Abs((int) (s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
                         .ToList();
                 // Pick segment closest to previous index average
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());

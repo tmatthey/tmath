@@ -187,7 +187,7 @@ namespace Math
                 }
                 else
                 {
-                    theta = (v.Z >= 0.0 ? 0.0 : System.Math.PI);
+                    theta = v.Z >= 0.0 ? 0.0 : System.Math.PI;
                     phi = 0.0;
                 }
             }

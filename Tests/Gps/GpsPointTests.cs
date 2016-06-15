@@ -125,7 +125,10 @@ namespace Math.Tests.Gps
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new GpsPoint();
-            Should.Throw<IndexOutOfRangeException>(() => { var a = v[i]; });
+            Should.Throw<IndexOutOfRangeException>(() =>
+            {
+                var a = v[i];
+            });
         }
 
         [Test]

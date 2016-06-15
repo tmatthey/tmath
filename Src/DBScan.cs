@@ -48,54 +48,6 @@ namespace Math
             _data = null;
         }
 
-        public double Entropy(double eps, out int n)
-        {
-            n = int.MaxValue;
-            if (_tree == null)
-                _tree = TreeBuilder.Build<T, S>(_list);
-            if (_data == null)
-            {
-                _data = new List<Point>();
-                foreach (var t in _list)
-                    _data.Add(new Point(t));
-            }
-            var list = new List<int>();
-            var sum = 0.0;
-            foreach (var p in _data)
-            {
-                var neighbors = EpsNeighborhood(p, eps).Count();
-                list.Add(neighbors);
-                sum += neighbors;
-            }
-            var entropy = 0.0;
-            foreach (var a in list)
-            {
-                entropy -= a/sum*System.Math.Ceiling(System.Math.Log(a/sum, 2));
-            }
-            if (_data.Count() > 0)
-                n = (int) System.Math.Ceiling(sum/_data.Count());
-
-            return entropy;
-        }
-
-        public void Estimate(out double eps, out int n)
-        {
-            eps = double.PositiveInfinity;
-            n = int.MaxValue;
-            var minEntropy = double.PositiveInfinity;
-            for (var e = 10.0; e < 40.0; e += 1.0)
-            {
-                int n0;
-                var entropy = Entropy(e, out n0);
-                if (entropy < minEntropy)
-                {
-                    minEntropy = entropy;
-                    eps = e;
-                    n = n0;
-                    ;
-                }
-            }
-        }
 
         public IEnumerable<IList<int>> Cluster(double eps = 25.0, int n = 5)
         {
@@ -105,20 +57,17 @@ namespace Math
 
             // Intialize
             if (_tree == null)
-                _tree = TreeBuilder.Build<T, S>(_list);
+                _tree = TreeBuilder.Build<T, S>(_list); // new NoTree<T,S>(_list);
             if (_data == null)
             {
                 _data = new List<Point>();
                 foreach (var t in _list)
                     _data.Add(new Point(t));
             }
-            else
+            foreach (var t in _data)
             {
-                foreach (var t in _data)
-                {
-                    t.Visited = false;
-                    t.ClusterId = Classification.Unclassified;
-                }
+                t.Visited = false;
+                t.ClusterId = Classification.Unclassified;
             }
 
             // Search
@@ -144,7 +93,7 @@ namespace Math
                     {
                         pn.Visited = true;
                         var neighbors = EpsNeighborhood(pn, eps).ToList();
-                        if (neighbors.Count() >= n)
+                        if (neighbors.Count >= n)
                         {
                             allNeighbors = allNeighbors.Union(neighbors).ToList();
                         }
@@ -199,6 +148,6 @@ namespace Math
         {
             public const int Unclassified = -2;
             public const int Noise = -1;
-        };
+        }
     }
 }
