@@ -48,7 +48,6 @@ namespace Math
             _data = null;
         }
 
-
         public IEnumerable<IList<int>> Cluster(double eps = 25.0, int n = 5)
         {
             // Corner cases

@@ -34,39 +34,40 @@ namespace Math.KDTree
 {
     public class TreeBuilder
     {
-        public static ITree<Vector2D> Build(IList<Vector2D> list)
+        public const int MaxNLeaf = 3;
+        public static ITree<Vector2D> Build(IList<Vector2D> list, int maxLeaf = MaxNLeaf)
         {
-            return Build<Vector2D, Vector2D>(list);
+            return Build<Vector2D, Vector2D>(list, maxLeaf);
         }
 
-        public static ITree<Vector2D> Build(IList<Segment2D> list)
+        public static ITree<Vector2D> Build(IList<Segment2D> list, int maxLeaf = MaxNLeaf)
         {
-            return Build<Vector2D, Segment2D>(list);
+            return Build<Vector2D, Segment2D>(list, maxLeaf);
         }
 
-        public static ITree<Vector3D> Build(IList<Vector3D> list)
+        public static ITree<Vector3D> Build(IList<Vector3D> list, int maxLeaf = MaxNLeaf)
         {
-            return Build<Vector3D, Vector3D>(list);
+            return Build<Vector3D, Vector3D>(list, maxLeaf);
         }
 
-        public static ITree<Vector3D> Build(IList<Segment3D> list)
+        public static ITree<Vector3D> Build(IList<Segment3D> list, int maxLeaf = MaxNLeaf)
         {
-            return Build<Vector3D, Segment3D>(list);
+            return Build<Vector3D, Segment3D>(list, maxLeaf);
         }
 
-        public static ITree<T> Build<T>(IList<ISegment<T>> list) where T : IArray, IDimension
+        public static ITree<T> Build<T>(IList<ISegment<T>> list, int maxLeaf = MaxNLeaf) where T : IArray, IDimension
         {
-            return Build<T, ISegment<T>>(list.Select((t, i) => new KeyValuePair<ISegment<T>, int>(t, i)).ToList(), 0);
+            return Build<T, ISegment<T>>(list.Select((t, i) => new KeyValuePair<ISegment<T>, int>(t, i)).ToList(), 0, maxLeaf);
         }
 
-        public static ITree<T> Build<T, S>(IEnumerable<S> list)
+        public static ITree<T> Build<T, S>(IEnumerable<S> list, int maxLeaf = MaxNLeaf)
             where T : IArray, IDimension
             where S : IArray, IDimension, IBoundingFacade<T>
         {
-            return Build<T, S>(list.Select((t, i) => new KeyValuePair<S, int>(t, i)).ToList(), 0);
+            return Build<T, S>(list.Select((t, i) => new KeyValuePair<S, int>(t, i)).ToList(), 0, maxLeaf);
         }
 
-        private static ITree<T> Build<T, S>(IEnumerable<KeyValuePair<S, int>> data, int depth)
+        private static ITree<T> Build<T, S>(IEnumerable<KeyValuePair<S, int>> data, int depth, int maxLeaf)
             where T : IArray, IDimension
             where S : IArray, IDimension, IBoundingFacade<T>
         {
@@ -74,7 +75,7 @@ namespace Math.KDTree
             if (list.Any() == false)
                 return new EmptyTree<T>();
 
-            if (list.Count < 4)
+            if (list.Count <= maxLeaf)
             {
                 return new Tree<T, S>(depth, list.Select(item => item.Key).ToList(), double.NaN,
                     list.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());
@@ -90,8 +91,8 @@ namespace Math.KDTree
                 var index = sorted.Count()/2;
                 var median = sorted.ElementAt(index);
 
-                var leftTree = Build<T, S>(sorted.Take(index), depth + 1);
-                var rightTree = Build<T, S>(sorted.Skip(index + 1), depth + 1);
+                var leftTree = Build<T, S>(sorted.Take(index), depth + 1, maxLeaf);
+                var rightTree = Build<T, S>(sorted.Skip(index + 1), depth + 1, maxLeaf);
                 return new Tree<T, S>(depth, new List<S> {median.Key}, median.Key[dim0], new List<int> {median.Value},
                     leftTree, rightTree);
             }
@@ -125,8 +126,8 @@ namespace Math.KDTree
                         medians.Add(p);
                     }
                 }
-                var leftTree = Build<T, S>(left, depth + 1);
-                var rightTree = Build<T, S>(right, depth + 1);
+                var leftTree = Build<T, S>(left, depth + 1, maxLeaf);
+                var rightTree = Build<T, S>(right, depth + 1, maxLeaf);
                 return new Tree<T, S>(depth, medians.Select(item => item.Key).ToList(), medianValue,
                     medians.Select(item => item.Value).ToList(), leftTree, rightTree);
             }

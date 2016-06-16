@@ -86,9 +86,9 @@ namespace Math.Tests
         [Test]
         public void DBScan_TraClusAlgo()
         {
-            var n = 8;
-            var eps = 29.0;
-            var minL = 50.0;
+            const int n = 8;
+            const double eps = 29.0;
+            const double minL = 50.0;
             var tracks = TrajectoryExamples.deer_1995();
             tracks.Count.ShouldBe(32);
 
@@ -110,11 +110,15 @@ namespace Math.Tests
             }
 
             var dbs = new DBScan<Vector2D, Segment2D>(segments);
+            TestUtils.StartTimer();
             var clusterList = dbs.Cluster(eps, n).ToList();
+            TestUtils.StopTimer();
+            TestUtils.StartTimer();
+            clusterList = dbs.Cluster(eps, n).ToList();
+            TestUtils.StopTimer();
 
             var clusterPointList = new List<List<Vector2D>>();
-            var clusters =
-                clusterList.Select(cluster => cluster.Select(s => (Segment2DExt) segments[s]).ToList()).ToList();
+            var clusters = clusterList.Select(cluster => cluster.Select(s => (Segment2DExt) segments[s]).ToList()).ToList();
             foreach (var cluster in clusters)
             {
                 var trajectories = new HashSet<int>();
@@ -139,13 +143,13 @@ namespace Math.Tests
                 points = points.OrderBy(p => p.X).ToList();
 
                 var lineSegments = new HashSet<int>();
-                var current = points.First();
-                var next = points.First();
                 var prevValue = points.First().X;
                 var clusterPoints = new List<Vector2D>();
 
                 for (var i = 0; i < points.Count;)
                 {
+                    Vector2DExt next;
+                    Vector2DExt current;
                     var del = new HashSet<int>();
                     var insert = new HashSet<int>();
                     do
