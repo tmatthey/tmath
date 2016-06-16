@@ -116,7 +116,7 @@ namespace Math
             return Norm(v.X - X, v.Y - Y);
         }
 
-        public double ModifiedNorm(Vector2D v)
+        public double ModifiedNorm(Vector2D v, bool direction = true)
         {
             return EuclideanNorm(v);
         }

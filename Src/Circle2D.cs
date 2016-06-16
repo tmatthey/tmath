@@ -63,7 +63,7 @@ namespace Math
             return System.Math.Max(d, 0.0);
         }
 
-        public double ModifiedNorm(Circle2D c)
+        public double ModifiedNorm(Circle2D c, bool direction = true)
         {
             return EuclideanNorm(c);
         }

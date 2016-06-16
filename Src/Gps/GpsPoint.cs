@@ -98,7 +98,7 @@ namespace Math.Gps
             return ((Vector3D) this).EuclideanNorm(d);
         }
 
-        public double ModifiedNorm(GpsPoint d)
+        public double ModifiedNorm(GpsPoint d, bool direction = true)
         {
             var f = (System.Math.Min(Elevation, d.Elevation) + Geodesy.EarthRadius)/Geodesy.EarthRadius;
             return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm()*f;

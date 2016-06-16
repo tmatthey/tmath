@@ -341,21 +341,21 @@ namespace Math
         // Trajectory clustering: a partition-and-group framework
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
-        public static double TrajectoryHausdorffDistance<TV>(ISegment<TV> a, ISegment<TV> b,
+        public static double TrajectoryHausdorffDistance<TV>(ISegment<TV> a, ISegment<TV> b, bool direction = true,
             double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where TV : IVector<TV>
         {
-            return TrajectoryHausdorffDistance(a.A, a.B, b.A, b.B, wPerpendicular, wParallel, wAngular);
+            return TrajectoryHausdorffDistance(a.A, a.B, b.A, b.B, direction, wPerpendicular, wParallel, wAngular);
         }
 
-        public static double TrajectoryHausdorffDistance<T>(T a0, T a1, T b0, T b1,
+        public static double TrajectoryHausdorffDistance<T>(T a0, T a1, T b0, T b1, bool direction = true,
             double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where T : IVector<T>
         {
             double perpendicular, parallel, angular;
-            TrajectoryHausdorffDistances(a0, a1, b0, b1, out perpendicular, out parallel, out angular);
+            TrajectoryHausdorffDistances(a0, a1, b0, b1, direction, out perpendicular, out parallel, out angular);
             return wPerpendicular*perpendicular + wParallel*parallel + wAngular*angular;
         }
 
-        public static void TrajectoryHausdorffDistances<T>(T a0, T a1, T b0, T b1,
+        public static void TrajectoryHausdorffDistances<T>(T a0, T a1, T b0, T b1, bool direction,
             out double perpendicular, out double parallel, out double angular) where T : IVector<T>
         {
             var l1 = a0.EuclideanNorm(a1);
@@ -386,7 +386,7 @@ namespace Math
             parallel = System.Math.Min(d0, d1);
 
             var angle = a1.Sub(a0).AngleAbs(b1.Sub(b0));
-            angular = l1 * (Comparison.IsLessEqual(System.Math.PI / 2.0, angle) ? 1.0 : System.Math.Sin(angle));
+            angular = l1*(direction && Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
         public static IList<int> SignificantPoints<T>(IList<T> track, int mdlCostAdwantage = 25) where T : IVector<T>
@@ -429,11 +429,10 @@ namespace Math
         private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>, INorm<T>
         {
             var cost = 0;
-            var d = track[i0].EuclideanNorm(track[i1]);
             for (var i = i0; i < i1; i++)
             {
                 double perpendicular, parallel, angular;
-                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], out perpendicular,
+                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], true, out perpendicular,
                     out parallel, out angular);
                 perpendicular = System.Math.Max(perpendicular, 1.0);
                 angular = System.Math.Max(angular, 1.0);

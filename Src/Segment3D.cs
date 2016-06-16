@@ -133,9 +133,9 @@ namespace Math
             return Comparison.IsZero(l) ? 0.0 : l;
         }
 
-        public double ModifiedNorm(ISegment<Vector3D> d)
+        public double ModifiedNorm(ISegment<Vector3D> d, bool direction = true)
         {
-            return Geometry.TrajectoryHausdorffDistance(this, d);
+            return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
     }
 }

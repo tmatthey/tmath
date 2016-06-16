@@ -94,7 +94,7 @@ namespace Math
             return ((Vector3D) this).EuclideanNorm(d);
         }
 
-        public double ModifiedNorm(Polar3D d)
+        public double ModifiedNorm(Polar3D d, bool direction = true)
         {
             return EuclideanNorm(d);
         }

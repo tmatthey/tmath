@@ -93,9 +93,9 @@ namespace Math
             return 0.0;
         }
 
-        public double ModifiedNorm(ISegment<Vector2D> d)
+        public double ModifiedNorm(ISegment<Vector2D> d, bool direction = true)
         {
-            return Geometry.TrajectoryHausdorffDistance(this, d);
+            return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
 
         public int Dimensions

@@ -31,6 +31,6 @@ namespace Math.Interfaces
     public interface INorm<in T>
     {
         double EuclideanNorm(T d); // Minimal Euclidean norm betweeen to geometry obejcts
-        double ModifiedNorm(T d);
+        double ModifiedNorm(T d, bool direction = true);
     }
 }

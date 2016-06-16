@@ -123,7 +123,7 @@ namespace Math
             return Norm(v.X - X, v.Y - Y, v.Z - Z);
         }
 
-        public double ModifiedNorm(Vector3D v)
+        public double ModifiedNorm(Vector3D v, bool direction = true)
         {
             return EuclideanNorm(v);
         }

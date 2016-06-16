@@ -127,7 +127,7 @@ namespace Math
 
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value), eps));
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, false), eps));
         }
 
         private class Point
