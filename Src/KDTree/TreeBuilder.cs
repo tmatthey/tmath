@@ -35,6 +35,7 @@ namespace Math.KDTree
     public class TreeBuilder
     {
         public const int MaxNLeaf = 3;
+
         public static ITree<Vector2D> Build(IList<Vector2D> list, int maxLeaf = MaxNLeaf)
         {
             return Build<Vector2D, Vector2D>(list, maxLeaf);
@@ -57,7 +58,8 @@ namespace Math.KDTree
 
         public static ITree<T> Build<T>(IList<ISegment<T>> list, int maxLeaf = MaxNLeaf) where T : IArray, IDimension
         {
-            return Build<T, ISegment<T>>(list.Select((t, i) => new KeyValuePair<ISegment<T>, int>(t, i)).ToList(), 0, maxLeaf);
+            return Build<T, ISegment<T>>(list.Select((t, i) => new KeyValuePair<ISegment<T>, int>(t, i)).ToList(), 0,
+                maxLeaf);
         }
 
         public static ITree<T> Build<T, S>(IEnumerable<S> list, int maxLeaf = MaxNLeaf)

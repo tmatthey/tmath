@@ -118,7 +118,8 @@ namespace Math.Tests
             TestUtils.StopTimer();
 
             var clusterPointList = new List<List<Vector2D>>();
-            var clusters = clusterList.Select(cluster => cluster.Select(s => (Segment2DExt) segments[s]).ToList()).ToList();
+            var clusters =
+                clusterList.Select(cluster => cluster.Select(s => (Segment2DExt) segments[s]).ToList()).ToList();
             foreach (var cluster in clusters)
             {
                 var trajectories = new HashSet<int>();

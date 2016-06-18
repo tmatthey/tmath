@@ -1531,6 +1531,30 @@ namespace Math.Tests
         }
 
         [Test]
+        public void TrajectoryHausdorffDistance_DirectionFalse_EqualToOppositeDirection()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(5, 17, 0);
+            var c = new Vector3D(0, 17, 2);
+            var d = new Vector3D(5, 17, 2);
+            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d, false);
+            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c, false);
+            dist0.ShouldBe(dist1, 1e-13);
+        }
+
+        [Test]
+        public void TrajectoryHausdorffDistance_DirectionTrue_NotEqualToOppositeDirection()
+        {
+            var a = new Vector3D(0, 17, 0);
+            var b = new Vector3D(5, 17, 0);
+            var c = new Vector3D(0, 17, 2);
+            var d = new Vector3D(5, 17, 2);
+            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d, true);
+            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c, true);
+            System.Math.Abs(dist0 - dist1).ShouldBeGreaterThan(1.0);
+        }
+
+        [Test]
         public void TrajectoryHausdorffDistance2D_ParallelSameSegment_returnsExpected()
         {
             var a = new Vector2D(0, 0);
@@ -1761,30 +1785,6 @@ namespace Math.Tests
             var c = new Vector3D(2, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a);
             dist.ShouldBe(2.0);
-        }
-
-        [Test]
-        public void TrajectoryHausdorffDistance_DirectionFalse_EqualToOppositeDirection()
-        {
-            var a = new Vector3D(0, 17, 0);
-            var b = new Vector3D(5, 17, 0);
-            var c = new Vector3D(0, 17, 2);
-            var d = new Vector3D(5, 17, 2);
-            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d, false);
-            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c, false);
-            dist0.ShouldBe(dist1, 1e-13);
-        }
-
-        [Test]
-        public void TrajectoryHausdorffDistance_DirectionTrue_NotEqualToOppositeDirection()
-        {
-            var a = new Vector3D(0, 17, 0);
-            var b = new Vector3D(5, 17, 0);
-            var c = new Vector3D(0, 17, 2);
-            var d = new Vector3D(5, 17, 2);
-            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d, true);
-            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c, true);
-            System.Math.Abs(dist0-dist1).ShouldBeGreaterThan(1.0);
         }
     }
 }

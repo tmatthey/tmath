@@ -91,6 +91,9 @@ namespace Math
             {
                 while (a < 0) a += System.Math.PI*2;
                 while (a >= System.Math.PI*2) a -= System.Math.PI*2;
+
+                if (Comparison.IsEqual(a, 0.0) || Comparison.IsEqual(a, System.Math.PI*2))
+                    a = 0.0;
             }
             return a;
         }
@@ -101,9 +104,10 @@ namespace Math
             {
                 a = NormalizeAngle(a);
                 if (a >= System.Math.PI)
-                {
                     a -= System.Math.PI*2.0;
-                }
+
+                if (Comparison.IsEqual(a, -System.Math.PI) || Comparison.IsEqual(a, System.Math.PI))
+                    a = -System.Math.PI;
             }
             return a;
         }

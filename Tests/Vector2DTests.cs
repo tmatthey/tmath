@@ -78,6 +78,23 @@ namespace Math.Tests
             });
         }
 
+        [TestCase(0, 13, 0)]
+        [TestCase(179, 14, 179)]
+        [TestCase(180, 15, -180)]
+        [TestCase(181, 16, -179)]
+        [TestCase(-179, 17, -179)]
+        [TestCase(-180, 18, -180)]
+        [TestCase(-181, 19, 179)]
+        public void Angle(double a, double b, double expected)
+        {
+            a = Conversion.DegToRad(a);
+            b = Conversion.DegToRad(b);
+            var v0 = Vector2D.E1.Rotate(b);
+            var v1 = Vector2D.E1.Rotate(a + b);
+            var angle = Conversion.RadToDeg(v0.Angle(v1));
+            angle.ShouldBe(expected, 1e-13);
+        }
+
         [Test]
         public void Add()
         {
