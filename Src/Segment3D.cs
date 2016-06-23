@@ -64,6 +64,11 @@ namespace Math
             return B - A;
         }
 
+        public bool IsIntersecting(ISegment<Vector3D> s, double eps = Comparison.Epsilon)
+        {
+            return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
+        }
+
         public int Dimensions
         {
             get { return A.Dimensions; }

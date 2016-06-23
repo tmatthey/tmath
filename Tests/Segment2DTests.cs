@@ -46,6 +46,37 @@ namespace Math.Tests
             });
         }
 
+        [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(-1, 0, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(0, 0, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, 1, 0, 1, 1, 0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.0, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.2, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, -1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, 1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0.1, 0.1, -1, -1, false)]
+        [TestCase(0.1, 0.0, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0.1, 0.1, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.0, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.2, 0, 0, 1, 1, false)]
+        [TestCase(2, 2, -1, -1, 0, 0, 1, 1, true)]
+        [TestCase(2, 3, -1, 0, 0, 0, 1, 1, false)]
+        public void IsIntersecting(double x0, double y0, double x1, double y1, double u0, double v0, double u1,
+            double v1, bool intersects)
+        {
+            var s0 = new Segment2D(new Vector2D(x0, y0), new Vector2D(x1, y1));
+            var s1 = new Segment2D(new Vector2D(u0, v0), new Vector2D(u1, v1));
+            s0.IsIntersecting(s1).ShouldBe(intersects);
+        }
+
         [Test]
         public void Array_ReturnsExpected()
         {

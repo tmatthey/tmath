@@ -46,6 +46,107 @@ namespace Math.Tests
             });
         }
 
+        [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(-1, 0, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(0, 0, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, 1, 0, 1, 1, 0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.0, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.2, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, -1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, 1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0.1, 0.1, -1, -1, false)]
+        [TestCase(0.1, 0.0, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0.1, 0.1, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.0, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.2, 0, 0, 1, 1, false)]
+        [TestCase(2, 2, -1, -1, 0, 0, 1, 1, true)]
+        [TestCase(2, 3, -1, 0, 0, 0, 1, 1, false)]
+        public void IsIntersecting_SamePlane(double x0, double y0, double x1, double y1, double u0, double v0, double u1,
+            double v1, bool intersects)
+        {
+            var c = 13.7;
+            var s0 = new Segment3D(new Vector3D(x0, y0, c), new Vector3D(x1, y1, c));
+            var s1 = new Segment3D(new Vector3D(u0, v0, c), new Vector3D(u1, v1, c));
+            s0.IsIntersecting(s1).ShouldBe(intersects);
+        }
+
+        [TestCase(-1, -1, 0, 0, 0, 0, 1, 1)]
+        [TestCase(-1, 0, 0, 0, 0, 0, 1, 1)]
+        [TestCase(0, 0, -1, -1, 0, 1, 1, 0)]
+        [TestCase(0, 0, 1, -1, 0, 1, 1, 0)]
+        [TestCase(0, 0, 1, 1, 0, 1, 1, 0)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.0, 0.1, 0.2)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.1)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.2)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.0)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.1)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.2)]
+        [TestCase(0, 1, 1, 0, 0, 0, -1, -1)]
+        [TestCase(0, 1, 1, 0, 0, 0, 1, -1)]
+        [TestCase(0, 1, 1, 0, 0.1, 0.1, -1, -1)]
+        [TestCase(0.1, 0.0, 0.1, 0.2, 0, 0, 1, 1)]
+        [TestCase(0.1, 0.1, -1, -1, 0, 1, 1, 0)]
+        [TestCase(0.1, 0.1, 0.1, 0.1, 0, 0, 1, 1)]
+        [TestCase(0.1, 0.1, 0.1, 0.2, 0, 0, 1, 1)]
+        [TestCase(0.1, 0.2, 0.1, 0.0, 0, 0, 1, 1)]
+        [TestCase(0.1, 0.2, 0.1, 0.1, 0, 0, 1, 1)]
+        [TestCase(0.1, 0.2, 0.1, 0.2, 0, 0, 1, 1)]
+        [TestCase(2, 2, -1, -1, 0, 0, 1, 1)]
+        [TestCase(2, 3, -1, 0, 0, 0, 1, 1)]
+        public void IsIntersecting_NotSamePlane_AlwaysFalse(double x0, double y0, double x1, double y1, double u0,
+            double v0, double u1,
+            double v1)
+        {
+            var c = 13.7;
+            var d = c + 0.1;
+            var s0 = new Segment3D(new Vector3D(x0, y0, c), new Vector3D(x1, y1, c));
+            var s1 = new Segment3D(new Vector3D(u0, v0, d), new Vector3D(u1, v1, d));
+            s0.IsIntersecting(s1).ShouldBe(false);
+        }
+
+        [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(-1, 0, 0, 0, 0, 0, 1, 1, true)]
+        [TestCase(0, 0, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0, 0, 1, 1, 0, 1, 1, 0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.0, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.1, 0.1, 0.2, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.0, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.1, true)]
+        [TestCase(0, 0, 1, 1, 0.1, 0.2, 0.1, 0.2, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, -1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0, 0, 1, -1, false)]
+        [TestCase(0, 1, 1, 0, 0.1, 0.1, -1, -1, false)]
+        [TestCase(0.1, 0.0, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, -1, -1, 0, 1, 1, 0, false)]
+        [TestCase(0.1, 0.1, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.1, 0.1, 0.2, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.0, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.1, 0, 0, 1, 1, true)]
+        [TestCase(0.1, 0.2, 0.1, 0.2, 0, 0, 1, 1, false)]
+        [TestCase(2, 2, -1, -1, 0, 0, 1, 1, true)]
+        [TestCase(2, 3, -1, 0, 0, 0, 1, 1, false)]
+        public void IsIntersecting_NotSamePlaneAndBigEpsilon(double x0, double y0, double x1, double y1, double u0,
+            double v0, double u1,
+            double v1, bool intersects)
+        {
+            var eps = 0.001;
+            var c = 13.7;
+            var d = c + eps;
+            var s0 = new Segment3D(new Vector3D(x0, y0, c), new Vector3D(x1, y1, c));
+            var s1 = new Segment3D(new Vector3D(u0, v0, d), new Vector3D(u1, v1, d));
+            s0.IsIntersecting(s1, eps*2.0).ShouldBe(intersects);
+        }
+
         [Test]
         public void Array_ReturnsExpected()
         {

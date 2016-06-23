@@ -34,5 +34,6 @@ namespace Math.Interfaces
         T B { get; set; }
         double Length();
         T Vector();
+        bool IsIntersecting(ISegment<T> s, double eps = Comparison.Epsilon);
     }
 }

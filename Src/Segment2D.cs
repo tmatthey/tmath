@@ -64,6 +64,11 @@ namespace Math
             return B - A;
         }
 
+        public bool IsIntersecting(ISegment<Vector2D> s, double eps = Comparison.Epsilon)
+        {
+            return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
+        }
+
         public double EuclideanNorm(ISegment<Vector2D> d)
         {
             var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
