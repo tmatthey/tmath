@@ -94,6 +94,7 @@ namespace Math
                         var neighbors = EpsNeighborhood(pn, eps).ToList();
                         if (neighbors.Count >= n)
                         {
+                            neighbors.Remove(_data.IndexOf(pn));
                             allNeighbors = allNeighbors.Union(neighbors).ToList();
                         }
                     }
