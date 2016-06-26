@@ -283,7 +283,7 @@ namespace Math.Tests
             }
 
 
-            BitmapFileWriter.PNG("cluster.png", bitmap.Pixels);
+            BitmapFileWriter.PNG(TestUtils.OutputPath()+"cluster.png", bitmap.Pixels);
 
             segments.Count.ShouldBe(1876);
             clusterList.Count.ShouldBe(22);

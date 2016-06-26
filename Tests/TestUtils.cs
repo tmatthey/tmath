@@ -58,5 +58,10 @@ namespace Math.Tests
                 new StreamReader(
                     assembly.GetManifestResourceStream(string.Format("{0}.Resources.{1}", assemblyName, name)));
         }
+
+        public static string OutputPath()
+        {
+            return Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location);
+        }
     }
 }

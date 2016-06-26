@@ -52,7 +52,7 @@ namespace Math.Tests.Gfx
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count/(double) max;
-            BitmapFileWriter.PGM("trackOne.pgm", bitmap);
+            BitmapFileWriter.PGM(TestUtils.OutputPath() + "trackOne.pgm", bitmap);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Math.Tests.Gfx
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count/(double) max;
-            BitmapFileWriter.PNG("trackOne.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "trackOne.png", bitmap);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Math.Tests.Gfx
             heatMap.Add(_gpsTrackExamples.TrackFour());
             heatMap.Add(_gpsTrackExamples.TrackFive());
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
-            BitmapFileWriter.PNG("heatMapCenter.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.png", bitmap);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Math.Tests.Gfx
                     }
                 }
             }
-            BitmapFileWriter.PNG("heatMapDiff.png", bitmapCenter);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapDiff.png", bitmapCenter);
             cMax.ShouldBeGreaterThan(0.0);
         }
 
@@ -105,7 +105,7 @@ namespace Math.Tests.Gfx
             heatMap.Add(_gpsTrackExamples.TrackFour());
             heatMap.Add(_gpsTrackExamples.TrackFive());
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
-            BitmapFileWriter.PNG("heatMapMinCircle.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapMinCircle.png", bitmap);
         }
     }
 }

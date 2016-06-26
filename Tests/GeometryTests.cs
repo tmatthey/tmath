@@ -1453,7 +1453,7 @@ namespace Math.Tests
             heatMap.Add(track.Track);
             heatMap.Add(list.Select(i => track.Track[i]).ToList());
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
-            BitmapFileWriter.PNG("SignificantPoints.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "SignificantPoints.png", bitmap);
 
             list.Count.ShouldBe(55);
         }
