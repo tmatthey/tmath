@@ -48,7 +48,7 @@ namespace Math
             _data = null;
         }
 
-        public IEnumerable<IList<int>> Cluster(double eps = 25.0, int n = 5)
+        public IEnumerable<IList<int>> Cluster(double eps = 25.0, int n = 5, bool direction = false)
         {
             // Corner cases
             if (_list.Count < n)
@@ -77,7 +77,7 @@ namespace Math
                     continue;
 
                 p.Visited = true;
-                var allNeighbors = EpsNeighborhood(p, eps).ToList();
+                var allNeighbors = EpsNeighborhood(p, eps, direction).ToList();
                 if (allNeighbors.Count < n)
                 {
                     p.ClusterId = Classification.Noise;
@@ -91,7 +91,7 @@ namespace Math
                     if (!pn.Visited)
                     {
                         pn.Visited = true;
-                        var neighbors = EpsNeighborhood(pn, eps).ToList();
+                        var neighbors = EpsNeighborhood(pn, eps, direction).ToList();
                         if (neighbors.Count >= n)
                         {
                             neighbors.Remove(_data.IndexOf(pn));
@@ -119,7 +119,7 @@ namespace Math
             return clusters;
         }
 
-        private IEnumerable<int> EpsNeighborhood(Point seed, double eps)
+        private IEnumerable<int> EpsNeighborhood(Point seed, double eps, bool direction)
         {
             var bounding = seed.Value.Bounding();
             bounding.ExpandLayer(eps);
@@ -127,7 +127,7 @@ namespace Math
 
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, false), eps));
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps));
         }
 
         private class Point
