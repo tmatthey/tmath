@@ -113,10 +113,6 @@ namespace Math.Tests
             TestUtils.StartTimer();
             var clusterList = dbs.Cluster(eps, n).ToList();
             TestUtils.StopTimer();
-            TestUtils.StartTimer();
-            clusterList = dbs.Cluster(eps, n).ToList();
-            TestUtils.StopTimer();
-
             var clusterPointList = new List<List<Vector2D>>();
             var clusters =
                 clusterList.Select(cluster => cluster.Select(s => (Segment2DExt) segments[s]).ToList()).ToList();

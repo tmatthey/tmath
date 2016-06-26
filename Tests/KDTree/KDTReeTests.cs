@@ -105,7 +105,7 @@ namespace Math.Tests.KDTree
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct().ToList();
-            res.Count().ShouldBe(list.Count - 1);
+            res.Count.ShouldBe(list.Count - 1);
             res.Contains(1).ShouldBe(false);
         }
 
@@ -124,7 +124,7 @@ namespace Math.Tests.KDTree
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
-            res.Count().ShouldBe(list.Count - 1);
+            res.Count.ShouldBe(list.Count - 1);
             res.Contains(2).ShouldBe(false);
         }
 
@@ -138,7 +138,7 @@ namespace Math.Tests.KDTree
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
-            res.Count().ShouldBe(list.Count - 1);
+            res.Count.ShouldBe(list.Count - 1);
             res.Contains(1).ShouldBe(false);
         }
 
