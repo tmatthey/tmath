@@ -61,7 +61,8 @@ namespace Math.Tests
 
         public static string OutputPath()
         {
-            return Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location);
+           //return Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location);
+           return "";
         }
     }
 }
