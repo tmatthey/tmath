@@ -53,7 +53,8 @@
     <Compile Include="BoundingRectTests.cs" />
     <Compile Include="Circle2DTests.cs" />
     <Compile Include="Circle3DTests.cs" />
-    <Compile Include="DBScanTests.cs" />
+    <Compile Include="Clustering\DBScanTests.cs" />
+    <Compile Include="Clustering\TraClusTests.cs" />
     <Compile Include="GeometryTests.cs" />
     <Compile Include="Gfx\BitmapTests.cs" />
     <Compile Include="Gfx\BitmapFileWriterTests.cs" />

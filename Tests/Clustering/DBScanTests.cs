@@ -26,46 +26,24 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using Math.Clustering;
+using NUnit.Framework;
+using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests.Clustering
 {
-    public static class TestUtils
+    [TestFixture]
+    public class DBScanTests
     {
-        private static Stopwatch _stopwatch;
-
-        public static void StartTimer()
+        [Test]
+        public void DBScan_EmptyList_ReturnsEmpty()
         {
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
-        }
-
-        public static void StopTimer()
-        {
-            _stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
-        }
-
-        public static StreamReader ReadResourceFile(string name)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var assemblyName = assembly.GetName().Name;
-
-            return
-                new StreamReader(
-                    assembly.GetManifestResourceStream(string.Format("{0}.Resources.{1}", assemblyName, name)));
-        }
-
-        public static string OutputPath()
-        {
-            if (Environment.ExpandEnvironmentVariables("%VisualStudioVersion%") == "14.0")
-            {
-                return Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location) + "\\";
-            }
-            return "";
+            var list = new List<Segment2D> {new Segment2D(Vector2D.E1, Vector2D.E2)};
+            var dbs = new DBScan<Vector2D, Segment2D>(list);
+            var res = dbs.Cluster().ToList();
+            res.Count.ShouldBe(0);
         }
     }
 }

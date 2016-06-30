@@ -389,7 +389,7 @@ namespace Math
             angular = l1*(direction && Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
-        public static IList<int> SignificantPoints<T>(IList<T> track, int mdlCostAdwantage = 25) where T : IVector<T>
+        public static IList<int> SignificantPoints<T>(IList<T> track, bool direction=true, int mdlCostAdwantage = 25) where T : IVector<T>
         {
             if (track == null || track.Count < 1)
                 return new List<int>();
@@ -406,7 +406,7 @@ namespace Math
                 for (j = 1; i + j < track.Count; j++)
                 {
                     globalCost += ModelCost(track[i + j - 1], track[i + j]);
-                    var localCost = ModelCost(track[i], track[i + j]) + EncodingCost(track, i, i + j);
+                    var localCost = ModelCost(track[i], track[i + j]) + EncodingCost(track, i, i + j, direction);
 
                     if (globalCost + mdlCostAdwantage < localCost)
                     {
@@ -426,13 +426,13 @@ namespace Math
             return points;
         }
 
-        private static int EncodingCost<T>(IList<T> track, int i0, int i1) where T : IVector<T>, INorm<T>
+        private static int EncodingCost<T>(IList<T> track, int i0, int i1, bool direction) where T : IVector<T>, INorm<T>
         {
             var cost = 0;
             for (var i = i0; i < i1; i++)
             {
                 double perpendicular, parallel, angular;
-                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], true, out perpendicular,
+                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction, out perpendicular,
                     out parallel, out angular);
                 perpendicular = System.Math.Max(perpendicular, 1.0);
                 angular = System.Math.Max(angular, 1.0);

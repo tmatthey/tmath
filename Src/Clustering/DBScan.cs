@@ -31,7 +31,7 @@ using System.Linq;
 using Math.Interfaces;
 using Math.KDTree;
 
-namespace Math
+namespace Math.Clustering
 {
     public class DBScan<T, S>
         where T : IArray, IDimension
