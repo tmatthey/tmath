@@ -92,6 +92,16 @@ namespace Math
             return IsEqual(x, y, Epsilon) || x <= y;
         }
 
+        public static bool IsLess(double x, double y)
+        {
+            return IsLess(x, y, Epsilon);
+        }
+
+        public static bool IsLess(double x, double y, double eps)
+        {
+            return x <= y && !IsEqual(x, y, Epsilon);
+        }
+
         public static IList<double> UniqueAverageSorted(IList<double> v)
         {
             return UniqueAverageSorted(v, Epsilon);

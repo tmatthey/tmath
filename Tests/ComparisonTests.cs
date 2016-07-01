@@ -182,6 +182,18 @@ namespace Math.Tests
             result.ShouldBe(expected);
         }
 
+        [TestCase(11.0, 11.0, false)]
+        [TestCase(13.05, 13.0, false)]
+        [TestCase(1e-13, 0.0, false)]
+        [TestCase(-1e-11, 0.0, true)]
+        [TestCase(0.0, 1e-11, true)]
+        [TestCase(5.0, 6.0, true)]
+        public void IsLess(double x, double y, bool expected)
+        {
+            var result = Comparison.IsLess(x, y);
+            result.ShouldBe(expected);
+        }
+
         [TestCase(12.0, 12.0, 0.1, true)]
         [TestCase(12.0, 12.05, 0.1, true)]
         [TestCase(12.05, 12.0, double.Epsilon, false)]

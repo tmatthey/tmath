@@ -69,7 +69,7 @@ namespace Math.Clustering
             }
 
             // Search
-            var clusterId = 0;
+            var clusterId = Classification.Classified;
             foreach (var p in _data)
             {
                 if (p.ClusterId != Classification.Unclassified)
