@@ -65,7 +65,6 @@ namespace Math.Clustering
             }
             foreach (var t in _data)
             {
-                t.Visited = false;
                 t.ClusterId = Classification.Unclassified;
             }
 
@@ -73,33 +72,38 @@ namespace Math.Clustering
             var clusterId = 0;
             foreach (var p in _data)
             {
-                if (p.Visited)
+                if (p.ClusterId != Classification.Unclassified)
                     continue;
 
-                p.Visited = true;
-                var allNeighbors = EpsNeighborhood(p, eps, direction).ToList();
-                if (allNeighbors.Count < n)
+                var seeds = EpsNeighborhood(p, eps, direction).ToList();
+                if (seeds.Count < n)
                 {
                     p.ClusterId = Classification.Noise;
                     continue;
                 }
-
-                p.ClusterId = clusterId;
-                for (var j = 0; j < allNeighbors.Count; j++)
+                foreach (var j in seeds)
                 {
-                    var pn = _data[allNeighbors[j]];
-                    if (!pn.Visited)
+                    _data[j].ClusterId = clusterId;
+                }
+                seeds.Remove(_data.IndexOf(p));
+
+                while (seeds.Count > 0)
+                {
+                    var newSeeds = EpsNeighborhood(_data[seeds[0]], eps, direction).ToList();
+                    if (newSeeds.Count >= n)
                     {
-                        pn.Visited = true;
-                        var neighbors = EpsNeighborhood(pn, eps, direction).ToList();
-                        if (neighbors.Count >= n)
+                        foreach (var j in newSeeds)
                         {
-                            neighbors.Remove(_data.IndexOf(pn));
-                            allNeighbors = allNeighbors.Union(neighbors).ToList();
+                            var pn = _data[j];
+                            if (pn.ClusterId < Classification.Classified)
+                            {
+                                if (pn.ClusterId == Classification.Unclassified && !seeds.Contains(j))
+                                    seeds.Add(j);
+                                pn.ClusterId = clusterId;
+                            }
                         }
                     }
-                    if (pn.ClusterId == Classification.Unclassified)
-                        pn.ClusterId = clusterId;
+                    seeds.RemoveAt(0);
                 }
                 clusterId++;
             }
@@ -134,12 +138,10 @@ namespace Math.Clustering
         {
             public readonly S Value;
             public int ClusterId;
-            public bool Visited;
 
             public Point(S value)
             {
                 Value = value;
-                Visited = false;
                 ClusterId = Classification.Unclassified;
             }
         }
@@ -148,6 +150,7 @@ namespace Math.Clustering
         {
             public const int Unclassified = -2;
             public const int Noise = -1;
+            public const int Classified = 0;
         }
     }
 }

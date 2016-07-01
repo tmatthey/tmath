@@ -84,7 +84,6 @@ namespace Math.Clustering
 
                     foreach (var i0 in insert)
                     {
-
                         var removeList = del.Where(i1 => cluster[i1].K == cluster[i0].K).ToList();
                         foreach (var i1 in removeList)
                         {

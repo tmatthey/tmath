@@ -389,7 +389,8 @@ namespace Math
             angular = l1*(direction && Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
-        public static IList<int> SignificantPoints<T>(IList<T> track, bool direction=true, int mdlCostAdwantage = 25) where T : IVector<T>
+        public static IList<int> SignificantPoints<T>(IList<T> track, bool direction = true, int mdlCostAdwantage = 25)
+            where T : IVector<T>
         {
             if (track == null || track.Count < 1)
                 return new List<int>();
@@ -426,7 +427,8 @@ namespace Math
             return points;
         }
 
-        private static int EncodingCost<T>(IList<T> track, int i0, int i1, bool direction) where T : IVector<T>, INorm<T>
+        private static int EncodingCost<T>(IList<T> track, int i0, int i1, bool direction)
+            where T : IVector<T>, INorm<T>
         {
             var cost = 0;
             for (var i = i0; i < i1; i++)
