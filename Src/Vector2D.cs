@@ -60,8 +60,9 @@ namespace Math
             Y = y;
         }
 
-        public double X { get; set; }
         public double Y { get; set; }
+
+        public double X { get; set; }
 
         public bool IsEqual(Vector2D v)
         {

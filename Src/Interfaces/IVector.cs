@@ -30,6 +30,7 @@ namespace Math.Interfaces
 {
     public interface IVector<T> : IGeometryObject<T>, IBoundingFacade<T>
     {
+        double X { get; set; }
         bool IsEqual(T v);
         bool IsEqual(T v, double epsilon);
         double Normalize();
