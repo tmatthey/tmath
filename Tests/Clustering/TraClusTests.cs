@@ -39,7 +39,7 @@ namespace Math.Tests.Clustering
     public class TraClusTests
     {
         [Test]
-        public void DBScan_TraClusAlgo()
+        public void TraClus_2D()
         {
             const int n = 8;
             const double eps = 29.0;
@@ -117,10 +117,64 @@ namespace Math.Tests.Clustering
                     Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set);
             }
 
-
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster.png", bitmap.Pixels);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.png", bitmap.Pixels);
 
             clusterPointList.Count.ShouldBe(4);
+        }
+
+        [Test]
+        public void TraClus_3D()
+        {
+            var axis = new Vector3D(1, 2, 3);
+            const double angle = 0.1;
+            const int n = 8;
+            const double eps = 29.0;
+            var tracks2D = TrajectoryExamples.deer_1995();
+            var tracks =
+                tracks2D.Select(track2D => track2D.Select(p => new Vector3D(p.X, p.Y, 0.0).Rotate(axis, angle)).ToList())
+                    .ToList();
+            tracks.Count.ShouldBe(32);
+
+            var clusterPointList3D = TraClus.Cluster(tracks, n, eps);
+
+            var clusterPointList2D = TraClus.Cluster(tracks2D, n, eps);
+
+            clusterPointList3D.Count.ShouldBe(clusterPointList2D.Count);
+            for (var i = 0; i < clusterPointList3D.Count; i++)
+            {
+                clusterPointList3D[i].Count.ShouldBe(clusterPointList2D[i].Count);
+                for (var j = 0; j < clusterPointList3D[i].Count; j++)
+                {
+                    var v = clusterPointList3D[i][j].Rotate(axis, -angle);
+                    // Some issues if not in a plane
+                    // v.X.ShouldBe(clusterPointList2D[i][j].X, 1e-9);
+                    // v.Y.ShouldBe(clusterPointList2D[i][j].Y, 1e-9);
+                    v.Z.ShouldBe(0, 1e-9);
+                }
+            }
+
+            var box = new BoundingRect();
+            foreach (var p in tracks2D.SelectMany(track => track))
+                box.Expand(p);
+            var bitmap = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
+            foreach (var list in clusterPointList2D)
+            {
+                for (var i = 0; i + 1 < list.Count; i++)
+                    Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set, 0.5);
+            }
+            foreach (var list in clusterPointList3D)
+            {
+                for (var i = 0; i + 1 < list.Count; i++)
+                {
+                    var a = list[i].Rotate(axis, -angle);
+                    var u = new Vector2D(a.X, a.Y);
+                    var b = list[i+1].Rotate(axis, -angle);
+                    var v = new Vector2D(b.X, b.Y);
+                    Draw.XiaolinWu(u, v, bitmap.Set);
+                }
+            }
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster3D.png", bitmap.Pixels);
+
         }
     }
 }

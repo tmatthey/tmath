@@ -129,9 +129,9 @@ namespace Math.Clustering
             bounding.ExpandLayer(eps);
             var inside = _tree.Search(bounding.Min, bounding.Max).Distinct();
 
-
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps));
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps))
+                .OrderBy(num => num);
         }
 
         private class Point

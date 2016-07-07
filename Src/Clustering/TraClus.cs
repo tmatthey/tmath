@@ -42,11 +42,19 @@ namespace Math.Clustering
             return ClusterPoint(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
         }
 
+        public static List<List<Vector3D>> Cluster(IList<List<Vector3D>> tracks, int n, double eps,
+            bool direction = false, double minL = 50.0, int mdlCostAdwantage = 25)
+        {
+            var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdwantage);
+            var clusters = DBScan<Vector3D, Segment3D, Segment3DExt>(n, eps, direction, segments);
+            return ClusterPoint(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
+        }
+
         private static List<List<T>> ClusterPoint<T, TE, SE>(int n, double minL,
             List<List<SE>> clusters, IRotation<T> rotation, ICreateVectorExt<T, TE> factoryVectorExt)
             where T : IVector<T>, new()
-            where TE : IVectorExt<T>, IVector<T>, new()
-            where SE : ISegementExt<T>, ISegment<T>, new()
+            where TE : IVectorExt<T>, IVector<T>
+            where SE : ISegementExt<T>, ISegment<T>
         {
             var clusterPointList = new List<List<T>>();
             foreach (var cluster in clusters)
@@ -136,7 +144,7 @@ namespace Math.Clustering
         private static List<List<SE>> DBScan<T, S, SE>(int n, double eps, bool direction, List<S> segments)
             where T : IVector<T>
             where S : ISegment<T>, INorm<S>
-            where SE : S, ISegementExt<T>, new()
+            where SE : S, ISegementExt<T>
         {
             var dbs = new DBScan<T, S>(segments);
             var clusterList = dbs.Cluster(eps, n, direction).ToList();
@@ -196,6 +204,16 @@ namespace Math.Clustering
             public Vector2D V { get; set; }
         }
 
+        internal class Segment3DExt : Segment3D, ISegementExt<Vector3D>
+        {
+            public int IA { get; set; }
+            public int IB { get; set; }
+            public int J { get; set; }
+            public int K { get; set; }
+            public Vector3D U { get; set; }
+            public Vector3D V { get; set; }
+        }
+
         internal interface IVectorExt<in T>
         {
             int I { get; set; }
@@ -205,21 +223,33 @@ namespace Math.Clustering
 
         internal class Vector2DExt : Vector2D, IVectorExt<Vector2D>
         {
-            public Vector2DExt()
-            {
-            }
-
-            public Vector2DExt(Vector2D v, int i, int j, int k) : base(v)
+            public Vector2DExt(Vector2D v, int i, int j, int k)
+                : base(v)
             {
                 I = i;
                 J = j;
                 K = k;
             }
+
             public int I { get; set; }
             public int J { get; set; }
             public int K { get; set; }
+        }
 
-         }
+        internal class Vector3DExt : Vector3D, IVectorExt<Vector3D>
+        {
+            public Vector3DExt(Vector3D v, int i, int j, int k)
+                : base(v)
+            {
+                I = i;
+                J = j;
+                K = k;
+            }
+
+            public int I { get; set; }
+            public int J { get; set; }
+            public int K { get; set; }
+        }
 
         internal interface ICreateVectorExt<in T, out S>
         {
@@ -231,6 +261,14 @@ namespace Math.Clustering
             public Vector2DExt Create(Vector2D v, int i, int j, int k)
             {
                 return new Vector2DExt(v, i, j, k);
+            }
+        }
+
+        internal class CreateVector3DExt : ICreateVectorExt<Vector3D, Vector3DExt>
+        {
+            public Vector3DExt Create(Vector3D v, int i, int j, int k)
+            {
+                return new Vector3DExt(v, i, j, k);
             }
         }
 
@@ -248,17 +286,40 @@ namespace Math.Clustering
 
             public void Set(Vector2D v)
             {
-                _angle = -Vector2D.E1.Angle(v);
+                _angle = Vector2D.E1.Angle(v);
             }
 
             public Vector2D ToE1(Vector2D v)
             {
-                return v.Rotate(_angle);
+                return v.Rotate(-_angle);
             }
 
             public Vector2D FromE1(Vector2D v)
             {
-                return v.Rotate(-_angle);
+                return v.Rotate(_angle);
+            }
+        }
+
+        internal class Rotation3D : IRotation<Vector3D>
+        {
+            private double _angle;
+            private Vector3D _axis;
+
+
+            public void Set(Vector3D v)
+            {
+                _axis = (Vector3D.E1 ^ v).Normalized();
+                _angle = Vector3D.E1.Angle(v);
+            }
+
+            public Vector3D ToE1(Vector3D v)
+            {
+                return v.Rotate(_axis, -_angle);
+            }
+
+            public Vector3D FromE1(Vector3D v)
+            {
+                return v.Rotate(_axis, _angle);
             }
         }
     }

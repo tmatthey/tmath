@@ -60,6 +60,10 @@ A collection of mathematical function and data structures written in C#. The lib
 * * minimal rectangular bounding box 
 * * minimal circle on sphere - slow on 1st call to calculate min cricle 
 
+### Clustering
+* DBScan vector / segement for 2d / 3d
+* TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2d and 3d
+
 ### Gfx
 * PNG and PGM bitmap writer
 * Simple bitmap
