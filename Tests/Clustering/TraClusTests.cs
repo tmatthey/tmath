@@ -119,7 +119,7 @@ namespace Math.Tests.Clustering
 
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.png", bitmap.Pixels);
 
-            clusterPointList.Count.ShouldBe(4);
+            clusterPointList.Count.ShouldBe(3);
         }
 
         [Test]
@@ -146,9 +146,8 @@ namespace Math.Tests.Clustering
                 for (var j = 0; j < clusterPointList3D[i].Count; j++)
                 {
                     var v = clusterPointList3D[i][j].Rotate(axis, -angle);
-                    // Some issues if not in a plane
-                    // v.X.ShouldBe(clusterPointList2D[i][j].X, 1e-9);
-                    // v.Y.ShouldBe(clusterPointList2D[i][j].Y, 1e-9);
+                    v.X.ShouldBe(clusterPointList2D[i][j].X, 1e-9);
+                    v.Y.ShouldBe(clusterPointList2D[i][j].Y, 1e-9);
                     v.Z.ShouldBe(0, 1e-9);
                 }
             }
@@ -168,13 +167,12 @@ namespace Math.Tests.Clustering
                 {
                     var a = list[i].Rotate(axis, -angle);
                     var u = new Vector2D(a.X, a.Y);
-                    var b = list[i+1].Rotate(axis, -angle);
+                    var b = list[i + 1].Rotate(axis, -angle);
                     var v = new Vector2D(b.X, b.Y);
                     Draw.XiaolinWu(u, v, bitmap.Set);
                 }
             }
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster3D.png", bitmap.Pixels);
-
         }
     }
 }

@@ -1322,7 +1322,7 @@ namespace Math.Tests
                 289,
                 294,
                 301,
-                307,
+                306,
                 311,
                 316,
                 321,
@@ -1371,7 +1371,7 @@ namespace Math.Tests
                 551,
                 555,
                 558,
-                564,
+                563,
                 569,
                 575,
                 582,
@@ -1455,7 +1455,7 @@ namespace Math.Tests
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "SignificantPoints.png", bitmap);
 
-            list.Count.ShouldBe(55);
+            list.Count.ShouldBe(58);
         }
 
         [Test]
@@ -1514,10 +1514,33 @@ namespace Math.Tests
         }
 
         [Test]
+        public void SignificantPoints3D_SamesAsSignificantPoints2D()
+        {
+            var axis = new Vector3D(1, 2, 3);
+            const double angle = 0.1;
+            var track2D = new List<Vector2D>
+            {
+                new Vector2D(402.4, 523.2),
+                new Vector2D(378.8, 514.0),
+                new Vector2D(366.0, 464.8),
+                new Vector2D(366.0, 462.8),
+                new Vector2D(366.2, 473.8),
+                new Vector2D(376.9, 498.5),
+                new Vector2D(392.5, 503.5)
+            };
+            var track3D = track2D.Select(p => new Vector3D(p.X, p.Y, 0.0).Rotate(axis, angle)).ToList();
+
+            var significantPoints3D = Geometry.SignificantPoints(track3D);
+            var significantPoints2D = Geometry.SignificantPoints(track2D);
+
+            significantPoints3D.Count.ShouldBe(significantPoints2D.Count);
+        }
+
+        [Test]
         public void SignificantPoints3D_TrackOne_ReturnsList()
         {
             var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList());
-            list.Count.ShouldBe(55);
+            list.Count.ShouldBe(58);
         }
 
         [Test]
