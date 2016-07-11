@@ -436,19 +436,19 @@ namespace Math
                 double perpendicular, parallel, angular;
                 TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction, out perpendicular,
                     out parallel, out angular);
-                perpendicular = System.Math.Max(perpendicular, 1.0);
-                angular = System.Math.Max(angular, 1.0);
+                perpendicular = System.Math.Max(perpendicular - Comparison.Epsilon, 1.0);
+                angular = System.Math.Max(angular - Comparison.Epsilon, 1.0);
 
-                cost += (int) System.Math.Ceiling(System.Math.Log(perpendicular + Comparison.Epsilon, 2))
-                        + (int) System.Math.Ceiling(System.Math.Log(angular + Comparison.Epsilon, 2));
+                cost += (int) System.Math.Ceiling(System.Math.Log(perpendicular, 2))
+                        + (int) System.Math.Ceiling(System.Math.Log(angular, 2));
             }
             return cost;
         }
 
         private static int ModelCost<T>(T p0, T p1) where T : IVector<T>
         {
-            var d = System.Math.Max(p0.EuclideanNorm(p1), 1.0);
-            return (int) System.Math.Ceiling(System.Math.Log(d + Comparison.Epsilon, 2));
+            var d = System.Math.Max(p0.EuclideanNorm(p1) - Comparison.Epsilon, 1.0);
+            return (int) System.Math.Ceiling(System.Math.Log(d, 2));
         }
 
         public static IList<int> PolylineToSegmentPointList<T>(IList<T> polyline, double minDistance = 0.0)

@@ -1322,7 +1322,7 @@ namespace Math.Tests
                 289,
                 294,
                 301,
-                306,
+                307,
                 311,
                 316,
                 321,
@@ -1371,7 +1371,7 @@ namespace Math.Tests
                 551,
                 555,
                 558,
-                563,
+                564,
                 569,
                 575,
                 582,
@@ -1455,7 +1455,7 @@ namespace Math.Tests
             var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "SignificantPoints.png", bitmap);
 
-            list.Count.ShouldBe(58);
+            list.Count.ShouldBe(55);
         }
 
         [Test]
@@ -1540,7 +1540,7 @@ namespace Math.Tests
         public void SignificantPoints3D_TrackOne_ReturnsList()
         {
             var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList());
-            list.Count.ShouldBe(58);
+            list.Count.ShouldBe(55);
         }
 
         [Test]

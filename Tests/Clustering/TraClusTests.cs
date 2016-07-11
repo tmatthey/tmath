@@ -119,7 +119,7 @@ namespace Math.Tests.Clustering
 
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.png", bitmap.Pixels);
 
-            clusterPointList.Count.ShouldBe(3);
+            clusterPointList.Count.ShouldBe(4);
         }
 
         [Test]
