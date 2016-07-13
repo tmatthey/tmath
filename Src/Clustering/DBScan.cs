@@ -64,60 +64,40 @@ namespace Math.Clustering
                     _data.Add(new Point(t));
             }
             foreach (var t in _data)
-            {
-                t.ClusterId = Classification.Unclassified;
-            }
+                t.ClusterId = Classification.UnVisited;
 
-            // Search
+            // Search and collect
             var clusterId = Classification.Classified;
+            var clusters = new List<List<int>>();
             foreach (var p in _data)
             {
-                if (p.ClusterId != Classification.Unclassified)
+                if (p.ClusterId != Classification.UnVisited)
                     continue;
+                p.ClusterId = Classification.Noise;
 
                 var seeds = EpsNeighborhood(p, eps, direction).ToList();
                 if (seeds.Count < n)
-                {
-                    p.ClusterId = Classification.Noise;
                     continue;
-                }
-                foreach (var j in seeds)
-                {
-                    _data[j].ClusterId = clusterId;
-                }
-                seeds.Remove(_data.IndexOf(p));
 
-                while (seeds.Count > 0)
+                var region = new List<int>();
+                for (var i = 0; i < seeds.Count; i++)
                 {
-                    var newSeeds = EpsNeighborhood(_data[seeds[0]], eps, direction).ToList();
-                    if (newSeeds.Count >= n)
+                    var j = seeds[i];
+                    if (_data[j].ClusterId == Classification.UnVisited)
                     {
-                        foreach (var j in newSeeds)
-                        {
-                            var pn = _data[j];
-                            if (pn.ClusterId < Classification.Classified)
-                            {
-                                if (pn.ClusterId == Classification.Unclassified && !seeds.Contains(j))
-                                    seeds.Add(j);
-                                pn.ClusterId = clusterId;
-                            }
-                        }
+                        _data[j].ClusterId = Classification.Noise;
+                        var newSeeds = EpsNeighborhood(_data[j], eps, direction).ToList();
+                        if (newSeeds.Count >= n)
+                            seeds = seeds.Union(newSeeds).ToList();
                     }
-                    seeds.RemoveAt(0);
+                    if (_data[j].ClusterId < Classification.Classified)
+                    {
+                        _data[j].ClusterId = clusterId;
+                        region.Add(j);
+                    }
                 }
+                clusters.Add(region);
                 clusterId++;
-            }
-
-            // Aggregate result
-            var clusters = new List<List<int>>();
-            for (var i = 0; i < clusterId; i++)
-                clusters.Add(new List<int>());
-
-            for (var i = 0; i < _data.Count; i++)
-            {
-                var j = _data[i].ClusterId;
-                if (j >= 0)
-                    clusters[j].Add(i);
             }
 
             return clusters;
@@ -130,8 +110,8 @@ namespace Math.Clustering
             var inside = _tree.Search(bounding.Min, bounding.Max).Distinct();
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps))
-                .OrderBy(num => num);
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps));
+                //.OrderBy(num => num);
         }
 
         private class Point
@@ -142,13 +122,13 @@ namespace Math.Clustering
             public Point(S value)
             {
                 Value = value;
-                ClusterId = Classification.Unclassified;
+                ClusterId = Classification.UnVisited;
             }
         }
 
         private static class Classification
         {
-            public const int Unclassified = -2;
+            public const int UnVisited = -2;
             public const int Noise = -1;
             public const int Classified = 0;
         }
