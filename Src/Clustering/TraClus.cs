@@ -78,7 +78,7 @@ namespace Math.Clustering
                 points = points.OrderBy(p => p.X).ToList();
 
                 var lineSegments = new HashSet<int>();
-                var prevValue = points.First().X;
+                var prevValue = 0.0;
                 var clusterPoints = new List<T>();
 
                 for (var i = 0; i < points.Count;)
@@ -117,7 +117,8 @@ namespace Math.Clustering
                     }
 
                     if (lineSegments.Count >= n &&
-                        Comparison.IsLessEqual(minL/1.414, System.Math.Abs(current.X - prevValue)))
+                        (clusterPoints.Count < 1 ||
+                         Comparison.IsLessEqual(minL/1.414, System.Math.Abs(current.X - prevValue))))
                     {
                         var sum = new T();
                         foreach (var seg in lineSegments)
@@ -135,7 +136,7 @@ namespace Math.Clustering
                     foreach (var i1 in del)
                         lineSegments.Remove(i1);
                 }
-                if (clusterPoints.Any())
+                if (clusterPoints.Count > 1)
                     clusterPointList.Add(clusterPoints);
             }
             return clusterPointList;

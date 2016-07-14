@@ -111,7 +111,7 @@ namespace Math.Clustering
 
             return inside.Where(
                 index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps));
-                //.OrderBy(num => num);
+            //.OrderBy(num => num);
         }
 
         private class Point

@@ -74,19 +74,20 @@ namespace Math.Tests.Clustering
                 },
                 new List<Vector2D>
                 {
-                    new Vector2D(144.29446403837088, 575.9234849575189),
-                    new Vector2D(184.1767709560477, 570.8177843943499),
-                    new Vector2D(237.97414909603404, 547.4314106216683),
-                    new Vector2D(275.80949479027413, 549.1026784196047),
-                    new Vector2D(319.6448149271142, 539.1002664981366),
-                    new Vector2D(371.6740517552487, 497.76750680884066),
-                    new Vector2D(407.7052521153526, 502.47409826772287),
-                    new Vector2D(445.1378165514049, 501.8861442381799),
-                    new Vector2D(479.7987949762706, 510.0682289908822),
-                    new Vector2D(515.5372768286757, 514.6005816023113),
-                    new Vector2D(548.3582901660582, 530.0420576125782),
-                    new Vector2D(583.5048754127748, 541.8654191952315),
-                    new Vector2D(635.7317800552779, 556.5531066540136)
+                    new Vector2D(141.1824428563939, 575.4081885137225),
+                    new Vector2D(181.24595752626806, 580.5792385425581),
+                    new Vector2D(221.97255070987745, 562.7310336223853),
+                    new Vector2D(260.04471675549627, 554.8926525768136),
+                    new Vector2D(303.8238385934801, 546.0750109905307),
+                    new Vector2D(344.65008843260273, 522.8448313161166),
+                    new Vector2D(386.8469941833413, 494.5680676309053),
+                    new Vector2D(421.637258552711, 502.1516100075995),
+                    new Vector2D(459.17997682626856, 502.94918708644525),
+                    new Vector2D(495.45792335891457, 508.1576089302648),
+                    new Vector2D(531.223731698255, 514.2302103985002),
+                    new Vector2D(566.4711678767858, 527.8864633306744),
+                    new Vector2D(601.2863950620653, 544.3522724007256),
+                    new Vector2D(644.5026819667878, 551.1598646353114)
                 },
                 new List<Vector2D>
                 {
@@ -120,6 +121,14 @@ namespace Math.Tests.Clustering
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.png", bitmap.Pixels);
 
             clusterPointList.Count.ShouldBe(4);
+            for (var i = 0; i < clusterPointList.Count; i++)
+            {
+                clusterPointList[i].Count.ShouldBe(expected[i].Count);
+                for (var j = 0; j < clusterPointList[i].Count; j++)
+                {
+                    clusterPointList[i][j].EuclideanNorm(expected[i][j]).ShouldBeLessThan(1e-7);
+                }
+            }
         }
 
         [Test]
