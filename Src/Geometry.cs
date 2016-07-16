@@ -389,7 +389,7 @@ namespace Math
             angular = l1*(direction && Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
         }
 
-        public static IList<int> SignificantPoints<T>(IList<T> track, bool direction = true, int mdlCostAdwantage = 25)
+        public static IList<int> SignificantPoints<T>(IList<T> track, bool direction = true, int mdlCostAdvantage = 25)
             where T : IVector<T>
         {
             if (track == null || track.Count < 1)
@@ -409,7 +409,7 @@ namespace Math
                     globalCost += ModelCost(track[i + j - 1], track[i + j]);
                     var localCost = ModelCost(track[i], track[i + j]) + EncodingCost(track, i, i + j, direction);
 
-                    if (globalCost + mdlCostAdwantage < localCost)
+                    if (globalCost + mdlCostAdvantage < localCost)
                     {
                         points.Add(i + j - 1);
                         i = i + j - 1;

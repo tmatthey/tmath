@@ -35,17 +35,17 @@ namespace Math.Clustering
     public static class TraClus
     {
         public static List<List<Vector2D>> Cluster(IList<List<Vector2D>> tracks, int n, double eps,
-            bool direction = false, double minL = 50.0, int mdlCostAdwantage = 25)
+            bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
-            var segments = Partitioning<Vector2D, Segment2D, Segment2DExt>(tracks, minL, mdlCostAdwantage);
+            var segments = Partitioning<Vector2D, Segment2D, Segment2DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector2D, Segment2D, Segment2DExt>(n, eps, direction, segments);
             return ClusterPoint(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
         }
 
         public static List<List<Vector3D>> Cluster(IList<List<Vector3D>> tracks, int n, double eps,
-            bool direction = false, double minL = 50.0, int mdlCostAdwantage = 25)
+            bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
-            var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdwantage);
+            var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector3D, Segment3D, Segment3DExt>(n, eps, direction, segments);
             return ClusterPoint(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
         }
@@ -152,7 +152,7 @@ namespace Math.Clustering
             return clusterList.Select(cluster => cluster.Select(s => (SE) segments[s]).ToList()).ToList();
         }
 
-        private static List<S> Partitioning<T, S, SE>(IList<List<T>> tracks, double minL, int mdlCostAdwantage)
+        private static List<S> Partitioning<T, S, SE>(IList<List<T>> tracks, double minL, int mdlCostAdvantage)
             where T : IVector<T>
             where S : ISegment<T>
             where SE : S, ISegementExt<T>, new()
@@ -161,7 +161,7 @@ namespace Math.Clustering
             var k = 0;
             foreach (var track in tracks)
             {
-                var significantPoints = Geometry.SignificantPoints(track, true, mdlCostAdwantage);
+                var significantPoints = Geometry.SignificantPoints(track, true, mdlCostAdvantage);
                 var segs =
                     Geometry.PolylineToSegmentPointList(significantPoints.Select(i => track[i]).ToList(), minL).ToList();
                 for (var j = 0; j < segs.Count; j += 2)

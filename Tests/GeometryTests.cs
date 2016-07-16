@@ -1459,7 +1459,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void SignificantPoints2D_TrackOneWithUnrestrictedMDLCostAdwantage_ReturnsStartAndEndPoint()
+        public void SignificantPoints2D_TrackOneWithUnrestrictedMDLCostAdvantage_ReturnsStartAndEndPoint()
         {
             var track = new GpsTrack(_gpsTrackExamples.TrackOne());
             var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track, true, int.MaxValue/10);
@@ -1544,7 +1544,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void SignificantPoints3D_TrackOneWithUnrestrictedMDLCostAdwantage_ReturnsStartAndEndPoint()
+        public void SignificantPoints3D_TrackOneWithUnrestrictedMDLCostAdvantage_ReturnsStartAndEndPoint()
         {
             var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList(), true,
                 int.MaxValue/10);
