@@ -93,7 +93,7 @@ namespace Math
                 while (a >= System.Math.PI*2) a -= System.Math.PI*2;
 
                 if (Comparison.IsEqual(a, 0.0) || Comparison.IsEqual(a, System.Math.PI*2))
-                    a = 0.0;
+                    return 0.0;
             }
             return a;
         }
@@ -102,12 +102,24 @@ namespace Math
         {
             if (Comparison.IsNumber(a))
             {
-                a = NormalizeAngle(a);
-                if (a >= System.Math.PI)
-                    a -= System.Math.PI*2.0;
+                while (a <= -System.Math.PI) a += System.Math.PI*2;
+                while (a > System.Math.PI) a -= System.Math.PI*2;
 
                 if (Comparison.IsEqual(a, -System.Math.PI) || Comparison.IsEqual(a, System.Math.PI))
-                    a = -System.Math.PI;
+                    return System.Math.PI;
+            }
+            return a;
+        }
+
+        public static double NormalizeAngle180(double a)
+        {
+            if (Comparison.IsNumber(a))
+            {
+                while (a <= -180) a += 360.0;
+                while (a > 180) a -= 360.0;
+
+                if (Comparison.IsEqual(a, -180.0) || Comparison.IsEqual(a, 180.0))
+                    return 180.0;
             }
             return a;
         }

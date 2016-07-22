@@ -127,14 +127,14 @@ namespace Math.Tests.Gps
         [Test]
         public void RotationAngle_ReturnsExpected()
         {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
             gpsTrack.RotationAngle.ShouldBe(0.0);
         }
 
         [Test]
         public void RotationAxis_ReturnsExpected()
         {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
             gpsTrack.RotationAxis.ShouldBe(new Vector3D(0, 0, 0));
         }
     }

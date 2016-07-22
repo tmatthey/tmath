@@ -36,18 +36,18 @@ namespace Math.Gps
         public Transformer(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
             Center = new Vector3D(center);
-            Vector3D axis;
-            double angle;
-            GpsTrack.CalculateRotation(Center, out axis, out angle);
-            RotationAxis = axis;
-            RotationAngle = angle;
             Size = new BoundingRect();
             Track = new List<Vector2D>();
 
+            Polar3D c = Center;
+            var a3 = -c.Theta;
+            var a2 = System.Math.PI*0.5 - c.Phi;
             foreach (var g in gpsTrack)
             {
-                GpsPoint u = ((Vector3D) g).Rotate(RotationAxis, RotationAngle);
-                var v = new Vector2D(u.Longitude - 180.0, u.Latitude)*Geodesy.DistanceOneDeg;
+                Vector3D w0 = g;
+                var w1 = w0.RotateE3(a3);
+                GpsPoint u = w1.RotateE2(a2);
+                var v = new Vector2D(u.Longitude, u.Latitude)*Geodesy.DistanceOneDeg;
                 Track.Add(v);
                 Size.Expand(v);
             }
@@ -70,8 +70,6 @@ namespace Math.Gps
 
         public Vector3D Center { get; private set; }
         public List<Vector2D> Track { get; private set; }
-        public Vector3D RotationAxis { get; private set; }
-        public double RotationAngle { get; private set; }
 
         public Vector2D Min
         {

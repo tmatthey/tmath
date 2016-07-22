@@ -89,7 +89,7 @@ namespace Math
 
         public static bool IsLessEqual(double x, double y, double eps)
         {
-            return IsEqual(x, y, Epsilon) || x <= y;
+            return IsEqual(x, y, eps) || x <= y;
         }
 
         public static bool IsLess(double x, double y)
@@ -99,7 +99,7 @@ namespace Math
 
         public static bool IsLess(double x, double y, double eps)
         {
-            return x <= y && !IsEqual(x, y, Epsilon);
+            return x <= y && !IsEqual(x, y, eps);
         }
 
         public static IList<double> UniqueAverageSorted(IList<double> v)

@@ -61,6 +61,51 @@ namespace Math.Tests
             angle.ShouldBe(Function.NormalizeAngle(a), 1e-13);
         }
 
+        [TestCase(-3.5)]
+        [TestCase(-3.0)]
+        [TestCase(-0.1)]
+        [TestCase(0)]
+        [TestCase(0.1)]
+        [TestCase(3.0)]
+        [TestCase(3.5)]
+        public void RotateE1_EqualToRotateWithAngle(double a)
+        {
+            var v = new Vector3D(1.13, 2.22, 3.31);
+            var r = v.RotateE1(a);
+            var e = v.Rotate(Vector3D.E1, a);
+            r.ShouldBe(e);
+        }
+
+        [TestCase(-3.5)]
+        [TestCase(-3.0)]
+        [TestCase(-0.1)]
+        [TestCase(0)]
+        [TestCase(0.1)]
+        [TestCase(3.0)]
+        [TestCase(3.5)]
+        public void RotateE2_EqualToRotateWithAngle(double a)
+        {
+            var v = new Vector3D(1.13, 2.22, 3.31);
+            var r = v.RotateE2(a);
+            var e = v.Rotate(Vector3D.E2, a);
+            r.ShouldBe(e);
+        }
+
+        [TestCase(-3.5)]
+        [TestCase(-3.0)]
+        [TestCase(-0.1)]
+        [TestCase(0)]
+        [TestCase(0.1)]
+        [TestCase(3.0)]
+        [TestCase(3.5)]
+        public void RotateE3_EqualToRotateWithAngle(double a)
+        {
+            var v = new Vector3D(1.13, 2.22, 3.31);
+            var r = v.RotateE3(a);
+            var e = v.Rotate(Vector3D.E3, a);
+            r.ShouldBe(e);
+        }
+
         [TestCase(false, false)]
         [TestCase(true, false)]
         [TestCase(false, true)]
@@ -96,10 +141,10 @@ namespace Math.Tests
 
         [TestCase(0, 0, 0)]
         [TestCase(179, 0, 179)]
-        [TestCase(180, 0, -180)]
+        [TestCase(180, 0, 180)]
         [TestCase(181, 0, 179)]
         [TestCase(-179, 0, 179)]
-        [TestCase(-180, 0, -180)]
+        [TestCase(-180, 0, 180)]
         [TestCase(-181, 0, 179)]
         public void Angle(double a, double b, double expected)
         {

@@ -34,6 +34,7 @@ namespace Math
     public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
+        private double _theta;
 
         public Polar3D()
         {
@@ -41,21 +42,26 @@ namespace Math
 
         public Polar3D(double theta, double phi)
         {
-            Theta = theta;
+            _theta = Function.NormalizeAnglePi(theta);
             Phi = phi;
             R = 1.0;
         }
 
         public Polar3D(double theta, double phi, double r)
         {
-            Theta = theta;
+            _theta = Function.NormalizeAnglePi(theta);
             Phi = phi;
             R = r;
         }
 
         public double R { get; set; }
-        public double Theta { get; set; }
-        public double Phi { get; set; }
+
+        public double Theta
+        {
+            get { return _theta; }
+            set { _theta = Function.NormalizeAnglePi(value); }
+        } // Radian, Deg (-180,180] : azimuthal angle, longitude 
+        public double Phi { get; set; } // Radian, Deg [0,180]   : polar angle, inclination, latitude 
 
         public IBounding<Vector3D> Bounding()
         {
@@ -159,9 +165,9 @@ namespace Math
             Function.SinCos(p.Phi, out sinPhi, out cosPhi);
 
             return new Vector3D(
-                p.R*sinTheta*cosPhi,
-                p.R*sinTheta*sinPhi,
-                p.R*cosTheta);
+                p.R*sinPhi*cosTheta,
+                p.R*sinPhi*sinTheta,
+                p.R*cosPhi);
         }
 
         public static implicit operator Polar3D(Vector3D v)
@@ -177,18 +183,18 @@ namespace Math
                 var s = System.Math.Sqrt(x2 + y2);
                 if (Comparison.IsPositive(s))
                 {
-                    theta = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z/r, -1.0), 1.0));
-                    phi = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y/s, -1.0), 1.0));
+                    phi = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z/r, -1.0), 1.0));
+                    theta = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y/s, -1.0), 1.0));
                     if (v.X < 0.0)
                     {
-                        phi = System.Math.PI - phi;
+                        theta = System.Math.PI - theta;
                     }
-                    phi = Function.NormalizeAngle(phi);
+                    theta = Function.NormalizeAnglePi(theta);
                 }
                 else
                 {
-                    theta = v.Z >= 0.0 ? 0.0 : System.Math.PI;
-                    phi = 0.0;
+                    phi = v.Z >= 0.0 ? 0.0 : System.Math.PI;
+                    theta = 0.0;
                 }
             }
             else

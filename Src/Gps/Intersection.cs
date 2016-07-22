@@ -89,10 +89,10 @@ namespace Math.Gps
             if (t1.Size.Min.EuclideanNorm(t2.Size.Min) < 1.0 && t1.Size.Max.EuclideanNorm(t2.Size.Max) < 1.0)
                 return Result.Same;
 
-            var insideMin = t1.Size.IsInside(t2.Size.Min);
-            var insideMax = t1.Size.IsInside(t2.Size.Max);
-            var outsideMin = t2.Size.IsInside(t1.Size.Min);
-            var outsideMax = t2.Size.IsInside(t1.Size.Max);
+            var insideMin = t1.Size.IsInside(t2.Size.Min, 1e-10);
+            var insideMax = t1.Size.IsInside(t2.Size.Max, 1e-10);
+            var outsideMin = t2.Size.IsInside(t1.Size.Min, 1e-10);
+            var outsideMax = t2.Size.IsInside(t1.Size.Max, 1e-10);
 
             if (insideMax && insideMin)
             {

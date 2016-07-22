@@ -63,7 +63,7 @@ namespace Math.Gfx
                 for (var i = 0; i < width; i++)
                 {
                     var c = (byte) (System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0)*255.0);
-                    image.SetPixel(width - i - 1, j, Color.FromArgb(c, c, c));
+                    image.SetPixel(i, height - j - 1, Color.FromArgb(c, c, c));
                 }
             }
             image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);

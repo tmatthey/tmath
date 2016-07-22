@@ -56,6 +56,15 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
+        public void WritePNG_L()
+        {
+            var bitmap = new Bitmap(-Vector2D.One*0.1, Vector2D.E1 + Vector2D.E2*2.0 + Vector2D.One*0.1, 0.1);
+            Draw.XiaolinWu(Vector2D.E2*2.0, Vector2D.Zero, bitmap.Add, 0.5);
+            Draw.XiaolinWu(Vector2D.Zero, Vector2D.E1, bitmap.Add);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "L.png", bitmap.Pixels);
+        }
+
+        [Test]
         public void WritePNG_WritesTrackOneToDisk()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());

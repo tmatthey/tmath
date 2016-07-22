@@ -51,7 +51,7 @@ namespace Math.Tests
         [TestCase(270, 90, 0, -1, 0)]
         [TestCase(270, 180, 1, 0, 0)]
         [TestCase(270, 270, 0, 1, 0)]
-        public void CastVector3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
+        public void CastVector3D_ReturnsExpected(double phi, double theta, double x, double y, double z)
         {
             var v = new Vector3D(x, y, z).Normalized();
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi));
@@ -65,9 +65,10 @@ namespace Math.Tests
         [TestCase(90, 0, 3, 0, 0)]
         [TestCase(90, 90, 0, 4, 0)]
         [TestCase(90, 180, -5, 0, 0)]
+        [TestCase(90, -90, 0, -6, 0)]
         [TestCase(90, 270, 0, -6, 0)]
         [TestCase(180, 0, 0, 0, -7)]
-        public void CastPolar3D_ReturnsExpected(double theta, double phi, double x, double y, double z)
+        public void CastPolar3D_ReturnsExpected(double phi, double theta, double x, double y, double z)
         {
             var v = new Vector3D(x, y, z).Normalized();
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi));
@@ -103,7 +104,7 @@ namespace Math.Tests
         [TestCase(135, 270)]
         [TestCase(135, 315)]
         [TestCase(180, 0)]
-        public void Scan_ConversionId(double theta, double phi)
+        public void Scan_ConversionId(double phi, double theta)
         {
             var p = new Polar3D(Conversion.DegToRad(theta), Conversion.DegToRad(phi), 3.14);
             Vector3D v = p;

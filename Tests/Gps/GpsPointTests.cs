@@ -38,6 +38,20 @@ namespace Math.Tests.Gps
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
+        [TestCase(0, 0, 1, 90, 0)]
+        [TestCase(0, 0, -1, -90, 0)]
+        [TestCase(1, 0, 0, 0, 0)]
+        [TestCase(-1, 0, 0, 0, 180)]
+        [TestCase(0, 1, 0, 0, 90)]
+        [TestCase(0, -1, 0, 0, -90)]
+        public void Conversion_FromVector_ToGpsPoint(double x, double y, double z, double lat, double lon)
+        {
+            var v = new Vector3D(x, y, z);
+            GpsPoint g = v;
+            g.Latitude.ShouldBe(lat);
+            g.Longitude.ShouldBe(lon);
+        }
+
         [TestCase(0.0)]
         [TestCase(0.1)]
         [TestCase(0.2)]

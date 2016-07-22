@@ -1008,7 +1008,7 @@ namespace Math.Tests
             TestUtils.StartTimer();
             var c = Geometry.MinCircle(points);
             TestUtils.StopTimer();
-            c.Radius.ShouldBe(1243.50116557008, 1e-8);
+            c.Radius.ShouldBe(1243.50116496236, 1e-8);
         }
 
         [Test]

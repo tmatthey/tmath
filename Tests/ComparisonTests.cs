@@ -199,9 +199,20 @@ namespace Math.Tests
         [TestCase(12.05, 12.0, double.Epsilon, false)]
         [TestCase(double.Epsilon*2.0, double.Epsilon*2.01, double.Epsilon, true)]
         [TestCase(5.0, 6.0, 0.1, true)]
+        [TestCase(6.01, 6.0, 0.1, true)]
         public void IsLessEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
         {
             var result = Comparison.IsLessEqual(x, y, eps);
+            result.ShouldBe(expected);
+        }
+
+        [TestCase(5.0, 6.0, 0.1, true)]
+        [TestCase(6.01, 6.0, 0.1, false)]
+        [TestCase(5.99, 6.0, 0.1, false)]
+        [TestCase(5.89, 6.0, 0.1, true)]
+        public void IsLessWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
+        {
+            var result = Comparison.IsLess(x, y, eps);
             result.ShouldBe(expected);
         }
 

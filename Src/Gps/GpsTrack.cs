@@ -120,8 +120,8 @@ namespace Math.Gps
 
         public static void CalculateRotation(Vector3D center, out Vector3D axis, out double angle)
         {
-            axis = (center ^ -Vector3D.E1).Normalized();
-            angle = center.Angle(-Vector3D.E1);
+            axis = (center ^ Vector3D.E1).Normalized();
+            angle = center.Angle(Vector3D.E1);
         }
 
         private void CalculateMinCircle()

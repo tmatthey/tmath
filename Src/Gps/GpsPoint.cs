@@ -33,6 +33,8 @@ namespace Math.Gps
 {
     public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>
     {
+        private double _longitude;
+
         public GpsPoint()
         {
         }
@@ -40,25 +42,30 @@ namespace Math.Gps
         public GpsPoint(double latitude, double longitude)
         {
             Latitude = latitude;
-            Longitude = longitude;
+            _longitude = Function.NormalizeAngle180(longitude);
         }
 
         public GpsPoint(double latitude, double longitude, double elevation)
         {
             Latitude = latitude;
-            Longitude = longitude;
+            _longitude = Function.NormalizeAngle180(longitude);
             Elevation = elevation;
         }
 
         public GpsPoint(GpsPoint g)
         {
             Latitude = g.Latitude;
-            Longitude = g.Longitude;
+            _longitude = g.Longitude;
             Elevation = g.Elevation;
         }
 
-        public double Latitude { get; set; } // theta
-        public double Longitude { get; set; } // phi
+        public double Latitude { get; set; } // phi : [-90,90]
+
+        public double Longitude
+        {
+            get { return _longitude; }
+            set { _longitude = Function.NormalizeAngle180(value); }
+        } // theta :  (-180,180] 
         public double Elevation { get; set; } // radius
 
         public IBounding<Vector3D> Bounding()
@@ -182,8 +189,8 @@ namespace Math.Gps
         {
             return new Polar3D
             {
-                Theta = Conversion.DegToRad(90.0 - g.Latitude),
-                Phi = Conversion.DegToRad(g.Longitude),
+                Phi = Conversion.DegToRad(90.0 - g.Latitude),
+                Theta = Conversion.DegToRad(g.Longitude),
                 R = Geodesy.EarthRadius + g.Elevation
             };
         }
@@ -197,8 +204,8 @@ namespace Math.Gps
         {
             return new GpsPoint
             {
-                Latitude = 90.0 - Conversion.RadToDeg(p.Theta),
-                Longitude = Conversion.RadToDeg(p.Phi),
+                Latitude = 90.0 - Conversion.RadToDeg(p.Phi),
+                Longitude = Conversion.RadToDeg(p.Theta),
                 Elevation = p.R - Geodesy.EarthRadius
             };
         }

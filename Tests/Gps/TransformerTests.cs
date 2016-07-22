@@ -55,6 +55,41 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void Constructor_TwoPointsSameLatitude_MovedToEquator()
+        {
+            var center = new GpsPoint {Longitude = 178, Latitude = 30};
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Longitude = 179, Latitude = 30},
+                center,
+                new GpsPoint {Longitude = 177, Latitude = 30}
+            };
+            var transformed = new Transformer(track, center);
+            transformed.Track.Count.ShouldBe(track.Count);
+            transformed.Track[0].X.ShouldBe(-transformed.Track[2].X, 1e-7);
+            transformed.Track[0].Y.ShouldBe(transformed.Track[2].Y, 1e-7);
+            transformed.Track[1].X.ShouldBe(0.0, 1e-7);
+            transformed.Track[1].Y.ShouldBe(0.0, 1e-7);
+        }
+
+        [Test]
+        public void Constructor_TwoPointsSameMeridian_KeepsNorth()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Longitude = 51, Latitude = 60},
+                new GpsPoint {Longitude = 51, Latitude = 61}
+            };
+            var center = new GpsPoint {Longitude = 51, Latitude = 60.5};
+            var transformed = new Transformer(track, center);
+            transformed.Track.Count.ShouldBe(track.Count);
+            transformed.Track[0].X.ShouldBe(0.0, 1e-7);
+            transformed.Track[0].Y.ShouldBe(-Geodesy.DistanceOneDeg*0.5);
+            transformed.Track[1].X.ShouldBe(0.0, 1e-7);
+            transformed.Track[1].Y.ShouldBe(Geodesy.DistanceOneDeg*0.5);
+        }
+
+        [Test]
         public void ConstructorQudraticTrack_CreatesCorrectTransformedCoordinatesEqualMinMax()
         {
             var track = new List<GpsPoint>
@@ -67,14 +102,14 @@ namespace Math.Tests.Gps
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
             var transformed = new Transformer(track, center);
             var track2D = transformed.Track;
-            track2D[0].X.ShouldBe(transformed.Min.X);
-            track2D[0].Y.ShouldBe(transformed.Max.Y);
-            track2D[1].X.ShouldBe(transformed.Min.X);
-            track2D[1].Y.ShouldBe(transformed.Min.Y);
-            track2D[2].X.ShouldBe(transformed.Max.X);
-            track2D[2].Y.ShouldBe(transformed.Min.Y);
-            track2D[3].X.ShouldBe(transformed.Max.X);
-            track2D[3].Y.ShouldBe(transformed.Max.Y);
+            track2D[0].X.ShouldBe(transformed.Min.X, 1e-7);
+            track2D[0].Y.ShouldBe(transformed.Max.Y, 1e-7);
+            track2D[1].X.ShouldBe(transformed.Min.X, 1e-7);
+            track2D[1].Y.ShouldBe(transformed.Min.Y, 1e-7);
+            track2D[2].X.ShouldBe(transformed.Max.X, 1e-7);
+            track2D[2].Y.ShouldBe(transformed.Min.Y, 1e-7);
+            track2D[3].X.ShouldBe(transformed.Max.X, 1e-7);
+            track2D[3].Y.ShouldBe(transformed.Max.Y, 1e-7);
         }
 
         [Test]
@@ -90,14 +125,14 @@ namespace Math.Tests.Gps
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
             var transformed = new Transformer(track, center);
             var track2D = transformed.Track;
-            track2D[0].X.ShouldBe(-Geodesy.DistanceOneDeg);
-            track2D[0].Y.ShouldBe(Geodesy.DistanceOneDeg);
-            track2D[1].X.ShouldBe(-Geodesy.DistanceOneDeg);
-            track2D[1].Y.ShouldBe(-Geodesy.DistanceOneDeg);
-            track2D[2].X.ShouldBe(Geodesy.DistanceOneDeg);
-            track2D[2].Y.ShouldBe(-Geodesy.DistanceOneDeg);
-            track2D[3].X.ShouldBe(Geodesy.DistanceOneDeg);
-            track2D[3].Y.ShouldBe(Geodesy.DistanceOneDeg);
+            track2D[0].X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
+            track2D[0].Y.ShouldBe(Geodesy.DistanceOneDeg, 1e-7);
+            track2D[1].X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
+            track2D[1].Y.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
+            track2D[2].X.ShouldBe(Geodesy.DistanceOneDeg, 1e-7);
+            track2D[2].Y.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
+            track2D[3].X.ShouldBe(Geodesy.DistanceOneDeg, 1e-7);
+            track2D[3].Y.ShouldBe(Geodesy.DistanceOneDeg, 1e-7);
         }
 
         [Test]
@@ -115,7 +150,7 @@ namespace Math.Tests.Gps
             var transformed = new Transformer(track, center);
             var distance = transformed.Distance;
             distance.Count.ShouldBe(track.Count);
-            distance.Last().ShouldBe(4*2*Geodesy.DistanceOneDeg);
+            distance.Last().ShouldBe(4*2*Geodesy.DistanceOneDeg, 1e-3);
         }
 
         [Test]

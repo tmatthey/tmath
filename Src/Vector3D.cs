@@ -252,6 +252,28 @@ namespace Math
                 (c + r.Z*r.Z*cm)*Z);
         }
 
+        public Vector3D RotateE1(double alpha)
+        {
+            var c = System.Math.Cos(alpha);
+            var s = System.Math.Sin(alpha);
+            return new Vector3D(X, c*Y - s*Z, s*Y + c*Z);
+        }
+
+        public Vector3D RotateE2(double alpha)
+        {
+            var c = System.Math.Cos(alpha);
+            var s = System.Math.Sin(alpha);
+            return new Vector3D(c*X + s*Z, Y, -s*X + c*Z);
+        }
+
+        public Vector3D RotateE3(double alpha)
+        {
+            var c = System.Math.Cos(alpha);
+            var s = System.Math.Sin(alpha);
+            return new Vector3D(c*X - s*Y, s*X + c*Y, Z);
+        }
+
+
         public static Vector3D operator +(Vector3D v1, Vector3D v2)
         {
             return new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);

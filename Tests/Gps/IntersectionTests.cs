@@ -483,11 +483,11 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionRect_DifferentTracks_ReturnsIntersecting()
+        public void IntersectionRect_DifferentTracks_ReturnsInside()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Inside);
         }
 
         [Test]
@@ -532,12 +532,12 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void IntersectionRect_SimilarTrack_ReturnsIntersecting()
+        public void IntersectionRect_SimilarTrack_ReturnsInside()
         {
             var gpsTrack1 = new GpsTrack(_gpsTrackExamples.TrackOne());
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackTwo());
             TestUtils.StartTimer();
-            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Intersecting);
+            Intersection.Rect(gpsTrack1, gpsTrack2).ShouldBe(Intersection.Result.Inside);
             TestUtils.StopTimer();
         }
 
