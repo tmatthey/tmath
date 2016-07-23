@@ -47,6 +47,7 @@
     <Compile Include="Circle2D.cs" />
     <Compile Include="Circle3D.cs" />
     <Compile Include="Clustering\DBScan.cs" />
+    <Compile Include="Clustering\PolylineNeighbours.cs" />
     <Compile Include="Clustering\TraClus.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Gfx\Bitmap.cs" />
