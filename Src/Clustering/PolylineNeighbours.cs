@@ -101,7 +101,11 @@ namespace Math.Clustering
                 }
             }
 
-            return polyClusters.Select(polyCluster => polyCluster.ToList()).Select(c => c.OrderBy(num => num).ToList()).OrderBy(n => n.First()).ToList();
+            return
+                polyClusters.Select(polyCluster => polyCluster.ToList())
+                    .Select(c => c.OrderBy(num => num).ToList())
+                    .OrderBy(n => n.First())
+                    .ToList();
         }
     }
 }

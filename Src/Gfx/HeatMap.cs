@@ -83,9 +83,28 @@ namespace Math.Gfx
             var bitmap = new Bitmap(size.Min, size.Max, pixelSize);
             foreach (var track in tracks)
             {
-                for (var i = 0; i + 1 < track.Count; i++)
+                if (track.Any())
                 {
-                    Draw.XiaolinWu(track[i], track[i + 1], bitmap.Add);
+                    var prev = bitmap.Add.Converter(track[0]);
+                    Vector2D last = null;
+                    for (var i = 1; i < track.Count; i++)
+                    {
+                        var a = last ?? prev;
+                        var b = bitmap.Add.Converter(track[i]);
+                        var l = a.EuclideanNorm(b);
+                        var k = System.Math.Abs((int) a.X - (int) b.X) + System.Math.Abs((int) a.Y - (int) b.Y);
+                        if (i + 1 < track.Count && (Comparison.IsLess(l, 2.0) || k < 2))
+                        {
+                            if (last == null)
+                                last = prev;
+                        }
+                        else
+                        {
+                            Draw.XiaolinWu(a, b, bitmap.Add.Plot);
+                            last = null;
+                        }
+                        prev = b;
+                    }
                 }
             }
             return bitmap;

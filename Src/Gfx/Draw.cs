@@ -120,8 +120,10 @@ namespace Math.Gfx
             XiaolinWu(a, b, w.Plot, magnitude);
         }
 
-        public static void XiaolinWu(Vector2D a, Vector2D b, DelegatePlotFunction plotFunction, double magnitude = 1.0)
+        public static void XiaolinWu(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction, double magnitude = 1.0)
         {
+            var a = new Vector2D(a0);
+            var b = new Vector2D(b0);
             if (Comparison.IsZero(a.EuclideanNorm(b)))
                 return;
 
