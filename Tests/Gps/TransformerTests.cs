@@ -174,5 +174,22 @@ namespace Math.Tests.Gps
                 d += track.Track[i].EuclideanNorm(track.Track[i + 1]);
             d.ShouldBe(9523.0, 1e-1);
         }
+
+        [Test]
+        public void TotalDistance_ReturnsDistanceLast()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint {Longitude = 179, Latitude = 1},
+                new GpsPoint {Longitude = 179, Latitude = -1},
+                new GpsPoint {Longitude = 181, Latitude = -1},
+                new GpsPoint {Longitude = 181, Latitude = 1},
+                new GpsPoint {Longitude = 179, Latitude = 1}
+            };
+            var center = new GpsPoint {Longitude = 180, Latitude = 0};
+            var transformed = new Transformer(track, center);
+            var total = transformed.TotalDistance;
+            total.ShouldBe(transformed.Distance.Last());
+        }
     }
 }

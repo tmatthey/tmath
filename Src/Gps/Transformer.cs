@@ -33,11 +33,16 @@ namespace Math.Gps
 {
     public class Transformer
     {
+        private List<double> _displacement;
+        private List<double> _distance;
+
         public Transformer(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
             Center = new Vector3D(center);
             Size = new BoundingRect();
             Track = new List<Vector2D>();
+            _distance = null;
+            _displacement = null;
 
             Polar3D c = Center;
             var a3 = -c.Theta;
@@ -50,21 +55,6 @@ namespace Math.Gps
                 var v = new Vector2D(u.Longitude, u.Latitude)*Geodesy.DistanceOneDeg;
                 Track.Add(v);
                 Size.Expand(v);
-            }
-
-            Distance = new List<double>();
-            Displacement = new List<double>();
-            var d = 0.0;
-            for (var i = 0; i < Track.Count; i++)
-            {
-                var ds = 0.0;
-                if (i > 0)
-                {
-                    ds = Track[i - 1].EuclideanNorm(Track[i]);
-                }
-                d += ds;
-                Distance.Add(d);
-                Displacement.Add(ds);
             }
         }
 
@@ -81,14 +71,60 @@ namespace Math.Gps
             get { return Size.Max; }
         }
 
-        public IList<double> Distance { get; private set; }
-        public IList<double> Displacement { get; private set; }
+        public IList<double> Distance
+        {
+            get
+            {
+                if (_distance == null)
+                {
+                    CalculateDistance();
+                }
+                return _distance;
+            }
+        }
+
+        public IList<double> Displacement
+        {
+            get
+            {
+                if (_displacement == null)
+                {
+                    CalculateDistance();
+                }
+                return _displacement;
+            }
+        }
 
         public double TotalDistance
         {
-            get { return Distance.LastOrDefault(); }
+            get
+            {
+                if (_distance == null)
+                {
+                    CalculateDistance();
+                }
+                return _distance.LastOrDefault();
+            }
         }
 
         public BoundingRect Size { get; private set; }
+
+        private void CalculateDistance()
+        {
+            _distance = new List<double>();
+            _displacement = new List<double>();
+            var d = 0.0;
+            for (var i = 0; i < Track.Count; i++)
+            {
+                var ds = 0.0;
+                if (i > 0)
+                {
+                    ds = Track[i - 1].EuclideanNorm(Track[i]);
+                }
+                d += ds;
+                _distance.Add(d);
+                _displacement.Add(ds);
+            }
+        }
     }
 }

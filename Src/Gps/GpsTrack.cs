@@ -34,7 +34,6 @@ namespace Math.Gps
     public class GpsTrack
     {
         private double _angle;
-        private Vector3D _axis;
         private Vector3D _center;
         private double _minCircleAngle;
         private Vector3D _minCircleCenter;
@@ -48,28 +47,23 @@ namespace Math.Gps
 
         public Vector3D Center
         {
-            get { return _center ?? (_center = CalculateCenter()); }
-        }
-
-        public Vector3D RotationAxis
-        {
             get
             {
-                if (_axis == null)
+                if (_center == null)
                 {
-                    CalculateRotation(Center, out _axis, out _angle);
+                    CalculateCenter();
                 }
-                return _axis;
+                return _center;
             }
         }
 
-        public double RotationAngle
+        public double CenterAngle
         {
             get
             {
-                if (_axis == null)
+                if (_center == null)
                 {
-                    CalculateRotation(Center, out _axis, out _angle);
+                    CalculateCenter();
                 }
                 return _angle;
             }
@@ -118,11 +112,6 @@ namespace Math.Gps
             Lookup = new GridLookup(TransformedTrack, gridSize);
         }
 
-        public static void CalculateRotation(Vector3D center, out Vector3D axis, out double angle)
-        {
-            axis = (center ^ Vector3D.E1).Normalized();
-            angle = center.Angle(Vector3D.E1);
-        }
 
         private void CalculateMinCircle()
         {
@@ -131,12 +120,13 @@ namespace Math.Gps
             _minCircleAngle = System.Math.Asin(c.Radius);
         }
 
-        private Vector3D CalculateCenter()
+        private void CalculateCenter()
         {
-            var a = new Vector3D(double.NaN);
+            var a = new Vector3D();
+            _angle = double.NaN;
 
             var d = 0.0;
-            var n = 0.0;
+            var n = 0;
             foreach (var g in Track)
             {
                 Polar3D p = g;
@@ -144,14 +134,7 @@ namespace Math.Gps
                 {
                     d += p.R;
                     p.R = 1.0;
-                    if (n < 0.5)
-                    {
-                        a = p;
-                    }
-                    else
-                    {
-                        a += p;
-                    }
+                    a += p;
                     n++;
                 }
             }
@@ -159,9 +142,13 @@ namespace Math.Gps
             {
                 a.Normalize();
                 a *= d/n;
+                _angle = a.Angle(Vector3D.E1);
             }
-
-            return a;
+            else
+            {
+                a = new Vector3D(double.NaN);
+            }
+            _center = a;
         }
     }
 }

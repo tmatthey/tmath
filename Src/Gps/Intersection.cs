@@ -74,7 +74,7 @@ namespace Math.Gps
         // Note: Both rectangles must reside on a half sphere
         public static Result Rect(GpsTrack one, GpsTrack two)
         {
-            if (double.IsNaN(one.RotationAngle) || double.IsNaN(two.RotationAngle))
+            if (double.IsNaN(one.CenterAngle) || double.IsNaN(two.CenterAngle))
                 return Result.Undefined;
 
             var t1 = one.CreateTransformedTrack();

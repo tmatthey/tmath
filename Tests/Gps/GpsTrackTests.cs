@@ -86,10 +86,7 @@ namespace Math.Tests.Gps
             gpsTrack.Center.X.ShouldBe(double.NaN);
             gpsTrack.Center.Y.ShouldBe(double.NaN);
             gpsTrack.Center.Z.ShouldBe(double.NaN);
-            gpsTrack.RotationAxis.X.ShouldBe(double.NaN);
-            gpsTrack.RotationAxis.Y.ShouldBe(double.NaN);
-            gpsTrack.RotationAxis.Z.ShouldBe(double.NaN);
-            gpsTrack.RotationAngle.ShouldBe(double.NaN);
+            gpsTrack.CenterAngle.ShouldBe(double.NaN);
         }
 
         [Test]
@@ -128,14 +125,7 @@ namespace Math.Tests.Gps
         public void RotationAngle_ReturnsExpected()
         {
             var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
-            gpsTrack.RotationAngle.ShouldBe(0.0);
-        }
-
-        [Test]
-        public void RotationAxis_ReturnsExpected()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
-            gpsTrack.RotationAxis.ShouldBe(new Vector3D(0, 0, 0));
+            gpsTrack.CenterAngle.ShouldBe(0.0);
         }
     }
 }
