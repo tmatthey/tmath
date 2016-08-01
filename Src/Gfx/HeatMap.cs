@@ -115,8 +115,19 @@ namespace Math.Gfx
             {
                 foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
                 {
-                    if (Comparison.IsPositive(bitmap.Pixels[i, j]) && Comparison.IsPositive(max))
-                        bitmap.Pixels[i, j] /= max;
+                    var c = 0.0;
+                    if (Comparison.IsPositive(max))
+                    {
+                        if (Comparison.IsEqual(bitmap.Pixels[i, j], max))
+                        {
+                            c = 1.0;
+                        }
+                        else if (Comparison.IsPositive(bitmap.Pixels[i, j]))
+                        {
+                            c = bitmap.Pixels[i, j]/max;
+                        }
+                    }
+                    bitmap.Pixels[i, j] = c;
                 }
             }
             return bitmap.Pixels;
