@@ -38,14 +38,14 @@ namespace Math.Gfx
         //
         public static void Bresenham(Vector2D a, Vector2D b, PlotWrapper w, double magnitude = 1.0)
         {
-            Bresenham(w.Converter(a),  w.Converter(b), w.Plot, magnitude);
+            Bresenham(w.Converter(a), w.Converter(b), w.Plot, magnitude);
         }
 
         public static void Bresenham(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction, double magnitude = 1.0)
         {
             var a = new Vector2D(a0);
             var b = new Vector2D(b0);
-            if ((int)System.Math.Round(a.X) == (int)System.Math.Round(b.X) &&
+            if ((int) System.Math.Round(a.X) == (int) System.Math.Round(b.X) &&
                 (int) System.Math.Round(a.Y) == (int) System.Math.Round(b.Y))
             {
                 plotFunction((int) System.Math.Round(a.X), (int) System.Math.Round(a.Y), magnitude);

@@ -35,8 +35,19 @@ namespace Math.Tests.Gfx
     [TestFixture]
     public class BitmapTests
     {
+        [TestCase(2)]
+        [TestCase(20)]
+        [TestCase(200)]
+        [TestCase(2000)]
+        public void ConstructorWithMaxLength_MaxDimensions(int maxLength)
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(2000.0, 2000.0), 1.0, maxLength);
+            bitmap.Pixels.GetLength(0).ShouldBe(maxLength);
+            bitmap.Pixels.GetLength(1).ShouldBe(maxLength);
+        }
+
         [Test]
-        public void Constructor_WithCorrectDimesions()
+        public void Constructor_CorrectDimensions()
         {
             var bitmap = new Bitmap(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
             bitmap.Pixels.GetLength(0).ShouldBe(3);

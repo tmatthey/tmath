@@ -36,27 +36,14 @@ namespace Math.Gfx
 
     public class HeatMap
     {
-        private readonly List<Vector3D> _allPoints;
-        private readonly DelegateCalculateHeatMapCenter _calculateCenter;
+        private const int MaxLength = 2000;
         private readonly List<GpsTrack> _gpsTracks;
 
-        public HeatMap(DelegateCalculateHeatMapCenter calculateCenter)
+        public HeatMap()
         {
             _gpsTracks = new List<GpsTrack>();
-            _allPoints = new List<Vector3D>();
-            _calculateCenter = calculateCenter;
         }
 
-        public static Vector3D CalculateMinCircle(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints)
-        {
-            return Geometry.MinCircleOnSphere(allPoints).Center;
-        }
-
-        public static Vector3D CalculateCenter(IList<GpsTrack> gpsTracks, IList<Vector3D> allPoints)
-        {
-            var center = new Vector3D();
-            return gpsTracks.Aggregate(center, (current, item) => current + item.Center)/gpsTracks.Count;
-        }
 
         public void Add(IList<GpsPoint> track)
         {
@@ -66,12 +53,19 @@ namespace Math.Gfx
         public void Add(GpsTrack track)
         {
             _gpsTracks.Add(track);
-            _allPoints.AddRange(track.Track.Select(p => ((Vector3D) p).Normalized()).ToList());
         }
 
-        public Bitmap Raw(double pixelSize)
+        public Bitmap Raw(double pixelSize, int maxLength = MaxLength)
         {
-            var center = _calculateCenter(_gpsTracks, _allPoints);
+            var n = _gpsTracks.Sum(track => track.Track.Count);
+            if (n == 0)
+                return null;
+
+            var center = new Vector3D();
+            center =
+                _gpsTracks.Aggregate(center,
+                    (current1, track) => track.Track.Aggregate(current1, (current, pt) => current + pt))/n;
+
             var tracks = new List<List<Vector2D>>();
             var size = new BoundingRect();
             foreach (var track in _gpsTracks)
@@ -80,7 +74,7 @@ namespace Math.Gfx
                 tracks.Add(transformed.Track);
                 size.Expand(transformed.Size);
             }
-            var bitmap = new Bitmap(size.Min, size.Max, pixelSize);
+            var bitmap = new Bitmap(size.Min, size.Max, pixelSize, maxLength);
             foreach (var track in tracks)
             {
                 if (track.Any())
@@ -110,18 +104,19 @@ namespace Math.Gfx
             return bitmap;
         }
 
-        public double[,] Normalized(double pixelSize, double min, double max)
+        public double[,] Normalized(double pixelSize, int maxLength = MaxLength)
         {
-            var bitmap = Raw(pixelSize);
-            var cMax = bitmap.Pixels.Cast<double>().Aggregate(0.0, (current, c) => System.Math.Max(c, current));
+            var bitmap = Raw(pixelSize, maxLength);
+            if (bitmap == null)
+                return null;
+
+            var max = bitmap.Pixels.Cast<double>().Aggregate(0.0, (current, c) => System.Math.Max(c, current));
             foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
             {
                 foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
                 {
-                    var c = bitmap.Pixels[i, j];
-                    if (Comparison.IsPositive(c))
-                        c = c/cMax/(max - min) + min;
-                    bitmap.Pixels[i, j] = max - c;
+                    if (Comparison.IsPositive(bitmap.Pixels[i, j]) && Comparison.IsPositive(max))
+                        bitmap.Pixels[i, j] /= max;
                 }
             }
             return bitmap.Pixels;

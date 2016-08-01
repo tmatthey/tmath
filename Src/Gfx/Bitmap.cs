@@ -30,18 +30,24 @@ namespace Math.Gfx
 {
     public class Bitmap
     {
+        private const int MaxLength = int.MaxValue;
+        private const double eps = 1e-9;
         private readonly Vector2D _min;
         private readonly int _nx;
         private readonly int _ny;
         private readonly double _pixelSize;
 
-        public Bitmap(Vector2D min, Vector2D max, double pixelSize)
+        public Bitmap(Vector2D min, Vector2D max, double pixelSize, int maxLength = MaxLength)
         {
-            _pixelSize = pixelSize;
-            _min = new Vector2D(min);
             var v = max - min;
-            _nx = (int) System.Math.Floor(System.Math.Max(v.X/pixelSize, 0.0) + 2.0 - 1e-9);
-            _ny = (int) System.Math.Floor(System.Math.Max(v.Y/pixelSize, 0.0) + 2.0 - 1e-9);
+
+            var a = System.Math.Abs(maxLength - 2.0) + eps;
+            var maxPixel = System.Math.Max(v.X/a, v.Y/a);
+            _min = new Vector2D(min);
+            _pixelSize = System.Math.Max(pixelSize, maxPixel);
+
+            _nx = (int) System.Math.Floor(System.Math.Max(v.X/_pixelSize, 0.0) + 2.0 - eps);
+            _ny = (int) System.Math.Floor(System.Math.Max(v.Y/_pixelSize, 0.0) + 2.0 - eps);
             Pixels = new double[_nx, _ny];
 
             Add = new PlotWrapper(ConvertToBitmap, PixelAdd);

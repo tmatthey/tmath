@@ -1449,10 +1449,10 @@ namespace Math.Tests
         {
             var track = new GpsTrack(_gpsTrackExamples.TrackOne());
             var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
-            var heatMap = new HeatMap(HeatMap.CalculateCenter);
+            var heatMap = new HeatMap();
             heatMap.Add(track.Track);
             heatMap.Add(list.Select(i => track.Track[i]).ToList());
-            var bitmap = heatMap.Normalized(2.5, 0.05, 1.0);
+            var bitmap = heatMap.Normalized(2.5);
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "SignificantPoints.png", bitmap);
 
             list.Count.ShouldBe(55);
