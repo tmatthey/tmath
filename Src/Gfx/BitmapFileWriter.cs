@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
@@ -37,6 +36,11 @@ namespace Math.Gfx
     {
         public static void PGM(string fileName, double[,] bitmap)
         {
+            PGM(fileName, bitmap, GreyMapping.Default);
+        }
+
+        public static void PGM(string fileName, double[,] bitmap, IColorMapping colorMap)
+        {
             var width = bitmap.GetLength(0);
             var height = bitmap.GetLength(1);
             var header = "P5\n" + width + " " + height + "\n255\n";
@@ -46,14 +50,18 @@ namespace Math.Gfx
             {
                 for (var i = width - 1; i >= 0; i--)
                 {
-                    var c = (byte) (System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0)*255.0);
-                    writer.Write(c);
+                    writer.Write(colorMap.Grey(bitmap[i, j]));
                 }
             }
             writer.Close();
         }
 
         public static void PNG(string fileName, double[,] bitmap)
+        {
+            PNG(fileName, bitmap, GreyMapping.Default);
+        }
+
+        public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
         {
             var width = bitmap.GetLength(0);
             var height = bitmap.GetLength(1);
@@ -62,8 +70,8 @@ namespace Math.Gfx
             {
                 for (var i = 0; i < width; i++)
                 {
-                    var c = (byte) (System.Math.Max(System.Math.Min(1.0, bitmap[i, j]), 0.0)*255.0);
-                    image.SetPixel(i, height - j - 1, Color.FromArgb(c, c, c));
+                    var c = colorMap.Color(bitmap[i, j]);
+                    image.SetPixel(i, height - j - 1, System.Drawing.Color.FromArgb(c.Red, c.Green, c.Blue));
                 }
             }
             image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);

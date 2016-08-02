@@ -51,10 +51,16 @@
     <Compile Include="Clustering\TraClus.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Gfx\Bitmap.cs" />
+    <Compile Include="Gfx\BlueMapping.cs" />
+    <Compile Include="Gfx\Color.cs" />
     <Compile Include="Gfx\Draw.cs" />
     <Compile Include="Gfx\BitmapFileWriter.cs" />
+    <Compile Include="Gfx\GreenMapping.cs" />
+    <Compile Include="Gfx\GreyMapping.cs" />
     <Compile Include="Gfx\HeatMap.cs" />
+    <Compile Include="Gfx\IColorMapping.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
+    <Compile Include="Gfx\RedMapping.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Interfaces\IBoundingFacade.cs" />
     <Compile Include="Interfaces\IBounding.cs" />
