@@ -56,6 +56,24 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
+        public void WritePNG_HeatColorMapping()
+        {
+            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One*300, 1);
+            var width = bitmap.Pixels.GetLength(0) - 1;
+            var height = bitmap.Pixels.GetLength(1) - 1;
+            for (var i = 0; i <= width; i++)
+            {
+                var a = i/(double) width;
+                for (var j = 0; j <= height; j++)
+                {
+                    bitmap.Pixels[i, j] = a;
+                }
+            }
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "HeatColorMapping.png", bitmap.Pixels,
+                HeatColorMapping.Default);
+        }
+
+        [Test]
         public void WritePNG_L()
         {
             var bitmap = new Bitmap(-Vector2D.One*0.1, Vector2D.E1 + Vector2D.E2*2.0 + Vector2D.One*0.1, 0.1);

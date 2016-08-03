@@ -58,6 +58,7 @@
     <Compile Include="Gfx\BitmapFileWriter.cs" />
     <Compile Include="Gfx\GreenMapping.cs" />
     <Compile Include="Gfx\GreyMapping.cs" />
+    <Compile Include="Gfx\HeatColorMapping.cs" />
     <Compile Include="Gfx\HeatMap.cs" />
     <Compile Include="Gfx\IColorMapping.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />

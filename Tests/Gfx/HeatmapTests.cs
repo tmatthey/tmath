@@ -49,7 +49,7 @@ namespace Math.Tests.Gfx
             heatMap.Add(_gpsTrackExamples.TrackFour());
             heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
             var bitmap = heatMap.Normalized(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.png", bitmap, HeatColorMapping.Default);
         }
 
         [Test]
