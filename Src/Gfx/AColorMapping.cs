@@ -26,37 +26,31 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using Math.Gfx;
-using Math.Gps;
-using Math.Tests.Gps;
-using NUnit.Framework;
-using Shouldly;
-
-namespace Math.Tests.Gfx
+namespace Math.Gfx
 {
-    [TestFixture]
-    public class HeatMapTests
+    public abstract class AColorMapping : IColorMapping
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+        private readonly double _min;
+        private readonly double _range;
 
-        [Test]
-        public void HeatMap_GeneratesHeatmap()
+        protected AColorMapping(double min = 0.1, double max = 1.0)
         {
-            var heatMap = new HeatMap();
-            heatMap.Add(_gpsTrackExamples.TrackOne());
-            heatMap.Add(_gpsTrackExamples.TrackTwo());
-            heatMap.Add(_gpsTrackExamples.TrackThree());
-            heatMap.Add(_gpsTrackExamples.TrackFour());
-            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
-            var bitmap = heatMap.Normalized(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.png", bitmap);
+            _min = min;
+            _range = max - min;
         }
 
-        [Test]
-        public void HeatMap_NoTracks_ReturnsNull()
+        public byte Grey(double c)
         {
-            var heatMap = new HeatMap();
-            heatMap.Normalized(2.5).ShouldBe(null);
+            return Map(c);
+        }
+
+        public abstract Color Color(double c);
+
+        protected byte Map(double c)
+        {
+            if (Comparison.IsLessEqual(c, 0.0))
+                return 255;
+            return (byte) ((1.0 - (System.Math.Min(c, 1.0)*_range + _min))*255.0);
         }
     }
 }
