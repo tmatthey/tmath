@@ -50,6 +50,7 @@
     <Compile Include="Clustering\PolylineNeighbours.cs" />
     <Compile Include="Clustering\TraClus.cs" />
     <Compile Include="Geometry.cs" />
+    <Compile Include="Gfx\AColorMapping.cs" />
     <Compile Include="Gfx\Bitmap.cs" />
     <Compile Include="Gfx\BlueMapping.cs" />
     <Compile Include="Gfx\Color.cs" />

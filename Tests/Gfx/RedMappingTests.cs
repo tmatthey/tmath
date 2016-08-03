@@ -54,9 +54,23 @@ namespace Math.Tests.Gfx
         {
             var map = new RedMapping(0.1, 0.9);
             map.Grey(c).ShouldBe(expected);
-            map.Color(c).Red.ShouldBe((byte)255);
+            map.Color(c).Red.ShouldBe((byte) 255);
             map.Color(c).Green.ShouldBe(expected);
             map.Color(c).Blue.ShouldBe(expected);
+        }
+
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(0.5)]
+        [TestCase(0.9)]
+        [TestCase(1.0)]
+        public void DefaultValues(double c)
+        {
+            var m0 = new RedMapping();
+            var m1 = new RedMapping(0.1);
+            var m2 = new RedMapping(0.1, 1.0);
+            m0.Grey(c).ShouldBe(m1.Grey(c));
+            m1.Grey(c).ShouldBe(m2.Grey(c));
         }
     }
 }

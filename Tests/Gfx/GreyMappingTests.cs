@@ -58,5 +58,19 @@ namespace Math.Tests.Gfx
             map.Color(c).Green.ShouldBe(expected);
             map.Color(c).Blue.ShouldBe(expected);
         }
+
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(0.5)]
+        [TestCase(0.9)]
+        [TestCase(1.0)]
+        public void DefaultValues(double c)
+        {
+            var m0 = new GreyMapping();
+            var m1 = new GreyMapping(0.1);
+            var m2 = new GreyMapping(0.1, 1.0);
+            m0.Grey(c).ShouldBe(m1.Grey(c));
+            m1.Grey(c).ShouldBe(m2.Grey(c));
+        }
     }
 }

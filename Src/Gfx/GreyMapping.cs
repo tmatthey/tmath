@@ -28,26 +28,25 @@
 
 namespace Math.Gfx
 {
-    public class GreyMapping : IColorMapping
+    public class GreyMapping : AColorMapping
     {
         public static readonly IColorMapping Default = new GreyMapping();
-        private readonly double _min;
-        private readonly double _range;
 
-        public GreyMapping(double min = 0.05, double max = 1.0)
+        public GreyMapping()
         {
-            _min = min;
-            _range = max - min;
         }
 
-        public byte Grey(double c)
+        public GreyMapping(double min)
+            : base(min)
         {
-            if (Comparison.IsLessEqual(c, 0.0))
-                return 255;
-            return (byte) ((1.0 - (System.Math.Min(c, 1.0)*_range + _min))*255.0);
         }
 
-        public Color Color(double c)
+        public GreyMapping(double min, double max)
+            : base(min, max)
+        {
+        }
+
+        public override Color Color(double c)
         {
             var a = Grey(c);
             return new Color(a, a, a);
