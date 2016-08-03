@@ -120,10 +120,10 @@ namespace Math
 
             // O(N)
             // Build lower hull
-            for (var i = 0; i < points.Count; ++i)
+            foreach (var pt in points)
             {
-                while (k >= 2 && Cross(hull[k - 2], hull[k - 1], points[i]) <= 0) k--;
-                hull[k++] = points[i];
+                while (k >= 2 && Cross(hull[k - 2], hull[k - 1], pt) <= 0) k--;
+                hull[k++] = pt;
             }
 
             // Build upper hull
