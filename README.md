@@ -73,4 +73,4 @@ A collection of mathematical function and data structures written in C#. The lib
 * Point plot (antialiasing)
 * Heatmap for arbitrary set of GPS tracks with color schemes
 
-![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/4106320861-heatMapCenter.png)
+![heatmap.png](https://bitbucket.org/repo/LEp4rd/images/2412494808-heatmap.png)
