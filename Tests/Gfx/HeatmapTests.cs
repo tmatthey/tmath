@@ -40,7 +40,33 @@ namespace Math.Tests.Gfx
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
         [Test]
-        public void HeatMap_GeneratesHeatmap()
+        public void HeatMap_Log_GeneratesHeatmap()
+        {
+            var heatMap = new HeatMap();
+            heatMap.Add(_gpsTrackExamples.TrackOne());
+            heatMap.Add(_gpsTrackExamples.TrackTwo());
+            heatMap.Add(_gpsTrackExamples.TrackThree());
+            heatMap.Add(_gpsTrackExamples.TrackFour());
+            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
+            var bitmap = heatMap.Log(2.5);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.log.png", bitmap, HeatColorMapping.Default);
+        }
+
+        [Test]
+        public void HeatMap_Median_GeneratesHeatmap()
+        {
+            var heatMap = new HeatMap();
+            heatMap.Add(_gpsTrackExamples.TrackOne());
+            heatMap.Add(_gpsTrackExamples.TrackTwo());
+            heatMap.Add(_gpsTrackExamples.TrackThree());
+            heatMap.Add(_gpsTrackExamples.TrackFour());
+            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
+            var bitmap = heatMap.Median(2.5);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.median.png", bitmap, HeatColorMapping.Default);
+        }
+
+        [Test]
+        public void HeatMap_Normalized_GeneratesHeatmap()
         {
             var heatMap = new HeatMap();
             heatMap.Add(_gpsTrackExamples.TrackOne());
@@ -49,7 +75,8 @@ namespace Math.Tests.Gfx
             heatMap.Add(_gpsTrackExamples.TrackFour());
             heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
             var bitmap = heatMap.Normalized(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.png", bitmap, HeatColorMapping.Default);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.normalized.png", bitmap,
+                HeatColorMapping.Default);
         }
 
         [Test]
@@ -57,6 +84,8 @@ namespace Math.Tests.Gfx
         {
             var heatMap = new HeatMap();
             heatMap.Normalized(2.5).ShouldBe(null);
+            heatMap.Log(2.5).ShouldBe(null);
+            heatMap.Median(2.5).ShouldBe(null);
         }
     }
 }

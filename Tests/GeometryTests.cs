@@ -1572,8 +1572,8 @@ namespace Math.Tests
             var b = new Vector3D(5, 17, 0);
             var c = new Vector3D(0, 17, 2);
             var d = new Vector3D(5, 17, 2);
-            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d, true);
-            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c, true);
+            var dist0 = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
+            var dist1 = Geometry.TrajectoryHausdorffDistance(a, b, d, c);
             System.Math.Abs(dist0 - dist1).ShouldBeGreaterThan(1.0);
         }
 

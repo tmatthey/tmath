@@ -132,5 +132,74 @@ namespace Math.Gfx
             }
             return bitmap.Pixels;
         }
+
+        public double[,] Median(double pixelSize, int maxLength = MaxLength)
+        {
+            var bitmap = Raw(pixelSize, maxLength);
+            if (bitmap == null)
+                return null;
+
+            var list =
+                bitmap.Pixels.Cast<double>()
+                    .Where(pixel => Comparison.IsLess(0.0, pixel))
+                    .OrderBy(num => num)
+                    .Distinct()
+                    .ToList();
+            double n = list.Count;
+            if (n > 0)
+            {
+                foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
+                {
+                    foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
+                    {
+                        var pixel = bitmap.Pixels[i, j];
+                        if (Comparison.IsLess(0.0, pixel))
+                        {
+                            var c = (list.IndexOf(pixel) + 1)/n;
+                            bitmap.Pixels[i, j] = c;
+                        }
+                    }
+                }
+            }
+
+            return bitmap.Pixels;
+        }
+
+        public double[,] Log(double pixelSize, int maxLength = MaxLength)
+        {
+            var bitmap = Raw(pixelSize, maxLength);
+            if (bitmap == null)
+                return null;
+
+            var max = bitmap.Pixels.Cast<double>().Aggregate(0.0, (current, c) => System.Math.Max(c, current));
+            if (Comparison.IsPositive(max))
+            {
+                var b = System.Math.Exp(System.Math.Log(max)/0.9);
+                foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
+                {
+                    foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
+                    {
+                        double c;
+                        var pixel = bitmap.Pixels[i, j];
+                        if (Comparison.IsEqual(pixel, max))
+                        {
+                            c = 1.0;
+                        }
+                        else if (Comparison.IsLess(pixel, 1.0))
+                        {
+                            c = pixel*0.1;
+                        }
+                        else
+                        {
+                            c = System.Math.Log(pixel, b) + 0.1;
+                        }
+
+                        bitmap.Pixels[i, j] = c;
+                    }
+                }
+            }
+
+            return bitmap.Pixels;
+        }
     }
 }

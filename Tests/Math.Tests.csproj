@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -64,7 +64,7 @@
     <Compile Include="Gfx\DrawTests.cs" />
     <Compile Include="Gfx\GreenMappingTests.cs" />
     <Compile Include="Gfx\GreyMappingTests.cs" />
-    <Compile Include="Gfx\HeatmapTests.cs" />
+    <Compile Include="Gfx\HeatMapTests.cs" />
     <Compile Include="Gfx\RedMappingTests.cs" />
     <Compile Include="Gps\NeighbourDistancePointTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />

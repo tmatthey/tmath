@@ -53,7 +53,7 @@ namespace Math.Clustering
         private static List<List<T>> ClusterPoint<T, TE, SE>(int n, double minL,
             List<List<SE>> clusters, IRotation<T> rotation, ICreateVectorExt<T, TE> factoryVectorExt)
             where T : IVector<T>, new()
-            where TE : IVectorExt<T>, IVector<T>
+            where TE : IVectorExt, IVector<T>
             where SE : ISegementExt<T>, ISegment<T>
         {
             var clusterPointList = new List<List<T>>();
@@ -215,14 +215,14 @@ namespace Math.Clustering
             public Vector3D V { get; set; }
         }
 
-        internal interface IVectorExt<in T>
+        internal interface IVectorExt
         {
             int I { get; set; }
             int J { get; set; }
             int K { get; set; }
         }
 
-        internal class Vector2DExt : Vector2D, IVectorExt<Vector2D>
+        internal class Vector2DExt : Vector2D, IVectorExt
         {
             public Vector2DExt(Vector2D v, int i, int j, int k)
                 : base(v)
@@ -237,7 +237,7 @@ namespace Math.Clustering
             public int K { get; set; }
         }
 
-        internal class Vector3DExt : Vector3D, IVectorExt<Vector3D>
+        internal class Vector3DExt : Vector3D, IVectorExt
         {
             public Vector3DExt(Vector3D v, int i, int j, int k)
                 : base(v)
