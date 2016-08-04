@@ -47,6 +47,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Segment3D
 * Vector2D
 * Vector3D
+* Color
 
 ### GPS 
 * GpsPoint
@@ -63,12 +64,13 @@ A collection of mathematical function and data structures written in C#. The lib
 ### Clustering
 * DBScan vector / segement for 2d / 3d
 * TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2d and 3d
+* Finding trajectory neighborhoods 
 
 ### Gfx
 * PNG and PGM bitmap writer
 * Simple bitmap
 * Line draw - Bresenham and antialiasing (Xiaolin Wu's line algorithm)
 * Point plot (antialiasing)
-* Heatmap for arbitrary set of GPS tracks
+* Heatmap for arbitrary set of GPS tracks with color schemes
 
 ![heatMapCenter.png](https://bitbucket.org/repo/LEp4rd/images/4106320861-heatMapCenter.png)
