@@ -37,5 +37,10 @@ namespace Math.KDTree
         {
             return Enumerable.Empty<int>();
         }
+
+        public int Depth()
+        {
+            return 1;
+        }
     }
 }

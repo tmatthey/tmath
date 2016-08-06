@@ -204,5 +204,29 @@ namespace Math.Tests.KDTree
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
             res.Count().ShouldBe(list.Count);
         }
+
+        [Test]
+        public void Depth_BuilderWith5Elements_Returns3()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+            var tree = TreeBuilder.Build(list);
+            tree.Depth().ShouldBe(3);
+        }
+
+        [Test]
+        public void Depth_BuilderWithEmptyList_Returns1()
+        {
+            var list = new List<Vector3D>();
+            var tree = TreeBuilder.Build(list);
+            tree.Depth().ShouldBe(1);
+        }
+
+        [Test]
+        public void Depth_NoTree_Returns1()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+            var tree = new NoTree<int, Vector3D>(list);
+            tree.Depth().ShouldBe(1);
+        }
     }
 }

@@ -74,6 +74,11 @@ namespace Math.KDTree
             }
         }
 
+        public int Depth()
+        {
+            return 1 + System.Math.Max(_right.Depth(), _left.Depth());
+        }
+
         private static int Compare(double p1, double p2)
         {
             return p1.CompareTo(p2);

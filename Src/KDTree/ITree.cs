@@ -37,5 +37,6 @@ namespace Math.KDTree
     public interface ITree<in T>
     {
         IEnumerable<int> Search(T min, T max);
+        int Depth();
     }
 }

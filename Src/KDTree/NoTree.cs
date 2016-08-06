@@ -44,5 +44,10 @@ namespace Math.KDTree
         {
             return _allElements;
         }
+
+        public int Depth()
+        {
+            return 1;
+        }
     }
 }
