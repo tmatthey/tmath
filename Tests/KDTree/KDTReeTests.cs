@@ -210,7 +210,7 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
             var tree = TreeBuilder.Build(list);
-            tree.Depth().ShouldBe(3);
+            tree.Depth().ShouldBe(2);
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector3D>();
             var tree = TreeBuilder.Build(list);
-            tree.Depth().ShouldBe(1);
+            tree.Depth().ShouldBe(0);
         }
 
         [Test]
@@ -227,6 +227,13 @@ namespace Math.Tests.KDTree
             var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
             var tree = new NoTree<int, Vector3D>(list);
             tree.Depth().ShouldBe(1);
+        }
+        [Test]
+        public void Depth_NoTreeEmpty_Returns0()
+        {
+            var list = new List<Vector3D>();
+            var tree = new NoTree<int, Vector3D>(list);
+            tree.Depth().ShouldBe(0);
         }
     }
 }

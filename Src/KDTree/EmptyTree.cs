@@ -40,7 +40,7 @@ namespace Math.KDTree
 
         public int Depth()
         {
-            return 1;
+            return 0;
         }
     }
 }

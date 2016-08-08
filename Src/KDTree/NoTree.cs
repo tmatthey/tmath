@@ -47,7 +47,7 @@ namespace Math.KDTree
 
         public int Depth()
         {
-            return 1;
+            return _allElements.Any() ? 1 : 0;
         }
     }
 }
