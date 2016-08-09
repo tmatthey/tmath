@@ -228,6 +228,7 @@ namespace Math.Tests.KDTree
             var tree = new NoTree<int, Vector3D>(list);
             tree.Depth().ShouldBe(1);
         }
+
         [Test]
         public void Depth_NoTreeEmpty_Returns0()
         {

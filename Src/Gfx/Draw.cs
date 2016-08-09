@@ -48,7 +48,7 @@ namespace Math.Gfx
             if ((int) System.Math.Round(a.X) == (int) System.Math.Round(b.X) &&
                 (int) System.Math.Round(a.Y) == (int) System.Math.Round(b.Y))
             {
-                plotFunction((int) System.Math.Round(a.X), (int) System.Math.Round(a.Y), magnitude);
+                plotFunction((int) System.Math.Round(a.X), (int) System.Math.Round(a.Y), magnitude, magnitude);
                 return;
             }
 
@@ -90,11 +90,11 @@ namespace Math.Gfx
                 }
                 if (steep)
                 {
-                    plotFunction(y, x, c);
+                    plotFunction(y, x, c, magnitude);
                 }
                 else
                 {
-                    plotFunction(x, y, c);
+                    plotFunction(x, y, c, magnitude);
                 }
                 err -= dy;
                 if (err < 0)
@@ -153,13 +153,13 @@ namespace Math.Gfx
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap*magnitude);
-                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap*magnitude);
+                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap*magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap*magnitude);
-                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap*magnitude);
+                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap*magnitude, magnitude);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
@@ -171,13 +171,13 @@ namespace Math.Gfx
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap*magnitude);
-                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap*magnitude);
+                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap*magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap*magnitude);
-                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap*magnitude);
+                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap*magnitude, magnitude);
             }
 
             // main loop
@@ -185,13 +185,13 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    plotFunction(ipart(intery), x, rfpart(intery)*magnitude);
-                    plotFunction(ipart(intery) + 1, x, fpart(intery)*magnitude);
+                    plotFunction(ipart(intery), x, rfpart(intery)*magnitude, magnitude);
+                    plotFunction(ipart(intery) + 1, x, fpart(intery)*magnitude, magnitude);
                 }
                 else
                 {
-                    plotFunction(x, ipart(intery), rfpart(intery)*magnitude);
-                    plotFunction(x, ipart(intery) + 1, fpart(intery)*magnitude);
+                    plotFunction(x, ipart(intery), rfpart(intery)*magnitude, magnitude);
+                    plotFunction(x, ipart(intery) + 1, fpart(intery)*magnitude, magnitude);
                 }
                 intery = intery + gradient;
             }
@@ -218,7 +218,7 @@ namespace Math.Gfx
         {
             var f = dx*dy;
             if (dx > eps && dy > eps && f > eps)
-                plotFunction(x, y, magnitude*dx*dy);
+                plotFunction(x, y, magnitude*dx*dy, magnitude);
         }
 
         private static double fpart(double x)

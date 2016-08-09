@@ -52,10 +52,14 @@ namespace Math.Gfx
 
             Add = new PlotWrapper(ConvertToBitmap, PixelAdd);
             Set = new PlotWrapper(ConvertToBitmap, PixelSet);
+            AddMagnitude = new PlotWrapper(ConvertToBitmap, PixelAddMagnitude);
+            SetMagnitude = new PlotWrapper(ConvertToBitmap, PixelSetMagnitude);
         }
 
         public PlotWrapper Add { get; private set; }
         public PlotWrapper Set { get; private set; }
+        public PlotWrapper AddMagnitude { get; private set; }
+        public PlotWrapper SetMagnitude { get; private set; }
         public double[,] Pixels { get; private set; }
 
         public void PixelAdd(int x, int y, double c)
@@ -72,6 +76,26 @@ namespace Math.Gfx
             {
                 Pixels[x, y] = c;
             }
+        }
+
+        private void PixelAdd(int x, int y, double c, double cMax)
+        {
+            PixelAdd(x, y, c);
+        }
+
+        private void PixelSet(int x, int y, double c, double cMax)
+        {
+            PixelSet(x, y, c);
+        }
+
+        private void PixelAddMagnitude(int x, int y, double c, double cMax)
+        {
+            PixelAdd(x, y, cMax);
+        }
+
+        private void PixelSetMagnitude(int x, int y, double c, double cMax)
+        {
+            PixelSet(x, y, cMax);
         }
 
         public double Pick(int x, int y)

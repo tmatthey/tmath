@@ -47,6 +47,34 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
+        public void AddMagnitudePlot_Twice_ReturnsTwiceMax()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            var cMax = 19.17;
+            bitmap.AddMagnitude.Plot(x, y, c, cMax);
+            bitmap.AddMagnitude.Plot(x, y, c, cMax);
+
+            bitmap.Pick(x, y).ShouldBe(2*cMax);
+        }
+
+        [Test]
+        public void AddPlot_Twice_ReturnsTwiceMax()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            var cMax = 19.17;
+            bitmap.Add.Plot(x, y, c, cMax);
+            bitmap.Add.Plot(x, y, c, cMax);
+
+            bitmap.Pick(x, y).ShouldBe(2*c);
+        }
+
+        [Test]
         public void Constructor_CorrectDimensions()
         {
             var bitmap = new Bitmap(new Vector2D(), new Vector2D(2.0, 1.0), 1.0);
@@ -112,6 +140,34 @@ namespace Math.Tests.Gfx
             var c = 17.19;
             bitmap.PixelSet(x, y, c);
             bitmap.PixelSet(x, y, c);
+
+            bitmap.Pick(x, y).ShouldBe(c);
+        }
+
+        [Test]
+        public void SetMagnitudePlot_Twice_ReturnsMax()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            var cMax = 19.17;
+            bitmap.SetMagnitude.Plot(x, y, c, cMax);
+            bitmap.SetMagnitude.Plot(x, y, c, cMax);
+
+            bitmap.Pick(x, y).ShouldBe(cMax);
+        }
+
+        [Test]
+        public void SetPlot_Twice_ReturnsMax()
+        {
+            var bitmap = new Bitmap(new Vector2D(), new Vector2D(1.99, 0.99), 0.01);
+            var x = 1;
+            var y = 1;
+            var c = 17.19;
+            var cMax = 19.17;
+            bitmap.Set.Plot(x, y, c, cMax);
+            bitmap.Set.Plot(x, y, c, cMax);
 
             bitmap.Pick(x, y).ShouldBe(c);
         }

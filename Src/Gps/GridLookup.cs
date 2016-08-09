@@ -62,26 +62,27 @@ namespace Math.Gps
                     var l = k;
                     var i1 = i0;
                     var j1 = j0;
-                    Draw.Bresenham(new Vector2D(i0, j0), new Vector2D(i, j), delegate(int x, int y, double c)
-                    {
-                        if (c > Comparison.Epsilon)
+                    Draw.Bresenham(new Vector2D(i0, j0), new Vector2D(i, j),
+                        delegate(int x, int y, double c, double cMax)
                         {
-                            if (x == i1 && y == j1)
+                            if (c > Comparison.Epsilon)
                             {
-                                Grid[x, y].Add(l - 1);
+                                if (x == i1 && y == j1)
+                                {
+                                    Grid[x, y].Add(l - 1);
+                                }
+                                else if (x == i && y == j)
+                                {
+                                    Grid[x, y].Add(l);
+                                }
+                                else
+                                {
+                                    Grid[x, y].Add(l);
+                                    Grid[x, y].Add(l - 1);
+                                }
+                                Grid[x, y] = Grid[x, y].Distinct().ToList();
                             }
-                            else if (x == i && y == j)
-                            {
-                                Grid[x, y].Add(l);
-                            }
-                            else
-                            {
-                                Grid[x, y].Add(l);
-                                Grid[x, y].Add(l - 1);
-                            }
-                            Grid[x, y] = Grid[x, y].Distinct().ToList();
-                        }
-                    });
+                        });
                 }
                 else
                 {

@@ -28,7 +28,7 @@
 
 namespace Math.Gfx
 {
-    public delegate void DelegatePlotFunction(int x, int y, double c);
+    public delegate void DelegatePlotFunction(int x, int y, double c, double cMax);
 
     public delegate Vector2D DelegatePlotConvert(Vector2D x);
 
