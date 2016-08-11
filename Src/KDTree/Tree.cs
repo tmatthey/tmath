@@ -34,12 +34,18 @@ namespace Math.KDTree
 {
     internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray, IDimension, IBoundingFacade<T>
     {
+        // Order of fields affetcs runtime +/- 10%
         private readonly double _cut;
         private readonly int _dim;
+        private readonly bool _rightNotEmpty;
+        private readonly bool _leftNotEmpty;
+        private readonly bool _skipBoundingTest;
+        private readonly double[] _minMin;
+        private readonly double[] _maxMax;
+        private readonly IList<double[]> _min;
+        private readonly IList<double[]> _max;
         private readonly IList<int> _indices;
         private readonly ITree<T> _left;
-        private readonly IList<double[]> _max;
-        private readonly IList<double[]> _min;
         private readonly ITree<T> _right;
 
         internal Tree(int depth, IList<S> keys, double cut, IList<int> indices, ITree<T> left, ITree<T> right)
@@ -51,23 +57,46 @@ namespace Math.KDTree
             _indices = indices;
             _left = left;
             _right = right;
+            _skipBoundingTest = (left.Depth() + right.Depth() == 0) || _indices.Count < 3;
+            if (!_skipBoundingTest)
+            {
+                var b = keys.First().Bounding();
+                b.Reset();
+                foreach (var key in keys)
+                {
+                    b.Expand(key.Bounding());
+                }
+                _minMin = b.Min.Array;
+                _maxMax = b.Max.Array;
+            }
+            else
+            {
+                _minMin = null;
+                _maxMax = null;
+            }
+            _leftNotEmpty = left.Depth() > 0;
+            _rightNotEmpty = right.Depth() > 0;
         }
 
         public IEnumerable<int> Search(T min, T max)
         {
-            if (Compare(min[_dim], _cut) <= 0)
+            if (_leftNotEmpty && min[_dim] <= _cut)
             {
                 foreach (var index in _left.Search(min, max))
                     yield return index;
             }
 
-            for (var j = 0; j < _indices.Count; j++)
-                if (_min[j].Select((coord, i) => new {coord, i}).All(x =>
-                    Compare(min[x.i], _max[j][x.i]) <= 0 &&
-                    Compare(_min[j][x.i], max[x.i]) <= 0))
-                    yield return _indices[j];
-
-            if (Compare(max[_dim], _cut) >= 0)
+            if (_skipBoundingTest || _minMin.Select((coord, i) => new {i}).All(x =>
+                (min[x.i] <= _maxMax[x.i]) &&
+                (_minMin[x.i] <= max[x.i])))
+            {
+                for (var j = 0; j < _indices.Count; j++)
+                    if (_min[j].Select((coord, i) => new {i}).All(x =>
+                        (min[x.i] <= _max[j][x.i]) &&
+                        (_min[j][x.i] <= max[x.i])))
+                        yield return _indices[j];
+            }
+            if (_rightNotEmpty && max[_dim] >= _cut)
             {
                 foreach (var index in _right.Search(min, max))
                     yield return index;
@@ -77,11 +106,6 @@ namespace Math.KDTree
         public int Depth()
         {
             return 1 + System.Math.Max(_right.Depth(), _left.Depth());
-        }
-
-        private static int Compare(double p1, double p2)
-        {
-            return p1.CompareTo(p2);
         }
     }
 }

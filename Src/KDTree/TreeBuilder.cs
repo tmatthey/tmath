@@ -128,6 +128,10 @@ namespace Math.KDTree
                         medians.Add(p);
                     }
                 }
+                if (right.Count < maxLeaf && left.Count < maxLeaf)
+                    return new Tree<T, S>(depth, list.Select(item => item.Key).ToList(), double.NaN,
+                        list.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());
+
                 var leftTree = Build<T, S>(left, depth + 1, maxLeaf);
                 var rightTree = Build<T, S>(right, depth + 1, maxLeaf);
                 return new Tree<T, S>(depth, medians.Select(item => item.Key).ToList(), medianValue,
