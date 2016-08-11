@@ -48,11 +48,11 @@ namespace Math.Clustering
             _data = null;
         }
 
-        public IEnumerable<IList<int>> Cluster(double eps = 25.0, int n = 5, bool direction = false)
+        public IList<IList<int>> Cluster(double eps = 25.0, int n = 5, bool direction = false)
         {
             // Corner cases
             if (_list.Count < n)
-                return new List<List<int>>();
+                return new List<IList<int>>();
 
             // Intialize
             if (_tree == null)
@@ -68,14 +68,14 @@ namespace Math.Clustering
 
             // Search and collect
             var clusterId = Classification.Classified;
-            var clusters = new List<List<int>>();
+            var clusters = new List<IList<int>>();
             foreach (var p in _data)
             {
                 if (p.ClusterId != Classification.UnVisited)
                     continue;
                 p.ClusterId = Classification.Noise;
 
-                var seeds = EpsNeighborhood(p, eps, direction).ToList();
+                var seeds = EpsNeighborhood(p, eps, direction);
                 if (seeds.Count < n)
                     continue;
 
@@ -86,7 +86,7 @@ namespace Math.Clustering
                     if (_data[j].ClusterId == Classification.UnVisited)
                     {
                         _data[j].ClusterId = Classification.Noise;
-                        var newSeeds = EpsNeighborhood(_data[j], eps, direction).ToList();
+                        var newSeeds = EpsNeighborhood(_data[j], eps, direction);
                         if (newSeeds.Count >= n)
                             seeds = seeds.Union(newSeeds).ToList();
                     }
@@ -103,14 +103,14 @@ namespace Math.Clustering
             return clusters;
         }
 
-        private IEnumerable<int> EpsNeighborhood(Point seed, double eps, bool direction)
+        private IList<int> EpsNeighborhood(Point seed, double eps, bool direction)
         {
             var bounding = seed.Value.Bounding();
             bounding.ExpandLayer(eps);
             var inside = _tree.Search(bounding.Min, bounding.Max).Distinct();
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps));
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps)).ToList();
             //.OrderBy(num => num);
         }
 

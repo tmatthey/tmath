@@ -64,7 +64,7 @@ namespace Math.Gps
                 trackCur.Displacement);
         }
 
-        private static IEnumerable<List<NeighbourDistancePoint>> CutOffDistance(
+        private static IList<List<NeighbourDistancePoint>> CutOffDistance(
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur, double radius)
         {
             return
@@ -75,7 +75,7 @@ namespace Math.Gps
                     .ToList();
         }
 
-        private static IEnumerable<List<NeighbourDistancePoint>> PerpendicularDistance(
+        private static IList<List<NeighbourDistancePoint>> PerpendicularDistance(
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
             Transformer trackRef,
             Transformer trackCur)

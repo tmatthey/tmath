@@ -163,7 +163,7 @@ namespace Math.Clustering
             {
                 var significantPoints = Geometry.SignificantPoints(track, true, mdlCostAdvantage);
                 var segs =
-                    Geometry.PolylineToSegmentPointList(significantPoints.Select(i => track[i]).ToList(), minL).ToList();
+                    Geometry.PolylineToSegmentPointList(significantPoints.Select(i => track[i]).ToList(), minL);
                 for (var j = 0; j < segs.Count; j += 2)
                 {
                     var i0 = significantPoints[segs[j]];
