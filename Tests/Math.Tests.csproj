@@ -86,6 +86,7 @@
     <Compile Include="Segment2DTests.cs" />
     <Compile Include="Segment3DTests.cs" />
     <Compile Include="SolverTests.cs" />
+    <Compile Include="SparseArrayTests.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="TrajectoryExamples.cs" />
     <Compile Include="UtilsTests.cs" />

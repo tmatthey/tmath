@@ -95,6 +95,7 @@
     <Compile Include="Segment2D.cs" />
     <Compile Include="Segment3D.cs" />
     <Compile Include="Solver.cs" />
+    <Compile Include="SparseArray.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2D.cs" />
     <Compile Include="Vector3D.cs" />

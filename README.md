@@ -7,6 +7,7 @@ A collection of mathematical function and data structures written in C#. The lib
 ### Base ###
 * Floating point comparison and epsilon
 * Conversion radian-degree
+* Sparse array
 
 ### Solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
