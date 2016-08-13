@@ -123,15 +123,29 @@ namespace Math.Tests.Clustering
             var bitmapPoints = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
             foreach (var list in clusterPointList)
             {
-                foreach (var track in list.PointIndices.Indices())
+                foreach (var track in list.SegmentIndices.Indices())
                 {
-                    foreach (var point in list.PointIndices[track])
+                    foreach (var point in list.SegmentIndices[track])
                     {
                         Draw.Plot(tracks[track][point], 1.0, bitmapPoints.Set);
                     }
                 }
             }
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.points.png", bitmapPoints.Pixels);
+
+            var bitmapSegs = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
+            foreach (var list in clusterPointList)
+            {
+                foreach (var track in list.SegmentIndices.Indices())
+                {
+                    for (var i = 0; i < list.SegmentIndices[track].Count; i += 2)
+                    {
+                        Draw.XiaolinWu(tracks[track][list.SegmentIndices[track][i]],
+                            tracks[track][list.SegmentIndices[track][i + 1]], bitmapSegs.Set);
+                    }
+                }
+            }
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.segments.png", bitmapSegs.Pixels);
 
             clusterPointList.Count.ShouldBe(4);
             for (var i = 0; i < clusterPointList.Count; i++)

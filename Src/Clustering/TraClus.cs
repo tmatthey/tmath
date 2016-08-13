@@ -128,12 +128,12 @@ namespace Math.Clustering
                             var y = s.U.Add(s.V.Sub(s.U).Mul(c));
                             y.X = current.X;
                             sum = sum.Add(y);
-                            if (!r.PointIndices.ContainsKey(s.K))
+                            if (!r.SegmentIndices.ContainsKey(s.K))
                             {
-                                r.PointIndices[s.K] = new List<int>();
+                                r.SegmentIndices[s.K] = new List<int>();
                             }
-                            r.PointIndices[s.K].Add(s.IA);
-                            r.PointIndices[s.K].Add(s.IB);
+                            r.SegmentIndices[s.K].Add(s.IA);
+                            r.SegmentIndices[s.K].Add(s.IB);
                         }
                         prevValue = current.X;
                         r.Segment.Add(rotation.FromE1(sum.Div(lineSegments.Count)));
@@ -144,10 +144,6 @@ namespace Math.Clustering
                 }
                 if (r.Segment.Count > 1)
                 {
-                    foreach (var index in r.PointIndices.Indices())
-                    {
-                        r.PointIndices[index] = r.PointIndices[index].Distinct().OrderBy(num => num).ToList();
-                    }
                     result.Add(r);
                 }
             }
@@ -198,14 +194,33 @@ namespace Math.Clustering
 
         public class Result<T>
         {
+            private SparseArray<IList<int>> _pointIndices;
+
             public Result()
             {
                 Segment = new List<T>();
-                PointIndices = new SparseArray<IList<int>>();
+                _pointIndices = null;
+                SegmentIndices = new SparseArray<IList<int>>();
+            }
+
+            public SparseArray<IList<int>> PointIndices
+            {
+                get
+                {
+                    if (_pointIndices == null)
+                    {
+                        _pointIndices = new SparseArray<IList<int>>();
+                        foreach (var i in SegmentIndices.Indices())
+                        {
+                            _pointIndices[i] = SegmentIndices[i].Distinct().OrderBy(num => num).ToList();
+                        }
+                    }
+                    return _pointIndices;
+                }
             }
 
             public IList<T> Segment { get; set; }
-            public SparseArray<IList<int>> PointIndices { get; set; }
+            public SparseArray<IList<int>> SegmentIndices { get; set; }
         }
 
         internal interface ISegementExt<T>
