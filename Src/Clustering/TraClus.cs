@@ -34,7 +34,7 @@ namespace Math.Clustering
 {
     public static class TraClus
     {
-        public static List<List<Vector2D>> Cluster(IList<List<Vector2D>> tracks, int n, double eps,
+        public static List<Result<Vector2D>> Cluster(IList<List<Vector2D>> tracks, int n, double eps,
             bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
             var segments = Partitioning<Vector2D, Segment2D, Segment2DExt>(tracks, minL, mdlCostAdvantage);
@@ -42,7 +42,7 @@ namespace Math.Clustering
             return ClusterPoint(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
         }
 
-        public static List<List<Vector3D>> Cluster(IList<List<Vector3D>> tracks, int n, double eps,
+        public static List<Result<Vector3D>> Cluster(IList<List<Vector3D>> tracks, int n, double eps,
             bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
             var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdvantage);
@@ -50,13 +50,13 @@ namespace Math.Clustering
             return ClusterPoint(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
         }
 
-        private static List<List<T>> ClusterPoint<T, TE, SE>(int n, double minL,
+        private static List<Result<T>> ClusterPoint<T, TE, SE>(int n, double minL,
             List<List<SE>> clusters, IRotation<T> rotation, ICreateVectorExt<T, TE> factoryVectorExt)
             where T : IVector<T>, new()
             where TE : IVectorExt, IVector<T>
             where SE : ISegementExt<T>, ISegment<T>
         {
-            var clusterPointList = new List<List<T>>();
+            var result = new List<Result<T>>();
             foreach (var cluster in clusters)
             {
                 var trajectories = new HashSet<int>();
@@ -79,7 +79,7 @@ namespace Math.Clustering
 
                 var lineSegments = new HashSet<int>();
                 var prevValue = 0.0;
-                var clusterPoints = new List<T>();
+                var r = new Result<T>();
 
                 for (var i = 0; i < points.Count;)
                 {
@@ -117,7 +117,7 @@ namespace Math.Clustering
                     }
 
                     if (lineSegments.Count >= n &&
-                        (clusterPoints.Count < 1 ||
+                        (r.Segment.Count < 1 ||
                          Comparison.IsLessEqual(minL/1.414, System.Math.Abs(current.X - prevValue))))
                     {
                         var sum = new T();
@@ -128,18 +128,30 @@ namespace Math.Clustering
                             var y = s.U.Add(s.V.Sub(s.U).Mul(c));
                             y.X = current.X;
                             sum = sum.Add(y);
+                            if (!r.PointIndices.ContainsKey(s.K))
+                            {
+                                r.PointIndices[s.K] = new List<int>();
+                            }
+                            r.PointIndices[s.K].Add(s.IA);
+                            r.PointIndices[s.K].Add(s.IB);
                         }
                         prevValue = current.X;
-                        clusterPoints.Add(rotation.FromE1(sum.Div(lineSegments.Count)));
+                        r.Segment.Add(rotation.FromE1(sum.Div(lineSegments.Count)));
                     }
 
                     foreach (var i1 in del)
                         lineSegments.Remove(i1);
                 }
-                if (clusterPoints.Count > 1)
-                    clusterPointList.Add(clusterPoints);
+                if (r.Segment.Count > 1)
+                {
+                    foreach (var index in r.PointIndices.Indices())
+                    {
+                        r.PointIndices[index] = r.PointIndices[index].Distinct().OrderBy(num => num).ToList();
+                    }
+                    result.Add(r);
+                }
             }
-            return clusterPointList;
+            return result;
         }
 
         private static List<List<SE>> DBScan<T, S, SE>(int n, double eps, bool direction, List<S> segments)
@@ -182,6 +194,18 @@ namespace Math.Clustering
                 k++;
             }
             return segments;
+        }
+
+        public class Result<T>
+        {
+            public Result()
+            {
+                Segment = new List<T>();
+                PointIndices = new SparseArray<IList<int>>();
+            }
+
+            public IList<T> Segment { get; set; }
+            public SparseArray<IList<int>> PointIndices { get; set; }
         }
 
         internal interface ISegementExt<T>

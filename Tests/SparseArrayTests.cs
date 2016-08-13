@@ -95,6 +95,22 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Indices_ReturnsList()
+        {
+            var expected1 = 23;
+            var index1 = 19;
+            var expected2 = 31;
+            var index2 = 9;
+            var a = new SparseArray<int>();
+            a[index2] = expected2;
+            a[index1] = expected1;
+            var list = a.Indices();
+            list.Count.ShouldBe(2);
+            list[0].ShouldBe(index2);
+            list[1].ShouldBe(index1);
+        }
+
+        [Test]
         public void NotImplementedMethods_ThrowNotImplementedException()
         {
             var a = new SparseArray<int>();

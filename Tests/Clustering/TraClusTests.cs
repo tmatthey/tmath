@@ -114,19 +114,32 @@ namespace Math.Tests.Clustering
 
             foreach (var list in clusterPointList)
             {
-                for (var i = 0; i + 1 < list.Count; i++)
-                    Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set);
+                for (var i = 0; i + 1 < list.Segment.Count; i++)
+                    Draw.XiaolinWu(list.Segment[i], list.Segment[i + 1], bitmap.Set);
             }
 
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.png", bitmap.Pixels);
 
+            var bitmapPoints = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
+            foreach (var list in clusterPointList)
+            {
+                foreach (var track in list.PointIndices.Indices())
+                {
+                    foreach (var point in list.PointIndices[track])
+                    {
+                        Draw.Plot(tracks[track][point], 1.0, bitmapPoints.Set);
+                    }
+                }
+            }
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.points.png", bitmapPoints.Pixels);
+
             clusterPointList.Count.ShouldBe(4);
             for (var i = 0; i < clusterPointList.Count; i++)
             {
-                clusterPointList[i].Count.ShouldBe(expected[i].Count);
-                for (var j = 0; j < clusterPointList[i].Count; j++)
+                clusterPointList[i].Segment.Count.ShouldBe(expected[i].Count);
+                for (var j = 0; j < clusterPointList[i].Segment.Count; j++)
                 {
-                    clusterPointList[i][j].EuclideanNorm(expected[i][j]).ShouldBeLessThan(1e-7);
+                    clusterPointList[i].Segment[j].EuclideanNorm(expected[i][j]).ShouldBeLessThan(1e-7);
                 }
             }
         }
@@ -151,12 +164,12 @@ namespace Math.Tests.Clustering
             clusterPointList3D.Count.ShouldBe(clusterPointList2D.Count);
             for (var i = 0; i < clusterPointList3D.Count; i++)
             {
-                clusterPointList3D[i].Count.ShouldBe(clusterPointList2D[i].Count);
-                for (var j = 0; j < clusterPointList3D[i].Count; j++)
+                clusterPointList3D[i].Segment.Count.ShouldBe(clusterPointList2D[i].Segment.Count);
+                for (var j = 0; j < clusterPointList3D[i].Segment.Count; j++)
                 {
-                    var v = clusterPointList3D[i][j].Rotate(axis, -angle);
-                    v.X.ShouldBe(clusterPointList2D[i][j].X, 1e-9);
-                    v.Y.ShouldBe(clusterPointList2D[i][j].Y, 1e-9);
+                    var v = clusterPointList3D[i].Segment[j].Rotate(axis, -angle);
+                    v.X.ShouldBe(clusterPointList2D[i].Segment[j].X, 1e-9);
+                    v.Y.ShouldBe(clusterPointList2D[i].Segment[j].Y, 1e-9);
                     v.Z.ShouldBe(0, 1e-9);
                 }
             }
@@ -167,16 +180,16 @@ namespace Math.Tests.Clustering
             var bitmap = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
             foreach (var list in clusterPointList2D)
             {
-                for (var i = 0; i + 1 < list.Count; i++)
-                    Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set, 0.5);
+                for (var i = 0; i + 1 < list.Segment.Count; i++)
+                    Draw.XiaolinWu(list.Segment[i], list.Segment[i + 1], bitmap.Set, 0.5);
             }
             foreach (var list in clusterPointList3D)
             {
-                for (var i = 0; i + 1 < list.Count; i++)
+                for (var i = 0; i + 1 < list.Segment.Count; i++)
                 {
-                    var a = list[i].Rotate(axis, -angle);
+                    var a = list.Segment[i].Rotate(axis, -angle);
                     var u = new Vector2D(a.X, a.Y);
-                    var b = list[i + 1].Rotate(axis, -angle);
+                    var b = list.Segment[i + 1].Rotate(axis, -angle);
                     var v = new Vector2D(b.X, b.Y);
                     Draw.XiaolinWu(u, v, bitmap.Set);
                 }
