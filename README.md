@@ -26,7 +26,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Greatest common divisor (GDC)
 * IsPrime; no cache; ~3s for max long / 10
 
-### Geometry
+### Geometry ###
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
 * Minimal bounding circle 2D
 * Minimal bounding circle on sphere 3D
@@ -35,7 +35,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Filter of significant points based on Minimum Description Length Principle (2D & 3D)
 * k-d tree search for vector & segment (2D & 3D)
 
-### Data structures
+### Data structures ###
 * BoundingBox
 * BoundingRect
 * Circle2D
@@ -50,7 +50,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Vector3D
 * Color
 
-### GPS 
+### GPS ###
 * GpsPoint
 * GpsTrack
 * Transformer to local 2D
@@ -62,16 +62,20 @@ A collection of mathematical function and data structures written in C#. The lib
 * * minimal rectangular bounding box 
 * * minimal circle on sphere - slow on 1st call to calculate min circle 
 
-### Clustering
-* DBScan vector / segment for 2d / 3d
-* TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2d and 3d
+### Clustering ###
+* DBScan vector / segment for 2D / 3D
+* TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2D and 3D
 * Finding trajectory neighborhoods 
 
-### Gfx
-* PNG and PGM bitmap writer
+### Gfx ###
+* PNG, PPM and PGM bitmap writer
 * Simple bitmap
 * Line draw - Bresenham and anti-aliasing (Xiaolin Wu's line algorithm)
 * Point plot (anti-aliasing)
 * Heatmap for arbitrary set of GPS tracks with color schemes
+
+## Applications / examples ##
+* GPS cluster
+* GPS heatmap
 
 ![heatmap.png](https://bitbucket.org/repo/LEp4rd/images/2412494808-heatmap.png)
