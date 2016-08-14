@@ -123,9 +123,9 @@ namespace Math.Tests.Clustering
             var bitmapPoints = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
             foreach (var list in clusterPointList)
             {
-                foreach (var track in list.SegmentIndices.Indices())
+                foreach (var track in list.PointIndices.Indices())
                 {
-                    foreach (var point in list.SegmentIndices[track])
+                    foreach (var point in list.PointIndices[track])
                     {
                         Draw.Plot(tracks[track][point], 1.0, bitmapPoints.Set);
                     }
