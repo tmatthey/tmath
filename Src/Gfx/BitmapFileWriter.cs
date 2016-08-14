@@ -46,11 +46,31 @@ namespace Math.Gfx
             var header = "P5\n" + width + " " + height + "\n255\n";
             var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
             writer.Write(Encoding.ASCII.GetBytes(header));
-            for (var j = height -1 ; j >=0; j--)
+            for (var j = height - 1; j >= 0; j--)
             {
                 for (var i = 0; i < width; i++)
                 {
                     writer.Write(colorMap.Grey(bitmap[i, j]));
+                }
+            }
+            writer.Close();
+        }
+
+        public static void PPM(string fileName, double[,] bitmap, IColorMapping colorMap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var header = "P6\n" + width + " " + height + "\n255\n";
+            var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
+            writer.Write(Encoding.ASCII.GetBytes(header));
+            for (var j = height - 1; j >= 0; j--)
+            {
+                for (var i = 0; i < width; i++)
+                {
+                    var col = colorMap.Color(bitmap[i, j]);
+                    writer.Write(col.Red);
+                    writer.Write(col.Green);
+                    writer.Write(col.Blue);
                 }
             }
             writer.Close();
