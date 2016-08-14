@@ -46,9 +46,9 @@ namespace Math.Gfx
             var header = "P5\n" + width + " " + height + "\n255\n";
             var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
             writer.Write(Encoding.ASCII.GetBytes(header));
-            for (var j = 0; j < height; j++)
+            for (var j = height -1 ; j >=0; j--)
             {
-                for (var i = width - 1; i >= 0; i--)
+                for (var i = 0; i < width; i++)
                 {
                     writer.Write(colorMap.Grey(bitmap[i, j]));
                 }
