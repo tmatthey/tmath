@@ -7,7 +7,6 @@ A collection of mathematical function and data structures written in C#. The lib
 ### Base ###
 * Floating point comparison and epsilon
 * Conversion radian-degree
-* Sparse array
 
 ### Solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
@@ -40,15 +39,16 @@ A collection of mathematical function and data structures written in C#. The lib
 * BoundingRect
 * Circle2D
 * Circle3D
+* Color
 * Polar3D
 * Polynomial
 * * Division by real roots (linear root), and imaginary and conjugated (quadratic root) 
 * * Evaluation of polynomial and its derivative and integral
 * Segment2D
 * Segment3D
+* Sparse array
 * Vector2D
 * Vector3D
-* Color
 
 ### GPS ###
 * GpsPoint
