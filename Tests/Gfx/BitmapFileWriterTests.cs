@@ -56,24 +56,6 @@ namespace Math.Tests.Gfx
         }
 
         [Test]
-        public void WritePPM_HeatColorMapping()
-        {
-            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One * 300, 1);
-            var width = bitmap.Pixels.GetLength(0) - 1;
-            var height = bitmap.Pixels.GetLength(1) - 1;
-            for (var i = 0; i <= width; i++)
-            {
-                var a = i / (double)width;
-                for (var j = 0; j <= height; j++)
-                {
-                    bitmap.Pixels[i, j] = a;
-                }
-            }
-            BitmapFileWriter.PPM(TestUtils.OutputPath() + "HeatColorMapping.ppm", bitmap.Pixels,
-                HeatColorMapping.Default);
-        }
-
-        [Test]
         public void WritePNG_HeatColorMapping()
         {
             var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One*300, 1);
@@ -114,6 +96,24 @@ namespace Math.Tests.Gfx
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count/(double) max;
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "trackOne.png", bitmap);
+        }
+
+        [Test]
+        public void WritePPM_HeatColorMapping()
+        {
+            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One*300, 1);
+            var width = bitmap.Pixels.GetLength(0) - 1;
+            var height = bitmap.Pixels.GetLength(1) - 1;
+            for (var i = 0; i <= width; i++)
+            {
+                var a = i/(double) width;
+                for (var j = 0; j <= height; j++)
+                {
+                    bitmap.Pixels[i, j] = a;
+                }
+            }
+            BitmapFileWriter.PPM(TestUtils.OutputPath() + "HeatColorMapping.ppm", bitmap.Pixels,
+                HeatColorMapping.Default);
         }
     }
 }
