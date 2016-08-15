@@ -46,7 +46,7 @@ namespace Tools.TrackReaders
 
         public IEnumerable<int> HeartRates()
         {
-            return TrackPoints.Select(trackPoint => (int)trackPoint.HeartRate);
+            return TrackPoints.Select(trackPoint => (int) trackPoint.HeartRate);
         }
 
         public IEnumerable<DateTime> Times()
