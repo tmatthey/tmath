@@ -43,5 +43,15 @@ namespace Tools.TrackReaders
         {
             return TrackPoints.Select(trackPoint => trackPoint.Gps);
         }
+
+        public IEnumerable<int> HeartRates()
+        {
+            return TrackPoints.Select(trackPoint => (int)trackPoint.HeartRate);
+        }
+
+        public IEnumerable<DateTime> Times()
+        {
+            return TrackPoints.Select(trackPoint => trackPoint.Time);
+        }
     }
 }
