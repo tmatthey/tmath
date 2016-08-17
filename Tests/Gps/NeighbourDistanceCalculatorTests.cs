@@ -76,7 +76,7 @@ namespace Math.Tests.Gps
                     r.ShouldBeGreaterThanOrEqualTo(0);
                     r.ShouldBeLessThan(analyzer.Reference.Track.Count);
                     c.ShouldBeGreaterThanOrEqualTo(0);
-                    c.ShouldBeLessThan(current.Track.Count);
+                    c.ShouldBeLessThan(current.FlattendTrack.Track.Count);
                 }
             }
         }
@@ -85,10 +85,11 @@ namespace Math.Tests.Gps
         public void TotalDistance_ReturnsExpeced()
         {
             var analyzer = new NeighbourDistanceCalculator(_gpsTrackExamples.TrackOne());
-            var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            analyzer.Reference.TransformedTrack.TotalDistance.ShouldBe(
+            var two = _gpsTrackExamples.TrackTwo();
+            var current = analyzer.Analyze(two, 50.0);
+            analyzer.ReferenceFlattendTrack.TotalDistance.ShouldBe(
                 Geodesy.Distance.Haversine(analyzer.Reference.Track), 1e-1);
-            current.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(current.Track), 1e-1);
+            current.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(two), 1e-1);
         }
     }
 }

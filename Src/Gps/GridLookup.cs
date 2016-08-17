@@ -34,12 +34,12 @@ namespace Math.Gps
 {
     public class GridLookup
     {
-        public GridLookup(Transformer transformed, double gridSize)
+        public GridLookup(FlatTrack flatTrack, double gridSize)
         {
-            Min = new Vector2D(transformed.Size.Min);
-            Max = new Vector2D(transformed.Size.Max);
+            Min = new Vector2D(flatTrack.Size.Min);
+            Max = new Vector2D(flatTrack.Size.Max);
             Size = gridSize;
-            Track = new List<Vector2D>(transformed.Track);
+            FlattendTrack = flatTrack;
             int nx, ny;
             Index(Max, out nx, out ny);
             NX = nx + 1;
@@ -50,10 +50,10 @@ namespace Math.Gps
                     Grid[i, j] = new List<int>();
             var i0 = -1;
             var j0 = -1;
-            for (var k = 0; k < transformed.Track.Count; k++)
+            for (var k = 0; k < flatTrack.Track.Count; k++)
             {
                 int i, j;
-                Index(transformed.Track[k], out i, out j);
+                Index(flatTrack.Track[k], out i, out j);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
                     // To handle corner case when two consecutive points do not share an edge or reside 
@@ -100,7 +100,7 @@ namespace Math.Gps
         public Vector2D Min { get; private set; }
         public Vector2D Max { get; private set; }
         public double Size { get; private set; }
-        public List<Vector2D> Track { get; private set; }
+        public FlatTrack FlattendTrack { get; private set; }
 
         public IList<NeighbourDistancePoint> Find(Vector2D point, double radius)
         {
@@ -170,7 +170,9 @@ namespace Math.Gps
                 {
                     list.AddRange(
                         Grid[i, j].Select(
-                            k => new NeighbourDistancePoint(k, referenceIndex, point.EuclideanNorm(Track[k]))));
+                            k =>
+                                new NeighbourDistancePoint(k, referenceIndex,
+                                    point.EuclideanNorm(FlattendTrack.Track[k]))));
                 }
             }
             list = list.Distinct().ToList();

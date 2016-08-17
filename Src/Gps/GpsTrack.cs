@@ -93,25 +93,30 @@ namespace Math.Gps
             }
         }
 
-        public Transformer TransformedTrack { get; private set; }
-        public GridLookup Lookup { get; private set; }
-
-        public Transformer CreateTransformedTrack()
+        public FlatTrack CreateFlatTrack()
         {
-            return new Transformer(Track, Center);
+            return new FlatTrack(Track, Center);
         }
 
-        public Transformer CreateTransformedTrack(GpsPoint center)
+        public FlatTrack CreateFlatTrack(GpsPoint center)
         {
-            return new Transformer(Track, center);
+            return new FlatTrack(Track, center);
         }
 
-        public void SetupLookup(GpsPoint center, double gridSize)
+        public static GridLookup CreateLookup(double gridSize, FlatTrack flatTrack)
         {
-            TransformedTrack = CreateTransformedTrack(center);
-            Lookup = new GridLookup(TransformedTrack, gridSize);
+            return new GridLookup(flatTrack, gridSize);
         }
 
+        public GridLookup CreateLookup(double gridSize, GpsPoint center)
+        {
+            return CreateLookup(gridSize, CreateFlatTrack(center));
+        }
+
+        public GridLookup CreateLookup(double gridSize)
+        {
+            return CreateLookup(gridSize, Center);
+        }
 
         private void CalculateMinCircle()
         {

@@ -77,15 +77,15 @@ namespace Math.Gps
             if (double.IsNaN(one.CenterAngle) || double.IsNaN(two.CenterAngle))
                 return Result.Undefined;
 
-            var t1 = one.CreateTransformedTrack();
-            var t2 = two.CreateTransformedTrack();
+            var t1 = one.CreateFlatTrack();
+            var t2 = two.CreateFlatTrack();
             var r1 = t1.Size.Min.EuclideanNorm(t1.Size.Max);
             var r2 = t2.Size.Min.EuclideanNorm(t2.Size.Max);
             var r12 = System.Math.Abs(one.Center.Angle(two.Center))*2.0*Geodesy.EarthRadius;
             if (!Comparison.IsLessEqual(r12, r1 + r2, 1.0))
                 return Result.NotIntersecting;
 
-            t2 = two.CreateTransformedTrack(one.Center);
+            t2 = two.CreateFlatTrack(one.Center);
             if (t1.Size.Min.EuclideanNorm(t2.Size.Min) < 1.0 && t1.Size.Max.EuclideanNorm(t2.Size.Max) < 1.0)
                 return Result.Same;
 

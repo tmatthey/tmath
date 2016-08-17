@@ -37,10 +37,13 @@ namespace Math.Gps
     //
     public class NeighbourDistanceCalculator
     {
+        private readonly GridLookup _gridLookup;
+
         public NeighbourDistanceCalculator(IList<GpsPoint> reference, double gridSize)
         {
             Reference = new GpsTrack(reference);
-            Reference.SetupLookup(Reference.Center, gridSize);
+            ReferenceFlattendTrack = Reference.CreateFlatTrack();
+            _gridLookup = GpsTrack.CreateLookup(gridSize, ReferenceFlattendTrack);
         }
 
         public NeighbourDistanceCalculator(IList<GpsPoint> reference)
@@ -49,19 +52,19 @@ namespace Math.Gps
         }
 
         public GpsTrack Reference { get; private set; }
+        public FlatTrack ReferenceFlattendTrack { get; private set; }
 
         public NeighbourDistance Analyze(IList<GpsPoint> current, double radius)
         {
             var gpsTrackCur = new GpsTrack(current);
-            var trackCur = new Transformer(gpsTrackCur.Track, Reference.Center);
+            var trackCur = new FlatTrack(gpsTrackCur.Track, Reference.Center);
 
-            var neighboursCur = Reference.Lookup.Find(trackCur.Track, trackCur.Displacement, radius);
-            var adjustedNeighboursCur = PerpendicularDistance(neighboursCur, Reference.TransformedTrack, trackCur);
+            var neighboursCur = _gridLookup.Find(trackCur.Track, trackCur.Displacement, radius);
+            var adjustedNeighboursCur = PerpendicularDistance(neighboursCur, _gridLookup.FlattendTrack, trackCur);
             var cutNeighboursCutoff = CutOffDistance(adjustedNeighboursCur, radius);
-            var cutNeighboursCur = RemoveDisconnectedPoints(radius, cutNeighboursCutoff, Reference.TransformedTrack);
+            var cutNeighboursCur = RemoveDisconnectedPoints(radius, cutNeighboursCutoff, _gridLookup.FlattendTrack);
 
-            return new NeighbourDistance(current, trackCur.Track, cutNeighboursCur, trackCur.Distance,
-                trackCur.Displacement);
+            return new NeighbourDistance(trackCur, cutNeighboursCur);
         }
 
         private static IList<List<NeighbourDistancePoint>> CutOffDistance(
@@ -77,8 +80,8 @@ namespace Math.Gps
 
         private static IList<List<NeighbourDistancePoint>> PerpendicularDistance(
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
-            Transformer trackRef,
-            Transformer trackCur)
+            FlatTrack trackRef,
+            FlatTrack trackCur)
         {
             var adjsuteddNeighboursCur = new List<List<NeighbourDistancePoint>>();
             foreach (var points in neighboursCur)
@@ -123,7 +126,7 @@ namespace Math.Gps
         // opposite direction, mix-up of start and end of track, etc. 
         private static IList<List<NeighbourDistancePoint>> RemoveDisconnectedPoints(double radius,
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur,
-            Transformer trackRef)
+            FlatTrack trackRef)
         {
             var index = 0; // Current average of ref. point index
             var reducedNeighboursCur = new List<List<NeighbourDistancePoint>>();

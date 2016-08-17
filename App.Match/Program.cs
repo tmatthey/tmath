@@ -90,14 +90,14 @@ namespace App.Match
 
             Console.WriteLine("Match");
 
-            var activities = Reader.ParseDirectory(path);
-            var list = (from activity in activities
+
+            var activities = (from activity in Reader.ParseDirectory(path)
                 where
                     activity.GpsPoints().Count() == activity.HeartRates().Count() &&
                     activity.GpsPoints().Count() == activity.Times().Count() &&
                     activity.HeartRates().Sum() > activity.HeartRates().Count()*20
-                select activity.GpsPoints().ToList()).ToList();
-
+                select activity).ToList();
+            var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
 
             Console.WriteLine("Tracks: {0}", list.Count);
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
@@ -128,9 +128,9 @@ namespace App.Match
                 foreach (var i in cluster)
                 {
                     var track = new GpsTrack(list[i]);
-                    var transformed = track.CreateTransformedTrack(center);
-                    size.Expand(transformed.Size);
-                    tracks.Add(transformed.Track);
+                    var flatTrack = track.CreateFlatTrack(center);
+                    size.Expand(flatTrack.Size);
+                    tracks.Add(flatTrack.Track);
                 }
                 Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();

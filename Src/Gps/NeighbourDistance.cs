@@ -33,34 +33,22 @@ namespace Math.Gps
 {
     public class NeighbourDistance
     {
-        public NeighbourDistance(IList<GpsPoint> track, IList<Vector2D> transformed,
-            IList<List<NeighbourDistancePoint>> neighbours,
-            IList<double> distance, IList<double> displacement)
+        public NeighbourDistance(FlatTrack flattendTrack, IList<List<NeighbourDistancePoint>> neighbours)
         {
-            Track = track;
-            Transformed = transformed;
             Neighbours = neighbours;
-            Distance = distance;
-            Displacement = displacement;
+            TotalDistance = flattendTrack.Distance.LastOrDefault();
             CommonDistance = 0.0;
+            FlattendTrack = flattendTrack;
             for (var i = 1; i < neighbours.Count; i++)
             {
                 if (neighbours[i - 1][0].Current + 1 == neighbours[i][0].Current)
-                    CommonDistance += displacement[i];
+                    CommonDistance += flattendTrack.Displacement[i];
             }
         }
 
-        public IList<GpsPoint> Track { get; private set; }
-        public IList<Vector2D> Transformed { get; private set; }
+        public FlatTrack FlattendTrack { get; private set; }
         public IList<List<NeighbourDistancePoint>> Neighbours { get; private set; }
-        public IList<double> Distance { get; private set; }
-        public IList<double> Displacement { get; private set; }
-
-        public double TotalDistance
-        {
-            get { return Distance.LastOrDefault(); }
-        }
-
+        public double TotalDistance { get; private set; }
         public double CommonDistance { get; private set; }
     }
 }

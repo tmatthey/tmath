@@ -405,7 +405,7 @@ namespace Math.Tests
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
             {
-                points.AddRange(track.CreateTransformedTrack(center).Track);
+                points.AddRange(track.CreateFlatTrack(center).Track);
             }
 
             TestUtils.StartTimer();
@@ -539,9 +539,9 @@ namespace Math.Tests
         public void ConvexHullJarvismarch_TrackOne_returnExpected()
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var transform = gpsTrack.CreateTransformedTrack();
+            var flattendTrack = gpsTrack.CreateFlatTrack();
             TestUtils.StartTimer();
-            var result = Geometry.ConvexHullJarvismarch(transform.Track);
+            var result = Geometry.ConvexHullJarvismarch(flattendTrack.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
             TestUtils.StopTimer();
         }
@@ -669,7 +669,7 @@ namespace Math.Tests
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
             {
-                points.AddRange(track.CreateTransformedTrack(center).Track);
+                points.AddRange(track.CreateFlatTrack(center).Track);
             }
 
             TestUtils.StartTimer();
@@ -803,9 +803,9 @@ namespace Math.Tests
         public void ConvexHullMonotoneChain_TrackOne_returnExpected()
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var transform = gpsTrack.CreateTransformedTrack();
+            var flattendTrack = gpsTrack.CreateFlatTrack();
             TestUtils.StartTimer();
-            var result = Geometry.ConvexHullMonotoneChain(transform.Track);
+            var result = Geometry.ConvexHullMonotoneChain(flattendTrack.Track);
             result.Count.ShouldBeLessThan(gpsTrack.Track.Count);
             TestUtils.StopTimer();
         }
@@ -1002,7 +1002,7 @@ namespace Math.Tests
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
             {
-                points.AddRange(track.CreateTransformedTrack(center).Track);
+                points.AddRange(track.CreateFlatTrack(center).Track);
             }
 
             TestUtils.StartTimer();
@@ -1235,7 +1235,7 @@ namespace Math.Tests
                 new GpsPoint {Latitude = 0, Longitude = 180},
                 new GpsPoint {Latitude = 0, Longitude = 180}
             });
-            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track);
             list.Count.ShouldBe(1);
             list[0].ShouldBe(0);
         }
@@ -1257,7 +1257,7 @@ namespace Math.Tests
                 new GpsPoint {Latitude = 0.004, Longitude = 180.005},
                 new GpsPoint {Latitude = 0.005, Longitude = 180.005}
             });
-            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track);
             list.Count.ShouldBe(3);
             list[0].ShouldBe(0);
             list[1].ShouldBe(5);
@@ -1448,7 +1448,7 @@ namespace Math.Tests
         public void SignificantPoints2D_TrackOne_ReturnsList()
         {
             var track = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track);
+            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track);
             var heatMap = new HeatMap();
             heatMap.Add(track.Track);
             heatMap.Add(list.Select(i => track.Track[i]).ToList());
@@ -1462,7 +1462,7 @@ namespace Math.Tests
         public void SignificantPoints2D_TrackOneWithUnrestrictedMDLCostAdvantage_ReturnsStartAndEndPoint()
         {
             var track = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var list = Geometry.SignificantPoints(track.CreateTransformedTrack().Track, true, int.MaxValue/10);
+            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track, true, int.MaxValue/10);
             list.Count.ShouldBe(2);
             list[0].ShouldBe(0);
             list[1].ShouldBe(track.Track.Count - 1);

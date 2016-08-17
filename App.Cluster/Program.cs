@@ -123,9 +123,9 @@ namespace App.Cluster
                 foreach (var i in cluster)
                 {
                     var track = new GpsTrack(list[i]);
-                    var transformed = track.CreateTransformedTrack(center);
-                    size.Expand(transformed.Size);
-                    tracks.Add(transformed.Track);
+                    var flatTrack = track.CreateFlatTrack(center);
+                    size.Expand(flatTrack.Size);
+                    tracks.Add(flatTrack.Track);
                 }
                 Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();

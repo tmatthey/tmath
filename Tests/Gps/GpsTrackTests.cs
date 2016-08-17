@@ -80,6 +80,16 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void CreateLookup_WithPixelSize_ReturnsSameAsPixelSizeAndCenter()
+        {
+            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+            var lookup0 = gpsTrack.CreateLookup(5.0, gpsTrack.Center);
+            var lookup1 = gpsTrack.CreateLookup(5.0);
+            lookup0.Max.ShouldBe(lookup1.Max);
+            lookup0.Min.ShouldBe(lookup1.Min);
+        }
+
+        [Test]
         public void EmptyTrack_CenterAndRotation_ReturnsNaN()
         {
             var gpsTrack = new GpsTrack(new List<GpsPoint>());

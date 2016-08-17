@@ -31,20 +31,19 @@ using System.Linq;
 
 namespace Math.Gps
 {
-    public class Transformer
+    public class FlatTrack
     {
         private List<double> _displacement;
         private List<double> _distance;
 
-        public Transformer(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
+        public FlatTrack(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
-            Center = new Vector3D(center);
             Size = new BoundingRect();
             Track = new List<Vector2D>();
             _distance = null;
             _displacement = null;
 
-            Polar3D c = Center;
+            Polar3D c = center;
             var a3 = -c.Theta;
             var a2 = System.Math.PI*0.5 - c.Phi;
             foreach (var g in gpsTrack)
@@ -58,7 +57,18 @@ namespace Math.Gps
             }
         }
 
-        public Vector3D Center { get; private set; }
+        public FlatTrack(IEnumerable<Vector2D> track)
+        {
+            Size = new BoundingRect();
+            Track = track.ToList();
+            _distance = null;
+            _displacement = null;
+            foreach (var pt in Track)
+            {
+                Size.Expand(pt);
+            }
+        }
+
         public List<Vector2D> Track { get; private set; }
 
         public Vector2D Min

@@ -43,8 +43,8 @@ namespace Math.Tests.Gfx
         public void WritePGM_WritesTrackOneToDisk()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
-            var grid = gpsTrackRef.Lookup.Grid;
+            var _lookup = gpsTrackRef.CreateLookup(10.0, gpsTrackRef.Center);
+            var grid = _lookup.Grid;
             var max = 0;
             foreach (var list in grid)
                 max = System.Math.Max(max, list.Count);
@@ -86,8 +86,8 @@ namespace Math.Tests.Gfx
         public void WritePNG_WritesTrackOneToDisk()
         {
             var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrackRef.SetupLookup(gpsTrackRef.Center, 10.0);
-            var grid = gpsTrackRef.Lookup.Grid;
+            var _lookup = gpsTrackRef.CreateLookup(10.0, gpsTrackRef.Center);
+            var grid = _lookup.Grid;
             var max = 0;
             foreach (var list in grid)
                 max = System.Math.Max(max, list.Count);

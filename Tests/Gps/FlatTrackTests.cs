@@ -35,7 +35,7 @@ using Shouldly;
 namespace Math.Tests.Gps
 {
     [TestFixture]
-    public class TransformerTests
+    public class FlatTrackTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
 
@@ -50,8 +50,8 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new Transformer(track, center);
-            transformed.Track.Count.ShouldBe(track.Count);
+            var flatTrack = new FlatTrack(track, center);
+            flatTrack.Track.Count.ShouldBe(track.Count);
         }
 
         [Test]
@@ -64,12 +64,12 @@ namespace Math.Tests.Gps
                 center,
                 new GpsPoint {Longitude = 177, Latitude = 30}
             };
-            var transformed = new Transformer(track, center);
-            transformed.Track.Count.ShouldBe(track.Count);
-            transformed.Track[0].X.ShouldBe(-transformed.Track[2].X, 1e-7);
-            transformed.Track[0].Y.ShouldBe(transformed.Track[2].Y, 1e-7);
-            transformed.Track[1].X.ShouldBe(0.0, 1e-7);
-            transformed.Track[1].Y.ShouldBe(0.0, 1e-7);
+            var flatTrack = new FlatTrack(track, center);
+            flatTrack.Track.Count.ShouldBe(track.Count);
+            flatTrack.Track[0].X.ShouldBe(-flatTrack.Track[2].X, 1e-7);
+            flatTrack.Track[0].Y.ShouldBe(flatTrack.Track[2].Y, 1e-7);
+            flatTrack.Track[1].X.ShouldBe(0.0, 1e-7);
+            flatTrack.Track[1].Y.ShouldBe(0.0, 1e-7);
         }
 
         [Test]
@@ -81,12 +81,34 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 51, Latitude = 61}
             };
             var center = new GpsPoint {Longitude = 51, Latitude = 60.5};
-            var transformed = new Transformer(track, center);
-            transformed.Track.Count.ShouldBe(track.Count);
-            transformed.Track[0].X.ShouldBe(0.0, 1e-7);
-            transformed.Track[0].Y.ShouldBe(-Geodesy.DistanceOneDeg*0.5);
-            transformed.Track[1].X.ShouldBe(0.0, 1e-7);
-            transformed.Track[1].Y.ShouldBe(Geodesy.DistanceOneDeg*0.5);
+            var flatTrack = new FlatTrack(track, center);
+            flatTrack.Track.Count.ShouldBe(track.Count);
+            flatTrack.Track[0].X.ShouldBe(0.0, 1e-7);
+            flatTrack.Track[0].Y.ShouldBe(-Geodesy.DistanceOneDeg*0.5);
+            flatTrack.Track[1].X.ShouldBe(0.0, 1e-7);
+            flatTrack.Track[1].Y.ShouldBe(Geodesy.DistanceOneDeg*0.5);
+        }
+
+        [Test]
+        public void ConstructorFlatTrack_CreatesSameFlatTrack()
+        {
+            var track = new List<Vector2D>
+            {
+                new Vector2D(0, 0),
+                new Vector2D(0, 1),
+                new Vector2D(1, 1),
+                new Vector2D(1, 0)
+            };
+            var flatTrack = new FlatTrack(track);
+            var track2D = flatTrack.Track;
+            track2D[0].X.ShouldBe(flatTrack.Min.X, 1e-7);
+            track2D[0].Y.ShouldBe(flatTrack.Min.Y, 1e-7);
+            track2D[1].X.ShouldBe(flatTrack.Min.X, 1e-7);
+            track2D[1].Y.ShouldBe(flatTrack.Max.Y, 1e-7);
+            track2D[2].X.ShouldBe(flatTrack.Max.X, 1e-7);
+            track2D[2].Y.ShouldBe(flatTrack.Max.Y, 1e-7);
+            track2D[3].X.ShouldBe(flatTrack.Max.X, 1e-7);
+            track2D[3].Y.ShouldBe(flatTrack.Min.Y, 1e-7);
         }
 
         [Test]
@@ -100,16 +122,16 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new Transformer(track, center);
-            var track2D = transformed.Track;
-            track2D[0].X.ShouldBe(transformed.Min.X, 1e-7);
-            track2D[0].Y.ShouldBe(transformed.Max.Y, 1e-7);
-            track2D[1].X.ShouldBe(transformed.Min.X, 1e-7);
-            track2D[1].Y.ShouldBe(transformed.Min.Y, 1e-7);
-            track2D[2].X.ShouldBe(transformed.Max.X, 1e-7);
-            track2D[2].Y.ShouldBe(transformed.Min.Y, 1e-7);
-            track2D[3].X.ShouldBe(transformed.Max.X, 1e-7);
-            track2D[3].Y.ShouldBe(transformed.Max.Y, 1e-7);
+            var flatTrack = new FlatTrack(track, center);
+            var track2D = flatTrack.Track;
+            track2D[0].X.ShouldBe(flatTrack.Min.X, 1e-7);
+            track2D[0].Y.ShouldBe(flatTrack.Max.Y, 1e-7);
+            track2D[1].X.ShouldBe(flatTrack.Min.X, 1e-7);
+            track2D[1].Y.ShouldBe(flatTrack.Min.Y, 1e-7);
+            track2D[2].X.ShouldBe(flatTrack.Max.X, 1e-7);
+            track2D[2].Y.ShouldBe(flatTrack.Min.Y, 1e-7);
+            track2D[3].X.ShouldBe(flatTrack.Max.X, 1e-7);
+            track2D[3].Y.ShouldBe(flatTrack.Max.Y, 1e-7);
         }
 
         [Test]
@@ -123,8 +145,8 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 181, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new Transformer(track, center);
-            var track2D = transformed.Track;
+            var flatTrack = new FlatTrack(track, center);
+            var track2D = flatTrack.Track;
             track2D[0].X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
             track2D[0].Y.ShouldBe(Geodesy.DistanceOneDeg, 1e-7);
             track2D[1].X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-7);
@@ -147,8 +169,8 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 179, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new Transformer(track, center);
-            var distance = transformed.Distance;
+            var flatTrack = new FlatTrack(track, center);
+            var distance = flatTrack.Distance;
             distance.Count.ShouldBe(track.Count);
             distance.Last().ShouldBe(4*2*Geodesy.DistanceOneDeg, 1e-3);
         }
@@ -157,7 +179,7 @@ namespace Math.Tests.Gps
         public void Euclidean_WithTrackOne_ReturnsExpected()
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var track = gpsTrack.CreateTransformedTrack();
+            var track = gpsTrack.CreateFlatTrack();
             var d = 0.0;
             for (var i = 0; i + 1 < track.Track.Count; i++)
                 d += track.Track[i].EuclideanNorm(track.Track[i + 1]);
@@ -168,7 +190,7 @@ namespace Math.Tests.Gps
         public void Euclidean_WithTrackTwo_ReturnsExpected()
         {
             var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var track = gpsTrack.CreateTransformedTrack();
+            var track = gpsTrack.CreateFlatTrack();
             var d = 0.0;
             for (var i = 0; i + 1 < track.Track.Count; i++)
                 d += track.Track[i].EuclideanNorm(track.Track[i + 1]);
@@ -187,9 +209,9 @@ namespace Math.Tests.Gps
                 new GpsPoint {Longitude = 179, Latitude = 1}
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
-            var transformed = new Transformer(track, center);
-            var total = transformed.TotalDistance;
-            total.ShouldBe(transformed.Distance.Last());
+            var flatTrack = new FlatTrack(track, center);
+            var total = flatTrack.TotalDistance;
+            total.ShouldBe(flatTrack.Distance.Last());
         }
     }
 }

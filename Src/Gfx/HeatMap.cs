@@ -70,9 +70,9 @@ namespace Math.Gfx
             var size = new BoundingRect();
             foreach (var track in _gpsTracks)
             {
-                var transformed = track.CreateTransformedTrack(center);
-                tracks.Add(transformed.Track);
-                size.Expand(transformed.Size);
+                var flatTrack = track.CreateFlatTrack(center);
+                tracks.Add(flatTrack.Track);
+                size.Expand(flatTrack.Size);
             }
             var bitmap = new Bitmap(size.Min, size.Max, pixelSize, maxLength);
             foreach (var track in tracks)
