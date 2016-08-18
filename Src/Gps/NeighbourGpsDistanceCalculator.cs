@@ -27,40 +27,34 @@
  */
 
 using System.Collections.Generic;
-using Math.Gps;
-using NUnit.Framework;
-using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Gps
 {
-    [TestFixture]
-    public class GeodesyTests
+    //
+    // Aggregates all points, which are at least as close (perpendicular distance) 
+    // as given radius to the given reference track.
+    //
+    public class NeighbourGpsDistanceCalculator : ANeighbourDistanceCalculator
     {
-        [Test]
-        public void Haversine_2ElementList_ReturnsExpectedDistance()
+        private readonly Vector3D _center;
+
+        public NeighbourGpsDistanceCalculator(IList<GpsPoint> reference, double gridSize)
         {
-            var a = new GpsPoint(10, 30);
-            var b = new GpsPoint(20, 40);
-            var list = new List<GpsPoint> {a, b};
-            Geodesy.Distance.Haversine(list).ShouldBe(Geodesy.Distance.Haversine(a, b));
+            var gpsTrack = new GpsTrack(reference);
+            _flatTrack = gpsTrack.CreateFlatTrack();
+            _gridLookup = new GridLookup(_flatTrack, gridSize);
+            _center = gpsTrack.Center;
         }
 
-        [Test]
-        public void Haversine_LatMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
+        public NeighbourGpsDistanceCalculator(IList<GpsPoint> reference)
+            : this(reference, 50.0)
         {
-            Geodesy.Distance.Haversine(87, -10, 87 + 45, -10).ShouldBe(System.Math.PI*6367000.0/4.0);
         }
 
-        [Test]
-        public void Haversine_LongMove45DegMainCircle_ReturnsPiEarthRadiusDiv4()
-        {
-            Geodesy.Distance.Haversine(0, 10, 0, 10 + 45).ShouldBe(System.Math.PI*6367000.0/4.0);
-        }
 
-        [Test]
-        public void Haversine_StartEndSameLocation_ReturnsZeroDistance()
+        public NeighbourDistance Analyze(IList<GpsPoint> current, double radius)
         {
-            Geodesy.Distance.Haversine(17, 19, 17, 19).ShouldBe(0);
+            return Analyze(new FlatTrack(new GpsTrack(current).Track, _center), radius);
         }
     }
 }

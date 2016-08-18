@@ -63,7 +63,9 @@
     <Compile Include="Gfx\IColorMapping.cs" />
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gfx\RedMapping.cs" />
+    <Compile Include="Gps\ANeighbourDistanceCalculator.cs" />
     <Compile Include="Gps\Intersection.cs" />
+    <Compile Include="Gps\NeighbourGpsDistanceCalculator.cs" />
     <Compile Include="Interfaces\IBoundingFacade.cs" />
     <Compile Include="Interfaces\IBounding.cs" />
     <Compile Include="Interfaces\IArray.cs" />
