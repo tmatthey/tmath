@@ -103,7 +103,7 @@ namespace Math.Gps
             return new FlatTrack(Track, center);
         }
 
-        public static GridLookup CreateLookup(double gridSize, FlatTrack flatTrack)
+        private static GridLookup CreateLookup(double gridSize, FlatTrack flatTrack)
         {
             return new GridLookup(flatTrack, gridSize);
         }

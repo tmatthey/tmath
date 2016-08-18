@@ -43,7 +43,7 @@ namespace Math.Gps
         {
             Reference = new GpsTrack(reference);
             ReferenceFlattendTrack = Reference.CreateFlatTrack();
-            _gridLookup = GpsTrack.CreateLookup(gridSize, ReferenceFlattendTrack);
+            _gridLookup = new GridLookup(ReferenceFlattendTrack, gridSize);
         }
 
         public NeighbourDistanceCalculator(IList<GpsPoint> reference)
