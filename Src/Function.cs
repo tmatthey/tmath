@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math
 {
@@ -122,6 +123,57 @@ namespace Math
                     return 180.0;
             }
             return a;
+        }
+
+        //
+        // https://april.eecs.umich.edu/pdfs/olson2011orientation.pdf
+        //
+        public static double AverageAngle(IList<double> angles)
+        {
+            if (angles.Count == 0)
+                return double.NaN;
+            if (angles.Count == 1)
+                return NormalizeAngle(angles[0]);
+
+            var normalized = new List<double>();
+            var sqrSum = 0.0;
+            var sum = 0.0;
+            foreach (var angle in angles)
+            {
+                var a = NormalizeAngle(angle);
+                normalized.Add(a);
+                sum += a;
+                sqrSum += a * a;
+            }
+            normalized = normalized.OrderBy(num => num).ToList();
+            var average = sum / normalized.Count;
+            var variance = sqrSum - sum * sum / normalized.Count;
+
+            foreach (var a in normalized)
+            {
+                sum += 2.0 * System.Math.PI;
+                sqrSum += 4.0 * System.Math.PI * (a + System.Math.PI);
+                var x = sqrSum - sum * sum / normalized.Count;
+                if (Comparison.IsLess(x, variance))
+                {
+                    variance = x;
+                    average = sum / normalized.Count;
+                }
+            }
+
+
+            return NormalizeAngle(average);
+        }
+
+        public static double AverageAngle(IList<Vector2D> list)
+        {
+            return AverageAngle(list, Vector2D.E1);
+        }
+
+        public static double AverageAngle(IList<Vector2D> list, Vector2D axis)
+        {
+            var angles = (from v in list where Comparison.IsLess(0.0, v.Norm2()) select axis.Angle(v)).ToList();
+            return AverageAngle(angles);
         }
 
         public static ulong FactorialInt(int n)
