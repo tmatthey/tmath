@@ -321,15 +321,8 @@ namespace Math.Tests
         [Test]
         public void AverageAngle_Vector2DE1_ReturnsExpected()
         {
-            var list = new List<Vector2D> { Vector2D.E1 };
+            var list = new List<Vector2D> {Vector2D.E1};
             Function.AverageAngle(list, Vector2D.E1).ShouldBe(0.0, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngleDefault_Vector2DE1_ReturnsSames()
-        {
-            var list = new List<Vector2D> { Vector2D.E1 };
-            Function.AverageAngle(list).ShouldBe(Function.AverageAngle(list, Vector2D.E1), 1e-13);
         }
 
         [Test]
@@ -345,6 +338,13 @@ namespace Math.Tests
         {
             var list = new List<Vector2D> {Vector2D.Zero};
             Function.AverageAngle(list, Vector2D.E1).ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void AverageAngleDefault_Vector2DE1_ReturnsSames()
+        {
+            var list = new List<Vector2D> {Vector2D.E1};
+            Function.AverageAngle(list).ShouldBe(Function.AverageAngle(list, Vector2D.E1), 1e-13);
         }
 
         [Test]

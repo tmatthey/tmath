@@ -1,6 +1,6 @@
 # Math #
 
-A collection of mathematical function and data structures written in C#. The library is based on Test Driven Development.
+A collection of mathematical function and data structures written in C#. 
 
 (c) 2016 Thierry Matthey (matthey@gmail.com) -  MIT license
 
@@ -12,7 +12,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
 * Numerical general polynomial equation root solver
 * General root solver with either bisection or secant method
-* First order regression with optional weigth
+* First order regression with optional weight
 
 ### Functions ###
 * Cubic root
@@ -24,6 +24,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Fibonacci; ulong (n <= 93), double and Binet
 * Greatest common divisor (GDC)
 * IsPrime; no cache; ~3s for max long / 10
+* Averageing of angles
 
 ### Geometry ###
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
@@ -33,6 +34,7 @@ A collection of mathematical function and data structures written in C#. The lib
 * Trajectory Hausdorff Distance (2D & 3D)
 * Filter of significant points based on Minimum Description Length Principle (2D & 3D)
 * k-d tree search for vector & segment (2D & 3D)
+* Averaging of 3D points on a sphere
 
 ### Data structures ###
 * BoundingBox
@@ -53,7 +55,7 @@ A collection of mathematical function and data structures written in C#. The lib
 ### GPS ###
 * GpsPoint
 * GpsTrack
-* Transformer to local 2D
+* Flatten to local 2D
 * Geodesy
 * * Haversine distance
 * GridLookup / NeighbourDistanceCalculator : Finding neighbors of two GPS tracks in O(N)
@@ -65,7 +67,7 @@ A collection of mathematical function and data structures written in C#. The lib
 ### Clustering ###
 * DBScan vector / segment for 2D / 3D
 * TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2D and 3D
-* Finding trajectory neighborhoods 
+* Finding trajectory neighborhoods for 2D and 3D
 
 ### Gfx ###
 * PNG, PPM and PGM bitmap writer
@@ -77,5 +79,6 @@ A collection of mathematical function and data structures written in C#. The lib
 ## Applications / examples ##
 * GPS cluster
 * GPS heatmap
+
 
 ![heatmap.png](https://bitbucket.org/repo/LEp4rd/images/2412494808-heatmap.png)

@@ -1554,6 +1554,204 @@ namespace Math.Tests
         }
 
         [Test]
+        public void SphereAverage_6OuterPoints_ReturnsZero()
+        {
+            var list = new List<Vector3D>
+            {
+                Vector3D.E1,
+                Vector3D.E2,
+                Vector3D.E3,
+                -Vector3D.E1,
+                -Vector3D.E2,
+                -Vector3D.E3
+            };
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(Vector3D.Zero);
+        }
+
+        [Test]
+        public void SphereAverage_7OuterPoints_ReturnsDoublePoint()
+        {
+            var list = new List<Vector3D>
+            {
+                Vector3D.E1,
+                Vector3D.E2,
+                Vector3D.E3,
+                -Vector3D.E1,
+                -Vector3D.E2,
+                -Vector3D.E3,
+                -Vector3D.E2
+            };
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(-Vector3D.E2);
+        }
+
+        [Test]
+        public void SphereAverage_CloseSquareAtE1_ReturnsCloseE1()
+        {
+            var list = new List<Vector3D>
+            {
+                new GpsPoint(-10, -10.1),
+                new GpsPoint(9.9, -10),
+                new GpsPoint(-10, 9.9),
+                new GpsPoint(10, 10)
+            };
+            var v = new Vector3D();
+            v = list.Aggregate(v, (current, w) => current + w).Normalized();
+
+
+            var res = Geometry.SphereAverage(list);
+            var d = (res - v).Norm();
+            d.ShouldBeLessThan(1e-4);
+        }
+
+        [Test]
+        public void SphereAverage_E1_ReturnsE1()
+        {
+            var list = new List<Vector3D> {Vector3D.E1};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_E2_ReturnsE2()
+        {
+            var list = new List<Vector3D> {Vector3D.E2};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_E3_ReturnsE3()
+        {
+            var list = new List<Vector3D> {Vector3D.E3};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_EmptyList_ReturnsZero()
+        {
+            var list = new List<Vector3D>();
+            Geometry.SphereAverage(list).ShouldBe(Vector3D.Zero);
+        }
+
+        [Test]
+        public void SphereAverage_HalfCircle_ReturnsMidpoint()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, -Vector3D.E1};
+            Geometry.SphereAverage(list).ShouldBe(Vector3D.E2);
+        }
+
+        [Test]
+        public void SphereAverage_MinusE1_ReturnsMinusE1()
+        {
+            var list = new List<Vector3D> {-Vector3D.E1};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_MinusE2_ReturnsMinusE2()
+        {
+            var list = new List<Vector3D> {-Vector3D.E2};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_MinusE3_ReturnsMinusE3()
+        {
+            var list = new List<Vector3D> {-Vector3D.E3};
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(list[0]);
+        }
+
+        [Test]
+        public void SphereAverage_NegHalfCircle_ReturnsMidpoint()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, -Vector3D.E2, -Vector3D.E1};
+            Geometry.SphereAverage(list).ShouldBe(-Vector3D.E2);
+        }
+
+        [Test]
+        public void SphereAverage_QuarterCircleE1E2_ReturnsCenter()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2};
+            var res = Geometry.SphereAverage(list);
+            var expected = Vector3D.E1 + Vector3D.E2;
+            expected.Normalize();
+            res.ShouldBe(expected);
+        }
+
+        [Test]
+        public void SphereAverage_SquareAtE1_ReturnsE1()
+        {
+            var list = new List<Vector3D>
+            {
+                new GpsPoint(-10, -10),
+                new GpsPoint(10, -10),
+                new GpsPoint(-10, 10),
+                new GpsPoint(10, 10)
+            };
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(Vector3D.E1);
+        }
+
+        [Test]
+        public void SphereAverage_SquareAtE2_ReturnsE2()
+        {
+            var list = new List<Vector3D>
+            {
+                new GpsPoint(-10, 80),
+                new GpsPoint(10, 80),
+                new GpsPoint(-10, 100),
+                new GpsPoint(10, 100)
+            };
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(Vector3D.E2);
+        }
+
+        [Test]
+        public void SphereAverage_SquareAtE3_ReturnsE3()
+        {
+            var list = new List<Vector3D>
+            {
+                new GpsPoint(80, -10),
+                new GpsPoint(100, -10),
+                new GpsPoint(80, 10),
+                new GpsPoint(100, 10)
+            };
+            var res = Geometry.SphereAverage(list);
+            res.ShouldBe(Vector3D.E3);
+        }
+
+        [Test]
+        public void SphereAverage_TrackOne_ReturnsSimilarCenter()
+        {
+            var list = _gpsTrackExamples.TrackOne().Select(pt => ((Vector3D) pt).Normalized()).ToList();
+            var tmp = new Vector3D();
+            var center = list.Aggregate(tmp, (current, v) => current + v).Normalized();
+            var sphere = Geometry.SphereAverage(list);
+            var sphereDist = SphereDistance(list, sphere);
+            var centerDist = SphereDistance(list, center);
+            sphereDist.ShouldBe(centerDist, 1e-3);
+        }
+
+        [Test]
+        public void SphereAverage_TriangleE1E2E3_ReturnsTriangleCenter()
+        {
+            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3};
+            var res = Geometry.SphereAverage(list);
+            var a1 = res.AngleAbs(Vector3D.E1);
+            var a2 = res.AngleAbs(Vector3D.E2);
+            var a3 = res.AngleAbs(Vector3D.E3);
+            a1.ShouldBe(a2);
+            a2.ShouldBe(a3);
+        }
+
+
+        [Test]
         public void TrajectoryHausdorffDistance_DirectionFalse_EqualToOppositeDirection()
         {
             var a = new Vector3D(0, 17, 0);
@@ -1808,6 +2006,20 @@ namespace Math.Tests
             var c = new Vector3D(2, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a);
             dist.ShouldBe(2.0);
+        }
+
+        private double SphereDistance(List<Vector3D> list, Vector3D mean)
+        {
+            GpsPoint m = mean;
+            m.Elevation = 0.0;
+            var s = new List<GpsPoint>();
+            foreach (var v in list)
+            {
+                GpsPoint g = v;
+                g.Elevation = 0;
+                s.Add(g);
+            }
+            return s.Sum(x => Geodesy.Distance.Haversine(x, m)) / list.Count;
         }
     }
 }
