@@ -1587,6 +1587,42 @@ namespace Math.Tests
         }
 
         [Test]
+        public void SphereAverage_EquidistantEquator_ReturnsZero()
+        {
+            var org = new List<double> { 0, 45, 90, 135, 180, 225, 270, 315 };
+
+            var list = org.Select(a => new GpsPoint { Latitude = 0.0, Longitude = a }).Select(dummy => (Vector3D)dummy).ToList();
+            Geometry.SphereAverage(list).ShouldBe(Vector3D.Zero);
+        }
+
+        [Test]
+        public void SphereAverage_EquidistantMinusOneEquator_ReturnsE1()
+        {
+            var org = new List<double> { 0, 45, 90, 135, 225, 270, 315 };
+
+            var list = org.Select(a => new GpsPoint { Latitude = 0.0, Longitude = a }).Select(dummy => (Vector3D)dummy).ToList();
+            Geometry.SphereAverage(list).ShouldBe(Vector3D.E1);
+        }
+
+        [Test]
+        public void SphereAverage_EquidistantAboveEquator_ReturnsE3()
+        {
+            var org = new List<double> { 0, 45, 90, 135, 180, 225, 270, 315 };
+
+            var list = org.Select(a => new GpsPoint { Latitude = 10.0, Longitude = a }).Select(dummy => (Vector3D)dummy).ToList();
+            Geometry.SphereAverage(list).ShouldBe(Vector3D.E3);
+        }
+
+        [Test]
+        public void SphereAverage_EquidistantBelowEquator_ReturnsMinusE3()
+        {
+            var org = new List<double> { 0, 45, 90, 135, 180, 225, 270, 315 };
+
+            var list = org.Select(a => new GpsPoint { Latitude = -10.0, Longitude = a }).Select(dummy => (Vector3D)dummy).ToList();
+            Geometry.SphereAverage(list).ShouldBe(-Vector3D.E3);
+        }
+
+        [Test]
         public void SphereAverage_CloseSquareAtE1_ReturnsCloseE1()
         {
             var list = new List<Vector3D>
