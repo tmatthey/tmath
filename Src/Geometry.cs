@@ -138,35 +138,6 @@ namespace Math
             return hull.Take(k).ToList();
         }
 
-        public static Vector3D SphereAverage(IList<Vector3D> list)
-        {
-            var a1 = Function.AverageAngle(list, Vector3D.E1);
-            var a2 = Function.AverageAngle(list, Vector3D.E2);
-            var a3 = Function.AverageAngle(list, Vector3D.E3);
-            if (double.IsNaN(a1) || double.IsNaN(a1) || double.IsNaN(a1))
-                return Vector3D.Zero;
-
-            var x = Bound(System.Math.Cos(a1));
-            var y = Bound(System.Math.Cos(a2));
-            var z = Bound(System.Math.Cos(a3));
-
-            var d = System.Math.Sqrt(x*x + y*y + z*z);
-            if (Comparison.IsZero(d))
-                return Vector3D.Zero;
-            return new Vector3D(x/d, y/d, z/d);
-        }
-
-        private static double Bound(double x)
-        {
-            if (Comparison.IsLessEqual(x, -1.0))
-                return -1.0;
-            if (Comparison.IsZero(x))
-                return 0.0;
-            if (Comparison.IsLessEqual(1.0, x))
-                return 1.0;
-            return x;
-        }
-
         public static bool CircleLineIntersect(Circle3D c, Vector3D a, Vector3D b)
         {
             var u = b - a;
