@@ -63,5 +63,10 @@ namespace Tools.TrackReaders
         public double Distance { get; private set; }
         public byte HeartRate { get; private set; }
         public DateTime Time { get; private set; }
+
+        public double Second
+        {
+            get { return Time.Ticks*1.0e-7; }
+        }
     }
 }

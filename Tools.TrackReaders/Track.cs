@@ -53,5 +53,10 @@ namespace Tools.TrackReaders
         {
             return TrackPoints.Select(trackPoint => trackPoint.Time);
         }
+
+        public IEnumerable<double> Seconds()
+        {
+            return TrackPoints.Select(trackPoint => trackPoint.Second);
+        }
     }
 }
