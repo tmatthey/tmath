@@ -65,7 +65,9 @@ namespace Math.Tests.Gps
             res.Neighbours[0].Count.ShouldBe(1);
             res.Neighbours[1].Count.ShouldBe(1);
             res.Neighbours[0][0].Fraction.ShouldBe(0.1);
+            res.Neighbours[0][0].RefDistance.ShouldBe(1);
             res.Neighbours[1][0].Fraction.ShouldBe(0.9);
+            res.Neighbours[1][0].RefDistance.ShouldBe(9);
         }
 
         [Test]
