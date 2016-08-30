@@ -59,6 +59,7 @@ namespace Math.Gps
             Current = d.Current;
             MinDistance = d.MinDistance;
             Fraction = d.Fraction;
+            RefDistance = d.RefDistance;
         }
 
         public int Reference { get; private set; }

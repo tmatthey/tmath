@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
 using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
@@ -36,6 +37,36 @@ namespace Math.Tests.Gps
     public class NeighbourDistanceCalculatorTests
     {
         private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+        [Test]
+        public void Analyze_LessSimpleVector2DLists()
+        {
+            var refLine = new List<Vector2D> {new Vector2D(0, 0), new Vector2D(5, 0), new Vector2D(10, 0)};
+            var curLine = new List<Vector2D> {new Vector2D(1, 1), new Vector2D(9, 1)};
+            var analyzer = new NeighbourDistanceCalculator(refLine);
+            var res = analyzer.Analyze(curLine, 2.0);
+            res.Neighbours.Count.ShouldBe(2);
+            res.Neighbours[0].Count.ShouldBe(1);
+            res.Neighbours[1].Count.ShouldBe(1);
+            res.Neighbours[0][0].Fraction.ShouldBe(0.2);
+            res.Neighbours[0][0].RefDistance.ShouldBe(1);
+            res.Neighbours[1][0].Fraction.ShouldBe(0.8);
+            res.Neighbours[1][0].RefDistance.ShouldBe(9);
+        }
+
+        [Test]
+        public void Analyze_SimpleVector2DLists()
+        {
+            var refLine = new List<Vector2D> {new Vector2D(0, 0), new Vector2D(10, 0)};
+            var curLine = new List<Vector2D> {new Vector2D(1, 1), new Vector2D(9, 1)};
+            var analyzer = new NeighbourDistanceCalculator(refLine);
+            var res = analyzer.Analyze(curLine, 2.0);
+            res.Neighbours.Count.ShouldBe(2);
+            res.Neighbours[0].Count.ShouldBe(1);
+            res.Neighbours[1].Count.ShouldBe(1);
+            res.Neighbours[0][0].Fraction.ShouldBe(0.1);
+            res.Neighbours[1][0].Fraction.ShouldBe(0.9);
+        }
 
         [Test]
         public void Analyze_WithFlatTrack_ReturnsSameListAsGpsImplementation()
