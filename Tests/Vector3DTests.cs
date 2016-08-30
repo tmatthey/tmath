@@ -173,10 +173,12 @@ namespace Math.Tests
         [Test]
         public void Angle_Eq_AngleAbs()
         {
-            var a1 = Vector3D.E1.Angle(Vector3D.E2);
-            var a2 = Vector3D.E2.Angle(Vector3D.E1);
-            var b1 = Vector3D.E1.AngleAbs(Vector3D.E2);
-            var b2 = Vector3D.E2.AngleAbs(Vector3D.E1);
+            var a = new Vector3D(1,-1, 1);
+            var b = new Vector3D(-1,-1, -1);
+            var a1 = a.Angle(b);
+            var a2 = b.Angle(a);
+            var b1 = a.AngleAbs(b);
+            var b2 = b.AngleAbs(a);
             a1.ShouldBe(a2);
             a2.ShouldBe(b1);
             b1.ShouldBe(b2);

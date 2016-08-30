@@ -1056,9 +1056,10 @@ namespace Math.Tests
             }
             var c = Geometry.MinCircleOnSphere(points);
             var c0 = c.Center.Normalized();
+            var d0 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c0), current)) * Geodesy.EarthRadius;
             var c1 = gps.Center.Normalized();
-            var d = c0.Angle(c1)/System.Math.PI*Geodesy.EarthRadius;
-            d.ShouldBeLessThan(c.Radius*Geodesy.EarthRadius);
+            var d1 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c1), current)) * Geodesy.EarthRadius;
+            d0.ShouldBeLessThan(d1);
 
             var n = 0;
             foreach (var p in points)

@@ -328,8 +328,22 @@ namespace Math.Tests
         [Test]
         public void AverageAngle_Vector2DE2_ReturnsExpected()
         {
-            var list = new List<Vector2D> {Vector2D.E2};
-            Function.AverageAngle(list, Vector2D.E1).ShouldBe(0.5*System.Math.PI, 1e-13);
+            var list = new List<Vector2D> { Vector2D.E2 };
+            Function.AverageAngle(list, Vector2D.E1).ShouldBe(0.5 * System.Math.PI, 1e-13);
+        }
+
+        [Test]
+        public void AverageAngle_Vector2DList_ReturnsSamesAsAngleList()
+        {
+            var angles = new List<double> { Conversion.DegToRad(180 + 45), Conversion.DegToRad(180 + 45 + 90) };
+            var expected = Conversion.RadToDeg(Function.AverageAngle(angles));
+            var list = new List<Vector2D>();
+            foreach (var angle in angles)
+            {
+                list.Add(new Vector2D(System.Math.Cos(angle), System.Math.Sin(angle)));
+            }
+            var res = Conversion.RadToDeg(Function.AverageAngle(list, Vector2D.E1));
+            res.ShouldBe(expected);
         }
 
 
