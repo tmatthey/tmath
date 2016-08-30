@@ -124,6 +124,7 @@ namespace App.Match
                 }
                 center /= (double) m;
                 var tracks = new List<List<Vector2D>>();
+                var flatTracks = new List<FlatTrack>();
                 var size = new BoundingRect();
                 foreach (var i in cluster)
                 {
@@ -131,6 +132,7 @@ namespace App.Match
                     var flatTrack = track.CreateFlatTrack(center);
                     size.Expand(flatTrack.Size);
                     tracks.Add(flatTrack.Track);
+                    flatTracks.Add(flatTrack);
                 }
                 Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();
@@ -139,6 +141,67 @@ namespace App.Match
                 if (db.Any())
                 {
                     Console.WriteLine("Segments : {0}", db.Count);
+                    var sn = 0;
+                    Console.WriteLine("Segment\tTrack\tDistance\tData\tLength\tTime\tHR\tSpeed\tPace\tIndex");
+                    foreach (var segment in db)
+                    {
+
+                        foreach (var i in segment.SegmentIndices.Indices())
+                        {
+                            var d = 0.0;
+                            for (var l=0;l+1<segment.Segment.Count;l++)
+                            {
+                                d += segment.Segment[l].EuclideanNorm(segment.Segment[l + 1]);
+                            }
+                            var j = cluster[i];
+                            Console.Write("{0}\t{1}\t{2}\t{3}\t", sn,i,d,activities[j].Times().First());
+                            var hr = activities[j].HeartRates().ToList();
+                            var t0 = activities[j].Seconds().First();
+                            var seconds = activities[j].Seconds().Select(t1 => t1 - t0).ToList();
+                            var analyzer = new NeighbourDistanceCalculator(flatTracks[i], eps);
+                            var current = analyzer.Analyze(segment.Segment, eps);
+                            var neighbours = current.Neighbours;
+                            if (neighbours.Count > 1)
+                            {
+                                var first = neighbours.First().First();
+                                var last = neighbours.Last().First();
+                                if (first.Reference < last.Reference)
+                                {
+                                    var f0 = first.Fraction;
+                                    var i0 = first.Reference;
+                                    var f1 = last.Fraction;
+                                    var i1 = last.Reference;
+                                    if (Comparison.IsZero(f1))
+                                    {
+                                        f1 = 1.0;
+                                        i1--;
+                                    }
+                                    var t = ((1.0 - f1)*seconds[i1] + f1*seconds[i1 + 1]) -
+                                            ((1.0 - f0)*seconds[i0] + f0*seconds[i0 + 1]);
+                                    var h = (1.0 - f0)*hr[i0 + 1]*(seconds[i0 + 1] - seconds[i0]) +
+                                                    f1*hr[i1+1]*(seconds[i1 + 1] - seconds[i1]);
+                                    for (var l = i0 + 1; l < i1; l++)
+                                    {
+                                        h += hr[l + 1]*(seconds[l + 1] - seconds[l]);
+                                    }
+                                    h /= t;
+                                    var len = last.RefDistance - first.RefDistance;
+                                    var v = len/t;
+                                    var index = (h - 70.0)/v;
+                                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", len, t, h, v*3.6,60.0/(v*3.6), index);    
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Wrong direction");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Few points");
+                            }
+                        }
+                        sn++;
+                    }
                 }
                 k++;
             }
