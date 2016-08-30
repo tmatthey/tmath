@@ -173,8 +173,8 @@ namespace Math.Tests
         [Test]
         public void Angle_Eq_AngleAbs()
         {
-            var a = new Vector3D(1,-1, 1);
-            var b = new Vector3D(-1,-1, -1);
+            var a = new Vector3D(1, -1, 1);
+            var b = new Vector3D(-1, -1, -1);
             var a1 = a.Angle(b);
             var a2 = b.Angle(a);
             var b1 = a.AngleAbs(b);
