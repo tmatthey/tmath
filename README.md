@@ -34,7 +34,6 @@ A collection of mathematical function and data structures written in C#.
 * Trajectory Hausdorff Distance (2D & 3D)
 * Filter of significant points based on Minimum Description Length Principle (2D & 3D)
 * k-d tree search for vector & segment (2D & 3D)
-* Averaging of 3D points on a sphere
 
 ### Data structures ###
 * BoundingBox
