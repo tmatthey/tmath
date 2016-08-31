@@ -78,6 +78,7 @@ A collection of mathematical function and data structures written in C#.
 ## Applications / examples ##
 * GPS cluster
 * GPS heatmap
+* HR index
 
 
 ![heatmap.png](https://bitbucket.org/repo/LEp4rd/images/2412494808-heatmap.png)

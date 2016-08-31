@@ -46,9 +46,11 @@ namespace App.Match
             var name = "match";
             var n = 5;
             var eps = 20.0;
+            var epsTrack = 25.0;
             var minL = 20.0;
             var cost = 5;
             var p = new FluentCommandLineParser();
+            var hrStanding = 40+26;
 
             p.Setup<string>('d')
                 .Callback(v => path = v)
@@ -68,7 +70,12 @@ namespace App.Match
             p.Setup<double>('e')
                 .Callback(v => eps = v)
                 .SetDefault(eps)
-                .WithDescription("Epsilon neighborhood");
+                .WithDescription("Epsilon cluster neighborhood");
+
+            p.Setup<double>('f')
+                .Callback(v => epsTrack = v)
+                .SetDefault(epsTrack)
+                .WithDescription("Epsilon track");
 
             p.Setup<double>('l')
                 .Callback(v => minL = v)
@@ -79,6 +86,11 @@ namespace App.Match
                 .Callback(v => cost = v)
                 .SetDefault(cost)
                 .WithDescription("MDL cost advantage");
+
+            p.Setup<int>('r')
+                .Callback(v => hrStanding = v)
+                .SetDefault(hrStanding)
+                .WithDescription("Standing heart rate");
 
             p.SetupHelp("?", "help")
                 .Callback(text =>
@@ -142,62 +154,62 @@ namespace App.Match
                 {
                     Console.WriteLine("Segments : {0}", db.Count);
                     var sn = 0;
-                    Console.WriteLine("Segment\tTrack\tDistance\tData\tLength\tTime\tHR\tSpeed\tPace\tIndex");
+                    Console.WriteLine("Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
                     foreach (var segment in db)
                     {
 
                         foreach (var i in segment.SegmentIndices.Indices())
                         {
+                            var flatTrack = flatTracks[i];
+                            var analyzer = new NeighbourDistanceCalculator(flatTrack, eps);
+                            var current = analyzer.Analyze(segment.Segment, epsTrack);
+                            var neighbours = current.Neighbours;
+
+                            if (neighbours.Count < 2) 
+                                continue;
+
                             var d = 0.0;
-                            for (var l=0;l+1<segment.Segment.Count;l++)
-                            {
+                            for (var l = 0; l + 1 < segment.Segment.Count; l++)
                                 d += segment.Segment[l].EuclideanNorm(segment.Segment[l + 1]);
-                            }
+
+                            double a, b;
+                            Regression.Linear(Enumerable.Range(0, neighbours.Count).Select(dummy => (double)dummy).ToList(), 
+                                neighbours.Select(neighbour => neighbour[0].Reference).Select(dummy => (double) dummy).ToList(), out a, out b);
+
                             var j = cluster[i];
-                            Console.Write("{0}\t{1}\t{2}\t{3}\t", sn,i,d,activities[j].Times().First());
                             var hr = activities[j].HeartRates().ToList();
                             var t0 = activities[j].Seconds().First();
                             var seconds = activities[j].Seconds().Select(t1 => t1 - t0).ToList();
-                            var analyzer = new NeighbourDistanceCalculator(flatTracks[i], eps);
-                            var current = analyzer.Analyze(segment.Segment, eps);
-                            var neighbours = current.Neighbours;
-                            if (neighbours.Count > 1)
+                            var refIndex = (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct().OrderBy(num => num).ToList();
+                            var t = 0.0;
+                            var h = 0.0;
+                            var len = 0.0;
+                            var com = 0;
+                            for (var l = 0; l + 1 < refIndex.Count; l++)
                             {
-                                var first = neighbours.First().First();
-                                var last = neighbours.Last().First();
-                                if (first.Reference < last.Reference)
+                                var i0 = refIndex[l];
+                                var i1 = refIndex[l + 1];
+                                if (i0 + 1 == i1)
                                 {
-                                    var f0 = first.Fraction;
-                                    var i0 = first.Reference;
-                                    var f1 = last.Fraction;
-                                    var i1 = last.Reference;
-                                    if (Comparison.IsZero(f1))
-                                    {
-                                        f1 = 1.0;
-                                        i1--;
-                                    }
-                                    var t = ((1.0 - f1)*seconds[i1] + f1*seconds[i1 + 1]) -
-                                            ((1.0 - f0)*seconds[i0] + f0*seconds[i0 + 1]);
-                                    var h = (1.0 - f0)*hr[i0 + 1]*(seconds[i0 + 1] - seconds[i0]) +
-                                                    f1*hr[i1+1]*(seconds[i1 + 1] - seconds[i1]);
-                                    for (var l = i0 + 1; l < i1; l++)
-                                    {
-                                        h += hr[l + 1]*(seconds[l + 1] - seconds[l]);
-                                    }
-                                    h /= t;
-                                    var len = last.RefDistance - first.RefDistance;
-                                    var v = len/t;
-                                    var index = (h - 70.0)/v;
-                                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", len, t, h, v*3.6,60.0/(v*3.6), index);    
+                                    var dt = seconds[i1] - seconds[i0];
+                                    t += dt;
+                                    h += dt*hr[i1];
+                                    len += flatTrack.Displacement[i1];
+                                    com++;
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Wrong direction");
-                                }
+                            }
+                            Console.Write("{0}\t{1}\t{2}\t{3}\t", sn, i, d, activities[j].Times().First());
+                            if (Comparison.IsLess(0, t) && Comparison.IsLess(0.5, System.Math.Abs(a)))
+                            {
+                                var dir = (a < 0 ? -1.0 : 1.0);
+                                h /= t;
+                                var v = len/t;
+                                var index = (h - hrStanding)/v;
+                                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", dir, com / ((double)refIndex.Count-1.0), len, t, h, v * 3.6, 60.0 / (v * 3.6), index);    
                             }
                             else
                             {
-                                Console.WriteLine("Few points");
+                                Console.WriteLine("No direction");
                             }
                         }
                         sn++;
