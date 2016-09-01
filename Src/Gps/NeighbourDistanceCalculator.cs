@@ -36,10 +36,15 @@ namespace Math.Gps
     //
     public class NeighbourDistanceCalculator : ANeighbourDistanceCalculator
     {
-        public NeighbourDistanceCalculator(FlatTrack reference, double gridSize)
+        public NeighbourDistanceCalculator(GridLookup reference)
         {
-            _flatTrack = reference;
-            _gridLookup = new GridLookup(_flatTrack, gridSize);
+            _flatTrack = reference.FlattendTrack;
+            _gridLookup = reference;
+        }
+
+        public NeighbourDistanceCalculator(FlatTrack reference, double gridSize)
+            : this(new GridLookup(reference, gridSize))
+        {
         }
 
         public NeighbourDistanceCalculator(IList<Vector2D> reference, double gridSize)
