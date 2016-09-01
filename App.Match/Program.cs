@@ -136,7 +136,7 @@ namespace App.Match
                 }
                 center /= (double) m;
                 var tracks = new List<List<Vector2D>>();
-                var gridLookups = new List<GridLookup>();
+                var flatTracks = new List<FlatTrack>();
                 var size = new BoundingRect();
                 foreach (var i in cluster)
                 {
@@ -144,7 +144,7 @@ namespace App.Match
                     var flatTrack = track.CreateFlatTrack(center);
                     size.Expand(flatTrack.Size);
                     tracks.Add(flatTrack.Track);
-                    gridLookups.Add(new GridLookup(flatTrack, eps));
+                    flatTracks.Add(flatTrack);
                 }
                 Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();
@@ -157,12 +157,12 @@ namespace App.Match
                     Console.WriteLine("Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
                     foreach (var segment in db)
                     {
-                        var segementFlat = new FlatTrack(segment.Segment);
+
                         foreach (var i in segment.SegmentIndices.Indices())
                         {
-                            var flatTrack = gridLookups[i].FlattendTrack;
-                            var analyzer = new NeighbourDistanceCalculator(gridLookups[i]);
-                            var current = analyzer.Analyze(segementFlat, epsTrack);
+                            var flatTrack = flatTracks[i];
+                            var analyzer = new NeighbourDistanceCalculator(flatTrack, eps);
+                            var current = analyzer.Analyze(segment.Segment, epsTrack);
                             var neighbours = current.Neighbours;
 
                             if (neighbours.Count < 2) 
