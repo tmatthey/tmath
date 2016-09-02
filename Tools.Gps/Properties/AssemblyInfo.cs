@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Tools.base")]
+[assembly: AssemblyTitle("Tools.Gps")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tools.base")]
+[assembly: AssemblyProduct("Tools.Gps")]
 [assembly: AssemblyCopyright("Copyright © Matthey 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("9d8901dc-05b5-4d98-9703-7a00413889a8")]
+[assembly: Guid("1a345236-6315-40b8-a9ac-13abf9cd1557")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -91,7 +91,7 @@ namespace App.Heatmap
                     heatMap.Add(list[i]);
                 }
                 Console.WriteLine("Map {0}: {1}", k, cluster.Count);
-                double[,] bitmap = null;
+                double[,] bitmap;
                 Timer.Start();
                 switch (coloring)
                 {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3F701B7F-A0B1-41E8-BD22-B5284A01525F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>App.Match</RootNamespace>
-    <AssemblyName>match</AssemblyName>
+    <RootNamespace>Tools.Gps</RootNamespace>
+    <AssemblyName>Tools.Gps</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,14 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>chart_line.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentCommandLineParser.1.4.3\lib\net35\FluentCommandLineParser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,33 +39,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ClusterDefinition.cs" />
+    <Compile Include="Clustering.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="SegmentResult.cs" />
+    <Compile Include="TrackSegment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Src\Math.csproj">
       <Project>{de25d22d-ba2b-40c1-9348-ea0f2d78fb8f}</Project>
       <Name>Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tools.base\Tools.Base.csproj">
-      <Project>{9375d115-d5f4-46d6-b716-1715889640a0}</Project>
-      <Name>Tools.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tools.Gps\Tools.Gps.csproj">
-      <Project>{77ed0940-aa11-4727-bdae-cce49f88ada9}</Project>
-      <Name>Tools.Gps</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tools.TrackReaders\Tools.TrackReaders.csproj">
       <Project>{82a89837-73b0-465e-91bd-0a9e65afcfeb}</Project>
       <Name>Tools.TrackReaders</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="chart_line.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

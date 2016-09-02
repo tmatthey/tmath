@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("App.Cluster")]
+[assembly: AssemblyTitle("Cluster")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Schlumberger")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("App.Cluster")]
-[assembly: AssemblyCopyright("Copyright © Schlumberger 2016")]
+[assembly: AssemblyCopyright("Copyright © Matthey 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

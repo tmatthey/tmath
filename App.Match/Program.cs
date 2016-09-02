@@ -27,13 +27,11 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Fclp;
 using Math;
-using Math.Clustering;
-using Math.Gps;
 using Tools.Base;
+using Tools.Gps;
 using Tools.TrackReaders;
 
 namespace App.Match
@@ -50,7 +48,7 @@ namespace App.Match
             var minL = 20.0;
             var cost = 5;
             var p = new FluentCommandLineParser();
-            var hrStanding = 40+26;
+            var hrStanding = 40 + 26;
 
             p.Setup<string>('d')
                 .Callback(v => path = v)
@@ -115,105 +113,63 @@ namespace App.Match
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
 
             Timer.Start();
-            var clusters = PolylineNeighbours.Cluster(list);
+            var clusters = Clustering.FindTrackClusters(list);
             Timer.Stop();
 
             var k = 0;
             Console.WriteLine("Maps: {0}", clusters.Count);
 
 
-            foreach (var cluster in clusters)
+            foreach (var trackIndices in clusters)
             {
-                var center = new Vector3D();
-                var m = 0;
-                foreach (var i in cluster)
-                {
-                    foreach (var pt in list[i])
-                    {
-                        center += pt;
-                        m++;
-                    }
-                }
-                center /= (double) m;
-                var tracks = new List<List<Vector2D>>();
-                var flatTracks = new List<FlatTrack>();
-                var size = new BoundingRect();
-                foreach (var i in cluster)
-                {
-                    var track = new GpsTrack(list[i]);
-                    var flatTrack = track.CreateFlatTrack(center);
-                    size.Expand(flatTrack.Size);
-                    tracks.Add(flatTrack.Track);
-                    flatTracks.Add(flatTrack);
-                }
-                Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();
-                var db = TraClus.Cluster(tracks, n, eps, true, minL, cost);
+                var cluster = new ClusterDefinition(trackIndices.Select(i => list[i]).ToList());
+                var segments = Clustering.FindCommonSegments(cluster, n, eps, minL, cost, epsTrack);
                 Timer.Stop();
-                if (db.Any())
+
+                Console.WriteLine("Cluster {0}: {1}", k, trackIndices.Count);
+                Console.WriteLine("Segments : {0}", segments.Count);
+                Console.WriteLine(
+                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
+
+                var sn = 0;
+                foreach (var segment in segments)
                 {
-                    Console.WriteLine("Segments : {0}", db.Count);
-                    var sn = 0;
-                    Console.WriteLine("Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
-                    foreach (var segment in db)
+                    foreach (var track in segment.TrackSegments)
                     {
-
-                        foreach (var i in segment.SegmentIndices.Indices())
+                        var j = trackIndices[track.Id];
+                        Console.Write("{0}\t{1}\t{2}\t{3}\t", sn, j, segment.Length, activities[j].Times().First());
+                        if (Comparison.IsLess(0, track.Length) &&
+                            Comparison.IsLess(0.5, System.Math.Abs(track.Direction)))
                         {
-                            var flatTrack = flatTracks[i];
-                            var analyzer = new NeighbourDistanceCalculator(flatTrack, eps);
-                            var current = analyzer.Analyze(segment.Segment, epsTrack);
-                            var neighbours = current.Neighbours;
-
-                            if (neighbours.Count < 2) 
-                                continue;
-
-                            var d = 0.0;
-                            for (var l = 0; l + 1 < segment.Segment.Count; l++)
-                                d += segment.Segment[l].EuclideanNorm(segment.Segment[l + 1]);
-
-                            double a, b;
-                            Regression.Linear(Enumerable.Range(0, neighbours.Count).Select(dummy => (double)dummy).ToList(), 
-                                neighbours.Select(neighbour => neighbour[0].Reference).Select(dummy => (double) dummy).ToList(), out a, out b);
-
-                            var j = cluster[i];
                             var hr = activities[j].HeartRates().ToList();
                             var t0 = activities[j].Seconds().First();
                             var seconds = activities[j].Seconds().Select(t1 => t1 - t0).ToList();
-                            var refIndex = (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct().OrderBy(num => num).ToList();
                             var t = 0.0;
                             var h = 0.0;
-                            var len = 0.0;
-                            var com = 0;
-                            for (var l = 0; l + 1 < refIndex.Count; l++)
+                            for (var l = 0; l + 1 < track.Indices.Count; l++)
                             {
-                                var i0 = refIndex[l];
-                                var i1 = refIndex[l + 1];
+                                var i0 = track.Indices[l];
+                                var i1 = track.Indices[l + 1];
                                 if (i0 + 1 == i1)
                                 {
                                     var dt = seconds[i1] - seconds[i0];
                                     t += dt;
                                     h += dt*hr[i1];
-                                    len += flatTrack.Displacement[i1];
-                                    com++;
                                 }
                             }
-                            Console.Write("{0}\t{1}\t{2}\t{3}\t", sn, i, d, activities[j].Times().First());
-                            if (Comparison.IsLess(0, t) && Comparison.IsLess(0.5, System.Math.Abs(a)))
-                            {
-                                var dir = (a < 0 ? -1.0 : 1.0);
-                                h /= t;
-                                var v = len/t;
-                                var index = (h - hrStanding)/v;
-                                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", dir, com / ((double)refIndex.Count-1.0), len, t, h, v * 3.6, 60.0 / (v * 3.6), index);    
-                            }
-                            else
-                            {
-                                Console.WriteLine("No direction");
-                            }
+                            h /= t;
+                            var v = track.Length/t;
+                            var index = (h - hrStanding)/v;
+                            Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", track.Direction < 0 ? -1.0 : 1.0,
+                                track.Common, track.Length, t, h, v*3.6, 60.0/(v*3.6), index);
                         }
-                        sn++;
+                        else
+                        {
+                            Console.WriteLine("No direction");
+                        }
                     }
+                    sn++;
                 }
                 k++;
             }

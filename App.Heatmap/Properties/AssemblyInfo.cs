@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("App.Heatmap")]
+[assembly: AssemblyTitle("Heatmap")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Schlumberger")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("App.Heatmap")]
-[assembly: AssemblyCopyright("Copyright © Schlumberger 2016")]
+[assembly: AssemblyCopyright("Copyright © Matthey 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
