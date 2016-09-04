@@ -56,7 +56,7 @@ namespace Tools.Gps
             foreach (var segment in db)
             {
                 trackIds.AddRange(segment.SegmentIndices.Indices());
-                segments.Add(new SegmentResult(new List<TrackSegment>(), segment.Segment.ToList()));
+                segments.Add(new SegmentResult(new List<TrackSegment>(), segment.Segment.ToList(),cluster.Center));
             }
             trackIds = trackIds.Distinct().OrderBy(num => num).ToList();
             foreach (var i in trackIds)

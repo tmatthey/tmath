@@ -28,22 +28,40 @@
 
 using System.Collections.Generic;
 using Math;
+using Math.Gps;
 
 namespace Tools.Gps
 {
     public class SegmentResult
     {
-        public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment)
+        public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment, Vector3D center)
         {
             TrackSegments = trackSegments;
             RepresentativeTrack = segment;
             Length = 0.0;
+            RepresentativeGpsTrack = new List<GpsPoint>();
+
+            Polar3D c = center;
+            var a3 = -c.Theta;
+            var a2 = System.Math.PI * 0.5 - c.Phi;
+            foreach (var v2 in segment)
+            {
+                Vector3D w0 = new GpsPoint { Longitude = v2.X / Geodesy.DistanceOneDeg, Latitude = v2.Y / Geodesy.DistanceOneDeg };                
+                var w1 = w0.RotateE2(-a2);
+                GpsPoint u = w1.RotateE3(-a3);
+                u.Elevation = 0.0;
+                RepresentativeGpsTrack.Add(u);
+            }
+
             for (var l = 0; l + 1 < segment.Count; l++)
+            {
                 Length += segment[l].EuclideanNorm(segment[l + 1]);
+            }
         }
 
         public List<TrackSegment> TrackSegments { get; private set; }
         public List<Vector2D> RepresentativeTrack { get; private set; }
+        public List<GpsPoint> RepresentativeGpsTrack { get; private set; }
         public double Length { get; private set; }
     }
 }
