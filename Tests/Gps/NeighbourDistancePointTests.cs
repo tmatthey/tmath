@@ -36,6 +36,39 @@ namespace Math.Tests.Gps
     public class NeighbourDistancePointTests
     {
         [Test]
+        public void Constructor_Long()
+        {
+            var d = new NeighbourDistancePoint(1, 2, 13.17, 1.1, 2.2);
+            d.Reference.ShouldBe(1);
+            d.Current.ShouldBe(2);
+            d.MinDistance.ShouldBe(13.17);
+            d.Fraction.ShouldBe(1.1);
+            d.RefDistance.ShouldBe(2.2);
+        }
+
+        [Test]
+        public void Constructor_Short()
+        {
+            var d = new NeighbourDistancePoint(1, 2, 13.17);
+            d.Reference.ShouldBe(1);
+            d.Current.ShouldBe(2);
+            d.MinDistance.ShouldBe(13.17);
+            d.Fraction.ShouldBe(double.NaN);
+            d.RefDistance.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Constructor_WithObject()
+        {
+            var d = new NeighbourDistancePoint(new NeighbourDistancePoint(1, 2, 13.17, 1.1, 2.2));
+            d.Reference.ShouldBe(1);
+            d.Current.ShouldBe(2);
+            d.MinDistance.ShouldBe(13.17);
+            d.Fraction.ShouldBe(1.1);
+            d.RefDistance.ShouldBe(2.2);
+        }
+
+        [Test]
         public void Equals_Nullptr_ReturnFalse()
         {
             var d = new NeighbourDistancePoint(1, 2, 13.17);

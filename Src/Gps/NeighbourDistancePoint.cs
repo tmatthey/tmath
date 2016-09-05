@@ -35,7 +35,8 @@ namespace Math.Gps
             Reference = reference;
             Current = current;
             MinDistance = minDistance;
-            Fraction = 0.0;
+            Fraction = double.NaN;
+            RefDistance = double.NaN;
         }
 
         public NeighbourDistancePoint(int reference, int current, double minDistance, double fraction,

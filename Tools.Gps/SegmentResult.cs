@@ -43,10 +43,14 @@ namespace Tools.Gps
 
             Polar3D c = center;
             var a3 = -c.Theta;
-            var a2 = System.Math.PI * 0.5 - c.Phi;
+            var a2 = System.Math.PI*0.5 - c.Phi;
             foreach (var v2 in segment)
             {
-                Vector3D w0 = new GpsPoint { Longitude = v2.X / Geodesy.DistanceOneDeg, Latitude = v2.Y / Geodesy.DistanceOneDeg };                
+                Vector3D w0 = new GpsPoint
+                {
+                    Longitude = v2.X/Geodesy.DistanceOneDeg,
+                    Latitude = v2.Y/Geodesy.DistanceOneDeg
+                };
                 var w1 = w0.RotateE2(-a2);
                 GpsPoint u = w1.RotateE3(-a3);
                 u.Elevation = 0.0;

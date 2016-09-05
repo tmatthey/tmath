@@ -56,7 +56,22 @@ namespace Tools.Gps
             foreach (var segment in db)
             {
                 trackIds.AddRange(segment.SegmentIndices.Indices());
-                segments.Add(new SegmentResult(new List<TrackSegment>(), segment.Segment.ToList(),cluster.Center));
+                var normalizedSegments = new List<Vector2D> {segment.Segment[0]};
+                for (var i = 0; i + 1 < segment.Segment.Count; i++)
+                {
+                    var v0 = segment.Segment[i];
+                    var v1 = segment.Segment[i + 1];
+                    var d = v0.EuclideanNorm(v1);
+                    if (Comparison.IsLess(epsTrack, d/2.0))
+                    {
+                        var v01 = v1 - v0;
+                        var m = System.Math.Floor(d/2.0/epsTrack);
+                        for (var j = 1; j < m; j++)
+                            normalizedSegments.Add(v0 + v01*j/m);
+                    }
+                    normalizedSegments.Add(v1);
+                }
+                segments.Add(new SegmentResult(new List<TrackSegment>(), normalizedSegments, cluster.Center));
             }
             trackIds = trackIds.Distinct().OrderBy(num => num).ToList();
             foreach (var i in trackIds)
@@ -87,20 +102,30 @@ namespace Tools.Gps
                             .OrderBy(num => num)
                             .ToList();
                     var length = 0.0;
-                    var common = 0;
+                    var totalLength = 0.0;
                     for (var l = 0; l + 1 < refIndex.Count; l++)
                     {
                         var i0 = refIndex[l];
                         var i1 = refIndex[l + 1];
+                        totalLength += flatTrack.Displacement[i1];
                         if (i0 + 1 == i1)
                         {
                             length += flatTrack.Displacement[i1];
-                            common++;
                         }
                     }
-                    if (common > 0)
+                    var segLength = 0.0;
+                    for (var l = 0; l+1 < neighbours.Count; l++)
+                    {
+                        var i0 = neighbours[l][0].Current;
+                        var i1 = neighbours[l+1][0].Current;
+                        if (i0 + 1 == i1)
+                        {
+                            segLength += segment.Segment[i0].EuclideanNorm(segment.Segment[i1]);
+                        }
+                    }
+                    if (totalLength > 0.0)
                         segments[k].TrackSegments.Add(new TrackSegment(i, refIndex, neighbours.First().First().Reference,
-                            neighbours.First().Last().Reference, length, (double) common/(refIndex.Count - 1), a));
+                            neighbours.First().Last().Reference, length, length/totalLength, segLength/segments[k].Length, a));
                 }
             }
             return segments;

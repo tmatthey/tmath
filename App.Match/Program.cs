@@ -129,8 +129,7 @@ namespace App.Match
 
                 Console.WriteLine("Cluster {0}: {1}", k, trackIndices.Count);
                 Console.WriteLine("Segments : {0}", segments.Count);
-                Console.WriteLine(
-                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
+                Console.WriteLine("Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tCoverage\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
 
                 var sn = 0;
                 foreach (var segment in segments)
@@ -161,8 +160,8 @@ namespace App.Match
                             h /= t;
                             var v = track.Length/t;
                             var index = (h - hrStanding)/v;
-                            Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", track.Direction < 0 ? -1.0 : 1.0,
-                                track.Common, track.Length, t, h, v*3.6, 60.0/(v*3.6), index);
+                            Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}", track.Direction < 0 ? -1.0 : 1.0,
+                                track.Common, track.Coverage, track.Length, t, h, v * 3.6, 60.0 / (v * 3.6), index);
                         }
                         else
                         {

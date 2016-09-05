@@ -32,14 +32,15 @@ namespace Tools.Gps
 {
     public class TrackSegment
     {
-        public TrackSegment(int id, List<int> refIndex, int first, int last, double length, double commonFactor,
-            double direction)
+        public TrackSegment(int id, List<int> refIndex, int first, int last, double length, double coverageFactor,
+            double commonFactor, double direction)
         {
             Indices = refIndex;
             First = first;
             Last = last;
             Id = id;
             Length = length;
+            Coverage = coverageFactor;
             Common = commonFactor;
             Direction = direction;
         }
@@ -49,6 +50,7 @@ namespace Tools.Gps
         public int Last { get; private set; }
         public int Id { get; private set; }
         public double Length { get; private set; }
+        public double Coverage { get; private set; }
         public double Common { get; private set; }
         public double Direction { get; private set; }
     }
