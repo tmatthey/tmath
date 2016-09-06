@@ -97,16 +97,16 @@ namespace Tools.Gps
                             .Select(dummy => (double) dummy)
                             .ToList(), out a, out b);
 
-                    var refIndex =
+                    var indices =
                         (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct()
                             .OrderBy(num => num)
                             .ToList();
                     var length = 0.0;
                     var totalLength = 0.0;
-                    for (var l = 0; l + 1 < refIndex.Count; l++)
+                    for (var l = 0; l + 1 < indices.Count; l++)
                     {
-                        var i0 = refIndex[l];
-                        var i1 = refIndex[l + 1];
+                        var i0 = indices[l];
+                        var i1 = indices[l + 1];
                         totalLength += flatTrack.Displacement[i1];
                         if (i0 + 1 == i1)
                         {
@@ -114,21 +114,26 @@ namespace Tools.Gps
                         }
                     }
                     var segLength = 0.0;
-                    for (var l = 0; l+1 < neighbours.Count; l++)
+                    for (var l = 0; l + 1 < neighbours.Count; l++)
                     {
                         var i0 = neighbours[l][0].Current;
-                        var i1 = neighbours[l+1][0].Current;
+                        var i1 = neighbours[l + 1][0].Current;
                         if (i0 + 1 == i1)
                         {
                             segLength += segment.Segment[i0].EuclideanNorm(segment.Segment[i1]);
                         }
                     }
                     if (totalLength > 0.0)
-                        segments[k].TrackSegments.Add(new TrackSegment(i, refIndex, neighbours.First().First().Reference,
-                            neighbours.First().Last().Reference, length, length/totalLength, segLength/segments[k].Length, a));
+                    {
+                        var first = neighbours.First().First();
+                        var last = neighbours.Last().First();
+                        segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference, last.Reference,
+                            first.Current, last.Current,
+                            length, length/totalLength, segLength/segments[k].Length, a));
+                    }
                 }
             }
-            return segments;
+            return segments.OrderByDescending(seg => seg.Length).ToList();
         }
     }
 }
