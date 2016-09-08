@@ -26,10 +26,8 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Math;
 using Math.Clustering;
 using Math.Gps;
@@ -76,8 +74,7 @@ namespace Tools.Gps
                 segments.Add(new SegmentResult(new List<TrackSegment>(), normalizedSegments, cluster.Center));
             }
             trackIds = trackIds.Distinct().OrderBy(num => num).ToList();
-            var lockMe = new Object();    
-            Parallel.ForEach(trackIds, i =>
+            foreach (var i in trackIds)
             {
                 var flatTrack = cluster.FlatTracks[i];
                 var analyzer = new NeighbourDistanceCalculator(flatTrack, eps);
@@ -130,15 +127,12 @@ namespace Tools.Gps
                     {
                         var first = neighbours.First().First();
                         var last = neighbours.Last().First();
-                        lock (lockMe)
-                        {
-                            segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference, last.Reference,
-                                first.Current, last.Current,
-                                length, length/totalLength, segLength/segments[k].Length, a));
-                        }
+                        segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference, last.Reference,
+                            first.Current, last.Current,
+                            length, length/totalLength, segLength/segments[k].Length, a));
                     }
                 }
-            });
+            }
             return segments.OrderByDescending(seg => seg.Length).ToList();
         }
     }
