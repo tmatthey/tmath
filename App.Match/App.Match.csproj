@@ -62,10 +62,6 @@
       <Project>{9375d115-d5f4-46d6-b716-1715889640a0}</Project>
       <Name>Tools.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tools.Gps\Tools.Gps.csproj">
-      <Project>{77ed0940-aa11-4727-bdae-cce49f88ada9}</Project>
-      <Name>Tools.Gps</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tools.TrackReaders\Tools.TrackReaders.csproj">
       <Project>{82a89837-73b0-465e-91bd-0a9e65afcfeb}</Project>
       <Name>Tools.TrackReaders</Name>

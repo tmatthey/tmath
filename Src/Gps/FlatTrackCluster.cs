@@ -1,4 +1,4 @@
-﻿/*
+/*
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
@@ -27,35 +27,40 @@
  */
 
 using System.Collections.Generic;
-using Math;
-using Math.Gps;
+using System.Linq;
 
-namespace Tools.Gps
+namespace Math.Gps
 {
-    public class SegmentResult
+    public class FlatTrackCluster
     {
-        public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment, Vector3D center)
+        public FlatTrackCluster(List<List<GpsPoint>> gpsTracks)
         {
-            TrackSegments = trackSegments;
-            RepresentativeTrack = segment;
-            Length = 0.0;
-            RepresentativeGpsTrack = new List<GpsPoint>();
-
-            Polar3D c = center;
-            foreach (var v2 in segment)
+            Center = CalculateCenter(gpsTracks);
+            Tracks = new List<List<Vector2D>>();
+            FlatTracks = new List<FlatTrack>();
+            Size = new BoundingRect();
+            foreach (var track in gpsTracks)
             {
-                RepresentativeGpsTrack.Add(v2.ToGpsPoint(c));
-            }
-
-            for (var l = 0; l + 1 < segment.Count; l++)
-            {
-                Length += segment[l].EuclideanNorm(segment[l + 1]);
+                var gpsTrack = new GpsTrack(track);
+                var flatTrack = gpsTrack.CreateFlatTrack(Center);
+                Size.Expand(flatTrack.Size);
+                Tracks.Add(flatTrack.Track);
+                FlatTracks.Add(flatTrack);
             }
         }
 
-        public List<TrackSegment> TrackSegments { get; private set; }
-        public List<Vector2D> RepresentativeTrack { get; private set; }
-        public List<GpsPoint> RepresentativeGpsTrack { get; private set; }
-        public double Length { get; private set; }
+        public BoundingRect Size { get; protected set; }
+        public Vector3D Center { get; protected set; }
+        public List<FlatTrack> FlatTracks { get; protected set; }
+        public List<List<Vector2D>> Tracks { get; protected set; }
+
+        private static Vector3D CalculateCenter(List<List<GpsPoint>> gpsTracks)
+        {
+            var center = new Vector3D();
+            center = gpsTracks.Aggregate(center,
+                (current1, track) => track.Aggregate(current1, (current, pt) => current + pt));
+            var count = gpsTracks.Sum(track => track.Count());
+            return count > 0 ? center/count : new Vector3D(double.NaN);
+        }
     }
 }

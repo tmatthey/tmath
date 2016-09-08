@@ -1,4 +1,4 @@
-﻿/*
+/*
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
@@ -28,27 +28,25 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Math;
-using Math.Clustering;
 using Math.Gps;
-using Tools.TrackReaders;
 
-namespace Tools.Gps
+namespace Math.Clustering
 {
-    public static class Clustering
+    public static class GpsSegmentClustering
     {
-        public static List<List<int>> FindTrackClusters(IList<Track> activities)
-        {
-            return FindTrackClusters((from activity in activities select activity.GpsPoints().ToList()).ToList());
-        }
-
         public static List<List<int>> FindTrackClusters(List<List<GpsPoint>> gpsTracks)
         {
             return PolylineNeighbours.Cluster(gpsTracks);
         }
 
-        public static List<SegmentResult> FindCommonSegments(ClusterDefinition cluster, int n, double eps, double minL,
-            int cost, double epsTrack)
+        public static List<SegmentResult> FindLocalCommonSegments(List<List<GpsPoint>> list, int n, double eps,
+            double minL, int cost, double epsTrack)
+        {
+            return FindLocalCommonSegments(new FlatTrackCluster(list), n, eps, minL, cost, epsTrack);
+        }
+
+        public static List<SegmentResult> FindLocalCommonSegments(FlatTrackCluster cluster, int n, double eps,
+            double minL, int cost, double epsTrack)
         {
             var db = TraClus.Cluster(cluster.Tracks, n, eps, true, minL, cost);
             var segments = new List<SegmentResult>();
@@ -134,6 +132,87 @@ namespace Tools.Gps
                 }
             }
             return segments.OrderByDescending(seg => seg.Length).ToList();
+        }
+
+
+        public static List<List<SegmentResult>> FindGlobalCommonSegments(List<List<GpsPoint>> list, int n, double eps,
+            double minL, int cost, double epsTrack)
+        {
+            var clusters = FindTrackClusters(list);
+            var result = new List<List<SegmentResult>>();
+
+            foreach (var trackIndices in clusters)
+            {
+                var cluster = new FlatTrackCluster(trackIndices.Select(i => list[i]).ToList());
+                var segments = FindLocalCommonSegments(cluster, n, eps, minL, cost, epsTrack);
+                foreach (var segmentResult in segments)
+                {
+                    foreach (var trackSegment in segmentResult.TrackSegments)
+                    {
+                        trackSegment.Id = trackIndices[trackSegment.Id];
+                    }
+                }
+                result.Add(segments);
+            }
+            return result;
+        }
+
+
+        public class SegmentResult
+        {
+            public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment, Vector3D center)
+            {
+                TrackSegments = trackSegments;
+                RepresentativeTrack = segment;
+                Length = 0.0;
+                RepresentativeGpsTrack = new List<GpsPoint>();
+
+                Polar3D c = center;
+                foreach (var v2 in segment)
+                {
+                    RepresentativeGpsTrack.Add(v2.ToGpsPoint(c));
+                }
+
+                for (var l = 0; l + 1 < segment.Count; l++)
+                {
+                    Length += segment[l].EuclideanNorm(segment[l + 1]);
+                }
+            }
+
+            public List<TrackSegment> TrackSegments { get; private set; }
+            public List<Vector2D> RepresentativeTrack { get; private set; }
+            public List<GpsPoint> RepresentativeGpsTrack { get; private set; }
+            public double Length { get; private set; }
+        }
+
+        public class TrackSegment
+        {
+            public TrackSegment(int id, List<int> indices, int first, int last, int segFirst, int segLast, double length,
+                double coverageFactor,
+                double commonFactor, double direction)
+            {
+                Indices = indices;
+                First = first;
+                Last = last;
+                SegmentFirst = segFirst;
+                SegmentLast = segLast;
+                Id = id;
+                Length = length;
+                Coverage = coverageFactor;
+                Common = commonFactor;
+                Direction = direction;
+            }
+
+            public List<int> Indices { get; private set; }
+            public int First { get; private set; }
+            public int Last { get; private set; }
+            public int SegmentFirst { get; private set; }
+            public int SegmentLast { get; private set; }
+            public int Id { get; set; }
+            public double Length { get; private set; }
+            public double Coverage { get; private set; }
+            public double Common { get; private set; }
+            public double Direction { get; private set; }
         }
     }
 }

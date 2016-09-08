@@ -30,8 +30,7 @@ using System;
 using System.Linq;
 using Fclp;
 using Math;
-using Tools.Base;
-using Tools.Gps;
+using Math.Clustering;
 using Tools.TrackReaders;
 
 namespace App.Match
@@ -40,7 +39,7 @@ namespace App.Match
     {
         private static void Main(string[] args)
         {
-            var path = ".\\";
+            var path = "..\\sandbox\\exh";
             var name = "match";
             var n = 5;
             var eps = 20.0;
@@ -112,32 +111,28 @@ namespace App.Match
             Console.WriteLine("Tracks: {0}", list.Count);
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
 
-            Timer.Start();
-            var clusters = Clustering.FindTrackClusters(list);
-            Timer.Stop();
+            var clusters = GpsSegmentClustering.FindGlobalCommonSegments(list, n, eps, minL, cost, epsTrack);
 
-            var k = 0;
             Console.WriteLine("Maps: {0}", clusters.Count);
 
-
-            foreach (var trackIndices in clusters)
+            var k = 0;
+            foreach (var cluster in clusters)
             {
-                Timer.Start();
-                var cluster = new ClusterDefinition(trackIndices.Select(i => list[i]).ToList());
-                var segments = Clustering.FindCommonSegments(cluster, n, eps, minL, cost, epsTrack);
-                Timer.Stop();
+                var count =
+                    (from segmentResult in cluster from track in segmentResult.TrackSegments select track.Id).Distinct()
+                        .Count();
 
-                Console.WriteLine("Cluster {0}: {1}", k, trackIndices.Count);
-                Console.WriteLine("Segments : {0}", segments.Count);
+                Console.WriteLine("Cluster {0}: {1}", k, count);
+                Console.WriteLine("Segments : {0}", cluster.Count);
                 Console.WriteLine(
                     "Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tFirst\tLast\tCoverage\tFirst\tLast\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
 
                 var sn = 0;
-                foreach (var segment in segments)
+                foreach (var segment in cluster)
                 {
                     foreach (var track in segment.TrackSegments)
                     {
-                        var j = trackIndices[track.Id];
+                        var j = track.Id;
                         Console.Write("{0}\t{1}\t{2}\t{3}\t", sn, j, segment.Length, activities[j].Times().First());
                         if (Comparison.IsLess(0, track.Length) &&
                             Comparison.IsLess(0.5, System.Math.Abs(track.Direction)))

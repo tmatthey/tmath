@@ -46,6 +46,7 @@
     <Compile Include="BoundingRect.cs" />
     <Compile Include="Circle2D.cs" />
     <Compile Include="Circle3D.cs" />
+    <Compile Include="Clustering\GpsSegmentClustering.cs" />
     <Compile Include="Clustering\DBScan.cs" />
     <Compile Include="Clustering\PolylineNeighbours.cs" />
     <Compile Include="Clustering\TraClus.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gfx\RedMapping.cs" />
     <Compile Include="Gps\ANeighbourDistanceCalculator.cs" />
+    <Compile Include="Gps\FlatTrackCluster.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Gps\NeighbourGpsDistanceCalculator.cs" />
     <Compile Include="Interfaces\IBoundingFacade.cs" />

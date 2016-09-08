@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Base", "Tools.base\To
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Match", "App.Match\App.Match.csproj", "{3F701B7F-A0B1-41E8-BD22-B5284A01525F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Gps", "Tools.Gps\Tools.Gps.csproj", "{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{3F701B7F-A0B1-41E8-BD22-B5284A01525F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F701B7F-A0B1-41E8-BD22-B5284A01525F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F701B7F-A0B1-41E8-BD22-B5284A01525F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77ED0940-AA11-4727-BDAE-CCE49F88ADA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
