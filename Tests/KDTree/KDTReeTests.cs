@@ -80,8 +80,7 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector2D>();
             var tree = TreeBuilder.Build(list);
-            tree.Search(new Vector2D(double.NegativeInfinity, double.NegativeInfinity),
-                new Vector2D(double.PositiveInfinity, double.PositiveInfinity)).Count().ShouldBe(0);
+            tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).Count().ShouldBe(0);
         }
 
         [Test]
@@ -89,8 +88,7 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector3D>();
             var tree = TreeBuilder.Build(list);
-            tree.Search(new Vector3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity),
-                new Vector3D(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity))
+            tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity)
                 .Count()
                 .ShouldBe(0);
         }
@@ -161,8 +159,7 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector2D> {Vector2D.E1, Vector2D.E2, Vector2D.Zero, Vector2D.One};
             var tree = TreeBuilder.Build(list);
-            var res = tree.Search(new Vector2D(double.NegativeInfinity, double.NegativeInfinity),
-                new Vector2D(double.PositiveInfinity, double.PositiveInfinity)).ToList().Distinct();
+            var res = tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).ToList().Distinct();
             res.Count().ShouldBe(list.Count);
         }
 
@@ -189,10 +186,7 @@ namespace Math.Tests.KDTree
                 Vector3D.E3
             };
             var tree = TreeBuilder.Build(list);
-            var res =
-                tree.Search(new Vector3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity),
-                    new Vector3D(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity))
-                    .ToList().Distinct();
+            var res = tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity).ToList().Distinct();
             res.Count().ShouldBe(list.Count);
         }
 

@@ -106,7 +106,7 @@ namespace App.Match
                     activity.GpsPoints().Count() == activity.HeartRates().Count() &&
                     activity.GpsPoints().Count() == activity.Times().Count() &&
                     activity.HeartRates().Sum() > activity.HeartRates().Count()*20
-                select activity).ToList();
+                select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
 
             Console.WriteLine("Tracks: {0}", list.Count);

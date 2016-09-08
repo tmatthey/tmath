@@ -227,5 +227,15 @@ namespace Math.Gps
             GridIndex(resolution, out i, out j);
             return j*resolution + i;
         }
+
+        public Vector2D ToVector2D(Polar3D center)
+        {
+            var a3 = -center.Theta;
+            var a2 = System.Math.PI*0.5 - center.Phi;
+            Vector3D w0 = this;
+            var w1 = w0.RotateE3(a3);
+            GpsPoint u = w1.RotateE2(a2);
+            return new Vector2D(u.Longitude*Geodesy.DistanceOneDeg, u.Latitude*Geodesy.DistanceOneDeg);
+        }
     }
 }

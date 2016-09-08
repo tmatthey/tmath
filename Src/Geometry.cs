@@ -161,7 +161,7 @@ namespace Math
 
             // Trival cases
             if (points.Count == 0)
-                return new Circle2D(new Vector2D(double.NaN), double.NaN);
+                return new Circle2D(Vector2D.NaN, double.NaN);
             if (points.Count == 1)
                 return Circle2D.Create(points[0]);
             if (points.Count == 2)
@@ -182,7 +182,7 @@ namespace Math
 
             // Trival cases
             if (points.Count == 0)
-                return new Circle3D(new Vector3D(double.NaN), double.NaN);
+                return new Circle3D(Vector3D.NaN, double.NaN);
             if (points.Count == 1)
                 return Circle3D.Create(points[0]);
             if (points.Count == 2)

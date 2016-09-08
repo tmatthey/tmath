@@ -385,6 +385,18 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void ToVector2DToGpsPoint_ReturnsId()
+        {
+            var g = new GpsPoint(-17.1, -19.2);
+            var center = Vector3D.One;
+            var v = g.ToVector2D(center);
+            var res = v.ToGpsPoint(center);
+            res.Latitude.ShouldBe(g.Latitude, 1e-5);
+            res.Longitude.ShouldBe(g.Longitude, 1e-5);
+            res.Elevation.ShouldBe(0.0);
+        }
+
+        [Test]
         public void Vector3DGpsPointVector3DConversion_ReturnsId()
         {
             var v = new Vector3D(1, 1, 1);

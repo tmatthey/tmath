@@ -27,6 +27,7 @@
  */
 
 using System;
+using Math.Gps;
 using Math.Interfaces;
 
 namespace Math
@@ -37,6 +38,9 @@ namespace Math
         public static readonly Vector2D One = new Vector2D(1, 1);
         public static readonly Vector2D E1 = new Vector2D(1, 0);
         public static readonly Vector2D E2 = new Vector2D(0, 1);
+        public static readonly Vector2D NaN = new Vector2D(double.NaN, double.NaN);
+        public static readonly Vector2D PositiveInfinity = new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
+        public static readonly Vector2D NegativeInfinity = new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
 
         public Vector2D()
         {
@@ -273,6 +277,21 @@ namespace Math
             var sinA = System.Math.Sin(angle);
 
             return new Vector2D(cosA*X - sinA*Y, sinA*X + cosA*Y);
+        }
+
+        public GpsPoint ToGpsPoint(Polar3D center)
+        {
+            var a3 = -center.Theta;
+            var a2 = System.Math.PI*0.5 - center.Phi;
+            Vector3D w0 = new GpsPoint
+            {
+                Longitude = X/Geodesy.DistanceOneDeg,
+                Latitude = Y/Geodesy.DistanceOneDeg
+            };
+            var w1 = w0.RotateE2(-a2);
+            GpsPoint res = w1.RotateE3(-a3);
+            res.Elevation = 0.0;
+            return res;
         }
 
         private static double Norm2(double x, double y)

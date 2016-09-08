@@ -38,6 +38,13 @@ namespace Math
         public static readonly Vector3D E1 = new Vector3D(1, 0, 0);
         public static readonly Vector3D E2 = new Vector3D(0, 1, 0);
         public static readonly Vector3D E3 = new Vector3D(0, 0, 1);
+        public static readonly Vector3D NaN = new Vector3D(double.NaN, double.NaN, double.NaN);
+
+        public static readonly Vector3D PositiveInfinity = new Vector3D(double.PositiveInfinity, double.PositiveInfinity,
+            double.PositiveInfinity);
+
+        public static readonly Vector3D NegativeInfinity = new Vector3D(double.NegativeInfinity, double.NegativeInfinity,
+            double.NegativeInfinity);
 
         public Vector3D()
         {
@@ -180,6 +187,7 @@ namespace Math
         {
             get { return new[] {X, Y, Z}; }
         }
+
 
         public double this[int i]
         {

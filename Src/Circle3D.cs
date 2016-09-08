@@ -42,7 +42,7 @@ namespace Math
         {
             Radius = radius;
             Center = new Vector3D();
-            Normal = Vector3D.E3;
+            Normal = new Vector3D(Vector3D.E3);
         }
 
         public Circle3D(Vector3D center, double radius)

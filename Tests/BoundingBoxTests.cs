@@ -34,8 +34,8 @@ namespace Math.Tests
     [TestFixture]
     public class BoundingBoxTests
     {
-        private readonly Vector3D _min = new Vector3D(double.PositiveInfinity);
-        private readonly Vector3D _max = new Vector3D(double.NegativeInfinity);
+        private readonly Vector3D _min = Vector3D.PositiveInfinity;
+        private readonly Vector3D _max = Vector3D.NegativeInfinity;
 
         [Test]
         public void Constructor_Empty_True()

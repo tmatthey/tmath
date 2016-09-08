@@ -518,6 +518,30 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Vector3DNaN()
+        {
+            Vector3D.NaN.X.ShouldBe(double.NaN);
+            Vector3D.NaN.Y.ShouldBe(double.NaN);
+            Vector3D.NaN.Z.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Vector3DNegativeInfinity()
+        {
+            Vector3D.NegativeInfinity.X.ShouldBe(double.NegativeInfinity);
+            Vector3D.NegativeInfinity.Y.ShouldBe(double.NegativeInfinity);
+            Vector3D.NegativeInfinity.Z.ShouldBe(double.NegativeInfinity);
+        }
+
+        [Test]
+        public void Vector3DPositiveInfinity()
+        {
+            Vector3D.PositiveInfinity.X.ShouldBe(double.PositiveInfinity);
+            Vector3D.PositiveInfinity.Y.ShouldBe(double.PositiveInfinity);
+            Vector3D.PositiveInfinity.Z.ShouldBe(double.PositiveInfinity);
+        }
+
+        [Test]
         public void Vector3DSubOpVector3D()
         {
             var a = 17.0;
@@ -542,6 +566,7 @@ namespace Math.Tests
             Vector3D.Zero.Y.ShouldBe(0);
             Vector3D.Zero.Z.ShouldBe(0);
         }
+
 
         [Test]
         public void Vector3MulOpVector3D()

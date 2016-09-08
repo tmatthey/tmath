@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using Math;
 using Math.Gps;
 
@@ -58,16 +59,10 @@ namespace Tools.Gps
         private Vector3D GetCenter(List<List<GpsPoint>> gpsTracks)
         {
             var center = new Vector3D();
-            var m = 0;
-            foreach (var track in gpsTracks)
-            {
-                foreach (var pt in track)
-                {
-                    center += pt;
-                    m++;
-                }
-            }
-            return m > 0 ? center/m : Vector3D.Zero;
+            center = gpsTracks.Aggregate(center,
+                (current1, track) => track.Aggregate(current1, (current, pt) => current + pt));
+            var count = gpsTracks.Sum(track => track.Count());
+            return count > 0 ? center/count : new Vector3D(double.NaN);
         }
     }
 }

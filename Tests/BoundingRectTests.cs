@@ -34,8 +34,8 @@ namespace Math.Tests
     [TestFixture]
     public class BoundingRectTests
     {
-        private readonly Vector2D _min = new Vector2D(double.PositiveInfinity);
-        private readonly Vector2D _max = new Vector2D(double.NegativeInfinity);
+        private readonly Vector2D _min = Vector2D.PositiveInfinity;
+        private readonly Vector2D _max = Vector2D.NegativeInfinity;
 
         [Test]
         public void Constructor_Empty_True()

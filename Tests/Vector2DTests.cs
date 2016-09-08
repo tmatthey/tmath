@@ -415,6 +415,16 @@ namespace Math.Tests
         }
 
         [Test]
+        public void ToGpsPointToVector2D_ReturnsId()
+        {
+            var v = new Vector2D(123.45, 567.89);
+            var center = Vector3D.One;
+            var g = v.ToGpsPoint(center);
+            var res = g.ToVector2D(center);
+            res.EuclideanNorm(v).ShouldBeLessThan(1e-5);
+        }
+
+        [Test]
         public void Vector2DAddOpVector2D()
         {
             var a = 17.0;
@@ -464,6 +474,27 @@ namespace Math.Tests
             var v = new Vector2D(d, e);
             var w = u*v;
             w.ShouldBe(u.Dot(v));
+        }
+
+        [Test]
+        public void Vector2DNaN()
+        {
+            Vector2D.NaN.X.ShouldBe(double.NaN);
+            Vector2D.NaN.Y.ShouldBe(double.NaN);
+        }
+
+        [Test]
+        public void Vector2DNegativeInfinity()
+        {
+            Vector2D.NegativeInfinity.X.ShouldBe(double.NegativeInfinity);
+            Vector2D.NegativeInfinity.Y.ShouldBe(double.NegativeInfinity);
+        }
+
+        [Test]
+        public void Vector2DPositiveInfinity()
+        {
+            Vector2D.PositiveInfinity.X.ShouldBe(double.PositiveInfinity);
+            Vector2D.PositiveInfinity.Y.ShouldBe(double.PositiveInfinity);
         }
 
         [Test]

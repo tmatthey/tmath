@@ -44,14 +44,9 @@ namespace Math.Gps
             _displacement = null;
 
             Polar3D c = center;
-            var a3 = -c.Theta;
-            var a2 = System.Math.PI*0.5 - c.Phi;
             foreach (var g in gpsTrack)
             {
-                Vector3D w0 = g;
-                var w1 = w0.RotateE3(a3);
-                GpsPoint u = w1.RotateE2(a2);
-                var v = new Vector2D(u.Longitude, u.Latitude)*Geodesy.DistanceOneDeg;
+                var v = g.ToVector2D(c);
                 Track.Add(v);
                 Size.Expand(v);
             }
