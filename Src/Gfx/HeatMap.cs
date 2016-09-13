@@ -37,57 +37,44 @@ namespace Math.Gfx
     public class HeatMap
     {
         private const int MaxLength = 2000;
-        private readonly List<GpsTrack> _gpsTracks;
+        private readonly List<List<GpsPoint>> _tracks;
 
         public HeatMap()
         {
-            _gpsTracks = new List<GpsTrack>();
+            _tracks = new List<List<GpsPoint>>();
         }
 
 
         public void Add(IList<GpsPoint> track)
         {
-            Add(new GpsTrack(track));
+            _tracks.Add(track.ToList());
         }
 
         public void Add(GpsTrack track)
         {
-            _gpsTracks.Add(track);
+            _tracks.Add(track.Track.ToList());
         }
 
         public Bitmap Raw(double pixelSize, int maxLength = MaxLength)
         {
-            var n = _gpsTracks.Sum(track => track.Track.Count);
-            if (n == 0)
+            var flatTracks = new FlatTrackCluster(_tracks);
+            if (flatTracks.Size.IsEmpty())
                 return null;
 
-            var center = new Vector3D();
-            center =
-                _gpsTracks.Aggregate(center,
-                    (current1, track) => track.Track.Aggregate(current1, (current, pt) => current + pt))/n;
-
-            var tracks = new List<List<Vector2D>>();
-            var size = new BoundingRect();
-            foreach (var track in _gpsTracks)
+            var bitmap = new Bitmap(flatTracks.Size.Min, flatTracks.Size.Max, pixelSize, maxLength);
+            foreach (var track in flatTracks.FlatTracks)
             {
-                var flatTrack = track.CreateFlatTrack(center);
-                tracks.Add(flatTrack.Track);
-                size.Expand(flatTrack.Size);
-            }
-            var bitmap = new Bitmap(size.Min, size.Max, pixelSize, maxLength);
-            foreach (var track in tracks)
-            {
-                if (track.Any())
+                if (track.Track.Any())
                 {
-                    var prev = bitmap.Add.Converter(track[0]);
+                    var prev = bitmap.Add.Converter(track.Track[0]);
                     Vector2D last = null;
-                    for (var i = 1; i < track.Count; i++)
+                    for (var i = 1; i < track.Track.Count; i++)
                     {
                         var a = last ?? prev;
-                        var b = bitmap.Add.Converter(track[i]);
+                        var b = bitmap.Add.Converter(track.Track[i]);
                         var l = a.EuclideanNorm(b);
                         var k = System.Math.Abs((int) a.X - (int) b.X) + System.Math.Abs((int) a.Y - (int) b.Y);
-                        if (i + 1 < track.Count && (Comparison.IsLess(l, 2.0) || k < 2))
+                        if (i + 1 < track.Track.Count && (Comparison.IsLess(l, 2.0) || k < 2))
                         {
                             if (last == null)
                                 last = prev;

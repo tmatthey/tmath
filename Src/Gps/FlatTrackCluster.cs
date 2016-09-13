@@ -27,7 +27,6 @@
  */
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Math.Gps
 {
@@ -54,13 +53,26 @@ namespace Math.Gps
         public List<FlatTrack> FlatTracks { get; protected set; }
         public List<List<Vector2D>> Tracks { get; protected set; }
 
-        private static Vector3D CalculateCenter(List<List<GpsPoint>> gpsTracks)
+        private static Vector3D CalculateCenter(IEnumerable<List<GpsPoint>> gpsTracks)
         {
             var center = new Vector3D();
-            center = gpsTracks.Aggregate(center,
-                (current1, track) => track.Aggregate(current1, (current, pt) => current + pt));
-            var count = gpsTracks.Sum(track => track.Count());
-            return count > 0 ? center/count : new Vector3D(double.NaN);
+            var d = 0.0;
+            var n = 0;
+            foreach (var track in gpsTracks)
+            {
+                foreach (var point in track)
+                {
+                    Polar3D p = point;
+                    if (Comparison.IsPositive(p.R))
+                    {
+                        d += p.R;
+                        p.R = 1.0;
+                        center += p;
+                        n++;
+                    }
+                }
+            }
+            return n > 0 ? center.Normalized()*d/n : new Vector3D(double.NaN);
         }
     }
 }
