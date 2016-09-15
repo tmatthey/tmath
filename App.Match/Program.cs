@@ -39,7 +39,7 @@ namespace App.Match
     {
         private static void Main(string[] args)
         {
-            var path = "..\\sandbox\\exh";
+            var path = ".\\";
             var name = "match";
             var n = 5;
             var eps = 20.0;
