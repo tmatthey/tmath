@@ -98,13 +98,24 @@ namespace App.Activity
                     vel.Add(v);
                     dist.Add(d);
                 }
-                var n = 5;
+
+                var m = 10;
                 for (var j = 0; j < track.Displacement.Count; j++)
                 {
 
                     var v = 0.0;
                     var t = 0.0;
-                    for(var k=System.Math.Max(j-n,0); k <= System.Math.Min(j+n,track.Displacement.Count-1);k++)
+                    var n = Comparison.IsLessEqual(vel[j], 1.0/3.6) || Comparison.IsLess(2*m,time[j]) ? 0 : m;
+                    var j0 = System.Math.Max(j - n, 0);
+                    while (j0 < j && seconds[j] - seconds[j0]-time[j] > n )
+                        j0++;
+                    
+
+                    var j1 = System.Math.Min(j + n, track.Displacement.Count - 1);
+                    while (j < j1 && seconds[j1] - seconds[j] > n)
+                        j1--;
+
+                    for(var k=j0; k <= j1;k++)
                     
                     {
                         v += vel[k] * time[k];
@@ -112,7 +123,7 @@ namespace App.Activity
                     }
                     v = t > 0.0 ? v/t : 0;
                     for (var k = 0; k < System.Math.Max(time[j], 1); k++)
-                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}", track.Displacement[j], dist[j], time[j], vel[j],v);
+                        Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}", track.Displacement[j], dist[j], time[j], vel[j],v);
                 }
             }
 
