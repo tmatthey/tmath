@@ -47,7 +47,7 @@ namespace Math
         {
             var res = new List<double>();
 
-            // Linar case
+            // Linear case
             if (Comparison.IsZero(a))
             {
                 var x = LinearEq(b, c);
