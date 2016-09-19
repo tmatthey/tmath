@@ -27,6 +27,7 @@
  */
 
 using System;
+using Math;
 using Math.Gps;
 
 namespace Tools.TrackReaders
@@ -66,7 +67,7 @@ namespace Tools.TrackReaders
 
         public double Second
         {
-            get { return Time.Ticks*1.0e-7; }
+            get { return Conversion.DateTimeToSeconds(Time); }
         }
     }
 }

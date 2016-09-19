@@ -60,18 +60,18 @@ namespace App.Activity
             Console.WriteLine("Activity");
 
             var activities = (from activity in Reader.ParseDirectory(path)
-                              where
-                                  activity.GpsPoints().Count() == activity.Times().Count() 
-                              select activity).OrderBy(a => a.Date.Ticks).ToList();
+                where
+                    activity.GpsPoints().Count() == activity.Times().Count()
+                select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
             Console.WriteLine("Tracks: {0}", list.Count);
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
             for (var i = 0; i < list.Count; i++)
             {
-                Console.WriteLine("Track\t{0}\t{1}", i,list[i].Count);
+                Console.WriteLine("Track\t{0}\t{1}", i, list[i].Count);
                 var t0 = activities[i].Seconds().First();
                 var seconds = activities[i].Seconds().Select(t1 => t1 - t0).ToList();
-                var track = (new GpsTrack(list[i])).CreateFlatTrack();
+                var track = new GpsTrack(list[i]).CreateFlatTrack();
                 var vel = new List<double>();
                 var dist = new List<double>();
                 var time = new List<double>();
@@ -102,31 +102,29 @@ namespace App.Activity
                 var m = 10;
                 for (var j = 0; j < track.Displacement.Count; j++)
                 {
-
                     var v = 0.0;
                     var t = 0.0;
-                    var n = Comparison.IsLessEqual(vel[j], 1.0/3.6) || Comparison.IsLess(2*m,time[j]) ? 0 : m;
+                    var n = Comparison.IsLessEqual(vel[j], 1.0/3.6) || Comparison.IsLess(2*m, time[j]) ? 0 : m;
                     var j0 = System.Math.Max(j - n, 0);
-                    while (j0 < j && seconds[j] - seconds[j0]-time[j] > n )
+                    while (j0 < j && seconds[j] - seconds[j0] - time[j] > n)
                         j0++;
-                    
+
 
                     var j1 = System.Math.Min(j + n, track.Displacement.Count - 1);
                     while (j < j1 && seconds[j1] - seconds[j] > n)
                         j1--;
 
-                    for(var k=j0; k <= j1;k++)
-                    
+                    for (var k = j0; k <= j1; k++)
+
                     {
-                        v += vel[k] * time[k];
+                        v += vel[k]*time[k];
                         t += time[k];
                     }
                     v = t > 0.0 ? v/t : 0;
                     for (var k = 0; k < System.Math.Max(time[j], 1); k++)
-                        Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}", track.Displacement[j], dist[j], time[j], vel[j],v);
+                        Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}", track.Displacement[j], dist[j], time[j], vel[j], v);
                 }
             }
-
         }
     }
 }

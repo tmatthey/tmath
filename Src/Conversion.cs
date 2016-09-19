@@ -26,6 +26,10 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Math
 {
     public static class Conversion
@@ -38,6 +42,17 @@ namespace Math
         public static double RadToDeg(double x)
         {
             return x*180.0/System.Math.PI;
+        }
+
+        public static double DateTimeToSeconds(DateTime t)
+        {
+            return t.Ticks*1.0e-7;
+        }
+
+        public static IList<double> DateTimeToElapsedSeconds(IList<DateTime> t)
+        {
+            var t0 = DateTimeToSeconds(t.FirstOrDefault());
+            return t.Select(p => DateTimeToSeconds(p) - t0).ToList();
         }
     }
 }
