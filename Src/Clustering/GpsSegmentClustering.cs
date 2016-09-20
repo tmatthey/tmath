@@ -39,14 +39,15 @@ namespace Math.Clustering
             return PolylineNeighbours.Cluster(gpsTracks);
         }
 
-        public static List<SegmentResult> FindLocalCommonSegments(List<List<GpsPoint>> list, int n, double eps,
-            double minL, int cost, double epsTrack)
+        public static List<SegmentResult> FindLocalCommonSegments(List<List<GpsPoint>> list, int n = 5,
+            double eps = 20.0,
+            double minL = 20.0, int cost = 5, double epsTrack = 25.0)
         {
             return FindLocalCommonSegments(new FlatTrackCluster(list), n, eps, minL, cost, epsTrack);
         }
 
-        public static List<SegmentResult> FindLocalCommonSegments(FlatTrackCluster cluster, int n, double eps,
-            double minL, int cost, double epsTrack)
+        public static List<SegmentResult> FindLocalCommonSegments(FlatTrackCluster cluster, int n = 5, double eps = 20.0,
+            double minL = 20.0, int cost = 5, double epsTrack = 25.0)
         {
             var db = TraClus.Cluster(cluster.Tracks, n, eps, true, minL, cost);
             var segments = new List<SegmentResult>();
@@ -135,8 +136,9 @@ namespace Math.Clustering
         }
 
 
-        public static List<List<SegmentResult>> FindGlobalCommonSegments(List<List<GpsPoint>> list, int n, double eps,
-            double minL, int cost, double epsTrack)
+        public static List<List<SegmentResult>> FindGlobalCommonSegments(List<List<GpsPoint>> list, int n = 5,
+            double eps = 20.0,
+            double minL = 20.0, int cost = 5, double epsTrack = 25.0)
         {
             var clusters = FindTrackClusters(list);
             var result = new List<List<SegmentResult>>();

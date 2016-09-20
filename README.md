@@ -6,13 +6,13 @@ A collection of mathematical function and data structures written in C#.
 
 ### Base ###
 * Floating point comparison and epsilon
-* Conversion radian-degree
+* Conversion radian-degree, date time to seconds
 
 ### Solver ###
 * Analytical solution of linear, quadratic, cubic and quartic polynomial equations
 * Numerical general polynomial equation root solver
 * General root solver with either bisection or secant method
-* First order regression with optional weight
+* First and second order regression with optional weight
 
 ### Functions ###
 * Cubic root
@@ -54,7 +54,7 @@ A collection of mathematical function and data structures written in C#.
 ### GPS ###
 * GpsPoint
 * GpsTrack
-* Flatten to local 2D
+* Flatten to local 2D; single object and collection
 * Geodesy
 * * Haversine distance
 * GridLookup / NeighbourDistanceCalculator : Finding neighbors of two GPS tracks in O(N)
@@ -67,6 +67,7 @@ A collection of mathematical function and data structures written in C#.
 * DBScan vector / segment for 2D / 3D
 * TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2D and 3D
 * Finding trajectory neighborhoods for 2D and 3D
+* GPS segment clustering; finding common segments for locally collocated GPS tracks or globally
 
 ### Gfx ###
 * PNG, PPM and PGM bitmap writer
@@ -78,6 +79,7 @@ A collection of mathematical function and data structures written in C#.
 ## Applications / examples ##
 * GPS cluster
 * GPS heatmap
+* GPS activity
 * HR index
 
 

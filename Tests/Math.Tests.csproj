@@ -54,6 +54,7 @@
     <Compile Include="Circle2DTests.cs" />
     <Compile Include="Circle3DTests.cs" />
     <Compile Include="Clustering\DBScanTests.cs" />
+    <Compile Include="Clustering\GpsSegmentClusteringTests.cs" />
     <Compile Include="Clustering\PolylineNeighboursTests.cs" />
     <Compile Include="Clustering\TraClusTests.cs" />
     <Compile Include="GeometryTests.cs" />
