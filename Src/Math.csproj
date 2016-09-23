@@ -65,6 +65,7 @@
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gfx\RedMapping.cs" />
     <Compile Include="Gps\ANeighbourDistanceCalculator.cs" />
+    <Compile Include="Gps\Filter.cs" />
     <Compile Include="Gps\FlatTrackCluster.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Gps\NeighbourGpsDistanceCalculator.cs" />
