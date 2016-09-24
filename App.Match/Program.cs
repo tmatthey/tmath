@@ -102,9 +102,9 @@ namespace App.Match
 
             var activities = (from activity in Reader.ParseDirectory(path)
                 where
-                    activity.GpsPoints().Count() == activity.HeartRates().Count() &&
-                    activity.GpsPoints().Count() == activity.Times().Count() &&
-                    activity.HeartRates().Sum() > activity.HeartRates().Count()*20
+                activity.GpsPoints().Count() == activity.HeartRates().Count() &&
+                activity.GpsPoints().Count() == activity.Times().Count() &&
+                activity.HeartRates().Sum() > activity.HeartRates().Count()*20
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
 

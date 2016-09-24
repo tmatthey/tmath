@@ -105,7 +105,7 @@ namespace App.Thomson
                     last += delta;
                     var U = 0.0;
                     var angles = new List<double>();
-                    for (var i = 0; i  < n; i++)
+                    for (var i = 0; i < n; i++)
                     {
                         var e = double.PositiveInfinity;
                         for (var j = 0; j < n; j++)

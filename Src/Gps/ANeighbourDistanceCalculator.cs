@@ -65,8 +65,9 @@ namespace Math.Gps
         {
             return
                 neighboursCur.Select(
-                    points =>
-                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d)).ToList())
+                        points =>
+                            (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
+                                .ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
         }
@@ -156,7 +157,9 @@ namespace Math.Gps
                         .ToList();
                 var segmentDiff =
                     segments.Select(
-                        s => System.Math.Abs((int) (s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
+                            s =>
+                                System.Math.Abs(
+                                    (int) (s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
                         .ToList();
                 // Pick segment closest to previous index average
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());

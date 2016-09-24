@@ -82,14 +82,16 @@ namespace Math.Tests.Gps
 
             neighboursCur1 =
                 neighboursCur1.Select(
-                    points =>
-                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d)).ToList())
+                        points =>
+                            (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
+                                .ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
             neighboursCur2 =
                 neighboursCur2.Select(
-                    points =>
-                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d)).ToList())
+                        points =>
+                            (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
+                                .ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
 

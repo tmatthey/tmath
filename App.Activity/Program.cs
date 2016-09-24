@@ -61,7 +61,7 @@ namespace App.Activity
 
             var activities = (from activity in Reader.ParseDirectory(path)
                 where
-                    activity.GpsPoints().Count() == activity.Times().Count()
+                activity.GpsPoints().Count() == activity.Times().Count()
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
             Console.WriteLine("Tracks: {0}", list.Count);
