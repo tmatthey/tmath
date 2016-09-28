@@ -80,55 +80,56 @@ namespace Math.Clustering
                 for (var k = 0; k < db.Count; k++)
                 {
                     var segment = db[k];
-                    if (!segment.SegmentIndices.Indices().Contains(i))
-                        continue;
-
-                    var current = analyzer.Analyze(segment.Segment, epsTrack);
-                    var neighbours = current.Neighbours;
-
-                    if (neighbours.Count < 2)
-                        continue;
-
-                    double a, b;
-                    Regression.Linear(
-                        Enumerable.Range(0, neighbours.Count).Select(dummy => (double) dummy).ToList(),
-                        neighbours.Select(neighbour => neighbour[0].Reference)
-                            .Select(dummy => (double) dummy)
-                            .ToList(), out a, out b);
-
-                    var indices =
-                        (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct()
-                            .OrderBy(num => num)
-                            .ToList();
-                    var length = 0.0;
-                    var totalLength = 0.0;
-                    for (var l = 0; l + 1 < indices.Count; l++)
+                    if (segment.SegmentIndices.Indices().Contains(i))
                     {
-                        var i0 = indices[l];
-                        var i1 = indices[l + 1];
-                        totalLength += flatTrack.Displacement[i1];
-                        if (i0 + 1 == i1)
+                        var current = analyzer.Analyze(segment.Segment, epsTrack);
+                        var neighbours = current.Neighbours;
+
+                        if (neighbours.Count > 1)
                         {
-                            length += flatTrack.Displacement[i1];
+                            double a, b;
+                            Regression.Linear(
+                                Enumerable.Range(0, neighbours.Count).Select(dummy => (double) dummy).ToList(),
+                                neighbours.Select(neighbour => neighbour[0].Reference)
+                                    .Select(dummy => (double) dummy)
+                                    .ToList(), out a, out b);
+
+                            var indices =
+                                (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct()
+                                    .OrderBy(num => num)
+                                    .ToList();
+                            var length = 0.0;
+                            var totalLength = 0.0;
+                            for (var l = 0; l + 1 < indices.Count; l++)
+                            {
+                                var i0 = indices[l];
+                                var i1 = indices[l + 1];
+                                totalLength += flatTrack.Displacement[i1];
+                                if (i0 + 1 == i1)
+                                {
+                                    length += flatTrack.Displacement[i1];
+                                }
+                            }
+                            var segLength = 0.0;
+                            for (var l = 0; l + 1 < neighbours.Count; l++)
+                            {
+                                var i0 = neighbours[l][0].Current;
+                                var i1 = neighbours[l + 1][0].Current;
+                                if (i0 + 1 == i1)
+                                {
+                                    segLength += segment.Segment[i0].EuclideanNorm(segment.Segment[i1]);
+                                }
+                            }
+                            if (totalLength > 0.0)
+                            {
+                                var first = neighbours.First().First();
+                                var last = neighbours.Last().First();
+                                segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference,
+                                    last.Reference,
+                                    first.Current, last.Current,
+                                    length, length/totalLength, segLength/segments[k].Length, a));
+                            }
                         }
-                    }
-                    var segLength = 0.0;
-                    for (var l = 0; l + 1 < neighbours.Count; l++)
-                    {
-                        var i0 = neighbours[l][0].Current;
-                        var i1 = neighbours[l + 1][0].Current;
-                        if (i0 + 1 == i1)
-                        {
-                            segLength += segment.Segment[i0].EuclideanNorm(segment.Segment[i1]);
-                        }
-                    }
-                    if (totalLength > 0.0)
-                    {
-                        var first = neighbours.First().First();
-                        var last = neighbours.Last().First();
-                        segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference, last.Reference,
-                            first.Current, last.Current,
-                            length, length/totalLength, segLength/segments[k].Length, a));
                     }
                 }
             }

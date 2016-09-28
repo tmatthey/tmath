@@ -73,6 +73,26 @@ namespace Math.Tests.Clustering
         }
 
         [Test]
+        public void FindGlobalCommonSegments_ThreeDisjunctTrackClusters_ReturnsThreeClusters()
+        {
+            var list = new List<List<GpsPoint>>
+            {
+                new List<GpsPoint> {new GpsPoint(0.00000001, 0), new GpsPoint(0, 0.001)},
+                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0, 0.001)},
+                new List<GpsPoint> {new GpsPoint(5, 5), new GpsPoint(5, 5.001)},
+                new List<GpsPoint> {new GpsPoint(5.00000001, 5), new GpsPoint(5, 5.001)},
+                new List<GpsPoint> {new GpsPoint(40, 50), new GpsPoint(40.1, 50)}
+            };
+            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 2, 20, 20, 5, 5000);
+            res.Count.ShouldBe(3);
+            res[0].Count.ShouldBe(1);
+            res[0][0].TrackSegments.Count.ShouldBe(2);
+            res[1].Count.ShouldBe(1);
+            res[1][0].TrackSegments.Count.ShouldBe(2);
+            res[2].Count.ShouldBe(0);
+        }
+
+        [Test]
         public void FindGlobalCommonSegments_TwoDisjunctTracks_ReturnsTwoSegments()
         {
             var list = new List<List<GpsPoint>>

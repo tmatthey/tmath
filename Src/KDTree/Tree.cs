@@ -87,8 +87,8 @@ namespace Math.KDTree
             }
 
             if (_skipBoundingTest || _minMin.Select((coord, i) => new {i}).All(x =>
-                (min[x.i] <= _maxMax[x.i]) &&
-                (_minMin[x.i] <= max[x.i])))
+                    (min[x.i] <= _maxMax[x.i]) &&
+                    (_minMin[x.i] <= max[x.i])))
             {
                 for (var j = 0; j < _indices.Count; j++)
                     if (_min[j].Select((coord, i) => new {i}).All(x =>
