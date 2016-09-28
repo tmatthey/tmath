@@ -89,8 +89,8 @@ namespace Math.Tests.Gps
             var two = _gpsTrackExamples.TrackTwo();
             var current = analyzer.Analyze(two, 50.0);
             analyzer.ReferenceFlattendTrack.TotalDistance.ShouldBe(
-                Geodesy.Distance.Haversine(one), 1e-1);
-            current.TotalDistance.ShouldBe(Geodesy.Distance.Haversine(two), 1e-1);
+                Geodesy.Distance.HaversineTotal(one), 1e-1);
+            current.TotalDistance.ShouldBe(Geodesy.Distance.HaversineTotal(two), 1e-1);
         }
     }
 }

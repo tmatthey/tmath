@@ -60,12 +60,22 @@ namespace Math.Gps
                 return Haversine(g.Latitude, g.Longitude, q.Latitude, q.Longitude);
             }
 
-            public static double Haversine(IList<GpsPoint> track)
+            public static double HaversineTotal(IList<GpsPoint> track)
             {
                 var d = 0.0;
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
                     d += Haversine(track[i], track[i + 1]);
+                }
+                return d;
+            }
+
+            public static List<double> Haversine(IList<GpsPoint> track)
+            {
+                var d = new List<double>();
+                for (var i = 0; i + 1 < track.Count; i++)
+                {
+                    d.Add(Haversine(track[i], track[i + 1]));
                 }
                 return d;
             }

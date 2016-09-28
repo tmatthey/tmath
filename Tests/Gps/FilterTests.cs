@@ -36,36 +36,59 @@ namespace Math.Tests.Gps
     [TestFixture]
     public class FilterTests
     {
+        private static List<double> CreateTimeArray(ICollection<GpsPoint> track)
+        {
+            var time = new List<double>();
+            for (var i = 0; i < track.Count; i++)
+            {
+                time.Add(i);
+            }
+            return time;
+        }
+
         [Test]
-        public void RemoveHoles_1ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_1ElementList_ReturnsId()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
-            Filter.RemoveHoles(track).ShouldBe(track);
+            Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void RemoveHoles_2ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_2ElementList_ReturnsId()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            Filter.RemoveHoles(track).ShouldBe(track);
+            Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void RemoveHoles_3ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_3ElementList_ReturnsId()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
-            Filter.RemoveHoles(track).ShouldBe(track);
+            Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void RemoveHoles_EmptyList_ReturnsId()
+        public void SmoothZeroDisplacements_4ElementList_ReturnsId()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(4, 0)
+            };
+            Filter.SmoothZeroDisplacements(track).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_EmptyList_ReturnsId()
         {
             var track = new List<GpsPoint>();
-            Filter.RemoveHoles(track).ShouldBe(track);
+            Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void RemoveHoles_LongHoleBack_ReturnsExpecte()
+        public void SmoothZeroDisplacements_LongHoleBack_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -77,7 +100,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -96,7 +119,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RemoveHoles_LongHoleFront_ReturnsExpecte()
+        public void SmoothZeroDisplacements_LongHoleFront_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -108,7 +131,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(5, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -127,7 +150,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RemoveHoles_LongStayPoint_ReturnsExpecte()
+        public void SmoothZeroDisplacements_LongStayPoint_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -139,7 +162,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2.1, 0),
                 new GpsPoint(3, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -158,7 +181,38 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RemoveHoles_SimpleHoleBack_ReturnsExpecte()
+        public void SmoothZeroDisplacements_LongStayPointWithBigResume_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(4, 0),
+                new GpsPoint(6, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track);
+            res.Count.ShouldBe(7);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(2);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(2);
+            res[4].Longitude.ShouldBe(0);
+            res[5].Latitude.ShouldBe(4);
+            res[5].Longitude.ShouldBe(0);
+            res[6].Latitude.ShouldBe(6);
+            res[6].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_SimpleHoleBack_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -168,7 +222,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(4, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -183,7 +237,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void RemoveHoles_SimpleHoleFront_ReturnsExpecte()
+        public void SmoothZeroDisplacements_SimpleHoleFront_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -193,7 +247,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(3, 0),
                 new GpsPoint(4, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -209,7 +263,7 @@ namespace Math.Tests.Gps
 
 
         [Test]
-        public void RemoveHoles_SimpleStayPoint_ReturnsExpecte()
+        public void SmoothZeroDisplacements_SimpleStayPoint_ReturnsExpected()
         {
             var track = new List<GpsPoint>
             {
@@ -219,7 +273,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(3, 0)
             };
-            var res = Filter.RemoveHoles(track);
+            var res = Filter.SmoothZeroDisplacements(track);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -230,6 +284,245 @@ namespace Math.Tests.Gps
             res[3].Latitude.ShouldBe(2);
             res[3].Longitude.ShouldBe(0);
             res[4].Latitude.ShouldBe(3);
+            res[4].Longitude.ShouldBe(0);
+        }
+
+        // Weighted
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeighted1ElementList_ReturnsId()
+        {
+            var track = new List<GpsPoint> {new GpsPoint(0, 0)};
+            Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeighted2ElementList_ReturnsId()
+        {
+            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
+            Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeighted3ElementList_ReturnsId()
+        {
+            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
+            Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeighted4ElementList_ReturnsId()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(3, 0)
+            };
+            Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedEmptyList_ReturnsId()
+        {
+            var track = new List<GpsPoint>();
+            Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedLongHoleBack_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(6, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(7);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(3, 1e-7);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(4, 1e-7);
+            res[4].Longitude.ShouldBe(0);
+            res[5].Latitude.ShouldBe(5, 1e-7);
+            res[5].Longitude.ShouldBe(0);
+            res[6].Latitude.ShouldBe(6);
+            res[6].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedLongHoleFront_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(5, 0),
+                new GpsPoint(5, 0),
+                new GpsPoint(5, 0),
+                new GpsPoint(5, 0),
+                new GpsPoint(6, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(7);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2, 1e-7);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(3, 1e-7);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(4, 1e-7);
+            res[4].Longitude.ShouldBe(0);
+            res[5].Latitude.ShouldBe(5, 1e-7);
+            res[5].Longitude.ShouldBe(0);
+            res[6].Latitude.ShouldBe(6);
+            res[6].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedLongStayPoint_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2.1, 0),
+                new GpsPoint(3, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(7);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(2);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(2);
+            res[4].Longitude.ShouldBe(0);
+            res[5].Latitude.ShouldBe(2.1);
+            res[5].Longitude.ShouldBe(0);
+            res[6].Latitude.ShouldBe(3);
+            res[6].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedSimpleHoleBack_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(4, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(5);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(3, 1e-7);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(4);
+            res[4].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedSimpleHoleFront_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(3, 0),
+                new GpsPoint(3, 0),
+                new GpsPoint(4, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(5);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2, 1e-7);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(3);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(4);
+            res[4].Longitude.ShouldBe(0);
+        }
+
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeightedSimpleStayPoint_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(3, 0)
+            };
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res.Count.ShouldBe(5);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(2);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(3);
+            res[4].Longitude.ShouldBe(0);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_WeightedLongHoleBack_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(0, 0),
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(6, 0)
+            };
+
+            var time = new List<double> {0, 1, 2, 5, 6};
+            var res = Filter.SmoothZeroDisplacements(track, time);
+            res.Count.ShouldBe(5);
+            res[0].Latitude.ShouldBe(0);
+            res[0].Longitude.ShouldBe(0);
+            res[1].Latitude.ShouldBe(1);
+            res[1].Longitude.ShouldBe(0);
+            res[2].Latitude.ShouldBe(2);
+            res[2].Longitude.ShouldBe(0);
+            res[3].Latitude.ShouldBe(5, 1e-7);
+            res[3].Longitude.ShouldBe(0);
+            res[4].Latitude.ShouldBe(6);
             res[4].Longitude.ShouldBe(0);
         }
     }

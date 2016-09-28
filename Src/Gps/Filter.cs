@@ -33,23 +33,227 @@ namespace Math.Gps
 {
     public static class Filter
     {
-        public static IList<GpsPoint> RemoveHoles(IList<GpsPoint> track)
+        public static IList<GpsPoint> SmoothZeroDisplacements(IList<GpsPoint> track)
         {
+            int holes, start, end;
+            return SmoothZeroDisplacements(track, out holes, out start, out end);
+        }
+
+        public static IList<GpsPoint> SmoothZeroDisplacements(IList<GpsPoint> track, out int holes, out int start,
+            out int end)
+        {
+            holes = 0;
+            start = 0;
+            end = 0;
             if (track.Count < 4)
                 return track;
-            var d = new List<double>();
+            List<int> startIdx;
+            List<int> endIdx;
+            var d = Geodesy.Distance.Haversine(track);
+            holes = FindHoles(d, out startIdx, out endIdx);
+
+            if (startIdx.Count == 0)
+                return track;
+
             var squareSum = 0.0;
             var sum = 0.0;
-            var startIdx = new List<int>();
-            var endIdx = new List<int>();
-            var isZero = false;
-            for (var i = 0; i + 1 < track.Count; i++)
+            foreach (var l in d)
             {
-                var l = Geodesy.Distance.Haversine(track[i], track[i + 1]);
-                d.Add(l);
                 sum += l;
                 squareSum += l*l;
-                if (Comparison.IsZero(l))
+            }
+
+            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
+
+            var n = d.Count;
+            for (var i = 0; i < startIdx.Count; i++)
+            {
+                var i0 = startIdx[i];
+                var i1 = endIdx[i];
+                var m = i1 - i0;
+                var variance = squareSum - sum*sum/(n - m);
+                var varianceStart = double.PositiveInfinity;
+                var varianceEnd = double.PositiveInfinity;
+                if (i0 > 0)
+                {
+                    var a = d[i0 - 1];
+                    varianceStart = squareSum + a*a*(1.0/(m + 1) - 1.0) - sum*sum/n;
+                }
+                if (i1 < d.Count)
+                {
+                    var a = d[i1];
+                    varianceEnd = squareSum + a*a*(1.0/(m + 1) - 1.0) - sum*sum/n;
+                }
+                if (Comparison.IsLessEqual(varianceStart, varianceEnd) &&
+                    Comparison.IsLessEqual(varianceStart, variance))
+                {
+                    start++;
+                    var a = d[i0 - 1];
+                    squareSum += a*a*(1.0/(m + 1) - 1.0);
+                    for (var j = i0 - 1; j < i1; j++)
+                        d[j] = a/(m + 1);
+                    for (var j = 0; j < m; j++)
+                        res[j + i0] = res[i0 - 1].Interpolate(res[i1], (j + 1.0)/(m + 1.0));
+                }
+                else if (Comparison.IsLessEqual(varianceEnd, varianceStart) &&
+                         Comparison.IsLessEqual(varianceEnd, variance))
+                {
+                    end++;
+                    var a = d[i1];
+                    squareSum += a*a*(1.0/(m + 1) - 1.0);
+                    for (var j = i0; j < i1 + 1; j++)
+                        d[j] = a/(m + 1);
+                    for (var j = 0; j < m; j++)
+                        res[j + i0 + 1] = res[i0].Interpolate(res[i1 + 1], (j + 1.0)/(m + 1.0));
+                }
+            }
+            return res;
+        }
+
+        public static IList<GpsPoint> SmoothZeroDisplacements(IList<GpsPoint> track, IList<double> time)
+        {
+            int holes, start, end;
+            return SmoothZeroDisplacements(track, time, out holes, out start, out end);
+        }
+
+        public static IList<GpsPoint> SmoothZeroDisplacements(IList<GpsPoint> track, IList<double> time, out int holes,
+            out int start, out int end)
+        {
+            holes = 0;
+            start = 0;
+            end = 0;
+            if (track.Count < 4)
+                return track;
+            List<int> startIdx;
+            List<int> endIdx;
+            var d = Geodesy.Distance.Haversine(track);
+            holes = FindHoles(d, out startIdx, out endIdx);
+
+            if (startIdx.Count == 0)
+                return track;
+
+            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
+            var w = new List<double>();
+            for (var i = 0; i + 1 < time.Count; i++)
+                w.Add(time[i + 1] - time[i]);
+
+            for (var i = 0; i < startIdx.Count; i++)
+            {
+                var i0 = startIdx[i];
+                var i1 = endIdx[i];
+                var sumX = 0.0;
+                var sumW = 0.0;
+                var sumWrest = 0.0;
+                for (var j = 0; j < d.Count; j++)
+                {
+                    if (!(i0 <= j && j < i1))
+                    {
+                        sumX += w[j]*d[j];
+                        sumW += w[j];
+                    }
+                    else
+                    {
+                        sumWrest += w[j];
+                    }
+                }
+                var u = sumX/sumW;
+                var variance = 0.0;
+                for (var j = 0; j < d.Count; j++)
+                {
+                    if (!(i0 <= j && j < i1))
+                    {
+                        variance += w[i]*(d[j] - u)*(d[j] - u);
+                    }
+                }
+                //variance /= sumW;
+
+                var varianceStart = double.PositiveInfinity;
+                var varianceEnd = double.PositiveInfinity;
+                var dStart = new List<double>();
+                var dEnd = new List<double>();
+                if (i0 > 0)
+                {
+                    var a = d[i0 - 1];
+                    var b = w[i0 - 1];
+                    var newSumX = sumX - a*b;
+                    var dx = a/(b + sumWrest);
+                    dStart = d.ToList();
+                    for (var j = i0 - 1; j < i1; j++)
+                    {
+                        dStart[j] = dx*w[j];
+                        newSumX += w[j]*dStart[j];
+                    }
+                    var newU = newSumX/(sumW + sumWrest);
+                    varianceStart = 0.0;
+                    for (var j = 0; j < d.Count; j++)
+                    {
+                        varianceStart += w[j]*(dStart[j] - newU)*(dStart[j] - newU);
+                    }
+                    //varianceStart /= sumW + sumWrest;
+                }
+                if (i1 < d.Count)
+                {
+                    var a = d[i1];
+                    var b = w[i1];
+                    var newSumX = sumX - a*b;
+                    var dx = a/(b + sumWrest);
+                    dEnd = d.ToList();
+                    for (var j = i0; j <= i1; j++)
+                    {
+                        dEnd[j] = dx*w[j];
+                        newSumX += w[j]*dEnd[j];
+                    }
+                    var newU = newSumX/(sumW + sumWrest);
+                    varianceEnd = 0.0;
+                    for (var j = 0; j < d.Count; j++)
+                    {
+                        varianceEnd += w[j]*(dEnd[j] - newU)*(dEnd[j] - newU);
+                    }
+                    //varianceEnd /= sumW + sumWrest;
+                }
+                if (Comparison.IsLessEqual(varianceStart, varianceEnd) &&
+                    Comparison.IsLessEqual(varianceStart, variance))
+                {
+                    start++;
+                    var b = w[i0 - 1];
+                    var dx = 1.0/(b + sumWrest);
+
+                    var c = 0.0;
+                    for (var j = i0; j < i1; j++)
+                    {
+                        c += w[j - 1];
+                        res[j] = res[i0 - 1].Interpolate(res[i1], c*dx);
+                    }
+                    d = dStart;
+                }
+                else if (Comparison.IsLessEqual(varianceEnd, varianceStart) &&
+                         Comparison.IsLessEqual(varianceEnd, variance))
+                {
+                    end++;
+                    var b = w[i1];
+                    var dx = 1.0/(b + sumWrest);
+
+                    var c = 0.0;
+                    for (var j = i0 + 1; j < i1 + 1; j++)
+                    {
+                        c += w[j - 1];
+                        res[j] = res[i0].Interpolate(res[i1 + 1], c*dx);
+                    }
+                    d = dEnd;
+                }
+            }
+            return res;
+        }
+
+        private static int FindHoles(IList<double> d, out List<int> startIdx,
+            out List<int> endIdx)
+        {
+            startIdx = new List<int>();
+            endIdx = new List<int>();
+            var isZero = false;
+            for (var i = 0; i < d.Count; i++)
+            {
+                if (Comparison.IsZero(d[i]))
                     if (!isZero)
                     {
                         startIdx.Add(i);
@@ -63,50 +267,7 @@ namespace Math.Gps
                 else
                     isZero = false;
             }
-
-            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
-
-            var n = d.Count;
-            for (var i = 0; i < startIdx.Count; i++)
-            {
-                var i0 = startIdx[i];
-                var i1 = endIdx[i];
-                var m = i1 - i0;
-                var variance = squareSum - sum*sum/(n - m);
-                var varianceFront = double.PositiveInfinity;
-                var varianceBack = double.PositiveInfinity;
-                if (i0 > 0)
-                {
-                    var a = d[i0 - 1];
-                    varianceFront = squareSum + a*a*(1.0/(m + 1) - 1.0) - sum*sum/n;
-                }
-                if (i1 < d.Count)
-                {
-                    var a = d[i1];
-                    varianceBack = squareSum + a*a*(1.0/(m + 1) - 1.0) - sum*sum/n;
-                }
-                if (Comparison.IsLessEqual(varianceFront, varianceBack) &&
-                    Comparison.IsLessEqual(varianceFront, variance))
-                {
-                    var a = d[i0 - 1];
-                    squareSum += a*a*(1.0/(m + 1) - 1.0);
-                    for (var j = i0 - 1; j < i1; j++)
-                        d[j] = a/(m + 1);
-                    for (var j = 0; j < m; j++)
-                        res[j + i0] = res[i0 - 1].Interpolate(res[i1], (j + 1.0)/(m + 1.0));
-                }
-                else if (Comparison.IsLessEqual(varianceBack, varianceFront) &&
-                         Comparison.IsLessEqual(varianceBack, variance))
-                {
-                    var a = d[i1];
-                    squareSum += a*a*(1.0/(m + 1) - 1.0);
-                    for (var j = i0; j < i1 + 1; j++)
-                        d[j] = a/(m + 1);
-                    for (var j = 0; j < m; j++)
-                        res[j + i0 + 1] = res[i0].Interpolate(res[i1 + 1], (j + 1.0)/(m + 1.0));
-                }
-            }
-            return res;
+            return startIdx.Count;
         }
     }
 }
