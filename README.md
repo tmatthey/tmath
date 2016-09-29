@@ -26,6 +26,9 @@ A collection of mathematical function and data structures written in C#.
 * IsPrime; no cache; ~3s for max long / 10
 * Averageing of angles
 
+### Statistics ###
+* Arithmetic mean and variance, optional weighted
+
 ### Geometry ###
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
 * Minimal bounding circle 2D
@@ -55,6 +58,7 @@ A collection of mathematical function and data structures written in C#.
 * GpsPoint
 * GpsTrack
 * Flatten to local 2D; single object and collection
+* Smoothing of holes (missing GPS signal, same position) by reducing variance
 * Geodesy
 * * Haversine distance
 * GridLookup / NeighbourDistanceCalculator : Finding neighbors of two GPS tracks in O(N)

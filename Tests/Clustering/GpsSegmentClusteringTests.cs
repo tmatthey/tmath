@@ -53,26 +53,6 @@ namespace Math.Tests.Clustering
         }
 
         [Test]
-        public void FindGlobalCommonSegments_TwoCloseTracks_ReturnsOneSegments()
-        {
-            var list = new List<List<GpsPoint>>
-            {
-                new List<GpsPoint> {new GpsPoint(0.0001, 0), new GpsPoint(0.0001, 0.0001), new GpsPoint(0.0001, 0.0002)},
-                new List<GpsPoint>
-                {
-                    new GpsPoint(-0.0001, 0),
-                    new GpsPoint(-0.0001, 0.0001),
-                    new GpsPoint(-0.0001, 0.0002)
-                }
-            };
-            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 2, 100, 20, 5, 100);
-            res.Count.ShouldBe(1);
-            res[0].Count.ShouldBe(1);
-            res[0][0].RepresentativeGpsTrack.First().ShouldBe(new GpsPoint(0, 0));
-            res[0][0].RepresentativeGpsTrack.Last().ShouldBe(new GpsPoint(0, 0.0002));
-        }
-
-        [Test]
         public void FindGlobalCommonSegments_ThreeDisjunctTrackClusters_ReturnsThreeClusters()
         {
             var list = new List<List<GpsPoint>>
@@ -90,6 +70,26 @@ namespace Math.Tests.Clustering
             res[1].Count.ShouldBe(1);
             res[1][0].TrackSegments.Count.ShouldBe(2);
             res[2].Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void FindGlobalCommonSegments_TwoCloseTracks_ReturnsOneSegments()
+        {
+            var list = new List<List<GpsPoint>>
+            {
+                new List<GpsPoint> {new GpsPoint(0.0001, 0), new GpsPoint(0.0001, 0.0001), new GpsPoint(0.0001, 0.0002)},
+                new List<GpsPoint>
+                {
+                    new GpsPoint(-0.0001, 0),
+                    new GpsPoint(-0.0001, 0.0001),
+                    new GpsPoint(-0.0001, 0.0002)
+                }
+            };
+            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 2, 100, 20, 5, 100);
+            res.Count.ShouldBe(1);
+            res[0].Count.ShouldBe(1);
+            res[0][0].RepresentativeGpsTrack.First().ShouldBe(new GpsPoint(0, 0));
+            res[0][0].RepresentativeGpsTrack.Last().ShouldBe(new GpsPoint(0, 0.0002));
         }
 
         [Test]
