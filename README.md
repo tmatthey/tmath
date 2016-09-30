@@ -24,10 +24,11 @@ A collection of mathematical function and data structures written in C#.
 * Fibonacci; ulong (n <= 93), double and Binet
 * Greatest common divisor (GDC)
 * IsPrime; no cache; ~3s for max long / 10
-* Averageing of angles
 
 ### Statistics ###
 * Arithmetic mean and variance, optional weighted
+* Averageing / mean of angles
+* Centered moving mean
 
 ### Geometry ###
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)
