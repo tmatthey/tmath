@@ -43,7 +43,7 @@ namespace Math.Tests.Clustering
         {
             var list = new List<List<GpsPoint>>
             {
-                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 1)}
+                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0.01, 0.01)}
             };
             var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 1);
             res.Count.ShouldBe(1);
@@ -97,8 +97,8 @@ namespace Math.Tests.Clustering
         {
             var list = new List<List<GpsPoint>>
             {
-                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 1)},
-                new List<GpsPoint> {new GpsPoint(5, 5), new GpsPoint(6, 6)}
+                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0.01, 0.01)},
+                new List<GpsPoint> {new GpsPoint(5, 5), new GpsPoint(5.01, 5.01)}
             };
             var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 1);
             res.Count.ShouldBe(2);
@@ -115,7 +115,7 @@ namespace Math.Tests.Clustering
         {
             var list = new List<List<GpsPoint>>
             {
-                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 1)}
+                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0.01, 0.01)}
             };
             var res = GpsSegmentClustering.FindLocalCommonSegments(list, 1);
             res.Count.ShouldBe(1);
