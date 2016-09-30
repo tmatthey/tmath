@@ -45,15 +45,17 @@ namespace Math.Gps
             holes = 0;
             start = 0;
             end = 0;
+            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             if (track.Count < 4)
-                return track;
+                return res;
+
             List<int> startIdx;
             List<int> endIdx;
             var d = Geodesy.Distance.Haversine(track);
             holes = FindHoles(d, out startIdx, out endIdx);
 
             if (startIdx.Count == 0)
-                return track;
+                return res;
 
             var squareSum = 0.0;
             var sum = 0.0;
@@ -63,7 +65,6 @@ namespace Math.Gps
                 squareSum += l*l;
             }
 
-            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
 
             var n = d.Count;
             for (var i = 0; i < startIdx.Count; i++)
@@ -122,17 +123,17 @@ namespace Math.Gps
             holes = 0;
             start = 0;
             end = 0;
+            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             if (track.Count < 4)
-                return track;
+                return res;
             List<int> startIdx;
             List<int> endIdx;
             var d = Geodesy.Distance.Haversine(track);
             holes = FindHoles(d, out startIdx, out endIdx);
 
             if (startIdx.Count == 0)
-                return track;
+                return res;
 
-            var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             var w = new List<double>();
             for (var i = 0; i + 1 < time.Count; i++)
                 w.Add(time[i + 1] - time[i]);

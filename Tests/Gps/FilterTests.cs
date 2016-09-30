@@ -47,28 +47,37 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void SmoothZeroDisplacements_1ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_1ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
             Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_2ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_2ElementList_ReturnsCopy()
+        {
+            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
+            var res = Filter.SmoothZeroDisplacements(track);
+            res[0].Latitude += 0.1;
+            track[0].Latitude.ShouldNotBe(res[0].Latitude);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_2ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
             Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_3ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_3ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
             Filter.SmoothZeroDisplacements(track).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_4ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_4ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint>
             {
@@ -81,7 +90,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void SmoothZeroDisplacements_EmptyList_ReturnsId()
+        public void SmoothZeroDisplacements_EmptyList_ReturnsSame()
         {
             var track = new List<GpsPoint>();
             Filter.SmoothZeroDisplacements(track).ShouldBe(track);
@@ -290,28 +299,37 @@ namespace Math.Tests.Gps
         // Weighted
 
         [Test]
-        public void SmoothZeroDisplacements_TrivialWeighted1ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_TrivialWeighted1ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
             Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_TrivialWeighted2ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_TrivialWeighted2ElementList_ReturnsCopy()
+        {
+            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            res[0].Latitude += 0.1;
+            track[0].Latitude.ShouldNotBe(res[0].Latitude);
+        }
+
+        [Test]
+        public void SmoothZeroDisplacements_TrivialWeighted2ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
             Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_TrivialWeighted3ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_TrivialWeighted3ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
             Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
-        public void SmoothZeroDisplacements_TrivialWeighted4ElementList_ReturnsId()
+        public void SmoothZeroDisplacements_TrivialWeighted4ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint>
             {
@@ -324,7 +342,7 @@ namespace Math.Tests.Gps
         }
 
         [Test]
-        public void SmoothZeroDisplacements_TrivialWeightedEmptyList_ReturnsId()
+        public void SmoothZeroDisplacements_TrivialWeightedEmptyList_ReturnsSame()
         {
             var track = new List<GpsPoint>();
             Filter.SmoothZeroDisplacements(track, CreateTimeArray(track)).ShouldBe(track);

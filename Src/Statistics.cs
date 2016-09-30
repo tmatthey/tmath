@@ -28,6 +28,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Interfaces;
 
 namespace Math
 {
@@ -60,7 +61,7 @@ namespace Math
                     return double.NaN;
                 if (x.Count == 1)
                     return x[0];
-                return x.Select((t, i) => t * w[i]).Sum() / w.Sum();
+                return x.Select((t, i) => t*w[i]).Sum()/w.Sum();
             }
 
             public static double Variance(List<double> x, List<double> w)
@@ -70,7 +71,92 @@ namespace Math
                 if (x.Count == 1)
                     return 0.0;
                 var u = Mean(x, w);
-                return x.Select((t, i) => w[i]*(t - u)*(t - u)).Sum() / w.Sum();
+                return x.Select((t, i) => w[i]*(t - u)*(t - u)).Sum()/w.Sum();
+            }
+
+            public static List<double> CenteredMovingMean(List<double> x, double size)
+            {
+                var res = new List<double>(x);
+                if (x.Count < 1 || Comparison.IsLessEqual(size, 1.0))
+                    return res;
+                var h = size/2.0 - 0.5;
+                var n = (int) System.Math.Floor(h);
+                var f = h - n;
+                for (var i = 0; i < x.Count; i++)
+                {
+                    var l = 0.0;
+                    var sum = 0.0;
+                    if (Comparison.IsLess(0.0, f))
+                    {
+                        if (0 <= i - n - 1)
+                        {
+                            sum += x[i - n - 1]*f;
+                            l += f;
+                        }
+                        if (i + n + 1 < x.Count)
+                        {
+                            sum += x[i + n + 1]*f;
+                            l += f;
+                        }
+                    }
+                    for (var j = System.Math.Max(i - n, 0); j < System.Math.Min(i + n + 1, x.Count); j++)
+                    {
+                        sum += x[j];
+                        l++;
+                    }
+                    res[i] = sum/l;
+                }
+                return res;
+            }
+
+            //
+            // https://april.eecs.umich.edu/pdfs/olson2011orientation.pdf
+            //
+            public static double MeanAngle(IList<double> angles)
+            {
+                if (angles.Count == 0)
+                    return double.NaN;
+                if (angles.Count == 1)
+                    return Function.NormalizeAngle(angles[0]);
+
+                var normalized = new List<double>();
+                var squareSum = 0.0;
+                var sum = 0.0;
+                foreach (var angle in angles)
+                {
+                    var a = Function.NormalizeAngle(angle);
+                    normalized.Add(a);
+                    sum += a;
+                    squareSum += a*a;
+                }
+                normalized = normalized.OrderBy(num => num).ToList();
+                var s = sum;
+                var variance = squareSum - sum*sum/normalized.Count;
+
+                for (var i = 0; i < normalized.Count - 1; i++)
+                {
+                    sum += 2.0*System.Math.PI;
+                    squareSum += 4.0*System.Math.PI*(normalized[i] + System.Math.PI);
+                    var x = squareSum - sum*sum/normalized.Count;
+                    if (Comparison.IsLess(x, variance))
+                    {
+                        variance = x;
+                        s = sum;
+                    }
+                }
+
+                return Function.NormalizeAngle(s/normalized.Count);
+            }
+
+            public static double MeanAngle(IList<Vector2D> list)
+            {
+                return MeanAngle(list, Vector2D.E1);
+            }
+
+            public static double MeanAngle<T>(IList<T> list, T axis) where T : IVector<T>
+            {
+                var angles = (from v in list where Comparison.IsLess(0.0, v.Norm2()) select axis.Angle(v)).ToList();
+                return MeanAngle(angles);
             }
         }
     }

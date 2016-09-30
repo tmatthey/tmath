@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Shouldly;
@@ -255,111 +254,6 @@ namespace Math.Tests
             Function.IsPrime(n).ShouldBe(prime);
         }
 
-        [Test]
-        public void AverageAngle_EmptyInput_ReturnsNaN()
-        {
-            var list = new List<double>();
-            Function.AverageAngle(list).ShouldBe(double.NaN);
-        }
-
-        [Test]
-        public void AverageAngle_FourDirection_ReturnsExpected()
-        {
-            var list = new List<double> {0, 0.5*System.Math.PI, System.Math.PI, 1.5*System.Math.PI};
-            Function.AverageAngle(list).ShouldBe(0.75*System.Math.PI, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_OneElement_ReturnsElementNormalized()
-        {
-            var list = new List<double> {System.Math.PI*2.0 + 3.0};
-            Function.AverageAngle(list).ShouldBe(3.0);
-        }
-
-        [Test]
-        public void AverageAngle_OppositeHorDirection_ReturnsExpected()
-        {
-            var list = new List<double> {0.5*System.Math.PI, 1.5*System.Math.PI};
-            Function.AverageAngle(list).ShouldBe(System.Math.PI, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_OppositeVerDirection_ReturnsExpected()
-        {
-            var list = new List<double> {0, System.Math.PI};
-            Function.AverageAngle(list).ShouldBe(0.5*System.Math.PI, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_TwoElementsDifferentPlusMinus_ReturnsExpected()
-        {
-            var list = new List<double> {System.Math.PI*2.0 - 0.1, 0.3};
-            Function.AverageAngle(list).ShouldBe(0.1, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_TwoElementsNotNormalizedDifferentPlusMinus_ReturnsExpected()
-        {
-            var list = new List<double> {-0.1, 0.3};
-            Function.AverageAngle(list).ShouldBe(0.1, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_TwoElementsNotNormalizedPlusMinus_ReturnsZero()
-        {
-            var list = new List<double> {-0.1, 0.1};
-            Function.AverageAngle(list).ShouldBe(0.0);
-        }
-
-        [Test]
-        public void AverageAngle_TwoElementsPlusMinus_ReturnsZero()
-        {
-            var list = new List<double> {System.Math.PI*2.0 - 0.1, 0.1};
-            Function.AverageAngle(list).ShouldBe(0.0);
-        }
-
-        [Test]
-        public void AverageAngle_Vector2DE1_ReturnsExpected()
-        {
-            var list = new List<Vector2D> {Vector2D.E1};
-            Function.AverageAngle(list, Vector2D.E1).ShouldBe(0.0, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_Vector2DE2_ReturnsExpected()
-        {
-            var list = new List<Vector2D> {Vector2D.E2};
-            Function.AverageAngle(list, Vector2D.E1).ShouldBe(0.5*System.Math.PI, 1e-13);
-        }
-
-        [Test]
-        public void AverageAngle_Vector2DList_ReturnsSamesAsAngleList()
-        {
-            var angles = new List<double> {Conversion.DegToRad(180 + 45), Conversion.DegToRad(180 + 45 + 90)};
-            var expected = Conversion.RadToDeg(Function.AverageAngle(angles));
-            var list = new List<Vector2D>();
-            foreach (var angle in angles)
-            {
-                list.Add(new Vector2D(System.Math.Cos(angle), System.Math.Sin(angle)));
-            }
-            var res = Conversion.RadToDeg(Function.AverageAngle(list, Vector2D.E1));
-            res.ShouldBe(expected);
-        }
-
-
-        [Test]
-        public void AverageAngle_Vector2DZero_ReturnsNaN()
-        {
-            var list = new List<Vector2D> {Vector2D.Zero};
-            Function.AverageAngle(list, Vector2D.E1).ShouldBe(double.NaN);
-        }
-
-        [Test]
-        public void AverageAngleDefault_Vector2DE1_ReturnsSames()
-        {
-            var list = new List<Vector2D> {Vector2D.E1};
-            Function.AverageAngle(list).ShouldBe(Function.AverageAngle(list, Vector2D.E1), 1e-13);
-        }
 
         [Test]
         public void FactorialInt_Max()
