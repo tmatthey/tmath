@@ -74,35 +74,72 @@ namespace Math
                 return x.Select((t, i) => w[i]*(t - u)*(t - u)).Sum()/w.Sum();
             }
 
-            public static List<double> CenteredMovingMean(List<double> x, double size)
+            public static List<double> CenteredMovingAverage(List<double> x, double size)
             {
                 var res = new List<double>(x);
-                if (x.Count < 1 || Comparison.IsLessEqual(size, 1.0))
+                if (x.Count < 2 || Comparison.IsLessEqual(size, 1.0))
                     return res;
-                var h = size/2.0 - 0.5;
-                var n = (int) System.Math.Floor(h);
-                var f = h - n;
+                var border = size/2.0 - 0.5;
+                var n = (int) System.Math.Floor(border);
+                var rest = border - n;
                 for (var i = 0; i < x.Count; i++)
                 {
                     var l = 0.0;
                     var sum = 0.0;
-                    if (Comparison.IsLess(0.0, f))
+                    if (Comparison.IsLess(0.0, rest))
                     {
                         if (0 <= i - n - 1)
                         {
-                            sum += x[i - n - 1]*f;
-                            l += f;
+                            sum += x[i - n - 1]*rest;
+                            l += rest;
                         }
                         if (i + n + 1 < x.Count)
                         {
-                            sum += x[i + n + 1]*f;
-                            l += f;
+                            sum += x[i + n + 1]*rest;
+                            l += rest;
                         }
                     }
                     for (var j = System.Math.Max(i - n, 0); j < System.Math.Min(i + n + 1, x.Count); j++)
                     {
                         sum += x[j];
                         l++;
+                    }
+                    res[i] = sum/l;
+                }
+                return res;
+            }
+
+            public static List<double> CenteredMovingAverage(List<double> x, double size, List<double> w)
+            {
+                var res = new List<double>(x);
+                if (x.Count < 2)
+                    return res;
+                for (var i = 0; i < x.Count; i++)
+                {
+                    if (Comparison.IsLessEqual(size, w[i]))
+                        continue;
+                    var border = (size - w[i])/2.0;
+                    var l = w[i];
+                    var sum = w[i]*x[i];
+                    var a = 0.0;
+                    var j = i + 1;
+                    while (j < x.Count && Comparison.IsLess(a, border))
+                    {
+                        var h = System.Math.Min(a + w[j], border) - a;
+                        sum += h*x[j];
+                        l += h;
+                        a += w[j];
+                        j++;
+                    }
+                    a = 0.0;
+                    j = i - 1;
+                    while (0 <= j && Comparison.IsLess(a, border))
+                    {
+                        var h = System.Math.Min(a + w[j], border) - a;
+                        sum += h*x[j];
+                        l += h;
+                        a += w[j];
+                        j--;
                     }
                     res[i] = sum/l;
                 }

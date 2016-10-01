@@ -28,7 +28,7 @@ A collection of mathematical function and data structures written in C#.
 ### Statistics ###
 * Arithmetic mean and variance, optional weighted
 * Averageing / mean of angles
-* Centered moving mean
+* Centered moving averageing, optional weighted
 
 ### Geometry ###
 * Convex hull 2D (Jarvis march & Andrew's monotone chain; point reduction algorithm)

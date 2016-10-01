@@ -36,12 +36,12 @@ namespace Math.Tests.Gps
     [TestFixture]
     public class FilterTests
     {
-        private static List<double> CreateTimeArray(ICollection<GpsPoint> track)
+        private static List<double> CreateTimeArray(ICollection<GpsPoint> track, double size = 1.0)
         {
             var time = new List<double>();
             for (var i = 0; i < track.Count; i++)
             {
-                time.Add(i);
+                time.Add(i*size);
             }
             return time;
         }
@@ -361,7 +361,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 2.3));
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -392,7 +392,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(5, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 4.5));
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -423,7 +423,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2.1, 0),
                 new GpsPoint(3, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 17.5));
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -452,7 +452,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(4, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 6.7));
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -477,7 +477,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(3, 0),
                 new GpsPoint(4, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 8.9));
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -503,7 +503,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(3, 0)
             };
-            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track));
+            var res = Filter.SmoothZeroDisplacements(track, CreateTimeArray(track, 1.1));
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);

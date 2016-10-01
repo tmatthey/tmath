@@ -78,12 +78,22 @@ namespace Math.Tests
         [TestCase(double.NaN)]
         [TestCase(-1.17)]
         [TestCase(0.0)]
-        public void CenteredMovingMean_OneElement_ReturnsSame(double x)
+        public void CenteredMovingAverage_OneElement_ReturnsSame(double x)
         {
             var list = new List<double> {x};
-            var res = Statistics.Arithmetic.CenteredMovingMean(list, 2);
+            var res = Statistics.Arithmetic.CenteredMovingAverage(list, 2);
             res.Count.ShouldBe(list.Count);
             res[0].ShouldBe(x);
+        }
+
+        private static List<double> CreateWeightArray(ICollection<double> list, double weight = 1.0)
+        {
+            var w = new List<double>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                w.Add(weight);
+            }
+            return w;
         }
 
         [Test]
@@ -176,42 +186,84 @@ namespace Math.Tests
         }
 
         [Test]
-        public void CenteredMovingMean_3ElementsSize2_ReturnsExpected()
+        public void CenteredMovingAverage_3ElementsSize2_ReturnsExpected()
         {
             var list = new List<double> {2, 3, 4};
             var expected = new List<double> {7.0/3.0, 3, 11.0/3.0};
-            Statistics.Arithmetic.CenteredMovingMean(list, 2.0).ShouldBe(expected);
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0).ShouldBe(expected);
         }
 
         [Test]
-        public void CenteredMovingMean_3ElementsSize3_ReturnsExpected()
+        public void CenteredMovingAverage_3ElementsSize3_ReturnsExpected()
         {
             var list = new List<double> {2, 3, 4};
             var expected = new List<double> {2.5, 3, 3.5};
-            Statistics.Arithmetic.CenteredMovingMean(list, 3.0).ShouldBe(expected);
+            Statistics.Arithmetic.CenteredMovingAverage(list, 3.0).ShouldBe(expected);
         }
 
         [Test]
-        public void CenteredMovingMean_EmptyList_ReturnsEmptyList()
+        public void CenteredMovingAverage_EmptyList_ReturnsEmptyList()
         {
             var list = new List<double>();
-            Statistics.Arithmetic.CenteredMovingMean(list, 2.0).Count.ShouldBe(list.Count);
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0).Count.ShouldBe(list.Count);
         }
 
         [Test]
-        public void CenteredMovingMean_OneElement_ReturnsCopy()
+        public void CenteredMovingAverage_OneElement_ReturnsCopy()
         {
             var list = new List<double> {17.19};
-            var res = Statistics.Arithmetic.CenteredMovingMean(list, 2);
+            var res = Statistics.Arithmetic.CenteredMovingAverage(list, 2);
             res[0] += 0.1;
             res[0].ShouldNotBe(list[0]);
         }
 
         [Test]
-        public void CenteredMovingMean_TooSmallSize_ReturnsSame()
+        public void CenteredMovingAverage_TooSmallSize_ReturnsSame()
         {
             var list = new List<double> {17.19, 13.4, 5, 6, 23, 45};
-            Statistics.Arithmetic.CenteredMovingMean(list, 1.0).ShouldBe(list);
+            Statistics.Arithmetic.CenteredMovingAverage(list, 1.0).ShouldBe(list);
+        }
+
+        [Test]
+        public void CenteredMovingAverageWeighted_EmptyList_ReturnsEmptyList()
+        {
+            var list = new List<double>();
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0*3.4, CreateWeightArray(list, 3.4))
+                .Count.ShouldBe(list.Count);
+        }
+
+        [Test]
+        public void CenteredMovingAverageWeighted_OneElement_ReturnsCopy()
+        {
+            var list = new List<double> {17.19};
+            var res = Statistics.Arithmetic.CenteredMovingAverage(list, 2*3.4, CreateWeightArray(list, 3.4));
+            res[0] += 0.1;
+            res[0].ShouldNotBe(list[0]);
+        }
+
+        [Test]
+        public void CenteredMovingAverageWeighted_TrivialWeights3ElementsSize2_ReturnsExpected()
+        {
+            var list = new List<double> {2, 3, 4};
+            var expected = new List<double> {7.0/3.0, 3, 11.0/3.0};
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0*3.4, CreateWeightArray(list, 3.4))
+                .ShouldBe(expected, 1e-8);
+        }
+
+        [Test]
+        public void CenteredMovingAverageWeighted_TrivialWeights3ElementsSize3_ReturnsExpected()
+        {
+            var list = new List<double> {2, 3, 4};
+            var expected = new List<double> {2.5, 3, 3.5};
+            Statistics.Arithmetic.CenteredMovingAverage(list, 3.0*3.4, CreateWeightArray(list, 3.4))
+                .ShouldBe(expected, 1e-8);
+        }
+
+        [Test]
+        public void CenteredMovingAverageWeighted_TrivialWeightsTooSmallSize_ReturnsSame()
+        {
+            var list = new List<double> {17.19, 13.4, 5, 6, 23, 45};
+            Statistics.Arithmetic.CenteredMovingAverage(list, 1.0*3.4, CreateWeightArray(list, 3.4)).ShouldBe(list);
         }
 
         [Test]
