@@ -58,7 +58,7 @@ namespace Tools.TrackReaders
 
             var sport = FindSport(data.trk.type);
 
-            return new Track {Date = data.metadata.time, SportType = sport, TrackPoints = trackPoints};
+            return new Track {Date = data.metadata.time, SportType = sport, TrackPoints = trackPoints.ToList()};
         }
 
 

@@ -61,7 +61,7 @@ namespace Tools.TrackReaders
                 date = activity.Id;
                 sport = FindSport(activity.Sport);
             }
-            return new Track {Date = date, SportType = sport, TrackPoints = trackPoints};
+            return new Track {Date = date, SportType = sport, TrackPoints = trackPoints.ToList()};
         }
 
         private static SportType FindSport(Sport_t sport)

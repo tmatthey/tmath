@@ -37,7 +37,8 @@ namespace Tools.TrackReaders
     {
         public DateTime Date { get; set; }
         public SportType SportType { get; set; }
-        public IEnumerable<TrackPoint> TrackPoints { get; set; }
+        public IList<TrackPoint> TrackPoints { get; set; }
+        public string Name { get; set; }
 
         public IEnumerable<GpsPoint> GpsPoints()
         {

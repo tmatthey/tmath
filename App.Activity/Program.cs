@@ -68,62 +68,29 @@ namespace App.Activity
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
             for (var i = 0; i < list.Count; i++)
             {
-                Console.WriteLine("Track\t{0}\t{1}", i, list[i].Count);
-                var t0 = activities[i].Seconds().First();
-                var seconds = activities[i].Seconds().Select(t1 => t1 - t0).ToList();
-                var track = new GpsTrack(list[i]).CreateFlatTrack();
+                var activity = activities[i];
+                var doublicates = Filter.FindDuplicates(activity.GpsPoints().ToList());
+                var seconds = activity.Seconds().Select(t1 => t1 - activity.Seconds().First()).ToList();
+                var gpsTrack = activity.GpsPoints().ToList();
+                Console.WriteLine("Track {0} {1} {2} {3}", activity.Name, i, gpsTrack.Count, doublicates.Count());
                 var vel = new List<double>();
-                var dist = new List<double>();
-                var time = new List<double>();
-                for (var j = 0; j < track.Displacement.Count; j++)
+                var dist = Geodesy.Distance.Haversine(gpsTrack);
+                for (var j = 0; j + 1 < seconds.Count; j++)
                 {
-                    var d = track.Displacement[j];
-                    var t = seconds[j] - seconds[System.Math.Max(j - 1, 0)];
-                    if (j + 2 < track.Displacement.Count &&
-                        !Comparison.IsZero(track.Displacement[j]) &&
-                        Comparison.IsZero(track.Displacement[j + 1]) &&
-                        !Comparison.IsZero(track.Displacement[j + 2]))
-                    {
-                        d = track.Displacement[j]/2.0;
-                    }
-                    else if (0 < j && j + 1 < track.Displacement.Count &&
-                             !Comparison.IsZero(track.Displacement[j - 1]) &&
-                             Comparison.IsZero(track.Displacement[j]) &&
-                             !Comparison.IsZero(track.Displacement[j + 1]))
-                    {
-                        d = track.Displacement[j - 1]/2.0;
-                    }
-                    var v = t > 0.0 ? d/t : 0;
-                    time.Add(t);
-                    vel.Add(v);
-                    dist.Add(d);
+                    vel.Add(dist[j]/(seconds[j + 1] - seconds[j]));
                 }
 
-                var m = 10;
-                for (var j = 0; j < track.Displacement.Count; j++)
+                gpsTrack = Filter.InterpolateDublicates(activity.GpsPoints().ToList(), seconds).ToList();
+                var vel2 = new List<double>();
+                var dist2 = Geodesy.Distance.Haversine(gpsTrack);
+                for (var j = 0; j + 1 < seconds.Count; j++)
                 {
-                    var v = 0.0;
-                    var t = 0.0;
-                    var n = Comparison.IsLessEqual(vel[j], 1.0/3.6) || Comparison.IsLess(2*m, time[j]) ? 0 : m;
-                    var j0 = System.Math.Max(j - n, 0);
-                    while (j0 < j && seconds[j] - seconds[j0] - time[j] > n)
-                        j0++;
-
-
-                    var j1 = System.Math.Min(j + n, track.Displacement.Count - 1);
-                    while (j < j1 && seconds[j1] - seconds[j] > n)
-                        j1--;
-
-                    for (var k = j0; k <= j1; k++)
-
-                    {
-                        v += vel[k]*time[k];
-                        t += time[k];
-                    }
-                    v = t > 0.0 ? v/t : 0;
-                    for (var k = 0; k < System.Math.Max(time[j], 1); k++)
-                        Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}", track.Displacement[j], dist[j], time[j], vel[j], v);
+                    vel2.Add(dist2[j]/(seconds[j + 1] - seconds[j]));
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", dist2[j], seconds[j + 1], vel2[j], dist[j],
+                        seconds[j + 1], vel[j]);
                 }
+                Console.WriteLine(Statistics.Arithmetic.Variance(vel));
+                Console.WriteLine(Statistics.Arithmetic.Variance(vel2));
             }
         }
     }

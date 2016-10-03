@@ -39,19 +39,22 @@ namespace Tools.TrackReaders
     {
         public static Track ParseFile(string filename)
         {
+            Track track = null;
             if (File.Exists(filename))
             {
                 var extension = Path.GetExtension(filename);
                 if (extension.Contains("tcx"))
                 {
-                    return TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(filename));
+                    track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(filename));
                 }
                 if (extension.Contains("gpx"))
                 {
-                    return GpxConverter.Convert(Parse<gpx>(filename));
+                    track = GpxConverter.Convert(Parse<gpx>(filename));
                 }
+                if (track != null)
+                    track.Name = Path.GetFileNameWithoutExtension(filename);
             }
-            return null;
+            return track;
         }
 
         public static IEnumerable<Track> ParseDirectory(string path)
