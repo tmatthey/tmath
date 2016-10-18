@@ -69,10 +69,8 @@ namespace App.Activity
             for (var i = 0; i < list.Count; i++)
             {
                 var activity = activities[i];
-                var doublicates = Filter.FindDuplicates(activity.GpsPoints().ToList());
                 var seconds = activity.Seconds().Select(t1 => t1 - activity.Seconds().First()).ToList();
                 var gpsTrack = activity.GpsPoints().ToList();
-                Console.WriteLine("Track {0} {1} {2} {3}", activity.Name, i, gpsTrack.Count, doublicates.Count());
                 var vel = new List<double>();
                 var dist = Geodesy.Distance.Haversine(gpsTrack);
                 for (var j = 0; j + 1 < seconds.Count; j++)
@@ -81,12 +79,16 @@ namespace App.Activity
                 }
 
                 gpsTrack = Filter.InterpolateDublicates(activity.GpsPoints().ToList(), seconds).ToList();
+                Console.WriteLine("Track {0} {1} {2} {3} {4}", activity.Name, i, gpsTrack.Count, 
+                    Filter.FindDuplicates(activity.GpsPoints().ToList()).Count(),
+                    Filter.FindDuplicates(gpsTrack).Count());
                 var vel2 = new List<double>();
                 var dist2 = Geodesy.Distance.Haversine(gpsTrack);
                 for (var j = 0; j + 1 < seconds.Count; j++)
                 {
                     vel2.Add(dist2[j]/(seconds[j + 1] - seconds[j]));
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", dist2[j], seconds[j + 1], vel2[j], dist[j],
+                    var a = j > 0 ? (vel2[j] - vel2[j - 1]) / (seconds[j + 1] - seconds[j - 1]) : vel2[j]/seconds[j+1];
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", dist2[j], seconds[j + 1], vel2[j], a, dist[j],
                         seconds[j + 1], vel[j]);
                 }
                 Console.WriteLine(Statistics.Arithmetic.Variance(vel));
