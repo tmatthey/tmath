@@ -28,11 +28,19 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Math.Gps.Filters;
 
 namespace Math.Gps
 {
-    public static class Filter
+    public static class GpsFiltering
     {
+        private static readonly List<FilterDublicates> TheFileterList = new List<FilterDublicates>
+        {
+            new FilterDublicatesBeginSpike(),
+            new FilterDublicatesBegin(),
+            new FilterDublicatesEnd()
+        };
+
         public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track)
         {
             var time = new List<double>();
@@ -42,6 +50,12 @@ namespace Math.Gps
         }
 
         public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track, IList<double> time)
+        {
+            return InterpolateDublicates(track, time, TheFileterList);
+        }
+
+        public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track, IList<double> time,
+            List<FilterDublicates> theFilterList)
         {
             var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             if (track.Count < 4)
@@ -60,47 +74,24 @@ namespace Math.Gps
                 if (!(0 < i0 && i1 + 1 < track.Count))
                     continue;
 
-                var err0 = double.PositiveInfinity;
-                if (1 < i0 && i0 + 1 == i1)
+                var filters = new List<FilterDublicates>();
+                foreach (var aFilter in theFilterList)
                 {
-                    var vel0 = new List<double>
+                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count),
+                        endIdx.GetRange(i, endIdx.Count));
+                    if (aFilter.HasDetected() && Comparison.IsLess(aFilter.NewVariance, aFilter.OldVariance))
+                        filters.Add(aFilter);
+                }
+                if (filters.Any())
+                {
+                    var filter = filters.OrderBy(a => a.NewVariance).First();
+                    foreach (var pt in filter.List)
                     {
-                        track[i0 - 2].HaversineDistance(track[i0 - 1])/(time[i0] - time[i0 - 2]),
-                        track[i0 - 1].HaversineDistance(track[i1])/(time[i1] - time[i0]),
-                        track[i1].HaversineDistance(track[i1 + 1])/(time[i1 + 1] - time[i1])
-                    };
-                    err0 = Statistics.Arithmetic.Variance(vel0,
-                        new List<double> {time[i0] - time[i0 - 2], time[i1] - time[i0], time[i1 + 1] - time[i1]});
-                }
-
-                var vel1 = new List<double>
-                {
-                    track[i0 - 1].HaversineDistance(track[i0])/(time[i0] - time[i0 - 1]),
-                    track[i0].HaversineDistance(track[i1 + 1])/(time[i1 + 1] - time[i0])
-                };
-                var err1 = Statistics.Arithmetic.Variance(vel1,
-                    new List<double> {time[i0] - time[i0 - 1], time[i1 + 1] - time[i0]});
-                var vel2 = new List<double>
-                {
-                    track[i0 - 1].HaversineDistance(track[i1])/(time[i1] - time[i0 - 1]),
-                    track[i1].HaversineDistance(track[i1 + 1])/(time[i1 + 1] - time[i1])
-                };
-                var err2 = Statistics.Arithmetic.Variance(vel2,
-                    new List<double> {time[i1] - time[i0 - 1], time[i1 + 1] - time[i1]});
-                if (Comparison.IsLess(err0, System.Math.Min(err1, err2)))
-                {
-                    res[i0 - 1] = track[i0 - 2].Interpolate(track[i0 - 1], 0.5);
-                    res[i0] = track[i0 - 1];
-                    //for (var j = i0+1 ; j < i1 ; j++)
-                    //    res[j] = track[i0 - 1].Interpolate(track[i1 ],
-                    //        (time[j] - time[i0 ]) / (time[i1] - time[i0]));
-                }
-                else
-                {
-                    var k = err1 < err2 ? 1 : 0;
-                    for (var j = i0 + k; j < i1 + k; j++)
-                        res[j] = track[i0 + k - 1].Interpolate(track[i1 + k],
-                            (time[j] - time[i0 + k - 1])/(time[i1 + k] - time[i0 + k - 1]));
+                        res[pt.I].Latitude = pt.Latitude;
+                        res[pt.I].Longitude = pt.Longitude;
+                        res[pt.I].Elevation = pt.Elevation;
+                    }
+                    i += filter.Takes() - 1;
                 }
             }
 

@@ -35,7 +35,7 @@ using Shouldly;
 namespace Math.Tests.Gps
 {
     [TestFixture]
-    public class FilterTests
+    public class GpsFilteringTests
     {
         private static List<double> CreateTimeArray(ICollection<GpsPoint> track, double size = 1.0)
         {
@@ -57,7 +57,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(60.2931640, 5.2931540),
                 new GpsPoint(60.2931410, 5.2931440)
             };
-            Filter.CountDuplicates(track).ShouldBe(1);
+            GpsFiltering.CountDuplicates(track).ShouldBe(1);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(60.3180700, 5.3480650)
             };
 
-            var res = Filter.InterpolateDublicates(track).ToList();
+            var res = GpsFiltering.InterpolateDublicates(track).ToList();
             res[0].ShouldBe(track[0]);
             res[0].HaversineDistance(res[1]).ShouldBe(res[1].HaversineDistance(res[2]), 1e-7);
             res[2].ShouldBe(track[1]);
@@ -96,7 +96,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(4, 0)
             };
 
-            var res = Filter.InterpolateDublicates(track).ToList();
+            var res = GpsFiltering.InterpolateDublicates(track).ToList();
             res[0].ShouldBe(track[0]);
             res[0].HaversineDistance(res[1]).ShouldBe(res[1].HaversineDistance(res[2]), 1e-7);
             res[2].ShouldBe(track[1]);
@@ -118,7 +118,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(4, 0)
             };
 
-            var res = Filter.InterpolateDublicates(track, new List<double> {0, 1, 2, 2.5, 3, 3.5, 4}).ToList();
+            var res = GpsFiltering.InterpolateDublicates(track, new List<double> {0, 1, 2, 2.5, 3, 3.5, 4}).ToList();
             res[0].ShouldBe(track[0]);
             res[1].ShouldBe(track[1]);
             res[1].Latitude.ShouldBe(2);
@@ -139,7 +139,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(60.2931640, 5.2931540),
                 new GpsPoint(60.2931410, 5.2931440)
             };
-            var res = Filter.FindDuplicates(track).ToList();
+            var res = GpsFiltering.FindDuplicates(track).ToList();
             res.Count.ShouldBe(2);
             res[0].ShouldBe(1);
             res[1].ShouldBe(2);
@@ -149,14 +149,14 @@ namespace Math.Tests.Gps
         public void InterpolateDublicates_1ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_2ElementList_ReturnsCopy()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res[0].Latitude += 0.1;
             track[0].Latitude.ShouldNotBe(res[0].Latitude);
         }
@@ -165,14 +165,14 @@ namespace Math.Tests.Gps
         public void InterpolateDublicates_2ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_3ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(4, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(4, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -211,14 +211,14 @@ namespace Math.Tests.Gps
                 new GpsPoint(4, 0),
                 new GpsPoint(4, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_EmptyList_ReturnsSame()
         {
             var track = new List<GpsPoint>();
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -231,7 +231,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(60.2931640, 5.2931540),
                 new GpsPoint(60.2931410, 5.2931440)
             };
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res[0].HaversineDistance(res[1]).ShouldBe(res[1].HaversineDistance(res[2]), 1e-7);
         }
 
@@ -277,7 +277,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(60.3722500, 5.3596050)
             };
 
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             for (var i = 1; i + 2 < res.Count; i++)
                 res[i].HaversineDistance(res[i + 1]).ShouldBe(res[i + 1].HaversineDistance(res[i + 2]), 1e-7);
         }
@@ -295,7 +295,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -326,7 +326,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(5, 0),
                 new GpsPoint(6, 0)
             };
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res.Count.ShouldBe(7);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -356,7 +356,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(4, 0)
             };
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -382,7 +382,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(4, 0),
                 new GpsPoint(5, 0)
             };
-            var res = Filter.InterpolateDublicates(track);
+            var res = GpsFiltering.InterpolateDublicates(track);
             res.Count.ShouldBe(6);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -410,7 +410,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2 + 1e-7, 0),
                 new GpsPoint(3, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -427,7 +427,7 @@ namespace Math.Tests.Gps
                 new GpsPoint(2 - eps, 0),
                 new GpsPoint(3, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
@@ -443,21 +443,21 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0, 0.3),
                 new GpsPoint(3, 0)
             };
-            Filter.InterpolateDublicates(track).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_TrivialWeighted1ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
-            Filter.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_TrivialWeighted2ElementList_ReturnsCopy()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            var res = Filter.InterpolateDublicates(track, CreateTimeArray(track));
+            var res = GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track));
             res[0].Latitude += 0.1;
             track[0].Latitude.ShouldNotBe(res[0].Latitude);
         }
@@ -466,14 +466,14 @@ namespace Math.Tests.Gps
         public void InterpolateDublicates_TrivialWeighted2ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            Filter.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_TrivialWeighted3ElementList_ReturnsSame()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
-            Filter.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
@@ -486,14 +486,14 @@ namespace Math.Tests.Gps
                 new GpsPoint(2, 0),
                 new GpsPoint(3, 0)
             };
-            Filter.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
         public void InterpolateDublicates_TrivialWeightedEmptyList_ReturnsSame()
         {
             var track = new List<GpsPoint>();
-            Filter.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
+            GpsFiltering.InterpolateDublicates(track, CreateTimeArray(track)).ShouldBe(track);
         }
 
         [Test]
@@ -509,7 +509,7 @@ namespace Math.Tests.Gps
             };
 
             var time = new List<double> {0, 1, 2, 5, 6};
-            var res = Filter.InterpolateDublicates(track, time);
+            var res = GpsFiltering.InterpolateDublicates(track, time);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);
@@ -537,7 +537,7 @@ namespace Math.Tests.Gps
             };
 
             var time = new List<double> {0, 1, 2, 5, 6};
-            var res = Filter.InterpolateDublicates(track, time);
+            var res = GpsFiltering.InterpolateDublicates(track, time);
             res.Count.ShouldBe(5);
             res[0].Latitude.ShouldBe(0);
             res[0].Longitude.ShouldBe(0);

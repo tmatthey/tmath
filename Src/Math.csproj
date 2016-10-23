@@ -65,8 +65,14 @@
     <Compile Include="Gfx\PlotWrapper.cs" />
     <Compile Include="Gfx\RedMapping.cs" />
     <Compile Include="Gps\ANeighbourDistanceCalculator.cs" />
-    <Compile Include="Gps\Filter.cs" />
+    <Compile Include="Gps\Filters\FilterDublicatesEnd.cs" />
+    <Compile Include="Gps\Filters\FilterDublicatesBeginSpike.cs" />
+    <Compile Include="Gps\Filters\FilterDublicatesBegin.cs" />
+    <Compile Include="Gps\Filters\GpsPointExt.cs" />
+    <Compile Include="Gps\GpsFiltering.cs" />
     <Compile Include="Gps\FlatTrackCluster.cs" />
+    <Compile Include="Gps\Filters\IFilter.cs" />
+    <Compile Include="Gps\Filters\FilterDublicates.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Gps\NeighbourGpsDistanceCalculator.cs" />
     <Compile Include="Interfaces\IBoundingFacade.cs" />
