@@ -77,8 +77,8 @@ namespace Math.Gps
                 var filters = new List<FilterDublicates>();
                 foreach (var aFilter in theFilterList)
                 {
-                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count),
-                        endIdx.GetRange(i, endIdx.Count));
+                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count-i),
+                        endIdx.GetRange(i, endIdx.Count-i));
                     if (aFilter.HasDetected() && Comparison.IsLess(aFilter.NewVariance, aFilter.OldVariance))
                         filters.Add(aFilter);
                 }

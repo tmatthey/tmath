@@ -78,10 +78,6 @@ namespace Math.Tests.Gps
             res[2].ShouldBe(track[1]);
             res[3].ShouldBe(track[3]);
             res[4].ShouldBe(track[4]);
-
-            var d0 = track[1].HaversineDistance(track[2]);
-            var d1 = track[3].HaversineDistance(track[4]);
-            var d01 = track[1].HaversineDistance(track[4]);
         }
 
         [Test]
