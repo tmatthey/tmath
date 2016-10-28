@@ -38,7 +38,8 @@ namespace Math.Gps
         {
             new FilterDublicatesBeginSpike(),
             new FilterDublicatesBegin(),
-            new FilterDublicatesEnd()
+            new FilterDublicatesEnd(),
+            new FilterDublicatesDouble()
         };
 
         public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track)
@@ -77,14 +78,15 @@ namespace Math.Gps
                 var filters = new List<FilterDublicates>();
                 foreach (var aFilter in theFilterList)
                 {
-                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count-i),
-                        endIdx.GetRange(i, endIdx.Count-i));
-                    if (aFilter.HasDetected() && Comparison.IsLess(aFilter.NewVariance, aFilter.OldVariance))
+                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count - i),
+                        endIdx.GetRange(i, endIdx.Count - i));
+                    if (aFilter.HasDetected() &&
+                        Comparison.IsLess(aFilter.NewVelocityVariance, aFilter.OldVelocityVariance))
                         filters.Add(aFilter);
                 }
                 if (filters.Any())
                 {
-                    var filter = filters.OrderBy(a => a.NewVariance).First();
+                    var filter = filters.OrderBy(a => a.NewAccelerationVariance).First();
                     foreach (var pt in filter.List)
                     {
                         res[pt.I].Latitude = pt.Latitude;
@@ -165,6 +167,29 @@ namespace Math.Gps
                 }
             }
             return startIdx.Count;
+        }
+
+        public static void Variance<T>(IList<T> track, IList<double> time, out double velocity, out double acceleration)
+            where T : GpsPoint
+        {
+            var v = new List<double>();
+            var a = new List<double>();
+            var t = new List<double>();
+            for (var i = 0; i + 1 < track.Count; i++)
+            {
+                var dt = time[i + 1] - time[i];
+                var l = track[i + 1].HaversineDistance(track[i]);
+                v.Add(l/dt);
+                t.Add(dt);
+                if (i > 0)
+                {
+                    a.Add((v[i] - v[i - 1])/(t[i - 1] + t[i])*2.0);
+                }
+            }
+            var varianceVel = Statistics.Arithmetic.Variance(v, t);
+            velocity = Comparison.IsZero(varianceVel) ? 0 : varianceVel;
+            var varianceAcc = Statistics.Arithmetic.Variance(a);
+            acceleration = Comparison.IsZero(varianceAcc) ? 0 : varianceAcc;
         }
     }
 }

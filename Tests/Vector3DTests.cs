@@ -334,6 +334,15 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Interpolate()
+        {
+            var v0 = new Vector3D(1, 2, -8);
+            var v1 = new Vector3D(4, 8, -2);
+            var expected = new Vector3D(2, 4, -6);
+            v0.Interpolate(v1, 1.0/3.0).ShouldBe(expected);
+        }
+
+        [Test]
         public void ModifiedNorm()
         {
             var a = 17.0;

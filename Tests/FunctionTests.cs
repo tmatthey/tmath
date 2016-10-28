@@ -254,6 +254,30 @@ namespace Math.Tests
             Function.IsPrime(n).ShouldBe(prime);
         }
 
+        [TestCase(0.0, 1, 2, 1)]
+        [TestCase(0.25, 1, 2, 1.25)]
+        [TestCase(0.5, 1, 2, 1.5)]
+        [TestCase(1.0, 1, 2, 2)]
+        public void InterpolateAsLinearCombination(double a, double x0, double x1, double x)
+        {
+            Function.Interpolate(a, x0, x1).ShouldBe(x);
+        }
+
+        [TestCase(0, 1, 2, 4, 6, 2)]
+        [TestCase(0, 1, 2, 6, 4, 8)]
+        [TestCase(1, 1, 2, 4, 6, 4)]
+        [TestCase(1.25, 1, 2, 4, 6, 4.5)]
+        [TestCase(1.5, 1, 2, 4, 6, 5)]
+        [TestCase(2, 1, 2, 4, 6, 6)]
+        [TestCase(3, 1, 2, 6, 4, 2)]
+        [TestCase(0, 1, 1, 4, 6, 5)]
+        [TestCase(1, 1, 1, 4, 6, 5)]
+        [TestCase(2, 1, 1, 4, 6, 5)]
+        public void Interpolate(double x, double x0, double x1, double y0, double y1, double y)
+        {
+            Function.Interpolate(x, x0, x1, y0, y1).ShouldBe(y);
+        }
+
 
         [Test]
         public void FactorialInt_Max()

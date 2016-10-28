@@ -32,8 +32,8 @@ namespace Math.Gps.Filters
 {
     public interface IFilter
     {
-        double NewVariance { get; }
-        double OldVariance { get; }
+        double NewVelocityVariance { get; }
+        double OldVelocityVariance { get; }
         List<GpsPointExt> List { get; }
         bool HasDetected();
     }

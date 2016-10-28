@@ -87,7 +87,9 @@ namespace App.Activity
                 for (var j = 0; j + 1 < seconds.Count; j++)
                 {
                     vel2.Add(dist2[j]/(seconds[j + 1] - seconds[j]));
-                    var a = j > 0 ? (vel2[j] - vel2[j - 1])/(seconds[j + 1] - seconds[j - 1])*2.0 : vel2[j]/seconds[j + 1];
+                    var a = j > 0
+                        ? (vel2[j] - vel2[j - 1])/(seconds[j + 1] - seconds[j - 1])*2.0
+                        : vel2[j]/seconds[j + 1];
                     Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", dist2[j], seconds[j + 1], vel2[j], a, dist[j],
                         seconds[j + 1], vel[j]);
                 }

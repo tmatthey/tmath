@@ -235,5 +235,16 @@ namespace Math
             }
             return y;
         }
+
+        public static double Interpolate(double a, double x0, double x1)
+        {
+            return x0*(1.0 - a) + x1*a;
+        }
+
+        public static double Interpolate(double x, double x0, double x1, double y0, double y1)
+        {
+            var a = Comparison.IsEqual(x0, x1) ? 0.5 : (x - x0)/(x1 - x0);
+            return Interpolate(a, y0, y1);
+        }
     }
 }

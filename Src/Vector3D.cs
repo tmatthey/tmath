@@ -178,6 +178,11 @@ namespace Math
             return new Vector3D(this/c);
         }
 
+        public Vector3D Interpolate(Vector3D v, double x)
+        {
+            return this*(1.0 - x) + v*x;
+        }
+
         public int Dimensions
         {
             get { return 3; }

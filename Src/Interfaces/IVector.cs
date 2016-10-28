@@ -47,5 +47,6 @@ namespace Math.Interfaces
         T Sub(T v);
         T Mul(double c);
         T Div(double c);
+        T Interpolate(T v, double x);
     }
 }

@@ -211,10 +211,69 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void InterpolateDublicates_DoubleDublicates_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(1, 0),
+                new GpsPoint(2, 0),
+                new GpsPoint(6, 0),
+                new GpsPoint(6, 0),
+                new GpsPoint(8, 0),
+                new GpsPoint(8, 0),
+                new GpsPoint(9, 0),
+                new GpsPoint(10, 0)
+            };
+            var res = GpsFiltering.InterpolateDublicates(track, new List<double> {0, 1, 3, 5, 6, 7, 8, 9});
+
+            var l0 = res[0].HaversineDistance(res[1]);
+            var l1 = res[1].HaversineDistance(res[2]);
+            var l2 = res[2].HaversineDistance(res[3]);
+            var l3 = res[3].HaversineDistance(res[4]);
+            var l4 = res[4].HaversineDistance(res[5]);
+            var l5 = res[5].HaversineDistance(res[6]);
+            var l6 = res[6].HaversineDistance(res[7]);
+
+            l0.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
+            l1.ShouldBe(Geodesy.DistanceOneDeg*2.0, 1e-4);
+            l2.ShouldBe(Geodesy.DistanceOneDeg*2.0, 1e-4);
+            l3.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
+            l4.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
+            l5.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
+            l6.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
+        }
+
+        [Test]
         public void InterpolateDublicates_EmptyList_ReturnsSame()
         {
             var track = new List<GpsPoint>();
             GpsFiltering.InterpolateDublicates(track).ShouldBe(track);
+        }
+
+        [Test]
+        public void InterpolateDublicates_ExampleDoubleDublicates_ReturnsExpected()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(60.4094310, 5.3474750),
+                new GpsPoint(60.4094170, 5.3475010),
+                new GpsPoint(60.4093860, 5.3475340),
+                new GpsPoint(60.4093860, 5.3475340),
+                new GpsPoint(60.4093630, 5.3475700),
+                new GpsPoint(60.4093630, 5.3475700),
+                new GpsPoint(60.4093550, 5.3476010),
+                new GpsPoint(60.4093480, 5.3476550)
+            };
+
+            var res = GpsFiltering.InterpolateDublicates(track);
+            var l0 = res[1].HaversineDistance(res[2]);
+            var l1 = res[2].HaversineDistance(res[3]);
+            var l2 = res[3].HaversineDistance(res[4]);
+            var l3 = res[4].HaversineDistance(res[5]);
+            var x = l1/l0 - 1.0;
+            l1.ShouldBe(l0*(1.0 + x), 1e-8);
+            l2.ShouldBe(l0*(1.0 + 2.0*x), 1e-8);
+            l3.ShouldBe(l0*(1.0 + 3.0*x), 1e-8);
         }
 
         [Test]

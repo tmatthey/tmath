@@ -166,6 +166,11 @@ namespace Math
             return new Vector2D(this/c);
         }
 
+        public Vector2D Interpolate(Vector2D v, double x)
+        {
+            return this*(1.0 - x) + v*x;
+        }
+
         public int Dimensions
         {
             get { return 2; }

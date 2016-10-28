@@ -38,8 +38,11 @@ namespace Math.Gps.Filters
             Clear();
         }
 
-        public double NewVariance { get; private set; }
-        public double OldVariance { get; private set; }
+        public double NewAccelerationVariance { get; private set; }
+        public double OldAccelerationVariance { get; private set; }
+
+        public double NewVelocityVariance { get; private set; }
+        public double OldVelocityVariance { get; private set; }
         public List<GpsPointExt> List { get; private set; }
 
         public bool HasDetected()
@@ -62,8 +65,13 @@ namespace Math.Gps.Filters
                 {
                     var index = List.First().I;
                     var count = List.Last().I - index + 1;
-                    NewVariance = VelocityVariance(List, time.GetRange(index, count));
-                    OldVariance = VelocityVariance(track.GetRange(index, count), time.GetRange(index, count));
+                    double vel, acc;
+                    GpsFiltering.Variance(List, time.GetRange(index, count), out vel, out acc);
+                    NewVelocityVariance = vel;
+                    NewAccelerationVariance = acc;
+                    GpsFiltering.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);
+                    OldVelocityVariance = vel;
+                    OldAccelerationVariance = acc;
                 }
             }
         }
@@ -73,23 +81,11 @@ namespace Math.Gps.Filters
 
         private void Clear()
         {
-            NewVariance = double.PositiveInfinity;
-            OldVariance = double.PositiveInfinity;
+            NewVelocityVariance = double.PositiveInfinity;
+            NewAccelerationVariance = double.PositiveInfinity;
+            OldVelocityVariance = double.PositiveInfinity;
+            OldAccelerationVariance = double.PositiveInfinity;
             List = new List<GpsPointExt>();
-        }
-
-        private double VelocityVariance<T>(IList<T> track, IList<double> time) where T : GpsPoint
-        {
-            var d = new List<double>();
-            var w = new List<double>();
-            for (var i = 0; i + 1 < track.Count; i++)
-            {
-                var a = time[i + 1] - time[i];
-                d.Add(track[i + 1].EuclideanNorm(track[i])/a);
-                w.Add(a);
-            }
-            var v = Statistics.Arithmetic.Variance(d, w);
-            return Comparison.IsZero(v) ? 0 : v;
         }
     }
 }

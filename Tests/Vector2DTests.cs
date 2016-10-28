@@ -280,6 +280,15 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Interpolate()
+        {
+            var v0 = new Vector2D(1, 2);
+            var v1 = new Vector2D(4, 8);
+            var expected = new Vector2D(2, 4);
+            v0.Interpolate(v1, 1.0/3.0).ShouldBe(expected);
+        }
+
+        [Test]
         public void ModifiedNorm()
         {
             var a = 17.0;

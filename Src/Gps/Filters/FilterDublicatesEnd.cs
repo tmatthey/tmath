@@ -30,6 +30,7 @@ using System.Collections.Generic;
 
 namespace Math.Gps.Filters
 {
+    // Ex. : GPS error
     public class FilterDublicatesEnd : FilterDublicates
     {
         public override int Takes()
