@@ -72,6 +72,7 @@
     <Compile Include="Gps\NeighbourDistanceCalculatorTests.cs" />
     <Compile Include="Gps\NeighbourDistancePointTests.cs" />
     <Compile Include="Gps\IntersectionTests.cs" />
+    <Compile Include="Gps\ToolsTests.cs" />
     <Compile Include="KDTree\KDTreeTests.cs" />
     <Compile Include="PolynomialTests.cs" />
     <Compile Include="ComparisonTests.cs" />

@@ -168,28 +168,5 @@ namespace Math.Gps
             }
             return startIdx.Count;
         }
-
-        public static void Variance<T>(IList<T> track, IList<double> time, out double velocity, out double acceleration)
-            where T : GpsPoint
-        {
-            var v = new List<double>();
-            var a = new List<double>();
-            var t = new List<double>();
-            for (var i = 0; i + 1 < track.Count; i++)
-            {
-                var dt = time[i + 1] - time[i];
-                var l = track[i + 1].HaversineDistance(track[i]);
-                v.Add(l/dt);
-                t.Add(dt);
-                if (i > 0)
-                {
-                    a.Add((v[i] - v[i - 1])/(t[i - 1] + t[i])*2.0);
-                }
-            }
-            var varianceVel = Statistics.Arithmetic.Variance(v, t);
-            velocity = Comparison.IsZero(varianceVel) ? 0 : varianceVel;
-            var varianceAcc = Statistics.Arithmetic.Variance(a);
-            acceleration = Comparison.IsZero(varianceAcc) ? 0 : varianceAcc;
-        }
     }
 }

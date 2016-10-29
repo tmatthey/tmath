@@ -66,10 +66,10 @@ namespace Math.Gps.Filters
                     var index = List.First().I;
                     var count = List.Last().I - index + 1;
                     double vel, acc;
-                    GpsFiltering.Variance(List, time.GetRange(index, count), out vel, out acc);
+                    Tools.Variance(List, time.GetRange(index, count), out vel, out acc);
                     NewVelocityVariance = vel;
                     NewAccelerationVariance = acc;
-                    GpsFiltering.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);
+                    Tools.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);
                     OldVelocityVariance = vel;
                     OldAccelerationVariance = acc;
                 }

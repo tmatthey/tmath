@@ -76,6 +76,7 @@
     <Compile Include="Gps\Filters\FilterDublicates.cs" />
     <Compile Include="Gps\Intersection.cs" />
     <Compile Include="Gps\NeighbourGpsDistanceCalculator.cs" />
+    <Compile Include="Gps\Tools.cs" />
     <Compile Include="Interfaces\IBoundingFacade.cs" />
     <Compile Include="Interfaces\IBounding.cs" />
     <Compile Include="Interfaces\IArray.cs" />

@@ -379,34 +379,6 @@ namespace Math.Tests
         }
 
         [Test]
-        public void DiscLineIntersect_Coplanar_ReturnsFalse()
-        {
-            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 1), new Vector3D(-1, -1, 1)).ShouldBe(false);
-        }
-
-        [Test]
-        public void DiscLineIntersect_PlanarCrossesCenter_ReturnsTrue()
-        {
-            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 0), new Vector3D(-1, -1, 0)).ShouldBe(true);
-        }
-
-        [Test]
-        public void DiscLineIntersect_PlanarInside_ReturnsTrue()
-        {
-            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(17, 1, 0), new Vector3D(-13, -1.1, 0)).ShouldBe(true);
-        }
-
-        [Test]
-        public void DiscLineIntersect_PlanarOutside_ReturnsFalse()
-        {
-            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(17, 1.01, 0), new Vector3D(-13, 1.01, 0)).ShouldBe(false);
-        }
-
-        [Test]
         public void ConvexHullJarvismarch_FiveGpsTracks()
         {
             var rawTracks = new List<List<GpsPoint>>();
@@ -932,6 +904,34 @@ namespace Math.Tests
             result.Count.ShouldBe(expected.Count);
             for (var i = 0; i < result.Count; i++)
                 result[i].ShouldBe(expected[i]);
+        }
+
+        [Test]
+        public void DiscLineIntersect_Coplanar_ReturnsFalse()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 1), new Vector3D(-1, -1, 1)).ShouldBe(false);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarCrossesCenter_ReturnsTrue()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 0), new Vector3D(-1, -1, 0)).ShouldBe(true);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarInside_ReturnsTrue()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1, 0), new Vector3D(-13, -1.1, 0)).ShouldBe(true);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarOutside_ReturnsFalse()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1.01, 0), new Vector3D(-13, 1.01, 0)).ShouldBe(false);
         }
 
         [Test]
