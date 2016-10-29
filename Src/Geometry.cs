@@ -138,12 +138,18 @@ namespace Math
             return hull.Take(k).ToList();
         }
 
-        public static bool CircleLineIntersect(Circle3D c, Vector3D a, Vector3D b)
+        public static bool DiscLineIntersect(Circle3D c, Vector3D a, Vector3D b)
         {
             var u = b - a;
             var area = c.Normal*u;
             if (Comparison.IsZero(area))
-                return false;
+            {
+                if (Comparison.IsLess(c.Radius, PerpendicularDistance(a, b, c.Center)))
+                    return false;
+                var g = b - c.Center;
+                var n = u ^ g;
+                return Comparison.IsZero(n.CrossNorm(c.Normal));
+            }
             var w = a - c.Center;
             var t = -(c.Normal*w)/area;
             var v = u*t + a;
@@ -226,7 +232,7 @@ namespace Math
                 return Circle3D.Create(array[0], points[0]);
 
             var c = DoMinCricleOnSphere(points, n - 1, array, k);
-            if (CircleLineIntersect(c, Vector3D.Zero, points[n - 1]))
+            if (DiscLineIntersect(c, Vector3D.Zero, points[n - 1]))
                 return c;
             array[k++] = points[n - 1];
             c = DoMinCricleOnSphere(points, n - 1, array, k);

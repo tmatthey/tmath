@@ -93,8 +93,8 @@ namespace App.Activity
                     Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", dist2[j], seconds[j + 1], vel2[j], a, dist[j],
                         seconds[j + 1], vel[j]);
                 }
-                Console.WriteLine(Statistics.Arithmetic.Variance(vel));
-                Console.WriteLine(Statistics.Arithmetic.Variance(vel2));
+                Console.WriteLine(Statistics.Arithmetic.Variance(vel, seconds));
+                Console.WriteLine(Statistics.Arithmetic.Variance(vel2, seconds));
             }
         }
     }

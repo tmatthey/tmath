@@ -228,13 +228,13 @@ namespace Math.Tests
         [TestCase(-1.001, 1.1, false)]
         [TestCase(-1.001, 1.0, false)]
         [TestCase(-1.001, 0.9, false)]
-        public void CircleLineIntersect_returnsExpected(double x, double f, bool expected)
+        public void DiscLineIntersect_returnsExpected(double x, double f, bool expected)
         {
             var center = new Vector3D(1, 0, 1);
             var a = new Vector3D(center.X, center.Y, 0.0);
             var b = new Vector3D(center.X + x*f, center.Y, f);
             var c = new Circle3D(center, Vector3D.E3, 1);
-            Geometry.CircleLineIntersect(c, a, b).ShouldBe(expected);
+            Geometry.DiscLineIntersect(c, a, b).ShouldBe(expected);
         }
 
         private Vector3D MakeVectorOnSphere(double x, double y)
@@ -379,10 +379,31 @@ namespace Math.Tests
         }
 
         [Test]
-        public void CircleLineIntersect_coplanar_returnsFalse()
+        public void DiscLineIntersect_Coplanar_ReturnsFalse()
         {
-            var c = new Circle3D(new Vector3D(1, 0, 1), Vector3D.E3, 1);
-            Geometry.CircleLineIntersect(c, -Vector3D.E2, Vector3D.E2).ShouldBe(false);
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 1), new Vector3D(-1, -1, 1)).ShouldBe(false);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarCrossesCenter_ReturnsTrue()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 0), new Vector3D(-1, -1, 0)).ShouldBe(true);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarInside_ReturnsTrue()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1, 0), new Vector3D(-13, -1.1, 0)).ShouldBe(true);
+        }
+
+        [Test]
+        public void DiscLineIntersect_PlanarOutside_ReturnsFalse()
+        {
+            var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1.01, 0), new Vector3D(-13, 1.01, 0)).ShouldBe(false);
         }
 
         [Test]
@@ -1064,7 +1085,7 @@ namespace Math.Tests
             var n = 0;
             foreach (var p in points)
             {
-                Geometry.CircleLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
+                Geometry.DiscLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
                 var l = c.Center.EuclideanNorm(p);
                 c.Radius.ShouldBeGreaterThanOrEqualTo(l);
                 if (Comparison.IsEqual(c.Radius, l))
