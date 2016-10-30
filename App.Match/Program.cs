@@ -27,10 +27,12 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Fclp;
 using Math;
 using Math.Clustering;
+using Math.Gps;
 using Tools.TrackReaders;
 
 namespace App.Match
@@ -106,7 +108,11 @@ namespace App.Match
                 activity.GpsPoints().Count() == activity.Times().Count() &&
                 activity.HeartRates().Sum() > activity.HeartRates().Count()*20
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
-            var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
+            var list =
+                activities.Select(
+                    activity =>
+                        GpsFiltering.InterpolateDublicates(activity.GpsPoints().ToList(),
+                            activity.Seconds().ToList()).ToList()).ToList();
 
             Console.WriteLine("Tracks: {0}", list.Count);
             Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
@@ -125,7 +131,7 @@ namespace App.Match
                 Console.WriteLine("Cluster {0}: {1}", k, count);
                 Console.WriteLine("Segments : {0}", cluster.Count);
                 Console.WriteLine(
-                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tDirection\tCommon\tFirst\tLast\tCoverage\tFirst\tLast\tTrack Seg Distance [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
+                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tName\tDirection\tCommon\tFirst\tLast\tCoverage\tFirst\tLast\tTrack Seg Distance [m]\tHR dist [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
 
                 var sn = 0;
                 foreach (var segment in cluster)
@@ -133,33 +139,41 @@ namespace App.Match
                     foreach (var track in segment.TrackSegments)
                     {
                         var j = track.Id;
-                        Console.Write("{0}\t{1}\t{2}\t{3}\t", sn, j, segment.Length, activities[j].Times().First());
+                        Console.Write("{0}\t{1}\t{2}\t{3}\t{4}\t", sn, j, segment.Length, activities[j].Times().First(),
+                            activities[j].Name);
                         if (Comparison.IsLess(0, track.Length) &&
                             Comparison.IsLess(0.5, System.Math.Abs(track.Direction)))
                         {
                             var hr = activities[j].HeartRates().ToList();
-                            var t0 = activities[j].Seconds().First();
-                            var seconds = activities[j].Seconds().Select(t1 => t1 - t0).ToList();
+                            var seconds = activities[j].Seconds().ToList();
                             var t = 0.0;
+                            var index = 0.0;
                             var h = 0.0;
-                            for (var l = 0; l + 1 < track.Indices.Count; l++)
+                            var d = 0.0;
+                            List<double> dist, vel, acc;
+                            Math.Gps.Tools.DistanceVelocityAcceleration(list[j], seconds, out dist, out vel, out acc);
+                            vel = Statistics.Arithmetic.CenteredMovingAverage(vel, 10.0);
+                            for (var l = 0; l < track.Indices.Count; l++)
                             {
-                                var i0 = track.Indices[l];
-                                var i1 = track.Indices[l + 1];
-                                if (i0 + 1 == i1)
+                                var i = track.Indices[l];
+                                if (0 < i && i + 1 < list[j].Count)
                                 {
-                                    var dt = seconds[i1] - seconds[i0];
+                                    var dt = (seconds[i + 1] - seconds[i - 1])/2.0;
                                     t += dt;
-                                    h += dt*hr[i1];
+                                    index += (hr[i] - hrStanding)/vel[i]*dt;
+                                    d += (dist[i + 1] - dist[i - 1])/2.0;
+                                    h += hr[i]*dt;
                                 }
                             }
                             h /= t;
-                            var v = track.Length/t;
-                            var index = (h - hrStanding)/v;
-                            Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}",
+                            var v = d/t;
+                            index /= t;
+
+                            Console.WriteLine(
+                                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}",
                                 track.Direction < 0 ? -1.0 : 1.0,
                                 track.Common, track.SegmentFirst, track.SegmentLast, track.Coverage, track.First,
-                                track.Last, track.Length, t, h, v*3.6, 60.0/(v*3.6), index);
+                                track.Last, track.Length, d, t, h, v*3.6, 60.0/(v*3.6), index);
                         }
                         else
                         {
