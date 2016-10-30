@@ -86,6 +86,7 @@ namespace App.Activity
                 var dist2 = Geodesy.Distance.Haversine(gpsTrack);
                 List<double> dist3, vel3, acc3;
                 Math.Gps.Tools.DistanceVelocityAcceleration(gpsTrack, out dist3, out vel3, out acc3);
+                vel3 = Statistics.Arithmetic.CenteredMovingAverage(vel3, 10.0);
                 for (var j = 0; j + 1 < seconds.Count; j++)
                 {
                     vel2.Add(dist2[j]/(seconds[j + 1] - seconds[j]));
