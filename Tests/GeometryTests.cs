@@ -935,6 +935,25 @@ namespace Math.Tests
         }
 
         [Test]
+        public void EuclideanNorm_EmptyList_ReturnsZero()
+        {
+            Geometry.EuclideanNorm(new List<GpsPoint>()).ShouldBe(0);
+        }
+
+        [Test]
+        public void EuclideanNorm_List_ReturnsExpected()
+        {
+            Geometry.EuclideanNorm(new List<Vector2D> {Vector2D.Zero, Vector2D.One})
+                .ShouldBe(Vector2D.Zero.EuclideanNorm(Vector2D.One));
+        }
+
+        [Test]
+        public void EuclideanNorm_OneElement_ReturnsZero()
+        {
+            Geometry.EuclideanNorm(new List<Vector3D> {Vector3D.E3}).ShouldBe(0);
+        }
+
+        [Test]
         public void MinCircle_EmptyList_returnsNaNCircle()
         {
             var points = new List<Vector2D>();

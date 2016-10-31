@@ -56,21 +56,29 @@ namespace Math.Clustering
             {
                 trackIds.AddRange(segment.SegmentIndices.Indices());
                 var normalizedSegments = new List<Vector2D> {segment.Segment[0]};
+                var normalizedGpsSegments = new List<GpsPoint> {segment.Segment[0].ToGpsPoint(cluster.Center)};
                 for (var i = 0; i + 1 < segment.Segment.Count; i++)
                 {
                     var v0 = segment.Segment[i];
                     var v1 = segment.Segment[i + 1];
-                    var d = v0.EuclideanNorm(v1);
+                    var g0 = v0.ToGpsPoint(cluster.Center);
+                    var g1 = v1.ToGpsPoint(cluster.Center);
+                    var d = g0.HaversineDistance(g1);
                     if (Comparison.IsLess(epsTrack, d/2.0))
                     {
                         var v01 = v1 - v0;
+
                         var m = System.Math.Floor(d/2.0/epsTrack);
                         for (var j = 1; j < m; j++)
+                        {
                             normalizedSegments.Add(v0 + v01*j/m);
+                            normalizedGpsSegments.Add(g0.Interpolate(g1, j/m));
+                        }
                     }
                     normalizedSegments.Add(v1);
+                    normalizedGpsSegments.Add(g1);
                 }
-                segments.Add(new SegmentResult(new List<TrackSegment>(), normalizedSegments, cluster.Center));
+                segments.Add(new SegmentResult(new List<TrackSegment>(), normalizedSegments, normalizedGpsSegments));
             }
             trackIds = trackIds.Distinct().OrderBy(num => num).ToList();
             foreach (var i in trackIds)
@@ -163,23 +171,12 @@ namespace Math.Clustering
 
         public class SegmentResult
         {
-            public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment, Vector3D center)
+            public SegmentResult(List<TrackSegment> trackSegments, List<Vector2D> segment, List<GpsPoint> gpsSegment)
             {
                 TrackSegments = trackSegments;
                 RepresentativeTrack = segment;
-                Length = 0.0;
-                RepresentativeGpsTrack = new List<GpsPoint>();
-
-                Polar3D c = center;
-                foreach (var v2 in segment)
-                {
-                    RepresentativeGpsTrack.Add(v2.ToGpsPoint(c));
-                }
-
-                for (var l = 0; l + 1 < segment.Count; l++)
-                {
-                    Length += segment[l].EuclideanNorm(segment[l + 1]);
-                }
+                Length = Geometry.EuclideanNorm(segment);
+                RepresentativeGpsTrack = gpsSegment;
             }
 
             public List<TrackSegment> TrackSegments { get; private set; }

@@ -305,6 +305,16 @@ namespace Math
             return array.Take(n + 1).ToList();
         }
 
+        public static double EuclideanNorm<T>(IList<T> list) where T : INorm<T>
+        {
+            var d = 0.0;
+            for (var l = 0; l + 1 < list.Count; l++)
+            {
+                d += list[l].EuclideanNorm(list[l + 1]);
+            }
+            return d;
+        }
+
         public static double PerpendicularDistance<T>(T x0, T x1, T p) where T : IVector<T>
         {
             var l = x0.EuclideanNorm(x1);
