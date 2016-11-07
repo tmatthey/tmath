@@ -131,11 +131,12 @@ namespace App.Match
                 Console.WriteLine("Cluster {0}: {1}", k, count);
                 Console.WriteLine("Segments : {0}", cluster.Count);
                 Console.WriteLine(
-                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tName\tDirection\tCommon\tFirst\tLast\tCoverage\tFirst\tLast\tTrack Seg Distance [m]\tHR dist [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index");
+                    "Segment No\tTrack No\tSeg Distance [m]\tDate\tName\tDirection\tCommon\tFirst\tLast\tCoverage\tFirst\tLast\tTrack Seg Distance [m]\tHR dist [m]\tTime [s]\tHR\tSpeed [Km/h]\tPace [min/km]\tHR Index\tHR Index II");
 
                 var sn = 0;
                 foreach (var segment in cluster)
                 {
+                    var fac = 0.0;
                     foreach (var track in segment.TrackSegments)
                     {
                         var j = track.Id;
@@ -147,7 +148,7 @@ namespace App.Match
                             var hr = activities[j].HeartRates().ToList();
                             var seconds = activities[j].Seconds().ToList();
                             var t = 0.0;
-                            var index = 0.0;
+                            var index1 = 0.0;
                             var h = 0.0;
                             var d = 0.0;
                             List<double> dist, vel, acc;
@@ -160,20 +161,33 @@ namespace App.Match
                                 {
                                     var dt = (seconds[i + 1] - seconds[i - 1])/2.0;
                                     t += dt;
-                                    index += (hr[i] - hrStanding)/vel[i]*dt;
+                                    index1 += (hr[i] - hrStanding)/vel[i]*dt;
                                     d += (dist[i + 1] - dist[i - 1])/2.0;
                                     h += hr[i]*dt;
                                 }
                             }
                             h /= t;
                             var v = d/t;
-                            index /= t;
+                            index1 /= t;
+                            var perfectMatch = Comparison.IsEqual(track.Common, 1.0) &&
+                                               Comparison.IsEqual(track.Coverage, 1.0);
+                            if (Comparison.IsZero(fac) && perfectMatch)
+                            {
+                                fac = index1/((h - hrStanding) * t);
+                            }
 
+                            var index2 = 0.0;
+                            if (perfectMatch)
+                            {
+                                index2 = (h - hrStanding)*t*fac;    
+                            }
+
+                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString(); 
                             Console.WriteLine(
-                                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}",
+                                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}",
                                 track.Direction < 0 ? -1.0 : 1.0,
                                 track.Common, track.SegmentFirst, track.SegmentLast, track.Coverage, track.First,
-                                track.Last, track.Length, d, t, h, v*3.6, 60.0/(v*3.6), index);
+                                track.Last, track.Length, d, t, h, v * 3.6, 60.0 / (v * 3.6), index1, index2Str);
                         }
                         else
                         {
