@@ -60,7 +60,7 @@ namespace Math.Gfx
         public PlotWrapper Set { get; private set; }
         public PlotWrapper AddMagnitude { get; private set; }
         public PlotWrapper SetMagnitude { get; private set; }
-        public double[,] Pixels { get; private set; }
+        public double[,] Pixels { get; }
 
         public void PixelAdd(int x, int y, double c)
         {

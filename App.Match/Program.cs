@@ -173,21 +173,21 @@ namespace App.Match
                                                Comparison.IsEqual(track.Coverage, 1.0);
                             if (Comparison.IsZero(fac) && perfectMatch)
                             {
-                                fac = index1/((h - hrStanding) * t);
+                                fac = index1/((h - hrStanding)*t);
                             }
 
                             var index2 = 0.0;
                             if (perfectMatch)
                             {
-                                index2 = (h - hrStanding)*t*fac;    
+                                index2 = (h - hrStanding)*t*fac;
                             }
 
-                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString(); 
+                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString();
                             Console.WriteLine(
                                 "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}",
                                 track.Direction < 0 ? -1.0 : 1.0,
                                 track.Common, track.SegmentFirst, track.SegmentLast, track.Coverage, track.First,
-                                track.Last, track.Length, d, t, h, v * 3.6, 60.0 / (v * 3.6), index1, index2Str);
+                                track.Last, track.Length, d, t, h, v*3.6, 60.0/(v*3.6), index1, index2Str);
                         }
                         else
                         {

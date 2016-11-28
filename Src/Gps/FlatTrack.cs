@@ -64,7 +64,7 @@ namespace Math.Gps
             }
         }
 
-        public List<Vector2D> Track { get; private set; }
+        public List<Vector2D> Track { get; }
 
         public Vector2D Min
         {
@@ -112,7 +112,7 @@ namespace Math.Gps
             }
         }
 
-        public BoundingRect Size { get; private set; }
+        public BoundingRect Size { get; }
 
         private void CalculateDistance()
         {

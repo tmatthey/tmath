@@ -179,10 +179,10 @@ namespace Math.Clustering
                 RepresentativeGpsTrack = gpsSegment;
             }
 
-            public List<TrackSegment> TrackSegments { get; private set; }
+            public List<TrackSegment> TrackSegments { get; }
             public List<Vector2D> RepresentativeTrack { get; private set; }
             public List<GpsPoint> RepresentativeGpsTrack { get; private set; }
-            public double Length { get; private set; }
+            public double Length { get; }
         }
 
         public class TrackSegment

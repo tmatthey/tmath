@@ -94,13 +94,13 @@ namespace Math.Gps
             }
         }
 
-        public List<int>[,] Grid { get; private set; }
-        public int NX { get; private set; }
-        public int NY { get; private set; }
-        public Vector2D Min { get; private set; }
-        public Vector2D Max { get; private set; }
-        public double Size { get; private set; }
-        public FlatTrack FlattendTrack { get; private set; }
+        public List<int>[,] Grid { get; }
+        public int NX { get; }
+        public int NY { get; }
+        public Vector2D Min { get; }
+        public Vector2D Max { get; }
+        public double Size { get; }
+        public FlatTrack FlattendTrack { get; }
 
         public IList<NeighbourDistancePoint> Find(Vector2D point, double radius)
         {

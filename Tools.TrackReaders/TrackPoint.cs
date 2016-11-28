@@ -44,7 +44,7 @@ namespace Tools.TrackReaders
         }
 
 
-        public GpsPoint Gps { get; private set; }
+        public GpsPoint Gps { get; }
 
         public double Latitude
         {
@@ -63,7 +63,7 @@ namespace Tools.TrackReaders
 
         public double Distance { get; private set; }
         public byte HeartRate { get; private set; }
-        public DateTime Time { get; private set; }
+        public DateTime Time { get; }
 
         public double Second
         {

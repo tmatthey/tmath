@@ -63,11 +63,11 @@ namespace Math.Gps
             RefDistance = d.RefDistance;
         }
 
-        public int Reference { get; private set; }
-        public int Current { get; private set; }
-        public double MinDistance { get; private set; }
-        public double Fraction { get; private set; }
-        public double RefDistance { get; private set; }
+        public int Reference { get; }
+        public int Current { get; }
+        public double MinDistance { get; }
+        public double Fraction { get; }
+        public double RefDistance { get; }
 
         public override bool Equals(object obj)
         {

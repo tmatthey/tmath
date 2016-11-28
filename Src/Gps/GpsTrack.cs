@@ -43,7 +43,7 @@ namespace Math.Gps
             Track = track;
         }
 
-        public IList<GpsPoint> Track { get; private set; }
+        public IList<GpsPoint> Track { get; }
 
         public Vector3D Center
         {
