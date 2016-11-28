@@ -32,6 +32,12 @@ using System.Numerics;
 
 namespace Math
 {
+    /// <summary> 
+    /// Representation of a polynomial of n-th degree by coefficients. Functions to evaluate the polynomial, and also 1st derivatives and its integral. 
+    /// </summary> 
+    /// <remarks> 
+    /// General root finder based on Laguerre's_method.
+    /// </remarks> 
     public class Polynomial
     {
         private readonly IList<double> _dp;
@@ -42,6 +48,10 @@ namespace Math
         private readonly int MR;
         private readonly int MT = 10;
 
+        /// <summary>
+        /// Defining a polynomial by coefficients of n-th degree.
+        /// </summary>
+        /// <param name="coefficients">Coefficients in decreasing order. E.g., 2x^2 + x + 3 as {2,1,3}.</param>
         public Polynomial(IEnumerable<double> coefficients)
         {
             MR = _frac.Count - 1;
@@ -77,51 +87,83 @@ namespace Math
             }
         }
 
+        /// <summary>
+        /// Returns the polynomial coefficients 
+        /// </summary> 
         public IList<double> p()
         {
             return _p;
         }
 
+        /// <summary>
+        /// Returns the 1st derivative of the polynomial 
+        /// </summary> 
         public IList<double> dp()
         {
             return _dp;
         }
 
+        /// <summary>
+        /// Returns the Integral of the polynomial 
+        /// </summary> 
         public IList<double> P()
         {
             return _P;
         }
 
+        /// <summary>
+        /// Evaluates the polynomial 
+        /// </summary> 
         public double p(double x)
         {
             return p(new Complex(x, 0.0)).Real;
         }
 
+        /// <summary>
+        /// Evaluates for 1st derivative of polynomial 
+        /// </summary> 
         public double dp(double x)
         {
             return dp(new Complex(x, 0.0)).Real;
         }
 
+        /// <summary>
+        /// Evaluates for integral of polynomial 
+        /// </summary> 
         public double P(double x)
         {
             return P(new Complex(x, 0.0)).Real;
         }
 
+        /// <summary>
+        /// Evaluates polynomial for complex numbers
+        /// </summary> 
         public Complex p(Complex x)
         {
             return Eval(x, _p);
         }
 
+        /// <summary>
+        /// Evaluates 1st derivative of polynomial for complex numbers
+        /// </summary> 
         public Complex dp(Complex x)
         {
             return Eval(x, _dp);
         }
 
+        /// <summary>
+        /// Evaluates the integral of polynomial for complex numbers
+        /// </summary> 
         public Complex P(Complex x)
         {
             return Eval(x, _P);
         }
 
+        /// <summary>
+        /// Generic root solver based on Laguerre's_method.
+        /// </summary> 
+        /// <param name="x">Start point for finding a root.
+        /// </param>
         public Complex FindRoot(Complex x)
         {
             // https://en.wikipedia.org/wiki/Laguerre's_method
@@ -161,6 +203,9 @@ namespace Math
             return x;
         }
 
+        /// <summary>
+        /// Returns the polynomial divided by a root
+        /// </summary> 
         public Polynomial DivideByRoot(double c)
         {
             var n = _p.Count;
@@ -172,6 +217,9 @@ namespace Math
             return new Polynomial(coefficients);
         }
 
+        /// <summary>
+        /// Returns the polynomial divided by a complex root and with its conjugated
+        /// </summary> 
         public Polynomial DivideByRootAndConjugate(Complex c)
         {
             var n = _p.Count;

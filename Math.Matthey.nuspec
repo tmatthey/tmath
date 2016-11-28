@@ -2,12 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Math.Matthey</id>
-        <version>1.0.0</version>
-        <title>C# Math library</title>
+        <version>1.0.4</version>
+        <title>Math.Matthey</title>
         <authors>Thierry Matthey</authors>
         <owners>Thierry Matthey</owners>
         <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
         <projectUrl>https://bitbucket.org/tmatthey/math</projectUrl>
+        <iconUrl>http://matthey.no/sqrtpi.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>A collection of mathematical function and data structures written in C#. 
 Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS and clustering, and abstract bitmap and draw functions.</description>
@@ -19,5 +20,8 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     </metadata>
     <files>
         <file src=".\Release\Math.dll" target="lib\net4\client\math.dll" />
+        <file src=".\Release\Math.xml" target="lib\net4\client\math.xml" />
+        <file src=".\LICENSE-MIT.txt" target="lib\LICENSE-MIT.txt" />
+        <file src=".\README.md" target="lib\README.md" />
     </files>
 </package>
