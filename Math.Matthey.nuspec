@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Math.Matthey</id>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
         <title>Math.Matthey</title>
         <authors>Thierry Matthey</authors>
         <owners>Thierry Matthey</owners>
@@ -14,9 +14,14 @@
 Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS and clustering, and abstract bitmap and draw functions.</description>
         <summary />
         <releaseNotes>Initial release</releaseNotes>
-        <copyright>Copyright © Matthey 2016</copyright>
+        <copyright>Copyright © Thierry Matthey 2016</copyright>
         <language>es-US</language>
-        <tags>math gps cluster polynomial rootsolver</tags>
+        <tags>math gps vector segment cluster dbscan polynomial rootsolver</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+            <frameworkAssembly assemblyName="System.Numerics" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+        </frameworkAssemblies>
     </metadata>
     <files>
         <file src=".\Release\Math.dll" target="lib\net4\client\math.dll" />
