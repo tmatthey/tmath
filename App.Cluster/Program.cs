@@ -34,8 +34,8 @@ using Math;
 using Math.Clustering;
 using Math.Gfx;
 using Math.Gps;
+using Math.Tools.TrackReaders;
 using Tools.Base;
-using Tools.TrackReaders;
 
 namespace App.Cluster
 {

@@ -1,19 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "Src\Math.csproj", "{DE25D22D-BA2B-40C1-9348-EA0F2D78FB8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tests", "Tests\Math.Tests.csproj", "{F41B8CEA-950F-4A75-9DA7-C1105F5F2972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.TrackReaders", "Tools.TrackReaders\Tools.TrackReaders.csproj", "{82A89837-73B0-465E-91BD-0A9E65AFCFEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.TrackReaders", "Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj", "{82A89837-73B0-465E-91BD-0A9E65AFCFEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Heatmap", "App.Heatmap\App.Heatmap.csproj", "{0A3FE558-0478-48D0-9010-65F22770AD56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Cluster", "App.Cluster\App.Cluster.csproj", "{480B9451-2B17-4917-8DC4-12A3F4A27AE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Base", "Tools.base\Tools.Base.csproj", "{9375D115-D5F4-46D6-B716-1715889640A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.Base", "Math.Tools.base\Math.Tools.Base.csproj", "{9375D115-D5F4-46D6-B716-1715889640A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Match", "App.Match\App.Match.csproj", "{3F701B7F-A0B1-41E8-BD22-B5284A01525F}"
 EndProject

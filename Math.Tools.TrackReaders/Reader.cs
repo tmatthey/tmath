@@ -30,13 +30,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Tools.TrackReaders.Gpx;
-using Tools.TrackReaders.Tcx;
+using Math.Tools.TrackReaders.Gpx;
+using Math.Tools.TrackReaders.Tcx;
 
-namespace Tools.TrackReaders
+namespace Math.Tools.TrackReaders
 {
+    /// <summary>
+    /// Reading activities with GPS tracks
+    /// </summary>
     public static class Reader
     {
+        /// <summary>
+        /// Reading and parsing a TCX or GPX based on its file type
+        /// </summary>
+        /// <param name="filename">File name with *.tcx and *.gpx file type</param>
+        /// <returns></returns>
         public static Track ParseFile(string filename)
         {
             Track track = null;
@@ -57,6 +65,11 @@ namespace Tools.TrackReaders
             return track;
         }
 
+        /// <summary>
+        /// Parses all TCX and GPX files of a given directory
+        /// </summary>
+        /// <param name="path">Path name</param>
+        /// <returns></returns>
         public static IEnumerable<Track> ParseDirectory(string path)
         {
             var files = new List<string>();

@@ -1,31 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>Math.Matthey</id>
-        <version>1.0.5</version>
-        <title>Math.Matthey</title>
+        <id>Math.Matthey.Tools.TrackReaders</id>
+        <version>1.0.0</version>
+        <title>Math.Matthey Tools.TrackReaders</title>
         <authors>Thierry Matthey</authors>
         <owners>Thierry Matthey</owners>
         <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
         <projectUrl>https://bitbucket.org/tmatthey/math</projectUrl>
         <iconUrl>http://matthey.no/sqrtpi.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>A collection of mathematical function and data structures written in C#. 
-Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS and clustering, and abstract bitmap and draw functions.</description>
+        <description>Read and parse GPX and TXC files.</description>
         <summary />
         <releaseNotes>Initial release</releaseNotes>
         <copyright>Copyright © Thierry Matthey 2016</copyright>
         <language>es-US</language>
-        <tags>math gps vector segment cluster kdtree dbscan polynomial rootsolver</tags>
+        <tags>gpx tcx reader parser</tags>
+        <dependencies>
+            <dependency id="Math.Matthey" version="1.0.5" />
+        </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
-            <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
-            <frameworkAssembly assemblyName="System.Numerics" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+            <frameworkAssembly assemblyName="System.XML" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src=".\Release\Math.dll" target="lib\net4\client\Math.dll" />
-        <file src=".\Release\Math.xml" target="lib\net4\client\Math.xml" />
+        <file src=".\Release\Math.Tools.TrackReaders.dll" target="lib\net4\client\Math.Tools.TrackReaders.dll" />
+        <file src=".\Release\Math.Tools.TrackReaders.XML" target="lib\net4\client\Math.Tools.TrackReaders.xml" />
         <file src=".\LICENSE-MIT.txt" target="lib\LICENSE-MIT.txt" />
         <file src=".\README.md" target="lib\README.md" />
     </files>

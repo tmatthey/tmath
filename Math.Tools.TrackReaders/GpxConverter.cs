@@ -28,12 +28,20 @@
 
 using System;
 using System.Linq;
-using Tools.TrackReaders.Gpx;
+using Math.Tools.TrackReaders.Gpx;
 
-namespace Tools.TrackReaders
+namespace Math.Tools.TrackReaders
 {
+    /// <summary>
+    /// GPX converter
+    /// </summary>
     public static class GpxConverter
     {
+        /// <summary>
+        /// Converts GPX data into abstract Track definition
+        /// </summary>
+        /// <param name="data">GPX data</param>
+        /// <returns></returns>
         public static Track Convert(gpx data)
         {
             if (data.trk == null || data.trk.trkseg == null)

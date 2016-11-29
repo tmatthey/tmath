@@ -31,30 +31,64 @@ using System.Collections.Generic;
 using System.Linq;
 using Math.Gps;
 
-namespace Tools.TrackReaders
+namespace Math.Tools.TrackReaders
 {
+    /// <summary>
+    /// Abstract GPS track definition including common data from GPX and TCX
+    /// </summary>
     public class Track
     {
+        /// <summary>
+        /// Start time and date of acitivity
+        /// </summary>
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Type of activity
+        /// </summary>
         public SportType SportType { get; set; }
+
+        /// <summary>
+        /// List of track points 
+        /// </summary>
         public IList<TrackPoint> TrackPoints { get; set; }
+
+        /// <summary>
+        /// Name of the activity
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Returns list of GpsPoints
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<GpsPoint> GpsPoints()
         {
             return TrackPoints.Select(trackPoint => trackPoint.Gps);
         }
 
+        /// <summary>
+        /// Returns list of heart beats
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<int> HeartRates()
         {
             return TrackPoints.Select(trackPoint => (int) trackPoint.HeartRate);
         }
 
+        /// <summary>
+        /// Returns time and date of each track point
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DateTime> Times()
         {
             return TrackPoints.Select(trackPoint => trackPoint.Time);
         }
 
+        /// <summary>
+        /// Returns list of date and time in seconds
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<double> Seconds()
         {
             return TrackPoints.Select(trackPoint => trackPoint.Second);

@@ -26,48 +26,31 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
-using Math;
-using Math.Gps;
-
-namespace Tools.TrackReaders
+namespace Math.Tools.TrackReaders
 {
-    public class TrackPoint
+    /// <summary>
+    /// Definition of acitvity types
+    /// </summary>
+    public enum SportType
     {
-        public TrackPoint(double latitude, double longitude, double elevation, double distance, byte heartRate,
-            DateTime time)
-        {
-            Gps = new GpsPoint(latitude, longitude, elevation);
-            HeartRate = heartRate;
-            Distance = distance;
-            Time = time;
-        }
+        /// <summary>
+        /// Some unknown or undefined activity
+        /// </summary>
+        Unknown,
 
+        /// <summary>
+        /// Running acitivity
+        /// </summary>
+        Running,
 
-        public GpsPoint Gps { get; }
+        /// <summary>
+        /// Cycling activity
+        /// </summary>
+        Cycling,
 
-        public double Latitude
-        {
-            get { return Gps.Latitude; }
-        }
-
-        public double Longitude
-        {
-            get { return Gps.Longitude; }
-        }
-
-        public double Elevation
-        {
-            get { return Gps.Elevation; }
-        }
-
-        public double Distance { get; private set; }
-        public byte HeartRate { get; private set; }
-        public DateTime Time { get; }
-
-        public double Second
-        {
-            get { return Conversion.DateTimeToSeconds(Time); }
-        }
+        /// <summary>
+        /// Simming acitivity
+        /// </summary>
+        Swimming
     }
 }

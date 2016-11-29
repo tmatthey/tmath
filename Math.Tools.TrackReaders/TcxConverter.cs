@@ -28,12 +28,20 @@
 
 using System;
 using System.Linq;
-using Tools.TrackReaders.Tcx;
+using Math.Tools.TrackReaders.Tcx;
 
-namespace Tools.TrackReaders
+namespace Math.Tools.TrackReaders
 {
+    /// <summary>
+    /// TCX Converter
+    /// </summary>
     public static class TcxConverter
     {
+        /// <summary>
+        /// Converts TXC data into abstrack Track definition
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static Track Convert(TrainingCenterDatabase_t data)
         {
             if (data == null || data.Activities == null || data.Activities.Activity == null)
