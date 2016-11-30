@@ -38,7 +38,7 @@ namespace Math.Tools.TrackReaders
     public static class TcxConverter
     {
         /// <summary>
-        /// Converts TXC data into abstrack Track definition
+        /// Converts TXC data into abstract Track definition
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>

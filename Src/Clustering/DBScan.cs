@@ -33,6 +33,11 @@ using Math.KDTree;
 
 namespace Math.Clustering
 {
+    /// <summary>
+    /// Density-based spatial clustering of applications with noise (DBSCAN) is a data clustering algorithm proposed by Martin Ester, Hans-Peter Kriegel, Jörg Sander and Xiaowei Xu in 1996. https://en.wikipedia.org/wiki/DBSCAN
+    /// </summary>
+    /// <typeparam name="T">Point type of dimension n, e.g., Vector3D</typeparam>
+    /// <typeparam name="S">A geometric object of dimension n with a norm based on point type T, e.g., Segment3D</typeparam>
     public class DBScan<T, S>
         where T : IArray, IDimension
         where S : IArray, IDimension, INorm<S>, IBoundingFacade<T>
@@ -41,6 +46,10 @@ namespace Math.Clustering
         private IList<Point> _data;
         private ITree<T> _tree;
 
+        /// <summary>
+        /// Defining a DBScan with a list of the geometric objects to be clustered.
+        /// </summary>
+        /// <param name="list">List of object of dimension n with a norm based on point type T, e.g., Segment3D.</param>
         public DBScan(IList<S> list)
         {
             _list = list;
@@ -48,13 +57,20 @@ namespace Math.Clustering
             _data = null;
         }
 
+        /// <summary>
+        /// Clustering the list of objects with a given epsilon and with a threshold.   
+        /// </summary>
+        /// <param name="eps">Epsilon of neighborhood between to objects using objects (modified) norm.</param>
+        /// <param name="n">Minimum of objects required to define a set of objects to be a cluster.</param>
+        /// <param name="direction">Boolean defining if the direction for directional objects shall be considered when evaluating the norm between two objects, e.g., Trajectory Hausdorff distance.</param>
+        /// <returns>A list of cluster as list of object indices.</returns>
         public IList<IList<int>> Cluster(double eps = 25.0, int n = 5, bool direction = false)
         {
             // Corner cases
             if (_list.Count < n)
                 return new List<IList<int>>();
 
-            // Intialize
+            // Initialize
             if (_tree == null)
                 _tree = TreeBuilder.Build<T, S>(_list); // new NoTree<T,S>(_list);
             if (_data == null)
@@ -110,8 +126,7 @@ namespace Math.Clustering
             var inside = _tree.Search(bounding.Min, bounding.Max).Distinct();
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps)).ToList();
-            //.OrderBy(num => num);
+                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps)).OrderBy(num => num).ToList();
         }
 
         private class Point

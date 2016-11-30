@@ -40,7 +40,7 @@ namespace Math.Tools.TrackReaders
         /// A track point
         /// </summary>
         /// <param name="latitude">Latitude [deg]</param>
-        /// <param name="longitude">Logitude [deg]</param>
+        /// <param name="longitude">Longitude [deg]</param>
         /// <param name="elevation">Elevation [m]</param>
         /// <param name="distance">Distance [m]</param>
         /// <param name="heartRate">Heart rate [byte]</param>
@@ -100,7 +100,7 @@ namespace Math.Tools.TrackReaders
         public DateTime Time { get; }
 
         /// <summary>
-        /// Returns secondes of date and time of current point
+        /// Returns seconds of date and time of current point
         /// </summary>
         public double Second
         {

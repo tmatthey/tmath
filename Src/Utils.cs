@@ -28,8 +28,14 @@
 
 namespace Math
 {
+    /// <summary>
+    /// Utility class
+    /// </summary>
     public static class Utils
     {
+        /// <summary>
+        /// Swap two values of type T
+        /// </summary>
         public static void Swap<T>(ref T x, ref T y)
         {
             var t = y;

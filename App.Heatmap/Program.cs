@@ -31,8 +31,8 @@ using System.Linq;
 using Fclp;
 using Math.Clustering;
 using Math.Gfx;
+using Math.Tools.Base;
 using Math.Tools.TrackReaders;
-using Tools.Base;
 
 namespace App.Heatmap
 {

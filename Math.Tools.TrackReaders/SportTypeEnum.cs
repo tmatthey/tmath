@@ -29,7 +29,7 @@
 namespace Math.Tools.TrackReaders
 {
     /// <summary>
-    /// Definition of acitvity types
+    /// Definition of activity types
     /// </summary>
     public enum SportType
     {
@@ -39,7 +39,7 @@ namespace Math.Tools.TrackReaders
         Unknown,
 
         /// <summary>
-        /// Running acitivity
+        /// Running activity
         /// </summary>
         Running,
 
@@ -49,7 +49,7 @@ namespace Math.Tools.TrackReaders
         Cycling,
 
         /// <summary>
-        /// Simming acitivity
+        /// Swimming activity
         /// </summary>
         Swimming
     }

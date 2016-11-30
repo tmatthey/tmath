@@ -39,7 +39,7 @@ namespace Math.Tools.TrackReaders
     public class Track
     {
         /// <summary>
-        /// Start time and date of acitivity
+        /// Start time and date of activity
         /// </summary>
         public DateTime Date { get; set; }
 

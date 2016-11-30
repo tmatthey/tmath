@@ -39,11 +39,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -57,10 +52,6 @@
     <ProjectReference Include="..\Src\Math.csproj">
       <Project>{de25d22d-ba2b-40c1-9348-ea0f2d78fb8f}</Project>
       <Name>Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Math.Tools.base\Math.Tools.Base.csproj">
-      <Project>{9375d115-d5f4-46d6-b716-1715889640a0}</Project>
-      <Name>Math.Tools.Base</Name>
     </ProjectReference>
     <ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj">
       <Project>{82a89837-73b0-465e-91bd-0a9e65afcfeb}</Project>

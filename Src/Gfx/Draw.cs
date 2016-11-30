@@ -31,7 +31,7 @@ namespace Math.Gfx
     public static class Draw
     {
         // 
-        // Modified Bresenham's line algorithm supporting non-integer start end end point. 
+        // Modified Bresenham's line algorithm supporting non-integer start end point. 
         // Each point is rounded to nearest integer.
         //
         // https://en.wikipedia.org/wiki/Bresenham's_line_algorithm

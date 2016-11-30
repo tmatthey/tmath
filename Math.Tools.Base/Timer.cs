@@ -29,7 +29,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Tools.Base
+namespace Math.Tools.Base
 {
     public static class Timer
     {
