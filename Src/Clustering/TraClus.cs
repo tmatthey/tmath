@@ -32,8 +32,21 @@ using Math.Interfaces;
 
 namespace Math.Clustering
 {
+    /// <summary>
+    /// Implementation of "Trajectory Clustering: A Partition-and-Group Framework", by Jae-Gil Lee, Jiawei Han and Kyu-Young Whang.
+    /// </summary>
     public static class TraClus
     {
+       /// <summary>
+        /// Clustering of 2D trajectories. 
+        /// </summary>
+        /// <param name="tracks">List of tracks</param>
+        /// <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
+        /// <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
+        /// <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
+        /// <param name="minL">Minimum length of a segment</param>
+        /// <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
+        /// <returns></returns>
         public static List<Result<Vector2D>> Cluster(IList<List<Vector2D>> tracks, int n, double eps,
             bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
@@ -42,6 +55,16 @@ namespace Math.Clustering
             return ClusterPoint(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
         }
 
+        /// <summary>
+        /// Clustering of 3D trajectories. 
+        /// </summary>
+        /// <param name="tracks">List of tracks</param>
+        /// <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
+        /// <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
+        /// <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
+        /// <param name="minL">Minimum length of a segment</param>
+        /// <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
+        /// <returns></returns>
         public static List<Result<Vector3D>> Cluster(IList<List<Vector3D>> tracks, int n, double eps,
             bool direction = false, double minL = 50.0, int mdlCostAdvantage = 25)
         {
@@ -192,10 +215,17 @@ namespace Math.Clustering
             return segments;
         }
 
+        /// <summary>
+        /// Representative common segment.
+        /// </summary>
+        /// <typeparam name="T">Vector of dimension n, e.g., Vector2D or Vector3D.</typeparam>
         public class Result<T>
         {
             private SparseArray<IList<int>> _pointIndices;
 
+            /// <summary>
+            /// Representative common segment.
+            /// </summary>
             public Result()
             {
                 Segment = new List<T>();
@@ -203,6 +233,9 @@ namespace Math.Clustering
                 SegmentIndices = new SparseArray<IList<int>>();
             }
 
+            /// <summary>
+            /// Returns a list of tracks of point indices as sorted list, which were used during clustering.
+            /// </summary>
             public SparseArray<IList<int>> PointIndices
             {
                 get
@@ -219,7 +252,13 @@ namespace Math.Clustering
                 }
             }
 
+            /// <summary>
+            /// Returns the representative common segment as a polyline, list of points.
+            /// </summary>
             public IList<T> Segment { get; set; }
+            /// <summary>
+            /// Returns a list of tracks of list of segments (pair point index), which were used during clustering.
+            /// </summary>
             public SparseArray<IList<int>> SegmentIndices { get; set; }
         }
 

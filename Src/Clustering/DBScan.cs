@@ -61,7 +61,7 @@ namespace Math.Clustering
         /// Clustering the list of objects with a given epsilon and with a threshold.   
         /// </summary>
         /// <param name="eps">Epsilon of neighborhood between to objects using objects (modified) norm.</param>
-        /// <param name="n">Minimum of objects required to define a set of objects to be a cluster.</param>
+        /// <param name="n">Minimum number of objects required to be recognized as a cluster.</param>
         /// <param name="direction">Boolean defining if the direction for directional objects shall be considered when evaluating the norm between two objects, e.g., Trajectory Hausdorff distance.</param>
         /// <returns>A list of cluster as list of object indices.</returns>
         public IList<IList<int>> Cluster(double eps = 25.0, int n = 5, bool direction = false)
@@ -126,7 +126,9 @@ namespace Math.Clustering
             var inside = _tree.Search(bounding.Min, bounding.Max).Distinct();
 
             return inside.Where(
-                index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps)).OrderBy(num => num).ToList();
+                    index => Comparison.IsLessEqual(seed.Value.ModifiedNorm(_data[index].Value, direction), eps))
+                .OrderBy(num => num)
+                .ToList();
         }
 
         private class Point
