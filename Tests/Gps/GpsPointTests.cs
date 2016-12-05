@@ -184,6 +184,19 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void Clone()
+        {
+            var v = new GpsPoint(1.1, 2.2, 3.3);
+            var w = (GpsPoint) v.Clone();
+            ReferenceEquals(v, w).ShouldBe(false);
+            v.Equals(w).ShouldBe(true);
+            v.IsEqual(w).ShouldBe(true);
+            w.Elevation.ShouldBe(v.Elevation);
+            w.Latitude.ShouldBe(v.Latitude);
+            w.Longitude.ShouldBe(v.Longitude);
+        }
+
+        [Test]
         public void Dimension_Is3()
         {
             var v = new GpsPoint();

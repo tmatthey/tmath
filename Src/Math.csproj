@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\IBounding.cs" />
     <Compile Include="Interfaces\IArray.cs" />
     <Compile Include="Interfaces\IDimension.cs" />
+    <Compile Include="Interfaces\IIsEqual.cs" />
     <Compile Include="Interfaces\INorm.cs" />
     <Compile Include="Interfaces\IGeometryObject.cs" />
     <Compile Include="Interfaces\ISegment.cs" />

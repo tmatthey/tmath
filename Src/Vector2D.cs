@@ -32,7 +32,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Vector2D : IVector<Vector2D>
+    public class Vector2D : IVector<Vector2D>, ICloneable, IIsEqual<Vector2D>
     {
         public static readonly Vector2D Zero = new Vector2D(0, 0);
         public static readonly Vector2D One = new Vector2D(1, 1);
@@ -65,6 +65,11 @@ namespace Math
         }
 
         public double Y { get; set; }
+
+        public object Clone()
+        {
+            return new Vector2D(this);
+        }
 
         public double X { get; set; }
 

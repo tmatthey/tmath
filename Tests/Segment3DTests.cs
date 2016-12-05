@@ -186,6 +186,24 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector3D(1.2, 2.3, 3.4);
+            var v = new Vector3D(1.1, 2.2, 3.3);
+            var a = new Segment3D(u, v);
+            var b = (Segment3D) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.A, b.A).ShouldBe(false);
+            ReferenceEquals(a.B, b.B).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.A.Equals(b.A).ShouldBe(true);
+            a.B.Equals(b.B).ShouldBe(true);
+            a.IsEqual(b).ShouldBe(true);
+            a.A.IsEqual(b.A).ShouldBe(true);
+            a.B.IsEqual(b.B).ShouldBe(true);
+        }
+
+        [Test]
         public void ConstructorEmpty_ZeroVectors()
         {
             var s = new Segment3D();
@@ -220,6 +238,30 @@ namespace Math.Tests
         {
             var s = new Segment3D();
             s.Dimensions.ShouldBe(3);
+        }
+
+        [Test]
+        public void Equals_SameRefSegment3D_ReturnsTrue()
+        {
+            var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_SameSegment3D_ReturnsTrue()
+        {
+            var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
+            var u = new Segment3D(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WihtNullptr_ReturnsFalse()
+        {
+            var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
+            Segment3D u = null;
+            v.Equals(u).ShouldBe(false);
         }
 
         [Test]

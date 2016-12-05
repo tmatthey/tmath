@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class BoundingRect : IBounding<Vector2D>
+    public class BoundingRect : IBounding<Vector2D>, ICloneable, IIsEqual<BoundingRect>
     {
         public BoundingRect()
         {
@@ -42,6 +43,12 @@ namespace Math
         {
             Min = new Vector2D(v);
             Max = new Vector2D(v);
+        }
+
+        public BoundingRect(BoundingRect b)
+        {
+            Min = new Vector2D(b.Min);
+            Max = new Vector2D(b.Max);
         }
 
         public Vector2D Min { get; protected set; }
@@ -94,6 +101,21 @@ namespace Math
                    Comparison.IsLessEqual(v.X, Max.X, eps) && Comparison.IsLessEqual(v.Y, Max.Y, eps);
         }
 
+        public object Clone()
+        {
+            return new BoundingRect(this);
+        }
+
+        public bool IsEqual(BoundingRect b)
+        {
+            return IsEqual(b, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(BoundingRect b, double epsilon)
+        {
+            return Min.IsEqual(b.Min, epsilon) && Max.IsEqual(b.Max, epsilon);
+        }
+
         public void ExpandX(double x)
         {
             Min.X = ExpandMin(Min.X, x);
@@ -104,6 +126,24 @@ namespace Math
         {
             Min.Y = ExpandMin(Min.Y, y);
             Max.Y = ExpandMax(Max.Y, y);
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((BoundingRect) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Min.GetHashCode();
+                hashCode = (hashCode*397) ^ Max.GetHashCode();
+                return hashCode;
+            }
         }
 
         private static double ExpandMin(double a, double b)

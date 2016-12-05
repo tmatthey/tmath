@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Vector3D : IVector<Vector3D>
+    public class Vector3D : IVector<Vector3D>, ICloneable, IIsEqual<Vector3D>
     {
         public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
         public static readonly Vector3D One = new Vector3D(1, 1, 1);
@@ -73,6 +73,11 @@ namespace Math
 
         public double Y { get; set; }
         public double Z { get; set; }
+
+        public object Clone()
+        {
+            return new Vector3D(this);
+        }
 
         public double X { get; set; }
 

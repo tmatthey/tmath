@@ -217,6 +217,17 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var p = new Polynomial(new List<double> {1.112, 1.07, 1.9});
+            var q = (Polynomial) p.Clone();
+            ReferenceEquals(p, q).ShouldBe(false);
+            p.p().ShouldBe(q.p());
+            p.P().ShouldBe(q.P());
+            p.dp().ShouldBe(q.dp());
+        }
+
+        [Test]
         public void WithEmptyCoefficients_ReturnsZeroFunction()
         {
             var p = new Polynomial(new List<double>());

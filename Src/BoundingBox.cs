@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class BoundingBox : IBounding<Vector3D>
+    public class BoundingBox : IBounding<Vector3D>, ICloneable, IIsEqual<BoundingBox>
     {
         public BoundingBox()
         {
@@ -42,6 +43,12 @@ namespace Math
         {
             Min = new Vector3D(v);
             Max = new Vector3D(v);
+        }
+
+        public BoundingBox(BoundingBox b)
+        {
+            Min = new Vector3D(b.Min);
+            Max = new Vector3D(b.Max);
         }
 
         public Vector3D Min { get; protected set; }
@@ -99,6 +106,21 @@ namespace Math
             Expand(b.Max);
         }
 
+        public object Clone()
+        {
+            return new BoundingBox(this);
+        }
+
+        public bool IsEqual(BoundingBox b)
+        {
+            return IsEqual(b, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(BoundingBox b, double epsilon)
+        {
+            return Min.IsEqual(b.Min, epsilon) && Max.IsEqual(b.Max, epsilon);
+        }
+
         public void ExpandX(double x)
         {
             Min.X = ExpandMin(Min.X, x);
@@ -115,6 +137,23 @@ namespace Math
         {
             Min.Z = ExpandMin(Min.Z, z);
             Max.Z = ExpandMax(Max.Z, z);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((BoundingBox) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Min.GetHashCode();
+                hashCode = (hashCode*397) ^ Max.GetHashCode();
+                return hashCode;
+            }
         }
 
         private double ExpandMin(double a, double b)

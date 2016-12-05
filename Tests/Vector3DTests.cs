@@ -217,6 +217,19 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var v = new Vector3D(1.1, 2.2, 3.3);
+            var w = (Vector3D) v.Clone();
+            ReferenceEquals(v, w).ShouldBe(false);
+            v.Equals(w).ShouldBe(true);
+            v.IsEqual(w).ShouldBe(true);
+            w.X.ShouldBe(v.X);
+            w.Y.ShouldBe(v.Y);
+            w.Z.ShouldBe(v.Z);
+        }
+
+        [Test]
         public void ConstMulOpVector3D()
         {
             var a = 17.0;

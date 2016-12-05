@@ -69,6 +69,24 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector3D(1.2, 2.3, 3.4);
+            var v = new Vector3D(1.1, 2.2, 3.3);
+            var a = new Circle3D(u, v, 19.17);
+            var b = (Circle3D) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.Center, b.Center).ShouldBe(false);
+            ReferenceEquals(a.Normal, b.Normal).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.Center.Equals(b.Center).ShouldBe(true);
+            a.Normal.Equals(b.Normal).ShouldBe(true);
+            a.IsEqual(b).ShouldBe(true);
+            a.Center.IsEqual(b.Center).ShouldBe(true);
+            a.Normal.IsEqual(b.Normal).ShouldBe(true);
+        }
+
+        [Test]
         public void Constructor_WithCenterRadius_CreatesExpected()
         {
             var r = 13.17;

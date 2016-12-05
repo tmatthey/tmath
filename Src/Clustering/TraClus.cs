@@ -37,7 +37,7 @@ namespace Math.Clustering
     /// </summary>
     public static class TraClus
     {
-       /// <summary>
+        /// <summary>
         /// Clustering of 2D trajectories. 
         /// </summary>
         /// <param name="tracks">List of tracks</param>
@@ -256,6 +256,7 @@ namespace Math.Clustering
             /// Returns the representative common segment as a polyline, list of points.
             /// </summary>
             public IList<T> Segment { get; set; }
+
             /// <summary>
             /// Returns a list of tracks of list of segments (pair point index), which were used during clustering.
             /// </summary>

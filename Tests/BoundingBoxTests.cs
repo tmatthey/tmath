@@ -38,6 +38,24 @@ namespace Math.Tests
         private readonly Vector3D _max = Vector3D.NegativeInfinity;
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector3D(1.1, 3.3, 4.4);
+            var v = new Vector3D(2.2, 4.4, 5.5);
+            var a = new BoundingBox(u);
+            a.Expand(v);
+            var b = (BoundingBox) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.Min, b.Min).ShouldBe(false);
+            ReferenceEquals(a.Max, b.Max).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.Min.Equals(b.Min).ShouldBe(true);
+            a.Min.Equals(b.Min).ShouldBe(true);
+            a.Max.IsEqual(b.Max).ShouldBe(true);
+            a.Max.IsEqual(b.Max).ShouldBe(true);
+        }
+
+        [Test]
         public void Constructor_Empty_True()
         {
             var bb = new BoundingBox();
@@ -56,6 +74,33 @@ namespace Math.Tests
         {
             var bb = new BoundingBox();
             bb.Min.ShouldBe(_min);
+        }
+
+        [Test]
+        public void Equals_SameBoundingBox_ReturnsTrue()
+        {
+            var v = new BoundingBox(new Vector3D(1, 2, 3));
+            v.Expand(new Vector3D(4, 5, 6));
+            var u = new BoundingBox(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_SameRefBoundingBox_ReturnsTrue()
+        {
+            var v = new BoundingBox(new Vector3D(1, 2, 3));
+            v.Expand(new Vector3D(4, 5, 6));
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WihtNullptr_ReturnsFalse()
+        {
+            var v = new BoundingBox(new Vector3D(1, 2, 3));
+            v.Expand(new Vector3D(4, 5, 6));
+            BoundingBox u = null;
+            v.Equals(u).ShouldBe(false);
         }
 
         [Test]

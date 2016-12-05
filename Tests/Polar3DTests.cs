@@ -187,6 +187,19 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var v = new Polar3D(1.1, 2.2, 2.3);
+            var w = (Polar3D) v.Clone();
+            ReferenceEquals(v, w).ShouldBe(false);
+            v.Equals(w).ShouldBe(true);
+            v.IsEqual(w).ShouldBe(true);
+            w.R.ShouldBe(v.R);
+            w.Theta.ShouldBe(v.Theta);
+            w.Phi.ShouldBe(v.Phi);
+        }
+
+        [Test]
         public void ConstructorTheataPhi_ReturnsWithRadiusOne()
         {
             var p = new Polar3D(0.1, 0.2);

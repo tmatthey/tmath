@@ -108,6 +108,24 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector2D(1.2, 2.3);
+            var v = new Vector2D(1.1, 2.2);
+            var a = new Segment2D(u, v);
+            var b = (Segment2D) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.A, b.A).ShouldBe(false);
+            ReferenceEquals(a.B, b.B).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.A.Equals(b.A).ShouldBe(true);
+            a.B.Equals(b.B).ShouldBe(true);
+            a.IsEqual(b).ShouldBe(true);
+            a.A.IsEqual(b.A).ShouldBe(true);
+            a.B.IsEqual(b.B).ShouldBe(true);
+        }
+
+        [Test]
         public void ConstructorEmpty_ZeroVectors()
         {
             var s = new Segment2D();
@@ -142,6 +160,30 @@ namespace Math.Tests
         {
             var s = new Segment2D();
             s.Dimensions.ShouldBe(2);
+        }
+
+        [Test]
+        public void Equals_SameRefSegment2D_ReturnsTrue()
+        {
+            var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_SameSegment3D_ReturnsTrue()
+        {
+            var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
+            var u = new Segment2D(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WihtNullptr_ReturnsFalse()
+        {
+            var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
+            Segment2D u = null;
+            v.Equals(u).ShouldBe(false);
         }
 
         [Test]

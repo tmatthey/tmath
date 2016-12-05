@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle3D : IDimension
+    public class Circle3D : IDimension, ICloneable, IIsEqual<Circle3D>
     {
         public Circle3D()
         {
@@ -59,13 +60,37 @@ namespace Math
             Normal = new Vector3D(normal);
         }
 
+        public Circle3D(Circle3D c)
+        {
+            Radius = c.Radius;
+            Center = new Vector3D(c.Center);
+            Normal = new Vector3D(c.Normal);
+        }
+
         public Vector3D Center { get; set; }
         public Vector3D Normal { get; set; }
         public double Radius { get; set; }
 
+        public object Clone()
+        {
+            return new Circle3D(this);
+        }
+
         public int Dimensions
         {
             get { return Center.Dimensions; }
+        }
+
+        public bool IsEqual(Circle3D c)
+        {
+            return IsEqual(c, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Circle3D c, double epsilon)
+        {
+            if (!Center.IsEqual(c.Center, epsilon) || !Comparison.IsEqual(Radius, c.Radius, epsilon))
+                return false;
+            return Comparison.IsZero(c.Normal.CrossNorm(Normal), epsilon);
         }
 
         public override bool Equals(object obj)
@@ -84,18 +109,6 @@ namespace Math
                 hashCode = (hashCode*397) ^ Normal.GetHashCode();
                 return hashCode;
             }
-        }
-
-        public bool IsEqual(Circle3D c)
-        {
-            return IsEqual(c, Comparison.Epsilon);
-        }
-
-        public bool IsEqual(Circle3D c, double epsilon)
-        {
-            if (!Center.IsEqual(c.Center, epsilon) || !Comparison.IsEqual(Radius, c.Radius, epsilon))
-                return false;
-            return Comparison.IsZero(c.Normal.CrossNorm(Normal), epsilon);
         }
 
         public static bool operator ==(Circle3D c1, Circle3D c2)

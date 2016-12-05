@@ -114,6 +114,20 @@ namespace Math.Tests
         }
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector2D(1.2, 2.3);
+            var a = new Circle2D(u, 19.17);
+            var b = (Circle2D) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.Center, b.Center).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.Center.Equals(b.Center).ShouldBe(true);
+            a.IsEqual(b).ShouldBe(true);
+            a.Center.IsEqual(b.Center).ShouldBe(true);
+        }
+
+        [Test]
         public void Constructor_WithCenterRadius_CreatesExpected()
         {
             var r = 13.17;

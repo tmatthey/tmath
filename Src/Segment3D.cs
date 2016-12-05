@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment3D : ISegment<Vector3D>
+    public class Segment3D : ISegment<Vector3D>, ICloneable, IIsEqual<Segment3D>
     {
         public Segment3D()
         {
@@ -49,6 +49,21 @@ namespace Math
         {
             A = new Vector3D(a);
             B = new Vector3D(b);
+        }
+
+        public object Clone()
+        {
+            return new Segment3D(this);
+        }
+
+        public bool IsEqual(Segment3D s)
+        {
+            return IsEqual(s, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Segment3D s, double epsilon)
+        {
+            return A.IsEqual(s.A, epsilon) && B.IsEqual(s.B, epsilon);
         }
 
         public Vector3D A { get; set; }
@@ -141,6 +156,23 @@ namespace Math
         public double ModifiedNorm(ISegment<Vector3D> d, bool direction = true)
         {
             return Geometry.TrajectoryHausdorffDistance(this, d, direction);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Segment3D) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = A.GetHashCode();
+                hashCode = (hashCode*397) ^ B.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }

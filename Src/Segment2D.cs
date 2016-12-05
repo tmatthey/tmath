@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Vector2D>
+    public class Segment2D : ISegment<Vector2D>, ICloneable, IIsEqual<Segment2D>
     {
         public Segment2D()
         {
@@ -49,6 +49,21 @@ namespace Math
         {
             A = new Vector2D(a);
             B = new Vector2D(b);
+        }
+
+        public object Clone()
+        {
+            return new Segment2D(this);
+        }
+
+        public bool IsEqual(Segment2D s)
+        {
+            return IsEqual(s, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Segment2D s, double epsilon)
+        {
+            return A.IsEqual(s.A, epsilon) && B.IsEqual(s.B, epsilon);
         }
 
         public Vector2D A { get; set; }
@@ -137,6 +152,23 @@ namespace Math
             var b = new BoundingRect(A);
             b.Expand(B);
             return b;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((Segment2D) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = A.GetHashCode();
+                hashCode = (hashCode*397) ^ B.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }

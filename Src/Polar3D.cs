@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>
+    public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<Polar3D>
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
         private double _theta;
@@ -54,6 +54,13 @@ namespace Math
             R = r;
         }
 
+        public Polar3D(Polar3D p)
+        {
+            _theta = p.Theta;
+            Phi = p.Phi;
+            R = p.R;
+        }
+
         public double R { get; set; }
 
         public double Theta
@@ -66,6 +73,11 @@ namespace Math
         public IBounding<Vector3D> Bounding()
         {
             return new BoundingBox(this);
+        }
+
+        public object Clone()
+        {
+            return new Polar3D(this);
         }
 
         public int Dimensions
@@ -105,6 +117,23 @@ namespace Math
             return EuclideanNorm(d);
         }
 
+        public bool IsEqual(Polar3D p)
+        {
+            return IsEqual(p, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Polar3D p, double epsilon)
+        {
+            if (Comparison.IsZero(R, epsilon) && Comparison.IsZero(p.R, epsilon))
+                return true;
+
+            if (!Comparison.IsEqual(R, p.R, epsilon))
+                return false;
+
+            return Function.NormalizeAngle(Theta - p.Theta) < epsilon &&
+                   Function.NormalizeAngle(Phi - p.Phi) < epsilon;
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -121,23 +150,6 @@ namespace Math
                 hashCode = (hashCode*397) ^ Phi.GetHashCode();
                 return hashCode;
             }
-        }
-
-        public bool IsEqual(Polar3D p)
-        {
-            return IsEqual(p, Comparison.Epsilon);
-        }
-
-        public bool IsEqual(Polar3D p, double epsilon)
-        {
-            if (Comparison.IsZero(R, epsilon) && Comparison.IsZero(p.R, epsilon))
-                return true;
-
-            if (!Comparison.IsEqual(R, p.R, epsilon))
-                return false;
-
-            return Function.NormalizeAngle(Theta - p.Theta) < epsilon &&
-                   Function.NormalizeAngle(Phi - p.Phi) < epsilon;
         }
 
         public static bool operator ==(Polar3D p1, Polar3D p2)

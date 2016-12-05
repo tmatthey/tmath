@@ -38,6 +38,24 @@ namespace Math.Tests
         private readonly Vector2D _max = Vector2D.NegativeInfinity;
 
         [Test]
+        public void Clone()
+        {
+            var u = new Vector2D(1.1, 3.3);
+            var v = new Vector2D(2.2, 4.4);
+            var a = new BoundingRect(u);
+            a.Expand(v);
+            var b = (BoundingRect) a.Clone();
+            ReferenceEquals(a, b).ShouldBe(false);
+            ReferenceEquals(a.Min, b.Min).ShouldBe(false);
+            ReferenceEquals(a.Max, b.Max).ShouldBe(false);
+            a.Equals(b).ShouldBe(true);
+            a.Min.Equals(b.Min).ShouldBe(true);
+            a.Min.Equals(b.Min).ShouldBe(true);
+            a.Max.IsEqual(b.Max).ShouldBe(true);
+            a.Max.IsEqual(b.Max).ShouldBe(true);
+        }
+
+        [Test]
         public void Constructor_Empty_True()
         {
             var bb = new BoundingRect();
@@ -56,6 +74,33 @@ namespace Math.Tests
         {
             var bb = new BoundingRect();
             bb.Min.ShouldBe(_min);
+        }
+
+        [Test]
+        public void Equals_SameBoundingRect_ReturnsTrue()
+        {
+            var v = new BoundingRect(new Vector2D(1, 2));
+            v.Expand(new Vector2D(4, 5));
+            var u = new BoundingRect(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_SameRefBoundingRect_ReturnsTrue()
+        {
+            var v = new BoundingRect(new Vector2D(1, 2));
+            v.Expand(new Vector2D(4, 5));
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WihtNullptr_ReturnsFalse()
+        {
+            var v = new BoundingRect(new Vector2D(1, 2));
+            v.Expand(new Vector2D(4, 5));
+            BoundingRect u = null;
+            v.Equals(u).ShouldBe(false);
         }
 
         [Test]

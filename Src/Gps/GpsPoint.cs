@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>
     {
         private double _longitude;
 
@@ -73,6 +73,11 @@ namespace Math.Gps
             return new BoundingBox(this);
         }
 
+        public object Clone()
+        {
+            return new GpsPoint(this);
+        }
+
         public int Dimensions
         {
             get { return 3; }
@@ -111,24 +116,6 @@ namespace Math.Gps
             return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm()*f;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((GpsPoint) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = Elevation.GetHashCode();
-                hashCode = (hashCode*397) ^ Latitude.GetHashCode();
-                hashCode = (hashCode*397) ^ Longitude.GetHashCode();
-                return hashCode;
-            }
-        }
-
         public bool IsEqual(GpsPoint g)
         {
             return IsEqual(g, Comparison.Epsilon);
@@ -145,6 +132,24 @@ namespace Math.Gps
 
             return Function.NormalizeAngle(Conversion.DegToRad(Longitude - g.Longitude)) < epsilon &&
                    Function.NormalizeAngle(Conversion.DegToRad(Latitude - g.Latitude)) < epsilon;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && IsEqual((GpsPoint) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Elevation.GetHashCode();
+                hashCode = (hashCode*397) ^ Latitude.GetHashCode();
+                hashCode = (hashCode*397) ^ Longitude.GetHashCode();
+                return hashCode;
+            }
         }
 
         public static bool operator ==(GpsPoint g1, GpsPoint g2)

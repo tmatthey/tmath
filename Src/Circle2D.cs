@@ -26,11 +26,12 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle2D : INorm<Circle2D>, IDimension
+    public class Circle2D : INorm<Circle2D>, IDimension, ICloneable, IIsEqual<Circle2D>
     {
         public Circle2D()
         {
@@ -49,12 +50,33 @@ namespace Math
             Center = new Vector2D(center);
         }
 
+        public Circle2D(Circle2D c)
+        {
+            Radius = c.Radius;
+            Center = new Vector2D(c.Center);
+        }
+
         public Vector2D Center { get; set; }
         public double Radius { get; set; }
+
+        public object Clone()
+        {
+            return new Circle2D(this);
+        }
 
         public int Dimensions
         {
             get { return Center.Dimensions; }
+        }
+
+        public bool IsEqual(Circle2D c)
+        {
+            return IsEqual(c, Comparison.Epsilon);
+        }
+
+        public bool IsEqual(Circle2D c, double epsilon)
+        {
+            return Center.IsEqual(c.Center, epsilon) && Comparison.IsEqual(Radius, c.Radius, epsilon);
         }
 
         public double EuclideanNorm(Circle2D c)
@@ -83,16 +105,6 @@ namespace Math
                 hashCode = (hashCode*397) ^ Radius.GetHashCode();
                 return hashCode;
             }
-        }
-
-        public bool IsEqual(Circle2D c)
-        {
-            return IsEqual(c, Comparison.Epsilon);
-        }
-
-        public bool IsEqual(Circle2D c, double epsilon)
-        {
-            return Center.IsEqual(c.Center, epsilon) && Comparison.IsEqual(Radius, c.Radius, epsilon);
         }
 
         public static bool operator ==(Circle2D c1, Circle2D c2)
