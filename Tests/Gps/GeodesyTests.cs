@@ -37,6 +37,7 @@ namespace Math.Tests.Gps
     [TestFixture]
     public class GeodesyTests
     {
+        [Test]
         public void HaversineTotal_2ElementList_ReturnsExpectedDistance()
         {
             var a = new GpsPoint(10, 30);

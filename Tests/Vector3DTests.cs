@@ -612,5 +612,28 @@ namespace Math.Tests
             Vector3D.One.Y.ShouldBe(1);
             Vector3D.One.Z.ShouldBe(1);
         }
+        [Test]
+        public void Equals_SameRefVector3D_ReturnsTrue()
+        {
+            var v = new Vector3D(1, 2,3);
+            var u = v;
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_SameVector3D_ReturnsTrue()
+        {
+            var v = new Vector3D(1, 2, 3);
+            var u = new Vector3D(v);
+            v.Equals(u).ShouldBe(true);
+        }
+
+        [Test]
+        public void Equals_WihtNullptr_ReturnsFalse()
+        {
+            var v = new Vector3D(1, 2, 3);
+            Vector2D u = null;
+            v.Equals(u).ShouldBe(false);
+        }
     }
 }
