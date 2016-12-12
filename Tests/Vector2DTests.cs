@@ -72,10 +72,8 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Vector2D();
-            Should.Throw<IndexOutOfRangeException>(() =>
-            {
-                var a = v[i];
-            });
+            double x;
+            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
         }
 
         [TestCase(0, 13, 0)]

@@ -141,10 +141,8 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Polar3D();
-            Should.Throw<IndexOutOfRangeException>(() =>
-            {
-                var a = v[i];
-            });
+            double x;
+            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
         }
 
         [Test]
@@ -246,6 +244,14 @@ namespace Math.Tests
             Vector3D u = q;
             var d = v.EuclideanNorm(u);
             p.EuclideanNorm(q).ShouldBe(d);
+        }
+
+        [Test]
+        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+        {
+            var p0 = new Polar3D(Vector3D.E1);
+            var p1 = new Polar3D(Vector3D.E2);
+            p0.GetHashCode().ShouldNotBe(p1.GetHashCode());
         }
 
         [Test]

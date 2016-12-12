@@ -61,11 +61,9 @@ namespace Math.Tests
 
         public static string OutputPath()
         {
-            if (Environment.ExpandEnvironmentVariables("%VisualStudioVersion%") == "14.0")
-            {
-                return Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location) + "\\";
-            }
-            return "";
+            return Environment.ExpandEnvironmentVariables("%VisualStudioVersion%") == "14.0"
+                ? Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location) + "\\"
+                : "";
         }
     }
 }

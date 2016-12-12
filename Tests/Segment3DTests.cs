@@ -40,10 +40,8 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var s = new Segment3D();
-            Should.Throw<IndexOutOfRangeException>(() =>
-            {
-                var a = s[i];
-            });
+            double x;
+            Should.Throw<IndexOutOfRangeException>(() => x = s[i]);
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
@@ -366,6 +364,14 @@ namespace Math.Tests
             var s0 = new Segment3D(v0, v1);
             var s1 = new Segment3D(v2, v3);
             s0.EuclideanNorm(s1).ShouldBe(0.0);
+        }
+
+        [Test]
+        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+        {
+            var s0 = new Segment3D(Vector3D.E1, Vector3D.E2);
+            var s1 = new Segment3D(Vector3D.E3, Vector3D.One);
+            s0.GetHashCode().ShouldNotBe(s1.GetHashCode());
         }
 
         [Test]

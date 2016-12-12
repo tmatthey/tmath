@@ -116,10 +116,7 @@ namespace Math.Tests
             var a = new SparseArray<int>();
             Should.Throw<NotImplementedException>(() => a.Add(1));
             Should.Throw<NotImplementedException>(() => a.CopyTo(new[] {1, 2, 3}, 0));
-            Should.Throw<NotImplementedException>(() =>
-            {
-                var indexOf = a.IndexOf(1);
-            });
+            Should.Throw<NotImplementedException>(() => a.IndexOf(1));
             Should.Throw<NotImplementedException>(() => a.Insert(1, 3));
             Should.Throw<NotImplementedException>(() => a.Remove(1));
         }

@@ -29,6 +29,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Math.Gps;
+using Math.Gps.Filters;
 using NUnit.Framework;
 using Shouldly;
 
@@ -140,6 +141,7 @@ namespace Math.Tests.Gps
             res[0].ShouldBe(1);
             res[1].ShouldBe(2);
         }
+
 
         [Test]
         public void InterpolateDublicates_1ElementList_ReturnsSame()
@@ -288,6 +290,25 @@ namespace Math.Tests.Gps
             };
             var res = GpsFiltering.InterpolateDublicates(track);
             res[0].HaversineDistance(res[1]).ShouldBe(res[1].HaversineDistance(res[2]), 1e-7);
+        }
+
+        [Test]
+        public void InterpolateDublicates_ExampleStart_ReturnsImprovedVariance()
+        {
+            var track = new List<GpsPoint>
+            {
+                new GpsPoint(60.2932420, 5.2931860),
+                new GpsPoint(60.2931640, 5.2931540),
+                new GpsPoint(60.2931640, 5.2931540),
+                new GpsPoint(60.2931410, 5.2931440)
+            };
+            var res = GpsFiltering.InterpolateDublicates(track);
+            var f0 = new FilterDublicatesBegin();
+            f0.Filter(track, new List<double> {0, 1, 2, 3}, new List<int> {0}, new List<int> {3});
+            var f1 = new FilterDublicatesBegin();
+            f1.Filter(res.ToList(), new List<double> {0, 1, 2, 3}, new List<int> {0}, new List<int> {3});
+            f0.NewAccelerationVariance.ShouldBe(f1.OldAccelerationVariance);
+            f0.NewVelocityVariance.ShouldBe(f1.OldVelocityVariance);
         }
 
         [Test]

@@ -38,15 +38,6 @@ namespace Math.Tests.Gps
     public class GeodesyTests
     {
         [Test]
-        public void HaversineTotal_2ElementList_ReturnsExpectedDistance()
-        {
-            var a = new GpsPoint(10, 30);
-            var b = new GpsPoint(20, 40);
-            var list = new List<GpsPoint> {a, b};
-            Geodesy.Distance.HaversineTotal(list).ShouldBe(Geodesy.Distance.Haversine(a, b));
-        }
-
-        [Test]
         public void Haversine_2ElementList_ReturnsExpectedDistance()
         {
             var a = new GpsPoint(10, 30);
@@ -71,6 +62,15 @@ namespace Math.Tests.Gps
         public void Haversine_StartEndSameLocation_ReturnsZeroDistance()
         {
             Geodesy.Distance.Haversine(17, 19, 17, 19).ShouldBe(0);
+        }
+
+        [Test]
+        public void HaversineTotal_2ElementList_ReturnsExpectedDistance()
+        {
+            var a = new GpsPoint(10, 30);
+            var b = new GpsPoint(20, 40);
+            var list = new List<GpsPoint> {a, b};
+            Geodesy.Distance.HaversineTotal(list).ShouldBe(Geodesy.Distance.Haversine(a, b));
         }
     }
 }

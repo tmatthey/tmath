@@ -247,6 +247,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+        {
+            var p = new Circle2D(new Vector2D(1, 2), 0.2);
+            var q = new Circle2D(new Vector2D(1, 2), 0.201);
+            p.GetHashCode().ShouldNotBe(q.GetHashCode());
+        }
+
+        [Test]
         public void OpEqual_WithDiffrentRef_ReturnsTrue()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);

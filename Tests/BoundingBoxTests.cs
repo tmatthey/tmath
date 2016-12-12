@@ -180,6 +180,14 @@ namespace Math.Tests
         }
 
         [Test]
+        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+        {
+            var b0 = new BoundingBox(Vector3D.E1);
+            var b1 = new BoundingBox(Vector3D.E2);
+            b0.GetHashCode().ShouldNotBe(b1.GetHashCode());
+        }
+
+        [Test]
         public void IsInside_EmptyBox_ReturnsFalse()
         {
             var bb = new BoundingBox();

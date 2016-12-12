@@ -139,10 +139,8 @@ namespace Math.Tests.Gps
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new GpsPoint();
-            Should.Throw<IndexOutOfRangeException>(() =>
-            {
-                var a = v[i];
-            });
+            double x;
+            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
         }
 
         [Test]
@@ -233,6 +231,14 @@ namespace Math.Tests.Gps
             var b = new GpsPoint {Latitude = 0, Longitude = 1, Elevation = Geodesy.EarthRadius};
             a.EuclideanNorm(b)
                 .ShouldBe(((Vector3D) a).EuclideanNorm(b));
+        }
+
+        [Test]
+        public void GetHasCode()
+        {
+            var g0 = new GpsPoint(1, 2);
+            var g1 = new GpsPoint(2, 3);
+            g0.GetHashCode().ShouldNotBe(g1.GetHashCode());
         }
 
         [Test]

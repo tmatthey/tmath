@@ -83,31 +83,30 @@ namespace Math.Gps
                 var newPoints = new List<NeighbourDistancePoint>();
                 foreach (var d in points)
                 {
-                    var d0 = d;
-                    var d1 = d;
                     var ir = d.Reference;
                     var ic = d.Current;
                     var refDp = trackRef.Track[ir];
                     var curDp = trackCur.Track[ic];
+                    var list = new List<NeighbourDistancePoint>();
                     if (ir > 0)
                     {
                         var f = Geometry.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
-                        d0 = new NeighbourDistancePoint(ir - 1, ic,
+                        list.Add(new NeighbourDistancePoint(ir - 1, ic,
                             Geometry.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
-                            f, (1.0 - f)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]);
+                            f, (1.0 - f)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]));
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
                         var f = Geometry.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
-                        d1 = new NeighbourDistancePoint(ir, ic,
+                        list.Add(new NeighbourDistancePoint(ir, ic,
                             Geometry.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
-                            f, (1.0 - f)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]);
+                            f, (1.0 - f)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]));
                     }
-                    var dNew = d0.MinDistance < d1.MinDistance ? d0 : d1;
+                    list = list.OrderBy(a => a.MinDistance).ToList();
 
-                    if (newPoints.All(q => q.Reference != dNew.Reference))
+                    if (list.Any() && newPoints.All(q => q.Reference != list.First().Reference))
                     {
-                        newPoints.Add(dNew);
+                        newPoints.Add(list.First());
                     }
                 }
                 newPoints.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));
@@ -116,7 +115,7 @@ namespace Math.Gps
             return adjsuteddNeighboursCur;
         }
 
-        // Removed faulty neighbour ref. points from list, e.g., detours, cross-overs, 
+        // Removed faulty neighbor ref. points from list, e.g., detours, cross-overs, 
         // opposite direction, mix-up of start and end of track, etc. 
         private static IList<List<NeighbourDistancePoint>> RemoveDisconnectedPoints(double radius,
             IEnumerable<List<NeighbourDistancePoint>> neighboursCur,

@@ -53,6 +53,22 @@ namespace Math.Tests.Clustering
         }
 
         [Test]
+        public void FindGlobalCommonSegments_OneTrack_ReturnsRepresentativeTracksWithSameDistances()
+        {
+            var list = new List<List<GpsPoint>>
+            {
+                new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0.01, 0.01)}
+            };
+            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 1);
+            res.Count.ShouldBe(1);
+            res[0].Count.ShouldBe(1);
+            var distGps =
+                res[0][0].RepresentativeGpsTrack.First().HaversineDistance(res[0][0].RepresentativeGpsTrack.Last());
+            var distPlane = res[0][0].RepresentativeTrack.First().EuclideanNorm(res[0][0].RepresentativeTrack.Last());
+            distPlane.ShouldBe(distGps, 1e-6);
+        }
+
+        [Test]
         public void FindGlobalCommonSegments_ThreeDisjunctTrackClusters_ReturnsThreeClusters()
         {
             var list = new List<List<GpsPoint>>
@@ -63,13 +79,11 @@ namespace Math.Tests.Clustering
                 new List<GpsPoint> {new GpsPoint(5.00000001, 5), new GpsPoint(5, 5.001)},
                 new List<GpsPoint> {new GpsPoint(40, 50), new GpsPoint(40.1, 50)}
             };
-            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 2, 20, 20, 5, 5000);
+            var res = GpsSegmentClustering.FindGlobalCommonSegments(list, 1, 5000, 20, 5, 5000);
             res.Count.ShouldBe(3);
             res[0].Count.ShouldBe(1);
-            res[0][0].TrackSegments.Count.ShouldBe(2);
             res[1].Count.ShouldBe(1);
-            res[1][0].TrackSegments.Count.ShouldBe(2);
-            res[2].Count.ShouldBe(0);
+            res[2].Count.ShouldBe(1);
         }
 
         [Test]
@@ -121,6 +135,30 @@ namespace Math.Tests.Clustering
             res.Count.ShouldBe(1);
             res[0].RepresentativeGpsTrack.First().ShouldBe(list.First().First());
             res[0].RepresentativeGpsTrack.Last().ShouldBe(list.First().Last());
+        }
+
+        [Test]
+        public void FindLocalCommonSegments_TwoSameTrack_ReturnsTwoTrackSegment()
+        {
+            var list = new List<List<GpsPoint>>
+            {
+                new List<GpsPoint>
+                {
+                    new GpsPoint(0, 0),
+                    new GpsPoint(0.0001, 0.0001),
+                    new GpsPoint(0.0002, 0.0002),
+                    new GpsPoint(0.0003, 0.0003)
+                },
+                new List<GpsPoint>
+                {
+                    new GpsPoint(0, 0),
+                    new GpsPoint(0.0001, 0.0001),
+                    new GpsPoint(0.0002, 0.0002),
+                    new GpsPoint(0.0003, 0.0003)
+                }
+            };
+            var res = GpsSegmentClustering.FindLocalCommonSegments(list, 1);
+            res[0].TrackSegments.Count.ShouldBe(2);
         }
 
         [Test]
