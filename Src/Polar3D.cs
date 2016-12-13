@@ -103,7 +103,7 @@ namespace Math
                     case 2:
                         return R;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

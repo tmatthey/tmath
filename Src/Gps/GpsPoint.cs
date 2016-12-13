@@ -101,7 +101,7 @@ namespace Math.Gps
                     case 2:
                         return Elevation;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

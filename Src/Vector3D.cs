@@ -212,7 +212,7 @@ namespace Math
                     case 2:
                         return Z;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

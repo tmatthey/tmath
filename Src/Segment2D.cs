@@ -143,7 +143,7 @@ namespace Math
                     case 3:
                         return B.Y;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

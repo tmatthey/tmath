@@ -79,6 +79,7 @@ namespace Math.Tools.TrackReaders
             }
             catch
             {
+                // ignored
             }
             try
             {
@@ -86,6 +87,7 @@ namespace Math.Tools.TrackReaders
             }
             catch
             {
+                // ignored
             }
 
             foreach (var file in files)
@@ -97,6 +99,7 @@ namespace Math.Tools.TrackReaders
                 }
                 catch
                 {
+                    // ignored
                 }
                 if (track != null && track.GpsPoints().Any())
                 {

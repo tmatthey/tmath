@@ -140,7 +140,7 @@ namespace Math.Tests.Gps
         {
             var v = new GpsPoint();
             double x;
-            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => x = v[i]);
         }
 
         [Test]

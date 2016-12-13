@@ -73,7 +73,7 @@ namespace Math.Tests
         {
             var v = new Vector2D();
             double x;
-            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => x = v[i]);
         }
 
         [TestCase(0, 13, 0)]

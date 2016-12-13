@@ -120,7 +120,7 @@ namespace Math
                     case 5:
                         return B.Z;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

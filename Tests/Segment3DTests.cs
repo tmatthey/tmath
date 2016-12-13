@@ -41,7 +41,7 @@ namespace Math.Tests
         {
             var s = new Segment3D();
             double x;
-            Should.Throw<IndexOutOfRangeException>(() => x = s[i]);
+            Should.Throw<ArgumentException>(() => x = s[i]);
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]

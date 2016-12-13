@@ -82,7 +82,6 @@ namespace Math.Gps
             }
 
             var t = new List<double> {0.0};
-            var d = new List<double> {0.0};
             var v = new List<double> {0.0};
             var s = 0.0;
             distance.Add(s);
@@ -91,7 +90,6 @@ namespace Math.Gps
                 var dt = time[i] - time[i - 1];
                 var l = track[i].HaversineDistance(track[i - 1]);
                 t.Add(dt);
-                d.Add(l);
                 v.Add(l/dt);
                 s += l;
                 distance.Add(s);

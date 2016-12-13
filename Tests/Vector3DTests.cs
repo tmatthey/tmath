@@ -134,7 +134,7 @@ namespace Math.Tests
         {
             var v = new Vector3D();
             double x;
-            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => x = v[i]);
         }
 
         [TestCase(0, 0, 0)]

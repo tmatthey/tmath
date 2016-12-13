@@ -197,7 +197,7 @@ namespace Math
                     case 1:
                         return Y;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
         }
 

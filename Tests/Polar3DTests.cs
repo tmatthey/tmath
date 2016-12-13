@@ -142,7 +142,7 @@ namespace Math.Tests
         {
             var v = new Polar3D();
             double x;
-            Should.Throw<IndexOutOfRangeException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => x = v[i]);
         }
 
         [Test]
