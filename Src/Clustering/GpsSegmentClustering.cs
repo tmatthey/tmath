@@ -98,12 +98,17 @@ namespace Math.Clustering
                             double a, b;
                             Regression.Linear(
                                 Enumerable.Range(0, neighbours.Count).Select(dummy => (double) dummy).ToList(),
-                                neighbours.Select(neighbour => neighbour[0].Reference)
+                                neighbours.Select(
+                                        neighbour =>
+                                            neighbour[0].Reference +
+                                            (Comparison.IsEqual(neighbour[0].Fraction, 1.0) ? 1 : 0))
                                     .Select(dummy => (double) dummy)
                                     .ToList(), out a, out b);
 
                             var indices =
-                                (from neighbour in neighbours from pt in neighbour select pt.Reference).Distinct()
+                                (from neighbour in neighbours
+                                        from pt in neighbour
+                                        select pt.Reference + (Comparison.IsEqual(pt.Fraction, 1.0) ? 1 : 0)).Distinct()
                                     .OrderBy(num => num)
                                     .ToList();
                             var length = 0.0;
@@ -133,7 +138,7 @@ namespace Math.Clustering
                                 var first = neighbours.First().First();
                                 var last = neighbours.Last().First();
                                 segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference,
-                                    last.Reference,
+                                    last.Reference + (Comparison.IsEqual(last.Fraction, 1.0) ? 1 : 0),
                                     first.Current, last.Current,
                                     length, length/totalLength, segLength/segments[k].Length, a));
                             }
