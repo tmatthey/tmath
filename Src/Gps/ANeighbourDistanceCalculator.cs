@@ -102,11 +102,18 @@ namespace Math.Gps
                             Geometry.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
                             f, (1.0 - f)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]));
                     }
-                    list = list.OrderBy(a => a.MinDistance).ToList();
 
-                    if (list.Any() && newPoints.All(q => q.Reference != list.First().Reference))
+                    if (list.Any())
                     {
-                        newPoints.Add(list.First());
+                        var q = list.OrderBy(a => a.MinDistance).First();
+                        if (Comparison.IsEqual(q.Fraction, 1.0) && q.Reference + 1 < trackRef.Track.Count)
+                        {
+                            q = new NeighbourDistancePoint(q.Reference+1, q.Current, q.MinDistance, 0.0, q.RefDistance);
+                        }
+                        if (newPoints.All(w => w.Reference != q.Reference))
+                        {
+                            newPoints.Add(q);
+                        }
                     }
                 }
                 newPoints.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));

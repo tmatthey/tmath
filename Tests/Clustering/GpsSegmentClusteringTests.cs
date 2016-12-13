@@ -138,27 +138,49 @@ namespace Math.Tests.Clustering
         }
 
         [Test]
-        public void FindLocalCommonSegments_TwoSameTrack_ReturnsTwoTrackSegment()
+        public void FindLocalCommonSegments_TwoSameTrackWith4Points_ReturnsTwoTrackSegment()
         {
             var list = new List<List<GpsPoint>>
             {
                 new List<GpsPoint>
                 {
                     new GpsPoint(0, 0),
-                    new GpsPoint(0.0001, 0.0001),
-                    new GpsPoint(0.0002, 0.0002),
-                    new GpsPoint(0.0003, 0.0003)
+                    new GpsPoint(0.001, 0.001),
+                    new GpsPoint(0.002, 0.002),
+                    new GpsPoint(0.003, 0.003)
                 },
                 new List<GpsPoint>
                 {
                     new GpsPoint(0, 0),
-                    new GpsPoint(0.0001, 0.0001),
-                    new GpsPoint(0.0002, 0.0002),
-                    new GpsPoint(0.0003, 0.0003)
+                    new GpsPoint(0.001, 0.001),
+                    new GpsPoint(0.002, 0.002),
+                    new GpsPoint(0.003, 0.003)
                 }
             };
-            var res = GpsSegmentClustering.FindLocalCommonSegments(list, 1);
+            var res = GpsSegmentClustering.FindLocalCommonSegments(list, 1, 20, 20, 5, 500.0);
             res[0].TrackSegments.Count.ShouldBe(2);
+
+            res[0].TrackSegments[0].Indices.Count.ShouldBe(4);
+            res[0].TrackSegments[0].First.ShouldBe(0);
+            res[0].TrackSegments[0].Last.ShouldBe(3);
+            res[0].TrackSegments[0].SegmentFirst.ShouldBe(0);
+            res[0].TrackSegments[0].SegmentLast.ShouldBe(1);
+            res[0].TrackSegments[0].Id.ShouldBe(0);
+            res[0].TrackSegments[0].Length.ShouldBe(471.463927706797, 1e-7);
+            res[0].TrackSegments[0].Coverage.ShouldBe(1.0);
+            res[0].TrackSegments[0].Common.ShouldBe(1.0);
+            res[0].TrackSegments[0].Direction.ShouldBe(3.0);
+
+            res[0].TrackSegments[1].Indices.Count.ShouldBe(4);
+            res[0].TrackSegments[1].First.ShouldBe(0);
+            res[0].TrackSegments[1].Last.ShouldBe(3);
+            res[0].TrackSegments[1].SegmentFirst.ShouldBe(0);
+            res[0].TrackSegments[1].SegmentLast.ShouldBe(1);
+            res[0].TrackSegments[1].Id.ShouldBe(1);
+            res[0].TrackSegments[1].Length.ShouldBe(471.463927706797, 1e-7);
+            res[0].TrackSegments[1].Coverage.ShouldBe(1.0);
+            res[0].TrackSegments[1].Common.ShouldBe(1.0);
+            res[0].TrackSegments[1].Direction.ShouldBe(3.0);
         }
 
         [Test]
