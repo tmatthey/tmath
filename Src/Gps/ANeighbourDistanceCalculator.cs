@@ -108,7 +108,7 @@ namespace Math.Gps
                         var q = list.OrderBy(a => a.MinDistance).First();
                         if (Comparison.IsEqual(q.Fraction, 1.0) && q.Reference + 1 < trackRef.Track.Count)
                         {
-                            q = new NeighbourDistancePoint(q.Reference+1, q.Current, q.MinDistance, 0.0, q.RefDistance);
+                            q = new NeighbourDistancePoint(q.Reference + 1, q.Current, q.MinDistance, 0.0, q.RefDistance);
                         }
                         if (newPoints.All(w => w.Reference != q.Reference))
                         {
