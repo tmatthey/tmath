@@ -51,13 +51,27 @@ namespace Math.Tools.TrackReaders
             if (File.Exists(filename))
             {
                 var extension = Path.GetExtension(filename);
-                if (extension.Contains("tcx"))
+                try
                 {
-                    track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(filename));
+                    if (extension.Contains("tcx"))
+                    {
+                        track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(filename));
+                    }
                 }
-                if (extension.Contains("gpx"))
+                catch
                 {
-                    track = GpxConverter.Convert(Parse<gpx>(filename));
+                    // ignored
+                }
+                try
+                {
+                    if (extension.Contains("gpx"))
+                    {
+                        track = GpxConverter.Convert(Parse<gpx>(filename));
+                    }
+                }
+                catch
+                {
+                    // ignored
                 }
                 if (track != null)
                     track.Name = Path.GetFileNameWithoutExtension(filename);
