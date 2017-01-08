@@ -65,6 +65,42 @@ namespace Math.Tests.Gps
         }
 
         [Test]
+        public void HaversineAccumulated_4Points_ReturnsAccumulated()
+        {
+            var a = new GpsPoint(10, 30);
+            var b = new GpsPoint(20, 40);
+            var c = new GpsPoint(30, 50);
+            var d = new GpsPoint(40, 60);
+            var ab = a.HaversineDistance(b);
+            var bc = b.HaversineDistance(c);
+            var cd = c.HaversineDistance(d);
+            var list = new List<GpsPoint> {a, b, c, d};
+            var res = Geodesy.Distance.HaversineAccumulated(list);
+            res.Count.ShouldBe(list.Count);
+            res[0].ShouldBe(0.0);
+            res[1].ShouldBe(ab);
+            res[2].ShouldBe(ab + bc);
+            res[3].ShouldBe(ab + bc + cd);
+        }
+
+        [Test]
+        public void HaversineAccumulated_Empty_ReturnsEmpty()
+        {
+            var list = new List<GpsPoint>();
+            Geodesy.Distance.HaversineAccumulated(list).Count.ShouldBe(0);
+        }
+
+        [Test]
+        public void HaversineAccumulated_OnePoint_ReturnsZero()
+        {
+            var a = new GpsPoint(10, 30);
+            var list = new List<GpsPoint> {a};
+            var res = Geodesy.Distance.HaversineAccumulated(list);
+            res.Count.ShouldBe(1);
+            res[0].ShouldBe(0.0);
+        }
+
+        [Test]
         public void HaversineTotal_2ElementList_ReturnsExpectedDistance()
         {
             var a = new GpsPoint(10, 30);

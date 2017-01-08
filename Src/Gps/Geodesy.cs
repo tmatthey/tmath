@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Math.Gps
 {
@@ -76,6 +77,18 @@ namespace Math.Gps
                 for (var i = 0; i + 1 < track.Count; i++)
                 {
                     d.Add(Haversine(track[i], track[i + 1]));
+                }
+                return d;
+            }
+
+            public static List<double> HaversineAccumulated(IList<GpsPoint> track)
+            {
+                var d = new List<double>();
+                if (track.Any())
+                    d.Add(0.0);
+                for (var i = 0; i + 1 < track.Count; i++)
+                {
+                    d.Add(d.Last() + Haversine(track[i], track[i + 1]));
                 }
                 return d;
             }
