@@ -156,6 +156,38 @@ namespace Math
             return Comparison.IsLessEqual(c.Center.EuclideanNorm(v), c.Radius);
         }
 
+        public static bool TrianglePointIntersect(Vector3D a, Vector3D b, Vector3D c, Vector3D p)
+        {
+            var v0 = b - a;
+            var v1 = c - a;
+            var n = v0 ^ v1;
+            var list = new List<double> {System.Math.Abs(n.X), System.Math.Abs(n.Y), System.Math.Abs(n.Z)}
+                .Select((w, i) => new KeyValuePair<double, int>(w, i))
+                .OrderBy(w => w.Key).Select(w => w.Value).ToArray();
+
+            var i0 = list[0];
+            var i1 = list[1];
+            var scale = n.Array[list[2]];
+            v0 /= scale;
+            v1 /= scale;
+
+            var x = v0.Array[i0]*(p.Array[i1] - a.Array[i1]) - v0.Array[i1]*(p.Array[i0] - a.Array[i0]);
+            if (Comparison.IsLess(x, 0.0) || Comparison.IsLess(1.0, x))
+                return false;
+
+            var y = v1.Array[i1]*(p.Array[i0] - a.Array[i0]) - v1.Array[i0]*(p.Array[i1] - a.Array[i1]);
+            if (Comparison.IsLess(y, 0.0) || Comparison.IsLess(1.0, y))
+                return false;
+
+            var z = 1.0 - x - y;
+            if (Comparison.IsLess(z, 0.0) || Comparison.IsLess(1.0, z))
+                return false;
+
+            // Necessary if point no in triangle plane
+            var v = a + v0*y*scale + v1*x*scale;
+            return Comparison.IsZero(p.EuclideanNorm(v));
+        }
+
         // Minimal boundary circle based on Welzl's algorithm
         public static Circle2D MinCircle(IList<Vector2D> allPoints)
         {

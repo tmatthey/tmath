@@ -378,6 +378,30 @@ namespace Math.Tests
             Geometry.PerpendicularSegmentParameter(a, b, p).ShouldBe(l, 1e-13);
         }
 
+        [TestCase(1, 2, true)]
+        [TestCase(2, 3, true)]
+        [TestCase(3, 1, true)]
+        [TestCase(2, 2, true)]
+        [TestCase(1.5, 2.5, true)]
+        [TestCase(2.0, 1.5, true)]
+        [TestCase(2.5, 2.0, true)]
+        [TestCase(-1, 2, false)]
+        [TestCase(10, 2, false)]
+        [TestCase(2, -2, false)]
+        [TestCase(2, 20, false)]
+        [TestCase(1.5, 2.6, false)]
+        [TestCase(2.0, 1.4, false)]
+        [TestCase(2.5, 2.1, false)]
+        public void TrianglePointIntersect_TriangleAndPointInXYPlane_returnsExpected(double x, double y, bool inside)
+        {
+            var a = new Vector3D(1, 2, 0);
+            var b = new Vector3D(2, 3, 0);
+            var c = new Vector3D(3, 1, 0);
+            var p = new Vector3D(x, y, 0.0);
+
+            Geometry.TrianglePointIntersect(a, b, c, p).ShouldBe(inside);
+        }
+
         [Test]
         public void ConvexHullJarvismarch_FiveGpsTracks()
         {
@@ -1850,6 +1874,17 @@ namespace Math.Tests
             var c = new Vector3D(2, 17, 1);
             var dist = Geometry.TrajectoryHausdorffDistance(b, c, a, a);
             dist.ShouldBe(2.0);
+        }
+
+        [Test]
+        public void TrianglePointIntersect_TriangleInXYPlaneAndPointNotInplane_NoIntersection()
+        {
+            var a = new Vector3D(1, 2, 0);
+            var b = new Vector3D(2, 3, 0);
+            var c = new Vector3D(3, 1, 0);
+            var p = new Vector3D(2, 2, 1.0);
+
+            Geometry.TrianglePointIntersect(a, b, c, p).ShouldBe(false);
         }
     }
 }
