@@ -26,16 +26,35 @@
  * ***** END LICENSE BLOCK *****
  */
 
-namespace Math.Interfaces
+using System.Drawing.Imaging;
+using System.IO;
+using Math.Gfx;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+
+namespace Math.Ext.Gfx
 {
-    public interface ICloneable
+    public static class BitmapFileWriter
     {
-        //
-        // Summary:
-        //     Creates a new object that is a copy of the current instance.
-        //
-        // Returns:
-        //     A new object that is a copy of this instance.
-        object Clone();
+        public static void PNG(string fileName, double[,] bitmap)
+        {
+            PNG(fileName, bitmap, GreyMapping.Default);
+        }
+
+        public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var image = new Bitmap(width, height);
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = 0; i < width; i++)
+                {
+                    var c = colorMap.Color(bitmap[i, j]);
+                    image.SetPixel(i, height - j - 1, Color.FromArgb(c.Red, c.Green, c.Blue));
+                }
+            }
+            image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);
+        }
     }
 }

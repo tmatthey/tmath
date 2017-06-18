@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{480B9451-2B17-4917-8DC4-12A3F4A27AE0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{93660DE8-B23F-4D60-81CF-4EB1606D1527}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>App.Cluster</RootNamespace>
-    <AssemblyName>cluster</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Math.Ext</RootNamespace>
+    <AssemblyName>Math.Ext</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,46 +29,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\Math.Ext.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>categories.ico</ApplicationIcon>
+    <ApplicationIcon>..\Math\sqrtpi.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentCommandLineParser.1.4.3\lib\net35\FluentCommandLineParser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Gfx\BitmapFileWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Content Include="..\Math\sqrtpi.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Math.Ext\Math.Ext.csproj">
-      <Project>{93660de8-b23f-4d60-81cf-4eb1606d1527}</Project>
-      <Name>Math.Ext</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Math\Math.csproj">
       <Project>{de25d22d-ba2b-40c1-9348-ea0f2d78fb8f}</Project>
       <Name>Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Math.Tools.base\Math.Tools.Base.csproj">
-      <Project>{9375d115-d5f4-46d6-b716-1715889640a0}</Project>
-      <Name>Math.Tools.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj">
-      <Project>{82a89837-73b0-465e-91bd-0a9e65afcfeb}</Project>
-      <Name>Math.Tools.TrackReaders</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="categories.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

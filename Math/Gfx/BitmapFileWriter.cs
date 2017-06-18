@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
@@ -72,27 +71,6 @@ namespace Math.Gfx
                     writer.Write(col.Blue);
                 }
             }
-        }
-
-        public static void PNG(string fileName, double[,] bitmap)
-        {
-            PNG(fileName, bitmap, GreyMapping.Default);
-        }
-
-        public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
-        {
-            var width = bitmap.GetLength(0);
-            var height = bitmap.GetLength(1);
-            var image = new System.Drawing.Bitmap(width, height);
-            for (var j = 0; j < height; j++)
-            {
-                for (var i = 0; i < width; i++)
-                {
-                    var c = colorMap.Color(bitmap[i, j]);
-                    image.SetPixel(i, height - j - 1, System.Drawing.Color.FromArgb(c.Red, c.Green, c.Blue));
-                }
-            }
-            image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);
         }
     }
 }

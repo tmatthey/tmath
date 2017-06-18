@@ -29,6 +29,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Math.Interfaces;
 
 namespace Math
 {
@@ -38,7 +39,7 @@ namespace Math
     /// <remarks> 
     /// General root finder based on Laguerre's_method.
     /// </remarks> 
-    public class Polynomial : Interfaces.ICloneable
+    public class Polynomial : ICloneable
     {
         private readonly IList<double> _dp;
         private readonly IList<double> _dp2;

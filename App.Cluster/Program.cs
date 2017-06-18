@@ -36,6 +36,7 @@ using Math.Gfx;
 using Math.Gps;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
+using BitmapFileWriter = Math.Ext.Gfx.BitmapFileWriter;
 
 namespace App.Cluster
 {

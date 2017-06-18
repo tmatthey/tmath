@@ -28,10 +28,11 @@
 
 using System;
 using Math.Interfaces;
+using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Vector2D>, Interfaces.ICloneable, IIsEqual<Segment2D>
+    public class Segment2D : ISegment<Vector2D>, ICloneable, IIsEqual<Segment2D>
     {
         public Segment2D()
         {

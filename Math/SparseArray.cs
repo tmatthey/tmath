@@ -30,6 +30,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace Math
 
 {
@@ -99,10 +100,7 @@ namespace Math
 
         public T this[int index]
         {
-            get
-            {
-                return (T) (ContainsKey(index) ? _table[index] : default(T));
-            }
+            get { return ContainsKey(index) ? _table[index] : default(T); }
             set
             {
                 if (ContainsKey(index))

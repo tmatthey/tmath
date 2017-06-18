@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Normalize", "App.Normal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Compare", "App.Compare\App.Compare.csproj", "{DCA9DFB9-0E30-4DBA-8C18-FAF2469A037F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Ext", "Math.Ext\Math.Ext.csproj", "{93660DE8-B23F-4D60-81CF-4EB1606D1527}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{DCA9DFB9-0E30-4DBA-8C18-FAF2469A037F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCA9DFB9-0E30-4DBA-8C18-FAF2469A037F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCA9DFB9-0E30-4DBA-8C18-FAF2469A037F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93660DE8-B23F-4D60-81CF-4EB1606D1527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93660DE8-B23F-4D60-81CF-4EB1606D1527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93660DE8-B23F-4D60-81CF-4EB1606D1527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93660DE8-B23F-4D60-81CF-4EB1606D1527}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

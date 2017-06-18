@@ -33,6 +33,7 @@ using Math.Gps;
 using Math.Tests.Gps;
 using NUnit.Framework;
 using Shouldly;
+using BitmapFileWriter = Math.Ext.Gfx.BitmapFileWriter;
 
 namespace Math.Tests
 {

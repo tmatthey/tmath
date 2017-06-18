@@ -32,6 +32,7 @@ using Math.Clustering;
 using Math.Gfx;
 using NUnit.Framework;
 using Shouldly;
+using BitmapFileWriter = Math.Ext.Gfx.BitmapFileWriter;
 
 namespace Math.Tests.Clustering
 {

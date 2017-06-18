@@ -209,7 +209,7 @@ namespace Math.Gps
         {
             if (grid.ContainsKey(n))
             {
-                return (int) grid[n] != index;
+                return grid[n] != index;
             }
             grid.Add(n, index);
             return false;
