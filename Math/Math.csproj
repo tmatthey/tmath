@@ -78,6 +78,7 @@
     <Compile Include="Interfaces\IBoundingFacade.cs" />
     <Compile Include="Interfaces\IBounding.cs" />
     <Compile Include="Interfaces\IArray.cs" />
+    <Compile Include="Interfaces\ICloneable.cs" />
     <Compile Include="Interfaces\IDimension.cs" />
     <Compile Include="Interfaces\IIsEqual.cs" />
     <Compile Include="Interfaces\INorm.cs" />

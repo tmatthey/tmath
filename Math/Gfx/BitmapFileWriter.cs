@@ -53,7 +53,6 @@ namespace Math.Gfx
                     writer.Write(colorMap.Grey(bitmap[i, j]));
                 }
             }
-            writer.Close();
         }
 
         public static void PPM(string fileName, double[,] bitmap, IColorMapping colorMap)
@@ -73,7 +72,6 @@ namespace Math.Gfx
                     writer.Write(col.Blue);
                 }
             }
-            writer.Close();
         }
 
         public static void PNG(string fileName, double[,] bitmap)

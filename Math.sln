@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "Src\Math.csproj", "{DE25D22D-BA2B-40C1-9348-EA0F2D78FB8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "Math\Math.csproj", "{DE25D22D-BA2B-40C1-9348-EA0F2D78FB8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tests", "Tests\Math.Tests.csproj", "{F41B8CEA-950F-4A75-9DA7-C1105F5F2972}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tests", "Math.Tests\Math.Tests.csproj", "{F41B8CEA-950F-4A75-9DA7-C1105F5F2972}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.TrackReaders", "Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj", "{82A89837-73B0-465E-91BD-0A9E65AFCFEB}"
 EndProject

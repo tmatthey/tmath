@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -39,7 +38,7 @@ namespace Math
     /// <remarks> 
     /// General root finder based on Laguerre's_method.
     /// </remarks> 
-    public class Polynomial : ICloneable
+    public class Polynomial : Interfaces.ICloneable
     {
         private readonly IList<double> _dp;
         private readonly IList<double> _dp2;

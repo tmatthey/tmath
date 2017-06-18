@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, Interfaces.ICloneable, IIsEqual<GpsPoint>
     {
         private double _longitude;
 

@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Vector3D : IVector<Vector3D>, ICloneable, IIsEqual<Vector3D>
+    public class Vector3D : IVector<Vector3D>, Interfaces.ICloneable, IIsEqual<Vector3D>
     {
         public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
         public static readonly Vector3D One = new Vector3D(1, 1, 1);

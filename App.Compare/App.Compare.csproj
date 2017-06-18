@@ -50,7 +50,7 @@
       <Project>{82A89837-73B0-465E-91BD-0A9E65AFCFEB}</Project>
       <Name>Math.Tools.TrackReaders</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Src\Math.csproj">
+    <ProjectReference Include="..\Math\Math.csproj">
       <Project>{de25d22d-ba2b-40c1-9348-ea0f2d78fb8f}</Project>
       <Name>Math</Name>
     </ProjectReference>

@@ -30,17 +30,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace Math
 
 {
     public class SparseArray<T> : IList<T>
     {
-        private readonly Hashtable _table = new Hashtable();
+        private readonly Dictionary<int, T> _table = new Dictionary<int, T>();
 
         public IEnumerator<T> GetEnumerator()
         {
-            return (from DictionaryEntry entry in _table select (T) entry.Value).GetEnumerator();
+            return _table.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -100,7 +99,10 @@ namespace Math
 
         public T this[int index]
         {
-            get { return (T) (ContainsKey(index) ? _table[index] : null); }
+            get
+            {
+                return (T) (ContainsKey(index) ? _table[index] : default(T));
+            }
             set
             {
                 if (ContainsKey(index))

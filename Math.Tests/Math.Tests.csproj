@@ -100,7 +100,7 @@
     <EmbeddedResource Include="Resources\hurricane1950_2006.tra" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Src\Math.csproj">
+    <ProjectReference Include="..\Math\Math.csproj">
       <Project>{de25d22d-ba2b-40c1-9348-ea0f2d78fb8f}</Project>
       <Name>Math</Name>
     </ProjectReference>

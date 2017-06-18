@@ -31,91 +31,57 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Vector2D>, ICloneable, IIsEqual<Segment2D>
+    public class Segment3D : ISegment<Vector3D>, Interfaces.ICloneable, IIsEqual<Segment3D>
     {
-        public Segment2D()
+        public Segment3D()
         {
-            A = new Vector2D();
-            B = new Vector2D();
+            A = new Vector3D();
+            B = new Vector3D();
         }
 
-        public Segment2D(Segment2D d)
+        public Segment3D(Segment3D d)
         {
-            A = new Vector2D(d.A);
-            B = new Vector2D(d.B);
+            A = new Vector3D(d.A);
+            B = new Vector3D(d.B);
         }
 
-        public Segment2D(Vector2D a, Vector2D b)
+        public Segment3D(Vector3D a, Vector3D b)
         {
-            A = new Vector2D(a);
-            B = new Vector2D(b);
+            A = new Vector3D(a);
+            B = new Vector3D(b);
         }
 
         public object Clone()
         {
-            return new Segment2D(this);
+            return new Segment3D(this);
         }
 
-        public bool IsEqual(Segment2D s)
+        public bool IsEqual(Segment3D s)
         {
             return IsEqual(s, Comparison.Epsilon);
         }
 
-        public bool IsEqual(Segment2D s, double epsilon)
+        public bool IsEqual(Segment3D s, double epsilon)
         {
             return A.IsEqual(s.A, epsilon) && B.IsEqual(s.B, epsilon);
         }
 
-        public Vector2D A { get; set; }
-        public Vector2D B { get; set; }
+        public Vector3D A { get; set; }
+        public Vector3D B { get; set; }
 
         public double Length()
         {
             return A.EuclideanNorm(B);
         }
 
-        public Vector2D Vector()
+        public Vector3D Vector()
         {
             return B - A;
         }
 
-        public bool IsIntersecting(ISegment<Vector2D> s, double eps = Comparison.Epsilon)
+        public bool IsIntersecting(ISegment<Vector3D> s, double eps = Comparison.Epsilon)
         {
             return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
-        }
-
-        public double EuclideanNorm(ISegment<Vector2D> d)
-        {
-            var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
-            var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
-            var b0 = Geometry.PerpendicularSegmentDistance(d.A, d.B, A);
-            var b1 = Geometry.PerpendicularSegmentDistance(d.A, d.B, B);
-            var l = System.Math.Min(System.Math.Min(a0, a1), System.Math.Min(b0, b1));
-            if (Comparison.IsZero(l))
-                return 0.0;
-            if (Comparison.IsZero(Length()) || Comparison.IsZero(d.Length()))
-                return l;
-
-            var a = B - A;
-            var b = d.B - d.A;
-            var ab = Vector2D.Cross(a, b);
-            if (Comparison.IsZero(ab))
-                return l;
-
-            var c = d.A - A;
-            var s = Vector2D.Cross(c, b)/ab;
-            var t = Vector2D.Cross(c, a)/ab;
-
-            if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
-                Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
-                return l;
-
-            return 0.0;
-        }
-
-        public double ModifiedNorm(ISegment<Vector2D> d, bool direction = true)
-        {
-            return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
 
         public int Dimensions
@@ -123,9 +89,16 @@ namespace Math
             get { return A.Dimensions; }
         }
 
+        public IBounding<Vector3D> Bounding()
+        {
+            var a = new BoundingBox(A);
+            a.Expand(B);
+            return a;
+        }
+
         public double[] Array
         {
-            get { return new[] {A.X, A.Y, B.X, B.Y}; }
+            get { return new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z}; }
         }
 
         public double this[int i]
@@ -139,26 +112,57 @@ namespace Math
                     case 1:
                         return A.Y;
                     case 2:
-                        return B.X;
+                        return A.Z;
                     case 3:
+                        return B.X;
+                    case 4:
                         return B.Y;
+                    case 5:
+                        return B.Z;
                 }
                 throw new ArgumentException();
             }
         }
 
-        public IBounding<Vector2D> Bounding()
+        public double EuclideanNorm(ISegment<Vector3D> d)
         {
-            var b = new BoundingRect(A);
-            b.Expand(B);
-            return b;
+            var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
+            var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
+            var b0 = Geometry.PerpendicularSegmentDistance(d.A, d.B, A);
+            var b1 = Geometry.PerpendicularSegmentDistance(d.A, d.B, B);
+            var l = System.Math.Min(System.Math.Min(a0, a1), System.Math.Min(b0, b1));
+            if (Comparison.IsZero(l))
+                return 0.0;
+            if (Comparison.IsZero(Length()) || Comparison.IsZero(d.Length()))
+                return l;
+
+            var a = B - A;
+            var b = d.B - d.A;
+            var ab = a.CrossNorm2(b);
+            if (Comparison.IsZero(ab))
+                return l;
+
+            var c = d.A - A;
+            var s = (c ^ b)*(a ^ b)/ab;
+            var t = (c ^ a)*(a ^ b)/ab;
+            if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
+                Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
+                return l;
+
+            l = Geometry.PerpendicularSegmentDistance(d.A, d.B, A + a*s);
+            return Comparison.IsZero(l) ? 0.0 : l;
+        }
+
+        public double ModifiedNorm(ISegment<Vector3D> d, bool direction = true)
+        {
+            return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Segment2D) obj);
+            return obj.GetType() == GetType() && IsEqual((Segment3D) obj);
         }
 
         public override int GetHashCode()

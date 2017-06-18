@@ -26,7 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Math.Gps
 {
@@ -115,7 +115,7 @@ namespace Math.Gps
         {
             if (one.Track.Count == 0 || two.Track.Count == 0)
                 return Result.Undefined;
-            var grid = new Hashtable();
+            var grid = new Dictionary<int, int>();
 
             var size1 = one.Track.Count;
             var size2 = two.Track.Count;
@@ -141,7 +141,7 @@ namespace Math.Gps
             return Result.NotIntersecting;
         }
 
-        private static bool IsGridPointOccupied(ref Hashtable grid, int resolution, int index, GpsPoint pt0,
+        private static bool IsGridPointOccupied(ref Dictionary<int, int> grid, int resolution, int index, GpsPoint pt0,
             GpsPoint pt1)
         {
             int i, j;
@@ -205,7 +205,7 @@ namespace Math.Gps
             return false;
         }
 
-        private static bool UpdateGrid(ref Hashtable grid, int index, int n)
+        private static bool UpdateGrid(ref Dictionary<int, int> grid, int index, int n)
         {
             if (grid.ContainsKey(n))
             {

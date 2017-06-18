@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using Math.Interfaces;
 
 namespace Math

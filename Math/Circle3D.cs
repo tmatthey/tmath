@@ -26,42 +26,53 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle2D : INorm<Circle2D>, IDimension, ICloneable, IIsEqual<Circle2D>
+    public class Circle3D : IDimension, ICloneable, IIsEqual<Circle3D>
     {
-        public Circle2D()
+        public Circle3D()
         {
-            Center = new Vector2D();
+            Center = new Vector3D();
+            Normal = new Vector3D();
         }
 
-        public Circle2D(double radius)
-        {
-            Radius = radius;
-            Center = new Vector2D();
-        }
-
-        public Circle2D(Vector2D center, double radius)
+        public Circle3D(double radius)
         {
             Radius = radius;
-            Center = new Vector2D(center);
+            Center = new Vector3D();
+            Normal = new Vector3D(Vector3D.E3);
         }
 
-        public Circle2D(Circle2D c)
+        public Circle3D(Vector3D center, double radius)
+        {
+            Radius = radius;
+            Center = new Vector3D(center);
+            Normal = new Vector3D(center);
+        }
+
+        public Circle3D(Vector3D center, Vector3D normal, double radius)
+        {
+            Radius = radius;
+            Center = new Vector3D(center);
+            Normal = new Vector3D(normal);
+        }
+
+        public Circle3D(Circle3D c)
         {
             Radius = c.Radius;
-            Center = new Vector2D(c.Center);
+            Center = new Vector3D(c.Center);
+            Normal = new Vector3D(c.Normal);
         }
 
-        public Vector2D Center { get; set; }
+        public Vector3D Center { get; set; }
+        public Vector3D Normal { get; set; }
         public double Radius { get; set; }
 
         public object Clone()
         {
-            return new Circle2D(this);
+            return new Circle3D(this);
         }
 
         public int Dimensions
@@ -69,32 +80,23 @@ namespace Math
             get { return Center.Dimensions; }
         }
 
-        public bool IsEqual(Circle2D c)
+        public bool IsEqual(Circle3D c)
         {
             return IsEqual(c, Comparison.Epsilon);
         }
 
-        public bool IsEqual(Circle2D c, double epsilon)
+        public bool IsEqual(Circle3D c, double epsilon)
         {
-            return Center.IsEqual(c.Center, epsilon) && Comparison.IsEqual(Radius, c.Radius, epsilon);
-        }
-
-        public double EuclideanNorm(Circle2D c)
-        {
-            var d = Center.EuclideanNorm(c.Center) - Radius - c.Radius;
-            return System.Math.Max(d, 0.0);
-        }
-
-        public double ModifiedNorm(Circle2D c, bool direction = true)
-        {
-            return EuclideanNorm(c);
+            if (!Center.IsEqual(c.Center, epsilon) || !Comparison.IsEqual(Radius, c.Radius, epsilon))
+                return false;
+            return Comparison.IsZero(c.Normal.CrossNorm(Normal), epsilon);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Circle2D) obj);
+            return obj.GetType() == GetType() && IsEqual((Circle3D) obj);
         }
 
         public override int GetHashCode()
@@ -103,11 +105,12 @@ namespace Math
             {
                 var hashCode = Center.GetHashCode();
                 hashCode = (hashCode*397) ^ Radius.GetHashCode();
+                hashCode = (hashCode*397) ^ Normal.GetHashCode();
                 return hashCode;
             }
         }
 
-        public static bool operator ==(Circle2D c1, Circle2D c2)
+        public static bool operator ==(Circle3D c1, Circle3D c2)
         {
             if ((object) c1 == null && (object) c2 == null)
                 return true;
@@ -116,7 +119,7 @@ namespace Math
             return c1.IsEqual(c2);
         }
 
-        public static bool operator !=(Circle2D c1, Circle2D c2)
+        public static bool operator !=(Circle3D c1, Circle3D c2)
         {
             if ((object) c1 == null && (object) c2 == null)
                 return false;
@@ -125,27 +128,17 @@ namespace Math
             return !c1.IsEqual(c2);
         }
 
-        public bool IsInside(Vector2D p, double epsilon)
+        public static Circle3D Create(Vector3D a)
         {
-            return Center.EuclideanNorm(p) <= Radius + epsilon;
+            return new Circle3D(a, 0.0);
         }
 
-        public bool IsInside(Vector2D p)
+        public static Circle3D Create(Vector3D a, Vector3D b)
         {
-            return IsInside(p, Comparison.Epsilon);
+            return new Circle3D((a + b)*0.5, a.EuclideanNorm(b)*0.5);
         }
 
-        public static Circle2D Create(Vector2D a)
-        {
-            return new Circle2D(a, 0.0);
-        }
-
-        public static Circle2D Create(Vector2D a, Vector2D b)
-        {
-            return new Circle2D((a + b)*0.5, a.EuclideanNorm(b)*0.5);
-        }
-
-        public static Circle2D Create(Vector2D a, Vector2D b, Vector2D c)
+        public static Circle3D Create(Vector3D a, Vector3D b, Vector3D c)
         {
             var d0 = a.EuclideanNorm(b);
             var d1 = b.EuclideanNorm(c);
@@ -156,15 +149,20 @@ namespace Math
                 return d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a);
             }
 
-            var offset = b.Norm2();
-            var bc = (a.Norm2() - offset)/2.0;
-            var cd = (offset - c.Norm2())/2.0;
-            var det = (a.X - b.X)*(b.Y - c.Y) - (b.X - c.X)*(a.Y - b.Y);
-            var center = new Vector2D((bc*(b.Y - c.Y) - cd*(a.Y - b.Y))/det,
-                (cd*(a.X - b.X) - bc*(b.X - c.X))/det);
-            var radius = b.EuclideanNorm(center);
+            var t = b - a;
+            var u = c - a;
+            var v = c - b;
 
-            return new Circle2D(center, radius);
+            var w = t ^ u;
+            var nl2 = w.Norm2();
+
+            var inl2 = 1.0/(2.0*nl2);
+            var tt = t*t;
+            var uu = u*u;
+
+            var center = a + (u*tt*(u*v) - t*uu*(t*v))*inl2;
+            var radius = System.Math.Sqrt(tt*uu*(v*v)*inl2*0.5);
+            return new Circle3D(center, w.Normalized(), radius);
         }
     }
 }
