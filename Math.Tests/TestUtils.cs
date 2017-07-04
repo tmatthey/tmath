@@ -61,7 +61,7 @@ namespace Math.Tests
 
         public static string OutputPath()
         {
-            return Environment.ExpandEnvironmentVariables("%VisualStudioVersion%") == "14.0"
+            return double.Parse(Environment.ExpandEnvironmentVariables("%VisualStudioVersion%")) > 13.5
                 ? Path.GetDirectoryName(Assembly.GetAssembly(typeof(TestUtils)).Location) + "\\"
                 : "";
         }

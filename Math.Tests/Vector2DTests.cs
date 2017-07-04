@@ -132,7 +132,7 @@ namespace Math.Tests
             var v = new Vector2D(0, 1);
             var w = new Vector2D(1, 1);
             var a = v.Angle(w);
-            a.ShouldBe(-System.Math.PI/180.0*45.0);
+            a.ShouldBe(-System.Math.PI/180.0*45.0, 1e-13);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace Math.Tests
             var v = new Vector2D(0, 1);
             var w = new Vector2D(1, 1);
             var a = v.AngleAbs(w);
-            a.ShouldBe(System.Math.PI/180.0*45.0);
+            a.ShouldBe(System.Math.PI/180.0*45.0, 1e-13);
         }
 
         [Test]
