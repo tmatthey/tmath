@@ -76,7 +76,7 @@ namespace Math.Tools.TrackReaders
             {
                 return SportType.Unknown;
             }
-            if (type.Equals("running", StringComparison.InvariantCultureIgnoreCase))
+            if (type.Equals("running", StringComparison.CurrentCultureIgnoreCase))
             {
                 return SportType.Running;
             }

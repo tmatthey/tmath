@@ -69,7 +69,7 @@ namespace Math.Tests.Gfx
                     bitmap.Pixels[i, j] = a;
                 }
             }
-            Ext.Gfx.BitmapFileWriter.PNG(TestUtils.OutputPath() + "HeatColorMapping.png", bitmap.Pixels,
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "HeatColorMapping.png", bitmap.Pixels,
                 HeatColorMapping.Default);
         }
 
@@ -79,7 +79,7 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(-Vector2D.One*0.1, Vector2D.E1 + Vector2D.E2*2.0 + Vector2D.One*0.1, 0.1);
             Draw.XiaolinWu(Vector2D.E2*2.0, Vector2D.Zero, bitmap.Add, 0.5);
             Draw.XiaolinWu(Vector2D.Zero, Vector2D.E1, bitmap.Add);
-            Ext.Gfx.BitmapFileWriter.PNG(TestUtils.OutputPath() + "L.png", bitmap.Pixels);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "L.png", bitmap.Pixels);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace Math.Tests.Gfx
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
                 foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
                     bitmap[i, j] = grid[i, j].Count/(double) max;
-            Ext.Gfx.BitmapFileWriter.PNG(TestUtils.OutputPath() + "trackOne.png", bitmap);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "trackOne.png", bitmap);
         }
 
         [Test]

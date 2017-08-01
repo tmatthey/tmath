@@ -31,6 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Math.Tools.TrackReaders.Gpx;
+using Math.Tools.TrackReaders.Kml;
 using Math.Tools.TrackReaders.Tcx;
 
 namespace Math.Tools.TrackReaders
@@ -51,6 +52,8 @@ namespace Math.Tools.TrackReaders
             if (File.Exists(filename))
             {
                 var extension = Path.GetExtension(filename);
+                if (extension == null)
+                    return null;
                 try
                 {
                     if (extension.Contains("tcx"))
@@ -67,6 +70,17 @@ namespace Math.Tools.TrackReaders
                     if (extension.Contains("gpx"))
                     {
                         track = GpxConverter.Convert(Parse<gpx>(filename));
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+                try
+                {
+                    if (extension.Contains("kml"))
+                    {
+                        track = KmlConverter.Convert(Parse<DocumentType>(filename));
                     }
                 }
                 catch
@@ -104,6 +118,15 @@ namespace Math.Tools.TrackReaders
                 // ignored
             }
 
+            try
+            {
+                files.AddRange(Directory.GetFiles(path, "*.kml").ToList());
+            }
+            catch
+            {
+                // ignored
+            }
+
             foreach (var file in files)
             {
                 Track track = null;
@@ -127,7 +150,7 @@ namespace Math.Tools.TrackReaders
             var serializer = new XmlSerializer(typeof(T));
 
             T data;
-            using (var reader = new StreamReader(input))
+            using (var reader = new FileStream(input, FileMode.Open))
             {
                 data = serializer.Deserialize(reader) as T;
             }

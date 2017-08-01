@@ -26,35 +26,35 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System.Drawing.Imaging;
-using System.IO;
-using Math.Gfx;
-using Bitmap = System.Drawing.Bitmap;
-using Color = System.Drawing.Color;
+using Math.Tools.TrackReaders.Kml;
 
-namespace Math.Ext.Gfx
+namespace Math.Tools.TrackReaders
 {
-    public static class BitmapFileWriter
+    /// <summary>
+    /// TCX Converter
+    /// </summary>
+    public static class KmlConverter
     {
-        public static void PNG(string fileName, double[,] bitmap)
+        /// <summary>
+        /// Converts TXC data into abstract Track definition
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static Track Convert(DocumentType data)
         {
-            PNG(fileName, bitmap, GreyMapping.Default);
-        }
-
-        public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
-        {
-            var width = bitmap.GetLength(0);
-            var height = bitmap.GetLength(1);
-            var image = new Bitmap(width, height);
-            for (var j = 0; j < height; j++)
+            if (data?.Items == null || data.Items.Length == 0)
             {
-                for (var i = 0; i < width; i++)
-                {
-                    var c = colorMap.Color(bitmap[i, j]);
-                    image.SetPixel(i, height - j - 1, Color.FromArgb(c.Red, c.Green, c.Blue));
-                }
+                return null;
             }
-            image.Save(new FileStream(fileName, FileMode.Create), ImageFormat.Png);
+            var name = data.name;
+
+            foreach (var item in data.Items)
+            {
+                if (item.name != null)
+                    name = item.name;
+            }
+
+            return null;
         }
     }
 }

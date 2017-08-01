@@ -28,6 +28,11 @@
 
 using System.IO;
 using System.Text;
+#if NET_CORE_APP_1_1
+using Drawing = System.DrawingCore;
+#else
+using Drawing = System.Drawing;
+#endif
 
 namespace Math.Gfx
 {
@@ -72,5 +77,27 @@ namespace Math.Gfx
                 }
             }
         }
+
+        public static void PNG(string fileName, double[,] bitmap)
+        {
+            PNG(fileName, bitmap, GreyMapping.Default);
+        }
+
+        public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var image = new Drawing.Bitmap(width, height);
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = 0; i < width; i++)
+                {
+                    var c = colorMap.Color(bitmap[i, j]);
+                    image.SetPixel(i, height - j - 1, Drawing.Color.FromArgb(c.Red, c.Green, c.Blue));
+                }
+            }
+            image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
+        }
+
     }
 }

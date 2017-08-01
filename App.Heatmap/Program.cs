@@ -33,7 +33,7 @@ using Math.Clustering;
 using Math.Gfx;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
-using BitmapFileWriter = Math.Ext.Gfx.BitmapFileWriter;
+using BitmapFileWriter = Math.Gfx.BitmapFileWriter;
 
 namespace App.Heatmap
 {
