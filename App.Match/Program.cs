@@ -102,7 +102,7 @@ namespace App.Match
             Console.WriteLine("Match");
 
 
-            var activities = (from activity in Reader.ParseDirectory(path)
+            var activities = (from activity in Deserializer.Directory(path)
                 where
                 activity.GpsPoints().Count() == activity.HeartRates().Count() &&
                 activity.GpsPoints().Count() == activity.Times().Count() &&

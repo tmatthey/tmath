@@ -72,7 +72,7 @@ namespace App.Heatmap
 
             Console.WriteLine("Heatmap");
 
-            var activities = Reader.ParseDirectory(path);
+            var activities = Deserializer.Directory(path);
             var list = activities.Select(a => a.GpsPoints().ToList()).ToList();
 
             Console.WriteLine("Tracks: {0}", list.Count);

@@ -85,7 +85,7 @@ namespace App.Normalize
             Console.WriteLine("normalize : {0}", n);
             Console.WriteLine("Time\tDistance");
 
-            var input = Reader.ParseFile(f);
+            var input = Deserializer.File(f);
             if (input == null || input.TrackPoints.Count == 0)
                 return;
 

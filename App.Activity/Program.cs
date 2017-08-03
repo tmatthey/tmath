@@ -59,7 +59,7 @@ namespace App.Activity
 
             Console.WriteLine("Activity");
 
-            var activities = (from activity in Reader.ParseDirectory(path)
+            var activities = (from activity in Deserializer.Directory(path)
                 where
                 activity.GpsPoints().Count() == activity.Times().Count()
                 select activity).OrderBy(a => a.Date.Ticks).ToList();

@@ -69,8 +69,8 @@ namespace App.Compare
             p.Parse(args);
 
 
-            var refInput = Reader.ParseFile(refFile);
-            var curInput = Reader.ParseFile(curFile);
+            var refInput = Deserializer.File(refFile);
+            var curInput = Deserializer.File(curFile);
             if (refInput == null || refInput.TrackPoints.Count == 0 || curInput == null ||
                 curInput.TrackPoints.Count == 0)
                 return;

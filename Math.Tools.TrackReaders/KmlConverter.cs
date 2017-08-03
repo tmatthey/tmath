@@ -40,20 +40,8 @@ namespace Math.Tools.TrackReaders
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static Track Convert(DocumentType data)
+        public static Track Convert(kml data)
         {
-            if (data?.Items == null || data.Items.Length == 0)
-            {
-                return null;
-            }
-            var name = data.name;
-
-            foreach (var item in data.Items)
-            {
-                if (item.name != null)
-                    name = item.name;
-            }
-
             return null;
         }
     }

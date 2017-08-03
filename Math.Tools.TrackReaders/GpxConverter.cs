@@ -44,29 +44,23 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track Convert(gpx data)
         {
-            if (data.trk == null || data.trk.trkseg == null)
+            if (data.trk?.trkseg == null)
             {
                 return null;
             }
             var trackPoints = data.trk.trkseg.Select(pkt =>
             {
                 byte hearRate = 0;
-                if (pkt.extensions != null)
+                if (pkt.extensions?.TrackPointExtension != null && pkt.extensions.TrackPointExtension.hrSpecified)
                 {
-                    if (pkt.extensions.TrackPointExtension != null)
-                    {
-                        hearRate = pkt.extensions.TrackPointExtension.hrSpecified
-                            ? pkt.extensions.TrackPointExtension.hr
-                            : (byte) 0;
-                    }
+                    hearRate = pkt.extensions.TrackPointExtension.hr;
                 }
-                return new TrackPoint((double) pkt.lat, (double) pkt.lon, (double) pkt.ele, double.NaN, hearRate,
-                    pkt.time);
+                return new TrackPoint((double) pkt.lat, (double) pkt.lon, (double) pkt.ele, double.NaN, hearRate, pkt.time);
             });
 
             var sport = FindSport(data.trk.type);
 
-            return new Track {Date = data.metadata.time, SportType = sport, TrackPoints = trackPoints.ToList()};
+            return new Track {Date = data.metadata?.time ?? DateTime.Now, SportType = sport, TrackPoints = trackPoints.ToList()};
         }
 
 

@@ -44,7 +44,7 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track Convert(TrainingCenterDatabase_t data)
         {
-            if (data == null || data.Activities == null || data.Activities.Activity == null)
+            if (data?.Activities?.Activity == null)
             {
                 return null;
             }
@@ -53,11 +53,11 @@ namespace Math.Tools.TrackReaders
             {
                 return a.Lap
                     .SelectMany(l => l.Track)
-                    .Where(t => t != null && t.Position != null)
+                    .Where(t => t?.Position != null)
                     .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
                         t.AltitudeMeters,
                         t.DistanceMeters,
-                        t.HeartRateBpm != null ? t.HeartRateBpm.Value : (byte) 0,
+                        t.HeartRateBpm?.Value ?? (byte) 0,
                         t.Time));
             });
 
