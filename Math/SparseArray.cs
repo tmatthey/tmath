@@ -116,7 +116,7 @@ namespace Math
 
         public IList<int> Indices()
         {
-            return _table.Keys.Cast<int>().OrderBy(num => num).ToList();
+            return _table.Keys.OrderBy(num => num).ToList();
         }
 
         public bool ContainsKey(int index)

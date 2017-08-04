@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,13 +52,9 @@ namespace Math.Tools.TrackReaders
             Track track;
             using (var stream = new StringReader(input))
             {
-                track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(stream));
-
-                if (track == null)
-                    track = GpxConverter.Convert(Parse<gpx>(stream));
-
-                if (track == null)
-                    track = KmlConverter.Convert(Parse<kml>(stream));
+                track = (TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(stream)) ?? 
+                         GpxConverter.Convert(Parse<gpx>(stream))) ??
+                          KmlConverter.Convert(Parse<kml>(stream));
             }
             return track;
         }

@@ -13,9 +13,11 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <PackageProjectUrl>https://bitbucket.org/tmatthey/math</PackageProjectUrl>
     <PackageIconUrl>http://matthey.no/sqrtpi.ico</PackageIconUrl>
     <RepositoryUrl></RepositoryUrl>
-    <PackageTags>math gps vector segment cluster kdtree dbscan polynomial rootsolver</PackageTags>
+    <PackageTags>math gps vector segment cluster kdtree dbscan polynomial rootsolver dotnetcore</PackageTags>
     <PackageLicenseUrl>MIT</PackageLicenseUrl>
     <PackageId>Math.Matthey</PackageId>
+    <PackageReleaseNotes>Multiple platform support: Net40, Net45, Net46 and .NET Core</PackageReleaseNotes>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
     <DefineConstants>NET_CORE_APP_1_1</DefineConstants>

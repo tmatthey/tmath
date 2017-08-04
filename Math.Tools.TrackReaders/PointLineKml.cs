@@ -3,13 +3,13 @@
  * 10.03.2011
 */
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using System.Collections;
 
-namespace Alpcheck2.razredi
+namespace Math.Tools.TrackReaders
 {
-    public class KML
+    public class PointLineKml
     {
   
         //kml geometry
