@@ -6,7 +6,6 @@
   elementFormDefault="qualified"
   targetNamespace="http://www.opengis.net/kml/2.2">
   
-  <element name="href" type="anyURI"/>
   <element name="Icon">
     <complexType>
       <sequence>
@@ -21,7 +20,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="width" type="float"/>
   <element name="LineStyle">
     <complexType>
       <sequence>
@@ -30,7 +28,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="color" type="string"/>
   <element name="PolyStyle">
     <complexType>
       <sequence>
@@ -38,7 +35,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="text" type="string"/>
   <element name="BalloonStyle">
     <complexType>
       <sequence>
@@ -46,15 +42,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="longitude" type="float"/>
-  <element name="latitude" type="float"/>
-  <element name="altitude" type="byte"/>
-  <element name="heading" type="float"/>
-  <element name="tilt" type="float"/>
-  <element name="range" type="float"/>
-  <element name="coordinates" type="string"/>
-  <element name="name" type="string"/>
-  <element name="description" type="string"/>
   <element name="Point">
     <complexType>
       <sequence>
@@ -64,8 +51,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="altitudeMode" type="string"/>
-  <element name="visibility" type="byte"/>
   <element name="LookAt">
     <complexType>
       <sequence>
@@ -78,8 +63,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="styleUrl" type="string"/>
-  <element name="extrude" type="byte"/>
   <element name="Placemark">
     <complexType>
       <sequence>
@@ -94,7 +77,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="key" type="string"/>
   <element name="Pair">
     <complexType>
       <sequence>
@@ -137,11 +119,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="north" type="float"/>
-  <element name="south" type="float"/>
-  <element name="east" type="float"/>
-  <element name="west" type="float"/>
-  <element name="rotation" type="float"/>
   <element name="LatLonBox">
     <complexType>
       <sequence>
@@ -165,54 +142,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="overlayXY">
-    <complexType>
-      <simpleContent>
-        <extension base="string">
-          <attribute type="float" name="x" use="optional"/>
-          <attribute type="float" name="y" use="optional"/>
-          <attribute type="string" name="xunits" use="optional"/>
-          <attribute type="string" name="yunits" use="optional"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-  </element>
-  <element name="screenXY">
-    <complexType>
-      <simpleContent>
-        <extension base="string">
-          <attribute type="float" name="x" use="optional"/>
-          <attribute type="float" name="y" use="optional"/>
-          <attribute type="string" name="xunits" use="optional"/>
-          <attribute type="string" name="yunits" use="optional"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-  </element>
-  <element name="rotationXY">
-    <complexType>
-      <simpleContent>
-        <extension base="string">
-          <attribute type="float" name="x" use="optional"/>
-          <attribute type="float" name="y" use="optional"/>
-          <attribute type="string" name="xunits" use="optional"/>
-          <attribute type="string" name="yunits" use="optional"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-  </element>
-  <element name="size">
-    <complexType>
-      <simpleContent>
-        <extension base="string">
-          <attribute type="byte" name="x" use="optional"/>
-          <attribute type="float" name="y" use="optional"/>
-          <attribute type="string" name="xunits" use="optional"/>
-          <attribute type="string" name="yunits" use="optional"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-  </element>
   <element name="ScreenOverlay">
     <complexType>
       <sequence>
@@ -227,7 +156,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="tessellate" type="byte"/>
   <element name="LineString">
     <complexType>
       <sequence>
@@ -286,7 +214,6 @@
       </sequence>
     </complexType>
   </element>
-  <element name="open" type="byte"/>
   <element name="kml">
     <complexType>
       <sequence>
@@ -470,7 +397,7 @@
   <element name="flyToView" type="boolean" default="0"/>
   <element name="gridOrigin" type="kml:gridOriginEnumType" default="lowerLeft"/>
   <element name="heading" type="kml:angle360Type" default="0.0"/>
-  <element name="href" type="string"/>
+  <element name="href" type="anyURI"/>
   <element name="httpQuery" type="string"/>
   <element name="hotSpot" type="kml:vec2Type"/>
   <element name="key" type="kml:styleStateEnumType" default="normal"/>
@@ -478,7 +405,6 @@
   <element name="leftFov" type="kml:angle180Type" default="0.0"/>
   <element name="linkDescription" type="string"/>
   <element name="linkName" type="string"/>
-  <element name="linkSnippet" type="kml:SnippetType"/>
   <element name="listItemType" type="kml:listItemTypeEnumType" default="check"/>
   <element name="longitude" type="kml:angle180Type" default="0.0"/>
   <element name="maxSnippetLines" type="int" default="2"/>
