@@ -26,6 +26,10 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Math.Tools.TrackReaders.Kml;
 
 namespace Math.Tools.TrackReaders
@@ -42,7 +46,52 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track Convert(kml data)
         {
-            return null;
+            Track track = null;
+            if (data?.Document?.Folder != null)
+            {
+                var trackPoints = new List<TrackPoint>();
+                var time = DateTime.Now;
+                foreach (var folder in data.Document.Folder)
+                {
+                    if (folder.Placemark != null)
+                    {
+                        foreach (var placemark in folder.Placemark)
+                        {
+                            if (placemark.LineString?.coordinates != null)
+                            {
+                                var lineString = Regex.Split(placemark.LineString.coordinates, @"[\s\n\t]+");
+                                var useElevation = placemark.LineString.altitudeMode == altitudeModeEnumType.absolute;
+                                var distance = 0.0;
+                                TrackPoint lastPoint = null;
+                                foreach (var str in lineString)
+                                {
+                                    var coordinates = str.Split(',');
+                                    double lat, lng;
+                                    if (coordinates.Length > 1 && double.TryParse(coordinates[0].Trim(), out lng) && double.TryParse(coordinates[1].Trim(), out lat))
+                                    {
+                                        var elev = 0.0;
+                                        if (useElevation && !double.TryParse(coordinates[2].Trim(), out elev))
+                                        {
+                                            elev = 0.0;
+                                        }
+                                        if (lastPoint != null)
+                                        {
+                                            distance += Gps.Geodesy.Distance.Haversine(lat, lng, lastPoint.Latitude, lastPoint.Longitude);
+                                        }
+                                        trackPoints.Add(new TrackPoint(lat, lng, elev, distance, 0, time));
+                                        lastPoint = trackPoints.Last();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (trackPoints.Count > 0)
+                {
+                    track = new Track { Date = time, SportType = SportType.Unknown, TrackPoints = trackPoints.ToList(), Name = data.Document.name};
+                }
+            }
+            return track;
         }
     }
 }

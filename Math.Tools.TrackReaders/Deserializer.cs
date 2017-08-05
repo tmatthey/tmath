@@ -89,7 +89,7 @@ namespace Math.Tools.TrackReaders
                             track = KmlConverter.Convert(Parse<kml>(reader));
                         }
                     }
-                    if (track != null)
+                    if (track != null && track.Name == null)
                         track.Name = Path.GetFileNameWithoutExtension(filename);
                 }
                 catch 
