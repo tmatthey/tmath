@@ -32,7 +32,7 @@ using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>, IInterpolate<GpsPoint>
     {
         private double _longitude;
 

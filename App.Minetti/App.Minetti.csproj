@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net40</TargetFramework>
+    <AssemblyName>minetti</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentCommandLineParser" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Math.Tools.Base\Math.Tools.Base.csproj" />
+    <ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj" />
+    <ProjectReference Include="..\Math\Math.csproj" />
+  </ItemGroup>
+
+</Project>

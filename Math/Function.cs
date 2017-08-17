@@ -27,6 +27,7 @@
  */
 
 using System.Collections.Generic;
+using Math.Interfaces;
 
 namespace Math
 {
@@ -246,5 +247,46 @@ namespace Math
             var a = Comparison.IsEqual(x0, x1) ? 0.5 : (x - x0)/(x1 - x0);
             return Interpolate(a, y0, y1);
         }
+
+        public static T Interpolate<T>(T a, T b, double x) where T : IInterpolate<T>
+        {
+            return a.Interpolate(b, x);
+        }
+
+        public static double MinettiFactor(double g)
+        {
+            return Minetti(g) / MinettiZero;
+        }
+        public static double Minetti(double g)
+        {
+            if (g <= MinettiMinX)
+            {
+                return MinettiMinA * (g - MinettiMinX) + MinettiMinB;
+            }
+            if (MinettiMaxX <= g)
+            {
+                return MinettiMaxA * (g - MinettiMaxX) + MinettiMaxB;
+            }
+            return MinettiRaw(g);
+        }
+
+        private static double MinettiRaw(double g)
+        {
+            return 106.7731478 * g * g * g * g * g - 47.23550515 * g * g * g * g - 33.40634794 * g * g * g + 49.35038999 * g * g + 19.12318478 * g + 3.389064903;
+            // return 155.4*g*g*g*g*g - 30.4*g*g*g*g - 43.3*g*g*g + 46.3*g*g + 19.5*g + 3.6;
+        }
+
+        private static double MinettiDiv(double g)
+        {
+            return 106.7731478 * g * g * g * g * 5.0 - 47.23550515 * g * g * g * 4.0 - 33.40634794 * g * g * 3.0 + 49.35038999 * g * 2.0 + 19.12318478;
+        }
+
+        public static readonly double MinettiZero = MinettiRaw(0.0);
+        private const double MinettiMinX = -0.45;
+        private static readonly double MinettiMinA = MinettiDiv(MinettiMinX);
+        private static readonly double MinettiMinB = MinettiRaw(MinettiMinX);
+        private const double MinettiMaxX = 0.45f;
+        private static readonly double MinettiMaxA = MinettiDiv(MinettiMaxX);
+        private static readonly double MinettiMaxB = MinettiRaw(MinettiMaxX);
     }
 }

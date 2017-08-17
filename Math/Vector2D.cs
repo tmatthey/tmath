@@ -33,7 +33,7 @@ using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math
 {
-    public class Vector2D : IVector<Vector2D>, ICloneable, IIsEqual<Vector2D>
+    public class Vector2D : IVector<Vector2D>, ICloneable, IIsEqual<Vector2D>, IInterpolate<Vector2D>
     {
         public static readonly Vector2D Zero = new Vector2D(0, 0);
         public static readonly Vector2D One = new Vector2D(1, 1);
