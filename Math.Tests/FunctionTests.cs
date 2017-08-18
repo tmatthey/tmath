@@ -321,6 +321,22 @@ namespace Math.Tests
             res.ShouldBe(expected);
         }
 
+        [TestCase(0, 3.389064903)]
+        [TestCase(0.5, 21.3730459481406d)]
+        [TestCase(-0.5, 4.23789082143744d)]
+        public void Minetti(double x, double e)
+        {
+            Function.Minetti(x).ShouldBe(e, 1e-10);
+        }
+
+        [TestCase(0, 3.389064903)]
+        [TestCase(0.5, 21.3730459481406d)]
+        [TestCase(-0.5, 4.23789082143744d)]
+        public void MinettiFactor(double x, double e)
+        {
+            Function.MinettiFactor(x).ShouldBe(e / 3.389064903, 1e-10);
+        }
+
 
         [Test]
         public void FactorialInt_Max()
