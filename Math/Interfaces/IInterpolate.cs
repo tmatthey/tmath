@@ -28,7 +28,7 @@
 
 namespace Math.Interfaces
 {
-    public interface IInterpolate< T>
+    public interface IInterpolate<T>
     {
         T Interpolate(T t, double x);
     }

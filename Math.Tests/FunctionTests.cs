@@ -27,6 +27,7 @@
  */
 
 using System.Linq;
+using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
@@ -276,6 +277,48 @@ namespace Math.Tests
         public void Interpolate(double x, double x0, double x1, double y0, double y1, double y)
         {
             Function.Interpolate(x, x0, x1, y0, y1).ShouldBe(y);
+        }
+
+        [TestCase(-.01)]
+        [TestCase(0)]
+        [TestCase(0.23)]
+        [TestCase(1)]
+        [TestCase(2.34)]
+        public void Interpolate_Vector2D(double x)
+        {
+            var v0 = new Vector2D(1, 2);
+            var v1 = new Vector2D(3, 4);
+            var expected = v0.Interpolate(v1, x);
+            var res = Function.Interpolate(x, v0, v1);
+            res.ShouldBe(expected);
+        }
+
+        [TestCase(-.01)]
+        [TestCase(0)]
+        [TestCase(0.23)]
+        [TestCase(1)]
+        [TestCase(2.34)]
+        public void Interpolate_Vector3D(double x)
+        {
+            var v0 = new Vector3D(1, 2, 19);
+            var v1 = new Vector3D(3, 4, 17);
+            var expected = v0.Interpolate(v1, x);
+            var res = Function.Interpolate(x, v0, v1);
+            res.ShouldBe(expected);
+        }
+
+        [TestCase(-.01)]
+        [TestCase(0)]
+        [TestCase(0.23)]
+        [TestCase(1)]
+        [TestCase(2.34)]
+        public void Interpolate_GpsPoint(double x)
+        {
+            var g0 = new GpsPoint(12, 34, 19);
+            var g1 = new GpsPoint(-1.2, 17, -119);
+            var expected = g0.Interpolate(g1, x);
+            var res = Function.Interpolate(x, g0, g1);
+            res.ShouldBe(expected);
         }
 
 

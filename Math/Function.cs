@@ -33,9 +33,17 @@ namespace Math
 {
     public static class Function
     {
+        private const double MinettiMinX = -0.45;
+        private const double MinettiMaxX = 0.45f;
         public static readonly int MaxFactorialInt = 20;
         public static readonly int MaxFibonacciInt = 93;
         private static readonly List<long> PrimesUpTo30 = new List<long> {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
+        public static readonly double MinettiZero = MinettiRaw(0.0);
+        private static readonly double MinettiMinA = MinettiDiv(MinettiMinX);
+        private static readonly double MinettiMinB = MinettiRaw(MinettiMinX);
+        private static readonly double MinettiMaxA = MinettiDiv(MinettiMaxX);
+        private static readonly double MinettiMaxB = MinettiRaw(MinettiMaxX);
 
         public static double Cbrt(double x)
         {
@@ -50,7 +58,7 @@ namespace Math
         // Fast sin(x) [-PI/2, -PI/2] with absolute error < 0.0205
         public static double FastSin(double x)
         {
-            return x/System.Math.PI*(3.0 - x*x*4.0/System.Math.PI/System.Math.PI);
+            return x / System.Math.PI * (3.0 - x * x * 4.0 / System.Math.PI / System.Math.PI);
         }
 
         public static void SinCos(double alpha, out double sinAlpha, out double cosAlpha)
@@ -90,10 +98,10 @@ namespace Math
         {
             if (Comparison.IsNumber(a))
             {
-                while (a < 0) a += System.Math.PI*2;
-                while (a >= System.Math.PI*2) a -= System.Math.PI*2;
+                while (a < 0) a += System.Math.PI * 2;
+                while (a >= System.Math.PI * 2) a -= System.Math.PI * 2;
 
-                if (Comparison.IsEqual(a, 0.0) || Comparison.IsEqual(a, System.Math.PI*2))
+                if (Comparison.IsEqual(a, 0.0) || Comparison.IsEqual(a, System.Math.PI * 2))
                     return 0.0;
             }
             return a;
@@ -103,8 +111,8 @@ namespace Math
         {
             if (Comparison.IsNumber(a))
             {
-                while (a <= -System.Math.PI) a += System.Math.PI*2;
-                while (a > System.Math.PI) a -= System.Math.PI*2;
+                while (a <= -System.Math.PI) a += System.Math.PI * 2;
+                while (a > System.Math.PI) a -= System.Math.PI * 2;
 
                 if (Comparison.IsEqual(a, -System.Math.PI) || Comparison.IsEqual(a, System.Math.PI))
                     return System.Math.PI;
@@ -187,14 +195,14 @@ namespace Math
         public static double FibonacciBinet(int n)
         {
             var sqrt5 = System.Math.Sqrt(5.0);
-            var phi = (1 + sqrt5)/2;
-            return System.Math.Floor((System.Math.Pow(phi, n) - System.Math.Pow(-phi, -n))/sqrt5);
+            var phi = (1 + sqrt5) / 2;
+            return System.Math.Floor((System.Math.Pow(phi, n) - System.Math.Pow(-phi, -n)) / sqrt5);
         }
 
         public static int GCD(int a, int b)
         {
             // Greatest Common Denominator: Euclidean Algorithm
-            return b == 0 ? a : GCD(b, a%b);
+            return b == 0 ? a : GCD(b, a % b);
         }
 
         public static bool IsPrime(long n)
@@ -203,7 +211,7 @@ namespace Math
             foreach (var p in PrimesUpTo30)
             {
                 if (n == p) return true;
-                if (n%p == 0) return false;
+                if (n % p == 0) return false;
             }
             var nsq = (long) System.Math.Sqrt(n) + 1;
             for (long i = 30; i < nsq; i += 30)
@@ -248,15 +256,16 @@ namespace Math
             return Interpolate(a, y0, y1);
         }
 
-        public static T Interpolate<T>(T a, T b, double x) where T : IInterpolate<T>
+        public static T Interpolate<T>(double a, T x0, T x1) where T : IInterpolate<T>
         {
-            return a.Interpolate(b, x);
+            return x0.Interpolate(x1, a);
         }
 
         public static double MinettiFactor(double g)
         {
             return Minetti(g) / MinettiZero;
         }
+
         public static double Minetti(double g)
         {
             if (g <= MinettiMinX)
@@ -272,21 +281,15 @@ namespace Math
 
         private static double MinettiRaw(double g)
         {
-            return 106.7731478 * g * g * g * g * g - 47.23550515 * g * g * g * g - 33.40634794 * g * g * g + 49.35038999 * g * g + 19.12318478 * g + 3.389064903;
+            return 106.7731478 * g * g * g * g * g - 47.23550515 * g * g * g * g - 33.40634794 * g * g * g +
+                   49.35038999 * g * g + 19.12318478 * g + 3.389064903;
             // return 155.4*g*g*g*g*g - 30.4*g*g*g*g - 43.3*g*g*g + 46.3*g*g + 19.5*g + 3.6;
         }
 
         private static double MinettiDiv(double g)
         {
-            return 106.7731478 * g * g * g * g * 5.0 - 47.23550515 * g * g * g * 4.0 - 33.40634794 * g * g * 3.0 + 49.35038999 * g * 2.0 + 19.12318478;
+            return 106.7731478 * g * g * g * g * 5.0 - 47.23550515 * g * g * g * 4.0 - 33.40634794 * g * g * 3.0 +
+                   49.35038999 * g * 2.0 + 19.12318478;
         }
-
-        public static readonly double MinettiZero = MinettiRaw(0.0);
-        private const double MinettiMinX = -0.45;
-        private static readonly double MinettiMinA = MinettiDiv(MinettiMinX);
-        private static readonly double MinettiMinB = MinettiRaw(MinettiMinX);
-        private const double MinettiMaxX = 0.45f;
-        private static readonly double MinettiMaxA = MinettiDiv(MinettiMaxX);
-        private static readonly double MinettiMaxB = MinettiRaw(MinettiMaxX);
     }
 }
