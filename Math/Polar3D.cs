@@ -69,6 +69,7 @@ namespace Math
             get { return _theta; }
             set { _theta = Function.NormalizeAnglePi(value); }
         } // Radian, Deg (-180,180] : azimuthal angle, longitude 
+
         public double Phi { get; set; } // Radian, Deg [0,180]   : polar angle, inclination, latitude 
 
         public IBounding<Vector3D> Bounding()
@@ -147,8 +148,8 @@ namespace Math
             unchecked
             {
                 var hashCode = R.GetHashCode();
-                hashCode = (hashCode*397) ^ Theta.GetHashCode();
-                hashCode = (hashCode*397) ^ Phi.GetHashCode();
+                hashCode = (hashCode * 397) ^ Theta.GetHashCode();
+                hashCode = (hashCode * 397) ^ Phi.GetHashCode();
                 return hashCode;
             }
         }
@@ -178,16 +179,16 @@ namespace Math
             Function.SinCos(p.Phi, out sinPhi, out cosPhi);
 
             return new Vector3D(
-                p.R*sinPhi*cosTheta,
-                p.R*sinPhi*sinTheta,
-                p.R*cosPhi);
+                p.R * sinPhi * cosTheta,
+                p.R * sinPhi * sinTheta,
+                p.R * cosPhi);
         }
 
         public static implicit operator Polar3D(Vector3D v)
         {
-            var x2 = v.X*v.X;
-            var y2 = v.Y*v.Y;
-            var z2 = v.Z*v.Z;
+            var x2 = v.X * v.X;
+            var y2 = v.Y * v.Y;
+            var z2 = v.Z * v.Z;
             var r = System.Math.Sqrt(x2 + y2 + z2);
             var theta = 0.0;
             var phi = 0.0;
@@ -196,8 +197,8 @@ namespace Math
                 var s = System.Math.Sqrt(x2 + y2);
                 if (Comparison.IsPositive(s))
                 {
-                    phi = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z/r, -1.0), 1.0));
-                    theta = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y/s, -1.0), 1.0));
+                    phi = System.Math.Acos(System.Math.Min(System.Math.Max(v.Z / r, -1.0), 1.0));
+                    theta = System.Math.Asin(System.Math.Min(System.Math.Max(v.Y / s, -1.0), 1.0));
                     if (v.X < 0.0)
                     {
                         theta = System.Math.PI - theta;

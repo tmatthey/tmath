@@ -70,7 +70,7 @@ namespace Math.Tests.Gps
             d.Count.ShouldBe(3);
             d[0].ShouldBe(0.0);
             d[1].ShouldBe(Geodesy.DistanceOneDeg);
-            d[2].ShouldBe(Geodesy.DistanceOneDeg*2.0);
+            d[2].ShouldBe(Geodesy.DistanceOneDeg * 2.0);
             v.Count.ShouldBe(3);
             v[0].ShouldBe(0.0);
             v[1].ShouldBe(Geodesy.DistanceOneDeg);

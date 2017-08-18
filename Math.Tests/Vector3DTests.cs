@@ -185,7 +185,7 @@ namespace Math.Tests
         [Test]
         public void AngleE1_E2_90Deg()
         {
-            (3.0*Vector3D.E1).Angle(-17*Vector3D.E2).ShouldBe(System.Math.PI/2.0);
+            (3.0 * Vector3D.E1).Angle(-17 * Vector3D.E2).ShouldBe(System.Math.PI / 2.0);
         }
 
         [Test]
@@ -235,10 +235,10 @@ namespace Math.Tests
             var c = 23.0;
             var d = 27.05;
             var u = new Vector3D(a, b, c);
-            var w = u*d;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
-            w.Z.ShouldBe(c*d);
+            var w = u * d;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
+            w.Z.ShouldBe(c * d);
         }
 
         [Test]
@@ -260,7 +260,7 @@ namespace Math.Tests
         [Test]
         public void CrossNorm2xE1x3xE2_Returns6()
         {
-            (2.0*Vector3D.E1).CrossNorm(3.0*Vector3D.E2).ShouldBe(6.0);
+            (2.0 * Vector3D.E1).CrossNorm(3.0 * Vector3D.E2).ShouldBe(6.0);
         }
 
         [Test]
@@ -299,9 +299,9 @@ namespace Math.Tests
 
             var r = a.Div(b);
 
-            r.X.ShouldBe(a.X/b);
-            r.Y.ShouldBe(a.Y/b);
-            r.Z.ShouldBe(a.Z/b);
+            r.X.ShouldBe(a.X / b);
+            r.Y.ShouldBe(a.Y / b);
+            r.Z.ShouldBe(a.Z / b);
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace Math.Tests
             var f = -1.1;
             var u = new Vector3D(a, b, c);
             var v = new Vector3D(d, e, f);
-            v.Dot(u).ShouldBe(a*d + b*e + c*f);
+            v.Dot(u).ShouldBe(a * d + b * e + c * f);
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace Math.Tests
             var x = a - d;
             var y = b - e;
             var z = c - f;
-            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
+            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x * x + y * y + z * z));
         }
 
         [Test]
@@ -374,7 +374,7 @@ namespace Math.Tests
             var v0 = new Vector3D(1, 2, -8);
             var v1 = new Vector3D(4, 8, -2);
             var expected = new Vector3D(2, 4, -6);
-            v0.Interpolate(v1, 1.0/3.0).ShouldBe(expected);
+            v0.Interpolate(v1, 1.0 / 3.0).ShouldBe(expected);
         }
 
         [Test]
@@ -391,7 +391,7 @@ namespace Math.Tests
             var x = a - d;
             var y = b - e;
             var z = c - f;
-            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y + z*z));
+            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x * x + y * y + z * z));
         }
 
         [Test]
@@ -402,9 +402,9 @@ namespace Math.Tests
 
             var r = a.Mul(b);
 
-            r.X.ShouldBe(a.X*b);
-            r.Y.ShouldBe(a.Y*b);
-            r.Z.ShouldBe(a.Z*b);
+            r.X.ShouldBe(a.X * b);
+            r.Y.ShouldBe(a.Y * b);
+            r.Z.ShouldBe(a.Z * b);
         }
 
         [Test]
@@ -427,15 +427,15 @@ namespace Math.Tests
             var b = -19.0;
             var c = -23.0;
             var v = new Vector3D(a, b, c);
-            v.Norm().ShouldBe(System.Math.Sqrt(a*a + b*b + c*c));
+            v.Norm().ShouldBe(System.Math.Sqrt(a * a + b * b + c * c));
         }
 
         [Test]
         public void Norm_CloseMaxDouble_returnsExpected()
         {
-            var a = double.MaxValue/2.0;
+            var a = double.MaxValue / 2.0;
             var v = new Vector3D(a);
-            v.Norm().ShouldBe(System.Math.Sqrt(3.0)*a);
+            v.Norm().ShouldBe(System.Math.Sqrt(3.0) * a);
         }
 
         [Test]
@@ -445,7 +445,7 @@ namespace Math.Tests
             var b = 19.0;
             var c = 23.0;
             var v = new Vector3D(a, b, c);
-            v.Norm2().ShouldBe(a*a + b*b + c*c);
+            v.Norm2().ShouldBe(a * a + b * b + c * c);
         }
 
         [Test]
@@ -541,10 +541,10 @@ namespace Math.Tests
             var c = 23.0;
             var d = 27.05;
             var u = new Vector3D(a, b, c);
-            var w = u/d;
-            w.X.ShouldBe(a/d);
-            w.Y.ShouldBe(b/d);
-            w.Z.ShouldBe(c/d);
+            var w = u / d;
+            w.X.ShouldBe(a / d);
+            w.Y.ShouldBe(b / d);
+            w.Z.ShouldBe(c / d);
         }
 
         [Test]
@@ -555,10 +555,10 @@ namespace Math.Tests
             var c = 23.0;
             var d = 27.05;
             var u = new Vector3D(a, b, c);
-            var w = d*u;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
-            w.Z.ShouldBe(c*d);
+            var w = d * u;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
+            w.Z.ShouldBe(c * d);
         }
 
         [Test]
@@ -623,7 +623,7 @@ namespace Math.Tests
             var f = -1.1;
             var u = new Vector3D(a, b, c);
             var v = new Vector3D(d, e, f);
-            var w = u*v;
+            var w = u * v;
             w.ShouldBe(u.Dot(v));
         }
 

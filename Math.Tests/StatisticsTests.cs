@@ -107,7 +107,7 @@ namespace Math.Tests
         public void ArithmeticMean_ThreeNumbers_ReturnsMean()
         {
             var list = new List<double> {3.1, 17, -19};
-            Statistics.Arithmetic.Mean(list).ShouldBe((3.1 + 17 - 19)/3.0);
+            Statistics.Arithmetic.Mean(list).ShouldBe((3.1 + 17 - 19) / 3.0);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Math.Tests
         {
             var list = new List<double> {3.1, 17, -19};
             var weight = new List<double> {2.3, 3.4, 5.6};
-            Statistics.Arithmetic.Mean(list, weight).ShouldBe((3.1*2.3 + 17*3.4 - 19*5.6)/(2.3 + 3.4 + 5.6));
+            Statistics.Arithmetic.Mean(list, weight).ShouldBe((3.1 * 2.3 + 17 * 3.4 - 19 * 5.6) / (2.3 + 3.4 + 5.6));
         }
 
         //
@@ -138,7 +138,7 @@ namespace Math.Tests
         public void ArithmeticVariance_ThreeNumbers_ReturnsVariance()
         {
             var list = new List<double> {2, 3, 7};
-            Statistics.Arithmetic.Variance(list).ShouldBe((2*2 + 1 + 3*3)/3.0);
+            Statistics.Arithmetic.Variance(list).ShouldBe((2 * 2 + 1 + 3 * 3) / 3.0);
         }
 
         [Test]
@@ -156,7 +156,8 @@ namespace Math.Tests
             var weight = new List<double> {400, 500, 600};
             var u = Statistics.Arithmetic.Mean(list, weight);
             Statistics.Arithmetic.Variance(list, weight)
-                .ShouldBe((400*(30 - u)*(30 - u) + 500*(20 - u)*(20 - u) + 600*(15 - u)*(15 - u))/weight.Sum());
+                .ShouldBe((400 * (30 - u) * (30 - u) + 500 * (20 - u) * (20 - u) + 600 * (15 - u) * (15 - u)) /
+                          weight.Sum());
         }
 
         [Test]
@@ -189,7 +190,7 @@ namespace Math.Tests
         public void CenteredMovingAverage_3ElementsSize2_ReturnsExpected()
         {
             var list = new List<double> {2, 3, 4};
-            var expected = new List<double> {7.0/3.0, 3, 11.0/3.0};
+            var expected = new List<double> {7.0 / 3.0, 3, 11.0 / 3.0};
             Statistics.Arithmetic.CenteredMovingAverage(list, 2.0).ShouldBe(expected);
         }
 
@@ -228,7 +229,7 @@ namespace Math.Tests
         public void CenteredMovingAverageWeighted_EmptyList_ReturnsEmptyList()
         {
             var list = new List<double>();
-            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0*3.4, CreateWeightArray(list, 3.4))
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0 * 3.4, CreateWeightArray(list, 3.4))
                 .Count.ShouldBe(list.Count);
         }
 
@@ -236,7 +237,7 @@ namespace Math.Tests
         public void CenteredMovingAverageWeighted_OneElement_ReturnsCopy()
         {
             var list = new List<double> {17.19};
-            var res = Statistics.Arithmetic.CenteredMovingAverage(list, 2*3.4, CreateWeightArray(list, 3.4));
+            var res = Statistics.Arithmetic.CenteredMovingAverage(list, 2 * 3.4, CreateWeightArray(list, 3.4));
             res[0] += 0.1;
             res[0].ShouldNotBe(list[0]);
         }
@@ -245,8 +246,8 @@ namespace Math.Tests
         public void CenteredMovingAverageWeighted_TrivialWeights3ElementsSize2_ReturnsExpected()
         {
             var list = new List<double> {2, 3, 4};
-            var expected = new List<double> {7.0/3.0, 3, 11.0/3.0};
-            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0*3.4, CreateWeightArray(list, 3.4))
+            var expected = new List<double> {7.0 / 3.0, 3, 11.0 / 3.0};
+            Statistics.Arithmetic.CenteredMovingAverage(list, 2.0 * 3.4, CreateWeightArray(list, 3.4))
                 .ShouldBe(expected, 1e-8);
         }
 
@@ -255,7 +256,7 @@ namespace Math.Tests
         {
             var list = new List<double> {2, 3, 4};
             var expected = new List<double> {2.5, 3, 3.5};
-            Statistics.Arithmetic.CenteredMovingAverage(list, 3.0*3.4, CreateWeightArray(list, 3.4))
+            Statistics.Arithmetic.CenteredMovingAverage(list, 3.0 * 3.4, CreateWeightArray(list, 3.4))
                 .ShouldBe(expected, 1e-8);
         }
 
@@ -263,7 +264,7 @@ namespace Math.Tests
         public void CenteredMovingAverageWeighted_TrivialWeightsTooSmallSize_ReturnsSame()
         {
             var list = new List<double> {17.19, 13.4, 5, 6, 23, 45};
-            Statistics.Arithmetic.CenteredMovingAverage(list, 1.0*3.4, CreateWeightArray(list, 3.4)).ShouldBe(list);
+            Statistics.Arithmetic.CenteredMovingAverage(list, 1.0 * 3.4, CreateWeightArray(list, 3.4)).ShouldBe(list);
         }
 
         [Test]
@@ -276,21 +277,21 @@ namespace Math.Tests
         [Test]
         public void MeanAngle_FourDirection_ReturnsExpected()
         {
-            var list = new List<double> {0, 0.5*System.Math.PI, System.Math.PI, 1.5*System.Math.PI};
-            Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.75*System.Math.PI, 1e-13);
+            var list = new List<double> {0, 0.5 * System.Math.PI, System.Math.PI, 1.5 * System.Math.PI};
+            Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.75 * System.Math.PI, 1e-13);
         }
 
         [Test]
         public void MeanAngle_OneElement_ReturnsElementNormalized()
         {
-            var list = new List<double> {System.Math.PI*2.0 + 3.0};
+            var list = new List<double> {System.Math.PI * 2.0 + 3.0};
             Statistics.Arithmetic.MeanAngle(list).ShouldBe(3.0);
         }
 
         [Test]
         public void MeanAngle_OppositeHorDirection_ReturnsExpected()
         {
-            var list = new List<double> {0.5*System.Math.PI, 1.5*System.Math.PI};
+            var list = new List<double> {0.5 * System.Math.PI, 1.5 * System.Math.PI};
             Statistics.Arithmetic.MeanAngle(list).ShouldBe(System.Math.PI, 1e-13);
         }
 
@@ -298,13 +299,13 @@ namespace Math.Tests
         public void MeanAngle_OppositeVerDirection_ReturnsExpected()
         {
             var list = new List<double> {0, System.Math.PI};
-            Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.5*System.Math.PI, 1e-13);
+            Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.5 * System.Math.PI, 1e-13);
         }
 
         [Test]
         public void MeanAngle_TwoElementsDifferentPlusMinus_ReturnsExpected()
         {
-            var list = new List<double> {System.Math.PI*2.0 - 0.1, 0.3};
+            var list = new List<double> {System.Math.PI * 2.0 - 0.1, 0.3};
             Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.1, 1e-13);
         }
 
@@ -325,7 +326,7 @@ namespace Math.Tests
         [Test]
         public void MeanAngle_TwoElementsPlusMinus_ReturnsZero()
         {
-            var list = new List<double> {System.Math.PI*2.0 - 0.1, 0.1};
+            var list = new List<double> {System.Math.PI * 2.0 - 0.1, 0.1};
             Statistics.Arithmetic.MeanAngle(list).ShouldBe(0.0);
         }
 
@@ -340,7 +341,7 @@ namespace Math.Tests
         public void MeanAngle_Vector2DE2_ReturnsExpected()
         {
             var list = new List<Vector2D> {Vector2D.E2};
-            Statistics.Arithmetic.MeanAngle(list, Vector2D.E1).ShouldBe(0.5*System.Math.PI, 1e-13);
+            Statistics.Arithmetic.MeanAngle(list, Vector2D.E1).ShouldBe(0.5 * System.Math.PI, 1e-13);
         }
 
         [Test]

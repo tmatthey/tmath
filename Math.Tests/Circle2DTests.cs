@@ -90,7 +90,7 @@ namespace Math.Tests
         public void Euclidean(double r0, double r1, double expected)
         {
             var c0 = new Circle2D(Vector2D.Zero, r0);
-            var c1 = new Circle2D(Vector2D.E1*2, r1);
+            var c1 = new Circle2D(Vector2D.E1 * 2, r1);
             c0.EuclideanNorm(c1).ShouldBe(expected);
         }
 
@@ -100,7 +100,7 @@ namespace Math.Tests
         public void ModifiedNorm(double r0, double r1, double expected)
         {
             var c0 = new Circle2D(Vector2D.Zero, r0);
-            var c1 = new Circle2D(Vector2D.E1*2, r1);
+            var c1 = new Circle2D(Vector2D.E1 * 2, r1);
             c0.ModifiedNorm(c1).ShouldBe(expected);
         }
 
@@ -183,7 +183,7 @@ namespace Math.Tests
             var v = new Vector2D(2, 1);
             var w = new Vector2D(1.5, 1.5);
             var c = Circle2D.Create(u, v, w);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 
@@ -193,7 +193,7 @@ namespace Math.Tests
             var u = new Vector2D(1, 2);
             var v = new Vector2D(2, 1);
             var c = Circle2D.Create(u, v);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 
@@ -212,7 +212,7 @@ namespace Math.Tests
             var u = new Vector2D(1, 2);
             var v = new Vector2D(2, 1);
             var c = Circle2D.Create(u, v, v);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 

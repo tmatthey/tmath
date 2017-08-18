@@ -47,7 +47,7 @@ namespace Math.Gps.Filters
 
             for (var j = i0; j < i1; j++)
                 res.Add(new GpsPointExt(track[i0 - 1].Interpolate(track[i1],
-                    (time[j] - time[i0 - 1])/(time[i1] - time[i0 - 1])), j));
+                    (time[j] - time[i0 - 1]) / (time[i1] - time[i0 - 1])), j));
 
             res.Add(new GpsPointExt(track[i1], i1));
             res.Add(new GpsPointExt(track[i1 + 1], i1 + 1));

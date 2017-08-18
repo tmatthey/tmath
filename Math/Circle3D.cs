@@ -104,8 +104,8 @@ namespace Math
             unchecked
             {
                 var hashCode = Center.GetHashCode();
-                hashCode = (hashCode*397) ^ Radius.GetHashCode();
-                hashCode = (hashCode*397) ^ Normal.GetHashCode();
+                hashCode = (hashCode * 397) ^ Radius.GetHashCode();
+                hashCode = (hashCode * 397) ^ Normal.GetHashCode();
                 return hashCode;
             }
         }
@@ -135,7 +135,7 @@ namespace Math
 
         public static Circle3D Create(Vector3D a, Vector3D b)
         {
-            return new Circle3D((a + b)*0.5, a.EuclideanNorm(b)*0.5);
+            return new Circle3D((a + b) * 0.5, a.EuclideanNorm(b) * 0.5);
         }
 
         public static Circle3D Create(Vector3D a, Vector3D b, Vector3D c)
@@ -143,7 +143,7 @@ namespace Math
             var d0 = a.EuclideanNorm(b);
             var d1 = b.EuclideanNorm(c);
             var d2 = c.EuclideanNorm(a);
-            if (Comparison.IsEqual((b - a)*(c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
+            if (Comparison.IsEqual((b - a) * (c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
                 Comparison.IsZero(d2))
             {
                 return d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a);
@@ -156,12 +156,12 @@ namespace Math
             var w = t ^ u;
             var nl2 = w.Norm2();
 
-            var inl2 = 1.0/(2.0*nl2);
-            var tt = t*t;
-            var uu = u*u;
+            var inl2 = 1.0 / (2.0 * nl2);
+            var tt = t * t;
+            var uu = u * u;
 
-            var center = a + (u*tt*(u*v) - t*uu*(t*v))*inl2;
-            var radius = System.Math.Sqrt(tt*uu*(v*v)*inl2*0.5);
+            var center = a + (u * tt * (u * v) - t * uu * (t * v)) * inl2;
+            var radius = System.Math.Sqrt(tt * uu * (v * v) * inl2 * 0.5);
             return new Circle3D(center, w.Normalized(), radius);
         }
     }

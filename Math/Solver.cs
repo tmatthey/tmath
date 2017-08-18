@@ -40,7 +40,7 @@ namespace Math
             {
                 return double.NaN;
             }
-            return -b/a;
+            return -b / a;
         }
 
         public static IList<double> QuadraticEq(double a, double b, double c)
@@ -59,10 +59,10 @@ namespace Math
             }
 
             // Normal form: x^2 + px + q = 0
-            var p = b/(2.0*a);
-            var q = c/a;
+            var p = b / (2.0 * a);
+            var q = c / a;
 
-            var D = p*p - q;
+            var D = p * p - q;
             if (Comparison.IsZero(D))
             {
                 res.Add(-p);
@@ -86,9 +86,9 @@ namespace Math
             var res = new List<double>();
 
             // Depressed cubic form: x^3 + px + q = 0
-            var p = 1.0/3.0*(-1.0/3.0*b/a*b/a + c/a);
-            var q = 1.0/2*(2.0/27.0*b/a*b/a*b/a - 1.0/3.0*b/a*c/a + d/a);
-            var D = q*q + p*p*p;
+            var p = 1.0 / 3.0 * (-1.0 / 3.0 * b / a * b / a + c / a);
+            var q = 1.0 / 2 * (2.0 / 27.0 * b / a * b / a * b / a - 1.0 / 3.0 * b / a * c / a + d / a);
+            var D = q * q + p * p * p;
             if (Comparison.IsZero(D))
             {
                 if (Comparison.IsZero(q))
@@ -100,18 +100,18 @@ namespace Math
                 {
                     // One single and double solution
                     var u = Function.Cbrt(-q);
-                    res.Add(2*u);
+                    res.Add(2 * u);
                     res.Add(-u);
                 }
             }
             else if (Comparison.IsNegative(D))
             {
                 // Three single solutions
-                var phi = 1.0/3.0*System.Math.Acos(-q/System.Math.Sqrt(-p*p*p));
-                var t = 2.0*System.Math.Sqrt(-p);
-                res.Add(t*System.Math.Cos(phi));
-                res.Add(-t*System.Math.Cos(phi + System.Math.PI/3.0));
-                res.Add(-t*System.Math.Cos(phi - System.Math.PI/3.0));
+                var phi = 1.0 / 3.0 * System.Math.Acos(-q / System.Math.Sqrt(-p * p * p));
+                var t = 2.0 * System.Math.Sqrt(-p);
+                res.Add(t * System.Math.Cos(phi));
+                res.Add(-t * System.Math.Cos(phi + System.Math.PI / 3.0));
+                res.Add(-t * System.Math.Cos(phi - System.Math.PI / 3.0));
             }
             else
             {
@@ -125,7 +125,7 @@ namespace Math
             // Resubstitute
             for (var i = 0; i < res.Count; ++i)
             {
-                res[i] -= b/(3.0*a);
+                res[i] -= b / (3.0 * a);
             }
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
@@ -139,9 +139,10 @@ namespace Math
             }
 
             //	Reduced form: x^4 + px^2 + qx + r = 0
-            var p = -3.0/8*b/a*b/a + c/a;
-            var q = 1.0/8*b/a*b/a*b/a - 1.0/2*b/a*c/a + d/a;
-            var r = -3.0/256*b/a*b/a*b/a*b/a + 1.0/16*b/a*b/a*c/a - 1.0/4*b/a*d/a + e/a;
+            var p = -3.0 / 8 * b / a * b / a + c / a;
+            var q = 1.0 / 8 * b / a * b / a * b / a - 1.0 / 2 * b / a * c / a + d / a;
+            var r = -3.0 / 256 * b / a * b / a * b / a * b / a + 1.0 / 16 * b / a * b / a * c / a -
+                    1.0 / 4 * b / a * d / a + e / a;
 
             var res = new List<double>();
             if (Comparison.IsZero(r))
@@ -152,9 +153,9 @@ namespace Math
             }
             else
             {
-                var z = CubicEq(1.0, -1.0/2.0*p, -r, 1.0/2.0*r*p - 1.0/8*q*q)[0];
-                var u = z*z - r;
-                var v = 2*z - p;
+                var z = CubicEq(1.0, -1.0 / 2.0 * p, -r, 1.0 / 2.0 * r * p - 1.0 / 8 * q * q)[0];
+                var u = z * z - r;
+                var v = 2 * z - p;
                 if (Comparison.IsZero(u)) u = 0.0;
                 if (Comparison.IsZero(v)) v = 0.0;
                 if (u >= 0.0 && v >= 0.0)
@@ -169,7 +170,7 @@ namespace Math
             // Resubstitute
             for (var i = 0; i < res.Count; ++i)
             {
-                res[i] -= b/(4.0*a);
+                res[i] -= b / (4.0 * a);
             }
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
@@ -247,7 +248,7 @@ namespace Math
             // http://en.wikipedia.org/wiki/Secant_method
             for (var i = 0; i < n; i++)
             {
-                var x = x1 - (x1 - x0)/(y1 - y0)*y1;
+                var x = x1 - (x1 - x0) / (y1 - y0) * y1;
                 var y = f(x);
                 if (!Comparison.IsNumber(y))
                 {
@@ -284,7 +285,7 @@ namespace Math
             {
                 return x1;
             }
-            if (y0*y1 > 0)
+            if (y0 * y1 > 0)
             {
                 return double.NaN;
             }
@@ -292,19 +293,19 @@ namespace Math
             // http://en.wikipedia.org/wiki/Bisection_method
             for (var i = 0; i < n; i++)
             {
-                var x = (x0 + x1)/2.0;
+                var x = (x0 + x1) / 2.0;
                 var y = f(x);
 
                 if (Comparison.IsZero(y, eps))
                 {
                     return x;
                 }
-                if (y*y0 > 0.0)
+                if (y * y0 > 0.0)
                 {
                     y0 = y;
                     x0 = x;
                 }
-                else if (y*y1 > 0.0)
+                else if (y * y1 > 0.0)
                 {
                     y1 = y;
                     x1 = x;
@@ -317,8 +318,8 @@ namespace Math
             // linear interpolation
             var dx = x1 - x0;
             var dy = y1 - y0;
-            var a = -y0/dy;
-            return x0 + a*dx;
+            var a = -y0 / dy;
+            return x0 + a * dx;
         }
     }
 }

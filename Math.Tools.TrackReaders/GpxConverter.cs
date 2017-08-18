@@ -62,12 +62,18 @@ namespace Math.Tools.TrackReaders
                     time = pkt.time;
                     first = false;
                 }
-                return new TrackPoint((double) pkt.lat, (double) pkt.lon, (double) pkt.ele, double.NaN, hearRate, pkt.time);
+                return new TrackPoint((double) pkt.lat, (double) pkt.lon, (double) pkt.ele, double.NaN, hearRate,
+                    pkt.time);
             });
 
             var sport = FindSport(data.trk.type);
 
-            return new Track {Date = data.metadata?.time ?? time, SportType = sport, TrackPoints = trackPoints.ToList()};
+            return new Track
+            {
+                Date = data.metadata?.time ?? time,
+                SportType = sport,
+                TrackPoints = trackPoints.ToList()
+            };
         }
 
 

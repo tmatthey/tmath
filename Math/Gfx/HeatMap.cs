@@ -111,7 +111,7 @@ namespace Math.Gfx
                         }
                         else if (Comparison.IsPositive(bitmap.Pixels[i, j]))
                         {
-                            c = bitmap.Pixels[i, j]/max;
+                            c = bitmap.Pixels[i, j] / max;
                         }
                     }
                     bitmap.Pixels[i, j] = c;
@@ -142,7 +142,7 @@ namespace Math.Gfx
                         var pixel = bitmap.Pixels[i, j];
                         if (Comparison.IsLess(0.0, pixel))
                         {
-                            var c = (list.IndexOf(pixel) + 1)/n;
+                            var c = (list.IndexOf(pixel) + 1) / n;
                             bitmap.Pixels[i, j] = c;
                         }
                     }
@@ -161,7 +161,7 @@ namespace Math.Gfx
             var max = bitmap.Pixels.Cast<double>().Aggregate(0.0, (current, c) => System.Math.Max(c, current));
             if (Comparison.IsPositive(max))
             {
-                var b = System.Math.Exp(System.Math.Log(max)/0.9);
+                var b = System.Math.Exp(System.Math.Log(max) / 0.9);
                 foreach (var i in Enumerable.Range(0, bitmap.Pixels.GetLength(0)))
                 {
                     foreach (var j in Enumerable.Range(0, bitmap.Pixels.GetLength(1)))
@@ -174,7 +174,7 @@ namespace Math.Gfx
                         }
                         else if (Comparison.IsLess(pixel, 1.0))
                         {
-                            c = pixel*0.1;
+                            c = pixel * 0.1;
                         }
                         else
                         {

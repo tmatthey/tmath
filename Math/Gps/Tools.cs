@@ -42,11 +42,11 @@ namespace Math.Gps
             {
                 var dt = time[i + 1] - time[i];
                 var l = track[i + 1].HaversineDistance(track[i]);
-                v.Add(l/dt);
+                v.Add(l / dt);
                 t.Add(dt);
                 if (i > 0)
                 {
-                    a.Add((v[i] - v[i - 1])/(t[i - 1] + t[i])*2.0);
+                    a.Add((v[i] - v[i - 1]) / (t[i - 1] + t[i]) * 2.0);
                 }
             }
             var varianceVel = Statistics.Arithmetic.Variance(v, t);
@@ -64,7 +64,8 @@ namespace Math.Gps
             DistanceVelocityAcceleration(track, time, out distance, out velocity, out acceleration);
         }
 
-        public static void DistanceVelocityAcceleration<T>(IList<T> track, IList<double> time, out List<double> distance,
+        public static void DistanceVelocityAcceleration<T>(IList<T> track, IList<double> time,
+            out List<double> distance,
             out List<double> velocity, out List<double> acceleration) where T : GpsPoint
         {
             distance = new List<double>();
@@ -90,7 +91,7 @@ namespace Math.Gps
                 var dt = time[i] - time[i - 1];
                 var l = track[i].HaversineDistance(track[i - 1]);
                 t.Add(dt);
-                v.Add(l/dt);
+                v.Add(l / dt);
                 s += l;
                 distance.Add(s);
             }
@@ -98,8 +99,8 @@ namespace Math.Gps
             acceleration.Add(0.0);
             for (var i = 1; i + 1 < track.Count; i++)
             {
-                velocity.Add((v[i]*t[i] + v[i + 1]*t[i + 1])/(t[i] + t[i + 1]));
-                acceleration.Add((v[i + 1]*t[i + 1] - v[i]*t[i])/(t[i] + t[i + 1])*2.0);
+                velocity.Add((v[i] * t[i] + v[i + 1] * t[i + 1]) / (t[i] + t[i + 1]));
+                acceleration.Add((v[i + 1] * t[i + 1] - v[i] * t[i]) / (t[i] + t[i + 1]) * 2.0);
             }
             velocity.Add(0.0);
             acceleration.Add(0.0);

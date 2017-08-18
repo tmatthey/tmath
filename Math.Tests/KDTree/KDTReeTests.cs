@@ -62,12 +62,12 @@ namespace Math.Tests.KDTree
         {
             var list = new List<ISegment<Vector3D>>
             {
-                new Segment3D(Vector3D.E1*0.1, Vector3D.E1*1.0),
-                new Segment3D(Vector3D.E1*1.1, Vector3D.E1*2.0),
-                new Segment3D(Vector3D.E1*2.1, Vector3D.E1*3.0),
-                new Segment3D(Vector3D.E1*3.1, Vector3D.E1*4.0),
-                new Segment3D(Vector3D.E1*4.1, Vector3D.E1*5.0),
-                new Segment3D(Vector3D.E1*5.1, Vector3D.E1*6.0)
+                new Segment3D(Vector3D.E1 * 0.1, Vector3D.E1 * 1.0),
+                new Segment3D(Vector3D.E1 * 1.1, Vector3D.E1 * 2.0),
+                new Segment3D(Vector3D.E1 * 2.1, Vector3D.E1 * 3.0),
+                new Segment3D(Vector3D.E1 * 3.1, Vector3D.E1 * 4.0),
+                new Segment3D(Vector3D.E1 * 4.1, Vector3D.E1 * 5.0),
+                new Segment3D(Vector3D.E1 * 5.1, Vector3D.E1 * 6.0)
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(list[n].A, list[n].B).ToList().Distinct().ToList();
@@ -98,8 +98,8 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Segment2D>
             {
-                new Segment2D(Vector2D.E1*0.5, Vector2D.E2*1.5),
-                new Segment2D(Vector2D.E1*1.5, Vector2D.E1*1.5 + Vector2D.E2*1.5)
+                new Segment2D(Vector2D.E1 * 0.5, Vector2D.E2 * 1.5),
+                new Segment2D(Vector2D.E1 * 1.5, Vector2D.E1 * 1.5 + Vector2D.E2 * 1.5)
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct().ToList();
@@ -112,13 +112,13 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Segment3D>
             {
-                new Segment3D(Vector3D.E1*0.5, Vector3D.E2*1.5),
-                new Segment3D(Vector3D.E1*5.0, Vector3D.E2*5.0),
-                new Segment3D(Vector3D.E1*1.5, Vector3D.E1*1.5 + Vector3D.E2*1.5),
-                new Segment3D(Vector3D.E2*0.5, Vector3D.E3*1.5),
-                new Segment3D(Vector3D.E3*0.5, Vector3D.E1*1.5),
-                new Segment3D(Vector3D.E1*0.5, Vector3D.E2*1.5),
-                new Segment3D(Vector3D.E1*5.0, Vector3D.E2*5.0)
+                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+                new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0),
+                new Segment3D(Vector3D.E1 * 1.5, Vector3D.E1 * 1.5 + Vector3D.E2 * 1.5),
+                new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
+                new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5),
+                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+                new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0)
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
@@ -131,8 +131,8 @@ namespace Math.Tests.KDTree
         {
             var list = new List<Vector3D>
             {
-                Vector3D.E1*0.5,
-                Vector3D.E1*1.5
+                Vector3D.E1 * 0.5,
+                Vector3D.E1 * 1.5
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
@@ -145,9 +145,9 @@ namespace Math.Tests.KDTree
         {
             var list = new List<ISegment<Vector3D>>
             {
-                new Segment3D(Vector3D.E1*0.5, Vector3D.E2*1.5),
-                new Segment3D(Vector3D.E2*0.5, Vector3D.E3*1.5),
-                new Segment3D(Vector3D.E3*0.5, Vector3D.E1*1.5)
+                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+                new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
+                new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5)
             };
             var tree = TreeBuilder.Build(list);
             var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();

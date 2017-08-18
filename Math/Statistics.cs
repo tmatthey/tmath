@@ -42,7 +42,7 @@ namespace Math
                     return double.NaN;
                 if (x.Count == 1)
                     return x[0];
-                return x.Sum()/x.Count;
+                return x.Sum() / x.Count;
             }
 
             public static double Variance(List<double> x)
@@ -52,7 +52,7 @@ namespace Math
                 if (x.Count == 1)
                     return 0.0;
                 var u = Mean(x);
-                return x.Sum(xi => (xi - u)*(xi - u))/x.Count;
+                return x.Sum(xi => (xi - u) * (xi - u)) / x.Count;
             }
 
             public static double Mean(List<double> x, List<double> w)
@@ -61,7 +61,7 @@ namespace Math
                     return double.NaN;
                 if (x.Count == 1)
                     return x[0];
-                return x.Select((t, i) => t*w[i]).Sum()/w.Sum();
+                return x.Select((t, i) => t * w[i]).Sum() / w.Sum();
             }
 
             public static double Variance(List<double> x, List<double> w)
@@ -71,7 +71,7 @@ namespace Math
                 if (x.Count == 1)
                     return 0.0;
                 var u = Mean(x, w);
-                return x.Select((t, i) => w[i]*(t - u)*(t - u)).Sum()/w.Sum();
+                return x.Select((t, i) => w[i] * (t - u) * (t - u)).Sum() / w.Sum();
             }
 
             public static List<double> CenteredMovingAverage(List<double> x, double size)
@@ -79,7 +79,7 @@ namespace Math
                 var res = new List<double>(x);
                 if (x.Count < 2 || Comparison.IsLessEqual(size, 1.0))
                     return res;
-                var border = size/2.0 - 0.5;
+                var border = size / 2.0 - 0.5;
                 var n = (int) System.Math.Floor(border);
                 var rest = border - n;
                 for (var i = 0; i < x.Count; i++)
@@ -90,12 +90,12 @@ namespace Math
                     {
                         if (0 <= i - n - 1)
                         {
-                            sum += x[i - n - 1]*rest;
+                            sum += x[i - n - 1] * rest;
                             l += rest;
                         }
                         if (i + n + 1 < x.Count)
                         {
-                            sum += x[i + n + 1]*rest;
+                            sum += x[i + n + 1] * rest;
                             l += rest;
                         }
                     }
@@ -104,7 +104,7 @@ namespace Math
                         sum += x[j];
                         l++;
                     }
-                    res[i] = sum/l;
+                    res[i] = sum / l;
                 }
                 return res;
             }
@@ -118,15 +118,15 @@ namespace Math
                 {
                     if (Comparison.IsLessEqual(size, w[i]))
                         continue;
-                    var border = (size - w[i])/2.0;
+                    var border = (size - w[i]) / 2.0;
                     var l = w[i];
-                    var sum = w[i]*x[i];
+                    var sum = w[i] * x[i];
                     var a = 0.0;
                     var j = i + 1;
                     while (j < x.Count && Comparison.IsLess(a, border))
                     {
                         var h = System.Math.Min(a + w[j], border) - a;
-                        sum += h*x[j];
+                        sum += h * x[j];
                         l += h;
                         a += w[j];
                         j++;
@@ -136,12 +136,12 @@ namespace Math
                     while (0 <= j && Comparison.IsLess(a, border))
                     {
                         var h = System.Math.Min(a + w[j], border) - a;
-                        sum += h*x[j];
+                        sum += h * x[j];
                         l += h;
                         a += w[j];
                         j--;
                     }
-                    res[i] = sum/l;
+                    res[i] = sum / l;
                 }
                 return res;
             }
@@ -164,17 +164,17 @@ namespace Math
                     var a = Function.NormalizeAngle(angle);
                     normalized.Add(a);
                     sum += a;
-                    squareSum += a*a;
+                    squareSum += a * a;
                 }
                 normalized = normalized.OrderBy(num => num).ToList();
                 var s = sum;
-                var variance = squareSum - sum*sum/normalized.Count;
+                var variance = squareSum - sum * sum / normalized.Count;
 
                 for (var i = 0; i < normalized.Count - 1; i++)
                 {
-                    sum += 2.0*System.Math.PI;
-                    squareSum += 4.0*System.Math.PI*(normalized[i] + System.Math.PI);
-                    var x = squareSum - sum*sum/normalized.Count;
+                    sum += 2.0 * System.Math.PI;
+                    squareSum += 4.0 * System.Math.PI * (normalized[i] + System.Math.PI);
+                    var x = squareSum - sum * sum / normalized.Count;
                     if (Comparison.IsLess(x, variance))
                     {
                         variance = x;
@@ -182,7 +182,7 @@ namespace Math
                     }
                 }
 
-                return Function.NormalizeAngle(s/normalized.Count);
+                return Function.NormalizeAngle(s / normalized.Count);
             }
 
             public static double MeanAngle(IList<Vector2D> list)

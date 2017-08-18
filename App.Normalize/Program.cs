@@ -92,17 +92,17 @@ namespace App.Normalize
             var track = input.GpsPoints().ToList();
             var elapsed = input.ElapsedSeconds().ToList();
             var totalTime = elapsed.Last();
-            var tf = endTime > 0.0 ? endTime/totalTime : 1.0;
+            var tf = endTime > 0.0 ? endTime / totalTime : 1.0;
             var dist = Geodesy.Distance.HaversineAccumulated(track);
             var totalDist = dist.Last();
-            var lf = endLength > 0.0 ? endLength/totalDist : 1.0;
+            var lf = endLength > 0.0 ? endLength / totalDist : 1.0;
 
             Console.WriteLine("{0}\t{1}", 0.0, 0.0);
 
             if (n > 1 && track.Count > 1)
             {
-                var dt = totalTime/n;
-                var dl = totalDist/n;
+                var dt = totalTime / n;
+                var dl = totalDist / n;
                 var st = 0.0;
                 var sl = 0.0;
                 var j = 0;
@@ -122,10 +122,10 @@ namespace App.Normalize
                             j++;
                         sl = Function.Interpolate(st, elapsed[j], elapsed[j + 1], dist[j], dist[j + 1]);
                     }
-                    Console.WriteLine("{0}\t{1}", st*tf, sl*lf);
+                    Console.WriteLine("{0}\t{1}", st * tf, sl * lf);
                 }
             }
-            Console.WriteLine("{0}\t{1}", totalTime*tf, totalDist*lf);
+            Console.WriteLine("{0}\t{1}", totalTime * tf, totalDist * lf);
         }
 
         [Flags]

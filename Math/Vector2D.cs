@@ -40,8 +40,12 @@ namespace Math
         public static readonly Vector2D E1 = new Vector2D(1, 0);
         public static readonly Vector2D E2 = new Vector2D(0, 1);
         public static readonly Vector2D NaN = new Vector2D(double.NaN, double.NaN);
-        public static readonly Vector2D PositiveInfinity = new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
-        public static readonly Vector2D NegativeInfinity = new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
+
+        public static readonly Vector2D PositiveInfinity =
+            new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
+
+        public static readonly Vector2D NegativeInfinity =
+            new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
 
         public Vector2D()
         {
@@ -134,7 +138,7 @@ namespace Math
 
         public double Dot(Vector2D v)
         {
-            return X*v.X + Y*v.Y;
+            return X * v.X + Y * v.Y;
         }
 
         public double CrossNorm(Vector2D v)
@@ -164,17 +168,17 @@ namespace Math
 
         public Vector2D Mul(double c)
         {
-            return new Vector2D(this*c);
+            return new Vector2D(this * c);
         }
 
         public Vector2D Div(double c)
         {
-            return new Vector2D(this/c);
+            return new Vector2D(this / c);
         }
 
         public Vector2D Interpolate(Vector2D v, double x)
         {
-            return this*(1.0 - x) + v*x;
+            return this * (1.0 - x) + v * x;
         }
 
         public int Dimensions
@@ -219,7 +223,7 @@ namespace Math
             unchecked
             {
                 var hashCode = X.GetHashCode();
-                hashCode = (hashCode*397) ^ Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ Y.GetHashCode();
                 return hashCode;
             }
         }
@@ -264,22 +268,22 @@ namespace Math
 
         public static Vector2D operator *(Vector2D v, double c)
         {
-            return new Vector2D(v.X*c, v.Y*c);
+            return new Vector2D(v.X * c, v.Y * c);
         }
 
         public static Vector2D operator *(double c, Vector2D v)
         {
-            return new Vector2D(v.X*c, v.Y*c);
+            return new Vector2D(v.X * c, v.Y * c);
         }
 
         public static Vector2D operator /(Vector2D v, double c)
         {
-            return new Vector2D(v.X/c, v.Y/c);
+            return new Vector2D(v.X / c, v.Y / c);
         }
 
         public static double Cross(Vector2D a, Vector2D b)
         {
-            return a.X*b.Y - a.Y*b.X;
+            return a.X * b.Y - a.Y * b.X;
         }
 
         public Vector2D Rotate(double angle)
@@ -287,17 +291,17 @@ namespace Math
             var cosA = System.Math.Cos(angle);
             var sinA = System.Math.Sin(angle);
 
-            return new Vector2D(cosA*X - sinA*Y, sinA*X + cosA*Y);
+            return new Vector2D(cosA * X - sinA * Y, sinA * X + cosA * Y);
         }
 
         public GpsPoint ToGpsPoint(Polar3D center)
         {
             var a3 = -center.Theta;
-            var a2 = System.Math.PI*0.5 - center.Phi;
+            var a2 = System.Math.PI * 0.5 - center.Phi;
             Vector3D w0 = new GpsPoint
             {
-                Longitude = X/Geodesy.DistanceOneDeg,
-                Latitude = Y/Geodesy.DistanceOneDeg
+                Longitude = X / Geodesy.DistanceOneDeg,
+                Latitude = Y / Geodesy.DistanceOneDeg
             };
             var w1 = w0.RotateE2(-a2);
             GpsPoint res = w1.RotateE3(-a3);
@@ -307,7 +311,7 @@ namespace Math
 
         private static double Norm2(double x, double y)
         {
-            return x*x + y*y;
+            return x * x + y * y;
         }
 
         private static double Norm(double x, double y)
@@ -318,7 +322,7 @@ namespace Math
                 x /= a;
                 y /= a;
             }
-            return System.Math.Sqrt(Norm2(x, y))*a;
+            return System.Math.Sqrt(Norm2(x, y)) * a;
         }
     }
 }

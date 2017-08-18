@@ -72,7 +72,7 @@ namespace Math.Gps
                     }
                 }
             }
-            return n > 0 ? center.Normalized()*d/n : new Vector3D(double.NaN);
+            return n > 0 ? center.Normalized() * d / n : new Vector3D(double.NaN);
         }
     }
 }

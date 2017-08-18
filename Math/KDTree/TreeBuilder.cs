@@ -85,12 +85,12 @@ namespace Math.KDTree
 
             var k = list.First().Key.Dimensions;
             var l = list.First().Key.Array.Length;
-            var dim0 = depth%k;
+            var dim0 = depth % k;
             if (k == l)
             {
                 var sorted = list.OrderBy(p => p.Key[dim0]);
 
-                var index = sorted.Count()/2;
+                var index = sorted.Count() / 2;
                 var median = sorted.ElementAt(index);
 
                 var leftTree = Build<T, S>(sorted.Take(index), depth + 1, maxLeaf);
@@ -100,14 +100,14 @@ namespace Math.KDTree
             }
             else
             {
-                var dim1 = (dim0 + k)%l;
+                var dim1 = (dim0 + k) % l;
                 var sorted = list.OrderBy(p => p.Key[dim0] + p.Key[dim1]);
 
-                var index = sorted.Count()/2;
+                var index = sorted.Count() / 2;
                 var median = sorted.ElementAt(index);
                 var left = new List<KeyValuePair<S, int>>();
                 var right = new List<KeyValuePair<S, int>>();
-                var medianValue = 0.5*(median.Key[dim0] + median.Key[dim1]);
+                var medianValue = 0.5 * (median.Key[dim0] + median.Key[dim1]);
                 var medians = new List<KeyValuePair<S, int>> {median};
                 foreach (var p in list)
                 {

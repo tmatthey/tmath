@@ -71,20 +71,20 @@ namespace Math
             _dp = new List<double>();
             for (var i = 1; i < _p.Count; i++)
             {
-                _dp.Add(_p[i]*i);
+                _dp.Add(_p[i] * i);
             }
 
             _dp2 = new List<double>();
             for (var i = 1; i < _dp.Count; i++)
             {
-                _dp2.Add(_dp[i]*i);
+                _dp2.Add(_dp[i] * i);
             }
 
             // Integral
             _P = new List<double> {0.0};
             for (var i = 0; i < _p.Count; i++)
             {
-                _P.Add(_p[i]/(i + 1));
+                _P.Add(_p[i] / (i + 1));
             }
         }
 
@@ -180,34 +180,34 @@ namespace Math
             // Numerical Recipes
             var n = new Complex(_p.Count - 1, 0.0);
             var n1 = new Complex(_p.Count - 2, 0.0);
-            for (var i = 0; i < MT*MR; i++)
+            for (var i = 0; i < MT * MR; i++)
             {
                 var y0 = Eval(x, _p);
                 if (y0.Magnitude <= double.Epsilon)
                     break;
-                var G = Eval(x, _dp)/y0;
-                var G2 = G*G;
-                var H = G2 - Eval(x, _dp2)/y0;
-                var R = Complex.Sqrt(n1*(H*n - G2));
+                var G = Eval(x, _dp) / y0;
+                var G2 = G * G;
+                var H = G2 - Eval(x, _dp2) / y0;
+                var R = Complex.Sqrt(n1 * (H * n - G2));
                 var GP = G + R;
                 var gp = GP.Magnitude;
                 var GM = G - R;
                 var gm = GM.Magnitude;
                 var dx = System.Math.Max(gp, gm) > 0.0
-                    ? n/(gp > gm ? GP : GM)
+                    ? n / (gp > gm ? GP : GM)
                     : Complex.FromPolarCoordinates(1.0 + x.Magnitude, i + 1);
                 var x0 = x - dx;
                 if (x == x0)
                 {
                     break;
                 }
-                if ((i + 1)%MT != 0)
+                if ((i + 1) % MT != 0)
                 {
                     x -= dx;
                 }
                 else
                 {
-                    x -= _frac[(i + 1)/MT]*dx;
+                    x -= _frac[(i + 1) / MT] * dx;
                 }
             }
             return x;
@@ -222,7 +222,7 @@ namespace Math
             var coefficients = new List<double>(new double[n - 1]);
             for (var i = n - 1; i > 0; i--)
             {
-                coefficients[i - 1] = _p[i] + (i < n - 1 ? coefficients[i]*c : 0);
+                coefficients[i - 1] = _p[i] + (i < n - 1 ? coefficients[i] * c : 0);
             }
             return new Polynomial(coefficients);
         }
@@ -236,14 +236,14 @@ namespace Math
             var c0 = new List<Complex>(new Complex[n - 1]);
             for (var i = n - 1; i > 0; i--)
             {
-                c0[i - 1] = _p[i] + (i < n - 1 ? c0[i]*c : 0);
+                c0[i - 1] = _p[i] + (i < n - 1 ? c0[i] * c : 0);
             }
             n--;
             var c1 = new List<double>(new double[n - 1]);
             var d = Complex.Conjugate(c);
             for (var i = n - 1; i > 0; i--)
             {
-                c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i]*d : 0)).Real;
+                c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * d : 0)).Real;
             }
             return new Polynomial(c1);
         }
@@ -253,7 +253,7 @@ namespace Math
             Complex y = 0.0;
             for (var i = p.Count - 1; i >= 0; i--)
             {
-                y = y*x + p[i];
+                y = y * x + p[i];
             }
             return y;
         }

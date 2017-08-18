@@ -216,14 +216,14 @@ namespace Math
             var nsq = (long) System.Math.Sqrt(n) + 1;
             for (long i = 30; i < nsq; i += 30)
             {
-                if (n%(i + 1) == 0 ||
-                    n%(i + 7) == 0 ||
-                    n%(i + 11) == 0 ||
-                    n%(i + 13) == 0 ||
-                    n%(i + 17) == 0 ||
-                    n%(i + 19) == 0 ||
-                    n%(i + 23) == 0 ||
-                    n%(i + 29) == 0)
+                if (n % (i + 1) == 0 ||
+                    n % (i + 7) == 0 ||
+                    n % (i + 11) == 0 ||
+                    n % (i + 13) == 0 ||
+                    n % (i + 17) == 0 ||
+                    n % (i + 19) == 0 ||
+                    n % (i + 23) == 0 ||
+                    n % (i + 29) == 0)
                 {
                     return false;
                 }
@@ -236,23 +236,23 @@ namespace Math
             var y = x;
             if (Comparison.IsPositive(x))
             {
-                y = System.Math.Pow(x, 1.0/n);
+                y = System.Math.Pow(x, 1.0 / n);
             }
             else if (Comparison.IsNegative(x))
             {
-                y = -System.Math.Pow(-x, 1.0/n);
+                y = -System.Math.Pow(-x, 1.0 / n);
             }
             return y;
         }
 
         public static double Interpolate(double a, double x0, double x1)
         {
-            return x0*(1.0 - a) + x1*a;
+            return x0 * (1.0 - a) + x1 * a;
         }
 
         public static double Interpolate(double x, double x0, double x1, double y0, double y1)
         {
-            var a = Comparison.IsEqual(x0, x1) ? 0.5 : (x - x0)/(x1 - x0);
+            var a = Comparison.IsEqual(x0, x1) ? 0.5 : (x - x0) / (x1 - x0);
             return Interpolate(a, y0, y1);
         }
 

@@ -45,7 +45,7 @@ namespace Math.Tests
         public void LinearEq_ValidInput_ReturnsOneSolution(double a, double b)
         {
             var x = Solver.LinearEq(a, b);
-            var y = a*x + b;
+            var y = a * x + b;
             y.ShouldBe(0.0);
         }
 
@@ -89,7 +89,7 @@ namespace Math.Tests
             var a = 0.0;
             var root = Solver.QuadraticEq(a, b, c);
             root.Count.ShouldBe(1);
-            var y = b*root[0] + c;
+            var y = b * root[0] + c;
             y.ShouldBe(0.0);
         }
 
@@ -233,15 +233,15 @@ namespace Math.Tests
         {
             a = 1.0;
             b = -(x0 + x1);
-            c = x0*x1;
+            c = x0 * x1;
         }
 
         private void CreateEq(double x0, double x1, double x2, out double a, out double b, out double c, out double d)
         {
             a = 1.0;
             b = -(x0 + x1 + x2);
-            c = x0*x1 + x0*x2 + x1*x2;
-            d = -x0*x1*x2;
+            c = x0 * x1 + x0 * x2 + x1 * x2;
+            d = -x0 * x1 * x2;
         }
 
         private void CreateEq(double x0, double x1, double x2, double x3, out double a, out double b, out double c,
@@ -249,14 +249,14 @@ namespace Math.Tests
         {
             a = 1.0;
             b = -(x0 + x1 + x2 + x3);
-            c = x0*x1 + x0*x2 + x0*x3 +
-                x1*x2 + x1*x3 +
-                x2*x3;
-            d = -x1*x2*x3 -
-                x0*x2*x3 -
-                x0*x1*x3 -
-                x0*x1*x2;
-            e = x0*x1*x2*x3;
+            c = x0 * x1 + x0 * x2 + x0 * x3 +
+                x1 * x2 + x1 * x3 +
+                x2 * x3;
+            d = -x1 * x2 * x3 -
+                x0 * x2 * x3 -
+                x0 * x1 * x3 -
+                x0 * x1 * x2;
+            e = x0 * x1 * x2 * x3;
         }
 
         [Test]

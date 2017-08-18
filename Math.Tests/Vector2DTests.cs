@@ -108,18 +108,18 @@ namespace Math.Tests
         [Test]
         public void Angle_Example()
         {
-            var c = 180.0/System.Math.PI;
+            var c = 180.0 / System.Math.PI;
             var v = new Vector2D(-0.8, -13.5);
             var w = new Vector2D(30.9, 45.6);
-            var a0 = v.Angle(w)*c;
-            var a1 = System.Math.Acos(v.Dot(w)/(v.Norm()*w.Norm()))*c;
+            var a0 = v.Angle(w) * c;
+            var a1 = System.Math.Acos(v.Dot(w) / (v.Norm() * w.Norm())) * c;
             a0.ShouldBe(a1);
         }
 
         [Test]
         public void Angle_RotateDiagonalBy45_ReturnsId()
         {
-            var expected = 45.0/180*System.Math.PI;
+            var expected = 45.0 / 180 * System.Math.PI;
             var v = new Vector2D(System.Math.Sqrt(0.5));
             var w = v.Rotate(expected);
             var angle = v.Angle(w);
@@ -132,7 +132,7 @@ namespace Math.Tests
             var v = new Vector2D(0, 1);
             var w = new Vector2D(1, 1);
             var a = v.Angle(w);
-            a.ShouldBe(-System.Math.PI/180.0*45.0, 1e-13);
+            a.ShouldBe(-System.Math.PI / 180.0 * 45.0, 1e-13);
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace Math.Tests
             var v = new Vector2D(1, 1);
             var w = new Vector2D(0, 1);
             var a = v.Angle(w);
-            a.ShouldBe(System.Math.PI/180.0*45.0);
+            a.ShouldBe(System.Math.PI / 180.0 * 45.0);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace Math.Tests
             var v = new Vector2D(0, 1);
             var w = new Vector2D(1, 1);
             var a = v.AngleAbs(w);
-            a.ShouldBe(System.Math.PI/180.0*45.0, 1e-13);
+            a.ShouldBe(System.Math.PI / 180.0 * 45.0, 1e-13);
         }
 
         [Test]
@@ -194,9 +194,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = u*d;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
+            var w = u * d;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
         }
 
         [Test]
@@ -227,8 +227,8 @@ namespace Math.Tests
 
             var r = a.Div(b);
 
-            r.X.ShouldBe(a.X/b);
-            r.Y.ShouldBe(a.Y/b);
+            r.X.ShouldBe(a.X / b);
+            r.Y.ShouldBe(a.Y / b);
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            v.Dot(u).ShouldBe(a*d + b*e);
+            v.Dot(u).ShouldBe(a * d + b * e);
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace Math.Tests
             var v = new Vector2D(d, e);
             var x = a - d;
             var y = b - e;
-            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
+            v.EuclideanNorm(u).ShouldBe(System.Math.Sqrt(x * x + y * y));
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace Math.Tests
             var v0 = new Vector2D(1, 2);
             var v1 = new Vector2D(4, 8);
             var expected = new Vector2D(2, 4);
-            v0.Interpolate(v1, 1.0/3.0).ShouldBe(expected);
+            v0.Interpolate(v1, 1.0 / 3.0).ShouldBe(expected);
         }
 
         [Test]
@@ -309,7 +309,7 @@ namespace Math.Tests
             var v = new Vector2D(d, e);
             var x = a - d;
             var y = b - e;
-            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x*x + y*y));
+            v.ModifiedNorm(u).ShouldBe(System.Math.Sqrt(x * x + y * y));
         }
 
         [Test]
@@ -320,8 +320,8 @@ namespace Math.Tests
 
             var r = a.Mul(b);
 
-            r.X.ShouldBe(a.X*b);
-            r.Y.ShouldBe(a.Y*b);
+            r.X.ShouldBe(a.X * b);
+            r.Y.ShouldBe(a.Y * b);
         }
 
         [Test]
@@ -341,15 +341,15 @@ namespace Math.Tests
             var a = -17.0;
             var b = -19.0;
             var v = new Vector2D(a, b);
-            v.Norm().ShouldBe(System.Math.Sqrt(a*a + b*b));
+            v.Norm().ShouldBe(System.Math.Sqrt(a * a + b * b));
         }
 
         [Test]
         public void Norm_CloseMaxDouble_returnsExpected()
         {
-            var a = double.MaxValue/2.0;
+            var a = double.MaxValue / 2.0;
             var v = new Vector2D(a);
-            v.Norm().ShouldBe(System.Math.Sqrt(2.0)*a);
+            v.Norm().ShouldBe(System.Math.Sqrt(2.0) * a);
         }
 
         [Test]
@@ -358,7 +358,7 @@ namespace Math.Tests
             var a = 17.0;
             var b = 19.0;
             var v = new Vector2D(a, b);
-            v.Norm2().ShouldBe(a*a + b*b);
+            v.Norm2().ShouldBe(a * a + b * b);
         }
 
         [Test]
@@ -417,7 +417,7 @@ namespace Math.Tests
         public void Rotate_DiagonalBy45_ReturnsE2()
         {
             var v = new Vector2D(System.Math.Sqrt(0.5));
-            var w = v.Rotate(45.0/180*System.Math.PI);
+            var w = v.Rotate(45.0 / 180 * System.Math.PI);
             w.ShouldBe(Vector2D.E2);
         }
 
@@ -465,9 +465,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = u/d;
-            w.X.ShouldBe(a/d);
-            w.Y.ShouldBe(b/d);
+            var w = u / d;
+            w.X.ShouldBe(a / d);
+            w.Y.ShouldBe(b / d);
         }
 
         [Test]
@@ -477,9 +477,9 @@ namespace Math.Tests
             var b = 19.0;
             var d = 27.05;
             var u = new Vector2D(a, b);
-            var w = d*u;
-            w.X.ShouldBe(a*d);
-            w.Y.ShouldBe(b*d);
+            var w = d * u;
+            w.X.ShouldBe(a * d);
+            w.Y.ShouldBe(b * d);
         }
 
         [Test]
@@ -491,7 +491,7 @@ namespace Math.Tests
             var e = 49.9;
             var u = new Vector2D(a, b);
             var v = new Vector2D(d, e);
-            var w = u*v;
+            var w = u * v;
             w.ShouldBe(u.Dot(v));
         }
 

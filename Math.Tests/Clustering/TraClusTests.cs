@@ -168,7 +168,8 @@ namespace Math.Tests.Clustering
             const double eps = 29.0;
             var tracks2D = TrajectoryExamples.deer_1995();
             var tracks =
-                tracks2D.Select(track2D => track2D.Select(p => new Vector3D(p.X, p.Y, 0.0).Rotate(axis, angle)).ToList())
+                tracks2D.Select(
+                        track2D => track2D.Select(p => new Vector3D(p.X, p.Y, 0.0).Rotate(axis, angle)).ToList())
                     .ToList();
             tracks.Count.ShouldBe(32);
 

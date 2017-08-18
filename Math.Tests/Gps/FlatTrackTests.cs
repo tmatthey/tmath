@@ -84,9 +84,9 @@ namespace Math.Tests.Gps
             var flatTrack = new FlatTrack(track, center);
             flatTrack.Track.Count.ShouldBe(track.Count);
             flatTrack.Track[0].X.ShouldBe(0.0, 1e-7);
-            flatTrack.Track[0].Y.ShouldBe(-Geodesy.DistanceOneDeg*0.5);
+            flatTrack.Track[0].Y.ShouldBe(-Geodesy.DistanceOneDeg * 0.5);
             flatTrack.Track[1].X.ShouldBe(0.0, 1e-7);
-            flatTrack.Track[1].Y.ShouldBe(Geodesy.DistanceOneDeg*0.5);
+            flatTrack.Track[1].Y.ShouldBe(Geodesy.DistanceOneDeg * 0.5);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace Math.Tests.Gps
             var flatTrack = new FlatTrack(track, center);
             var distance = flatTrack.Distance;
             distance.Count.ShouldBe(track.Count);
-            distance.Last().ShouldBe(4*2*Geodesy.DistanceOneDeg, 1e-3);
+            distance.Last().ShouldBe(4 * 2 * Geodesy.DistanceOneDeg, 1e-3);
         }
 
         [Test]

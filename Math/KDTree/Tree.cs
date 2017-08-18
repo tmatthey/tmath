@@ -50,14 +50,14 @@ namespace Math.KDTree
 
         internal Tree(int depth, IList<S> keys, double cut, IList<int> indices, ITree<T> left, ITree<T> right)
         {
-            _dim = depth%keys.First().Dimensions;
+            _dim = depth % keys.First().Dimensions;
             _cut = cut;
             _min = keys.Select(key => key.Bounding().Min.Array).ToList();
             _max = keys.Select(key => key.Bounding().Max.Array).ToList();
             _indices = indices;
             _left = left;
             _right = right;
-            _skipBoundingTest = (left.Depth() + right.Depth() == 0) || _indices.Count < 3;
+            _skipBoundingTest = left.Depth() + right.Depth() == 0 || _indices.Count < 3;
             if (!_skipBoundingTest)
             {
                 var b = keys.First().Bounding();
@@ -87,13 +87,13 @@ namespace Math.KDTree
             }
 
             if (_skipBoundingTest || _minMin.Select((coord, i) => new {i}).All(x =>
-                    (min[x.i] <= _maxMax[x.i]) &&
-                    (_minMin[x.i] <= max[x.i])))
+                min[x.i] <= _maxMax[x.i] &&
+                _minMin[x.i] <= max[x.i]))
             {
                 for (var j = 0; j < _indices.Count; j++)
                     if (_min[j].Select((coord, i) => new {i}).All(x =>
-                        (min[x.i] <= _max[j][x.i]) &&
-                        (_min[j][x.i] <= max[x.i])))
+                        min[x.i] <= _max[j][x.i] &&
+                        _min[j][x.i] <= max[x.i]))
                         yield return _indices[j];
             }
             if (_rightNotEmpty && max[_dim] >= _cut)

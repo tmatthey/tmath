@@ -54,22 +54,22 @@ namespace Math
                 for (var i = 0; i < x.Count; ++i)
                 {
                     ss += w[i];
-                    sx += x[i]*w[i];
-                    sy += y[i]*w[i];
+                    sx += x[i] * w[i];
+                    sy += y[i] * w[i];
                 }
                 var st2 = 0.0;
                 var aa = 0.0;
-                var sxdss = sx/ss;
+                var sxdss = sx / ss;
                 for (var i = 0; i < x.Count; ++i)
                 {
                     var t = x[i] - sxdss;
-                    st2 += t*t*w[i];
-                    aa += t*y[i]*w[i];
+                    st2 += t * t * w[i];
+                    aa += t * y[i] * w[i];
                 }
                 if (!Comparison.IsEqual(st2, 0.0) && !Comparison.IsEqual(ss, 0.0))
                 {
-                    a = aa/st2;
-                    b = (sy - sx*a)/ss;
+                    a = aa / st2;
+                    b = (sy - sx * a) / ss;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace Math
                 for (var i = 0; i < x.Count; ++i)
                 {
                     w1 += w[i];
-                    var tmpx = w[i]*x[i];
+                    var tmpx = w[i] * x[i];
                     wx += tmpx;
                     tmpx *= x[i];
                     wx2 += tmpx;
@@ -110,7 +110,7 @@ namespace Math
                     wx3 += tmpx;
                     tmpx *= x[i];
                     wx4 += tmpx;
-                    var tmpy = w[i]*y[i];
+                    var tmpy = w[i] * y[i];
                     wy += tmpy;
                     tmpy *= x[i];
                     wyx += tmpy;
@@ -118,12 +118,15 @@ namespace Math
                     wyx2 += tmpy;
                 }
 
-                var den = wx2*wx2*wx2 - 2.0*wx3*wx2*wx + wx4*wx*wx + wx3*wx3*w1 - wx4*wx2*w1;
+                var den = wx2 * wx2 * wx2 - 2.0 * wx3 * wx2 * wx + wx4 * wx * wx + wx3 * wx3 * w1 - wx4 * wx2 * w1;
                 if (Comparison.IsEqual(den, 0.0))
                     return;
-                a = (wx*wx*wyx2 - wx2*w1*wyx2 - wx2*wx*wyx + wx3*w1*wyx + wx2*wx2*wy - wx3*wx*wy)/den;
-                b = (-wx2*wx*wyx2 + wx3*w1*wyx2 + wx2*wx2*wyx - wx4*w1*wyx - wx3*wx2*wy + wx4*wx*wy)/den;
-                c = (wx2*wx2*wyx2 - wx3*wx*wyx2 - wx3*wx2*wyx + wx4*wx*wyx + wx3*wx3*wy - wx4*wx2*wy)/den;
+                a = (wx * wx * wyx2 - wx2 * w1 * wyx2 - wx2 * wx * wyx + wx3 * w1 * wyx + wx2 * wx2 * wy -
+                     wx3 * wx * wy) / den;
+                b = (-wx2 * wx * wyx2 + wx3 * w1 * wyx2 + wx2 * wx2 * wyx - wx4 * w1 * wyx - wx3 * wx2 * wy +
+                     wx4 * wx * wy) / den;
+                c = (wx2 * wx2 * wyx2 - wx3 * wx * wyx2 - wx3 * wx2 * wyx + wx4 * wx * wyx + wx3 * wx3 * wy -
+                     wx4 * wx2 * wy) / den;
             }
         }
     }

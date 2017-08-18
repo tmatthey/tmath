@@ -52,12 +52,12 @@ namespace Math.Gps
             if (double.IsNaN(one.MinCircleAngle) || double.IsNaN(two.MinCircleAngle))
                 return Result.Undefined;
 
-            var r1 = one.MinCircleAngle*2.0*Geodesy.EarthRadius;
-            var r2 = two.MinCircleAngle*2.0*Geodesy.EarthRadius;
+            var r1 = one.MinCircleAngle * 2.0 * Geodesy.EarthRadius;
+            var r2 = two.MinCircleAngle * 2.0 * Geodesy.EarthRadius;
             if (one.Center.EuclideanNorm(two.Center) < 1.0 && Comparison.IsEqual(r1, r2, 1.0))
                 return Result.Same;
 
-            var r12 = System.Math.Abs(one.MinCircleCenter.Angle(two.MinCircleCenter))*2.0*Geodesy.EarthRadius;
+            var r12 = System.Math.Abs(one.MinCircleCenter.Angle(two.MinCircleCenter)) * 2.0 * Geodesy.EarthRadius;
             if (Comparison.IsLessEqual(r12 + r1, r2, 1.0))
                 return Result.Outside;
 
@@ -81,7 +81,7 @@ namespace Math.Gps
             var t2 = two.CreateFlatTrack();
             var r1 = t1.Size.Min.EuclideanNorm(t1.Size.Max);
             var r2 = t2.Size.Min.EuclideanNorm(t2.Size.Max);
-            var r12 = System.Math.Abs(one.Center.Angle(two.Center))*2.0*Geodesy.EarthRadius;
+            var r12 = System.Math.Abs(one.Center.Angle(two.Center)) * 2.0 * Geodesy.EarthRadius;
             if (!Comparison.IsLessEqual(r12, r1 + r2, 1.0))
                 return Result.NotIntersecting;
 
@@ -146,11 +146,11 @@ namespace Math.Gps
         {
             int i, j;
             pt0.GridIndex(resolution, out i, out j);
-            var m = j*resolution + i;
+            var m = j * resolution + i;
 
             int k, l;
             pt1.GridIndex(resolution, out k, out l);
-            var n = l*resolution + k;
+            var n = l * resolution + k;
 
             // Find grid distance (di, dj)
             var di = 0;
@@ -170,8 +170,8 @@ namespace Math.Gps
                     ll = jj;
                 }
 
-                var a = System.Math.Abs((ll + resolution*2 - jj)%(resolution*2));
-                var b = System.Math.Abs((jj + resolution*2 - ll)%(resolution*2));
+                var a = System.Math.Abs((ll + resolution * 2 - jj) % (resolution * 2));
+                var b = System.Math.Abs((jj + resolution * 2 - ll) % (resolution * 2));
                 dj = System.Math.Min(a, b);
                 di = System.Math.Abs(i - k);
             }
@@ -186,8 +186,8 @@ namespace Math.Gps
             // Touching in one vertex and check of other two quadrants
             if (di == 1 && dj == 1)
             {
-                if (UpdateGrid(ref grid, index, j*resolution + k) ||
-                    UpdateGrid(ref grid, index, l*resolution + i))
+                if (UpdateGrid(ref grid, index, j * resolution + k) ||
+                    UpdateGrid(ref grid, index, l * resolution + i))
                     return true;
             }
 
@@ -196,7 +196,7 @@ namespace Math.Gps
             var v1 = ((Vector3D) pt1).Normalized();
             var axis = (v0 ^ v1).Normalized();
             var angle = v0.Angle(v1);
-            GpsPoint pt = v0.Rotate(axis, angle*0.5);
+            GpsPoint pt = v0.Rotate(axis, angle * 0.5);
             pt.Elevation = 0.0;
             if (IsGridPointOccupied(ref grid, resolution, index, pt0, pt))
                 return true;

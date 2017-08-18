@@ -42,9 +42,9 @@ namespace Math
 
         public static bool IsEqual(double x, double y, double eps)
         {
-            return (System.Math.Abs(x - y) < eps) ||
-                   (double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y)) ||
-                   (double.IsPositiveInfinity(x) && double.IsPositiveInfinity(y));
+            return System.Math.Abs(x - y) < eps ||
+                   double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y) ||
+                   double.IsPositiveInfinity(x) && double.IsPositiveInfinity(y);
         }
 
         public static bool IsNumber(double x)
@@ -115,7 +115,7 @@ namespace Math
             var tmp = new List<double>();
             for (var i = 0; i < vTmp.Count;)
             {
-                if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps*2.0))
+                if (i + 1 < vTmp.Count && IsEqual(vTmp[i], vTmp[i + 1], eps * 2.0))
                 {
                     if (tmp.Count == 0)
                     {
@@ -126,7 +126,7 @@ namespace Math
                 }
                 else if (tmp.Count > 0)
                 {
-                    res.Add(tmp.Sum()/tmp.Count);
+                    res.Add(tmp.Sum() / tmp.Count);
                     tmp.Clear();
                     i++;
                 }

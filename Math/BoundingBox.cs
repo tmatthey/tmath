@@ -77,8 +77,8 @@ namespace Math
 
         public void ExpandLayer(double r)
         {
-            var min = (!IsEmpty() ? Min : Vector3D.Zero) - Vector3D.One*r;
-            var max = (!IsEmpty() ? Max : Vector3D.Zero) + Vector3D.One*r;
+            var min = (!IsEmpty() ? Min : Vector3D.Zero) - Vector3D.One * r;
+            var max = (!IsEmpty() ? Max : Vector3D.Zero) + Vector3D.One * r;
             Expand(min);
             Expand(max);
         }
@@ -150,7 +150,7 @@ namespace Math
             unchecked
             {
                 var hashCode = Min.GetHashCode();
-                hashCode = (hashCode*397) ^ Max.GetHashCode();
+                hashCode = (hashCode * 397) ^ Max.GetHashCode();
                 return hashCode;
             }
         }

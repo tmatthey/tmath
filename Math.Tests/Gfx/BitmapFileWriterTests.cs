@@ -50,20 +50,20 @@ namespace Math.Tests.Gfx
                 max = System.Math.Max(max, list.Count);
             var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
-                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count/(double) max;
+            foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                bitmap[i, j] = grid[i, j].Count / (double) max;
             BitmapFileWriter.PGM(TestUtils.OutputPath() + "trackOne.pgm", bitmap);
         }
 
         [Test]
         public void WritePNG_HeatColorMapping()
         {
-            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One*300, 1);
+            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One * 300, 1);
             var width = bitmap.Pixels.GetLength(0) - 1;
             var height = bitmap.Pixels.GetLength(1) - 1;
             for (var i = 0; i <= width; i++)
             {
-                var a = i/(double) width;
+                var a = i / (double) width;
                 for (var j = 0; j <= height; j++)
                 {
                     bitmap.Pixels[i, j] = a;
@@ -76,8 +76,8 @@ namespace Math.Tests.Gfx
         [Test]
         public void WritePNG_L()
         {
-            var bitmap = new Bitmap(-Vector2D.One*0.1, Vector2D.E1 + Vector2D.E2*2.0 + Vector2D.One*0.1, 0.1);
-            Draw.XiaolinWu(Vector2D.E2*2.0, Vector2D.Zero, bitmap.Add, 0.5);
+            var bitmap = new Bitmap(-Vector2D.One * 0.1, Vector2D.E1 + Vector2D.E2 * 2.0 + Vector2D.One * 0.1, 0.1);
+            Draw.XiaolinWu(Vector2D.E2 * 2.0, Vector2D.Zero, bitmap.Add, 0.5);
             Draw.XiaolinWu(Vector2D.Zero, Vector2D.E1, bitmap.Add);
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "L.png", bitmap.Pixels);
         }
@@ -93,20 +93,20 @@ namespace Math.Tests.Gfx
                 max = System.Math.Max(max, list.Count);
             var bitmap = new double[grid.GetLength(0), grid.GetLength(1)];
             foreach (var i in Enumerable.Range(0, grid.GetLength(0)))
-                foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
-                    bitmap[i, j] = grid[i, j].Count/(double) max;
+            foreach (var j in Enumerable.Range(0, grid.GetLength(1)))
+                bitmap[i, j] = grid[i, j].Count / (double) max;
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "trackOne.png", bitmap);
         }
 
         [Test]
         public void WritePPM_HeatColorMapping()
         {
-            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One*300, 1);
+            var bitmap = new Bitmap(Vector2D.Zero, Vector2D.One * 300, 1);
             var width = bitmap.Pixels.GetLength(0) - 1;
             var height = bitmap.Pixels.GetLength(1) - 1;
             for (var i = 0; i <= width; i++)
             {
-                var a = i/(double) width;
+                var a = i / (double) width;
                 for (var j = 0; j <= height; j++)
                 {
                     bitmap.Pixels[i, j] = a;

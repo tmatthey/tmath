@@ -144,13 +144,13 @@ namespace Math
                 return l;
 
             var c = d.A - A;
-            var s = (c ^ b)*(a ^ b)/ab;
-            var t = (c ^ a)*(a ^ b)/ab;
+            var s = (c ^ b) * (a ^ b) / ab;
+            var t = (c ^ a) * (a ^ b) / ab;
             if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
                 Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
                 return l;
 
-            l = Geometry.PerpendicularSegmentDistance(d.A, d.B, A + a*s);
+            l = Geometry.PerpendicularSegmentDistance(d.A, d.B, A + a * s);
             return Comparison.IsZero(l) ? 0.0 : l;
         }
 
@@ -171,7 +171,7 @@ namespace Math
             unchecked
             {
                 var hashCode = A.GetHashCode();
-                hashCode = (hashCode*397) ^ B.GetHashCode();
+                hashCode = (hashCode * 397) ^ B.GetHashCode();
                 return hashCode;
             }
         }

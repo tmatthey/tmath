@@ -66,7 +66,7 @@ namespace Math
                     tmp[m] = tmp[n];
                     tmp[n] = v;
                 }
-                var newAngle = System.Math.PI*2.0;
+                var newAngle = System.Math.PI * 2.0;
                 var newDistance = 0.0;
                 m = l - 1;
                 for (var i = n + 1; i < l; i++)
@@ -76,7 +76,7 @@ namespace Math
                     var a = System.Math.Atan2(v.Y, v.X);
                     if (a < 0.0)
                     {
-                        a += System.Math.PI*2.0;
+                        a += System.Math.PI * 2.0;
                     }
                     if (Comparison.IsEqual(a, lastAngle))
                     {
@@ -89,7 +89,7 @@ namespace Math
                     }
                     else if (a > lastAngle && Comparison.IsLessEqual(a, newAngle))
                     {
-                        if (a < newAngle || (Comparison.IsEqual(a, newAngle) && distance > newDistance))
+                        if (a < newAngle || Comparison.IsEqual(a, newAngle) && distance > newDistance)
                         {
                             newAngle = a;
                             m = i;
@@ -116,7 +116,7 @@ namespace Math
             points.Sort((a, b) => a == b ? 0 : (a.X < b.X || Comparison.IsEqual(a.X, b.X) && a.Y < b.Y ? -1 : 1));
 
             var k = 0;
-            var hull = new Vector2D[points.Count*2];
+            var hull = new Vector2D[points.Count * 2];
 
             // O(N)
             // Build lower hull
@@ -141,7 +141,7 @@ namespace Math
         public static bool DiscLineIntersect(Circle3D c, Vector3D a, Vector3D b)
         {
             var u = b - a;
-            var area = c.Normal*u;
+            var area = c.Normal * u;
             if (Comparison.IsZero(area))
             {
                 if (Comparison.IsLess(c.Radius, PerpendicularDistance(a, b, c.Center)))
@@ -151,8 +151,8 @@ namespace Math
                 return Comparison.IsZero(n.CrossNorm(c.Normal));
             }
             var w = a - c.Center;
-            var t = -(c.Normal*w)/area;
-            var v = u*t + a;
+            var t = -(c.Normal * w) / area;
+            var v = u * t + a;
             return Comparison.IsLessEqual(c.Center.EuclideanNorm(v), c.Radius);
         }
 
@@ -171,11 +171,11 @@ namespace Math
             v0 /= scale;
             v1 /= scale;
 
-            var x = v0.Array[i0]*(p.Array[i1] - a.Array[i1]) - v0.Array[i1]*(p.Array[i0] - a.Array[i0]);
+            var x = v0.Array[i0] * (p.Array[i1] - a.Array[i1]) - v0.Array[i1] * (p.Array[i0] - a.Array[i0]);
             if (Comparison.IsLess(x, 0.0) || Comparison.IsLess(1.0, x))
                 return false;
 
-            var y = v1.Array[i1]*(p.Array[i0] - a.Array[i0]) - v1.Array[i0]*(p.Array[i1] - a.Array[i1]);
+            var y = v1.Array[i1] * (p.Array[i0] - a.Array[i0]) - v1.Array[i0] * (p.Array[i1] - a.Array[i1]);
             if (Comparison.IsLess(y, 0.0) || Comparison.IsLess(1.0, y))
                 return false;
 
@@ -184,7 +184,7 @@ namespace Math
                 return false;
 
             // Necessary if point no in triangle plane
-            var v = a + v0*y*scale + v1*x*scale;
+            var v = a + v0 * y * scale + v1 * x * scale;
             return Comparison.IsZero(p.EuclideanNorm(v));
         }
 
@@ -323,8 +323,8 @@ namespace Math
 
             while (i > n)
             {
-                if ((lowX < array[i].X) && (array[i].X < highX) &&
-                    (lowY < array[i].Y) && (array[i].Y < highY))
+                if (lowX < array[i].X && array[i].X < highX &&
+                    lowY < array[i].Y && array[i].Y < highY)
                 {
                     i--;
                 }
@@ -354,7 +354,7 @@ namespace Math
             {
                 return x0.EuclideanNorm(p);
             }
-            return x1.Sub(x0).CrossNorm(p.Sub(x0))/l;
+            return x1.Sub(x0).CrossNorm(p.Sub(x0)) / l;
         }
 
         public static double PerpendicularSegmentDistance<T>(T x0, T x1, T p) where T : IVector<T>
@@ -378,7 +378,7 @@ namespace Math
                 return 0.0;
             var a = p.Sub(x0);
             var b = x1.Sub(x0);
-            return a.Dot(b)/d;
+            return a.Dot(b) / d;
         }
 
         public static double PerpendicularSegmentParameter<T>(T x0, T x1, T p) where T : IVector<T>
@@ -400,7 +400,7 @@ namespace Math
         {
             double perpendicular, parallel, angular;
             TrajectoryHausdorffDistances(a0, a1, b0, b1, direction, out perpendicular, out parallel, out angular);
-            return wPerpendicular*perpendicular + wParallel*parallel + wAngular*angular;
+            return wPerpendicular * perpendicular + wParallel * parallel + wAngular * angular;
         }
 
         public static void TrajectoryHausdorffDistances<T>(T a0, T a1, T b0, T b1, bool direction,
@@ -420,7 +420,7 @@ namespace Math
             perpendicular = 0.0;
             if (Comparison.IsPositive(dPerpA + dPerpB))
             {
-                perpendicular = (dPerpA*dPerpA + dPerpB*dPerpB)/(dPerpA + dPerpB);
+                perpendicular = (dPerpA * dPerpA + dPerpB * dPerpB) / (dPerpA + dPerpB);
             }
 
             var t0 = PerpendicularParameter(b0, b1, a0);
@@ -434,7 +434,9 @@ namespace Math
             parallel = System.Math.Min(d0, d1);
 
             var angle = a1.Sub(a0).AngleAbs(b1.Sub(b0));
-            angular = l1*(direction && Comparison.IsLessEqual(System.Math.PI/2.0, angle) ? 1.0 : System.Math.Sin(angle));
+            angular = l1 * (direction && Comparison.IsLessEqual(System.Math.PI / 2.0, angle)
+                          ? 1.0
+                          : System.Math.Sin(angle));
         }
 
         public static IList<int> SignificantPoints<T>(IList<T> track, bool direction = true, int mdlCostAdvantage = 25)

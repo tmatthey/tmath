@@ -47,7 +47,7 @@ namespace Math.Tests
             var u = x0;
             for (var i = 0; i < n; i++)
             {
-                var v = a*u*u + b*u + c;
+                var v = a * u * u + b * u + c;
                 y.Add(v);
                 x.Add(u);
                 u += dx;
@@ -289,8 +289,8 @@ namespace Math.Tests
             var y = new List<double> {225, 184, 220, 240, 180, 184, 186, 215};
             double a, b;
             Regression.Linear(x, y, out a, out b);
-            a.ShouldBe(62.65/1.235, 1e-10);
-            b.ShouldBe(1634.0/8.0 - 62.65/1.235*15.8/8.0, 1e-10);
+            a.ShouldBe(62.65 / 1.235, 1e-10);
+            b.ShouldBe(1634.0 / 8.0 - 62.65 / 1.235 * 15.8 / 8.0, 1e-10);
         }
 
         [Test]

@@ -42,12 +42,12 @@ namespace Math.Gfx
             var v = max - min;
 
             var a = System.Math.Abs(maxLength - 2.0) + eps;
-            var maxPixel = System.Math.Max(v.X/a, v.Y/a);
+            var maxPixel = System.Math.Max(v.X / a, v.Y / a);
             _min = new Vector2D(min);
             _pixelSize = System.Math.Max(pixelSize, maxPixel);
 
-            _nx = (int) System.Math.Floor(System.Math.Max(v.X/_pixelSize, 0.0) + 2.0 - eps);
-            _ny = (int) System.Math.Floor(System.Math.Max(v.Y/_pixelSize, 0.0) + 2.0 - eps);
+            _nx = (int) System.Math.Floor(System.Math.Max(v.X / _pixelSize, 0.0) + 2.0 - eps);
+            _ny = (int) System.Math.Floor(System.Math.Max(v.Y / _pixelSize, 0.0) + 2.0 - eps);
             Pixels = new double[_nx, _ny];
 
             Add = new PlotWrapper(ConvertToBitmap, PixelAdd);
@@ -105,7 +105,7 @@ namespace Math.Gfx
 
         public Vector2D ConvertToBitmap(Vector2D x)
         {
-            return (x - _min)/_pixelSize;
+            return (x - _min) / _pixelSize;
         }
 
         private bool IsInRange(int x, int y)

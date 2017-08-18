@@ -141,13 +141,13 @@ namespace Math.Clustering
 
                     if (lineSegments.Count >= n &&
                         (r.Segment.Count < 1 ||
-                         Comparison.IsLessEqual(minL/1.414, System.Math.Abs(current.X - prevValue))))
+                         Comparison.IsLessEqual(minL / 1.414, System.Math.Abs(current.X - prevValue))))
                     {
                         var sum = new T();
                         foreach (var seg in lineSegments)
                         {
                             var s = cluster[seg];
-                            var c = (current.X - s.U.X)/(s.V.X - s.U.X);
+                            var c = (current.X - s.U.X) / (s.V.X - s.U.X);
                             var y = s.U.Add(s.V.Sub(s.U).Mul(c));
                             y.X = current.X;
                             sum = sum.Add(y);
@@ -205,7 +205,7 @@ namespace Math.Clustering
                         B = track[i1],
                         IA = i0,
                         IB = i1,
-                        J = j/2,
+                        J = j / 2,
                         K = k
                     };
                     segments.Add(s);

@@ -67,7 +67,7 @@ namespace Math.Gps
                 neighboursCur.Select(
                         points =>
                             (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
-                                .ToList())
+                            .ToList())
                     .Where(newPoints => newPoints.Count > 0)
                     .ToList();
         }
@@ -93,14 +93,14 @@ namespace Math.Gps
                         var f = Geometry.PerpendicularSegmentParameter(trackRef.Track[ir - 1], refDp, curDp);
                         list.Add(new NeighbourDistancePoint(ir - 1, ic,
                             Geometry.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
-                            f, (1.0 - f)*trackRef.Distance[ir - 1] + f*trackRef.Distance[ir]));
+                            f, (1.0 - f) * trackRef.Distance[ir - 1] + f * trackRef.Distance[ir]));
                     }
                     if (ir + 1 < trackRef.Track.Count)
                     {
                         var f = Geometry.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
                         list.Add(new NeighbourDistancePoint(ir, ic,
                             Geometry.PerpendicularSegmentDistance(refDp, trackRef.Track[ir + 1], curDp),
-                            f, (1.0 - f)*trackRef.Distance[ir] + f*trackRef.Distance[ir + 1]));
+                            f, (1.0 - f) * trackRef.Distance[ir] + f * trackRef.Distance[ir + 1]));
                     }
 
                     if (list.Any())
@@ -108,7 +108,8 @@ namespace Math.Gps
                         var q = list.OrderBy(a => a.MinDistance).First();
                         if (Comparison.IsEqual(q.Fraction, 1.0) && q.Reference + 2 < trackRef.Track.Count)
                         {
-                            q = new NeighbourDistancePoint(q.Reference + 1, q.Current, q.MinDistance, 0.0, q.RefDistance);
+                            q = new NeighbourDistancePoint(q.Reference + 1, q.Current, q.MinDistance, 0.0,
+                                q.RefDistance);
                         }
                         if (newPoints.All(w => w.Reference != q.Reference))
                         {
@@ -159,13 +160,13 @@ namespace Math.Gps
                     segments.Add(refList);
                 }
                 var segmentAvg =
-                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum/s.Count)
-                        .ToList();
+                    (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum / s.Count)
+                    .ToList();
                 var segmentDiff =
                     segments.Select(
                             s =>
                                 System.Math.Abs(
-                                    (int) (s.Aggregate(0.0, (current1, d) => current1 + d)/s.Count - index)))
+                                    (int) (s.Aggregate(0.0, (current1, d) => current1 + d) / s.Count - index)))
                         .ToList();
                 // Pick segment closest to previous index average
                 var minSegmentIndex = segmentDiff.IndexOf(segmentDiff.Min());

@@ -41,7 +41,8 @@ namespace Math.Gfx
             Bresenham(w.Converter(a), w.Converter(b), w.Plot, magnitude);
         }
 
-        public static void Bresenham(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction, double magnitude = 1.0)
+        public static void Bresenham(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction,
+            double magnitude = 1.0)
         {
             var a = new Vector2D(a0);
             var b = new Vector2D(b0);
@@ -70,7 +71,7 @@ namespace Math.Gfx
 
             var dx = b.X - a.X;
             var dy = System.Math.Abs(b.Y - a.Y);
-            var err = dx/2.0;
+            var err = dx / 2.0;
             var ystep = a.Y < b.Y ? 1 : -1;
             var y = (int) System.Math.Round(a.Y);
 
@@ -82,11 +83,11 @@ namespace Math.Gfx
                 var c = magnitude;
                 if (x == ax)
                 {
-                    c = (0.5 + ax - a.X)*magnitude;
+                    c = (0.5 + ax - a.X) * magnitude;
                 }
                 else if (x == bx)
                 {
-                    c = (0.5 + b.X - bx)*magnitude;
+                    c = (0.5 + b.X - bx) * magnitude;
                 }
                 if (steep)
                 {
@@ -118,7 +119,8 @@ namespace Math.Gfx
             XiaolinWu(w.Converter(a), w.Converter(b), w.Plot, magnitude);
         }
 
-        public static void XiaolinWu(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction, double magnitude = 1.0)
+        public static void XiaolinWu(Vector2D a0, Vector2D b0, DelegatePlotFunction plotFunction,
+            double magnitude = 1.0)
         {
             var a = new Vector2D(a0);
             var b = new Vector2D(b0);
@@ -143,41 +145,41 @@ namespace Math.Gfx
 
             var dx = b.X - a.X;
             var dy = b.Y - a.Y;
-            var gradient = dy/dx;
+            var gradient = dy / dx;
 
             // handle first endpoint
             var xend = round(a.X);
-            var yend = a.Y + gradient*(xend - a.X);
+            var yend = a.Y + gradient * (xend - a.X);
             var xgap = rfpart(a.X + 0.5);
             var xpxl1 = xend; // this will be used in the main loop
             var ypxl1 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl1, xpxl1, rfpart(yend)*xgap*magnitude, magnitude);
-                plotFunction(ypxl1 + 1, xpxl1, fpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(ypxl1, xpxl1, rfpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl1 + 1, xpxl1, fpart(yend) * xgap * magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl1, ypxl1, rfpart(yend)*xgap*magnitude, magnitude);
-                plotFunction(xpxl1, ypxl1 + 1, fpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(xpxl1, ypxl1, rfpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl1, ypxl1 + 1, fpart(yend) * xgap * magnitude, magnitude);
             }
             var intery = yend + gradient; // first y-intersection for the main loop
 
             // handle second endpoint
             xend = round(b.X);
-            yend = b.Y + gradient*(xend - b.X);
+            yend = b.Y + gradient * (xend - b.X);
             xgap = fpart(b.X + 0.5);
             var xpxl2 = xend; //this will be used in the main loop
             var ypxl2 = ipart(yend);
             if (steep)
             {
-                plotFunction(ypxl2, xpxl2, rfpart(yend)*xgap*magnitude, magnitude);
-                plotFunction(ypxl2 + 1, xpxl2, fpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(ypxl2, xpxl2, rfpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl2 + 1, xpxl2, fpart(yend) * xgap * magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl2, ypxl2, rfpart(yend)*xgap*magnitude, magnitude);
-                plotFunction(xpxl2, ypxl2 + 1, fpart(yend)*xgap*magnitude, magnitude);
+                plotFunction(xpxl2, ypxl2, rfpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl2, ypxl2 + 1, fpart(yend) * xgap * magnitude, magnitude);
             }
 
             // main loop
@@ -185,13 +187,13 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    plotFunction(ipart(intery), x, rfpart(intery)*magnitude, magnitude);
-                    plotFunction(ipart(intery) + 1, x, fpart(intery)*magnitude, magnitude);
+                    plotFunction(ipart(intery), x, rfpart(intery) * magnitude, magnitude);
+                    plotFunction(ipart(intery) + 1, x, fpart(intery) * magnitude, magnitude);
                 }
                 else
                 {
-                    plotFunction(x, ipart(intery), rfpart(intery)*magnitude, magnitude);
-                    plotFunction(x, ipart(intery) + 1, fpart(intery)*magnitude, magnitude);
+                    plotFunction(x, ipart(intery), rfpart(intery) * magnitude, magnitude);
+                    plotFunction(x, ipart(intery) + 1, fpart(intery) * magnitude, magnitude);
                 }
                 intery = intery + gradient;
             }
@@ -216,9 +218,9 @@ namespace Math.Gfx
         private static void PlotAreaFraction(int x, int y, double dx, double dy, double eps, double magnitude,
             DelegatePlotFunction plotFunction)
         {
-            var f = dx*dy;
+            var f = dx * dy;
             if (dx > eps && dy > eps && f > eps)
-                plotFunction(x, y, magnitude*dx*dy, magnitude);
+                plotFunction(x, y, magnitude * dx * dy, magnitude);
         }
 
         private static double fpart(double x)

@@ -269,7 +269,7 @@ namespace Math.Tests
         public void OpEqual_Equal_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
-            var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.0);
+            var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.0);
             p.R.ShouldBe(1.0);
             (p == q).ShouldBe(true);
         }
@@ -278,7 +278,7 @@ namespace Math.Tests
         public void OpNotEqual_NotEqual_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
-            var q = new Polar3D(0.1, 0.2 + System.Math.PI*2.0, 1.1);
+            var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.1);
             p.R.ShouldBe(1.0);
             (p != q).ShouldBe(true);
         }

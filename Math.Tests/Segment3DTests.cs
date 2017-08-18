@@ -67,7 +67,8 @@ namespace Math.Tests
         [TestCase(0.1, 0.2, 0.1, 0.2, 0, 0, 1, 1, false)]
         [TestCase(2, 2, -1, -1, 0, 0, 1, 1, true)]
         [TestCase(2, 3, -1, 0, 0, 0, 1, 1, false)]
-        public void IsIntersecting_SamePlane(double x0, double y0, double x1, double y1, double u0, double v0, double u1,
+        public void IsIntersecting_SamePlane(double x0, double y0, double x1, double y1, double u0, double v0,
+            double u1,
             double v1, bool intersects)
         {
             var c = 13.7;
@@ -142,7 +143,7 @@ namespace Math.Tests
             var d = c + eps;
             var s0 = new Segment3D(new Vector3D(x0, y0, c), new Vector3D(x1, y1, c));
             var s1 = new Segment3D(new Vector3D(u0, v0, d), new Vector3D(u1, v1, d));
-            s0.IsIntersecting(s1, eps*2.0).ShouldBe(intersects);
+            s0.IsIntersecting(s1, eps * 2.0).ShouldBe(intersects);
         }
 
         [Test]
@@ -156,7 +157,7 @@ namespace Math.Tests
             const double z1 = 0.3;
             var s = new Segment3D(new Vector3D(x0, y0, z0), new Vector3D(x1, y1, z1));
             var c = s.Array;
-            c.Length.ShouldBe(s.Dimensions*2);
+            c.Length.ShouldBe(s.Dimensions * 2);
             c[0].ShouldBe(x0);
             c[1].ShouldBe(y0);
             c[2].ShouldBe(z0);

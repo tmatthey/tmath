@@ -64,8 +64,8 @@ namespace Math.Tests.Gps
             Vector3D x0 = a;
             Vector3D x1 = b;
             var angle = x0.Angle(x1);
-            g.Elevation.ShouldBe(a.Elevation*(1.0 - f) + b.Elevation*f, 1e-10);
-            x0.Angle(x).ShouldBe(angle*f, 1e-10);
+            g.Elevation.ShouldBe(a.Elevation * (1.0 - f) + b.Elevation * f, 1e-10);
+            x0.Angle(x).ShouldBe(angle * f, 1e-10);
         }
 
         [TestCase(false, false)]
@@ -130,7 +130,7 @@ namespace Math.Tests.Gps
         public void GridLinearIndex(double latitude, double longitude, int resolution, int expectedI, int expectedJ)
         {
             var p = new GpsPoint {Latitude = latitude, Longitude = longitude};
-            var expectedN = expectedJ*resolution + expectedI;
+            var expectedN = expectedJ * resolution + expectedI;
             p.GridLinearIndex(resolution).ShouldBe(expectedN);
         }
 
@@ -327,7 +327,8 @@ namespace Math.Tests.Gps
         {
             var a = new GpsPoint {Latitude = 0, Longitude = 0, Elevation = Geodesy.EarthRadius};
             var b = new GpsPoint {Latitude = 0, Longitude = 1, Elevation = Geodesy.EarthRadius};
-            a.ModifiedNorm(b).ShouldBe(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude)*2.0);
+            a.ModifiedNorm(b).ShouldBe(Geodesy.Distance.Haversine(a.Latitude, a.Longitude, b.Latitude, b.Longitude) *
+                                       2.0);
         }
 
         [Test]

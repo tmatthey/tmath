@@ -1,466 +1,468 @@
-<?xml version="1.0" encoding="utf-8"?>
-<schema 
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<schema
   xmlns="http://www.w3.org/2001/XMLSchema"
   xmlns:kml="http://www.opengis.net/kml/2.2"
   attributeFormDefault="unqualified"
   elementFormDefault="qualified"
   targetNamespace="http://www.opengis.net/kml/2.2">
-  
+
   <element name="Icon">
     <complexType>
       <sequence>
-        <element ref="kml:href"/>
+        <element ref="kml:href" />
       </sequence>
     </complexType>
   </element>
   <element name="IconStyle">
     <complexType>
       <sequence>
-        <element ref="kml:Icon"/>
+        <element ref="kml:Icon" />
       </sequence>
     </complexType>
   </element>
   <element name="LineStyle">
     <complexType>
       <sequence>
-        <element ref="kml:color" minOccurs="0"/>
-        <element ref="kml:width" minOccurs="0"/>
+        <element ref="kml:color" minOccurs="0" />
+        <element ref="kml:width" minOccurs="0" />
       </sequence>
     </complexType>
   </element>
   <element name="PolyStyle">
     <complexType>
       <sequence>
-        <element ref="kml:color"/>
+        <element ref="kml:color" />
       </sequence>
     </complexType>
   </element>
   <element name="BalloonStyle">
     <complexType>
       <sequence>
-        <element ref="kml:text"/>
+        <element ref="kml:text" />
       </sequence>
     </complexType>
   </element>
   <element name="Point">
     <complexType>
       <sequence>
-        <element ref="kml:extrude" minOccurs="0"/>
-        <element ref="kml:altitudeMode" minOccurs="0"/>
-        <element ref="kml:coordinates"/>
+        <element ref="kml:extrude" minOccurs="0" />
+        <element ref="kml:altitudeMode" minOccurs="0" />
+        <element ref="kml:coordinates" />
       </sequence>
     </complexType>
   </element>
   <element name="LookAt">
     <complexType>
       <sequence>
-        <element ref="kml:longitude"/>
-        <element ref="kml:latitude"/>
-        <element ref="kml:altitude" minOccurs="0"/>
-        <element ref="kml:heading"/>
-        <element ref="kml:tilt"/>
-        <element ref="kml:range"/>
+        <element ref="kml:longitude" />
+        <element ref="kml:latitude" />
+        <element ref="kml:altitude" minOccurs="0" />
+        <element ref="kml:heading" />
+        <element ref="kml:tilt" />
+        <element ref="kml:range" />
       </sequence>
     </complexType>
   </element>
   <element name="Placemark">
     <complexType>
       <sequence>
-        <element ref="kml:name"/>
-        <element ref="kml:visibility" minOccurs="0"/>
-        <element ref="kml:description" minOccurs="0"/>
-        <element ref="kml:LookAt" minOccurs="0"/>
-        <element ref="kml:styleUrl" minOccurs="0"/>
-        <element ref="kml:Point" minOccurs="0"/>
-        <element ref="kml:LineString" minOccurs="0"/>
-        <element ref="kml:Polygon" minOccurs="0"/>
+        <element ref="kml:name" />
+        <element ref="kml:visibility" minOccurs="0" />
+        <element ref="kml:description" minOccurs="0" />
+        <element ref="kml:LookAt" minOccurs="0" />
+        <element ref="kml:styleUrl" minOccurs="0" />
+        <element ref="kml:Point" minOccurs="0" />
+        <element ref="kml:LineString" minOccurs="0" />
+        <element ref="kml:Polygon" minOccurs="0" />
       </sequence>
     </complexType>
   </element>
   <element name="Pair">
     <complexType>
       <sequence>
-        <element ref="kml:key"/>
-        <element ref="kml:styleUrl"/>
+        <element ref="kml:key" />
+        <element ref="kml:styleUrl" />
       </sequence>
     </complexType>
   </element>
   <element name="Style">
     <complexType>
       <sequence>
-        <element ref="kml:IconStyle" minOccurs="0"/>
-        <element ref="kml:LineStyle" minOccurs="0"/>
-        <element ref="kml:PolyStyle" minOccurs="0"/>
-        <element ref="kml:BalloonStyle" minOccurs="0"/>
+        <element ref="kml:IconStyle" minOccurs="0" />
+        <element ref="kml:LineStyle" minOccurs="0" />
+        <element ref="kml:PolyStyle" minOccurs="0" />
+        <element ref="kml:BalloonStyle" minOccurs="0" />
       </sequence>
-      <attribute type="string" name="id" use="optional"/>
+      <attribute type="string" name="id" use="optional" />
     </complexType>
   </element>
   <element name="StyleMap">
     <complexType>
       <sequence>
-        <element ref="kml:Pair" maxOccurs="unbounded" minOccurs="0"/>
+        <element ref="kml:Pair" maxOccurs="unbounded" minOccurs="0" />
       </sequence>
-      <attribute type="string" name="id"/>
+      <attribute type="string" name="id" />
     </complexType>
   </element>
   <element name="Document">
     <complexType>
       <sequence>
-        <element ref="kml:name"/>
-        <element ref="kml:visibility" minOccurs="0"/>
-        <element ref="kml:open" minOccurs="0"/>
-        <element ref="kml:description"/>
-        <element ref="kml:LookAt" minOccurs="0"/>
-        <element ref="kml:Style" maxOccurs="unbounded" minOccurs="0"/>
-        <element ref="kml:StyleMap" minOccurs="0"/>
-        <element ref="kml:Placemark" minOccurs="0"/>
-        <element ref="kml:Folder" maxOccurs="unbounded" minOccurs="0"/>
+        <element ref="kml:name" />
+        <element ref="kml:visibility" minOccurs="0" />
+        <element ref="kml:open" minOccurs="0" />
+        <element ref="kml:description" />
+        <element ref="kml:LookAt" minOccurs="0" />
+        <element ref="kml:Style" maxOccurs="unbounded" minOccurs="0" />
+        <element ref="kml:StyleMap" minOccurs="0" />
+        <element ref="kml:Placemark" minOccurs="0" />
+        <element ref="kml:Folder" maxOccurs="unbounded" minOccurs="0" />
       </sequence>
     </complexType>
   </element>
   <element name="LatLonBox">
     <complexType>
       <sequence>
-        <element ref="kml:north"/>
-        <element ref="kml:south"/>
-        <element ref="kml:east"/>
-        <element ref="kml:west"/>
-        <element ref="kml:rotation"/>
+        <element ref="kml:north" />
+        <element ref="kml:south" />
+        <element ref="kml:east" />
+        <element ref="kml:west" />
+        <element ref="kml:rotation" />
       </sequence>
     </complexType>
   </element>
   <element name="GroundOverlay">
     <complexType>
       <sequence>
-        <element ref="kml:name"/>
-        <element ref="kml:visibility"/>
-        <element ref="kml:description"/>
-        <element ref="kml:LookAt"/>
-        <element ref="kml:Icon"/>
-        <element ref="kml:LatLonBox"/>
+        <element ref="kml:name" />
+        <element ref="kml:visibility" />
+        <element ref="kml:description" />
+        <element ref="kml:LookAt" />
+        <element ref="kml:Icon" />
+        <element ref="kml:LatLonBox" />
       </sequence>
     </complexType>
   </element>
   <element name="ScreenOverlay">
     <complexType>
       <sequence>
-        <element ref="kml:name"/>
-        <element ref="kml:visibility"/>
-        <element ref="kml:description" minOccurs="0"/>
-        <element ref="kml:Icon"/>
-        <element ref="kml:overlayXY"/>
-        <element ref="kml:screenXY"/>
-        <element ref="kml:rotationXY"/>
-        <element ref="kml:size"/>
+        <element ref="kml:name" />
+        <element ref="kml:visibility" />
+        <element ref="kml:description" minOccurs="0" />
+        <element ref="kml:Icon" />
+        <element ref="kml:overlayXY" />
+        <element ref="kml:screenXY" />
+        <element ref="kml:rotationXY" />
+        <element ref="kml:size" />
       </sequence>
     </complexType>
   </element>
   <element name="LineString">
     <complexType>
       <sequence>
-        <element ref="kml:extrude" minOccurs="0"/>
-        <element ref="kml:tessellate"/>
-        <element ref="kml:altitudeMode" minOccurs="0"/>
-        <element ref="kml:coordinates"/>
+        <element ref="kml:extrude" minOccurs="0" />
+        <element ref="kml:tessellate" />
+        <element ref="kml:altitudeMode" minOccurs="0" />
+        <element ref="kml:coordinates" />
       </sequence>
     </complexType>
   </element>
   <element name="LinearRing">
     <complexType>
       <sequence>
-        <element ref="kml:coordinates"/>
+        <element ref="kml:coordinates" />
       </sequence>
     </complexType>
   </element>
   <element name="outerBoundaryIs">
     <complexType>
       <sequence>
-        <element ref="kml:LinearRing"/>
+        <element ref="kml:LinearRing" />
       </sequence>
     </complexType>
   </element>
   <element name="Polygon">
     <complexType>
       <sequence>
-        <element ref="kml:extrude" minOccurs="0"/>
-        <element ref="kml:tessellate" minOccurs="0"/>
-        <element ref="kml:altitudeMode"/>
-        <element ref="kml:outerBoundaryIs"/>
-        <element ref="kml:innerBoundaryIs" minOccurs="0"/>
+        <element ref="kml:extrude" minOccurs="0" />
+        <element ref="kml:tessellate" minOccurs="0" />
+        <element ref="kml:altitudeMode" />
+        <element ref="kml:outerBoundaryIs" />
+        <element ref="kml:innerBoundaryIs" minOccurs="0" />
       </sequence>
     </complexType>
   </element>
   <element name="innerBoundaryIs">
     <complexType>
       <sequence>
-        <element ref="kml:LinearRing"/>
+        <element ref="kml:LinearRing" />
       </sequence>
     </complexType>
   </element>
   <element name="Folder">
     <complexType>
       <sequence>
-        <element ref="kml:name"/>
-        <element ref="kml:visibility" minOccurs="0"/>
-        <element ref="kml:description"/>
-        <element ref="kml:LookAt" minOccurs="0"/>
-        <element ref="kml:styleUrl" minOccurs="0"/>
-        <element ref="kml:Document" minOccurs="0"/>
-        <element ref="kml:Placemark" maxOccurs="unbounded" minOccurs="0"/>
-        <element ref="kml:GroundOverlay" minOccurs="0"/>
-        <element ref="kml:ScreenOverlay" maxOccurs="unbounded" minOccurs="0"/>
-        <element ref="kml:Folder" maxOccurs="unbounded" minOccurs="0"/>
+        <element ref="kml:name" />
+        <element ref="kml:visibility" minOccurs="0" />
+        <element ref="kml:description" />
+        <element ref="kml:LookAt" minOccurs="0" />
+        <element ref="kml:styleUrl" minOccurs="0" />
+        <element ref="kml:Document" minOccurs="0" />
+        <element ref="kml:Placemark" maxOccurs="unbounded" minOccurs="0" />
+        <element ref="kml:GroundOverlay" minOccurs="0" />
+        <element ref="kml:ScreenOverlay" maxOccurs="unbounded" minOccurs="0" />
+        <element ref="kml:Folder" maxOccurs="unbounded" minOccurs="0" />
       </sequence>
     </complexType>
   </element>
   <element name="kml">
     <complexType>
       <sequence>
-        <element ref="kml:Document"/>
+        <element ref="kml:Document" />
       </sequence>
     </complexType>
   </element>
-  
+
   <!-- KML field types (simple content) -->
 
   <simpleType name="anglepos90Type">
     <restriction base="double">
-      <minInclusive value="0.0"/>
-      <maxInclusive value="90.0"/>
+      <minInclusive value="0.0" />
+      <maxInclusive value="90.0" />
     </restriction>
   </simpleType>
 
   <simpleType name="angle90Type">
     <restriction base="double">
-      <minInclusive value="-90"/>
-      <maxInclusive value="90.0"/>
+      <minInclusive value="-90" />
+      <maxInclusive value="90.0" />
     </restriction>
   </simpleType>
 
   <simpleType name="anglepos180Type">
     <restriction base="double">
-      <minInclusive value="0.0"/>
-      <maxInclusive value="180.0"/>
+      <minInclusive value="0.0" />
+      <maxInclusive value="180.0" />
     </restriction>
   </simpleType>
 
   <simpleType name="angle180Type">
     <restriction base="double">
-      <minInclusive value="-180.0"/>
-      <maxInclusive value="180.0"/>
+      <minInclusive value="-180.0" />
+      <maxInclusive value="180.0" />
     </restriction>
   </simpleType>
 
   <simpleType name="angle360Type">
     <restriction base="double">
-      <minInclusive value="-360.0"/>
-      <maxInclusive value="360.0"/>
+      <minInclusive value="-360.0" />
+      <maxInclusive value="360.0" />
     </restriction>
   </simpleType>
 
   <simpleType name="altitudeModeEnumType">
     <restriction base="string">
-      <enumeration value="clampToGround"/>
-      <enumeration value="relativeToGround"/>
-      <enumeration value="absolute"/>
+      <enumeration value="clampToGround" />
+      <enumeration value="relativeToGround" />
+      <enumeration value="absolute" />
     </restriction>
   </simpleType>
 
   <simpleType name="colorType">
     <restriction base="hexBinary">
-      <length value="4"/>
+      <length value="4" />
     </restriction>
   </simpleType>
 
   <simpleType name="coordinatesType">
-    <list itemType="string"/>
+    <list itemType="string" />
   </simpleType>
 
   <simpleType name="colorModeEnumType">
     <restriction base="string">
-      <enumeration value="normal"/>
-      <enumeration value="random"/>
+      <enumeration value="normal" />
+      <enumeration value="random" />
     </restriction>
   </simpleType>
 
   <simpleType name="dateTimeType">
-    <union memberTypes="dateTime date gYearMonth gYear"/>
+    <union memberTypes="dateTime date gYearMonth gYear" />
   </simpleType>
 
   <simpleType name="displayModeEnumType">
     <restriction base="string">
-      <enumeration value="default"/>
-      <enumeration value="hide"/>
+      <enumeration value="default" />
+      <enumeration value="hide" />
     </restriction>
   </simpleType>
 
   <simpleType name="gridOriginEnumType">
     <restriction base="string">
-      <enumeration value="lowerLeft"/>
-      <enumeration value="upperLeft"/>
+      <enumeration value="lowerLeft" />
+      <enumeration value="upperLeft" />
     </restriction>
   </simpleType>
   <simpleType name="itemIconStateType">
-    <list itemType="kml:itemIconStateEnumType"/>
+    <list itemType="kml:itemIconStateEnumType" />
   </simpleType>
 
   <simpleType name="itemIconStateEnumType">
     <restriction base="string">
-      <enumeration value="open"/>
-      <enumeration value="closed"/>
-      <enumeration value="error"/>
-      <enumeration value="fetching0"/>
-      <enumeration value="fetching1"/>
-      <enumeration value="fetching2"/>
+      <enumeration value="open" />
+      <enumeration value="closed" />
+      <enumeration value="error" />
+      <enumeration value="fetching0" />
+      <enumeration value="fetching1" />
+      <enumeration value="fetching2" />
     </restriction>
   </simpleType>
 
   <simpleType name="listItemTypeEnumType">
     <restriction base="string">
-      <enumeration value="radioFolder"/>
-      <enumeration value="check"/>
-      <enumeration value="checkHideChildren"/>
-      <enumeration value="checkOffOnly"/>
+      <enumeration value="radioFolder" />
+      <enumeration value="check" />
+      <enumeration value="checkHideChildren" />
+      <enumeration value="checkOffOnly" />
     </restriction>
   </simpleType>
 
   <simpleType name="refreshModeEnumType">
     <restriction base="string">
-      <enumeration value="onChange"/>
-      <enumeration value="onInterval"/>
-      <enumeration value="onExpire"/>
+      <enumeration value="onChange" />
+      <enumeration value="onInterval" />
+      <enumeration value="onExpire" />
     </restriction>
   </simpleType>
 
   <simpleType name="viewRefreshModeEnumType">
     <restriction base="string">
-      <enumeration value="never"/>
-      <enumeration value="onRequest"/>
-      <enumeration value="onStop"/>
-      <enumeration value="onRegion"/>
+      <enumeration value="never" />
+      <enumeration value="onRequest" />
+      <enumeration value="onStop" />
+      <enumeration value="onRegion" />
     </restriction>
   </simpleType>
 
   <simpleType name="shapeEnumType">
     <restriction base="string">
-      <enumeration value="rectangle"/>
-      <enumeration value="cylinder"/>
-      <enumeration value="sphere"/>
+      <enumeration value="rectangle" />
+      <enumeration value="cylinder" />
+      <enumeration value="sphere" />
     </restriction>
   </simpleType>
 
   <simpleType name="styleStateEnumType">
     <restriction base="string">
-      <enumeration value="normal"/>
-      <enumeration value="highlight"/>
+      <enumeration value="normal" />
+      <enumeration value="highlight" />
     </restriction>
   </simpleType>
 
   <simpleType name="unitsEnumType">
     <restriction base="string">
-      <enumeration value="fraction"/>
-      <enumeration value="pixels"/>
-      <enumeration value="insetPixels"/>
+      <enumeration value="fraction" />
+      <enumeration value="pixels" />
+      <enumeration value="insetPixels" />
     </restriction>
   </simpleType>
 
   <complexType name="vec2Type" abstract="false">
-    <attribute name="x" type="double" default="1.0"/>
-    <attribute name="y" type="double" default="1.0"/>
+    <attribute name="x" type="double" default="1.0" />
+    <attribute name="y" type="double" default="1.0" />
     <attribute name="xunits" type="kml:unitsEnumType" use="optional"
-      default="fraction"/>
+               default="fraction" />
     <attribute name="yunits" type="kml:unitsEnumType" use="optional"
-      default="fraction"/>
+               default="fraction" />
   </complexType>
 
-  <element name="address" type="string"/>
-  <element name="altitude" type="double" default="0.0"/>
-  <element name="altitudeModeGroup" abstract="true"/>
-  <element name="altitudeMode" type="kml:altitudeModeEnumType" default="clampToGround" substitutionGroup="kml:altitudeModeGroup"/>
-  <element name="begin" type="kml:dateTimeType"/>
-  <element name="bgColor" type="kml:colorType" default="ffffffff"/>
-  <element name="bottomFov" type="kml:angle90Type" default="0.0"/>
-  <element name="color" type="kml:colorType" default="ffffffff"/>
-  <element name="colorMode" type="kml:colorModeEnumType" default="normal"/>
-  <element name="cookie" type="string"/>
-  <element name="coordinates" type="kml:coordinatesType"/>
-  <element name="description" type="string"/>
-  <element name="displayName" type="string"/>
-  <element name="displayMode" type="kml:displayModeEnumType" default="default"/>
-  <element name="drawOrder" type="int" default="0"/>
-  <element name="east" type="kml:angle180Type" default="180.0"/>
-  <element name="end" type="kml:dateTimeType"/>
-  <element name="expires" type="kml:dateTimeType"/>
-  <element name="extrude" type="boolean" default="0"/>
-  <element name="fill" type="boolean" default="1"/>
-  <element name="flyToView" type="boolean" default="0"/>
-  <element name="gridOrigin" type="kml:gridOriginEnumType" default="lowerLeft"/>
-  <element name="heading" type="kml:angle360Type" default="0.0"/>
-  <element name="href" type="anyURI"/>
-  <element name="httpQuery" type="string"/>
-  <element name="hotSpot" type="kml:vec2Type"/>
-  <element name="key" type="kml:styleStateEnumType" default="normal"/>
-  <element name="latitude" type="kml:angle90Type" default="0.0"/>
-  <element name="leftFov" type="kml:angle180Type" default="0.0"/>
-  <element name="linkDescription" type="string"/>
-  <element name="linkName" type="string"/>
-  <element name="listItemType" type="kml:listItemTypeEnumType" default="check"/>
-  <element name="longitude" type="kml:angle180Type" default="0.0"/>
-  <element name="maxSnippetLines" type="int" default="2"/>
-  <element name="maxSessionLength" type="double" default="-1.0"/>
-  <element name="message" type="string"/>
-  <element name="minAltitude" type="double" default="0.0"/>
-  <element name="minFadeExtent" type="double" default="0.0"/>
-  <element name="minLodPixels" type="double" default="0.0"/>
-  <element name="minRefreshPeriod" type="double" default="0.0"/>
-  <element name="maxAltitude" type="double" default="0.0"/>
-  <element name="maxFadeExtent" type="double" default="0.0"/>
-  <element name="maxLodPixels" type="double" default="-1.0"/>
-  <element name="maxHeight" type="int" default="0"/>
-  <element name="maxWidth" type="int" default="0"/>
-  <element name="name" type="string"/>
-  <element name="near" type="double" default="0.0"/>
-  <element name="north" type="kml:angle180Type" default="180.0"/>
-  <element name="open" type="boolean" default="0"/>
-  <element name="outline" type="boolean" default="1"/>
-  <element name="overlayXY" type="kml:vec2Type"/>
-  <element name="phoneNumber" type="string"/>
-  <element name="range" type="double" default="0.0"/>
-  <element name="refreshMode" type="kml:refreshModeEnumType" default="onChange"/>
-  <element name="refreshInterval" type="double" default="4.0"/>
-  <element name="refreshVisibility" type="boolean" default="0"/>
-  <element name="rightFov" type="kml:angle180Type" default="0.0"/>
-  <element name="roll" type="kml:angle180Type" default="0.0"/>
-  <element name="rotation" type="kml:angle180Type" default="0.0"/>
-  <element name="rotationXY" type="kml:vec2Type"/>
-  <element name="scale" type="double" default="1.0"/>
-  <element name="screenXY" type="kml:vec2Type"/>
-  <element name="shape" type="kml:shapeEnumType" default="rectangle"/>
-  <element name="size" type="kml:vec2Type"/>
-  <element name="south" type="kml:angle180Type" default="-180.0"/>
-  <element name="sourceHref" type="anyURI"/>
-  <element name="snippet" type="string"/>
-  <element name="state" type="kml:itemIconStateType"/>
-  <element name="styleUrl" type="anyURI"/>
-  <element name="targetHref" type="anyURI"/>
-  <element name="tessellate" type="boolean" default="0"/>
-  <element name="text" type="string"/>
-  <element name="textColor" type="kml:colorType" default="ff000000"/>
-  <element name="tileSize" type="int" default="256"/>
-  <element name="tilt" type="kml:anglepos180Type" default="0.0"/>
-  <element name="topFov" type="kml:angle90Type" default="0.0"/>
-  <element name="value" type="string"/>
-  <element name="viewBoundScale" type="double" default="1.0"/>
-  <element name="viewFormat" type="string"/>
-  <element name="viewRefreshMode" type="kml:viewRefreshModeEnumType" default="never"/>
-  <element name="viewRefreshTime" type="double" default="4.0"/>
-  <element name="visibility" type="boolean" default="1"/>
-  <element name="west" type="kml:angle180Type" default="-180.0"/>
-  <element name="when" type="kml:dateTimeType"/>
-  <element name="width" type="double" default="1.0"/>
-  <element name="x" type="double" default="1.0"/>
-  <element name="y" type="double" default="1.0"/>
-  <element name="z" type="double" default="1.0"/>
+  <element name="address" type="string" />
+  <element name="altitude" type="double" default="0.0" />
+  <element name="altitudeModeGroup" abstract="true" />
+  <element name="altitudeMode" type="kml:altitudeModeEnumType" default="clampToGround"
+           substitutionGroup="kml:altitudeModeGroup" />
+  <element name="begin" type="kml:dateTimeType" />
+  <element name="bgColor" type="kml:colorType" default="ffffffff" />
+  <element name="bottomFov" type="kml:angle90Type" default="0.0" />
+  <element name="color" type="kml:colorType" default="ffffffff" />
+  <element name="colorMode" type="kml:colorModeEnumType" default="normal" />
+  <element name="cookie" type="string" />
+  <element name="coordinates" type="kml:coordinatesType" />
+  <element name="description" type="string" />
+  <element name="displayName" type="string" />
+  <element name="displayMode" type="kml:displayModeEnumType" default="default" />
+  <element name="drawOrder" type="int" default="0" />
+  <element name="east" type="kml:angle180Type" default="180.0" />
+  <element name="end" type="kml:dateTimeType" />
+  <element name="expires" type="kml:dateTimeType" />
+  <element name="extrude" type="boolean" default="0" />
+  <element name="fill" type="boolean" default="1" />
+  <element name="flyToView" type="boolean" default="0" />
+  <element name="gridOrigin" type="kml:gridOriginEnumType" default="lowerLeft" />
+  <element name="heading" type="kml:angle360Type" default="0.0" />
+  <element name="href" type="anyURI" />
+  <element name="httpQuery" type="string" />
+  <element name="hotSpot" type="kml:vec2Type" />
+  <element name="key" type="kml:styleStateEnumType" default="normal" />
+  <element name="latitude" type="kml:angle90Type" default="0.0" />
+  <element name="leftFov" type="kml:angle180Type" default="0.0" />
+  <element name="linkDescription" type="string" />
+  <element name="linkName" type="string" />
+  <element name="listItemType" type="kml:listItemTypeEnumType" default="check" />
+  <element name="longitude" type="kml:angle180Type" default="0.0" />
+  <element name="maxSnippetLines" type="int" default="2" />
+  <element name="maxSessionLength" type="double" default="-1.0" />
+  <element name="message" type="string" />
+  <element name="minAltitude" type="double" default="0.0" />
+  <element name="minFadeExtent" type="double" default="0.0" />
+  <element name="minLodPixels" type="double" default="0.0" />
+  <element name="minRefreshPeriod" type="double" default="0.0" />
+  <element name="maxAltitude" type="double" default="0.0" />
+  <element name="maxFadeExtent" type="double" default="0.0" />
+  <element name="maxLodPixels" type="double" default="-1.0" />
+  <element name="maxHeight" type="int" default="0" />
+  <element name="maxWidth" type="int" default="0" />
+  <element name="name" type="string" />
+  <element name="near" type="double" default="0.0" />
+  <element name="north" type="kml:angle180Type" default="180.0" />
+  <element name="open" type="boolean" default="0" />
+  <element name="outline" type="boolean" default="1" />
+  <element name="overlayXY" type="kml:vec2Type" />
+  <element name="phoneNumber" type="string" />
+  <element name="range" type="double" default="0.0" />
+  <element name="refreshMode" type="kml:refreshModeEnumType" default="onChange" />
+  <element name="refreshInterval" type="double" default="4.0" />
+  <element name="refreshVisibility" type="boolean" default="0" />
+  <element name="rightFov" type="kml:angle180Type" default="0.0" />
+  <element name="roll" type="kml:angle180Type" default="0.0" />
+  <element name="rotation" type="kml:angle180Type" default="0.0" />
+  <element name="rotationXY" type="kml:vec2Type" />
+  <element name="scale" type="double" default="1.0" />
+  <element name="screenXY" type="kml:vec2Type" />
+  <element name="shape" type="kml:shapeEnumType" default="rectangle" />
+  <element name="size" type="kml:vec2Type" />
+  <element name="south" type="kml:angle180Type" default="-180.0" />
+  <element name="sourceHref" type="anyURI" />
+  <element name="snippet" type="string" />
+  <element name="state" type="kml:itemIconStateType" />
+  <element name="styleUrl" type="anyURI" />
+  <element name="targetHref" type="anyURI" />
+  <element name="tessellate" type="boolean" default="0" />
+  <element name="text" type="string" />
+  <element name="textColor" type="kml:colorType" default="ff000000" />
+  <element name="tileSize" type="int" default="256" />
+  <element name="tilt" type="kml:anglepos180Type" default="0.0" />
+  <element name="topFov" type="kml:angle90Type" default="0.0" />
+  <element name="value" type="string" />
+  <element name="viewBoundScale" type="double" default="1.0" />
+  <element name="viewFormat" type="string" />
+  <element name="viewRefreshMode" type="kml:viewRefreshModeEnumType" default="never" />
+  <element name="viewRefreshTime" type="double" default="4.0" />
+  <element name="visibility" type="boolean" default="1" />
+  <element name="west" type="kml:angle180Type" default="-180.0" />
+  <element name="when" type="kml:dateTimeType" />
+  <element name="width" type="double" default="1.0" />
+  <element name="x" type="double" default="1.0" />
+  <element name="y" type="double" default="1.0" />
+  <element name="z" type="double" default="1.0" />
 
 </schema>

@@ -106,7 +106,7 @@ namespace App.Match
                 where
                 activity.GpsPoints().Count() == activity.HeartRates().Count() &&
                 activity.GpsPoints().Count() == activity.Times().Count() &&
-                activity.HeartRates().Sum() > activity.HeartRates().Count()*20
+                activity.HeartRates().Sum() > activity.HeartRates().Count() * 20
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list =
                 activities.Select(
@@ -126,7 +126,7 @@ namespace App.Match
             {
                 var count =
                     (from segmentResult in cluster from track in segmentResult.TrackSegments select track.Id).Distinct()
-                        .Count();
+                    .Count();
 
                 Console.WriteLine("Cluster {0}: {1}", k, count);
                 Console.WriteLine("Segments : {0}", cluster.Count);
@@ -159,27 +159,27 @@ namespace App.Match
                                 var i = track.Indices[l];
                                 if (0 < i && i + 1 < list[j].Count)
                                 {
-                                    var dt = (seconds[i + 1] - seconds[i - 1])/2.0;
+                                    var dt = (seconds[i + 1] - seconds[i - 1]) / 2.0;
                                     t += dt;
-                                    index1 += (hr[i] - hrStanding)/vel[i]*dt;
-                                    d += (dist[i + 1] - dist[i - 1])/2.0;
-                                    h += hr[i]*dt;
+                                    index1 += (hr[i] - hrStanding) / vel[i] * dt;
+                                    d += (dist[i + 1] - dist[i - 1]) / 2.0;
+                                    h += hr[i] * dt;
                                 }
                             }
                             h /= t;
-                            var v = d/t;
+                            var v = d / t;
                             index1 /= t;
                             var perfectMatch = Comparison.IsEqual(track.Common, 1.0) &&
                                                Comparison.IsEqual(track.Coverage, 1.0);
                             if (Comparison.IsZero(fac) && perfectMatch)
                             {
-                                fac = index1/((h - hrStanding)*t);
+                                fac = index1 / ((h - hrStanding) * t);
                             }
 
                             var index2 = 0.0;
                             if (perfectMatch)
                             {
-                                index2 = (h - hrStanding)*t*fac;
+                                index2 = (h - hrStanding) * t * fac;
                             }
 
                             var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString();
@@ -187,7 +187,7 @@ namespace App.Match
                                 "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}",
                                 track.Direction < 0 ? -1.0 : 1.0,
                                 track.Common, track.SegmentFirst, track.SegmentLast, track.Coverage, track.First,
-                                track.Last, track.Length, d, t, h, v*3.6, 60.0/(v*3.6), index1, index2Str);
+                                track.Last, track.Length, d, t, h, v * 3.6, 60.0 / (v * 3.6), index1, index2Str);
                         }
                         else
                         {

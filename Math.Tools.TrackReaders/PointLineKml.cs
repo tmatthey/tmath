@@ -11,40 +11,40 @@ namespace Math.Tools.TrackReaders
 {
     public class PointLineKml
     {
-  
-        //kml geometry
-        private enum kmlGeometryType
-        {
-            POINT,
-            LINESTRING
-        }
-        //kml tags
-        private enum kmlTagType
-        {
-            POINT,
-            LINESTRING,
-            COORDINATES
-        }
+        private readonly Hashtable KMLCollection = new Hashtable(); //parsed KML
+        private readonly List<Hashtable> LinesCollection = new List<Hashtable>(); //all parsed kml lines
 
         //return types
-        List<Hashtable> PointsCollection = new List<Hashtable>();//all parsed kml points
-        List<Hashtable> LinesCollection = new List<Hashtable>();//all parsed kml lines
-        Hashtable Point;//single point (part of PointsCollection)
-        Hashtable Line;//single line (part of LinesCollection)
+        private readonly List<Hashtable> PointsCollection = new List<Hashtable>(); //all parsed kml points
 
-        Hashtable KMLCollection = new Hashtable();//parsed KML
-
-        private kmlGeometryType? currentGeometry = null;//currently parsed geometry object
-        private kmlTagType? currentKmlTag = null;//currently parsed kml tag
+        private kmlGeometryType? currentGeometry; //currently parsed geometry object
+        private kmlTagType? currentKmlTag; //currently parsed kml tag
 
         private string lastError;
+        private Hashtable Line; //single line (part of LinesCollection)
+        private Hashtable Point; //single point (part of PointsCollection)
+
+        /// <summary>
+        /// Last returned error
+        /// </summary>
+        public string LastError
+        {
+            get { return lastError; }
+            set
+            {
+                //remember error and promote it to caller
+                lastError = value;
+                throw new System.Exception(lastError);
+            }
+        }
 
         /// <summary>
         /// parse kml, fill Points and Lines collections
         /// </summary>
         /// <param name="fileName">Full ABSOLUTE path to file.</param>
         /// <returns>HashTable</returns>
-        public Hashtable KMLDecode (string fileName){
+        public Hashtable KMLDecode(string fileName)
+        {
             readKML(fileName);
             if (PointsCollection != null) KMLCollection.Add("POINTS", PointsCollection);
             if (LinesCollection != null) KMLCollection.Add("LINES", LinesCollection);
@@ -55,70 +55,71 @@ namespace Math.Tools.TrackReaders
         /// Open kml, loop it and check for tags.
         /// </summary>
         /// <param name="fileName">Full ABSOLUTE path to file.</param>
-        private void readKML (string fileName){
-                using (XmlReader kmlread = XmlReader.Create(fileName))
+        private void readKML(string fileName)
+        {
+            using (var kmlread = XmlReader.Create(fileName))
+            {
+                while (kmlread.Read()) //read kml node by node
                 {
-                    while (kmlread.Read())//read kml node by node
+                    //select type of tag and object
+                    switch (kmlread.NodeType)
                     {
-                        //select type of tag and object
-                        switch (kmlread.NodeType)
-                        {
-                            case XmlNodeType.Element:
-                                //in elements select kml type
-                                switch (kmlread.Name.ToUpper())
-                                {
-                                    case "POINT":
-                                        currentGeometry = kmlGeometryType.POINT;
-                                        Point = new Hashtable();
-                                        break;
-                                    case "LINESTRING":
-                                        currentGeometry = kmlGeometryType.LINESTRING;
-                                        Line = new Hashtable();
-                                        break;
-                                    case "COORDINATES":
-                                        currentKmlTag = kmlTagType.COORDINATES;
-                                        break;
-                                }
-                                break;
-                            case XmlNodeType.EndElement:
-                                //check if any geometry is parsed in add it to collection
-                                switch (kmlread.Name.ToUpper())
-                                {
-                                    case "POINT":
-                                        if (Point != null) PointsCollection.Add(Point);
-                                        //Reinit vars
-                                        Point = null;
-                                        currentGeometry = null;
-                                        currentKmlTag = null;
-                                        break;
-                                    case "LINESTRING":
-                                        if (Line != null) LinesCollection.Add(Line);
-                                        //Reinit vars
-                                        Line = null;
-                                        currentGeometry = null;
-                                        currentKmlTag = null;
-                                        break;
-                                }
+                        case XmlNodeType.Element:
+                            //in elements select kml type
+                            switch (kmlread.Name.ToUpper())
+                            {
+                                case "POINT":
+                                    currentGeometry = kmlGeometryType.POINT;
+                                    Point = new Hashtable();
+                                    break;
+                                case "LINESTRING":
+                                    currentGeometry = kmlGeometryType.LINESTRING;
+                                    Line = new Hashtable();
+                                    break;
+                                case "COORDINATES":
+                                    currentKmlTag = kmlTagType.COORDINATES;
+                                    break;
+                            }
+                            break;
+                        case XmlNodeType.EndElement:
+                            //check if any geometry is parsed in add it to collection
+                            switch (kmlread.Name.ToUpper())
+                            {
+                                case "POINT":
+                                    if (Point != null) PointsCollection.Add(Point);
+                                    //Reinit vars
+                                    Point = null;
+                                    currentGeometry = null;
+                                    currentKmlTag = null;
+                                    break;
+                                case "LINESTRING":
+                                    if (Line != null) LinesCollection.Add(Line);
+                                    //Reinit vars
+                                    Line = null;
+                                    currentGeometry = null;
+                                    currentKmlTag = null;
+                                    break;
+                            }
 
-                                break;
-                            case XmlNodeType.Text:
-                            case XmlNodeType.CDATA:
-                            case XmlNodeType.Comment:
-                            case XmlNodeType.XmlDeclaration:
-                                //Parse inner object data
-                                switch (currentKmlTag)
-                                {
-                                    case kmlTagType.COORDINATES:
-                                        parseGeometryVal(kmlread.Value);//try to parse coordinates
-                                        break;
-                                }
-                                break;
+                            break;
+                        case XmlNodeType.Text:
+                        case XmlNodeType.CDATA:
+                        case XmlNodeType.Comment:
+                        case XmlNodeType.XmlDeclaration:
+                            //Parse inner object data
+                            switch (currentKmlTag)
+                            {
+                                case kmlTagType.COORDINATES:
+                                    parseGeometryVal(kmlread.Value); //try to parse coordinates
+                                    break;
+                            }
+                            break;
                         case XmlNodeType.DocumentType:
                             break;
                         default: break;
-                        }
                     }
                 }
+            }
         }
 
         /// <summary>
@@ -153,7 +154,7 @@ namespace Math.Tools.TrackReaders
                     //kml point coordinates format is [lat,lan]
                     value = new Hashtable();
                     coordinates = tag_value.Split(',');
-                    if (coordinates.Length < 2)lastError = "ERROR IN FORMAT OF POINT COORDINATES";
+                    if (coordinates.Length < 2) lastError = "ERROR IN FORMAT OF POINT COORDINATES";
                     value.Add("LNG", coordinates[0].Trim());
                     value.Add("LAT", coordinates[1].Trim());
                     Point.Add("COORDINATES", value);
@@ -179,37 +180,39 @@ namespace Math.Tools.TrackReaders
                 case kmlTagType.COORDINATES:
                     //kml coordinates format is [lat,lan]
                     value = new List<Hashtable>();
-                    vertex = tag_value.Trim().Split(' ');//Split linestring to vertexes
+                    vertex = tag_value.Trim().Split(' '); //Split linestring to vertexes
 
-                    foreach (string point in vertex)
+                    foreach (var point in vertex)
                     {
                         coordinates = point.Split(',');
                         if (coordinates.Length < 2) LastError = "ERROR IN FORMAT OF LINESTRING COORDINATES";
-                        foreach (string coordinate in coordinates)
+                        foreach (var coordinate in coordinates)
                         {
                             linePoint = new Hashtable();
                             linePoint.Add("LNG", coordinates[0]);
                             linePoint.Add("LAT", coordinates[1]);
-                            idx++;//index of net point
+                            idx++; //index of net point
                             value.Add(linePoint);
                         }
                     }
-                    Line.Add("COORDINATES", value);//Add coordinates to line
+                    Line.Add("COORDINATES", value); //Add coordinates to line
                     break;
             }
         }
 
-        /// <summary>
-        /// Last returned error
-        /// </summary>
-        public string LastError
+        //kml geometry
+        private enum kmlGeometryType
         {
-            get { return lastError; }
-            set {
-                //remember error and promote it to caller
-                lastError = value;
-                throw new System.Exception(lastError);
-            }
+            POINT,
+            LINESTRING
+        }
+
+        //kml tags
+        private enum kmlTagType
+        {
+            POINT,
+            LINESTRING,
+            COORDINATES
         }
     }
 }

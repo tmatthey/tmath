@@ -43,7 +43,7 @@ namespace Math.Tests.Gps
             var time = new List<double>();
             for (var i = 0; i < track.Count; i++)
             {
-                time.Add(i*size);
+                time.Add(i * size);
             }
             return time;
         }
@@ -237,8 +237,8 @@ namespace Math.Tests.Gps
             var l6 = res[6].HaversineDistance(res[7]);
 
             l0.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
-            l1.ShouldBe(Geodesy.DistanceOneDeg*2.0, 1e-4);
-            l2.ShouldBe(Geodesy.DistanceOneDeg*2.0, 1e-4);
+            l1.ShouldBe(Geodesy.DistanceOneDeg * 2.0, 1e-4);
+            l2.ShouldBe(Geodesy.DistanceOneDeg * 2.0, 1e-4);
             l3.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
             l4.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
             l5.ShouldBe(Geodesy.DistanceOneDeg, 1e-4);
@@ -272,10 +272,10 @@ namespace Math.Tests.Gps
             var l1 = res[2].HaversineDistance(res[3]);
             var l2 = res[3].HaversineDistance(res[4]);
             var l3 = res[4].HaversineDistance(res[5]);
-            var x = l1/l0 - 1.0;
-            l1.ShouldBe(l0*(1.0 + x), 1e-8);
-            l2.ShouldBe(l0*(1.0 + 2.0*x), 1e-8);
-            l3.ShouldBe(l0*(1.0 + 3.0*x), 1e-8);
+            var x = l1 / l0 - 1.0;
+            l1.ShouldBe(l0 * (1.0 + x), 1e-8);
+            l2.ShouldBe(l0 * (1.0 + 2.0 * x), 1e-8);
+            l3.ShouldBe(l0 * (1.0 + 3.0 * x), 1e-8);
         }
 
         [Test]

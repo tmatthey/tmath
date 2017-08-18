@@ -32,7 +32,8 @@ using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>, IInterpolate<GpsPoint>
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>,
+        IInterpolate<GpsPoint>
     {
         private double _longitude;
 
@@ -67,6 +68,7 @@ namespace Math.Gps
             get { return _longitude; }
             set { _longitude = Function.NormalizeAngle180(value); }
         } // theta :  (-180,180] 
+
         public double Elevation { get; set; } // radius
 
         public IBounding<Vector3D> Bounding()
@@ -113,8 +115,23 @@ namespace Math.Gps
 
         public double ModifiedNorm(GpsPoint d, bool direction = true)
         {
-            var f = (System.Math.Min(Elevation, d.Elevation) + Geodesy.EarthRadius)/Geodesy.EarthRadius;
-            return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm()*f;
+            var f = (System.Math.Min(Elevation, d.Elevation) + Geodesy.EarthRadius) / Geodesy.EarthRadius;
+            return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm() * f;
+        }
+
+        public GpsPoint Interpolate(GpsPoint g, double x)
+        {
+            Vector3D x0 = this;
+            Vector3D x1 = g;
+            var angle = x0.Angle(x1);
+            var q = new GpsPoint(g);
+            if (!Comparison.IsZero(angle))
+            {
+                var axis = x0 ^ x1;
+                q = x0.Rotate(axis, angle * x);
+            }
+            q.Elevation = Elevation * (1.0 - x) + g.Elevation * x;
+            return q;
         }
 
         public bool IsEqual(GpsPoint g)
@@ -147,8 +164,8 @@ namespace Math.Gps
             unchecked
             {
                 var hashCode = Elevation.GetHashCode();
-                hashCode = (hashCode*397) ^ Latitude.GetHashCode();
-                hashCode = (hashCode*397) ^ Longitude.GetHashCode();
+                hashCode = (hashCode * 397) ^ Latitude.GetHashCode();
+                hashCode = (hashCode * 397) ^ Longitude.GetHashCode();
                 return hashCode;
             }
         }
@@ -169,21 +186,6 @@ namespace Math.Gps
             if ((object) g1 == null || (object) g2 == null)
                 return true;
             return !g1.IsEqual(g2);
-        }
-
-        public GpsPoint Interpolate(GpsPoint g, double x)
-        {
-            Vector3D x0 = this;
-            Vector3D x1 = g;
-            var angle = x0.Angle(x1);
-            var q = new GpsPoint(g);
-            if (!Comparison.IsZero(angle))
-            {
-                var axis = x0 ^ x1;
-                q = x0.Rotate(axis, angle*x);
-            }
-            q.Elevation = Elevation*(1.0 - x) + g.Elevation*x;
-            return q;
         }
 
         public double HaversineDistance(GpsPoint g)
@@ -223,25 +225,25 @@ namespace Math.Gps
 
         public void GridIndex(int resolution, out int i, out int j)
         {
-            i = System.Math.Min((int) ((90.0 - Latitude)/180.0*resolution), resolution - 1);
-            j = (int) (i < 1 || i >= resolution - 1 ? 0 : (Longitude + 180.0)/180.0*resolution);
+            i = System.Math.Min((int) ((90.0 - Latitude) / 180.0 * resolution), resolution - 1);
+            j = (int) (i < 1 || i >= resolution - 1 ? 0 : (Longitude + 180.0) / 180.0 * resolution);
         }
 
         public int GridLinearIndex(int resolution)
         {
             int i, j;
             GridIndex(resolution, out i, out j);
-            return j*resolution + i;
+            return j * resolution + i;
         }
 
         public Vector2D ToVector2D(Polar3D center)
         {
             var a3 = -center.Theta;
-            var a2 = System.Math.PI*0.5 - center.Phi;
+            var a2 = System.Math.PI * 0.5 - center.Phi;
             Vector3D w0 = this;
             var w1 = w0.RotateE3(a3);
             GpsPoint u = w1.RotateE2(a2);
-            return new Vector2D(u.Longitude*Geodesy.DistanceOneDeg, u.Latitude*Geodesy.DistanceOneDeg);
+            return new Vector2D(u.Longitude * Geodesy.DistanceOneDeg, u.Latitude * Geodesy.DistanceOneDeg);
         }
     }
 }

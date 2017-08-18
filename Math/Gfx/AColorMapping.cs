@@ -50,7 +50,7 @@ namespace Math.Gfx
         {
             if (Comparison.IsLessEqual(c, 0.0))
                 return 255;
-            return (byte) ((1.0 - (System.Math.Min(c, 1.0)*_range + _min))*255.0);
+            return (byte) ((1.0 - (System.Math.Min(c, 1.0) * _range + _min)) * 255.0);
         }
     }
 }

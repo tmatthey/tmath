@@ -46,7 +46,8 @@ namespace Math.Clustering
             return FindLocalCommonSegments(new FlatTrackCluster(list), n, eps, minL, cost, epsTrack);
         }
 
-        public static List<SegmentResult> FindLocalCommonSegments(FlatTrackCluster cluster, int n = 5, double eps = 20.0,
+        public static List<SegmentResult> FindLocalCommonSegments(FlatTrackCluster cluster, int n = 5,
+            double eps = 20.0,
             double minL = 20.0, int cost = 5, double epsTrack = 25.0)
         {
             var db = TraClus.Cluster(cluster.Tracks, n, eps, true, minL, cost);
@@ -64,15 +65,15 @@ namespace Math.Clustering
                     var g0 = v0.ToGpsPoint(cluster.Center);
                     var g1 = v1.ToGpsPoint(cluster.Center);
                     var d = g0.HaversineDistance(g1);
-                    if (Comparison.IsLess(epsTrack, d/2.0))
+                    if (Comparison.IsLess(epsTrack, d / 2.0))
                     {
                         var v01 = v1 - v0;
 
-                        var m = System.Math.Floor(d/2.0/epsTrack);
+                        var m = System.Math.Floor(d / 2.0 / epsTrack);
                         for (var j = 1; j < m; j++)
                         {
-                            normalizedSegments.Add(v0 + v01*j/m);
-                            normalizedGpsSegments.Add(g0.Interpolate(g1, j/m));
+                            normalizedSegments.Add(v0 + v01 * j / m);
+                            normalizedGpsSegments.Add(g0.Interpolate(g1, j / m));
                         }
                     }
                     normalizedSegments.Add(v1);
@@ -107,10 +108,10 @@ namespace Math.Clustering
 
                             var indices =
                                 (from neighbour in neighbours
-                                        from pt in neighbour
-                                        select pt.Reference + (Comparison.IsEqual(pt.Fraction, 1.0) ? 1 : 0)).Distinct()
-                                    .OrderBy(num => num)
-                                    .ToList();
+                                    from pt in neighbour
+                                    select pt.Reference + (Comparison.IsEqual(pt.Fraction, 1.0) ? 1 : 0)).Distinct()
+                                .OrderBy(num => num)
+                                .ToList();
                             var length = 0.0;
                             var totalLength = 0.0;
                             for (var l = 0; l + 1 < indices.Count; l++)
@@ -140,7 +141,7 @@ namespace Math.Clustering
                                 segments[k].TrackSegments.Add(new TrackSegment(i, indices, first.Reference,
                                     last.Reference + (Comparison.IsEqual(last.Fraction, 1.0) ? 1 : 0),
                                     first.Current, last.Current,
-                                    length, length/totalLength, segLength/segments[k].Length, a));
+                                    length, length / totalLength, segLength / segments[k].Length, a));
                             }
                         }
                     }
@@ -192,7 +193,8 @@ namespace Math.Clustering
 
         public class TrackSegment
         {
-            public TrackSegment(int id, List<int> indices, int first, int last, int segFirst, int segLast, double length,
+            public TrackSegment(int id, List<int> indices, int first, int last, int segFirst, int segLast,
+                double length,
                 double coverageFactor,
                 double commonFactor, double direction)
             {

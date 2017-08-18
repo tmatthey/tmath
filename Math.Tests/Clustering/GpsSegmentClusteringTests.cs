@@ -94,7 +94,12 @@ namespace Math.Tests.Clustering
         {
             var list = new List<List<GpsPoint>>
             {
-                new List<GpsPoint> {new GpsPoint(0.0001, 0), new GpsPoint(0.0001, 0.0001), new GpsPoint(0.0001, 0.0002)},
+                new List<GpsPoint>
+                {
+                    new GpsPoint(0.0001, 0),
+                    new GpsPoint(0.0001, 0.0001),
+                    new GpsPoint(0.0001, 0.0002)
+                },
                 new List<GpsPoint>
                 {
                     new GpsPoint(-0.0001, 0),

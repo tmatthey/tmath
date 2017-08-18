@@ -40,8 +40,8 @@ namespace Math.Tests
         [TestCase(0, true)]
         [TestCase(Comparison.Epsilon, true)]
         [TestCase(-Comparison.Epsilon, true)]
-        [TestCase(2.0*Comparison.Epsilon, true)]
-        [TestCase(-2.0*Comparison.Epsilon, true)]
+        [TestCase(2.0 * Comparison.Epsilon, true)]
+        [TestCase(-2.0 * Comparison.Epsilon, true)]
         [TestCase(13.34, true)]
         [TestCase(-13.34, true)]
         [TestCase(double.NaN, false)]
@@ -56,8 +56,8 @@ namespace Math.Tests
         [TestCase(0, true)]
         [TestCase(Comparison.Epsilon, true)]
         [TestCase(-Comparison.Epsilon, true)]
-        [TestCase(2.0*Comparison.Epsilon, false)]
-        [TestCase(-2.0*Comparison.Epsilon, false)]
+        [TestCase(2.0 * Comparison.Epsilon, false)]
+        [TestCase(-2.0 * Comparison.Epsilon, false)]
         [TestCase(13.34, false)]
         [TestCase(-13.34, false)]
         [TestCase(double.NaN, false)]
@@ -72,8 +72,8 @@ namespace Math.Tests
         [TestCase(0, false)]
         [TestCase(Comparison.Epsilon, false)]
         [TestCase(-Comparison.Epsilon, false)]
-        [TestCase(2.0*Comparison.Epsilon, true)]
-        [TestCase(-2.0*Comparison.Epsilon, false)]
+        [TestCase(2.0 * Comparison.Epsilon, true)]
+        [TestCase(-2.0 * Comparison.Epsilon, false)]
         [TestCase(13.34, true)]
         [TestCase(-13.34, false)]
         [TestCase(double.NaN, false)]
@@ -88,8 +88,8 @@ namespace Math.Tests
         [TestCase(0, false)]
         [TestCase(Comparison.Epsilon, false)]
         [TestCase(-Comparison.Epsilon, false)]
-        [TestCase(2.0*Comparison.Epsilon, false)]
-        [TestCase(-2.0*Comparison.Epsilon, true)]
+        [TestCase(2.0 * Comparison.Epsilon, false)]
+        [TestCase(-2.0 * Comparison.Epsilon, true)]
         [TestCase(13.34, false)]
         [TestCase(-13.34, true)]
         [TestCase(double.NaN, false)]
@@ -104,8 +104,8 @@ namespace Math.Tests
         [TestCase(0, true)]
         [TestCase(Epsilon, true)]
         [TestCase(-Epsilon, true)]
-        [TestCase(2.0*Epsilon, false)]
-        [TestCase(-2.0*Epsilon, false)]
+        [TestCase(2.0 * Epsilon, false)]
+        [TestCase(-2.0 * Epsilon, false)]
         [TestCase(13.34, false)]
         [TestCase(-13.34, false)]
         [TestCase(double.NaN, false)]
@@ -120,8 +120,8 @@ namespace Math.Tests
         [TestCase(0, false)]
         [TestCase(Epsilon, false)]
         [TestCase(-Epsilon, false)]
-        [TestCase(2.0*Epsilon, true)]
-        [TestCase(-2.0*Epsilon, false)]
+        [TestCase(2.0 * Epsilon, true)]
+        [TestCase(-2.0 * Epsilon, false)]
         [TestCase(13.34, true)]
         [TestCase(-13.34, false)]
         [TestCase(double.NaN, false)]
@@ -136,8 +136,8 @@ namespace Math.Tests
         [TestCase(0, false)]
         [TestCase(Epsilon, false)]
         [TestCase(-Epsilon, false)]
-        [TestCase(2.0*Epsilon, false)]
-        [TestCase(-2.0*Epsilon, true)]
+        [TestCase(2.0 * Epsilon, false)]
+        [TestCase(-2.0 * Epsilon, true)]
         [TestCase(13.34, false)]
         [TestCase(-13.34, true)]
         [TestCase(double.NaN, false)]
@@ -152,7 +152,7 @@ namespace Math.Tests
         [TestCase(11.0, 11.0, true)]
         [TestCase(13.0, 13.05, false)]
         [TestCase(0.0, 1e-13, false)]
-        [TestCase(12.0 + double.Epsilon*2.0, 12.0 + double.Epsilon*2.01, true)]
+        [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
         [TestCase(0.0, 1e-14, true)]
         public void IsEqual(double x, double y, bool expected)
         {
@@ -163,7 +163,7 @@ namespace Math.Tests
         [TestCase(12.0, 12.0, 0.1, true)]
         [TestCase(12.0, 12.05, 0.1, true)]
         [TestCase(12.0, 12.05, double.Epsilon, false)]
-        [TestCase(double.Epsilon*2.0, double.Epsilon*2.01, double.Epsilon, true)]
+        [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
         public void IsEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
         {
             var result = Comparison.IsEqual(x, y, eps);
@@ -173,7 +173,7 @@ namespace Math.Tests
         [TestCase(11.0, 11.0, true)]
         [TestCase(13.05, 13.0, false)]
         [TestCase(1e-13, 0.0, false)]
-        [TestCase(12.0 + double.Epsilon*2.0, 12.0 + double.Epsilon*2.01, true)]
+        [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
         [TestCase(0.0, 1e-14, true)]
         [TestCase(5.0, 6.0, true)]
         public void IsLessEqual(double x, double y, bool expected)
@@ -197,7 +197,7 @@ namespace Math.Tests
         [TestCase(12.0, 12.0, 0.1, true)]
         [TestCase(12.0, 12.05, 0.1, true)]
         [TestCase(12.05, 12.0, double.Epsilon, false)]
-        [TestCase(double.Epsilon*2.0, double.Epsilon*2.01, double.Epsilon, true)]
+        [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
         [TestCase(5.0, 6.0, 0.1, true)]
         [TestCase(6.01, 6.0, 0.1, true)]
         public void IsLessEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
@@ -233,7 +233,7 @@ namespace Math.Tests
             var vec = new List<double> {-1.2, 1.02, 1.01, 0.99};
             var res = Comparison.UniqueAverageSorted(vec, 0.1);
             res.Count.ShouldBe(2);
-            res[1].ShouldBe((1.02 + 1.01 + 0.99)/3.0, 1e-10);
+            res[1].ShouldBe((1.02 + 1.01 + 0.99) / 3.0, 1e-10);
             res[0].ShouldBe(-1.2);
         }
     }

@@ -85,7 +85,7 @@ namespace App.Compare
             var curDist = Geodesy.Distance.HaversineAccumulated(curTrack);
             var analyzer = new NeighbourGpsDistanceCalculator(refTrack, System.Math.Max(eps, 50.0));
             var current = analyzer.Analyze(curTrack, eps);
-            var f = (curTime.Last() - refTime.Last())/curDist.Last();
+            var f = (curTime.Last() - refTime.Last()) / curDist.Last();
             foreach (var neighbour in current.Neighbours)
             {
                 var first = neighbour.First();
@@ -99,7 +99,7 @@ namespace App.Compare
                 var rd = Function.Interpolate(a, refDist[j], refDist[j + 1]);
                 var ra = Function.Interpolate(a, refTrack[j].Elevation, refTrack[j + 1].Elevation);
                 var dt = ct - rt;
-                var ndt = dt - cd*f;
+                var ndt = dt - cd * f;
                 Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}", rt, rd, ra, ct, cd, ca,
                     first.MinDistance, dt, ndt);
             }

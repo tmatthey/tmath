@@ -52,9 +52,9 @@ namespace Math.Tools.TrackReaders
             Track track;
             using (var stream = new StringReader(input))
             {
-                track = (TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(stream)) ?? 
+                track = (TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(stream)) ??
                          GpxConverter.Convert(Parse<gpx>(stream))) ??
-                          KmlConverter.Convert(Parse<kml>(stream));
+                        KmlConverter.Convert(Parse<kml>(stream));
             }
             return track;
         }
@@ -92,7 +92,7 @@ namespace Math.Tools.TrackReaders
                     if (track != null && track.Name == null)
                         track.Name = Path.GetFileNameWithoutExtension(filename);
                 }
-                catch 
+                catch
                 {
                     // ignored
                 }
@@ -148,12 +148,12 @@ namespace Math.Tools.TrackReaders
         {
             try
             {
-                 using (var xmlReader = XmlReader.Create(input))
-                 {
+                using (var xmlReader = XmlReader.Create(input))
+                {
                     var serializer = new XmlSerializer(typeof(T));
                     if (serializer.CanDeserialize(xmlReader))
                         return serializer.Deserialize(xmlReader) as T;
-                 }
+                }
             }
             catch
             {

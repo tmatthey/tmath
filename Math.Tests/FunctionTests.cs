@@ -44,7 +44,7 @@ namespace Math.Tests
         public void Cbrt_WithNumber_ReturnsExpectedResult(double x)
         {
             var a = Function.Cbrt(x);
-            var a3 = a*a*a;
+            var a3 = a * a * a;
             a3.ShouldBe(x, 1e-13);
         }
 
@@ -54,7 +54,7 @@ namespace Math.Tests
         public void Cbrt_WithNotNumber_ReturnsInput(double x)
         {
             var a = Function.Cbrt(x);
-            var a3 = a*a*a;
+            var a3 = a * a * a;
             a3.ShouldBe(x);
         }
 
@@ -66,7 +66,7 @@ namespace Math.Tests
         public void Qnrt_WithNumber_ReturnsExpectedResult(double x)
         {
             var a = Function.Qnrt(x);
-            var a5 = a*a*a*a*a;
+            var a5 = a * a * a * a * a;
             a5.ShouldBe(x, 1e-13);
         }
 
@@ -76,15 +76,15 @@ namespace Math.Tests
         public void Qnrt_WithNotNumber_ReturnsInput(double x)
         {
             var a = Function.Qnrt(x);
-            var a3 = a*a*a*a*a;
+            var a3 = a * a * a * a * a;
             a3.ShouldBe(x);
         }
 
-        [TestCase(-System.Math.PI/2.0)]
+        [TestCase(-System.Math.PI / 2.0)]
         [TestCase(-0.1)]
         [TestCase(0.0)]
         [TestCase(0.1)]
-        [TestCase(System.Math.PI/2.0)]
+        [TestCase(System.Math.PI / 2.0)]
         public void FastSin_WithInRange_ReturnsExpected(double a)
         {
             var y = Function.FastSin(a);
@@ -104,11 +104,11 @@ namespace Math.Tests
             cos.ShouldBe(c);
         }
 
-        [TestCase(7, 7 - System.Math.PI*2)]
-        [TestCase(-1, -1 + System.Math.PI*2)]
+        [TestCase(7, 7 - System.Math.PI * 2)]
+        [TestCase(-1, -1 + System.Math.PI * 2)]
         [TestCase(3.1, 3.1)]
         [TestCase(0.0, 0.0)]
-        [TestCase(System.Math.PI*2, 0.0)]
+        [TestCase(System.Math.PI * 2, 0.0)]
         public void NormalizeAngle(double a, double expected)
         {
             var y = Function.NormalizeAngle(a);
@@ -186,7 +186,7 @@ namespace Math.Tests
         public void FibonacciBinet_Equal_Fibonacci(int n)
         {
             var f = Function.Fibonacci(n);
-            Function.FibonacciBinet(n).ShouldBe(f, f*1e-13);
+            Function.FibonacciBinet(n).ShouldBe(f, f * 1e-13);
         }
 
         [TestCase(0, 1ul)]
@@ -223,8 +223,8 @@ namespace Math.Tests
         [TestCase(11, 39916800)]
         [TestCase(12, 479001600)]
         [TestCase(20, 2432902008176640000)]
-        [TestCase(21, 2432902008176640000.0*21.0)]
-        [TestCase(25, 2432902008176640000.0*(21.0*22.0*23.0*24.0*25.0))]
+        [TestCase(21, 2432902008176640000.0 * 21.0)]
+        [TestCase(25, 2432902008176640000.0 * (21.0 * 22.0 * 23.0 * 24.0 * 25.0))]
         public void Factorial(int n, double f)
         {
             Function.Factorial(n).ShouldBe(f);
@@ -332,7 +332,7 @@ namespace Math.Tests
             fmax.ShouldBeGreaterThan(fmaxp1);
             ((double) fmax).ShouldBe(fdmax);
             fmaxp1.ShouldBe(0ul);
-            fdmaxp1.ShouldBe(fdmax*(Function.MaxFactorialInt + 1));
+            fdmaxp1.ShouldBe(fdmax * (Function.MaxFactorialInt + 1));
         }
 
         [Test]
@@ -354,7 +354,8 @@ namespace Math.Tests
         {
             var primes = new[]
             {
-                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103,
+                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
+                103,
                 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173,
                 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283,
                 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373,

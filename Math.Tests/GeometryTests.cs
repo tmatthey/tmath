@@ -73,7 +73,7 @@ namespace Math.Tests
                 new Vector2D(1, 0)
             };
             for (var i = 4; i < 4 + n; i++)
-                points.Add(new Vector2D(1.0 + i/(n + 4.0)*0.99, 0.0));
+                points.Add(new Vector2D(1.0 + i / (n + 4.0) * 0.99, 0.0));
             var c = Geometry.MinCircle(points);
             var expected = new Circle2D(new Vector2D(1, 0), 1);
             c.ShouldBe(expected);
@@ -110,9 +110,9 @@ namespace Math.Tests
             var center = new Vector2D(1.0, 0.0);
             for (var i = 0; i < n; i++)
             {
-                var fraction = i/(double) n;
-                var angle = fraction*System.Math.PI*2.0;
-                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle))*fraction);
+                var fraction = i / (double) n;
+                var angle = fraction * System.Math.PI * 2.0;
+                points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle)) * fraction);
             }
             var c = Geometry.MinCircle(points);
             var expected = new Circle2D(new Vector2D(1, 0), 1);
@@ -156,7 +156,7 @@ namespace Math.Tests
                 MakeVectorOnSphere(1, 0)
             };
             for (var i = 4; i < 4 + n; i++)
-                points.Add(MakeVectorOnSphere(1.0 + i/(n + 4.0)*0.99, 0.0));
+                points.Add(MakeVectorOnSphere(1.0 + i / (n + 4.0) * 0.99, 0.0));
             var c = Geometry.MinCircleOnSphere(points);
             c.Center.X.ShouldBe(1.0);
             c.Center.Y.ShouldBe(0.0);
@@ -200,10 +200,10 @@ namespace Math.Tests
             var center = MakeVectorOnSphere(0.0, 0.0);
             for (var i = 0; i < n; i++)
             {
-                var fraction = i/(double) n;
-                var angle = fraction*System.Math.PI*2.0;
-                points.Add(MakeVectorOnSphere(center.X + System.Math.Sin(angle)*fraction*.9,
-                    center.Y + System.Math.Cos(angle)*fraction*.9));
+                var fraction = i / (double) n;
+                var angle = fraction * System.Math.PI * 2.0;
+                points.Add(MakeVectorOnSphere(center.X + System.Math.Sin(angle) * fraction * .9,
+                    center.Y + System.Math.Cos(angle) * fraction * .9));
             }
             var c = Geometry.MinCircleOnSphere(points);
             c.Center.X.ShouldBe(center.X);
@@ -233,7 +233,7 @@ namespace Math.Tests
         {
             var center = new Vector3D(1, 0, 1);
             var a = new Vector3D(center.X, center.Y, 0.0);
-            var b = new Vector3D(center.X + x*f, center.Y, f);
+            var b = new Vector3D(center.X + x * f, center.Y, f);
             var c = new Circle3D(center, Vector3D.E3, 1);
             Geometry.DiscLineIntersect(c, a, b).ShouldBe(expected);
         }
@@ -241,7 +241,7 @@ namespace Math.Tests
         private Vector3D MakeVectorOnSphere(double x, double y)
         {
             var r = 7;
-            var z = System.Math.Sqrt(r*r - x*x - y*y);
+            var z = System.Math.Sqrt(r * r - x * x - y * y);
             return new Vector3D(x, y, z);
         }
 
@@ -1121,9 +1121,9 @@ namespace Math.Tests
             }
             var c = Geometry.MinCircleOnSphere(points);
             var c0 = c.Center.Normalized();
-            var d0 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c0), current))*Geodesy.EarthRadius;
+            var d0 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c0), current)) * Geodesy.EarthRadius;
             var c1 = gps.Center.Normalized();
-            var d1 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c1), current))*Geodesy.EarthRadius;
+            var d1 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c1), current)) * Geodesy.EarthRadius;
             d0.ShouldBeLessThan(d1);
 
             var n = 0;
@@ -1175,7 +1175,8 @@ namespace Math.Tests
                 MakeVectorOnSphere(1, 2)
             };
             var c = Geometry.MinCircleOnSphere(points);
-            var expected = Circle3D.Create(MakeVectorOnSphere(1, 2), MakeVectorOnSphere(3, 4), MakeVectorOnSphere(5, 4));
+            var expected = Circle3D.Create(MakeVectorOnSphere(1, 2), MakeVectorOnSphere(3, 4),
+                MakeVectorOnSphere(5, 4));
             c.ShouldBe(expected);
         }
 
@@ -1192,10 +1193,10 @@ namespace Math.Tests
                 a
             };
             var c = Geometry.MinCircleOnSphere(points);
-            var center = (a + b)/2.0;
+            var center = (a + b) / 2.0;
             c.Center.ShouldBe(center);
             c.Normal.ShouldBe(center);
-            c.Radius.ShouldBe(a.EuclideanNorm(b)/2.0);
+            c.Radius.ShouldBe(a.EuclideanNorm(b) / 2.0);
         }
 
         [Test]
@@ -1249,7 +1250,7 @@ namespace Math.Tests
             var min = double.PositiveInfinity;
             for (var i = 0; i < points.Count - 1; i++)
                 min = System.Math.Min(min, points[i].EuclideanNorm(points[i + 1]));
-            var list = Geometry.PolylineToSegments(points, min*0.9999);
+            var list = Geometry.PolylineToSegments(points, min * 0.9999);
             list.Count.ShouldBe(track.Count - 1);
         }
 
@@ -1528,7 +1529,7 @@ namespace Math.Tests
         public void SignificantPoints2D_TrackOneWithUnrestrictedMDLCostAdvantage_ReturnsStartAndEndPoint()
         {
             var track = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track, true, int.MaxValue/10);
+            var list = Geometry.SignificantPoints(track.CreateFlatTrack().Track, true, int.MaxValue / 10);
             list.Count.ShouldBe(2);
             list[0].ShouldBe(0);
             list[1].ShouldBe(track.Track.Count - 1);
@@ -1613,7 +1614,7 @@ namespace Math.Tests
         public void SignificantPoints3D_TrackOneWithUnrestrictedMDLCostAdvantage_ReturnsStartAndEndPoint()
         {
             var list = Geometry.SignificantPoints(_gpsTrackExamples.TrackOne().Select(p => (Vector3D) p).ToList(), true,
-                int.MaxValue/10);
+                int.MaxValue / 10);
             list.Count.ShouldBe(2);
             list[0].ShouldBe(0);
             list[1].ShouldBe(_gpsTrackExamples.TrackOne().Count - 1);
@@ -1652,7 +1653,7 @@ namespace Math.Tests
             var c = new Vector2D(0, 2);
             var d = new Vector2D(3, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0));
         }
 
         [Test]
@@ -1663,7 +1664,7 @@ namespace Math.Tests
             var c = new Vector2D(3, 2);
             var d = new Vector2D(0, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0);
         }
 
         [Test]
@@ -1674,7 +1675,7 @@ namespace Math.Tests
             var c = new Vector2D(0, 0);
             var d = new Vector2D(3, 0);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
         }
 
         [Test]
@@ -1685,7 +1686,7 @@ namespace Math.Tests
             var c = new Vector2D(0, 0);
             var d = new Vector2D(3, 0);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
         }
 
         [Test]
@@ -1696,7 +1697,7 @@ namespace Math.Tests
             var c = new Vector2D(-5, 2);
             var d = new Vector2D(4, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
         }
 
         [Test]
@@ -1707,7 +1708,7 @@ namespace Math.Tests
             var c = new Vector2D(4, 2);
             var d = new Vector2D(-5, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
         }
 
         [Test]
@@ -1747,7 +1748,7 @@ namespace Math.Tests
             var c = new Vector3D(0, 17, 2);
             var d = new Vector3D(3, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0));
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0));
         }
 
         [Test]
@@ -1758,7 +1759,7 @@ namespace Math.Tests
             var c = new Vector3D(3, 17, 2);
             var d = new Vector3D(0, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0);
         }
 
         [Test]
@@ -1769,7 +1770,7 @@ namespace Math.Tests
             var c = new Vector3D(0, 17, 0);
             var d = new Vector3D(3, 17, 0);
             var dist = Geometry.TrajectoryHausdorffDistance(new Segment3D(a, b), new Segment3D(c, d));
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
         }
 
         [Test]
@@ -1780,7 +1781,7 @@ namespace Math.Tests
             var c = new Vector3D(0, 17, 0);
             var d = new Vector3D(3, 17, 0);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
         }
 
         [Test]
@@ -1791,7 +1792,7 @@ namespace Math.Tests
             var c = new Vector3D(-5, 17, 2);
             var d = new Vector3D(4, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0, 1e-12);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0, 1e-12);
         }
 
         [Test]
@@ -1802,7 +1803,7 @@ namespace Math.Tests
             var c = new Vector3D(4, 17, 2);
             var d = new Vector3D(-5, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 3.0 + 1.0);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 3.0 + 1.0);
         }
 
         [Test]
@@ -1813,7 +1814,7 @@ namespace Math.Tests
             var c = new Vector3D(5, 17, 2);
             var d = new Vector3D(4, 17, 2);
             var dist = Geometry.TrajectoryHausdorffDistance(a, b, c, d);
-            dist.ShouldBe((2.0*2.0 + 2.0*2.0)/(2.0 + 2.0) + 1.0 + 1.0, 1e-12);
+            dist.ShouldBe((2.0 * 2.0 + 2.0 * 2.0) / (2.0 + 2.0) + 1.0 + 1.0, 1e-12);
         }
 
         [Test]

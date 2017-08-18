@@ -81,7 +81,7 @@ namespace Math.Gps
             unchecked
             {
                 var hashCode = Reference.GetHashCode();
-                hashCode = (hashCode*397) ^ Current.GetHashCode();
+                hashCode = (hashCode * 397) ^ Current.GetHashCode();
                 return hashCode;
             }
         }

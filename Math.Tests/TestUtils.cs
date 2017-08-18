@@ -65,11 +65,12 @@ namespace Math.Tests
 
         public static string OutputPath()
         {
-
 #if NET_CORE_APP_1_1
-            var path = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("\\bin\\")) + "\\Output\\";
+            var path = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("\\bin\\")) +
+                       "\\Output\\";
 #else
-            var path = Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
+            var path =
+Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
             path = path.Replace("file:///", "");
             path = path.Replace('/', '\\');
 #endif

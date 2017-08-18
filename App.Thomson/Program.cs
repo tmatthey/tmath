@@ -63,7 +63,7 @@ namespace App.Thomson
             Console.WriteLine("Thomas : {0}", n);
             Console.WriteLine("Itr\tU\tdiff\tmin\tmax");
 
-            var minRInitial = Conversion.DegToRad(20.0)/System.Math.PI;
+            var minRInitial = Conversion.DegToRad(20.0) / System.Math.PI;
             var rnd = new Random();
             var x = new List<Vector3D>();
             for (var i = 0; i < n; i++)
@@ -75,10 +75,10 @@ namespace App.Thomson
             const int delta = 1;
             long k = 0;
             var xp = new Vector3D[n];
-            while (last < 60*60/delta)
+            while (last < 60 * 60 / delta)
             {
                 k++;
-                var minR = minRInitial/System.Math.Log(k + 1);
+                var minR = minRInitial / System.Math.Log(k + 1);
                 for (var i = 0; i < n; i++)
                 {
                     var F = Vector3D.E1;
@@ -86,10 +86,10 @@ namespace App.Thomson
                     {
                         if (i != j)
                         {
-                            var ang = x[i].Angle(x[j])/System.Math.PI;
+                            var ang = x[i].Angle(x[j]) / System.Math.PI;
                             var r = System.Math.Max(ang, minR);
-                            var q = System.Math.Min((1.0/r - 1.0)*minR, 0.8);
-                            var b = q*q*System.Math.PI;
+                            var q = System.Math.Min((1.0 / r - 1.0) * minR, 0.8);
+                            var b = q * q * System.Math.PI;
                             F = F.Rotate(x[i] ^ x[j], b);
                         }
                     }
@@ -113,7 +113,7 @@ namespace App.Thomson
                             if (i != j)
                             {
                                 e = System.Math.Min(e, x[i].Angle(x[j]));
-                                U += 0.5/x[i].EuclideanNorm(x[j]);
+                                U += 0.5 / x[i].EuclideanNorm(x[j]);
                             }
                         }
                         angles.Add(e);

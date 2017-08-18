@@ -104,8 +104,8 @@ namespace Math
                 return l;
 
             var c = d.A - A;
-            var s = Vector2D.Cross(c, b)/ab;
-            var t = Vector2D.Cross(c, a)/ab;
+            var s = Vector2D.Cross(c, b) / ab;
+            var t = Vector2D.Cross(c, a) / ab;
 
             if (Comparison.IsLessEqual(s, 0.0) || Comparison.IsLessEqual(1.0, s) ||
                 Comparison.IsLessEqual(t, 0.0) || Comparison.IsLessEqual(1.0, t))
@@ -167,7 +167,7 @@ namespace Math
             unchecked
             {
                 var hashCode = A.GetHashCode();
-                hashCode = (hashCode*397) ^ B.GetHashCode();
+                hashCode = (hashCode * 397) ^ B.GetHashCode();
                 return hashCode;
             }
         }

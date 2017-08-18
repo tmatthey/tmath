@@ -67,7 +67,8 @@ namespace Math.Tools.TrackReaders
                                 {
                                     var coordinates = str.Split(',');
                                     double lat, lng;
-                                    if (coordinates.Length > 1 && double.TryParse(coordinates[0].Trim(), out lng) && double.TryParse(coordinates[1].Trim(), out lat))
+                                    if (coordinates.Length > 1 && double.TryParse(coordinates[0].Trim(), out lng) &&
+                                        double.TryParse(coordinates[1].Trim(), out lat))
                                     {
                                         var elev = 0.0;
                                         if (useElevation && !double.TryParse(coordinates[2].Trim(), out elev))
@@ -76,7 +77,8 @@ namespace Math.Tools.TrackReaders
                                         }
                                         if (lastPoint != null)
                                         {
-                                            distance += Gps.Geodesy.Distance.Haversine(lat, lng, lastPoint.Latitude, lastPoint.Longitude);
+                                            distance += Gps.Geodesy.Distance.Haversine(lat, lng, lastPoint.Latitude,
+                                                lastPoint.Longitude);
                                         }
                                         trackPoints.Add(new TrackPoint(lat, lng, elev, distance, 0, time));
                                         lastPoint = trackPoints.Last();
@@ -88,7 +90,13 @@ namespace Math.Tools.TrackReaders
                 }
                 if (trackPoints.Count > 0)
                 {
-                    track = new Track { Date = time, SportType = SportType.Unknown, TrackPoints = trackPoints.ToList(), Name = data.Document.name};
+                    track = new Track
+                    {
+                        Date = time,
+                        SportType = SportType.Unknown,
+                        TrackPoints = trackPoints.ToList(),
+                        Name = data.Document.name
+                    };
                 }
             }
             return track;

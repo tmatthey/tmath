@@ -30,6 +30,7 @@ using System.IO;
 using System.Text;
 #if NET_CORE_APP_1_1
 using Drawing = System.DrawingCore;
+
 #else
 using Drawing = System.Drawing;
 #endif
@@ -98,6 +99,5 @@ namespace Math.Gfx
             }
             image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
         }
-
     }
 }

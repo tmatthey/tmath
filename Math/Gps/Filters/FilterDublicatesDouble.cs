@@ -59,12 +59,12 @@ namespace Math.Gps.Filters
             if (i1 + 1 == j0 && i0 + 1 == i1 && j0 + 1 == j1)
             {
                 var u = time[i1] - time[i0 - 1];
-                var a = track[i0 - 1].HaversineDistance(track[i1])/u;
+                var a = track[i0 - 1].HaversineDistance(track[i1]) / u;
                 var v = time[j1] - time[j0 - 1];
-                var b = track[j0 - 1].HaversineDistance(track[j1])/v;
-                var x = 2.0*(a - b)/(b - a*5.0);
-                var x0 = 1.0/(2.0 + x);
-                var x1 = a/(2.0 + x)*(1.0 + 2.0*x)/b;
+                var b = track[j0 - 1].HaversineDistance(track[j1]) / v;
+                var x = 2.0 * (a - b) / (b - a * 5.0);
+                var x0 = 1.0 / (2.0 + x);
+                var x1 = a / (2.0 + x) * (1.0 + 2.0 * x) / b;
                 if (Comparison.IsLess(0.1, x0) && Comparison.IsLess(x0, 0.9) && Comparison.IsLess(0.1, x1) &&
                     Comparison.IsLess(x1, 0.9))
                 {

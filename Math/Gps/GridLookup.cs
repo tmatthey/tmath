@@ -46,8 +46,8 @@ namespace Math.Gps
             NY = ny + 1;
             Grid = new List<int>[NX, NY];
             for (var i = 0; i < NX; ++i)
-                for (var j = 0; j < NY; j++)
-                    Grid[i, j] = new List<int>();
+            for (var j = 0; j < NY; j++)
+                Grid[i, j] = new List<int>();
             var i0 = -1;
             var j0 = -1;
             for (var k = 0; k < flatTrack.Track.Count; k++)
@@ -107,14 +107,15 @@ namespace Math.Gps
             return Find(point, radius, -1);
         }
 
-        public IList<List<NeighbourDistancePoint>> Find(IList<Vector2D> track, IList<double> displacement, double radius)
+        public IList<List<NeighbourDistancePoint>> Find(IList<Vector2D> track, IList<double> displacement,
+            double radius)
         {
             var list = new List<List<NeighbourDistancePoint>>();
             for (var i = 0; i < track.Count; i++)
             {
                 var d0 = displacement[i];
                 var d1 = i + 1 < track.Count ? displacement[i + 1] : 0.0;
-                var d = System.Math.Max(d0, d1)/2.0;
+                var d = System.Math.Max(d0, d1) / 2.0;
                 var a = Find(track[i], System.Math.Max(radius, d), i);
                 if (a.Count > 0)
                 {
@@ -183,8 +184,8 @@ namespace Math.Gps
         private void Index(Vector2D u, out int i, out int j)
         {
             var v = u - Min;
-            i = (int) System.Math.Floor(v.X/Size);
-            j = (int) System.Math.Floor(v.Y/Size);
+            i = (int) System.Math.Floor(v.X / Size);
+            j = (int) System.Math.Floor(v.Y / Size);
         }
     }
 }

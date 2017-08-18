@@ -147,7 +147,7 @@ namespace Math.Tests
             var v = new Vector3D(2, 1, 2);
             var w = new Vector3D(1.5, 1.5, 2);
             var c = Circle3D.Create(u, v, w);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 
@@ -157,7 +157,7 @@ namespace Math.Tests
             var u = new Vector3D(1, 2, 2);
             var v = new Vector3D(2, 1, 2);
             var c = Circle3D.Create(u, v);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 
@@ -176,7 +176,7 @@ namespace Math.Tests
             var u = new Vector3D(1, 2, 2);
             var v = new Vector3D(2, 1, 2);
             var c = Circle3D.Create(u, v, v);
-            c.Center.ShouldBe((u + v)*0.5);
+            c.Center.ShouldBe((u + v) * 0.5);
             c.Radius.ShouldBe(System.Math.Sqrt(0.5));
         }
 

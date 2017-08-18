@@ -84,7 +84,7 @@ namespace Math.Tests
             const double y1 = 0.2;
             var s = new Segment2D(new Vector2D(x0, y0), new Vector2D(x1, y1));
             var c = s.Array;
-            c.Length.ShouldBe(s.Dimensions*2);
+            c.Length.ShouldBe(s.Dimensions * 2);
             c[0].ShouldBe(x0);
             c[1].ShouldBe(y0);
             c[2].ShouldBe(x1);

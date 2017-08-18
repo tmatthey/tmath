@@ -35,8 +35,8 @@ namespace Math.Gfx
         public override Color Color(double c)
         {
             const double c0 = 0.0;
-            const double c1 = 1.0/3.0;
-            const double c2 = 2.0/3.0;
+            const double c1 = 1.0 / 3.0;
+            const double c2 = 2.0 / 3.0;
             const double c3 = 1.0;
             if (Comparison.IsLessEqual(c, c0))
                 return Gfx.Color.Default.White;
@@ -52,27 +52,27 @@ namespace Math.Gfx
             Color col1;
             if (c < c1)
             {
-                b = c*3.0;
+                b = c * 3.0;
                 col0 = Gfx.Color.Default.LigthBlue;
                 col1 = Gfx.Color.Default.Green;
             }
             else if (c < c2)
             {
-                b = (c - c1)*3.0;
+                b = (c - c1) * 3.0;
                 col0 = Gfx.Color.Default.Green;
                 col1 = Gfx.Color.Default.Yellow;
             }
             else
             {
-                b = (c - c2)*3.0;
+                b = (c - c2) * 3.0;
                 col0 = Gfx.Color.Default.Yellow;
                 col1 = Gfx.Color.Default.Red;
             }
             var a = 1.0 - b;
             return new Color(
-                (byte) (col0.Red*a + col1.Red*b),
-                (byte) (col0.Green*a + col1.Green*b),
-                (byte) (col0.Blue*a + col1.Blue*b));
+                (byte) (col0.Red * a + col1.Red * b),
+                (byte) (col0.Green * a + col1.Green * b),
+                (byte) (col0.Blue * a + col1.Blue * b));
         }
     }
 }

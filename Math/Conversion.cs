@@ -36,17 +36,17 @@ namespace Math
     {
         public static double DegToRad(double x)
         {
-            return x*System.Math.PI/180.0;
+            return x * System.Math.PI / 180.0;
         }
 
         public static double RadToDeg(double x)
         {
-            return x*180.0/System.Math.PI;
+            return x * 180.0 / System.Math.PI;
         }
 
         public static double DateTimeToSeconds(DateTime t)
         {
-            return t.Ticks*1.0e-7;
+            return t.Ticks * 1.0e-7;
         }
 
         public static IList<double> DateTimeToElapsedSeconds(IList<DateTime> t)

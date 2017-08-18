@@ -61,7 +61,7 @@ namespace Math.Clustering
                     for (var j = 1; j < polyline.Count; j++)
                     {
                         var b = polyline[j];
-                        if (Comparison.IsLessEqual(minDistance*0.5, a.EuclideanNorm(b)))
+                        if (Comparison.IsLessEqual(minDistance * 0.5, a.EuclideanNorm(b)))
                         {
                             points.Add(b);
                             lineId.Add(i);

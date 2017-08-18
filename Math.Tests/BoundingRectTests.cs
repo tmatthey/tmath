@@ -175,8 +175,8 @@ namespace Math.Tests
 
             bb.ExpandLayer(r);
 
-            bb.Min.ShouldBe(min - Vector2D.One*r);
-            bb.Max.ShouldBe(max + Vector2D.One*r);
+            bb.Min.ShouldBe(min - Vector2D.One * r);
+            bb.Max.ShouldBe(max + Vector2D.One * r);
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace Math.Tests
             var v = new Vector2D(2, -1);
             bb.Expand(u);
             bb.Expand(v);
-            bb.IsInside((bb.Min + bb.Max)*0.5).ShouldBe(true);
+            bb.IsInside((bb.Min + bb.Max) * 0.5).ShouldBe(true);
         }
 
         [Test]

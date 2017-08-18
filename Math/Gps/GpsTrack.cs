@@ -121,7 +121,7 @@ namespace Math.Gps
         private void CalculateMinCircle()
         {
             var c = Geometry.MinCircleOnSphere(Track.Select(p => ((Vector3D) p).Normalized()).ToList());
-            _minCircleCenter = c.Center.Normalized()*Geodesy.EarthRadius;
+            _minCircleCenter = c.Center.Normalized() * Geodesy.EarthRadius;
             _minCircleAngle = System.Math.Asin(c.Radius);
         }
 
@@ -146,7 +146,7 @@ namespace Math.Gps
             if (n > 0)
             {
                 a.Normalize();
-                a *= d/n;
+                a *= d / n;
                 _angle = a.Angle(Vector3D.E1);
             }
             else

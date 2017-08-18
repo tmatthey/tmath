@@ -48,9 +48,9 @@ namespace Math.Tests.Gps
                 new GpsTrack(new List<GpsPoint>
                 {
                     new GpsPoint {Latitude = 0, Longitude = 180},
-                    new GpsPoint {Latitude = 90*f, Longitude = 180}
+                    new GpsPoint {Latitude = 90 * f, Longitude = 180}
                 });
-            gpsTrack.MinCircleAngle.ShouldBe(System.Math.PI*0.25*f, 1e-13);
+            gpsTrack.MinCircleAngle.ShouldBe(System.Math.PI * 0.25 * f, 1e-13);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Math.Tests.Gps
                 d += v.Norm();
             }
             sum.Normalize();
-            sum *= d/_gpsTrackExamples.TrackOne().Count;
+            sum *= d / _gpsTrackExamples.TrackOne().Count;
             sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
             sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
             sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);

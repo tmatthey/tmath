@@ -57,7 +57,7 @@ namespace Math.Tests.Gfx
             bitmap.AddMagnitude.Plot(x, y, c, cMax);
             bitmap.AddMagnitude.Plot(x, y, c, cMax);
 
-            bitmap.Pick(x, y).ShouldBe(2*cMax);
+            bitmap.Pick(x, y).ShouldBe(2 * cMax);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Math.Tests.Gfx
             bitmap.Add.Plot(x, y, c, cMax);
             bitmap.Add.Plot(x, y, c, cMax);
 
-            bitmap.Pick(x, y).ShouldBe(2*c);
+            bitmap.Pick(x, y).ShouldBe(2 * c);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Math.Tests.Gfx
             bitmap.PixelAdd(x, y, c);
             bitmap.PixelAdd(x, y, c);
 
-            bitmap.Pick(x, y).ShouldBe(c*2.0);
+            bitmap.Pick(x, y).ShouldBe(c * 2.0);
         }
 
         [Test]
