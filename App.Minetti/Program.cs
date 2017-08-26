@@ -27,7 +27,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Fclp;
 using Math;
@@ -70,7 +69,30 @@ namespace App.Minetti
             var height = track.Select(pt => pt.Elevation).ToList();
             var l0 = 0.0;
             var h0 = 0.0;
+            var minettiFactor = 0.0;
+            for (var i = 0; i < track.Count; i++)
+            {
+                var l = dist[i];
+                var h = height[i];
+                var gradient = 0.0;
+                var dl = l - l0;
+                if (i > 0 && dl > 0)
+                {
+                    gradient = (h - h0) / dl;
+                }
+                var minetti = Function.MinettiFactor(gradient);
+                if (i == 0 || (dl > 20 && l > 500))
+                {
+                    minettiFactor += minetti * dl;
+                    l0 = l;
+                    h0 = h;
+                }
+            }
+
+            l0 = 0.0;
+            h0 = 0.0;
             var sum = 0.0;
+            Console.WriteLine("Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tEffort Factor");
             for (var i = 0; i < track.Count; i++)
             {
                 var l = dist[i];
@@ -86,8 +108,9 @@ namespace App.Minetti
                 if (i == 0 || (dl > 20 && l > 500))
                 {
                     sum += minetti * dl;
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", t, l, h, gradient, sum > 0 ? minetti : 1.0,
-                        sum > 0 ? sum / l : 1.0);
+                    var minettiAvg = sum > 0 ? sum / l : 1.0;
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", t, l, h, gradient, sum > 0 ? minetti : 1.0,
+                        minettiAvg, minettiAvg* l / minettiFactor);
                     l0 = l;
                     h0 = h;
                 }
