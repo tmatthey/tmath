@@ -49,7 +49,7 @@ namespace App.Minetti
                 .SetDefault(f)
                 .WithDescription("File name");
 
- 
+
             p.SetupHelp("?", "help")
                 .Callback(text =>
                 {
@@ -81,7 +81,7 @@ namespace App.Minetti
                     gradient = (h - h0) / dl;
                 }
                 var minetti = Function.MinettiFactor(gradient);
-                if (i == 0 || (dl > 20 && l > 500))
+                if (i == 0 || dl > 20 && l > 500)
                 {
                     minettiFactor += minetti * dl;
                     l0 = l;
@@ -105,12 +105,12 @@ namespace App.Minetti
                     gradient = (h - h0) / dl;
                 }
                 var minetti = Function.MinettiFactor(gradient);
-                if (i == 0 || (dl > 20 && l > 500))
+                if (i == 0 || dl > 20 && l > 500)
                 {
                     sum += minetti * dl;
                     var minettiAvg = sum > 0 ? sum / l : 1.0;
                     Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", t, l, h, gradient, sum > 0 ? minetti : 1.0,
-                        minettiAvg, minettiAvg* l / minettiFactor);
+                        minettiAvg, minettiAvg * l / minettiFactor);
                     l0 = l;
                     h0 = h;
                 }
