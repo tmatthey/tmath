@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math", "Math\Math.csproj", "{B2F86C5B-9543-4223-A934-66C4AA20C385}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Normalize", "App.Normal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Thomson", "App.Thomson\App.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Minetti", "App.Minetti\App.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Minetti", "App.Minetti\App.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,5 +84,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2134A312-EB11-4FD3-81D1-046926A7CDF2}
 	EndGlobalSection
 EndGlobal

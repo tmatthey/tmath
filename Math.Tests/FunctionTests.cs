@@ -250,6 +250,7 @@ namespace Math.Tests
         [TestCase(98764321261, true)]
         [TestCase(103226621521, false)]
         [TestCase(922337203685477647L, true)]
+        [TestCase(888888877777777L, true)]
         public void IsPrime(long n, bool prime)
         {
             Function.IsPrime(n).ShouldBe(prime);

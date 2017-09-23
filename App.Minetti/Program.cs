@@ -92,7 +92,7 @@ namespace App.Minetti
             l0 = 0.0;
             h0 = 0.0;
             var sum = 0.0;
-            Console.WriteLine("Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tEffort Factor");
+            Console.WriteLine("Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tEffort Factor\tTime factor");
             for (var i = 0; i < track.Count; i++)
             {
                 var l = dist[i];
@@ -107,10 +107,12 @@ namespace App.Minetti
                 var minetti = Function.MinettiFactor(gradient);
                 if (i == 0 || dl > 20 && l > 500)
                 {
+                    var tf = time.Last() > 0 ? t / time.Last() : 0.0;
                     sum += minetti * dl;
                     var minettiAvg = sum > 0 ? sum / l : 1.0;
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", t, l, h, gradient, sum > 0 ? minetti : 1.0,
-                        minettiAvg, minettiAvg * l / minettiFactor);
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", t, l, h, gradient,
+                        sum > 0 ? minetti : 1.0,
+                        minettiAvg, minettiAvg * l / minettiFactor, tf);
                     l0 = l;
                     h0 = h;
                 }
