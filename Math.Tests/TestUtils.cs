@@ -33,51 +33,51 @@ using System.Reflection;
 
 namespace Math.Tests
 {
-    public static class TestUtils
-    {
-        private static Stopwatch _stopwatch;
+	public static class TestUtils
+	{
+		private static Stopwatch _stopwatch;
 
-        public static void StartTimer()
-        {
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
-        }
+		public static void StartTimer()
+		{
+			_stopwatch = new Stopwatch();
+			_stopwatch.Start();
+		}
 
-        public static void StopTimer()
-        {
-            _stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
-        }
+		public static void StopTimer()
+		{
+			_stopwatch.Stop();
+			Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
+		}
 
-        public static StreamReader ReadResourceFile(string name)
-        {
+		public static StreamReader ReadResourceFile(string name)
+		{
 #if NET_CORE_APP_1_1
-            const string assemblyName = "Math.Tests";
-            var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
+			const string assemblyName = "Math.Tests";
+			var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
 #else
             var assembly = Assembly.GetExecutingAssembly();
             var assemblyName = assembly.GetName().Name;
 #endif
-            var filename = string.Format("{0}.Resources.{1}", assemblyName, name);
+			var filename = string.Format("{0}.Resources.{1}", assemblyName, name);
 
-            return new StreamReader(assembly.GetManifestResourceStream(filename));
-        }
+			return new StreamReader(assembly.GetManifestResourceStream(filename));
+		}
 
-        public static string OutputPath()
-        {
+		public static string OutputPath()
+		{
 #if NET_CORE_APP_1_1
-            var path = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("\\bin\\")) +
-                       "\\Output\\";
+			var i = AppContext.BaseDirectory.IndexOf("\\bin\\");
+			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
 #else
             var path =
 Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
             path = path.Replace("file:///", "");
             path = path.Replace('/', '\\');
 #endif
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+			if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
+				Directory.CreateDirectory(path);
 
-            return path;
-        }
-    }
+			return path;
+		}
+	}
 }
