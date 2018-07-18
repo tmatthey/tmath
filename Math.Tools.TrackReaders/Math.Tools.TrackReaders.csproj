@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40;net45;net46</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2016-2017</Copyright>
+    <Copyright>Copyright © Matthey 2016-2018</Copyright>
     <Company />
     <Product />
     <Description>A collection of GPS track readers suporting GPX, TCX and KML. Source can either be a string, file or directory.</Description>
@@ -21,8 +21,12 @@ Support parsing of KML files</PackageReleaseNotes>
     <NeutralLanguage />
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NET_CORE_APP_1_1</DefineConstants>
+    <DefineConstants>NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+  </PropertyGroup>
+  
   
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
     <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40;net45;net46</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2016-2017</Copyright>
+    <Copyright>Copyright © Matthey 2016-2018</Copyright>
     <Company />
     <Product />
     <Description>A collection of mathematical function and data structures written in C#.
@@ -18,9 +18,13 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <PackageId>Math.Matthey</PackageId>
     <PackageReleaseNotes>Multiple platform support: Net40, Net45, Net46 and .NET Core</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TargetFramework>netstandard1.5</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NET_CORE_APP_1_1</DefineConstants>
+    <DefineConstants>NETCOREAPP1_1</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <DefineConstants>NETSTANDARD1_5</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">

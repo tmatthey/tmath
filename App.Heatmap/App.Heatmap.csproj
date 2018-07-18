@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp1.1;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40;net45;net46</TargetFrameworks>
     <AssemblyName>heatmap</AssemblyName>
     <ApplicationIcon>map.ico</ApplicationIcon>
   </PropertyGroup>

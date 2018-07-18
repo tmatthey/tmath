@@ -51,8 +51,11 @@ namespace Math.Tests
 
         public static StreamReader ReadResourceFile(string name)
         {
-#if NET_CORE_APP_1_1
+#if NETCOREAPP1_1
             const string assemblyName = "Math.Tests";
+            var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
+#elif NETSTANDARD1_5
+			const string assemblyName = "Math.Tests";
             var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
 #else
             var assembly = Assembly.GetExecutingAssembly();
@@ -65,11 +68,14 @@ namespace Math.Tests
 
         public static string OutputPath()
         {
-#if NET_CORE_APP_1_1
+#if NETCOREAPP1_1
             var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
-            var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
+			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
+#elif NETSTANDARD1_5
+			var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
+			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
 #else
-            var path =
+			var path =
 Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
             path = path.Replace("file:///", "");
             path = path.Replace('/', '\\');

@@ -1,20 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>    
-    <TargetFrameworks>netcoreapp1.1;net40</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40</TargetFrameworks>
     <ApplicationIcon></ApplicationIcon>    
-    <Version>2.0.0</Version>    
+    <Version>2.2.0</Version>    
     <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2016</Copyright>
+    <Copyright>Copyright © Matthey 2018</Copyright>
     <Description />
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NET_CORE_APP_1_1</DefineConstants>
+    <DefineConstants>NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+  </PropertyGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="Resources\*.*" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1' OR '$(TargetFramework)'=='netstandard1.5'">
     <PackageReference Include="NUnit" Version="3.7.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
     <PackageReference Include="Shouldly" Version="2.8.3" />
