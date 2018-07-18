@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -49,6 +49,7 @@ namespace Math.Gps
                     a.Add((v[i] - v[i - 1]) / (t[i - 1] + t[i]) * 2.0);
                 }
             }
+
             var varianceVel = Statistics.Arithmetic.Variance(v, t);
             velocity = Comparison.IsZero(varianceVel) ? 0 : varianceVel;
             var varianceAcc = Statistics.Arithmetic.Variance(a);
@@ -95,6 +96,7 @@ namespace Math.Gps
                 s += l;
                 distance.Add(s);
             }
+
             velocity.Add(0.0);
             acceleration.Add(0.0);
             for (var i = 1; i + 1 < track.Count; i++)
@@ -102,6 +104,7 @@ namespace Math.Gps
                 velocity.Add((v[i] * t[i] + v[i + 1] * t[i + 1]) / (t[i] + t[i + 1]));
                 acceleration.Add((v[i + 1] * t[i + 1] - v[i] * t[i]) / (t[i] + t[i + 1]) * 2.0);
             }
+
             velocity.Add(0.0);
             acceleration.Add(0.0);
         }

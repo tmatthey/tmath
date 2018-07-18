@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -68,6 +68,7 @@ namespace Math.Gfx
                 col0 = Gfx.Color.Default.Yellow;
                 col1 = Gfx.Color.Default.Red;
             }
+
             var a = 1.0 - b;
             return new Color(
                 (byte) (col0.Red * a + col1.Red * b),

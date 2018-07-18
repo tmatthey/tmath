@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -56,6 +56,7 @@ namespace Math.Tools.TrackReaders
                          GpxConverter.Convert(Parse<gpx>(stream))) ??
                         KmlConverter.Convert(Parse<kml>(stream));
             }
+
             return track;
         }
 
@@ -89,6 +90,7 @@ namespace Math.Tools.TrackReaders
                             track = KmlConverter.Convert(Parse<kml>(reader));
                         }
                     }
+
                     if (track != null && track.Name == null)
                         track.Name = Path.GetFileNameWithoutExtension(filename);
                 }
@@ -97,6 +99,7 @@ namespace Math.Tools.TrackReaders
                     // ignored
                 }
             }
+
             return track;
         }
 
@@ -116,6 +119,7 @@ namespace Math.Tools.TrackReaders
             {
                 // ignored
             }
+
             try
             {
                 files.AddRange(System.IO.Directory.GetFiles(path, "*.gpx").ToList());
@@ -159,6 +163,7 @@ namespace Math.Tools.TrackReaders
             {
                 // ignored
             }
+
             return null;
         }
     }

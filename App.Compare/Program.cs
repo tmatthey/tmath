@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,9 +28,9 @@
 
 using System;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Gps;
+using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 
 namespace App.Compare
@@ -39,35 +39,21 @@ namespace App.Compare
     {
         private static void Main(string[] args)
         {
-            var refFile = "";
-            var curFile = "";
-            var eps = 10.0;
-            var p = new FluentCommandLineParser();
-
-            p.Setup<string>('r')
-                .Callback(v => refFile = v)
-                .SetDefault(refFile)
-                .WithDescription("GPX/TCX reference file");
-
-            p.Setup<string>('c')
-                .Callback(v => curFile = v)
-                .SetDefault(curFile)
-                .WithDescription("GPX/TCX to compared file");
-
-            p.Setup<double>('e')
-                .Callback(v => eps = v)
-                .SetDefault(eps)
-                .WithDescription("Neighborhood/epsilon distance");
-
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
+            var p = new CommandLineParser("compare", args);
+            p.SetupHelp(helpText =>
                 {
-                    Console.WriteLine(text);
+                    Console.WriteLine(helpText);
                     Environment.Exit(0);
-                });
-            p.Parse(args);
+                }).SetupError((helpText, errorText) =>
+                {
+                    Console.WriteLine(errorText);
+                    Console.WriteLine(helpText);
+                    Environment.Exit(0);
+                }).Setup("r", "GPX/TCX reference file", out string refFile)
+                .Setup("c", "GPX/TCX to compared file", out string curFile)
+                .Setup("e", "Neighborhood/epsilon distance", out var eps, 10.0);
 
+            p.Parse();
 
             var refInput = Deserializer.File(refFile);
             var curInput = Deserializer.File(curFile);

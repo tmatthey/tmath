@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,10 +40,7 @@ namespace Math.Gps
         protected FlatTrack _flatTrack;
         protected GridLookup _gridLookup;
 
-        public FlatTrack ReferenceFlattendTrack
-        {
-            get { return _flatTrack; }
-        }
+        public FlatTrack ReferenceFlattendTrack => _flatTrack;
 
         public NeighbourDistance Analyze(FlatTrack trackCur, double radius)
         {
@@ -95,6 +92,7 @@ namespace Math.Gps
                             Geometry.PerpendicularSegmentDistance(trackRef.Track[ir - 1], refDp, curDp),
                             f, (1.0 - f) * trackRef.Distance[ir - 1] + f * trackRef.Distance[ir]));
                     }
+
                     if (ir + 1 < trackRef.Track.Count)
                     {
                         var f = Geometry.PerpendicularSegmentParameter(refDp, trackRef.Track[ir + 1], curDp);
@@ -111,15 +109,18 @@ namespace Math.Gps
                             q = new NeighbourDistancePoint(q.Reference + 1, q.Current, q.MinDistance, 0.0,
                                 q.RefDistance);
                         }
+
                         if (newPoints.All(w => w.Reference != q.Reference))
                         {
                             newPoints.Add(q);
                         }
                     }
                 }
+
                 newPoints.Sort((p0, p1) => p0.MinDistance.CompareTo(p1.MinDistance));
                 adjsuteddNeighboursCur.Add(newPoints);
             }
+
             return adjsuteddNeighboursCur;
         }
 
@@ -154,11 +155,13 @@ namespace Math.Gps
                         i++;
                     }
                 }
+
                 // Find average ref. index of each segment
                 if (refList.Count > 0)
                 {
                     segments.Add(refList);
                 }
+
                 var segmentAvg =
                     (from s in segments let sum = s.Aggregate(0.0, (current1, t) => current1 + t) select sum / s.Count)
                     .ToList();
@@ -175,6 +178,7 @@ namespace Math.Gps
                 reducedNeighboursCur.Add(newPoint);
                 index = (int) segmentAvg[minSegmentIndex];
             }
+
             return reducedNeighboursCur;
         }
     }

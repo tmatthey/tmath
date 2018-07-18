@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -63,26 +63,17 @@ namespace Math.Tools.TrackReaders
         /// <summary>
         /// Returns latitude [deg]
         /// </summary>
-        public double Latitude
-        {
-            get { return Gps.Latitude; }
-        }
+        public double Latitude => Gps.Latitude;
 
         /// <summary>
         /// Returns Longitude [deg]
         /// </summary>
-        public double Longitude
-        {
-            get { return Gps.Longitude; }
-        }
+        public double Longitude => Gps.Longitude;
 
         /// <summary>
         /// Returns elevation [m]
         /// </summary>
-        public double Elevation
-        {
-            get { return Gps.Elevation; }
-        }
+        public double Elevation => Gps.Elevation;
 
         /// <summary>
         /// Returns distance [m]

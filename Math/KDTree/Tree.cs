@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,6 +66,7 @@ namespace Math.KDTree
                 {
                     b.Expand(key.Bounding());
                 }
+
                 _minMin = b.Min.Array;
                 _maxMax = b.Max.Array;
             }
@@ -74,6 +75,7 @@ namespace Math.KDTree
                 _minMin = null;
                 _maxMax = null;
             }
+
             _leftNotEmpty = left.Depth() > 0;
             _rightNotEmpty = right.Depth() > 0;
         }
@@ -96,6 +98,7 @@ namespace Math.KDTree
                         _min[j][x.i] <= max[x.i]))
                         yield return _indices[j];
             }
+
             if (_rightNotEmpty && max[_dim] >= _cut)
             {
                 foreach (var index in _right.Search(min, max))

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -48,6 +48,7 @@ namespace Math.Tools.TrackReaders
             {
                 return null;
             }
+
             var activities = data.Activities.Activity;
             var trackPoints = activities.SelectMany(a =>
             {
@@ -69,6 +70,7 @@ namespace Math.Tools.TrackReaders
                 date = activity.Id;
                 sport = FindSport(activity.Sport);
             }
+
             return new Track {Date = date, SportType = sport, TrackPoints = trackPoints.ToList()};
         }
 

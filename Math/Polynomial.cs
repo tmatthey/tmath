@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -201,6 +201,7 @@ namespace Math
                 {
                     break;
                 }
+
                 if ((i + 1) % MT != 0)
                 {
                     x -= dx;
@@ -210,6 +211,7 @@ namespace Math
                     x -= _frac[(i + 1) / MT] * dx;
                 }
             }
+
             return x;
         }
 
@@ -224,6 +226,7 @@ namespace Math
             {
                 coefficients[i - 1] = _p[i] + (i < n - 1 ? coefficients[i] * c : 0);
             }
+
             return new Polynomial(coefficients);
         }
 
@@ -238,6 +241,7 @@ namespace Math
             {
                 c0[i - 1] = _p[i] + (i < n - 1 ? c0[i] * c : 0);
             }
+
             n--;
             var c1 = new List<double>(new double[n - 1]);
             var d = Complex.Conjugate(c);
@@ -245,6 +249,7 @@ namespace Math
             {
                 c1[i - 1] = (c0[i] + (i < n - 1 ? c1[i] * d : 0)).Real;
             }
+
             return new Polynomial(c1);
         }
 
@@ -255,6 +260,7 @@ namespace Math
             {
                 y = y * x + p[i];
             }
+
             return y;
         }
     }

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -48,6 +48,7 @@ namespace Math.Tools.TrackReaders
             {
                 return null;
             }
+
             var time = DateTime.Now;
             var first = true;
             var trackPoints = data.trk.trkseg.Select(pkt =>
@@ -57,11 +58,13 @@ namespace Math.Tools.TrackReaders
                 {
                     hearRate = pkt.extensions.TrackPointExtension.hr;
                 }
+
                 if (first)
                 {
                     time = pkt.time;
                     first = false;
                 }
+
                 return new TrackPoint((double) pkt.lat, (double) pkt.lon, (double) pkt.ele, double.NaN, hearRate,
                     pkt.time);
             });
@@ -83,10 +86,12 @@ namespace Math.Tools.TrackReaders
             {
                 return SportType.Unknown;
             }
+
             if (type.Equals("running", StringComparison.CurrentCultureIgnoreCase))
             {
                 return SportType.Running;
             }
+
             return SportType.Unknown;
         }
     }

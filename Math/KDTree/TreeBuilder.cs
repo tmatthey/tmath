@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -128,6 +128,7 @@ namespace Math.KDTree
                         medians.Add(p);
                     }
                 }
+
                 if (right.Count < maxLeaf && left.Count < maxLeaf)
                     return new Tree<T, S>(depth, list.Select(item => item.Key).ToList(), double.NaN,
                         list.Select(item => item.Value).ToList(), new EmptyTree<T>(), new EmptyTree<T>());

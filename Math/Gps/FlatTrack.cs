@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,15 +66,9 @@ namespace Math.Gps
 
         public List<Vector2D> Track { get; }
 
-        public Vector2D Min
-        {
-            get { return Size.Min; }
-        }
+        public Vector2D Min => Size.Min;
 
-        public Vector2D Max
-        {
-            get { return Size.Max; }
-        }
+        public Vector2D Max => Size.Max;
 
         public IList<double> Distance
         {
@@ -84,6 +78,7 @@ namespace Math.Gps
                 {
                     CalculateDistance();
                 }
+
                 return _distance;
             }
         }
@@ -96,6 +91,7 @@ namespace Math.Gps
                 {
                     CalculateDistance();
                 }
+
                 return _displacement;
             }
         }
@@ -108,6 +104,7 @@ namespace Math.Gps
                 {
                     CalculateDistance();
                 }
+
                 return _distance.LastOrDefault();
             }
         }
@@ -126,6 +123,7 @@ namespace Math.Gps
                 {
                     ds = Track[i - 1].EuclideanNorm(Track[i]);
                 }
+
                 d += ds;
                 _distance.Add(d);
                 _displacement.Add(ds);

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -114,6 +114,7 @@ namespace Math.Tests.Gps
             {
                 pt.Longitude += 40.0;
             }
+
             var gpsTrack1 = new GpsTrack(track);
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
             TestUtils.StartTimer();
@@ -524,6 +525,7 @@ namespace Math.Tests.Gps
             {
                 pt.Longitude += 40.0;
             }
+
             var gpsTrack1 = new GpsTrack(track);
             var gpsTrack2 = new GpsTrack(_gpsTrackExamples.TrackOne());
             TestUtils.StartTimer();

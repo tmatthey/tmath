@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -84,6 +84,7 @@ namespace Math.Gps
                         Comparison.IsLess(aFilter.NewVelocityVariance, aFilter.OldVelocityVariance))
                         filters.Add(aFilter);
                 }
+
                 if (filters.Any())
                 {
                     var filter = filters.OrderBy(a => a.NewAccelerationVariance).First();
@@ -93,6 +94,7 @@ namespace Math.Gps
                         res[pt.I].Longitude = pt.Longitude;
                         res[pt.I].Elevation = pt.Elevation;
                     }
+
                     i += filter.Takes() - 1;
                 }
             }
@@ -119,6 +121,7 @@ namespace Math.Gps
                     isZero = false;
                 }
             }
+
             return n;
         }
 
@@ -136,6 +139,7 @@ namespace Math.Gps
                     lastAdd = i + 1;
                 }
             }
+
             return res;
         }
 
@@ -166,6 +170,7 @@ namespace Math.Gps
                     isZero = false;
                 }
             }
+
             return startIdx.Count;
         }
     }

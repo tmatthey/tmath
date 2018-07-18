@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,9 +28,9 @@
 
 using System;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Gps;
+using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 
 namespace App.Normalize
@@ -39,47 +39,22 @@ namespace App.Normalize
     {
         private static void Main(string[] args)
         {
-            var n = 12;
-            var f = "";
-            var equiType = NormalzieType.Length;
-            var endTime = 0.0;
-            var endLength = 0.0;
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("normalize", args);
 
-
-            p.Setup<int>('n')
-                .Callback(v => n = v)
-                .SetDefault(n)
-                .WithDescription("Number of points");
-
-            p.Setup<double>('t')
-                .Callback(v => endTime = v)
-                .SetDefault(endTime)
-                .WithDescription("End time [s]");
-
-            p.Setup<double>('l')
-                .Callback(v => endLength = v)
-                .SetDefault(endLength)
-                .WithDescription("End length [m]");
-
-            p.Setup<string>('f')
-                .Callback(v => f = v)
-                .SetDefault(f)
-                .WithDescription("File name");
-
-            p.Setup<NormalzieType>('e')
-                .Callback(v => equiType = v)
-                .SetDefault(equiType)
-                .WithDescription("Equidistant by time or length");
-
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
+            p.SetupHelp(helpText =>
                 {
-                    Console.WriteLine(text);
+                    Console.WriteLine(helpText);
                     Environment.Exit(0);
-                });
-            p.Parse(args);
+                }).SetupError((helpText, errorText) =>
+                {
+                    Console.WriteLine(errorText);
+                    Console.WriteLine(helpText);
+                    Environment.Exit(0);
+                }).Setup("n", "Number of points.", out var n, 12).Setup("t", "End time [s]", out var endTime, 0.0)
+                .Setup("l", "End length [m]", out var endLength, 0.0).Setup("f", "File name", out string f).Setup("c",
+                    "Equidistant by time or length", out var equiType, NormalzieType.Length);
+
+            p.Parse();
 
 
             Console.WriteLine("normalize : {0}", n);
@@ -122,13 +97,15 @@ namespace App.Normalize
                             j++;
                         sl = Function.Interpolate(st, elapsed[j], elapsed[j + 1], dist[j], dist[j + 1]);
                     }
+
                     Console.WriteLine("{0}\t{1}", st * tf, sl * lf);
                 }
             }
+
             Console.WriteLine("{0}\t{1}", totalTime * tf, totalDist * lf);
         }
 
-        [Flags]
+
         private enum NormalzieType
         {
             Time = 1,

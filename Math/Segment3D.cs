@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -85,10 +85,7 @@ namespace Math
             return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
         }
 
-        public int Dimensions
-        {
-            get { return A.Dimensions; }
-        }
+        public int Dimensions => A.Dimensions;
 
         public IBounding<Vector3D> Bounding()
         {
@@ -97,10 +94,7 @@ namespace Math
             return a;
         }
 
-        public double[] Array
-        {
-            get { return new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z}; }
-        }
+        public double[] Array => new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z};
 
         public double this[int i]
         {
@@ -121,6 +115,7 @@ namespace Math
                     case 5:
                         return B.Z;
                 }
+
                 throw new ArgumentException();
             }
         }

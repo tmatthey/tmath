@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -84,10 +84,12 @@ namespace Math.Gfx
                             Draw.XiaolinWu(a, b, bitmap.Add.Plot);
                             last = null;
                         }
+
                         prev = b;
                     }
                 }
             }
+
             return bitmap;
         }
 
@@ -114,9 +116,11 @@ namespace Math.Gfx
                             c = bitmap.Pixels[i, j] / max;
                         }
                     }
+
                     bitmap.Pixels[i, j] = c;
                 }
             }
+
             return bitmap.Pixels;
         }
 

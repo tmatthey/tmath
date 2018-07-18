@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -48,15 +48,9 @@ namespace Math
             return GetEnumerator();
         }
 
-        public int Count
-        {
-            get { return _table.Count; }
-        }
+        public int Count => _table.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public void Add(T value)
         {
@@ -100,7 +94,7 @@ namespace Math
 
         public T this[int index]
         {
-            get { return ContainsKey(index) ? _table[index] : default(T); }
+            get => ContainsKey(index) ? _table[index] : default(T);
             set
             {
                 if (ContainsKey(index))

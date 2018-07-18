@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -79,6 +79,7 @@ namespace Math.Clustering
                 foreach (var t in _list)
                     _data.Add(new Point(t));
             }
+
             foreach (var t in _data)
                 t.ClusterId = Classification.UnVisited;
 
@@ -106,12 +107,14 @@ namespace Math.Clustering
                         if (newSeeds.Count >= n)
                             seeds = seeds.Union(newSeeds).ToList();
                     }
+
                     if (_data[j].ClusterId < Classification.Classified)
                     {
                         _data[j].ClusterId = clusterId;
                         region.Add(j);
                     }
                 }
+
                 clusters.Add(region);
                 clusterId++;
             }

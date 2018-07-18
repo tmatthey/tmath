@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -65,8 +65,8 @@ namespace Math.Gps
 
         public double Longitude
         {
-            get { return _longitude; }
-            set { _longitude = Function.NormalizeAngle180(value); }
+            get => _longitude;
+            set => _longitude = Function.NormalizeAngle180(value);
         } // theta :  (-180,180] 
 
         public double Elevation { get; set; } // radius
@@ -81,15 +81,9 @@ namespace Math.Gps
             return new GpsPoint(this);
         }
 
-        public int Dimensions
-        {
-            get { return 3; }
-        }
+        public int Dimensions => 3;
 
-        public double[] Array
-        {
-            get { return new[] {Latitude, Longitude, Elevation}; }
-        }
+        public double[] Array => new[] {Latitude, Longitude, Elevation};
 
         public double this[int i]
         {
@@ -104,6 +98,7 @@ namespace Math.Gps
                     case 2:
                         return Elevation;
                 }
+
                 throw new ArgumentException();
             }
         }
@@ -130,6 +125,7 @@ namespace Math.Gps
                 var axis = x0 ^ x1;
                 q = x0.Rotate(axis, angle * x);
             }
+
             q.Elevation = Elevation * (1.0 - x) + g.Elevation * x;
             return q;
         }

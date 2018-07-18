@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -119,15 +119,9 @@ namespace Math
             return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
 
-        public int Dimensions
-        {
-            get { return A.Dimensions; }
-        }
+        public int Dimensions => A.Dimensions;
 
-        public double[] Array
-        {
-            get { return new[] {A.X, A.Y, B.X, B.Y}; }
-        }
+        public double[] Array => new[] {A.X, A.Y, B.X, B.Y};
 
         public double this[int i]
         {
@@ -144,6 +138,7 @@ namespace Math
                     case 3:
                         return B.Y;
                 }
+
                 throw new ArgumentException();
             }
         }

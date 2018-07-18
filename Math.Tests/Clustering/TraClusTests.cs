@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -132,6 +132,7 @@ namespace Math.Tests.Clustering
                     }
                 }
             }
+
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.points.png", bitmapPoints.Pixels);
 
             var bitmapSegs = new Bitmap(box.Min - Vector2D.One, box.Max + Vector2D.One, 1.0);
@@ -146,6 +147,7 @@ namespace Math.Tests.Clustering
                     }
                 }
             }
+
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster2D.segments.png", bitmapSegs.Pixels);
 
             clusterPointList.Count.ShouldBe(4);
@@ -199,6 +201,7 @@ namespace Math.Tests.Clustering
                 for (var i = 0; i + 1 < list.Segment.Count; i++)
                     Draw.XiaolinWu(list.Segment[i], list.Segment[i + 1], bitmap.Set, 0.5);
             }
+
             foreach (var list in clusterPointList3D)
             {
                 for (var i = 0; i + 1 < list.Segment.Count; i++)
@@ -210,6 +213,7 @@ namespace Math.Tests.Clustering
                     Draw.XiaolinWu(u, v, bitmap.Set);
                 }
             }
+
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster3D.png", bitmap.Pixels);
         }
     }

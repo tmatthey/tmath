@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,8 +30,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Fclp;
 using Math;
+using Math.Tools.Base;
 
 namespace App.Thomson
 {
@@ -42,23 +42,21 @@ namespace App.Thomson
     {
         private static void Main(string[] args)
         {
-            var n = 12;
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("thomson", args);
 
+            p.SetupHelp(helpText =>
+            {
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).SetupError((helpText, errorText) =>
+            {
+                Console.WriteLine(errorText);
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).Setup("n", "N", out var n, 12);
 
-            p.Setup<int>('n')
-                .Callback(v => n = v)
-                .SetDefault(n)
-                .WithDescription("N");
+            p.Parse();
 
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
-                {
-                    Console.WriteLine(text);
-                    Environment.Exit(0);
-                });
-            p.Parse(args);
 
             Console.WriteLine("Thomas : {0}", n);
             Console.WriteLine("Itr\tU\tdiff\tmin\tmax");
@@ -93,10 +91,12 @@ namespace App.Thomson
                             F = F.Rotate(x[i] ^ x[j], b);
                         }
                     }
+
                     var axis = F ^ Vector3D.E1;
                     var angle = F.Angle(Vector3D.E1);
                     xp[i] = x[i].Rotate(axis, angle);
                 }
+
                 for (var i = 0; i < n; i++)
                     x[i] = xp[i].Normalized();
 
@@ -116,8 +116,10 @@ namespace App.Thomson
                                 U += 0.5 / x[i].EuclideanNorm(x[j]);
                             }
                         }
+
                         angles.Add(e);
                     }
+
                     angles = angles.OrderBy(num => num).ToList();
                     var e0 = angles.First();
                     var e1 = angles.Last();

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -29,7 +29,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Clustering;
 using Math.Gfx;
@@ -44,51 +43,25 @@ namespace App.Cluster
     {
         private static void Main(string[] args)
         {
-            var path = ".\\";
-            var name = "cluster";
-            var n = 5;
-            var eps = 20.0;
-            var minL = 20.0;
-            var cost = 5;
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("cluster", args);
 
-            p.Setup<string>('d')
-                .Callback(v => path = v)
-                .SetDefault(path)
-                .WithDescription("Directory with *.tcx and *.gpx files.");
-
-            p.Setup<string>('n')
-                .Callback(v => name = v)
-                .SetDefault(name)
-                .WithDescription("Ouput name of cluster maps.");
-
-            p.Setup<int>('a')
-                .Callback(v => n = v)
-                .SetDefault(n)
-                .WithDescription("Minimum number of activites.");
-
-            p.Setup<double>('e')
-                .Callback(v => eps = v)
-                .SetDefault(eps)
-                .WithDescription("Epsilon neighborhood");
-
-            p.Setup<double>('l')
-                .Callback(v => minL = v)
-                .SetDefault(minL)
-                .WithDescription("Minimum segment length");
-
-            p.Setup<int>('p')
-                .Callback(v => cost = v)
-                .SetDefault(cost)
-                .WithDescription("MDL cost advantage");
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
+            p.SetupHelp(helpText =>
                 {
-                    Console.WriteLine(text);
+                    Console.WriteLine(helpText);
                     Environment.Exit(0);
-                });
-            p.Parse(args);
+                }).SetupError((helpText, errorText) =>
+                {
+                    Console.WriteLine(errorText);
+                    Console.WriteLine(helpText);
+                    Environment.Exit(0);
+                }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
+                .Setup("n", "Output name of cluster maps.", out var name, "cluster")
+                .Setup("a", "Minimum number of activities.", out var n, 5)
+                .Setup("l", "Minimum segment length.", out var minL, 20.0)
+                .Setup("p", "MDL cost advantage.", out var cost, 5)
+                .Setup("e", "Epsilon neighborhood", out var eps, 20.0);
+
+            p.Parse();
 
             Console.WriteLine("Cluster");
 
@@ -118,6 +91,7 @@ namespace App.Cluster
                         m++;
                     }
                 }
+
                 center /= (double) m;
                 var tracks = new List<List<Vector2D>>();
                 var size = new BoundingRect();
@@ -128,6 +102,7 @@ namespace App.Cluster
                     size.Expand(flatTrack.Size);
                     tracks.Add(flatTrack.Track);
                 }
+
                 Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
                 Timer.Start();
                 var db = TraClus.Cluster(tracks, n, eps, true, minL, cost);
@@ -141,17 +116,20 @@ namespace App.Cluster
                         for (var i = 0; i + 1 < s.Count; i++)
                             Draw.Bresenham(s[i], s[i + 1], bitmap.SetMagnitude, 0.025);
                     }
+
                     foreach (var s in db)
                     {
                         for (var i = 0; i + 1 < s.Segment.Count; i++)
                             Draw.XiaolinWu(s.Segment[i], s.Segment[i + 1], bitmap.Set);
                     }
+
                     BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap.Pixels);
                 }
                 else
                 {
                     Console.WriteLine("Empty");
                 }
+
                 k++;
             }
         }

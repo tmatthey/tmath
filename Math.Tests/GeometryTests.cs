@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -114,6 +114,7 @@ namespace Math.Tests
                 var angle = fraction * System.Math.PI * 2.0;
                 points.Add(center + new Vector2D(System.Math.Sin(angle), System.Math.Cos(angle)) * fraction);
             }
+
             var c = Geometry.MinCircle(points);
             var expected = new Circle2D(new Vector2D(1, 0), 1);
             c.ShouldBe(expected);
@@ -205,6 +206,7 @@ namespace Math.Tests
                 points.Add(MakeVectorOnSphere(center.X + System.Math.Sin(angle) * fraction * .9,
                     center.Y + System.Math.Cos(angle) * fraction * .9));
             }
+
             var c = Geometry.MinCircleOnSphere(points);
             c.Center.X.ShouldBe(center.X);
             c.Center.Y.ShouldBe(center.Y);
@@ -419,6 +421,7 @@ namespace Math.Tests
                 center += gpsTrack.Center;
                 gpsTracks.Add(gpsTrack);
             }
+
             center /= gpsTracks.Count;
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
@@ -683,6 +686,7 @@ namespace Math.Tests
                 center += gpsTrack.Center;
                 gpsTracks.Add(gpsTrack);
             }
+
             center /= gpsTracks.Count;
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
@@ -1063,6 +1067,7 @@ namespace Math.Tests
                 center += gpsTrack.Center;
                 gpsTracks.Add(gpsTrack);
             }
+
             center /= gpsTracks.Count;
             var points = new List<Vector2D>();
             foreach (var track in gpsTracks)
@@ -1119,6 +1124,7 @@ namespace Math.Tests
                 p.R = 1.0;
                 points.Add(p);
             }
+
             var c = Geometry.MinCircleOnSphere(points);
             var c0 = c.Center.Normalized();
             var d0 = points.Aggregate(0.0, (current, v) => System.Math.Max(v.Angle(c0), current)) * Geodesy.EarthRadius;
@@ -1135,6 +1141,7 @@ namespace Math.Tests
                 if (Comparison.IsEqual(c.Radius, l))
                     n++;
             }
+
             n.ShouldBeGreaterThan(1);
         }
 

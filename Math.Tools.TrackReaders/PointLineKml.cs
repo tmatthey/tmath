@@ -29,7 +29,7 @@ namespace Math.Tools.TrackReaders
         /// </summary>
         public string LastError
         {
-            get { return lastError; }
+            get => lastError;
             set
             {
                 //remember error and promote it to caller
@@ -80,6 +80,7 @@ namespace Math.Tools.TrackReaders
                                     currentKmlTag = kmlTagType.COORDINATES;
                                     break;
                             }
+
                             break;
                         case XmlNodeType.EndElement:
                             //check if any geometry is parsed in add it to collection
@@ -113,6 +114,7 @@ namespace Math.Tools.TrackReaders
                                     parseGeometryVal(kmlread.Value); //try to parse coordinates
                                     break;
                             }
+
                             break;
                         case XmlNodeType.DocumentType:
                             break;
@@ -186,7 +188,7 @@ namespace Math.Tools.TrackReaders
                     {
                         coordinates = point.Split(',');
                         if (coordinates.Length < 2) LastError = "ERROR IN FORMAT OF LINESTRING COORDINATES";
-                        foreach (var coordinate in coordinates)
+                        foreach (var unused in coordinates)
                         {
                             linePoint = new Hashtable();
                             linePoint.Add("LNG", coordinates[0]);
@@ -195,6 +197,7 @@ namespace Math.Tools.TrackReaders
                             value.Add(linePoint);
                         }
                     }
+
                     Line.Add("COORDINATES", value); //Add coordinates to line
                     break;
             }

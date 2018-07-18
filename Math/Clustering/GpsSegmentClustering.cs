@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -76,11 +76,14 @@ namespace Math.Clustering
                             normalizedGpsSegments.Add(g0.Interpolate(g1, j / m));
                         }
                     }
+
                     normalizedSegments.Add(v1);
                     normalizedGpsSegments.Add(g1);
                 }
+
                 segments.Add(new SegmentResult(new List<TrackSegment>(), normalizedSegments, normalizedGpsSegments));
             }
+
             trackIds = trackIds.Distinct().OrderBy(num => num).ToList();
             foreach (var i in trackIds)
             {
@@ -124,6 +127,7 @@ namespace Math.Clustering
                                     length += flatTrack.Displacement[i1];
                                 }
                             }
+
                             var segLength = 0.0;
                             for (var l = 0; l + 1 < neighbours.Count; l++)
                             {
@@ -134,6 +138,7 @@ namespace Math.Clustering
                                     segLength += segment.Segment[i0].EuclideanNorm(segment.Segment[i1]);
                                 }
                             }
+
                             if (totalLength > 0.0)
                             {
                                 var first = neighbours.First().First();
@@ -147,6 +152,7 @@ namespace Math.Clustering
                     }
                 }
             }
+
             return segments.OrderByDescending(seg => seg.Length).ToList();
         }
 
@@ -169,8 +175,10 @@ namespace Math.Clustering
                         trackSegment.Id = trackIndices[trackSegment.Id];
                     }
                 }
+
                 result.Add(segments);
             }
+
             return result;
         }
 

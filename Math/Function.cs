@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -104,6 +104,7 @@ namespace Math
                 if (Comparison.IsEqual(a, 0.0) || Comparison.IsEqual(a, System.Math.PI * 2))
                     return 0.0;
             }
+
             return a;
         }
 
@@ -117,6 +118,7 @@ namespace Math
                 if (Comparison.IsEqual(a, -System.Math.PI) || Comparison.IsEqual(a, System.Math.PI))
                     return System.Math.PI;
             }
+
             return a;
         }
 
@@ -130,6 +132,7 @@ namespace Math
                 if (Comparison.IsEqual(a, -180.0) || Comparison.IsEqual(a, 180.0))
                     return 180.0;
             }
+
             return a;
         }
 
@@ -139,11 +142,13 @@ namespace Math
             {
                 return 0ul;
             }
+
             ulong p = 1;
             for (var i = 1; i <= n; i++)
             {
                 p *= (ulong) i;
             }
+
             return p;
         }
 
@@ -154,6 +159,7 @@ namespace Math
             {
                 p *= i;
             }
+
             return p;
         }
 
@@ -163,6 +169,7 @@ namespace Math
             {
                 return 0ul;
             }
+
             ulong x = 0;
             ulong y = 1;
             ulong z = 1;
@@ -172,6 +179,7 @@ namespace Math
                 y = z;
                 z = x + y;
             }
+
             return x;
         }
 
@@ -186,6 +194,7 @@ namespace Math
                 y = z;
                 z = x + y;
             }
+
             return x;
         }
 
@@ -213,6 +222,7 @@ namespace Math
                 if (n == p) return true;
                 if (n % p == 0) return false;
             }
+
             var nsq = (long) System.Math.Sqrt(n) + 1;
             for (long i = 30; i < nsq; i += 30)
             {
@@ -228,6 +238,7 @@ namespace Math
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -242,6 +253,7 @@ namespace Math
             {
                 y = -System.Math.Pow(-x, 1.0 / n);
             }
+
             return y;
         }
 
@@ -272,10 +284,12 @@ namespace Math
             {
                 return MinettiMinA * (g - MinettiMinX) + MinettiMinB;
             }
+
             if (MinettiMaxX <= g)
             {
                 return MinettiMaxA * (g - MinettiMaxX) + MinettiMaxB;
             }
+
             return MinettiRaw(g);
         }
 

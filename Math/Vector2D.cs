@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -101,6 +101,7 @@ namespace Math
                 X /= d;
                 Y /= d;
             }
+
             return d;
         }
 
@@ -181,15 +182,9 @@ namespace Math
             return this * (1.0 - x) + v * x;
         }
 
-        public int Dimensions
-        {
-            get { return 2; }
-        }
+        public int Dimensions => 2;
 
-        public double[] Array
-        {
-            get { return new[] {X, Y}; }
-        }
+        public double[] Array => new[] {X, Y};
 
         public double this[int i]
         {
@@ -202,6 +197,7 @@ namespace Math
                     case 1:
                         return Y;
                 }
+
                 throw new ArgumentException();
             }
         }
@@ -322,6 +318,7 @@ namespace Math
                 x /= a;
                 y /= a;
             }
+
             return System.Math.Sqrt(Norm2(x, y)) * a;
         }
     }

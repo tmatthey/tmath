@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -69,6 +69,7 @@ namespace Math.Gps
                 {
                     d += Haversine(track[i], track[i + 1]);
                 }
+
                 return d;
             }
 
@@ -79,6 +80,7 @@ namespace Math.Gps
                 {
                     d.Add(Haversine(track[i], track[i + 1]));
                 }
+
                 return d;
             }
 
@@ -91,6 +93,7 @@ namespace Math.Gps
                 {
                     d.Add(d.Last() + Haversine(track[i], track[i + 1]));
                 }
+
                 return d;
             }
         }

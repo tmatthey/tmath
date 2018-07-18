@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,8 +40,7 @@ namespace Math.Gps
             Max = new Vector2D(flatTrack.Size.Max);
             Size = gridSize;
             FlattendTrack = flatTrack;
-            int nx, ny;
-            Index(Max, out nx, out ny);
+            Index(Max, out var nx, out var ny);
             NX = nx + 1;
             NY = ny + 1;
             Grid = new List<int>[NX, NY];
@@ -80,6 +79,7 @@ namespace Math.Gps
                                     Grid[x, y].Add(l);
                                     Grid[x, y].Add(l - 1);
                                 }
+
                                 Grid[x, y] = Grid[x, y].Distinct().ToList();
                             }
                         });
@@ -89,6 +89,7 @@ namespace Math.Gps
                     Grid[i, j].Add(k);
                     Grid[i, j] = Grid[i, j].Distinct().ToList();
                 }
+
                 i0 = i;
                 j0 = j;
             }
@@ -137,6 +138,7 @@ namespace Math.Gps
                     {
                         map[distance.Reference] = new List<NeighbourDistancePoint>();
                     }
+
                     map[distance.Reference].Add(distance);
                 }
             }
@@ -161,6 +163,7 @@ namespace Math.Gps
             {
                 return list;
             }
+
             minI = System.Math.Min(System.Math.Max(minI, 0), NX - 1);
             maxI = System.Math.Min(System.Math.Max(maxI, 0), NX - 1);
             minJ = System.Math.Min(System.Math.Max(minJ, 0), NY - 1);
@@ -176,6 +179,7 @@ namespace Math.Gps
                                     point.EuclideanNorm(FlattendTrack.Track[k]))));
                 }
             }
+
             list = list.Distinct().ToList();
             list.Sort((x, y) => x.CompareTo(y));
             return list;

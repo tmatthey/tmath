@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,7 +28,6 @@
 
 using System;
 using System.Linq;
-using Fclp;
 using Math.Clustering;
 using Math.Gfx;
 using Math.Tools.Base;
@@ -41,34 +40,23 @@ namespace App.Heatmap
     {
         private static void Main(string[] args)
         {
-            var path = ".\\";
-            var name = "heatmap";
-            var coloring = ColorMap.log;
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("heatmap", args);
 
-            p.Setup<string>('d')
-                .Callback(v => path = v)
-                .SetDefault(path)
-                .WithDescription("Directory with *.tcx and *.gpx files.");
-
-            p.Setup<string>('n')
-                .Callback(v => name = v)
-                .SetDefault(name)
-                .WithDescription("Ouput name of heatmaps.");
-
-            p.Setup<ColorMap>('c')
-                .Callback(v => coloring = v)
-                .SetDefault(coloring)
-                .WithDescription("Coloring scheme: log (default), median and normalized.");
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
+            p.SetupHelp(helpText =>
                 {
-                    Console.WriteLine(text);
+                    Console.WriteLine(helpText);
                     Environment.Exit(0);
-                });
+                }).SetupError((helpText, errorText) =>
+                {
+                    Console.WriteLine(errorText);
+                    Console.WriteLine(helpText);
+                    Environment.Exit(0);
+                }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
+                .Setup("n", "Output name of heatmap maps.", out var name, "heatmap").Setup("c",
+                    "Coloring scheme: log (default), median and normalized.", out var coloring, ColorMap.log);
 
-            p.Parse(args);
+            p.Parse();
+
 
             Console.WriteLine("Heatmap");
 
@@ -91,6 +79,7 @@ namespace App.Heatmap
                 {
                     heatMap.Add(list[i]);
                 }
+
                 Console.WriteLine("Map {0}: {1}", k, cluster.Count);
                 double[,] bitmap;
                 Timer.Start();
@@ -108,6 +97,7 @@ namespace App.Heatmap
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
                 Timer.Stop();
 
                 BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap, HeatColorMapping.Default);
@@ -115,7 +105,6 @@ namespace App.Heatmap
             }
         }
 
-        [Flags]
         private enum ColorMap
         {
             median = 1,

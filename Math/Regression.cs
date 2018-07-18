@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -57,6 +57,7 @@ namespace Math
                     sx += x[i] * w[i];
                     sy += y[i] * w[i];
                 }
+
                 var st2 = 0.0;
                 var aa = 0.0;
                 var sxdss = sx / ss;
@@ -66,6 +67,7 @@ namespace Math
                     st2 += t * t * w[i];
                     aa += t * y[i] * w[i];
                 }
+
                 if (!Comparison.IsEqual(st2, 0.0) && !Comparison.IsEqual(ss, 0.0))
                 {
                     a = aa / st2;

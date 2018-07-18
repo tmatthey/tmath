@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,8 +66,8 @@ namespace Math
 
         public double Theta
         {
-            get { return _theta; }
-            set { _theta = Function.NormalizeAnglePi(value); }
+            get => _theta;
+            set => _theta = Function.NormalizeAnglePi(value);
         } // Radian, Deg (-180,180] : azimuthal angle, longitude 
 
         public double Phi { get; set; } // Radian, Deg [0,180]   : polar angle, inclination, latitude 
@@ -82,15 +82,9 @@ namespace Math
             return new Polar3D(this);
         }
 
-        public int Dimensions
-        {
-            get { return 3; }
-        }
+        public int Dimensions => 3;
 
-        public double[] Array
-        {
-            get { return new[] {Theta, Phi, R}; }
-        }
+        public double[] Array => new[] {Theta, Phi, R};
 
         public double this[int i]
         {
@@ -105,6 +99,7 @@ namespace Math
                     case 2:
                         return R;
                 }
+
                 throw new ArgumentException();
             }
         }
@@ -203,6 +198,7 @@ namespace Math
                     {
                         theta = System.Math.PI - theta;
                     }
+
                     theta = Function.NormalizeAnglePi(theta);
                 }
                 else
@@ -215,6 +211,7 @@ namespace Math
             {
                 r = 0.0;
             }
+
             return new Polar3D {Theta = theta, Phi = phi, R = r};
         }
     }

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -29,10 +29,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Gps;
 using Math.Tools.TrackReaders;
+using Math.Tools.Base;
 
 namespace App.Activity
 {
@@ -40,28 +40,26 @@ namespace App.Activity
     {
         private static void Main(string[] args)
         {
-            var path = ".\\";
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("activity", args);
 
-            p.Setup<string>('d')
-                .Callback(v => path = v)
-                .SetDefault(path)
-                .WithDescription("Directory with *.tcx and *.gpx files.");
+            p.SetupHelp(helpText =>
+            {
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).SetupError((helpText, errorText) =>
+            {
+                Console.WriteLine(errorText);
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./");
 
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
-                {
-                    Console.WriteLine(text);
-                    Environment.Exit(0);
-                });
-            p.Parse(args);
+            p.Parse();
 
             Console.WriteLine("Activity");
 
             var activities = (from activity in Deserializer.Directory(path)
                 where
-                activity.GpsPoints().Count() == activity.Times().Count()
+                    activity.GpsPoints().Count() == activity.Times().Count()
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list = (from activity in activities select activity.GpsPoints().ToList()).ToList();
             Console.WriteLine("Tracks: {0}", list.Count);
@@ -97,6 +95,7 @@ namespace App.Activity
                         acc3[j], vel2[j], a, dist[j],
                         vel[j]);
                 }
+
                 Console.WriteLine(Statistics.Arithmetic.Variance(vel, seconds));
                 Console.WriteLine(Statistics.Arithmetic.Variance(vel2, seconds));
                 Console.WriteLine(Statistics.Arithmetic.Variance(vel3, seconds));

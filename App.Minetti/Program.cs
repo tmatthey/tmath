@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,10 +28,10 @@
 
 using System;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Gps;
 using Math.Tools.TrackReaders;
+using Math.Tools.Base;
 
 
 namespace App.Minetti
@@ -40,23 +40,20 @@ namespace App.Minetti
     {
         private static void Main(string[] args)
         {
-            var f = "C:\\Users\\tmatthey\\Desktop\\jfm.gpx";
-            var p = new FluentCommandLineParser();
+            var p = new CommandLineParser("minetti", args);
 
+            p.SetupHelp(helpText =>
+            {
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).SetupError((helpText, errorText) =>
+            {
+                Console.WriteLine(errorText);
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).Setup("f", "File name", out string f);
 
-            p.Setup<string>('f')
-                .Callback(v => f = v)
-                .SetDefault(f)
-                .WithDescription("File name");
-
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
-                {
-                    Console.WriteLine(text);
-                    Environment.Exit(0);
-                });
-            p.Parse(args);
+            p.Parse();
 
 
             var input = Deserializer.File(f);
@@ -80,6 +77,7 @@ namespace App.Minetti
                 {
                     gradient = (h - h0) / dl;
                 }
+
                 var minetti = Function.MinettiFactor(gradient);
                 if (i == 0 || dl > 20 && l > 500)
                 {
@@ -104,6 +102,7 @@ namespace App.Minetti
                 {
                     gradient = (h - h0) / dl;
                 }
+
                 var minetti = Function.MinettiFactor(gradient);
                 if (i == 0 || dl > 20 && l > 500)
                 {

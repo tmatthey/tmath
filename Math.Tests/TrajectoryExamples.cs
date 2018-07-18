@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -54,6 +54,7 @@ namespace Math.Tests
                     var y = Convert.ToDouble(array[i + 1]);
                     list.Add(new Vector2D(x, y));
                 }
+
                 tracks.Add(list);
             }
 

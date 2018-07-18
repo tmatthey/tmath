@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -97,6 +97,7 @@ namespace Math.Gfx
                     image.SetPixel(i, height - j - 1, Drawing.Color.FromArgb(c.Red, c.Green, c.Blue));
                 }
             }
+
             image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
         }
     }

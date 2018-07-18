@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -64,6 +64,7 @@ namespace Math.Gfx
                 b.X = b.Y;
                 b.Y = t;
             }
+
             if (a.X > b.X)
             {
                 Utils.Swap(ref a, ref b);
@@ -89,6 +90,7 @@ namespace Math.Gfx
                 {
                     c = (0.5 + b.X - bx) * magnitude;
                 }
+
                 if (steep)
                 {
                     plotFunction(y, x, c, magnitude);
@@ -97,6 +99,7 @@ namespace Math.Gfx
                 {
                     plotFunction(x, y, c, magnitude);
                 }
+
                 err -= dy;
                 if (err < 0)
                 {
@@ -138,6 +141,7 @@ namespace Math.Gfx
                 b.X = b.Y;
                 b.Y = t;
             }
+
             if (a.X > b.X)
             {
                 Utils.Swap(ref a, ref b);
@@ -163,6 +167,7 @@ namespace Math.Gfx
                 plotFunction(xpxl1, ypxl1, rfpart(yend) * xgap * magnitude, magnitude);
                 plotFunction(xpxl1, ypxl1 + 1, fpart(yend) * xgap * magnitude, magnitude);
             }
+
             var intery = yend + gradient; // first y-intersection for the main loop
 
             // handle second endpoint
@@ -195,6 +200,7 @@ namespace Math.Gfx
                     plotFunction(x, ipart(intery), rfpart(intery) * magnitude, magnitude);
                     plotFunction(x, ipart(intery) + 1, fpart(intery) * magnitude, magnitude);
                 }
+
                 intery = intery + gradient;
             }
         }

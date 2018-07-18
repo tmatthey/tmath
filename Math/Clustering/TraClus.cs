@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -98,6 +98,7 @@ namespace Math.Clustering
                     points.Add(factoryVectorExt.Create(s.U, s.IA, j, s.K));
                     points.Add(factoryVectorExt.Create(s.V, s.IB, j, s.K));
                 }
+
                 points = points.OrderBy(p => p.X).ToList();
 
                 var lineSegments = new HashSet<int>();
@@ -155,9 +156,11 @@ namespace Math.Clustering
                             {
                                 r.SegmentIndices[s.K] = new List<int>();
                             }
+
                             r.SegmentIndices[s.K].Add(s.IA);
                             r.SegmentIndices[s.K].Add(s.IB);
                         }
+
                         prevValue = current.X;
                         r.Segment.Add(rotation.FromE1(sum.Div(lineSegments.Count)));
                     }
@@ -165,11 +168,13 @@ namespace Math.Clustering
                     foreach (var i1 in del)
                         lineSegments.Remove(i1);
                 }
+
                 if (r.Segment.Count > 1)
                 {
                     result.Add(r);
                 }
             }
+
             return result;
         }
 
@@ -210,8 +215,10 @@ namespace Math.Clustering
                     };
                     segments.Add(s);
                 }
+
                 k++;
             }
+
             return segments;
         }
 
@@ -248,6 +255,7 @@ namespace Math.Clustering
                             _pointIndices[i] = SegmentIndices[i].Distinct().OrderBy(num => num).ToList();
                         }
                     }
+
                     return _pointIndices;
                 }
             }

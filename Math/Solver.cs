@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,6 +40,7 @@ namespace Math
             {
                 return double.NaN;
             }
+
             return -b / a;
         }
 
@@ -55,6 +56,7 @@ namespace Math
                 {
                     res.Add(x);
                 }
+
                 return res;
             }
 
@@ -74,6 +76,7 @@ namespace Math
                 res.Add(-s - p);
                 res = Comparison.UniqueAverageSorted(res).ToList();
             }
+
             return res;
         }
 
@@ -83,6 +86,7 @@ namespace Math
             {
                 return QuadraticEq(b, c, d);
             }
+
             var res = new List<double>();
 
             // Depressed cubic form: x^3 + px + q = 0
@@ -127,6 +131,7 @@ namespace Math
             {
                 res[i] -= b / (3.0 * a);
             }
+
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
@@ -172,6 +177,7 @@ namespace Math
             {
                 res[i] -= b / (4.0 * a);
             }
+
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
@@ -185,6 +191,7 @@ namespace Math
             {
                 return res;
             }
+
             // Handle zero roots and remove them
             if (Comparison.IsZero(p[0]))
             {
@@ -193,11 +200,13 @@ namespace Math
                 {
                     p.RemoveAt(0);
                 }
+
                 if (p.Count == 1)
                 {
                     return res;
                 }
             }
+
             // Fall back to quartic if degree less equal quartic
             if (p.Count <= 5)
             {
@@ -205,10 +214,12 @@ namespace Math
                 {
                     p.Add(0.0);
                 }
+
                 res.AddRange(QuarticEq(p[4], p[3], p[2], p[1], p[0]));
                 res = Comparison.UniqueAverageSorted(res).ToList();
                 return res;
             }
+
             // General case
             // Get roots
             var r = new Polynomial(p);
@@ -226,6 +237,7 @@ namespace Math
                     r = r.DivideByRootAndConjugate(x);
                 }
             }
+
             // Polish roots
             var q = new Polynomial(p);
             foreach (var x in root)
@@ -236,6 +248,7 @@ namespace Math
                     res.Add(y.Real);
                 }
             }
+
             res = Comparison.UniqueAverageSorted(res).ToList();
             return res;
         }
@@ -254,10 +267,12 @@ namespace Math
                 {
                     return i == 0 ? double.NaN : x1;
                 }
+
                 if (Comparison.IsZero(y, eps))
                 {
                     return x;
                 }
+
                 x0 = x1;
                 y0 = y1;
                 x1 = x;
@@ -275,16 +290,19 @@ namespace Math
                 x0 = x1;
                 x1 = tmp;
             }
+
             var y0 = f(x0);
             var y1 = f(x1);
             if (Comparison.IsZero(y0, eps))
             {
                 return x0;
             }
+
             if (Comparison.IsZero(y1, eps))
             {
                 return x1;
             }
+
             if (y0 * y1 > 0)
             {
                 return double.NaN;
@@ -300,6 +318,7 @@ namespace Math
                 {
                     return x;
                 }
+
                 if (y * y0 > 0.0)
                 {
                     y0 = y;
@@ -315,6 +334,7 @@ namespace Math
                     return double.NaN;
                 }
             }
+
             // linear interpolation
             var dx = x1 - x0;
             var dy = y1 - y0;

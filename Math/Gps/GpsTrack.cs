@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -53,6 +53,7 @@ namespace Math.Gps
                 {
                     CalculateCenter();
                 }
+
                 return _center;
             }
         }
@@ -65,6 +66,7 @@ namespace Math.Gps
                 {
                     CalculateCenter();
                 }
+
                 return _angle;
             }
         }
@@ -77,6 +79,7 @@ namespace Math.Gps
                 {
                     CalculateMinCircle();
                 }
+
                 return _minCircleCenter;
             }
         }
@@ -89,6 +92,7 @@ namespace Math.Gps
                 {
                     CalculateMinCircle();
                 }
+
                 return _minCircleAngle;
             }
         }
@@ -143,6 +147,7 @@ namespace Math.Gps
                     n++;
                 }
             }
+
             if (n > 0)
             {
                 a.Normalize();
@@ -153,6 +158,7 @@ namespace Math.Gps
             {
                 a = new Vector3D(double.NaN);
             }
+
             _center = a;
         }
     }

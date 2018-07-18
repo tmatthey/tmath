@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -93,6 +93,7 @@ namespace Math.Tests
             {
                 w.Add(weight);
             }
+
             return w;
         }
 
@@ -354,6 +355,7 @@ namespace Math.Tests
             {
                 list.Add(new Vector2D(System.Math.Cos(angle), System.Math.Sin(angle)));
             }
+
             var res = Conversion.RadToDeg(Statistics.Arithmetic.MeanAngle(list, Vector2D.E1));
             res.ShouldBe(expected);
         }

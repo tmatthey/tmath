@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -98,6 +98,7 @@ namespace Math.Gps
             {
                 return Result.Inside;
             }
+
             if (outsideMin && outsideMax)
             {
                 return Result.Outside;
@@ -130,6 +131,7 @@ namespace Math.Gps
                         return Result.Intersecting;
                     }
                 }
+
                 if (i < size2)
                 {
                     if (IsGridPointOccupied(ref grid, resolution, 2, two.Track[i0], two.Track[i]))
@@ -138,6 +140,7 @@ namespace Math.Gps
                     }
                 }
             }
+
             return Result.NotIntersecting;
         }
 
@@ -211,6 +214,7 @@ namespace Math.Gps
             {
                 return grid[n] != index;
             }
+
             grid.Add(n, index);
             return false;
         }

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,6 +66,7 @@ namespace Math
                     tmp[m] = tmp[n];
                     tmp[n] = v;
                 }
+
                 var newAngle = System.Math.PI * 2.0;
                 var newDistance = 0.0;
                 m = l - 1;
@@ -78,6 +79,7 @@ namespace Math
                     {
                         a += System.Math.PI * 2.0;
                     }
+
                     if (Comparison.IsEqual(a, lastAngle))
                     {
                         if (distance > newDistance)
@@ -100,6 +102,7 @@ namespace Math
 
                 lastAngle = newAngle;
             } while (m != l - 1);
+
             return hull;
         }
 
@@ -150,6 +153,7 @@ namespace Math
                 var n = u ^ g;
                 return Comparison.IsZero(n.CrossNorm(c.Normal));
             }
+
             var w = a - c.Center;
             var t = -(c.Normal * w) / area;
             var v = u * t + a;
@@ -334,6 +338,7 @@ namespace Math
                     Utils.Swap(ref array[n], ref array[i]);
                 }
             }
+
             return array.Take(n + 1).ToList();
         }
 
@@ -344,6 +349,7 @@ namespace Math
             {
                 d += list[l].EuclideanNorm(list[l + 1]);
             }
+
             return d;
         }
 
@@ -354,6 +360,7 @@ namespace Math
             {
                 return x0.EuclideanNorm(p);
             }
+
             return x1.Sub(x0).CrossNorm(p.Sub(x0)) / l;
         }
 
@@ -468,6 +475,7 @@ namespace Math
                     }
                 }
             } while (i + j < track.Count);
+
             if (points.Last() != track.Count - 1 && !track[points.Last()].IsEqual(track.Last()))
             {
                 points.Add(track.Count - 1);
@@ -492,6 +500,7 @@ namespace Math
                 cost += (int) System.Math.Ceiling(System.Math.Log(perpendicular, 2))
                         + (int) System.Math.Ceiling(System.Math.Log(angular, 2));
             }
+
             return cost;
         }
 
@@ -519,6 +528,7 @@ namespace Math
                     list.Add(i + 1);
                 }
             }
+
             return list;
         }
 

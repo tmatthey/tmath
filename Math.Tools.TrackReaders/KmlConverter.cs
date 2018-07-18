@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -75,11 +75,13 @@ namespace Math.Tools.TrackReaders
                                         {
                                             elev = 0.0;
                                         }
+
                                         if (lastPoint != null)
                                         {
                                             distance += Gps.Geodesy.Distance.Haversine(lat, lng, lastPoint.Latitude,
                                                 lastPoint.Longitude);
                                         }
+
                                         trackPoints.Add(new TrackPoint(lat, lng, elev, distance, 0, time));
                                         lastPoint = trackPoints.Last();
                                     }
@@ -88,6 +90,7 @@ namespace Math.Tools.TrackReaders
                         }
                     }
                 }
+
                 if (trackPoints.Count > 0)
                 {
                     track = new Track
@@ -99,6 +102,7 @@ namespace Math.Tools.TrackReaders
                     };
                 }
             }
+
             return track;
         }
     }

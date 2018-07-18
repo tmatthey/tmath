@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,12 +28,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using Fclp;
 using Math;
 using Math.Clustering;
 using Math.Gps;
 using Math.Tools.TrackReaders;
+using Math.Tools.Base;
 
 namespace App.Match
 {
@@ -41,72 +42,36 @@ namespace App.Match
     {
         private static void Main(string[] args)
         {
-            var path = ".\\";
-            var name = "match";
-            var n = 5;
-            var eps = 20.0;
-            var epsTrack = 25.0;
-            var minL = 20.0;
-            var cost = 5;
-            var p = new FluentCommandLineParser();
-            var hrStanding = 40 + 26;
+            var p = new CommandLineParser("match", args);
 
-            p.Setup<string>('d')
-                .Callback(v => path = v)
-                .SetDefault(path)
-                .WithDescription("Directory with *.tcx and *.gpx files.");
-
-            p.Setup<string>('n')
-                .Callback(v => name = v)
-                .SetDefault(name)
-                .WithDescription("Ouput name of matches.");
-
-            p.Setup<int>('a')
-                .Callback(v => n = v)
-                .SetDefault(n)
-                .WithDescription("Minimum number of activites.");
-
-            p.Setup<double>('e')
-                .Callback(v => eps = v)
-                .SetDefault(eps)
-                .WithDescription("Epsilon cluster neighborhood");
-
-            p.Setup<double>('f')
-                .Callback(v => epsTrack = v)
-                .SetDefault(epsTrack)
-                .WithDescription("Epsilon track");
-
-            p.Setup<double>('l')
-                .Callback(v => minL = v)
-                .SetDefault(minL)
-                .WithDescription("Minimum segment length");
-
-            p.Setup<int>('p')
-                .Callback(v => cost = v)
-                .SetDefault(cost)
-                .WithDescription("MDL cost advantage");
-
-            p.Setup<int>('r')
-                .Callback(v => hrStanding = v)
-                .SetDefault(hrStanding)
-                .WithDescription("Standing heart rate");
-
-            p.SetupHelp("?", "help")
-                .Callback(text =>
+            p.SetupHelp(helpText =>
                 {
-                    Console.WriteLine(text);
+                    Console.WriteLine(helpText);
                     Environment.Exit(0);
-                });
-            p.Parse(args);
+                }).SetupError((helpText, errorText) =>
+                {
+                    Console.WriteLine(errorText);
+                    Console.WriteLine(helpText);
+                    Environment.Exit(0);
+                }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
+                .Setup("a", "Minimum number of activities.", out var n, 5)
+                .Setup("l", "Minimum segment length.", out var minL, 20.0)
+                .Setup("p", "MDL cost advantage.", out var cost, 5)
+                .Setup("e", "Epsilon neighborhood", out var eps, 20.0)
+                .Setup("r", "Standing heart rate", out var hrStanding, 40 + 26)
+                .Setup("f", "Epsilon track", out var epsTrack, 25.0);
+
+            p.Parse();
+
 
             Console.WriteLine("Match");
 
 
             var activities = (from activity in Deserializer.Directory(path)
                 where
-                activity.GpsPoints().Count() == activity.HeartRates().Count() &&
-                activity.GpsPoints().Count() == activity.Times().Count() &&
-                activity.HeartRates().Sum() > activity.HeartRates().Count() * 20
+                    activity.GpsPoints().Count() == activity.HeartRates().Count() &&
+                    activity.GpsPoints().Count() == activity.Times().Count() &&
+                    activity.HeartRates().Sum() > activity.HeartRates().Count() * 20
                 select activity).OrderBy(a => a.Date.Ticks).ToList();
             var list =
                 activities.Select(
@@ -166,6 +131,7 @@ namespace App.Match
                                     h += hr[i] * dt;
                                 }
                             }
+
                             h /= t;
                             var v = d / t;
                             index1 /= t;
@@ -182,7 +148,7 @@ namespace App.Match
                                 index2 = (h - hrStanding) * t * fac;
                             }
 
-                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString();
+                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString(CultureInfo.InvariantCulture);
                             Console.WriteLine(
                                 "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}",
                                 track.Direction < 0 ? -1.0 : 1.0,
@@ -194,8 +160,10 @@ namespace App.Match
                             Console.WriteLine("No direction");
                         }
                     }
+
                     sn++;
                 }
+
                 k++;
             }
         }

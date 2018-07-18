@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2017 Thierry Matthey
+ * Copyright (c) 2016-2018 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -93,19 +93,23 @@ namespace Math
                             sum += x[i - n - 1] * rest;
                             l += rest;
                         }
+
                         if (i + n + 1 < x.Count)
                         {
                             sum += x[i + n + 1] * rest;
                             l += rest;
                         }
                     }
+
                     for (var j = System.Math.Max(i - n, 0); j < System.Math.Min(i + n + 1, x.Count); j++)
                     {
                         sum += x[j];
                         l++;
                     }
+
                     res[i] = sum / l;
                 }
+
                 return res;
             }
 
@@ -131,6 +135,7 @@ namespace Math
                         a += w[j];
                         j++;
                     }
+
                     a = 0.0;
                     j = i - 1;
                     while (0 <= j && Comparison.IsLess(a, border))
@@ -141,8 +146,10 @@ namespace Math
                         a += w[j];
                         j--;
                     }
+
                     res[i] = sum / l;
                 }
+
                 return res;
             }
 
@@ -166,6 +173,7 @@ namespace Math
                     sum += a;
                     squareSum += a * a;
                 }
+
                 normalized = normalized.OrderBy(num => num).ToList();
                 var s = sum;
                 var variance = squareSum - sum * sum / normalized.Count;
