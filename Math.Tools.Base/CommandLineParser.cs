@@ -101,7 +101,7 @@ namespace Math.Tools.Base
             {
                 try
                 {
-                    s = EnumUtils.ParseEnum(_args["server"][0], new T());
+                    s = EnumUtils.ParseEnum(_args[option][0], new T());
                 }
                 catch
                 {
@@ -122,7 +122,7 @@ namespace Math.Tools.Base
             {
                 try
                 {
-                    s = EnumUtils.ParseEnum(_args["server"][0], init);
+                    s = EnumUtils.ParseEnum(_args[option][0], init);
                 }
                 catch
                 {
@@ -141,7 +141,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                s = _args["server"][0];
+                s = _args[option][0];
             }
             else
             {
@@ -158,7 +158,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                s = _args["server"][0];
+                s = _args[option][0];
             }
 
             return this;
@@ -171,7 +171,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                if (double.TryParse(_args["server"][0], out var y))
+                if (double.TryParse(_args[option][0], out var y))
                 {
                     d = y;
                 }
@@ -195,7 +195,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                if (double.TryParse(_args["server"][0], out var y))
+                if (double.TryParse(_args[option][0], out var y))
                 {
                     d = y;
                 }
@@ -215,7 +215,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                if (int.TryParse(_args["server"][0], out var y))
+                if (int.TryParse(_args[option][0], out var y))
                 {
                     i = y;
                 }
@@ -239,7 +239,7 @@ namespace Math.Tools.Base
             _helpText.Add(_optionText.Last() + " : " + description);
             if (_args.ContainsKey(option))
             {
-                if (int.TryParse(_args["server"][0], out var y))
+                if (int.TryParse(_args[option][0], out var y))
                 {
                     i = y;
                 }

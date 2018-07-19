@@ -148,7 +148,9 @@ namespace App.Match
                                 index2 = (h - hrStanding) * t * fac;
                             }
 
-                            var index2Str = Comparison.IsZero(index2) ? "" : index2.ToString(CultureInfo.InvariantCulture);
+                            var index2Str = Comparison.IsZero(index2)
+                                ? ""
+                                : index2.ToString(CultureInfo.InvariantCulture);
                             Console.WriteLine(
                                 "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}",
                                 track.Direction < 0 ? -1.0 : 1.0,

@@ -28,12 +28,10 @@
 
 using System.IO;
 using System.Text;
-#if NETCOREAPP1_1 
+#if NETCOREAPP1_1
 using Drawing = System.DrawingCore;
-
 #elif NETSTANDARD1_5
 using Drawing = System.DrawingCore;
-
 #else
 using Drawing = System.Drawing;
 #endif

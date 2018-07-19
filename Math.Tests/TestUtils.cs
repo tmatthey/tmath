@@ -70,7 +70,7 @@ namespace Math.Tests
         {
 #if NETCOREAPP1_1
             var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
-			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
+            var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
 #elif NETSTANDARD1_5
 			var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
 			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";

@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
     <Version>2.2.0</Version>
     <Authors>Thierry Matthey</Authors>
@@ -15,20 +16,22 @@
     <PackageTags>gpx tcx kml reader parser dotnetcore</PackageTags>
     <PackageLicenseUrl>MIT</PackageLicenseUrl>
     <PackageId>Math.Matthey.Tools.TrackReaders</PackageId>
-    <PackageReleaseNotes>Multiple platform support: Net40, Net45, Net46 and .NET Core
-Support parsing of KML files</PackageReleaseNotes>
+    <PackageReleaseNotes>Multiple platform support:Net40, .NET std  and .NET Core. Support parsing of KML files</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <NeutralLanguage />
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NETCOREAPP1_1</DefineConstants>
+    <DefineConstants>NETCOREAPP;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
-    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+    <DefineConstants>NETSTANDARD;NETSTANDARD1_5</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <DefineConstants>NET;NET40</DefineConstants>
   </PropertyGroup>
   
   
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1' OR '$(TargetFramework)'=='netstandard1.5'">
     <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
@@ -37,6 +40,8 @@ Support parsing of KML files</PackageReleaseNotes>
     <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.csproj" />

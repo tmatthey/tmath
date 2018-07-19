@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>    
-    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;net40</TargetFrameworks>
     <ApplicationIcon></ApplicationIcon>    
     <Version>2.2.0</Version>    
     <Authors>Thierry Matthey</Authors>
@@ -9,12 +10,14 @@
     <Description />
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NETCOREAPP1_1</DefineConstants>
+    <DefineConstants>NETCOREAPP;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
-    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+    <DefineConstants>NETSTANDARD;NETSTANDARD1_5</DefineConstants>
   </PropertyGroup>
-  
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <DefineConstants>NET;NET40</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\*.*" />
   </ItemGroup>
@@ -22,7 +25,7 @@
     <PackageReference Include="NUnit" Version="3.7.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
     <PackageReference Include="Shouldly" Version="2.8.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
   </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
     <Reference Include="System" />

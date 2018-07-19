@@ -1,11 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp1.1;netstandard1.5;net40;net45;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1;net40</TargetFrameworks>
     <AssemblyName>cluster</AssemblyName>
     <ApplicationIcon>categories.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+    <DefineConstants>NETCOREAPP;NETCOREAPP1_1</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <DefineConstants>NETSTANDARD;NETSTANDARD1_5</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <DefineConstants>NET;NET40</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+    <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
+  </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj" />
