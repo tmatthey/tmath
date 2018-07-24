@@ -27,23 +27,20 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Math;
 using Math.Clustering;
 using Math.Gfx;
-using Math.Gps;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 using BitmapFileWriter = Math.Gfx.BitmapFileWriter;
 
-namespace App.Cluster
+namespace Cmd.Heatmap
 {
     public class Program
     {
         private static void Main(string[] args)
         {
-            var p = new CommandLineParser("cluster", args);
+            var p = new CommandLineParser("heatmap", args);
 
             p.SetupHelp(helpText =>
                 {
@@ -55,15 +52,13 @@ namespace App.Cluster
                     Console.WriteLine(helpText);
                     Environment.Exit(0);
                 }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
-                .Setup("n", "Output name of cluster maps.", out var name, "cluster")
-                .Setup("a", "Minimum number of activities.", out var n, 5)
-                .Setup("l", "Minimum segment length.", out var minL, 20.0)
-                .Setup("p", "MDL cost advantage.", out var cost, 5)
-                .Setup("e", "Epsilon neighborhood", out var eps, 20.0);
+                .Setup("n", "Output name of heatmap maps.", out var name, "heatmap").Setup("c",
+                    "Coloring scheme: log (default), median and normalized.", out var coloring, ColorMap.log);
 
             p.Parse();
 
-            Console.WriteLine("Cluster");
+
+            Console.WriteLine("Heatmap");
 
             var activities = Deserializer.Directory(path);
             var list = activities.Select(a => a.GpsPoints().ToList()).ToList();
@@ -77,61 +72,44 @@ namespace App.Cluster
 
             var k = 0;
             Console.WriteLine("Maps: {0}", clusters.Count);
-
-
             foreach (var cluster in clusters)
             {
-                var center = new Vector3D();
-                var m = 0;
+                var heatMap = new HeatMap();
                 foreach (var i in cluster)
                 {
-                    foreach (var pt in list[i])
-                    {
-                        center += pt;
-                        m++;
-                    }
+                    heatMap.Add(list[i]);
                 }
 
-                center /= (double) m;
-                var tracks = new List<List<Vector2D>>();
-                var size = new BoundingRect();
-                foreach (var i in cluster)
-                {
-                    var track = new GpsTrack(list[i]);
-                    var flatTrack = track.CreateFlatTrack(center);
-                    size.Expand(flatTrack.Size);
-                    tracks.Add(flatTrack.Track);
-                }
-
-                Console.WriteLine("Cluster {0}: {1}", k, cluster.Count);
+                Console.WriteLine("Map {0}: {1}", k, cluster.Count);
+                double[,] bitmap;
                 Timer.Start();
-                var db = TraClus.Cluster(tracks, n, eps, true, minL, cost);
+                switch (coloring)
+                {
+                    case ColorMap.log:
+                        bitmap = heatMap.Log(5.0, 8000);
+                        break;
+                    case ColorMap.median:
+                        bitmap = heatMap.Median(5.0, 8000);
+                        break;
+                    case ColorMap.normalized:
+                        bitmap = heatMap.Normalized(5.0, 8000);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
                 Timer.Stop();
-                if (db.Any())
-                {
-                    Console.WriteLine("Segments : {0}", db.Count);
-                    var bitmap = new Bitmap(size.Min, size.Max, 5, 8000);
-                    foreach (var s in tracks)
-                    {
-                        for (var i = 0; i + 1 < s.Count; i++)
-                            Draw.Bresenham(s[i], s[i + 1], bitmap.SetMagnitude, 0.025);
-                    }
 
-                    foreach (var s in db)
-                    {
-                        for (var i = 0; i + 1 < s.Segment.Count; i++)
-                            Draw.XiaolinWu(s.Segment[i], s.Segment[i + 1], bitmap.Set);
-                    }
-
-                    BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap.Pixels);
-                }
-                else
-                {
-                    Console.WriteLine("Empty");
-                }
-
+                BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap, HeatColorMapping.Default);
                 k++;
             }
+        }
+
+        private enum ColorMap
+        {
+            median = 1,
+            log = 2,
+            normalized = 3
         }
     }
 }

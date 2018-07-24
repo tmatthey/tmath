@@ -33,7 +33,7 @@ using System.Linq;
 using Math;
 using Math.Tools.Base;
 
-namespace App.Thomson
+namespace Cmd.Thomson
 {
     //
     // https://en.wikipedia.org/wiki/Thomson_problem

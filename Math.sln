@@ -11,21 +11,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.Base", "Math.Too
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.TrackReaders", "Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj", "{0F4B4A6B-9ABA-4A7E-852E-D586617A7D61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Compare", "App.Compare\App.Compare.csproj", "{EAB780A8-9148-4271-9559-C87EE04C7709}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Compare", "Cmd.Compare\Cmd.Compare.csproj", "{EAB780A8-9148-4271-9559-C87EE04C7709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Activity", "App.Activity\App.Activity.csproj", "{803A6492-4262-420C-AB34-524E300446D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Activity", "Cmd.Activity\Cmd.Activity.csproj", "{803A6492-4262-420C-AB34-524E300446D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Cluster", "App.Cluster\App.Cluster.csproj", "{AF32EF09-02F0-4502-B096-65B9B88508FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Cluster", "Cmd.Cluster\Cmd.Cluster.csproj", "{AF32EF09-02F0-4502-B096-65B9B88508FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Heatmap", "App.Heatmap\App.Heatmap.csproj", "{28B68B2C-F85F-4999-86AB-B9E0F857C0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Heatmap", "Cmd.Heatmap\Cmd.Heatmap.csproj", "{28B68B2C-F85F-4999-86AB-B9E0F857C0AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Match", "App.Match\App.Match.csproj", "{1E85EE8D-862A-4AEC-A2FA-DE69B7917FBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Match", "Cmd.Match\Cmd.Match.csproj", "{1E85EE8D-862A-4AEC-A2FA-DE69B7917FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Normalize", "App.Normalize\App.Normalize.csproj", "{7E53DE04-754C-44E8-8F6C-6466478B17BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Normalize", "Cmd.Normalize\Cmd.Normalize.csproj", "{7E53DE04-754C-44E8-8F6C-6466478B17BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Thomson", "App.Thomson\App.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Thomson", "Cmd.Thomson\Cmd.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Minetti", "App.Minetti\App.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Minetti", "Cmd.Minetti\Cmd.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

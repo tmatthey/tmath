@@ -34,7 +34,7 @@ using Math.Tools.TrackReaders;
 using Math.Tools.Base;
 
 
-namespace App.Minetti
+namespace Cmd.Minetti
 {
     public class Program
     {

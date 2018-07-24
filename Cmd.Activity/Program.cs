@@ -34,7 +34,7 @@ using Math.Gps;
 using Math.Tools.TrackReaders;
 using Math.Tools.Base;
 
-namespace App.Activity
+namespace Cmd.Activity
 {
     public class Program
     {

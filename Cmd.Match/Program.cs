@@ -36,7 +36,7 @@ using Math.Gps;
 using Math.Tools.TrackReaders;
 using Math.Tools.Base;
 
-namespace App.Match
+namespace Cmd.Match
 {
     public class Program
     {

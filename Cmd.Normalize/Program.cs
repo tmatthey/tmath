@@ -33,7 +33,7 @@ using Math.Gps;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 
-namespace App.Normalize
+namespace Cmd.Normalize
 {
     public class Program
     {

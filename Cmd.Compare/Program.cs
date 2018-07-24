@@ -33,7 +33,7 @@ using Math.Gps;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 
-namespace App.Compare
+namespace Cmd.Compare
 {
     public class Program
     {
