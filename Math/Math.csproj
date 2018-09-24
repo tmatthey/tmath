@@ -4,7 +4,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.2.1</Version>
+    <Version>2.2.2</Version>
     <Authors>Thierry Matthey</Authors>
     <Copyright>Copyright © Matthey 2016-2018</Copyright>
     <Company />

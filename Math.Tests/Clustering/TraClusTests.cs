@@ -128,7 +128,7 @@ namespace Math.Tests.Clustering
                 {
                     foreach (var point in list.PointIndices[track])
                     {
-                        Draw.Plot(tracks[track][point], 1.0, bitmapPoints.Set);
+                        Draw.Plot(tracks[track][point], bitmapPoints.Set);
                     }
                 }
             }

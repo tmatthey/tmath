@@ -45,7 +45,7 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0 + dx, 1.0 + dy);
 
-            Draw.Plot(a, c, bitmap.Set);
+            Draw.Plot(a, bitmap.Set, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
@@ -320,8 +320,8 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0);
             const double c = 1.17;
-            Draw.Plot(a, c, bitmap.Add);
-            Draw.Plot(a, c, bitmap.Add);
+            Draw.Plot(a, bitmap.Add, c);
+            Draw.Plot(a, bitmap.Add, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
@@ -340,8 +340,8 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0);
             const double c = 1.17;
-            Draw.Plot(a, c, bitmap.Set);
-            Draw.Plot(a, c, bitmap.Set);
+            Draw.Plot(a, bitmap.Set, c);
+            Draw.Plot(a, bitmap.Set, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
@@ -360,7 +360,7 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0);
             const double c = 1.17;
-            Draw.Plot(a, c, bitmap.Add);
+            Draw.Plot(a, bitmap.Add, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);
@@ -379,7 +379,7 @@ namespace Math.Tests.Gfx
             var bitmap = new Bitmap(new Vector2D(0.0, 0.0), new Vector2D(3.0, 3.0), 1.0);
             var a = new Vector2D(1.0);
             const double c = 1.17;
-            Draw.Plot(a, c, bitmap.Set);
+            Draw.Plot(a, bitmap.Set, c);
 
             bitmap.Pixels[0, 0].ShouldBe(0.0);
             bitmap.Pixels[0, 1].ShouldBe(0.0);

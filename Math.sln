@@ -3,29 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "Math\Math.csproj", "{B2F86C5B-9543-4223-A934-66C4AA20C385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math", "Math\Math.csproj", "{B2F86C5B-9543-4223-A934-66C4AA20C385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tests", "Math.Tests\Math.Tests.csproj", "{5DEB125B-9880-4EEC-A3AB-1874942FAD7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math.Tests", "Math.Tests\Math.Tests.csproj", "{5DEB125B-9880-4EEC-A3AB-1874942FAD7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.Base", "Math.Tools.Base\Math.Tools.Base.csproj", "{8A4DF72F-011B-438D-ACE1-46D3D7A66EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math.Tools.Base", "Math.Tools.Base\Math.Tools.Base.csproj", "{8A4DF72F-011B-438D-ACE1-46D3D7A66EE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Tools.TrackReaders", "Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj", "{0F4B4A6B-9ABA-4A7E-852E-D586617A7D61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math.Tools.TrackReaders", "Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj", "{0F4B4A6B-9ABA-4A7E-852E-D586617A7D61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Compare", "Cmd.Compare\Cmd.Compare.csproj", "{EAB780A8-9148-4271-9559-C87EE04C7709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Compare", "Cmd.Compare\Cmd.Compare.csproj", "{EAB780A8-9148-4271-9559-C87EE04C7709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Activity", "Cmd.Activity\Cmd.Activity.csproj", "{803A6492-4262-420C-AB34-524E300446D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Activity", "Cmd.Activity\Cmd.Activity.csproj", "{803A6492-4262-420C-AB34-524E300446D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Cluster", "Cmd.Cluster\Cmd.Cluster.csproj", "{AF32EF09-02F0-4502-B096-65B9B88508FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Cluster", "Cmd.Cluster\Cmd.Cluster.csproj", "{AF32EF09-02F0-4502-B096-65B9B88508FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Heatmap", "Cmd.Heatmap\Cmd.Heatmap.csproj", "{28B68B2C-F85F-4999-86AB-B9E0F857C0AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Heatmap", "Cmd.Heatmap\Cmd.Heatmap.csproj", "{28B68B2C-F85F-4999-86AB-B9E0F857C0AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Match", "Cmd.Match\Cmd.Match.csproj", "{1E85EE8D-862A-4AEC-A2FA-DE69B7917FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Match", "Cmd.Match\Cmd.Match.csproj", "{1E85EE8D-862A-4AEC-A2FA-DE69B7917FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Normalize", "Cmd.Normalize\Cmd.Normalize.csproj", "{7E53DE04-754C-44E8-8F6C-6466478B17BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Normalize", "Cmd.Normalize\Cmd.Normalize.csproj", "{7E53DE04-754C-44E8-8F6C-6466478B17BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Thomson", "Cmd.Thomson\Cmd.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Thomson", "Cmd.Thomson\Cmd.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cmd.Minetti", "Cmd.Minetti\Cmd.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Minetti", "Cmd.Minetti\Cmd.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
