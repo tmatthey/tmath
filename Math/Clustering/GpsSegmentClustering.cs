@@ -99,7 +99,6 @@ namespace Math.Clustering
 
                         if (neighbours.Count > 1)
                         {
-                            double a, b;
                             Regression.Linear(
                                 Enumerable.Range(0, neighbours.Count).Select(dummy => (double) dummy).ToList(),
                                 neighbours.Select(
@@ -107,7 +106,7 @@ namespace Math.Clustering
                                             neighbour[0].Reference +
                                             (Comparison.IsEqual(neighbour[0].Fraction, 1.0) ? 1 : 0))
                                     .Select(dummy => (double) dummy)
-                                    .ToList(), out a, out b);
+                                    .ToList(), out var a, out _);
 
                             var indices =
                                 (from neighbour in neighbours

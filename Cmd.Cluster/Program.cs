@@ -123,7 +123,7 @@ namespace Cmd.Cluster
                             Draw.XiaolinWu(s.Segment[i], s.Segment[i + 1], bitmap.Set);
                     }
 
-                    BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap.Pixels);
+                    BitmapFileWriter.PNG($"{name}.{k}.png", bitmap.Pixels);
                 }
                 else
                 {

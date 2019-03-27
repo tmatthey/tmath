@@ -152,39 +152,39 @@ namespace Math.Gfx
             var gradient = dy / dx;
 
             // handle first endpoint
-            var xend = round(a.X);
+            var xend = Round(a.X);
             var yend = a.Y + gradient * (xend - a.X);
-            var xgap = rfpart(a.X + 0.5);
+            var xgap = RFPart(a.X + 0.5);
             var xpxl1 = xend; // this will be used in the main loop
-            var ypxl1 = ipart(yend);
+            var ypxl1 = IPart(yend);
             if (steep)
             {
-                plotFunction(ypxl1, xpxl1, rfpart(yend) * xgap * magnitude, magnitude);
-                plotFunction(ypxl1 + 1, xpxl1, fpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl1, xpxl1, RFPart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl1 + 1, xpxl1, FPart(yend) * xgap * magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl1, ypxl1, rfpart(yend) * xgap * magnitude, magnitude);
-                plotFunction(xpxl1, ypxl1 + 1, fpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl1, ypxl1, RFPart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl1, ypxl1 + 1, FPart(yend) * xgap * magnitude, magnitude);
             }
 
             var intery = yend + gradient; // first y-intersection for the main loop
 
             // handle second endpoint
-            xend = round(b.X);
+            xend = Round(b.X);
             yend = b.Y + gradient * (xend - b.X);
-            xgap = fpart(b.X + 0.5);
+            xgap = FPart(b.X + 0.5);
             var xpxl2 = xend; //this will be used in the main loop
-            var ypxl2 = ipart(yend);
+            var ypxl2 = IPart(yend);
             if (steep)
             {
-                plotFunction(ypxl2, xpxl2, rfpart(yend) * xgap * magnitude, magnitude);
-                plotFunction(ypxl2 + 1, xpxl2, fpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl2, xpxl2, RFPart(yend) * xgap * magnitude, magnitude);
+                plotFunction(ypxl2 + 1, xpxl2, FPart(yend) * xgap * magnitude, magnitude);
             }
             else
             {
-                plotFunction(xpxl2, ypxl2, rfpart(yend) * xgap * magnitude, magnitude);
-                plotFunction(xpxl2, ypxl2 + 1, fpart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl2, ypxl2, RFPart(yend) * xgap * magnitude, magnitude);
+                plotFunction(xpxl2, ypxl2 + 1, FPart(yend) * xgap * magnitude, magnitude);
             }
 
             // main loop
@@ -192,13 +192,13 @@ namespace Math.Gfx
             {
                 if (steep)
                 {
-                    plotFunction(ipart(intery), x, rfpart(intery) * magnitude, magnitude);
-                    plotFunction(ipart(intery) + 1, x, fpart(intery) * magnitude, magnitude);
+                    plotFunction(IPart(intery), x, RFPart(intery) * magnitude, magnitude);
+                    plotFunction(IPart(intery) + 1, x, FPart(intery) * magnitude, magnitude);
                 }
                 else
                 {
-                    plotFunction(x, ipart(intery), rfpart(intery) * magnitude, magnitude);
-                    plotFunction(x, ipart(intery) + 1, fpart(intery) * magnitude, magnitude);
+                    plotFunction(x, IPart(intery), RFPart(intery) * magnitude, magnitude);
+                    plotFunction(x, IPart(intery) + 1, FPart(intery) * magnitude, magnitude);
                 }
 
                 intery = intery + gradient;
@@ -209,11 +209,11 @@ namespace Math.Gfx
         {
             a = w.Converter(a);
             const double eps = 1e-9;
-            var x = ipart(a.X);
-            var y = ipart(a.Y);
-            var dx1 = fpart(a.X);
+            var x = IPart(a.X);
+            var y = IPart(a.Y);
+            var dx1 = FPart(a.X);
             var dx0 = 1.0 - dx1;
-            var dy1 = fpart(a.Y);
+            var dy1 = FPart(a.Y);
             var dy0 = 1.0 - dy1;
             PlotAreaFraction(x, y, dx0, dy0, eps, magnitude, w.Plot);
             PlotAreaFraction(x + 1, y, dx1, dy0, eps, magnitude, w.Plot);
@@ -229,25 +229,25 @@ namespace Math.Gfx
                 plotFunction(x, y, magnitude * dx * dy, magnitude);
         }
 
-        private static double fpart(double x)
+        private static double FPart(double x)
         {
             var f = x - System.Math.Floor(x);
             return x < 0.0 ? 1.0 - f : f;
         }
 
-        private static int ipart(double x)
+        private static int IPart(double x)
         {
             return (int)x;
         }
 
-        private static double rfpart(double x)
+        private static double RFPart(double x)
         {
-            return 1.0 - fpart(x);
+            return 1.0 - FPart(x);
         }
 
-        private static int round(double x)
+        private static int Round(double x)
         {
-            return ipart(x + 0.5);
+            return IPart(x + 0.5);
         }
     }
 }

@@ -93,9 +93,6 @@ namespace Math.Tools.TrackReaders
         /// <summary>
         /// Returns seconds of date and time of current point
         /// </summary>
-        public double Second
-        {
-            get { return Conversion.DateTimeToSeconds(Time); }
-        }
+        public double Second => Conversion.DateTimeToSeconds(Time);
     }
 }

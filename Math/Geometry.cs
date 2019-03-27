@@ -491,9 +491,8 @@ namespace Math
             var cost = 0;
             for (var i = i0; i < i1; i++)
             {
-                double perpendicular, parallel, angular;
-                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction, out perpendicular,
-                    out parallel, out angular);
+                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction, out var perpendicular,
+                    out _, out var angular);
                 perpendicular = System.Math.Max(perpendicular - Comparison.Epsilon, 1.0);
                 angular = System.Math.Max(angular - Comparison.Epsilon, 1.0);
 

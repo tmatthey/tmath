@@ -82,8 +82,7 @@ namespace Cmd.Activity
                     GpsFiltering.FindDuplicates(gpsTrack).Count());
                 var vel2 = new List<double>();
                 var dist2 = Geodesy.Distance.Haversine(gpsTrack);
-                List<double> dist3, vel3, acc3;
-                Tools.DistanceVelocityAcceleration(gpsTrack, out dist3, out vel3, out acc3);
+                Tools.DistanceVelocityAcceleration(gpsTrack, out _, out var vel3, out var acc3);
                 vel3 = Statistics.Arithmetic.CenteredMovingAverage(vel3, 10.0);
                 for (var j = 0; j + 1 < seconds.Count; j++)
                 {

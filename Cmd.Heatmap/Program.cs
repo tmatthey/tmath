@@ -100,7 +100,7 @@ namespace Cmd.Heatmap
 
                 Timer.Stop();
 
-                BitmapFileWriter.PNG(string.Format("{0}.{1}.png", name, k), bitmap, HeatColorMapping.Default);
+                BitmapFileWriter.PNG($"{name}.{k}.png", bitmap, HeatColorMapping.Default);
                 k++;
             }
         }

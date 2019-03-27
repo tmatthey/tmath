@@ -27,7 +27,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Math;
@@ -116,8 +115,7 @@ namespace Cmd.Match
                             var index1 = 0.0;
                             var h = 0.0;
                             var d = 0.0;
-                            List<double> dist, vel, acc;
-                            Tools.DistanceVelocityAcceleration(list[j], seconds, out dist, out vel, out acc);
+                            Tools.DistanceVelocityAcceleration(list[j], seconds, out var dist, out var vel, out _);
                             vel = Statistics.Arithmetic.CenteredMovingAverage(vel, 10.0);
                             for (var l = 0; l < track.Indices.Count; l++)
                             {

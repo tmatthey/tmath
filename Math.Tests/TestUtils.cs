@@ -61,7 +61,7 @@ namespace Math.Tests
             var assembly = Assembly.GetExecutingAssembly();
             var assemblyName = assembly.GetName().Name;
 #endif
-            var filename = string.Format("{0}.Resources.{1}", assemblyName, name);
+            var filename = $"{assemblyName}.Resources.{name}";
 
             return new StreamReader(assembly.GetManifestResourceStream(filename));
         }

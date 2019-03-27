@@ -1829,8 +1829,7 @@ namespace Math.Tests
         {
             var a = new Vector3D(1, 17, 0);
             var b = new Vector3D(0, 17, 1);
-            double per, par, angular;
-            Geometry.TrajectoryHausdorffDistances(a, a, b, b, true, out per, out par, out angular);
+            Geometry.TrajectoryHausdorffDistances(a, a, b, b, true, out _, out _, out var angular);
             angular.ShouldBe(0.0);
         }
 
@@ -1849,8 +1848,7 @@ namespace Math.Tests
             var a = new Vector3D(1, 17, 0);
             var b = new Vector3D(0, 17, 1);
             var c = new Vector3D(2, 17, 1);
-            double per, par, angular;
-            Geometry.TrajectoryHausdorffDistances(a, a, b, c, true, out per, out par, out angular);
+            Geometry.TrajectoryHausdorffDistances(a, a, b, c, true, out _, out _, out var angular);
             angular.ShouldBe(0.0);
         }
 
@@ -1870,8 +1868,7 @@ namespace Math.Tests
             var a = new Vector3D(1, 17, 0);
             var b = new Vector3D(0, 17, 1);
             var c = new Vector3D(2, 17, 1);
-            double per, par, angular;
-            Geometry.TrajectoryHausdorffDistances(b, c, a, a, true, out per, out par, out angular);
+            Geometry.TrajectoryHausdorffDistances(b, c, a, a, true, out _, out _, out var angular);
             angular.ShouldBe(0.0);
         }
 

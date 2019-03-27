@@ -270,9 +270,9 @@ namespace Math.Tools.Base
             {
                 _helpAction(GetHelp());
             }
-            else if (IsError() && _errorAction != null)
+            else if (IsError())
             {
-                _errorAction(GetHelp(), GetError());
+                _errorAction?.Invoke(GetHelp(), GetError());
             }
 
             return IsError();

@@ -118,7 +118,6 @@ namespace Math.Tools.TrackReaders
                             break;
                         case XmlNodeType.DocumentType:
                             break;
-                        default: break;
                     }
                 }
             }
@@ -148,14 +147,12 @@ namespace Math.Tools.TrackReaders
         /// <param name="tag_value">Value of geometry element.</param>
         protected void parsePoint(string tag_value)
         {
-            Hashtable value = null;
-            string[] coordinates;
             switch (currentKmlTag)
             {
                 case kmlTagType.COORDINATES:
                     //kml point coordinates format is [lat,lan]
-                    value = new Hashtable();
-                    coordinates = tag_value.Split(',');
+                    var value = new Hashtable();
+                    var coordinates = tag_value.Split(',');
                     if (coordinates.Length < 2) lastError = "ERROR IN FORMAT OF POINT COORDINATES";
                     value.Add("LNG", coordinates[0].Trim());
                     value.Add("LAT", coordinates[1].Trim());
@@ -172,28 +169,22 @@ namespace Math.Tools.TrackReaders
         /// <param name="tag_value">Value of geometry element.</param>
         protected void parseLine(string tag_value)
         {
-            List<Hashtable> value;
-            Hashtable linePoint;
-            string[] vertex;
-            string[] coordinates;
-            var idx = 0;
             switch (currentKmlTag)
             {
                 case kmlTagType.COORDINATES:
                     //kml coordinates format is [lat,lan]
-                    value = new List<Hashtable>();
-                    vertex = tag_value.Trim().Split(' '); //Split linestring to vertexes
+                    var value = new List<Hashtable>();
+                    var vertex = tag_value.Trim().Split(' ');
 
                     foreach (var point in vertex)
                     {
-                        coordinates = point.Split(',');
+                        var coordinates = point.Split(',');
                         if (coordinates.Length < 2) LastError = "ERROR IN FORMAT OF LINESTRING COORDINATES";
                         foreach (var unused in coordinates)
                         {
-                            linePoint = new Hashtable();
+                            var linePoint = new Hashtable();
                             linePoint.Add("LNG", coordinates[0]);
                             linePoint.Add("LAT", coordinates[1]);
-                            idx++; //index of net point
                             value.Add(linePoint);
                         }
                     }
