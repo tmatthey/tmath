@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using Math.Gfx;
 using Math.Gps;
@@ -117,5 +118,54 @@ namespace Math.Tests.Gfx
             BitmapFileWriter.PPM(TestUtils.OutputPath() + "HeatColorMapping.ppm", bitmap.Pixels,
                 HeatColorMapping.Default);
         }
+
+        [Test]
+        public void CubicBezierExample()
+        {
+            var P0 = new Vector2D(160, 120);
+            var P1 = new Vector2D(200, 35);
+            var P2 = new Vector2D(260, 220);
+            var P3 = new Vector2D(40, 220);
+
+            var bezier = new CubicBezier2D(P0, P1, P2, P3);
+
+            var box = new BoundingRect();
+            box.Expand(P0);
+            box.Expand(P1);
+            box.Expand(P2);
+            box.Expand(P3);
+            box.ExpandLayer(10);
+            var bitmap = new RGBBitmap(box.Min, box.Max, 0.1, 1000);
+
+            // Bounding rect
+            var bb = bezier.Bounding() as BoundingRect;
+            Draw.XiaolinWu(bb.Min, new Vector2D(bb.Max.X, bb.Min.Y), bitmap.Set);
+            Draw.XiaolinWu(new Vector2D(bb.Max.X, bb.Min.Y), bb.Max, bitmap.Set);
+            Draw.XiaolinWu(bb.Max, new Vector2D(bb.Min.X, bb.Max.Y), bitmap.Set);
+            Draw.XiaolinWu(new Vector2D(bb.Min.X, bb.Max.Y), bb.Min, bitmap.Set);
+
+            // Control points
+            bitmap.Color = Color.Default.Green;
+            Draw.XiaolinWu(P0, P1, bitmap.Set);
+            Draw.XiaolinWu(P1, P2, bitmap.Set);
+            Draw.XiaolinWu(P2, P3, bitmap.Set);
+
+            var n = 100;
+            var list = new List<Vector2D>();
+            bitmap.Color = Color.Default.Red;
+            for (var i = 0; i <= n; i++)
+            {
+                list.Add(bezier.Evaluate(i / (double)n));
+            }
+
+            // Bezier curve
+            for (var i = 0; i + 1 < list.Count; i++)
+            {
+                Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set);
+            }
+
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "CubicBezier2D.png", bitmap.RedPixels, bitmap.GreenPixels, bitmap.BluePixels);
+        }
+
     }
 }

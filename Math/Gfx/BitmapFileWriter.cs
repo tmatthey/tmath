@@ -101,5 +101,21 @@ namespace Math.Gfx
 
             image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
         }
+        public static void PNG(string fileName, double[,] red, double[,] green, double[,] blue)
+        {
+            var width = red.GetLength(0);
+            var height = red.GetLength(1);
+            var image = new Drawing.Bitmap(width, height);
+            var colorMap = GreenMapping.Default;
+            for (var j = 0; j < height; j++)
+            {
+                for (var i = 0; i < width; i++)
+                {
+                    image.SetPixel(i, height - j - 1, Drawing.Color.FromArgb(colorMap.Grey(red[i, j]), colorMap.Grey(green[i, j]), colorMap.Grey(blue[i, j])));
+                }
+            }
+
+            image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
+        }
     }
 }

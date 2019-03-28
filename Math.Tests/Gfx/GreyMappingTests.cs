@@ -67,10 +67,11 @@ namespace Math.Tests.Gfx
         public void DefaultValues(double c)
         {
             var m0 = new GreyMapping();
-            var m1 = new GreyMapping(0.1);
-            var m2 = new GreyMapping(0.1, 1.0);
+            var m1 = new GreyMapping(0.001);
+            var m2 = new GreyMapping(0.001, 1.0);
             m0.Grey(c).ShouldBe(m1.Grey(c));
             m1.Grey(c).ShouldBe(m2.Grey(c));
+            m2.Grey(c).ShouldBe(GreyMapping.Default.Grey(c));
         }
     }
 }

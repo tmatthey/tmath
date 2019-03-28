@@ -28,7 +28,7 @@
 
 namespace Math.Gfx
 {
-    public class Bitmap
+    public class Bitmap : IBitmap
     {
         private const int MaxLength = int.MaxValue;
         private const double Eps = 1e-9;
@@ -108,7 +108,7 @@ namespace Math.Gfx
             return (x - _min) / _pixelSize;
         }
 
-        private bool IsInRange(int x, int y)
+        public bool IsInRange(int x, int y)
         {
             return 0 <= x && 0 <= y && x < _nx && y < _ny;
         }

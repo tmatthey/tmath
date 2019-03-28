@@ -33,7 +33,7 @@ namespace Math.Gfx
         private readonly double _min;
         private readonly double _range;
 
-        protected AColorMapping(double min = 0.1, double max = 1.0)
+        protected AColorMapping(double min = 0.001, double max = 1.0)
         {
             _min = min;
             _range = max - min;

@@ -44,7 +44,7 @@ namespace Math
             return -b / a;
         }
 
-        public static IList<double> QuadraticEq(double a, double b, double c)
+        public static List<double> QuadraticEq(double a, double b, double c)
         {
             var res = new List<double>();
 
@@ -80,7 +80,7 @@ namespace Math
             return res;
         }
 
-        public static IList<double> CubicEq(double a, double b, double c, double d)
+        public static List<double> CubicEq(double a, double b, double c, double d)
         {
             if (Comparison.IsZero(a))
             {
@@ -182,7 +182,7 @@ namespace Math
             return res;
         }
 
-        public static IList<double> PolynomialEq(List<double> coffecients)
+        public static List<double> PolynomialEq(List<double> coffecients)
         {
             var res = new List<double>();
             var p = new Polynomial(coffecients).p();
