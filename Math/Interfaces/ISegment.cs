@@ -28,12 +28,11 @@
 
 namespace Math.Interfaces
 {
-    public interface ISegment<T> : IGeometryObject<ISegment<T>>, IBoundingFacade<T>
+    public interface ISegment<T,S> : IGeometryObject<S>, ICurve<T,S>
     {
         T A { get; set; }
         T B { get; set; }
-        double Length();
         T Vector();
-        bool IsIntersecting(ISegment<T> s, double eps = Comparison.Epsilon);
+        bool IsIntersecting(S s, double eps = Comparison.Epsilon);
     }
 }

@@ -52,7 +52,7 @@ namespace Math.Clustering
         {
             var segments = Partitioning<Vector2D, Segment2D, Segment2DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector2D, Segment2D, Segment2DExt>(n, eps, direction, segments);
-            return ClusterPoint(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
+            return ClusterPoint<Vector2D, Segment2D, Vector2DExt, Segment2DExt>(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
         }
 
         /// <summary>
@@ -70,14 +70,15 @@ namespace Math.Clustering
         {
             var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector3D, Segment3D, Segment3DExt>(n, eps, direction, segments);
-            return ClusterPoint(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
+            return ClusterPoint<Vector3D, Segment3D, Vector3DExt, Segment3DExt>(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
         }
 
-        private static List<Result<T>> ClusterPoint<T, TE, SE>(int n, double minL,
+        private static List<Result<T>> ClusterPoint<T, S, TE, SE>(int n, double minL,
             List<List<SE>> clusters, IRotation<T> rotation, ICreateVectorExt<T, TE> factoryVectorExt)
             where T : IVector<T>, new()
+            where S : ISegment<T, S>
             where TE : IVectorExt, IVector<T>
-            where SE : ISegementExt<T>, ISegment<T>
+            where SE : ISegementExt<T>, ISegment<T, S>
         {
             var result = new List<Result<T>>();
             foreach (var cluster in clusters)
@@ -180,7 +181,7 @@ namespace Math.Clustering
 
         private static List<List<SE>> DBScan<T, S, SE>(int n, double eps, bool direction, List<S> segments)
             where T : IVector<T>
-            where S : ISegment<T>, INorm<S>
+            where S : ISegment<T,S>, INorm<S>
             where SE : S, ISegementExt<T>
         {
             var dbs = new DBScan<T, S>(segments);
@@ -190,7 +191,7 @@ namespace Math.Clustering
 
         private static List<S> Partitioning<T, S, SE>(IList<List<T>> tracks, double minL, int mdlCostAdvantage)
             where T : IVector<T>
-            where S : ISegment<T>
+            where S : ISegment<T,S>
             where SE : S, ISegementExt<T>, new()
         {
             var segments = new List<S>();
@@ -210,7 +211,7 @@ namespace Math.Clustering
                         B = track[i1],
                         IA = i0,
                         IB = i1,
-                        J = j / 2,
+                        //J = j / 2,
                         K = k
                     };
                     segments.Add(s);
@@ -276,7 +277,7 @@ namespace Math.Clustering
         {
             int IA { get; set; }
             int IB { get; set; }
-            int J { get; set; }
+            //int J { get; set; }
             int K { get; set; }
             T U { get; set; }
             T V { get; set; }
@@ -286,7 +287,7 @@ namespace Math.Clustering
         {
             public int IA { get; set; }
             public int IB { get; set; }
-            public int J { get; set; }
+            //public int J { get; set; }
             public int K { get; set; }
             public Vector2D U { get; set; }
             public Vector2D V { get; set; }
@@ -296,7 +297,7 @@ namespace Math.Clustering
         {
             public int IA { get; set; }
             public int IB { get; set; }
-            public int J { get; set; }
+            //public int J { get; set; }
             public int K { get; set; }
             public Vector3D U { get; set; }
             public Vector3D V { get; set; }
@@ -304,9 +305,9 @@ namespace Math.Clustering
 
         internal interface IVectorExt
         {
-            int I { get; set; }
+            //int I { get; set; }
             int J { get; set; }
-            int K { get; set; }
+            //int K { get; set; }
         }
 
         internal class Vector2DExt : Vector2D, IVectorExt
@@ -314,14 +315,14 @@ namespace Math.Clustering
             public Vector2DExt(Vector2D v, int i, int j, int k)
                 : base(v)
             {
-                I = i;
+                //I = i;
                 J = j;
-                K = k;
+                //K = k;
             }
 
-            public int I { get; set; }
+            //public int I { get; set; }
             public int J { get; set; }
-            public int K { get; set; }
+            // int K { get; set; }
         }
 
         internal class Vector3DExt : Vector3D, IVectorExt
@@ -329,14 +330,14 @@ namespace Math.Clustering
             public Vector3DExt(Vector3D v, int i, int j, int k)
                 : base(v)
             {
-                I = i;
+                //I = i;
                 J = j;
-                K = k;
+                //K = k;
             }
 
-            public int I { get; set; }
+            //public int I { get; set; }
             public int J { get; set; }
-            public int K { get; set; }
+            //public int K { get; set; }
         }
 
         internal interface ICreateVectorExt<in T, out S>

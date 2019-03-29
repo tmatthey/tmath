@@ -4,9 +4,9 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.2.2</Version>
+    <Version>2.3.0</Version>
     <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2016-2018</Copyright>
+    <Copyright>Copyright © Matthey 2016-2019</Copyright>
     <Company />
     <Product />
     <Description>A collection of mathematical function and data structures written in C#.
@@ -36,6 +36,9 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="System.ValueTuple" Version="4.3.0" />
     </ItemGroup>
 
 </Project>

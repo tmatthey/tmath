@@ -28,11 +28,10 @@
 
 using System;
 using Math.Interfaces;
-using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math
 {
-    public class Segment3D : ISegment<Vector3D>, ICloneable, IIsEqual<Segment3D>
+    public class Segment3D : ISegment<Vector3D, Segment3D>
     {
         public Segment3D()
         {
@@ -70,7 +69,7 @@ namespace Math
         public Vector3D A { get; set; }
         public Vector3D B { get; set; }
 
-        public double Length()
+        public double Length(double accuracy = 1e-5)
         {
             return A.EuclideanNorm(B);
         }
@@ -80,7 +79,7 @@ namespace Math
             return B - A;
         }
 
-        public bool IsIntersecting(ISegment<Vector3D> s, double eps = Comparison.Epsilon)
+        public bool IsIntersecting(Segment3D s, double eps = Comparison.Epsilon)
         {
             return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
         }
@@ -94,7 +93,7 @@ namespace Math
             return a;
         }
 
-        public double[] Array => new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z};
+        public double[] Array => new[] { A.X, A.Y, A.Z, B.X, B.Y, B.Z };
 
         public double this[int i]
         {
@@ -120,7 +119,7 @@ namespace Math
             }
         }
 
-        public double EuclideanNorm(ISegment<Vector3D> d)
+        public double EuclideanNorm(Segment3D d)
         {
             var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
             var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
@@ -149,7 +148,7 @@ namespace Math
             return Comparison.IsZero(l) ? 0.0 : l;
         }
 
-        public double ModifiedNorm(ISegment<Vector3D> d, bool direction = true)
+        public double ModifiedNorm(Segment3D d, bool direction = true)
         {
             return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
@@ -158,7 +157,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Segment3D) obj);
+            return obj.GetType() == GetType() && IsEqual((Segment3D)obj);
         }
 
         public override int GetHashCode()
@@ -169,6 +168,41 @@ namespace Math
                 hashCode = (hashCode * 397) ^ B.GetHashCode();
                 return hashCode;
             }
+        }
+
+        public Vector3D Evaluate(double t)
+        {
+            return A * (1.0 - t) + B * t;
+        }
+
+        public Vector3D dEvaluate(double t)
+        {
+            return B - A;
+        }
+
+        public Vector3D d2Evaluate(double t)
+        {
+            return Vector3D.Zero;
+        }
+
+        public double Kappa(double t)
+        {
+            return 0.0;
+        }
+
+        public Vector3D Tangent(double t)
+        {
+            return dEvaluate(t).Normalized();
+        }
+
+        public (Segment3D, Segment3D) Split(double t)
+        {
+            if (Comparison.IsLessEqual(t, 0) || Comparison.IsLessEqual(1.0, t))
+                return (Clone() as Segment3D, null);
+
+            var c = Evaluate(t);
+            return (new Segment3D(A.Clone() as Vector3D, c),
+                new Segment3D(c.Clone() as Vector3D, B.Clone() as Vector3D));
         }
     }
 }

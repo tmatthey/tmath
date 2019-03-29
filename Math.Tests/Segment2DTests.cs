@@ -315,5 +315,135 @@ namespace Math.Tests
             var s = new Segment2D(v0, v1);
             s.Vector().ShouldBe(v1 - v0);
         }
+
+        [TestCase(1, 2, 3, 4, 0.5)]
+        [TestCase(1, 24, 3, -84, 0.95)]
+        public void Tangent(double x0, double y0, double x1, double y1, double p)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var t = s.Tangent(p);
+            var expected = (b - a).Normalized();
+            (t - expected).Norm().ShouldBeLessThan(1e-9);
+        }
+
+        [TestCase(1, 24, 3, -84, 0.95)]
+        [TestCase(1, 2, 3, 4, 0.5)]
+        public void Evaluate(double x0, double y0, double x1, double y1, double p)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var v = s.Evaluate(p);
+            var expected = a * (1.0 - p) + b * p;
+            (v-expected).Norm().ShouldBeLessThan(1e-9);
+        }
+
+        [TestCase(1, 2, 3, 4)]
+        [TestCase(1, 24, 3, -84)]
+        public void Evaluate_Start(double x0, double y0, double x1, double y1)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var v = s.Evaluate(0.0);
+            (v - a).Norm().ShouldBeLessThan(1e-9);
+
+        }
+
+        [TestCase(1, 2, 3, 4)]
+        [TestCase(1, 24, 3, -84)]
+        public void Evaluate_End(double x0, double y0, double x1, double y1)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var v = s.Evaluate(1.0);
+            (v - b).Norm().ShouldBeLessThan(1e-9);
+
+        }
+
+        [TestCase(1, 2, 3, 4, 0.5)]
+        [TestCase(1, 24, 3, -84, 0.95)]
+        public void dEvaluate(double x0, double y0, double x1, double y1, double p)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var v = s.dEvaluate(p);
+            var expected = b - a;
+            v.ShouldBe(expected);
+        }
+
+        [TestCase(1, 2, 3, 4, 0.5)]
+        [TestCase(1, 24, 3, -84, 0.95)]
+        public void d2Evaluate(double x0, double y0, double x1, double y1, double p)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var v = s.d2Evaluate(p);
+            v.ShouldBe(Vector2D.Zero);
+        }
+
+        [TestCase(1, 2, 3, 4)]
+        [TestCase(1, 24, 3, -84)]
+        public void Length_TestCase(double x0, double y0, double x1, double y1)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            var l = s.Length();
+            l.ShouldBe((b-a).Norm());
+        }
+
+        [TestCase(1, 2, 3, 4, 0.5)]
+        [TestCase(1, 24, 3, -84, 0.95)]
+        public void Kappa(double x0, double y0, double x1, double y1, double p)
+        {
+            var a = new Vector2D(x0, y0);
+            var b = new Vector2D(x1, y1);
+            var s = new Segment2D(a, b);
+            s.Kappa(p).ShouldBe(0);
+        }
+
+        [TestCase(0.5, 0.3)]
+        [TestCase(0.5, 0.5)]
+        [TestCase(0.3, 0.5)]
+        [TestCase(-0.1, 0.5)]
+        [TestCase(0, 0.5)]
+        [TestCase(1, 0.5)]
+        [TestCase(1.1, 0.5)]
+        public void Split(double split, double t)
+        {
+            var bezier = new Segment2D
+            {
+                A = new Vector2D(160, 120),
+                B = new Vector2D(200, 35)
+            };
+            var p = bezier.Evaluate(t);
+
+            var (b0, b1) = bezier.Split(split);
+            if (Comparison.IsLessEqual(split, 0) || Comparison.IsLessEqual(1.0, split))
+            {
+                b0.IsEqual(bezier).ShouldBeTrue();
+                b1.ShouldBeNull();
+            }
+            else if (Comparison.IsEqual(split, t))
+            {
+                (b0.Evaluate(1) - p).Norm().ShouldBeLessThan(1e-9);
+                (b1.Evaluate(0) - p).Norm().ShouldBeLessThan(1e-9);
+            }
+            else if (t < split)
+            {
+                (b0.Evaluate(t / split) - p).Norm().ShouldBeLessThan(1e-9);
+            }
+            else
+            {
+                (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
+            }
+
+        }
     }
 }

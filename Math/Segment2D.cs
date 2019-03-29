@@ -28,11 +28,10 @@
 
 using System;
 using Math.Interfaces;
-using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Vector2D>, ICloneable, IIsEqual<Segment2D>
+    public class Segment2D : ISegment<Vector2D, Segment2D>
     {
         public Segment2D()
         {
@@ -70,7 +69,7 @@ namespace Math
         public Vector2D A { get; set; }
         public Vector2D B { get; set; }
 
-        public double Length()
+        public double Length(double accuracy = 1e-5)
         {
             return A.EuclideanNorm(B);
         }
@@ -80,12 +79,12 @@ namespace Math
             return B - A;
         }
 
-        public bool IsIntersecting(ISegment<Vector2D> s, double eps = Comparison.Epsilon)
+        public bool IsIntersecting(Segment2D s, double eps = Comparison.Epsilon)
         {
             return Comparison.IsLessEqual(EuclideanNorm(s), eps, 0);
         }
 
-        public double EuclideanNorm(ISegment<Vector2D> d)
+        public double EuclideanNorm(Segment2D d)
         {
             var a0 = Geometry.PerpendicularSegmentDistance(A, B, d.A);
             var a1 = Geometry.PerpendicularSegmentDistance(A, B, d.B);
@@ -114,14 +113,14 @@ namespace Math
             return 0.0;
         }
 
-        public double ModifiedNorm(ISegment<Vector2D> d, bool direction = true)
+        public double ModifiedNorm(Segment2D d, bool direction = true)
         {
             return Geometry.TrajectoryHausdorffDistance(this, d, direction);
         }
 
         public int Dimensions => A.Dimensions;
 
-        public double[] Array => new[] {A.X, A.Y, B.X, B.Y};
+        public double[] Array => new[] { A.X, A.Y, B.X, B.Y };
 
         public double this[int i]
         {
@@ -154,7 +153,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Segment2D) obj);
+            return obj.GetType() == GetType() && IsEqual((Segment2D)obj);
         }
 
         public override int GetHashCode()
@@ -165,6 +164,41 @@ namespace Math
                 hashCode = (hashCode * 397) ^ B.GetHashCode();
                 return hashCode;
             }
+        }
+
+        public Vector2D Evaluate(double t)
+        {
+            return A * (1.0 - t) + B * t;
+        }
+
+        public Vector2D dEvaluate(double t)
+        {
+            return B - A;
+        }
+
+        public Vector2D d2Evaluate(double t)
+        {
+            return Vector2D.Zero;
+        }
+
+        public double Kappa(double t)
+        {
+            return 0.0;
+        }
+
+        public Vector2D Tangent(double t)
+        {
+            return dEvaluate(t).Normalized();
+        }
+
+        public (Segment2D, Segment2D) Split(double t)
+        {
+            if (Comparison.IsLessEqual(t, 0) || Comparison.IsLessEqual(1.0, t))
+                return (Clone() as Segment2D, null);
+
+            var c = Evaluate(t);
+            return (new Segment2D(A.Clone() as Vector2D, c),
+                new Segment2D(c.Clone() as Vector2D, B.Clone() as Vector2D));
         }
     }
 }

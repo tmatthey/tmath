@@ -113,7 +113,7 @@ namespace Math.Tests
         [TestCase(-1.0, 2.0, 0.0, 1.2)]
         [TestCase(1.0, -2.0, 0.0, 1.3)]
         [TestCase(-1.0, -2.0, 0.0, 1.4)]
-        public void QubicEq_ThreeDifferentRoots_ReturnsSolutions(double x0, double x1, double x2, double f)
+        public void CubicEq_ThreeDifferentRoots_ReturnsSolutions(double x0, double x1, double x2, double f)
         {
             var s = new List<double> {x0, x1, x2};
             s.Sort();
@@ -139,7 +139,7 @@ namespace Math.Tests
         [TestCase(0.0, -2.0, 1.4)]
         [TestCase(-3.0, 0.0, 1.4)]
         [TestCase(3.0, 0.0, 1.4)]
-        public void QubicEq_TwoDifferentRoots_ReturnsSolutions(double x0, double x1, double f)
+        public void CubicEq_TwoDifferentRoots_ReturnsSolutions(double x0, double x1, double f)
         {
             var s = new List<double> {x0, x1};
             s.Sort();
@@ -159,7 +159,7 @@ namespace Math.Tests
         [TestCase(-3.0, 1.4)]
         [TestCase(0.0, 1.4)]
         [TestCase(3.0, 1.4)]
-        public void QubicEq_OneDifferentRoots_ReturnsSolutions(double x0, double f)
+        public void CubicEq_OneDifferentRoots_ReturnsSolutions(double x0, double f)
         {
             var s = new List<double> {x0};
             s.Sort();
@@ -330,7 +330,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void PolynomialEq_QubicOneRootAndZeroRoot_ReturnsTwoRoots()
+        public void PolynomialEq_CubicOneRootAndZeroRoot_ReturnsTwoRoots()
         {
             var root = Solver.PolynomialEq(new List<double> {0.0, 0.0, -87.0, 41.0, -7.0, 1.0});
             root.Count.ShouldBe(2);
@@ -433,7 +433,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void QubicEq_OneSingleRoot_ReturnsSolutions()
+        public void CubicEq_OneSingleRoot_ReturnsSolutions()
         {
             var a = 1.0;
             var b = -9;
@@ -445,7 +445,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void QubicEq_Qudratic_ReturnsOneSolutions()
+        public void CubicEq_Qudratic_ReturnsOneSolutions()
         {
             var a = 0.0;
             var b = 1;
