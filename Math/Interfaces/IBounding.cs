@@ -29,7 +29,7 @@
 namespace Math.Interfaces
 {
     /// <summary>
-    /// Interface of bounding box or reactangle
+    /// Interface of bounding box or rectangle
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IBounding<T>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <xs:schema xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -34,6 +34,83 @@
                 </xs:complexType>
               </xs:element>
               <xs:element name="time" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rte">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string" minOccurs="0" />
+	            <xs:element name="cmt" type="xs:string" minOccurs="0" />
+              <xs:element name="desc" type="xs:string" minOccurs="0" />
+	            <xs:element name="src" type="xs:string" minOccurs="0" />
+              <xs:element name="link">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="text" type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="href" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>   
+	            <xs:element name="number" type="xs:nonNegativeInteger" minOccurs="0" />
+	            <xs:element name="type" type="xs:string" minOccurs="0" />
+              <xs:element name="rtept" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ele" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="time" type="xs:dateTime" minOccurs="0" />
+                    <xs:element name="magvar"  minOccurs="0" >
+                      <xs:simpleType >
+                        <xs:restriction base="xs:decimal">
+                          <xs:minInclusive value="0.0"/>
+                          <xs:maxExclusive value="360.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="geoidheight" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="cmt" type="xs:string" minOccurs="0" />
+                    <xs:element name="desc" type="xs:string" minOccurs="0" />
+                    <xs:element name="src" type="xs:string" minOccurs="0" />
+                    <xs:element name="link">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="text" type="xs:string" />
+                        </xs:sequence>
+                        <xs:attribute name="href" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="sym" type="xs:string" minOccurs="0" />
+                    <xs:element name="type" type="xs:string" minOccurs="0" />
+                    <xs:element name="fix"  minOccurs="0" >
+                      <xs:simpleType >
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="none"/>
+                          <xs:enumeration value="2d"/>
+                          <xs:enumeration value="3d"/>
+                          <xs:enumeration value="dgps"/>
+                          <xs:enumeration value="pps"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="sat" type="xs:nonNegativeInteger" minOccurs="0" />
+                    <xs:element name="hdop" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="vdop" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="pdop" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="ageofdgpsdata" type="xs:decimal" minOccurs="0" />
+                    <xs:element name="dgpsid"  minOccurs="0" >
+                      <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                          <xs:minInclusive value="0"/>
+                          <xs:maxInclusive value="1023"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="lat" type="xs:decimal" use="required" />
+                  <xs:attribute name="lon" type="xs:decimal" use="required" />
+                </xs:complexType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
