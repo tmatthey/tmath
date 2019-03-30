@@ -29,6 +29,12 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
   <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
     <DefineConstants>NET;NET40</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>D:\Projects\Math\Math\Math.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>D:\Projects\Math\Math\Math.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'  OR '$(TargetFramework)'=='netstandard1.5'">
     <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
   </ItemGroup>
@@ -39,6 +45,10 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+      <PackageReference Include="Vsxmd" Version="1.4.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>

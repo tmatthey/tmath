@@ -28,16 +28,64 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interface of bounding box or reactangle
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBounding<T>
     {
+        /// <summary>
+        /// Min
+        /// </summary>
         T Min { get; }
+
+        /// <summary>
+        /// Max
+        /// </summary>
         T Max { get; }
+
+        /// <summary>
+        /// Is empty bounding box
+        /// </summary>
+        /// <returns></returns>
         bool IsEmpty();
+
+        /// <summary>
+        /// Reset
+        /// </summary>
         void Reset();
+
+        /// <summary>
+        /// Expand bounding box with vector / point
+        /// </summary>
+        /// <param name="v">vector / point</param>
         void Expand(T v);
+
+        /// <summary>
+        /// Expanding with another bounding box
+        /// </summary>
+        /// <param name="b"></param>
         void Expand(IBounding<T> b);
+
+        /// <summary>
+        /// Add layer aorund current bounding box
+        /// </summary>
+        /// <param name="r">radius</param>
         void ExpandLayer(double r);
+
+        /// <summary>
+        /// Is point inside
+        /// </summary>
+        /// <param name="v">vector / point</param>
+        /// <returns></returns>
         bool IsInside(T v);
+
+        /// <summary>
+        /// Is point inside
+        /// </summary>
+        /// <param name="v">point / vector</param>
+        /// <param name="eps">epsilon</param>
+        /// <returns></returns>
         bool IsInside(T v, double eps);
     }
 }

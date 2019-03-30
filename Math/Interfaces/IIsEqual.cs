@@ -28,9 +28,25 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interface is equal
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IIsEqual<in T>
     {
+        /// <summary>
+        /// Is equal
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         bool IsEqual(T a);
+
+        /// <summary>
+        /// Is equal with epsilon
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="epsilon">epsilon</param>
+        /// <returns></returns>
         bool IsEqual(T a, double epsilon);
     }
 }

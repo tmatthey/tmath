@@ -28,11 +28,35 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interface line segment
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="S"></typeparam>
     public interface ISegment<T,S> : IGeometryObject<S>, ICurve<T,S>
     {
+        /// <summary>
+        /// Start point A
+        /// </summary>
         T A { get; set; }
+
+        /// <summary>
+        /// End point B
+        /// </summary>
         T B { get; set; }
+
+        /// <summary>
+        /// Create new vector
+        /// </summary>
+        /// <returns></returns>
         T Vector();
+
+        /// <summary>
+        /// Intersection bewteen two segmments
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="eps"></param>
+        /// <returns></returns>
         bool IsIntersecting(S s, double eps = Comparison.Epsilon);
     }
 }

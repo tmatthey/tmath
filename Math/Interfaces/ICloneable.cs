@@ -28,14 +28,15 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Creates a new object that is a copy of the current instance.
+    /// </summary>
     public interface ICloneable
     {
-        //
-        // Summary:
-        //     Creates a new object that is a copy of the current instance.
-        //
-        // Returns:
-        //     A new object that is a copy of this instance.
+        /// <summary>
+        /// A new object that is a copy of this instance.
+        /// </summary>
+        /// <returns></returns>
         object Clone();
     }
 }

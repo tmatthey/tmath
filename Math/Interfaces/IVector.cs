@@ -28,25 +28,130 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interface vector
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IVector<T> : IGeometryObject<T>, IBoundingFacade<T>
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         double X { get; set; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Is equal
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         bool IsEqual(T v);
+
+        /// <summary>
+        /// Is equal with epsilon
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="epsilon"></param>
+        /// <returns></returns>
         bool IsEqual(T v, double epsilon);
+
+        /// <summary>
+        /// Normalize vector
+        /// </summary>
+        /// <returns>Length of vector</returns>
         double Normalize();
+
+        /// <summary>
+        /// Normalize vector with epsilon
+        /// </summary>
+        /// <param name="epsilon"></param>
+        /// <returns>Length of vector</returns>
         double Normalize(double epsilon);
+
+        /// <summary>
+        /// Return normalized vector
+        /// </summary>
+        /// <returns></returns>
         T Normalized();
+
+        /// <summary>
+        /// Return normalized vector with epsilon
+        /// </summary>
+        /// <param name="epsilon"></param>
+        /// <returns></returns>
         T Normalized(double epsilon);
+
+        /// <summary>
+        /// Squard norm of vector
+        /// </summary>
+        /// <returns></returns>
         double Norm2();
+
+        /// <summary>
+        /// Norm
+        /// </summary>
+        /// <returns></returns>
         double Norm();
+
+        /// <summary>
+        /// Dot product
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         double Dot(T v);
+
+        /// <summary>
+        /// Norm of cross product
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         double CrossNorm(T v);
+
+        /// <summary>
+        /// Angle between two vectors
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         double Angle(T v);
+
+        /// <summary>
+        /// Unsigned angle between two vectors
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         double AngleAbs(T v);
+
+        /// <summary>
+        /// Add vector
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         T Add(T v);
+
+        /// <summary>
+        /// Subract vector
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
         T Sub(T v);
+
+        /// <summary>
+        /// Multiply with a scalar
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         T Mul(double c);
+
+        /// <summary>
+        /// Divide with a scalar
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         T Div(double c);
+
+        /// <summary>
+        /// Interpolate between two vectors
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
         T Interpolate(T v, double x);
     }
 }

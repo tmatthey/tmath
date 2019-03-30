@@ -30,6 +30,12 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
     <DefineConstants>NET;NET40</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>D:\Projects\Math\Math.Tools.TrackReaders\Math.Tools.TrackReaders.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
+    <DocumentationFile>D:\Projects\Math\Math.Tools.TrackReaders\Math.Tools.TrackReaders.xml</DocumentationFile>
+  </PropertyGroup>
   
   
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1' OR '$(TargetFramework)'=='netstandard1.5'">
@@ -44,6 +50,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Vsxmd" Version="1.4.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.csproj" />
   </ItemGroup>

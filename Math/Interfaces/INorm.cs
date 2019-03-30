@@ -28,9 +28,25 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interface for norms
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface INorm<in T>
     {
-        double EuclideanNorm(T d); // Minimal Euclidean norm betweeen to geometry obejcts
+        /// <summary>
+        /// Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        double EuclideanNorm(T d); 
+        
+        /// <summary>
+        /// Modified norm
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         double ModifiedNorm(T d, bool direction = true);
     }
 }

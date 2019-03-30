@@ -28,8 +28,18 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Interafce for interpolation between two objects of same type
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IInterpolate<T>
     {
+        /// <summary>
+        /// Interpolation
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="x">interpolate by x, [0,1]</param>
+        /// <returns></returns>
         T Interpolate(T t, double x);
     }
 }

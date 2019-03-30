@@ -28,13 +28,22 @@
 
 namespace Math.Interfaces
 {
-    //
-    // Interface geometry object for coordinate(s) in linear / array representation.
-    // Either point object or 2-point (min-max) object 
-    //
+    /// <summary>
+    /// Interface geometry object for coordinate(s) in linear / array representation.
+    /// Either point object or 2-point (min-max) object 
+    /// </summary>
     public interface IArray
     {
-        double[] Array { get; } // Array representation of the coordinate(s)
-        double this[int i] { get; } // Array access of the coordinate(s)
+        /// <summary>
+        /// Array representation of the coordinate(s)
+        /// </summary>
+        double[] Array { get; }
+
+        /// <summary>
+        /// Array access of the coordinate(s)
+        /// </summary>
+        /// <param name="i">index</param>
+        /// <returns></returns>
+        double this[int i] { get; } 
     }
 }

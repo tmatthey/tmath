@@ -28,9 +28,10 @@
 
 namespace Math.Interfaces
 {
-    //
-    // Interface of geometry object
-    //
+    /// <summary>
+    /// Interface of geometry object
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IGeometryObject<in T> : INorm<T>, IArray, IDimension
     {
     }

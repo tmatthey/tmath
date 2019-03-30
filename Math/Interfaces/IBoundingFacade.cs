@@ -28,8 +28,16 @@
 
 namespace Math.Interfaces
 {
+    /// <summary>
+    /// Bounding box facade for geometry objects or curves
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBoundingFacade<T>
     {
+        /// <summary>
+        /// Bounding box
+        /// </summary>
+        /// <returns></returns>
         IBounding<T> Bounding();
     }
 }
