@@ -188,7 +188,7 @@ namespace Math.Tests
         public void Clone()
         {
             var v = new Polar3D(1.1, 2.2, 2.3);
-            var w = (Polar3D) v.Clone();
+            var w = v.Clone();
             ReferenceEquals(v, w).ShouldBe(false);
             v.Equals(w).ShouldBe(true);
             v.IsEqual(w).ShouldBe(true);

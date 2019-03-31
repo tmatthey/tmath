@@ -75,7 +75,7 @@ namespace Cmd.Match
             var list =
                 activities.Select(
                     activity =>
-                        GpsFiltering.InterpolateDublicates(activity.GpsPoints().ToList(),
+                        GpsFiltering.InterpolateDuplicates(activity.GpsPoints().ToList(),
                             activity.Seconds().ToList()).ToList()).ToList();
 
             Console.WriteLine("Tracks: {0}", list.Count);

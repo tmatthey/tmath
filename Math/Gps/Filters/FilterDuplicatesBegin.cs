@@ -30,20 +30,12 @@ using System.Collections.Generic;
 
 namespace Math.Gps.Filters
 {
-    public class FilterDublicatesDouble : FilterDublicates
+    // Ex. : Tunnel
+    public class FilterDuplicatesBegin : FilterDuplicates
     {
-        //
-        //  d  = a / (2.0 + x);
-        //  l0 = d * (1.0 + 0.0 * x);
-        //  l1 = d * (1.0 + 1.0 * x);
-        //  l2 = d * (1.0 + 2.0 * x);
-        //  l3 = d * (1.0 + 3.0 * x);
-        //  a + B = l0 + l1 + l2 + l3
-        //
-
         public override int Takes()
         {
-            return 2;
+            return 1;
         }
 
         protected override List<GpsPointExt> Interpolate(IList<GpsPoint> track, IList<double> time, IList<int> startIdx,
@@ -51,32 +43,13 @@ namespace Math.Gps.Filters
         {
             var i0 = startIdx[0];
             var i1 = endIdx[0];
-            var j0 = startIdx[1];
-            var j1 = endIdx[1];
+            var res = new List<GpsPointExt> {new GpsPointExt(track[i0 - 1], i0 - 1), new GpsPointExt(track[i0], i0)};
 
-            var res = new List<GpsPointExt>();
+            for (var j = i0 + 1; j < i1 + 1; j++)
+                res.Add(new GpsPointExt(track[i0].Interpolate(track[i1 + 1],
+                    (time[j] - time[i0]) / (time[i1 + 1] - time[i0])), j));
 
-            if (i1 + 1 == j0 && i0 + 1 == i1 && j0 + 1 == j1)
-            {
-                var u = time[i1] - time[i0 - 1];
-                var a = track[i0 - 1].HaversineDistance(track[i1]) / u;
-                var v = time[j1] - time[j0 - 1];
-                var b = track[j0 - 1].HaversineDistance(track[j1]) / v;
-                var x = 2.0 * (a - b) / (b - a * 5.0);
-                var x0 = 1.0 / (2.0 + x);
-                var x1 = a / (2.0 + x) * (1.0 + 2.0 * x) / b;
-                if (Comparison.IsLess(0.1, x0) && Comparison.IsLess(x0, 0.9) && Comparison.IsLess(0.1, x1) &&
-                    Comparison.IsLess(x1, 0.9))
-                {
-                    res.Add(new GpsPointExt(track[i0 - 1], i0 - 1));
-                    res.Add(new GpsPointExt(track[i0 - 1].Interpolate(track[i1], x0), i0));
-                    res.Add(new GpsPointExt(track[i1], i1));
-                    res.Add(new GpsPointExt(track[j0 - 1].Interpolate(track[j1], x1), j0));
-                    res.Add(new GpsPointExt(track[j1], j1));
-                    res.Add(new GpsPointExt(track[j1 + 1], j1 + 1));
-                }
-            }
-
+            res.Add(new GpsPointExt(track[i1 + 1], i1 + 1));
             return res;
         }
     }

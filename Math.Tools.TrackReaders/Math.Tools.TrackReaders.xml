@@ -1,1714 +1,1716 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>Math.Tools.TrackReaders</name>
-    </assembly>
-    <members>
-        <member name="T:Math.Tools.TrackReaders.Deserializer">
-            <summary>
-            Reading activities containing GPS track by file, directory or string definition. Supported file formate: TCX, GPX and KML.
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Deserializer.String(System.String)">
-            <summary>
-            Tryining to parse a string as a TCX, GPX or KML
-            </summary>
-            <param name="input">String containing a TCX, GPX or KML definition</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Deserializer.File(System.String)">
-            <summary>
-            Reading and trying to parse either as TCX, GPX or KML based on its file type
-            </summary>
-            <param name="filename">File name with *.tcx, *.gpx and *.kml file type</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Deserializer.Directory(System.String)">
-            <summary>
-            Parses all TCX and GPX files of a given directory
-            </summary>
-            <param name="path">Path name</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpx">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpx.metadata">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpx.trk">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpx.version">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpx.creator">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadata">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.author">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.link">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.time">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor.email">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail.id">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail.domain">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.Extensions_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.Extensions_t.Any">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.atemp">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.atempSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.wtemp">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.wtempSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.depth">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.depthSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.hr">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.hrSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.cad">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.cadSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataLink">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataLink.text">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataLink.href">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrk">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.src">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.link">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.type">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.trkseg">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkLink">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkLink.text">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkLink.href">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.ele">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.time">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.lat">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.lon">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkTrkptExtensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkptExtensions.TrackPointExtension">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.GpxConverter">
-            <summary>
-            GPX converter
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.GpxConverter.Convert(Math.Tools.TrackReaders.Gpx.gpx)">
-            <summary>
-            Converts GPX data into abstract Track definition
-            </summary>
-            <param name="data">GPX data</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Icon">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Icon.href">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.IconStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.IconStyle.Icon">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.LineStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.color">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.width">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.widthSpecified">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.PolyStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.PolyStyle.color">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.BalloonStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.BalloonStyle.text">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Point">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Point.extrude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Point.extrudeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Point.altitudeMode">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Point.altitudeModeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Point.coordinates">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.altitudeModeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.clampToGround">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.relativeToGround">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.absolute">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.LookAt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.longitude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.latitude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.altitude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.altitudeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.heading">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.tilt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LookAt.range">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Placemark">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.visibility">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.visibilitySpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.description">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.LookAt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.styleUrl">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.Point">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.LineString">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Placemark.Polygon">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.LineString">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.extrude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.extrudeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.tessellate">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.altitudeMode">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.altitudeModeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LineString.coordinates">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Polygon">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.extrude">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.extrudeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.tessellate">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.tessellateSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.altitudeMode">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.outerBoundaryIs">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Polygon.innerBoundaryIs">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.outerBoundaryIs">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.outerBoundaryIs.LinearRing">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.LinearRing">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LinearRing.coordinates">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.innerBoundaryIs">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.innerBoundaryIs.LinearRing">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Pair">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Pair.key">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Pair.styleUrl">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.styleStateEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.styleStateEnumType.normal">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.styleStateEnumType.highlight">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Style">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Style.IconStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Style.LineStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Style.PolyStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Style.BalloonStyle">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Style.id">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.StyleMap">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.StyleMap.Pair">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.StyleMap.id">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Document">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.visibility">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.visibilitySpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.open">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.openSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.description">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.LookAt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.Style">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.StyleMap">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.Placemark">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Document.Folder">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.Folder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.visibility">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.visibilitySpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.description">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.LookAt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.styleUrl">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.Document">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.Placemark">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.GroundOverlay">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.ScreenOverlay">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.Folder.Folder1">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.GroundOverlay">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.visibility">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.description">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.LookAt">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.Icon">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.LatLonBox">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.LatLonBox">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.north">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.south">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.east">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.west">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.rotation">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.ScreenOverlay">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.visibility">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.description">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.Icon">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.overlayXY">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.screenXY">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.rotationXY">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.size">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.vec2Type">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.x">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.y">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.xunits">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.yunits">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.unitsEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.fraction">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.pixels">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.insetPixels">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.kml">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Kml.kml.Document">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.colorModeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.colorModeEnumType.normal">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.colorModeEnumType.random">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.displayModeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.displayModeEnumType.default">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.displayModeEnumType.hide">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.gridOriginEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.gridOriginEnumType.lowerLeft">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.gridOriginEnumType.upperLeft">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.listItemTypeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.radioFolder">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.check">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.checkHideChildren">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.checkOffOnly">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.refreshModeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onChange">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onInterval">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onExpire">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.shapeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.rectangle">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.cylinder">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.sphere">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.itemIconStateEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.open">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.closed">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.error">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching0">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching1">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching2">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.never">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onRequest">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onStop">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onRegion">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.KmlConverter">
-            <summary>
-            TCX Converter
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.KmlConverter.Convert(Math.Tools.TrackReaders.Kml.kml)">
-            <summary>
-            Converts TXC data into abstract Track definition
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.PointLineKml.LastError">
-            <summary>
-            Last returned error
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.PointLineKml.KMLDecode(System.String)">
-            <summary>
-            parse kml, fill Points and Lines collections
-            </summary>
-            <param name="fileName">Full ABSOLUTE path to file.</param>
-            <returns>HashTable</returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.PointLineKml.readKML(System.String)">
-            <summary>
-            Open kml, loop it and check for tags.
-            </summary>
-            <param name="fileName">Full ABSOLUTE path to file.</param>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.PointLineKml.parseGeometryVal(System.String)">
-            <summary>
-            Parse selected geometry based on type
-            </summary>
-            <param name="tag_value">Value of geometry element.</param>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parsePoint(System.String)" -->
-        <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parseLine(System.String)" -->
-        <member name="T:Math.Tools.TrackReaders.SportType">
-            <summary>
-            Definition of activity types
-            </summary>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.SportType.Unknown">
-            <summary>
-            Some unknown or undefined activity
-            </summary>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.SportType.Running">
-            <summary>
-            Running activity
-            </summary>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.SportType.Cycling">
-            <summary>
-            Cycling activity
-            </summary>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.SportType.Swimming">
-            <summary>
-            Swimming activity
-            </summary>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Folders">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Activities">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Workouts">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Courses">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Author">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Folders_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.History">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.Workouts">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.Courses">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.History_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Running">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Biking">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Other">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.History_t.MultiSport">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HistoryFolder_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Folder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.ActivityRef">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Week">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Name">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.ActivityReference_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityReference_t.Id">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CoursePoint_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Time">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Position">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.AltitudeMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.AltitudeMetersSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.PointType">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Position_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Position_t.LatitudeDegrees">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Position_t.LongitudeDegrees">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CoursePointType_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Generic">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Summit">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Valley">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Water">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Food">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Danger">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Left">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Right">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Straight">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.FirstAid">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item4thCategory">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item3rdCategory">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item2ndCategory">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item1stCategory">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.HorsCategory">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Sprint">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Extensions_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Extensions_t.Any">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CourseLap_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.TotalTimeSeconds">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.DistanceMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginPosition">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginAltitudeMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginAltitudeMetersSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndPosition">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndAltitudeMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndAltitudeMetersSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.AverageHeartRateBpm">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.MaximumHeartRateBpm">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Intensity">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Cadence">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.CadenceSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateInBeatsPerMinute_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateInBeatsPerMinute_t.Value">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Intensity_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.Intensity_t.Active">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.Intensity_t.Resting">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Course_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Lap">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Track">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.CoursePoint">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Creator">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Trackpoint_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Time">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Position">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.AltitudeMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.AltitudeMetersSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.DistanceMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.DistanceMetersSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.HeartRateBpm">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Cadence">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.CadenceSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.SensorState">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.SensorStateSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.SensorState_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.SensorState_t.Present">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.SensorState_t.Absent">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.AbstractSource_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.AbstractSource_t.Name">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Application_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.Build">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.LangID">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.PartNumber">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Build_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Version">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Type">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.TypeSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Time">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Builder">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Version_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.VersionMajor">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.VersionMinor">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMajor">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMajorSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMinor">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMinorSpecified">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.BuildType_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Internal">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Alpha">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Beta">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Release">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Device_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.UnitId">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.ProductID">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.Version">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Zone_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t.Low">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t.High">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateValue_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateAsPercentOfMax_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateAsPercentOfMax_t.Value">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.PredefinedHeartRateZone_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.PredefinedHeartRateZone_t.Number">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.ViewAs">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.LowInMetersPerSecond">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.HighInMetersPerSecond">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.SpeedType_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.SpeedType_t.Pace">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.SpeedType_t.Speed">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.PredefinedSpeedZone_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.PredefinedSpeedZone_t.Number">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Target_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.None_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Cadence_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Cadence_t.Low">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Cadence_t.High">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRate_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HeartRate_t.HeartRateZone">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Speed_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Speed_t.SpeedZone">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Duration_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.UserInitiated_t">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CaloriesBurned_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CaloriesBurned_t.Calories">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateBelow_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateBelow_t.HeartRate">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateAbove_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateAbove_t.HeartRate">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Distance_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Distance_t.Meters">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Time_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Time_t.Seconds">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.AbstractStep_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.AbstractStep_t.StepId">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Step_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Duration">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Intensity">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Target">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Repeat_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Repeat_t.Repetitions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Repeat_t.Child">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Workout_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Step">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.ScheduledOn">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Creator">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Sport">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Sport_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Running">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Biking">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Other">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.NextSport_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.NextSport_t.Transition">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.NextSport_t.Activity">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.ActivityLap_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.TotalTimeSeconds">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.DistanceMeters">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumSpeed">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumSpeedSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Calories">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.AverageHeartRateBpm">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumHeartRateBpm">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Intensity">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Cadence">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.CadenceSpecified">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.TriggerMethod">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Track">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.StartTime">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.TriggerMethod_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Manual">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Distance">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Location">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Time">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.HeartRate">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Activity_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Id">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Lap">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Training">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Creator">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Sport">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Training_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.QuickWorkoutResults">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.Plan">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.VirtualPartner">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.QuickWorkout_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.QuickWorkout_t.TotalTimeSeconds">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.QuickWorkout_t.DistanceMeters">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Plan_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Name">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Type">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.IntervalWorkout">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.TrainingType_t">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TrainingType_t.Workout">
-            <remarks/>
-        </member>
-        <member name="F:Math.Tools.TrackReaders.Tcx.TrainingType_t.Course">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.FirstSport_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.FirstSport_t.Activity">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.MultiSportSession_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.Id">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.FirstSport">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.NextSport">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.Notes">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.ActivityList_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityList_t.Activity">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.ActivityList_t.MultiSportSession">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.CourseFolder_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Folder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.CourseNameRef">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Name">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.NameKeyReference_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.NameKeyReference_t.Id">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Courses_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Courses_t.CourseFolder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Courses_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Folder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.WorkoutNameRef">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Name">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Workouts_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Running">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Biking">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Other">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Folder">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.MultisportActivityRef">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Week">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Extensions">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Name">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Tcx.Week_t">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Week_t.Notes">
-            <remarks/>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Tcx.Week_t.StartDay">
-            <remarks/>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.TcxConverter">
-            <summary>
-            TCX Converter
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.TcxConverter.Convert(Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t)">
-            <summary>
-            Converts TXC data into abstract Track definition
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.Track">
-            <summary>
-            Abstract GPS track definition including common data from GPX and TCX
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Track.Date">
-            <summary>
-            Start time and date of activity
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Track.SportType">
-            <summary>
-            Type of activity
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Track.TrackPoints">
-            <summary>
-            List of track points 
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.Track.Name">
-            <summary>
-            Name of the activity
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Track.GpsPoints">
-            <summary>
-            Returns list of GpsPoints
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Track.HeartRates">
-            <summary>
-            Returns list of heart beats
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Track.Times">
-            <summary>
-            Returns time and date of each track point
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Track.Seconds">
-            <summary>
-            Returns list of date and time in seconds
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.Track.ElapsedSeconds">
-            <summary>
-            Returns list of elapsed seconds since start
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Tools.TrackReaders.TrackPoint">
-            <summary>
-            Abstract definition of a track point of an activity: GPS, elevation, distance, heart rate and time
-            </summary>
-        </member>
-        <member name="M:Math.Tools.TrackReaders.TrackPoint.#ctor(System.Double,System.Double,System.Double,System.Double,System.Byte,System.DateTime)">
-            <summary>
-            A track point
-            </summary>
-            <param name="latitude">Latitude [deg]</param>
-            <param name="longitude">Longitude [deg]</param>
-            <param name="elevation">Elevation [m]</param>
-            <param name="distance">Distance [m]</param>
-            <param name="heartRate">Heart rate [byte]</param>
-            <param name="time">Time and date</param>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Gps">
-            <summary>
-            Returns GpsPoint
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Latitude">
-            <summary>
-            Returns latitude [deg]
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Longitude">
-            <summary>
-            Returns Longitude [deg]
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Elevation">
-            <summary>
-            Returns elevation [m]
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Distance">
-            <summary>
-            Returns distance [m]
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.HeartRate">
-            <summary>
-            Returns heart beat
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Time">
-            <summary>
-            Returns date and time of current point
-            </summary>
-        </member>
-        <member name="P:Math.Tools.TrackReaders.TrackPoint.Second">
-            <summary>
-            Returns seconds of date and time of current point
-            </summary>
-        </member>
-    </members>
+  <assembly>
+    <name>Math.Tools.TrackReaders</name>
+  </assembly>
+  <members>
+    <member name="T:Math.Tools.TrackReaders.Deserializer">
+      <summary>
+        Reading activities containing GPS track by file, directory or string definition. Supported file formate: TCX, GPX and KML.
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Deserializer.String(System.String)">
+      <summary>
+        Tryining to parse a string as a TCX, GPX or KML
+      </summary>
+      <param name="input">String containing a TCX, GPX or KML definition</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Deserializer.File(System.String)">
+      <summary>
+        Reading and trying to parse either as TCX, GPX or KML based on its file type
+      </summary>
+      <param name="filename">File name with *.tcx, *.gpx and *.kml file type</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Deserializer.Directory(System.String)">
+      <summary>
+        Parses all TCX and GPX files of a given directory
+      </summary>
+      <param name="path">Path name</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpx">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpx.metadata">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpx.trk">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpx.version">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpx.creator">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadata">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.author">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.link">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadata.time">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthor.email">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail.id">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataAuthorEmail.domain">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.Extensions_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.Extensions_t.Any">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.atemp">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.atempSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.wtemp">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.wtempSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.depth">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.depthSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.hr">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.hrSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.cad">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.cadSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.TrackPointExtension_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxMetadataLink">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataLink.text">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxMetadataLink.href">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrk">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.src">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.link">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.type">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrk.trkseg">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkLink">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkLink.text">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkLink.href">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.ele">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.time">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.lat">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkpt.lon">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Gpx.gpxTrkTrkptExtensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Gpx.gpxTrkTrkptExtensions.TrackPointExtension">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.GpxConverter">
+      <summary>
+        GPX converter
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.GpxConverter.Convert(Math.Tools.TrackReaders.Gpx.gpx)">
+      <summary>
+        Converts GPX data into abstract Track definition
+      </summary>
+      <param name="data">GPX data</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Icon">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Icon.href">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.IconStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.IconStyle.Icon">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.LineStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.color">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.width">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineStyle.widthSpecified">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.PolyStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.PolyStyle.color">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.BalloonStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.BalloonStyle.text">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Point">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Point.extrude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Point.extrudeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Point.altitudeMode">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Point.altitudeModeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Point.coordinates">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.altitudeModeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.clampToGround">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.relativeToGround">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.altitudeModeEnumType.absolute">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.LookAt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.longitude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.latitude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.altitude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.altitudeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.heading">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.tilt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LookAt.range">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Placemark">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.visibility">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.visibilitySpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.description">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.LookAt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.styleUrl">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.Point">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.LineString">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Placemark.Polygon">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.LineString">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.extrude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.extrudeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.tessellate">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.altitudeMode">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.altitudeModeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LineString.coordinates">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Polygon">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.extrude">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.extrudeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.tessellate">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.tessellateSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.altitudeMode">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.outerBoundaryIs">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Polygon.innerBoundaryIs">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.outerBoundaryIs">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.outerBoundaryIs.LinearRing">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.LinearRing">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LinearRing.coordinates">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.innerBoundaryIs">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.innerBoundaryIs.LinearRing">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Pair">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Pair.key">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Pair.styleUrl">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.styleStateEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.styleStateEnumType.normal">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.styleStateEnumType.highlight">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Style">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Style.IconStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Style.LineStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Style.PolyStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Style.BalloonStyle">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Style.id">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.StyleMap">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.StyleMap.Pair">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.StyleMap.id">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Document">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.visibility">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.visibilitySpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.open">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.openSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.description">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.LookAt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.Style">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.StyleMap">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.Placemark">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Document.Folder">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.Folder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.visibility">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.visibilitySpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.description">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.LookAt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.styleUrl">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.Document">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.Placemark">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.GroundOverlay">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.ScreenOverlay">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.Folder.Folder1">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.GroundOverlay">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.visibility">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.description">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.LookAt">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.Icon">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.GroundOverlay.LatLonBox">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.LatLonBox">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.north">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.south">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.east">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.west">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.LatLonBox.rotation">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.ScreenOverlay">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.visibility">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.description">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.Icon">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.overlayXY">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.screenXY">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.rotationXY">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.ScreenOverlay.size">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.vec2Type">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.x">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.y">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.xunits">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.vec2Type.yunits">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.unitsEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.fraction">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.pixels">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.unitsEnumType.insetPixels">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.kml">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Kml.kml.Document">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.colorModeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.colorModeEnumType.normal">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.colorModeEnumType.random">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.displayModeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.displayModeEnumType.default">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.displayModeEnumType.hide">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.gridOriginEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.gridOriginEnumType.lowerLeft">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.gridOriginEnumType.upperLeft">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.listItemTypeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.radioFolder">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.check">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.checkHideChildren">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.listItemTypeEnumType.checkOffOnly">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.refreshModeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onChange">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onInterval">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.refreshModeEnumType.onExpire">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.shapeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.rectangle">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.cylinder">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.shapeEnumType.sphere">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.itemIconStateEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.open">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.closed">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.error">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching0">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching1">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.itemIconStateEnumType.fetching2">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.never">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onRequest">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onStop">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Kml.viewRefreshModeEnumType.onRegion">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.KmlConverter">
+      <summary>
+        TCX Converter
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.KmlConverter.Convert(Math.Tools.TrackReaders.Kml.kml)">
+      <summary>
+        Converts TXC data into abstract Track definition
+      </summary>
+      <param name="data"></param>
+      <returns></returns>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.PointLineKml.LastError">
+      <summary>
+        Last returned error
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.PointLineKml.KMLDecode(System.String)">
+      <summary>
+        parse kml, fill Points and Lines collections
+      </summary>
+      <param name="fileName">Full ABSOLUTE path to file.</param>
+      <returns>HashTable</returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.PointLineKml.readKML(System.String)">
+      <summary>
+        Open kml, loop it and check for tags.
+      </summary>
+      <param name="fileName">Full ABSOLUTE path to file.</param>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.PointLineKml.parseGeometryVal(System.String)">
+      <summary>
+        Parse selected geometry based on type
+      </summary>
+      <param name="tag_value">Value of geometry element.</param>
+    </member>
+    <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parsePoint(System.String)" -->
+    <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parseLine(System.String)" -->
+    <member name="T:Math.Tools.TrackReaders.SportType">
+      <summary>
+        Definition of activity types
+      </summary>
+    </member>
+    <member name="F:Math.Tools.TrackReaders.SportType.Unknown">
+      <summary>
+        Some unknown or undefined activity
+      </summary>
+    </member>
+    <member name="F:Math.Tools.TrackReaders.SportType.Running">
+      <summary>
+        Running activity
+      </summary>
+    </member>
+    <member name="F:Math.Tools.TrackReaders.SportType.Cycling">
+      <summary>
+        Cycling activity
+      </summary>
+    </member>
+    <member name="F:Math.Tools.TrackReaders.SportType.Swimming">
+      <summary>
+        Swimming activity
+      </summary>
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Folders">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Activities">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Workouts">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Courses">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Author">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Folders_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.History">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.Workouts">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Folders_t.Courses">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.History_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Running">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Biking">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Other">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.History_t.MultiSport">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.History_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HistoryFolder_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Folder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.ActivityRef">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Week">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HistoryFolder_t.Name">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.ActivityReference_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityReference_t.Id">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CoursePoint_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Time">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Position">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.AltitudeMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.AltitudeMetersSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.PointType">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CoursePoint_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Position_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Position_t.LatitudeDegrees">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Position_t.LongitudeDegrees">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CoursePointType_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Generic">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Summit">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Valley">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Water">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Food">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Danger">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Left">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Right">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Straight">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.FirstAid">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item4thCategory">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item3rdCategory">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item2ndCategory">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Item1stCategory">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.HorsCategory">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.CoursePointType_t.Sprint">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Extensions_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Extensions_t.Any">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CourseLap_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.TotalTimeSeconds">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.DistanceMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginPosition">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginAltitudeMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.BeginAltitudeMetersSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndPosition">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndAltitudeMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.EndAltitudeMetersSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.AverageHeartRateBpm">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.MaximumHeartRateBpm">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Intensity">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Cadence">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.CadenceSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseLap_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateInBeatsPerMinute_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateInBeatsPerMinute_t.Value">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Intensity_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.Intensity_t.Active">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.Intensity_t.Resting">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Course_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Lap">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Track">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.CoursePoint">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Creator">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Course_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Trackpoint_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Time">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Position">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.AltitudeMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.AltitudeMetersSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.DistanceMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.DistanceMetersSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.HeartRateBpm">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Cadence">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.CadenceSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.SensorState">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.SensorStateSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Trackpoint_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.SensorState_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.SensorState_t.Present">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.SensorState_t.Absent">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.AbstractSource_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.AbstractSource_t.Name">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Application_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.Build">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.LangID">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Application_t.PartNumber">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Build_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Version">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Type">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.TypeSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Time">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Build_t.Builder">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Version_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.VersionMajor">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.VersionMinor">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMajor">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMajorSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMinor">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Version_t.BuildMinorSpecified">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.BuildType_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Internal">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Alpha">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Beta">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.BuildType_t.Release">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Device_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.UnitId">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.ProductID">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Device_t.Version">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Zone_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t.Low">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CustomHeartRateZone_t.High">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateValue_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateAsPercentOfMax_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateAsPercentOfMax_t.Value">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.PredefinedHeartRateZone_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.PredefinedHeartRateZone_t.Number">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.ViewAs">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.LowInMetersPerSecond">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CustomSpeedZone_t.HighInMetersPerSecond">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.SpeedType_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.SpeedType_t.Pace">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.SpeedType_t.Speed">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.PredefinedSpeedZone_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.PredefinedSpeedZone_t.Number">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Target_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.None_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Cadence_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Cadence_t.Low">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Cadence_t.High">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRate_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HeartRate_t.HeartRateZone">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Speed_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Speed_t.SpeedZone">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Duration_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.UserInitiated_t">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CaloriesBurned_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CaloriesBurned_t.Calories">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateBelow_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateBelow_t.HeartRate">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.HeartRateAbove_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.HeartRateAbove_t.HeartRate">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Distance_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Distance_t.Meters">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Time_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Time_t.Seconds">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.AbstractStep_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.AbstractStep_t.StepId">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Step_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Duration">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Intensity">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Step_t.Target">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Repeat_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Repeat_t.Repetitions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Repeat_t.Child">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Workout_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Step">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.ScheduledOn">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Creator">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workout_t.Sport">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Sport_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Running">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Biking">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.Sport_t.Other">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.NextSport_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.NextSport_t.Transition">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.NextSport_t.Activity">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.ActivityLap_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.TotalTimeSeconds">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.DistanceMeters">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumSpeed">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumSpeedSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Calories">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.AverageHeartRateBpm">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.MaximumHeartRateBpm">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Intensity">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Cadence">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.CadenceSpecified">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.TriggerMethod">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Track">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityLap_t.StartTime">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.TriggerMethod_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Manual">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Distance">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Location">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.Time">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TriggerMethod_t.HeartRate">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Activity_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Id">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Lap">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Training">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Creator">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Activity_t.Sport">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Training_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.QuickWorkoutResults">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.Plan">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Training_t.VirtualPartner">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.QuickWorkout_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.QuickWorkout_t.TotalTimeSeconds">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.QuickWorkout_t.DistanceMeters">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Plan_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Name">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.Type">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Plan_t.IntervalWorkout">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.TrainingType_t">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TrainingType_t.Workout">
+      <remarks />
+    </member>
+    <member name="F:Math.Tools.TrackReaders.Tcx.TrainingType_t.Course">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.FirstSport_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.FirstSport_t.Activity">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.MultiSportSession_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.Id">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.FirstSport">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.NextSport">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportSession_t.Notes">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.ActivityList_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityList_t.Activity">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.ActivityList_t.MultiSportSession">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.CourseFolder_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Folder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.CourseNameRef">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.CourseFolder_t.Name">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.NameKeyReference_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.NameKeyReference_t.Id">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Courses_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Courses_t.CourseFolder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Courses_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Folder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.WorkoutNameRef">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.WorkoutFolder_t.Name">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Workouts_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Running">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Biking">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Other">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Workouts_t.Extensions">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Folder">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.MultisportActivityRef">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Week">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Extensions">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.MultiSportFolder_t.Name">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Tcx.Week_t">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Week_t.Notes">
+      <remarks />
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Tcx.Week_t.StartDay">
+      <remarks />
+    </member>
+    <member name="T:Math.Tools.TrackReaders.TcxConverter">
+      <summary>
+        TCX Converter
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.TcxConverter.Convert(Math.Tools.TrackReaders.Tcx.TrainingCenterDatabase_t)">
+      <summary>
+        Converts TXC data into abstract Track definition
+      </summary>
+      <param name="data"></param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Tools.TrackReaders.Track">
+      <summary>
+        Abstract GPS track definition including common data from GPX and TCX
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Track.Date">
+      <summary>
+        Start time and date of activity
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Track.SportType">
+      <summary>
+        Type of activity
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Track.TrackPoints">
+      <summary>
+        List of track points
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.Track.Name">
+      <summary>
+        Name of the activity
+      </summary>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Track.GpsPoints">
+      <summary>
+        Returns list of GpsPoints
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Track.HeartRates">
+      <summary>
+        Returns list of heart beats
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Track.Times">
+      <summary>
+        Returns time and date of each track point
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Track.Seconds">
+      <summary>
+        Returns list of date and time in seconds
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Tools.TrackReaders.Track.ElapsedSeconds">
+      <summary>
+        Returns list of elapsed seconds since start
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Tools.TrackReaders.TrackPoint">
+      <summary>
+        Abstract definition of a track point of an activity: GPS, elevation, distance, heart rate and time
+      </summary>
+    </member>
+    <member
+      name="M:Math.Tools.TrackReaders.TrackPoint.#ctor(System.Double,System.Double,System.Double,System.Double,System.Byte,System.DateTime)">
+      <summary>
+        A track point
+      </summary>
+      <param name="latitude">Latitude [deg]</param>
+      <param name="longitude">Longitude [deg]</param>
+      <param name="elevation">Elevation [m]</param>
+      <param name="distance">Distance [m]</param>
+      <param name="heartRate">Heart rate [byte]</param>
+      <param name="time">Time and date</param>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Gps">
+      <summary>
+        Returns GpsPoint
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Latitude">
+      <summary>
+        Returns latitude [deg]
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Longitude">
+      <summary>
+        Returns Longitude [deg]
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Elevation">
+      <summary>
+        Returns elevation [m]
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Distance">
+      <summary>
+        Returns distance [m]
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.HeartRate">
+      <summary>
+        Returns heart beat
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Time">
+      <summary>
+        Returns date and time of current point
+      </summary>
+    </member>
+    <member name="P:Math.Tools.TrackReaders.TrackPoint.Second">
+      <summary>
+        Returns seconds of date and time of current point
+      </summary>
+    </member>
+  </members>
 </doc>

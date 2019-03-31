@@ -30,7 +30,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Circle3D : IDimension, ICloneable, IIsEqual<Circle3D>
+    public class Circle3D : IDimension, ICloneable<Circle3D>, IIsEqual<Circle3D>
     {
         public Circle3D()
         {
@@ -70,7 +70,7 @@ namespace Math
         public Vector3D Normal { get; set; }
         public double Radius { get; set; }
 
-        public object Clone()
+        public Circle3D Clone()
         {
             return new Circle3D(this);
         }

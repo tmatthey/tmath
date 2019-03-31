@@ -220,7 +220,7 @@ namespace Math.Tests
         public void Clone()
         {
             var p = new Polynomial(new List<double> {1.112, 1.07, 1.9});
-            var q = (Polynomial) p.Clone();
+            var q = p.Clone();
             ReferenceEquals(p, q).ShouldBe(false);
             p.p().ShouldBe(q.p());
             p.P().ShouldBe(q.P());

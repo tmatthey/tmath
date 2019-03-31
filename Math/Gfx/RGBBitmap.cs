@@ -31,9 +31,9 @@ namespace Math.Gfx
     public class RGBBitmap : IBitmap
     {
         private const int MaxLength = int.MaxValue;
-        private Bitmap _red;
-        private Bitmap _green;
-        private Bitmap _blue;
+        private readonly Bitmap _red;
+        private readonly Bitmap _green;
+        private readonly Bitmap _blue;
 
 
         public RGBBitmap(Vector2D min, Vector2D max, double pixelSize, int maxLength = MaxLength)
@@ -48,12 +48,13 @@ namespace Math.Gfx
             AddMagnitude = new PlotWrapper(_red.ConvertToBitmap, PixelAddMagnitude);
             SetMagnitude = new PlotWrapper(_red.ConvertToBitmap, PixelSetMagnitude);
         }
-        public Color Color { get;  set; }
 
-        public PlotWrapper Add { get; private set; }
-        public PlotWrapper Set { get; private set; }
-        public PlotWrapper AddMagnitude { get; private set; }
-        public PlotWrapper SetMagnitude { get; private set; }
+        public Color Color { get; set; }
+
+        public PlotWrapper Add { get; }
+        public PlotWrapper Set { get; }
+        public PlotWrapper AddMagnitude { get; }
+        public PlotWrapper SetMagnitude { get; }
         public double[,] RedPixels => _red.Pixels;
         public double[,] GreenPixels => _green.Pixels;
         public double[,] BluePixels => _blue.Pixels;
@@ -62,7 +63,7 @@ namespace Math.Gfx
         {
             if (IsInRange(x, y))
             {
-                _red.Pixels[x, y] += c * (255-Color.Red) / 255.0;
+                _red.Pixels[x, y] += c * (255 - Color.Red) / 255.0;
                 _green.Pixels[x, y] += c * (255 - Color.Green) / 255.0;
                 _blue.Pixels[x, y] += c * (255 - Color.Blue) / 255.0;
             }
@@ -102,6 +103,7 @@ namespace Math.Gfx
         {
             return _red.IsInRange(x, y);
         }
+
         private void PixelAdd(int x, int y, double c, double cMax)
         {
             PixelAdd(x, y, c);
@@ -121,6 +123,5 @@ namespace Math.Gfx
         {
             PixelSet(x, y, cMax);
         }
-
-      }
+    }
 }

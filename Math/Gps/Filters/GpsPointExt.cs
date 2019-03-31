@@ -35,6 +35,6 @@ namespace Math.Gps.Filters
             I = i;
         }
 
-        public int I { get; private set; }
+        public int I { get; }
     }
 }

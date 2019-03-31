@@ -28,11 +28,10 @@
 
 using System;
 using Math.Interfaces;
-using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math
 {
-    public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<Polar3D>
+    public class Polar3D : IGeometryObject<Polar3D>, IBoundingFacade<Vector3D>, ICloneable<Polar3D>, IIsEqual<Polar3D>
     {
         public static readonly Polar3D Zero = new Polar3D(0, 0, 0);
         private double _theta;
@@ -77,7 +76,7 @@ namespace Math
             return new BoundingBox(this);
         }
 
-        public object Clone()
+        public Polar3D Clone()
         {
             return new Polar3D(this);
         }

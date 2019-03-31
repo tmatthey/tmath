@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment2D : ISegment<Vector2D, Segment2D>
+    public class Segment2D : ISegment<Vector2D, Segment2D>, ICloneable<Segment2D>
     {
         public Segment2D()
         {
@@ -51,7 +51,7 @@ namespace Math
             B = new Vector2D(b);
         }
 
-        public object Clone()
+        public Segment2D Clone()
         {
             return new Segment2D(this);
         }
@@ -120,7 +120,7 @@ namespace Math
 
         public int Dimensions => A.Dimensions;
 
-        public double[] Array => new[] { A.X, A.Y, B.X, B.Y };
+        public double[] Array => new[] {A.X, A.Y, B.X, B.Y};
 
         public double this[int i]
         {
@@ -153,7 +153,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Segment2D)obj);
+            return obj.GetType() == GetType() && IsEqual((Segment2D) obj);
         }
 
         public override int GetHashCode()
@@ -194,11 +194,11 @@ namespace Math
         public (Segment2D, Segment2D) Split(double t)
         {
             if (Comparison.IsLessEqual(t, 0) || Comparison.IsLessEqual(1.0, t))
-                return (Clone() as Segment2D, null);
+                return (Clone(), null);
 
             var c = Evaluate(t);
-            return (new Segment2D(A.Clone() as Vector2D, c),
-                new Segment2D(c.Clone() as Vector2D, B.Clone() as Vector2D));
+            return (new Segment2D(A.Clone(), c),
+                new Segment2D(c.Clone(), B.Clone()));
         }
     }
 }

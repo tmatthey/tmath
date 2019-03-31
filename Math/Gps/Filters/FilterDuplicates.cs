@@ -31,9 +31,9 @@ using System.Linq;
 
 namespace Math.Gps.Filters
 {
-    public abstract class FilterDublicates : IFilter
+    public abstract class FilterDuplicates : IFilter
     {
-        protected FilterDublicates()
+        protected FilterDuplicates()
         {
             Clear();
         }

@@ -56,10 +56,10 @@ namespace Math.Gfx
             SetMagnitude = new PlotWrapper(ConvertToBitmap, PixelSetMagnitude);
         }
 
-        public PlotWrapper Add { get; private set; }
-        public PlotWrapper Set { get; private set; }
-        public PlotWrapper AddMagnitude { get; private set; }
-        public PlotWrapper SetMagnitude { get; private set; }
+        public PlotWrapper Add { get; }
+        public PlotWrapper Set { get; }
+        public PlotWrapper AddMagnitude { get; }
+        public PlotWrapper SetMagnitude { get; }
         public double[,] Pixels { get; }
 
         public void PixelAdd(int x, int y, double c)

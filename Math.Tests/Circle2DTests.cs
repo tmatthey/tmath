@@ -118,7 +118,7 @@ namespace Math.Tests
         {
             var u = new Vector2D(1.2, 2.3);
             var a = new Circle2D(u, 19.17);
-            var b = (Circle2D) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.Center, b.Center).ShouldBe(false);
             a.Equals(b).ShouldBe(true);

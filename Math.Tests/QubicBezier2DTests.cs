@@ -76,8 +76,6 @@ namespace Math.Tests
             var l = bezier.Length();
             var approximated = ((P3 - P0).Norm() + (P0 - P1).Norm() + (P1 - P2).Norm() + (P2 - P1).Norm()) * 0.5;
             l.ShouldNotBe(approximated);
-
-
         }
 
         [Test]
@@ -91,7 +89,7 @@ namespace Math.Tests
                 P3 = new Vector2D(40, 220)
             };
 
-            var clone = bezier.Clone() as CubicBezier2D;
+            var clone = bezier.Clone();
             clone.IsEqual(bezier).ShouldBeTrue();
             bezier.GetHashCode().ShouldBe(clone.GetHashCode());
 
@@ -146,14 +144,12 @@ namespace Math.Tests
             }
             else if (t < split)
             {
-                (b0.Evaluate(t/split) - p).Norm().ShouldBeLessThan(1e-9);
+                (b0.Evaluate(t / split) - p).Norm().ShouldBeLessThan(1e-9);
             }
             else
             {
-                (b1.Evaluate((t-split)/(1.0-split)) - p).Norm().ShouldBeLessThan(1e-9);
+                (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
             }
-
         }
-
     }
 }

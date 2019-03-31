@@ -39,7 +39,7 @@ namespace Math
     /// <remarks> 
     /// General root finder based on Laguerre's_method.
     /// </remarks> 
-    public class Polynomial : ICloneable
+    public class Polynomial : ICloneable<Polynomial>
     {
         private readonly IList<double> _dp;
         private readonly IList<double> _dp2;
@@ -92,7 +92,7 @@ namespace Math
         {
         }
 
-        public object Clone()
+        public Polynomial Clone()
         {
             return new Polynomial(this);
         }

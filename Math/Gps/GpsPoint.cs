@@ -28,11 +28,11 @@
 
 using System;
 using Math.Interfaces;
-using ICloneable = Math.Interfaces.ICloneable;
 
 namespace Math.Gps
 {
-    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable, IIsEqual<GpsPoint>,
+    public class GpsPoint : IGeometryObject<GpsPoint>, IBoundingFacade<Vector3D>, ICloneable<GpsPoint>,
+        IIsEqual<GpsPoint>,
         IInterpolate<GpsPoint>
     {
         private double _longitude;
@@ -76,7 +76,7 @@ namespace Math.Gps
             return new BoundingBox(this);
         }
 
-        public object Clone()
+        public GpsPoint Clone()
         {
             return new GpsPoint(this);
         }

@@ -33,7 +33,7 @@ namespace Math.Interfaces
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="S"></typeparam>
-    public interface ISegment<T,S> : IGeometryObject<S>, ICurve<T,S>
+    public interface ISegment<T, S> : IGeometryObject<S>, ICurve<T, S>
     {
         /// <summary>
         /// Start point A

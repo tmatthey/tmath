@@ -396,7 +396,8 @@ namespace Math
         // Trajectory clustering: a partition-and-group framework
         // Jae-Gil Lee, Jiawei Han, Kyu-Young Whang
         // SIGMOD '07 Proceedings of the 2007 ACM SIGMOD international conference on Management of data 
-        public static double TrajectoryHausdorffDistance<TV, TS>(ISegment<TV, TS> a, ISegment<TV,TS> b, bool direction = true,
+        public static double TrajectoryHausdorffDistance<TV, TS>(ISegment<TV, TS> a, ISegment<TV, TS> b,
+            bool direction = true,
             double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where TV : IVector<TV>
         {
             return TrajectoryHausdorffDistance(a.A, a.B, b.A, b.B, direction, wPerpendicular, wParallel, wAngular);
@@ -491,7 +492,8 @@ namespace Math
             var cost = 0;
             for (var i = i0; i < i1; i++)
             {
-                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction, out var perpendicular,
+                TrajectoryHausdorffDistances(track[i], track[i + 1], track[i0], track[i1], direction,
+                    out var perpendicular,
                     out _, out var angular);
                 perpendicular = System.Math.Max(perpendicular - Comparison.Epsilon, 1.0);
                 angular = System.Math.Max(angular - Comparison.Epsilon, 1.0);

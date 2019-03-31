@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class CubicBezier3D : ICubicBezier<Vector3D, CubicBezier3D>
+    public class CubicBezier3D : ICubicBezier<Vector3D, CubicBezier3D>, ICloneable<CubicBezier3D>
     {
         public CubicBezier3D()
         {
@@ -55,14 +55,15 @@ namespace Math
         public Vector3D P3 { get; set; }
 
         public int Dimensions => 3;
-        public object Clone()
+
+        public CubicBezier3D Clone()
         {
             return new CubicBezier3D
             {
-                P0 = P0.Clone() as Vector3D,
-                P1 = P1.Clone() as Vector3D,
-                P2 = P2.Clone() as Vector3D,
-                P3 = P3.Clone() as Vector3D,
+                P0 = P0.Clone(),
+                P1 = P1.Clone(),
+                P2 = P2.Clone(),
+                P3 = P3.Clone()
             };
         }
 
@@ -72,7 +73,7 @@ namespace Math
             var b = 6.0 * (P0 - 2 * P1 + P2);
             var c = 3.0 * (P1 - P0);
 
-            var roots = new List<double> { 0, 1 };
+            var roots = new List<double> {0, 1};
             roots.AddRange(Solver.QuadraticEq(a.X, b.X, c.X));
             roots.AddRange(Solver.QuadraticEq(a.Y, b.Y, c.Y));
             roots.AddRange(Solver.QuadraticEq(a.Z, b.Z, c.Z));
@@ -82,6 +83,7 @@ namespace Math
                 if (0.0 <= t && t <= 1.0)
                     bb.Expand(Evaluate(t));
             }
+
             return bb;
         }
 
@@ -92,8 +94,7 @@ namespace Math
 
         public bool IsEqual(CubicBezier3D a, double epsilon)
         {
-            var b = a as CubicBezier3D;
-            return P0.IsEqual(b.P0) && P1.IsEqual(b.P1) && P2.IsEqual(b.P2) && P3.IsEqual(b.P3);
+            return P0.IsEqual(a.P0) && P1.IsEqual(a.P1) && P2.IsEqual(a.P2) && P3.IsEqual(a.P3);
         }
 
         public double Length(double accuracy = 1e-5)
@@ -108,12 +109,13 @@ namespace Math
                    3.0 * t * t * (1.0 - t) * P2 +
                    t * t * t * P3;
         }
+
         public Vector3D dEvaluate(double t)
         {
             return -3.0 * (1.0 - t) * (1.0 - t) * P0 +
-                    (3.0 * (1.0 - t) * (1.0 - t) - 6.0 * (1.0 - t) * t) * P1 +
-                    (6.0 * (1.0 - t) * t - 3.0 * t * t) * P2 +
-                    3.0 * t * t * P3;
+                   (3.0 * (1.0 - t) * (1.0 - t) - 6.0 * (1.0 - t) * t) * P1 +
+                   (6.0 * (1.0 - t) * t - 3.0 * t * t) * P2 +
+                   3.0 * t * t * P3;
         }
 
         public Vector3D d2Evaluate(double t)
@@ -128,9 +130,9 @@ namespace Math
         {
             var d = dEvaluate(t);
             var d2 = d2Evaluate(t);
-            return System.Math.Sqrt((d2.Z*d.Y-d2.Y*d.Z) * (d2.Z * d.Y - d2.Y * d.Z) +
-                                    (d2.X*d.Z-d2.Z*d.X) * (d2.X * d.Z - d2.Z * d.X) +
-                                    (d2.Y*d.X-d2.X*d.Y) * (d2.Y * d.X - d2.X * d.Y)) 
+            return System.Math.Sqrt((d2.Z * d.Y - d2.Y * d.Z) * (d2.Z * d.Y - d2.Y * d.Z) +
+                                    (d2.X * d.Z - d2.Z * d.X) * (d2.X * d.Z - d2.Z * d.X) +
+                                    (d2.Y * d.X - d2.X * d.Y) * (d2.Y * d.X - d2.X * d.Y))
                    / System.Math.Pow(d.Norm2(), 1.5);
         }
 
@@ -154,7 +156,7 @@ namespace Math
         public (CubicBezier3D, CubicBezier3D) Split(double t)
         {
             if (Comparison.IsLessEqual(t, 0) || Comparison.IsLessEqual(1.0, t))
-                return (Clone() as CubicBezier3D, null);
+                return (Clone(), null);
 
             var p01 = P0.Interpolate(P1, t);
             var p12 = P1.Interpolate(P2, t);
@@ -163,8 +165,8 @@ namespace Math
             var p123 = p12.Interpolate(p23, t);
             var p0123 = p012.Interpolate(p123, t);
 
-            return (new CubicBezier3D(P0.Clone() as Vector3D, p01, p012, p0123),
-                new CubicBezier3D(p0123.Clone() as Vector3D, p123, p23, P3.Clone() as Vector3D));
+            return (new CubicBezier3D(P0.Clone(), p01, p012, p0123),
+                new CubicBezier3D(p0123.Clone(), p123, p23, P3.Clone()));
         }
     }
 }

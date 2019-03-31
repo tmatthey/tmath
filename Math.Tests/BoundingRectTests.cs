@@ -44,7 +44,7 @@ namespace Math.Tests
             var v = new Vector2D(2.2, 4.4);
             var a = new BoundingRect(u);
             a.Expand(v);
-            var b = (BoundingRect) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.Min, b.Min).ShouldBe(false);
             ReferenceEquals(a.Max, b.Max).ShouldBe(false);

@@ -39,8 +39,8 @@ namespace Math.Interfaces
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        double EuclideanNorm(T d); 
-        
+        double EuclideanNorm(T d);
+
         /// <summary>
         /// Modified norm
         /// </summary>

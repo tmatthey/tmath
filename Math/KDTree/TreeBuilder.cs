@@ -56,7 +56,7 @@ namespace Math.KDTree
             return Build<Vector3D, Segment3D>(list, maxLeaf);
         }
 
- 
+
         public static ITree<T> Build<T, S>(IEnumerable<S> list, int maxLeaf = MaxNLeaf)
             where T : IArray, IDimension
             where S : IArray, IDimension, IBoundingFacade<T>

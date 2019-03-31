@@ -102,10 +102,12 @@ namespace Math.Tests.Gfx
             {
                 pt.ShouldBe(0.0);
             }
+
             foreach (var pt in bitmap.GreenPixels)
             {
                 pt.ShouldBe(0.0);
             }
+
             foreach (var pt in bitmap.BluePixels)
             {
                 pt.ShouldBe(0.0);

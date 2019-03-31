@@ -111,7 +111,7 @@ namespace Math.Tests
             var u = new Vector2D(1.2, 2.3);
             var v = new Vector2D(1.1, 2.2);
             var a = new Segment2D(u, v);
-            var b = (Segment2D) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.A, b.A).ShouldBe(false);
             ReferenceEquals(a.B, b.B).ShouldBe(false);
@@ -337,7 +337,7 @@ namespace Math.Tests
             var s = new Segment2D(a, b);
             var v = s.Evaluate(p);
             var expected = a * (1.0 - p) + b * p;
-            (v-expected).Norm().ShouldBeLessThan(1e-9);
+            (v - expected).Norm().ShouldBeLessThan(1e-9);
         }
 
         [TestCase(1, 2, 3, 4)]
@@ -349,7 +349,6 @@ namespace Math.Tests
             var s = new Segment2D(a, b);
             var v = s.Evaluate(0.0);
             (v - a).Norm().ShouldBeLessThan(1e-9);
-
         }
 
         [TestCase(1, 2, 3, 4)]
@@ -361,7 +360,6 @@ namespace Math.Tests
             var s = new Segment2D(a, b);
             var v = s.Evaluate(1.0);
             (v - b).Norm().ShouldBeLessThan(1e-9);
-
         }
 
         [TestCase(1, 2, 3, 4, 0.5)]
@@ -395,7 +393,7 @@ namespace Math.Tests
             var b = new Vector2D(x1, y1);
             var s = new Segment2D(a, b);
             var l = s.Length();
-            l.ShouldBe((b-a).Norm());
+            l.ShouldBe((b - a).Norm());
         }
 
         [TestCase(1, 2, 3, 4, 0.5)]
@@ -443,7 +441,6 @@ namespace Math.Tests
             {
                 (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
             }
-
         }
     }
 }

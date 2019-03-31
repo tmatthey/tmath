@@ -46,10 +46,10 @@ namespace Math.Gfx
         {
             var a = new Vector2D(a0);
             var b = new Vector2D(b0);
-            if ((int)System.Math.Round(a.X) == (int)System.Math.Round(b.X) &&
-                (int)System.Math.Round(a.Y) == (int)System.Math.Round(b.Y))
+            if ((int) System.Math.Round(a.X) == (int) System.Math.Round(b.X) &&
+                (int) System.Math.Round(a.Y) == (int) System.Math.Round(b.Y))
             {
-                plotFunction((int)System.Math.Round(a.X), (int)System.Math.Round(a.Y), magnitude, magnitude);
+                plotFunction((int) System.Math.Round(a.X), (int) System.Math.Round(a.Y), magnitude, magnitude);
                 return;
             }
 
@@ -74,10 +74,10 @@ namespace Math.Gfx
             var dy = System.Math.Abs(b.Y - a.Y);
             var err = dx / 2.0;
             var ystep = a.Y < b.Y ? 1 : -1;
-            var y = (int)System.Math.Round(a.Y);
+            var y = (int) System.Math.Round(a.Y);
 
-            var ax = (int)System.Math.Round(a.X);
-            var bx = (int)System.Math.Round(b.X);
+            var ax = (int) System.Math.Round(a.X);
+            var bx = (int) System.Math.Round(b.X);
 
             for (var x = ax; x <= bx; ++x)
             {
@@ -237,7 +237,7 @@ namespace Math.Gfx
 
         private static int IPart(double x)
         {
-            return (int)x;
+            return (int) x;
         }
 
         private static double RFPart(double x)

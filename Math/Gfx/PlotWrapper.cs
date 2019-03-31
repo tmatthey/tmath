@@ -40,7 +40,7 @@ namespace Math.Gfx
             Plot = plot;
         }
 
-        public DelegatePlotConvert Converter { get; private set; }
-        public DelegatePlotFunction Plot { get; private set; }
+        public DelegatePlotConvert Converter { get; }
+        public DelegatePlotFunction Plot { get; }
     }
 }

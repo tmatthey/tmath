@@ -28,7 +28,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Math.Interfaces;
 using Math.KDTree;
 using NUnit.Framework;
 using Shouldly;
@@ -226,8 +225,7 @@ namespace Math.Tests.KDTree
         [Test]
         public void Depth_NoTreeEmpty_Returns0()
         {
-            var list = new List<Vector3D>();
-            var tree = new NoTree<int, Vector3D>(list);
+            var tree = new NoTree<int, Vector3D>(new List<Vector3D>());
             tree.Depth().ShouldBe(0);
         }
     }

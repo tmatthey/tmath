@@ -100,7 +100,9 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public IEnumerable<double> ElapsedSeconds()
         {
-            return TrackPoints?.FirstOrDefault() == null ? new List<double>() : TrackPoints.Select(trackPoint => trackPoint.Second - TrackPoints.FirstOrDefault().Second);
+            return TrackPoints?.FirstOrDefault() == null
+                ? new List<double>()
+                : TrackPoints.Select(trackPoint => trackPoint.Second - TrackPoints.FirstOrDefault().Second);
         }
     }
 }

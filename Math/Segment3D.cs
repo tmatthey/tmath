@@ -31,7 +31,7 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Segment3D : ISegment<Vector3D, Segment3D>
+    public class Segment3D : ISegment<Vector3D, Segment3D>, ICloneable<Segment3D>
     {
         public Segment3D()
         {
@@ -51,7 +51,7 @@ namespace Math
             B = new Vector3D(b);
         }
 
-        public object Clone()
+        public Segment3D Clone()
         {
             return new Segment3D(this);
         }
@@ -93,7 +93,7 @@ namespace Math
             return a;
         }
 
-        public double[] Array => new[] { A.X, A.Y, A.Z, B.X, B.Y, B.Z };
+        public double[] Array => new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z};
 
         public double this[int i]
         {
@@ -157,7 +157,7 @@ namespace Math
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && IsEqual((Segment3D)obj);
+            return obj.GetType() == GetType() && IsEqual((Segment3D) obj);
         }
 
         public override int GetHashCode()
@@ -198,11 +198,11 @@ namespace Math
         public (Segment3D, Segment3D) Split(double t)
         {
             if (Comparison.IsLessEqual(t, 0) || Comparison.IsLessEqual(1.0, t))
-                return (Clone() as Segment3D, null);
+                return (Clone(), null);
 
             var c = Evaluate(t);
-            return (new Segment3D(A.Clone() as Vector3D, c),
-                new Segment3D(c.Clone() as Vector3D, B.Clone() as Vector3D));
+            return (new Segment3D(A.Clone(), c),
+                new Segment3D(c.Clone(), B.Clone()));
         }
     }
 }

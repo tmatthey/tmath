@@ -52,7 +52,8 @@ namespace Math.Clustering
         {
             var segments = Partitioning<Vector2D, Segment2D, Segment2DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector2D, Segment2D, Segment2DExt>(n, eps, direction, segments);
-            return ClusterPoint<Vector2D, Segment2D, Vector2DExt, Segment2DExt>(n, minL, clusters, new Rotation2D(), new CreateVector2DExt());
+            return ClusterPoint<Vector2D, Segment2D, Vector2DExt, Segment2DExt>(n, minL, clusters, new Rotation2D(),
+                new CreateVector2DExt());
         }
 
         /// <summary>
@@ -70,7 +71,8 @@ namespace Math.Clustering
         {
             var segments = Partitioning<Vector3D, Segment3D, Segment3DExt>(tracks, minL, mdlCostAdvantage);
             var clusters = DBScan<Vector3D, Segment3D, Segment3DExt>(n, eps, direction, segments);
-            return ClusterPoint<Vector3D, Segment3D, Vector3DExt, Segment3DExt>(n, minL, clusters, new Rotation3D(), new CreateVector3DExt());
+            return ClusterPoint<Vector3D, Segment3D, Vector3DExt, Segment3DExt>(n, minL, clusters, new Rotation3D(),
+                new CreateVector3DExt());
         }
 
         private static List<Result<T>> ClusterPoint<T, S, TE, SE>(int n, double minL,
@@ -181,7 +183,7 @@ namespace Math.Clustering
 
         private static List<List<SE>> DBScan<T, S, SE>(int n, double eps, bool direction, List<S> segments)
             where T : IVector<T>
-            where S : ISegment<T,S>, INorm<S>
+            where S : ISegment<T, S>, INorm<S>
             where SE : S, ISegementExt<T>
         {
             var dbs = new DBScan<T, S>(segments);
@@ -191,7 +193,7 @@ namespace Math.Clustering
 
         private static List<S> Partitioning<T, S, SE>(IList<List<T>> tracks, double minL, int mdlCostAdvantage)
             where T : IVector<T>
-            where S : ISegment<T,S>
+            where S : ISegment<T, S>
             where SE : S, ISegementExt<T>, new()
         {
             var segments = new List<S>();
@@ -276,7 +278,9 @@ namespace Math.Clustering
             where T : IVector<T>
         {
             int IA { get; set; }
+
             int IB { get; set; }
+
             //int J { get; set; }
             int K { get; set; }
             T U { get; set; }
@@ -286,7 +290,9 @@ namespace Math.Clustering
         internal class Segment2DExt : Segment2D, ISegementExt<Vector2D>
         {
             public int IA { get; set; }
+
             public int IB { get; set; }
+
             //public int J { get; set; }
             public int K { get; set; }
             public Vector2D U { get; set; }
@@ -296,7 +302,9 @@ namespace Math.Clustering
         internal class Segment3DExt : Segment3D, ISegementExt<Vector3D>
         {
             public int IA { get; set; }
+
             public int IB { get; set; }
+
             //public int J { get; set; }
             public int K { get; set; }
             public Vector3D U { get; set; }

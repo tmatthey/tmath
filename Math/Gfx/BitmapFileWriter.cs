@@ -34,6 +34,7 @@ using Drawing = System.DrawingCore;
 using Drawing = System.DrawingCore;
 #else
 using Drawing = System.Drawing;
+
 #endif
 
 namespace Math.Gfx
@@ -101,6 +102,7 @@ namespace Math.Gfx
 
             image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
         }
+
         public static void PNG(string fileName, double[,] red, double[,] green, double[,] blue)
         {
             var width = red.GetLength(0);
@@ -111,7 +113,9 @@ namespace Math.Gfx
             {
                 for (var i = 0; i < width; i++)
                 {
-                    image.SetPixel(i, height - j - 1, Drawing.Color.FromArgb(colorMap.Grey(red[i, j]), colorMap.Grey(green[i, j]), colorMap.Grey(blue[i, j])));
+                    image.SetPixel(i, height - j - 1,
+                        Drawing.Color.FromArgb(colorMap.Grey(red[i, j]), colorMap.Grey(green[i, j]),
+                            colorMap.Grey(blue[i, j])));
                 }
             }
 

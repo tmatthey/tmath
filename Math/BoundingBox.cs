@@ -30,34 +30,53 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class BoundingBox : IBounding<Vector3D>, ICloneable, IIsEqual<BoundingBox>
+    /// <summary>
+    /// 3D bounding box
+    /// </summary>
+    public class BoundingBox : IBounding<Vector3D>, ICloneable<BoundingBox>, IIsEqual<BoundingBox>
     {
+        /// <summary>
+        /// Empty bounding box
+        /// </summary>
         public BoundingBox()
         {
             Min = new Vector3D(double.PositiveInfinity);
             Max = new Vector3D(double.NegativeInfinity);
         }
 
+        /// <summary>
+        /// Bounding box with one point
+        /// </summary>
+        /// <param name="v"></param>
         public BoundingBox(Vector3D v)
         {
             Min = new Vector3D(v);
             Max = new Vector3D(v);
         }
 
+        /// <summary>
+        /// Bounding box 
+        /// </summary>
+        /// <param name="b"></param>
         public BoundingBox(BoundingBox b)
         {
             Min = new Vector3D(b.Min);
             Max = new Vector3D(b.Max);
         }
 
+        /// <inheritdoc />
         public Vector3D Min { get; protected set; }
+
+        /// <inheritdoc />
         public Vector3D Max { get; protected set; }
 
+        /// <inheritdoc />
         public bool IsEmpty()
         {
             return Min.X > Max.X && Min.Y > Max.Y && Min.Z > Max.Z;
         }
 
+        /// <inheritdoc />
         public void Reset()
         {
             Min.X = double.PositiveInfinity;
@@ -68,6 +87,7 @@ namespace Math
             Max.Z = double.NegativeInfinity;
         }
 
+        /// <inheritdoc />
         public void Expand(Vector3D v)
         {
             ExpandX(v.X);
@@ -75,6 +95,7 @@ namespace Math
             ExpandZ(v.Z);
         }
 
+        /// <inheritdoc />
         public void ExpandLayer(double r)
         {
             var min = (!IsEmpty() ? Min : Vector3D.Zero) - Vector3D.One * r;
@@ -83,11 +104,13 @@ namespace Math
             Expand(max);
         }
 
+        /// <inheritdoc />
         public bool IsInside(Vector3D v)
         {
             return IsInside(v, Comparison.Epsilon);
         }
 
+        /// <inheritdoc />
         public bool IsInside(Vector3D v, double eps)
         {
             if (IsEmpty())
@@ -99,45 +122,62 @@ namespace Math
                    Comparison.IsLessEqual(v.Z, Max.Z, eps);
         }
 
+        /// <inheritdoc />
         public void Expand(IBounding<Vector3D> b)
         {
             Expand(b.Min);
             Expand(b.Max);
         }
 
-        public object Clone()
+        /// <inheritdoc />
+        public BoundingBox Clone()
         {
             return new BoundingBox(this);
         }
 
+        /// <inheritdoc />
         public bool IsEqual(BoundingBox b)
         {
             return IsEqual(b, Comparison.Epsilon);
         }
 
+        /// <inheritdoc />
         public bool IsEqual(BoundingBox b, double epsilon)
         {
             return Min.IsEqual(b.Min, epsilon) && Max.IsEqual(b.Max, epsilon);
         }
 
+        /// <summary>
+        /// Expand by X-coordinate
+        /// </summary>
+        /// <param name="x"></param>
         public void ExpandX(double x)
         {
             Min.X = ExpandMin(Min.X, x);
             Max.X = ExpandMax(Max.X, x);
         }
 
+        /// <summary>
+        /// Expand by Y-coordinate
+        /// </summary>
+        /// <param name="y"></param>
         public void ExpandY(double y)
         {
             Min.Y = ExpandMin(Min.Y, y);
             Max.Y = ExpandMax(Max.Y, y);
         }
 
+        /// <summary>
+        /// Expand by Z-coordinate
+        /// </summary>
+        /// <param name="z"></param>
         public void ExpandZ(double z)
         {
             Min.Z = ExpandMin(Min.Z, z);
             Max.Z = ExpandMax(Max.Z, z);
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -145,6 +185,7 @@ namespace Math
             return obj.GetType() == GetType() && IsEqual((BoundingBox) obj);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked

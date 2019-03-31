@@ -46,9 +46,9 @@ namespace Math.Gps
             }
         }
 
-        public FlatTrack FlattendTrack { get; private set; }
-        public IList<List<NeighbourDistancePoint>> Neighbours { get; private set; }
-        public double TotalDistance { get; private set; }
+        public FlatTrack FlattendTrack { get; }
+        public IList<List<NeighbourDistancePoint>> Neighbours { get; }
+        public double TotalDistance { get; }
         public double CommonDistance { get; }
     }
 }

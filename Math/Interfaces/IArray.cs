@@ -44,6 +44,6 @@ namespace Math.Interfaces
         /// </summary>
         /// <param name="i">index</param>
         /// <returns></returns>
-        double this[int i] { get; } 
+        double this[int i] { get; }
     }
 }

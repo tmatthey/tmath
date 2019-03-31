@@ -193,8 +193,8 @@ namespace Math.Clustering
             }
 
             public List<TrackSegment> TrackSegments { get; }
-            public List<Vector2D> RepresentativeTrack { get; private set; }
-            public List<GpsPoint> RepresentativeGpsTrack { get; private set; }
+            public List<Vector2D> RepresentativeTrack { get; }
+            public List<GpsPoint> RepresentativeGpsTrack { get; }
             public double Length { get; }
         }
 
@@ -217,16 +217,16 @@ namespace Math.Clustering
                 Direction = direction;
             }
 
-            public List<int> Indices { get; private set; }
-            public int First { get; private set; }
-            public int Last { get; private set; }
-            public int SegmentFirst { get; private set; }
-            public int SegmentLast { get; private set; }
+            public List<int> Indices { get; }
+            public int First { get; }
+            public int Last { get; }
+            public int SegmentFirst { get; }
+            public int SegmentLast { get; }
             public int Id { get; set; }
-            public double Length { get; private set; }
-            public double Coverage { get; private set; }
-            public double Common { get; private set; }
-            public double Direction { get; private set; }
+            public double Length { get; }
+            public double Coverage { get; }
+            public double Common { get; }
+            public double Direction { get; }
         }
     }
 }

@@ -218,7 +218,7 @@ namespace Math.Tests
         public void Clone()
         {
             var v = new Vector3D(1.1, 2.2, 3.3);
-            var w = (Vector3D) v.Clone();
+            var w = v.Clone();
             ReferenceEquals(v, w).ShouldBe(false);
             v.Equals(w).ShouldBe(true);
             v.IsEqual(w).ShouldBe(true);

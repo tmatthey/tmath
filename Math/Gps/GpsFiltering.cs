@@ -34,29 +34,29 @@ namespace Math.Gps
 {
     public static class GpsFiltering
     {
-        private static readonly List<FilterDublicates> TheFileterList = new List<FilterDublicates>
+        private static readonly List<FilterDuplicates> TheFileterList = new List<FilterDuplicates>
         {
-            new FilterDublicatesBeginSpike(),
-            new FilterDublicatesBegin(),
-            new FilterDublicatesEnd(),
-            new FilterDublicatesDouble()
+            new FilterDuplicatesBeginSpike(),
+            new FilterDuplicatesBegin(),
+            new FilterDuplicatesEnd(),
+            new FilterDuplicatesDouble()
         };
 
-        public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track)
+        public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track)
         {
             var time = new List<double>();
             for (var i = 0; i < track.Count; i++)
                 time.Add(i);
-            return InterpolateDublicates(track, time);
+            return InterpolateDuplicates(track, time);
         }
 
-        public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track, IList<double> time)
+        public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track, IList<double> time)
         {
-            return InterpolateDublicates(track, time, TheFileterList);
+            return InterpolateDuplicates(track, time, TheFileterList);
         }
 
-        public static IList<GpsPoint> InterpolateDublicates(IList<GpsPoint> track, IList<double> time,
-            List<FilterDublicates> theFilterList)
+        public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track, IList<double> time,
+            List<FilterDuplicates> theFilterList)
         {
             var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             if (track.Count < 4)
@@ -75,7 +75,7 @@ namespace Math.Gps
                 if (!(0 < i0 && i1 + 1 < track.Count))
                     continue;
 
-                var filters = new List<FilterDublicates>();
+                var filters = new List<FilterDuplicates>();
                 foreach (var aFilter in theFilterList)
                 {
                     aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count - i),

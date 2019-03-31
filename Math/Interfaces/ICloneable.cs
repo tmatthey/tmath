@@ -31,12 +31,12 @@ namespace Math.Interfaces
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
-    public interface ICloneable
+    public interface ICloneable<out T>
     {
         /// <summary>
         /// A new object that is a copy of this instance.
         /// </summary>
         /// <returns></returns>
-        object Clone();
+        T Clone();
     }
 }

@@ -155,7 +155,7 @@ namespace Math.Tests.Gfx
             bitmap.Color = Color.Default.Red;
             for (var i = 0; i <= n; i++)
             {
-                list.Add(bezier.Evaluate(i / (double)n));
+                list.Add(bezier.Evaluate(i / (double) n));
             }
 
             // Bezier curve
@@ -164,8 +164,8 @@ namespace Math.Tests.Gfx
                 Draw.XiaolinWu(list[i], list[i + 1], bitmap.Set);
             }
 
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "CubicBezier2D.png", bitmap.RedPixels, bitmap.GreenPixels, bitmap.BluePixels);
+            BitmapFileWriter.PNG(TestUtils.OutputPath() + "CubicBezier2D.png", bitmap.RedPixels, bitmap.GreenPixels,
+                bitmap.BluePixels);
         }
-
     }
 }

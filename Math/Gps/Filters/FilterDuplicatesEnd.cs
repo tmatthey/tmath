@@ -30,8 +30,8 @@ using System.Collections.Generic;
 
 namespace Math.Gps.Filters
 {
-    // Ex. : Tunnel
-    public class FilterDublicatesBegin : FilterDublicates
+    // Ex. : GPS error
+    public class FilterDuplicatesEnd : FilterDuplicates
     {
         public override int Takes()
         {
@@ -43,12 +43,13 @@ namespace Math.Gps.Filters
         {
             var i0 = startIdx[0];
             var i1 = endIdx[0];
-            var res = new List<GpsPointExt> {new GpsPointExt(track[i0 - 1], i0 - 1), new GpsPointExt(track[i0], i0)};
+            var res = new List<GpsPointExt> {new GpsPointExt(track[i0 - 1], i0 - 1)};
 
-            for (var j = i0 + 1; j < i1 + 1; j++)
-                res.Add(new GpsPointExt(track[i0].Interpolate(track[i1 + 1],
-                    (time[j] - time[i0]) / (time[i1 + 1] - time[i0])), j));
+            for (var j = i0; j < i1; j++)
+                res.Add(new GpsPointExt(track[i0 - 1].Interpolate(track[i1],
+                    (time[j] - time[i0 - 1]) / (time[i1] - time[i0 - 1])), j));
 
+            res.Add(new GpsPointExt(track[i1], i1));
             res.Add(new GpsPointExt(track[i1 + 1], i1 + 1));
             return res;
         }

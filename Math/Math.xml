@@ -1,561 +1,565 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>Math</name>
-    </assembly>
-    <members>
-        <member name="T:Math.Clustering.DBScan`2">
-            <summary>
-            Density-based spatial clustering of applications with noise (DBSCAN) is a data clustering algorithm proposed by Martin Ester, Hans-Peter Kriegel, Jörg Sander and Xiaowei Xu in 1996. https://en.wikipedia.org/wiki/DBSCAN
-            </summary>
-            <typeparam name="T">Point type of dimension n, e.g., Vector3D</typeparam>
-            <typeparam name="S">A geometric object of dimension n with a norm based on point type T, e.g., Segment3D</typeparam>
-        </member>
-        <member name="M:Math.Clustering.DBScan`2.#ctor(System.Collections.Generic.IList{`1})">
-            <summary>
-            Defining a DBScan with a list of the geometric objects to be clustered.
-            </summary>
-            <param name="list">List of object of dimension n with a norm based on point type T, e.g., Segment3D.</param>
-        </member>
-        <member name="M:Math.Clustering.DBScan`2.Cluster(System.Double,System.Int32,System.Boolean)">
-            <summary>
-            Clustering the list of objects with a given epsilon and with a threshold.   
-            </summary>
-            <param name="eps">Epsilon of neighborhood between to objects using objects (modified) norm.</param>
-            <param name="n">Minimum number of objects required to be recognized as a cluster.</param>
-            <param name="direction">Boolean defining if the direction for directional objects shall be considered when evaluating the norm between two objects, e.g., Trajectory Hausdorff distance.</param>
-            <returns>A list of cluster as list of object indices.</returns>
-        </member>
-        <member name="T:Math.Clustering.TraClus">
-            <summary>
-            Implementation of "Trajectory Clustering: A Partition-and-Group Framework", by Jae-Gil Lee, Jiawei Han and Kyu-Young Whang.
-            </summary>
-        </member>
-        <member name="M:Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector2D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)">
-            <summary>
-            Clustering of 2D trajectories. 
-            </summary>
-            <param name="tracks">List of tracks</param>
-            <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
-            <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
-            <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
-            <param name="minL">Minimum length of a segment</param>
-            <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector3D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)">
-            <summary>
-            Clustering of 3D trajectories. 
-            </summary>
-            <param name="tracks">List of tracks</param>
-            <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
-            <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
-            <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
-            <param name="minL">Minimum length of a segment</param>
-            <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Clustering.TraClus.Result`1">
-            <summary>
-            Representative common segment.
-            </summary>
-            <typeparam name="T">Vector of dimension n, e.g., Vector2D or Vector3D.</typeparam>
-        </member>
-        <member name="M:Math.Clustering.TraClus.Result`1.#ctor">
-            <summary>
-            Representative common segment.
-            </summary>
-        </member>
-        <member name="P:Math.Clustering.TraClus.Result`1.PointIndices">
-            <summary>
-            Returns a list of tracks of point indices as sorted list, which were used during clustering.
-            </summary>
-        </member>
-        <member name="P:Math.Clustering.TraClus.Result`1.Segment">
-            <summary>
-            Returns the representative common segment as a polyline, list of points.
-            </summary>
-        </member>
-        <member name="P:Math.Clustering.TraClus.Result`1.SegmentIndices">
-            <summary>
-            Returns a list of tracks of list of segments (pair point index), which were used during clustering.
-            </summary>
-        </member>
-        <member name="T:Math.Interfaces.IArray">
-            <summary>
-            Interface geometry object for coordinate(s) in linear / array representation.
-            Either point object or 2-point (min-max) object 
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.IArray.Array">
-            <summary>
-            Array representation of the coordinate(s)
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.IArray.Item(System.Int32)">
-            <summary>
-            Array access of the coordinate(s)
-            </summary>
-            <param name="i">index</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.IBounding`1">
-            <summary>
-            Interface of bounding box or reactangle
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:Math.Interfaces.IBounding`1.Min">
-            <summary>
-            Min
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.IBounding`1.Max">
-            <summary>
-            Max
-            </summary>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsEmpty">
-            <summary>
-            Is empty bounding box
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.Reset">
-            <summary>
-            Reset
-            </summary>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.Expand(`0)">
-            <summary>
-            Expand bounding box with vector / point
-            </summary>
-            <param name="v">vector / point</param>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.Expand(Math.Interfaces.IBounding{`0})">
-            <summary>
-            Expanding with another bounding box
-            </summary>
-            <param name="b"></param>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.ExpandLayer(System.Double)">
-            <summary>
-            Add layer aorund current bounding box
-            </summary>
-            <param name="r">radius</param>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsInside(`0)">
-            <summary>
-            Is point inside
-            </summary>
-            <param name="v">vector / point</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsInside(`0,System.Double)">
-            <summary>
-            Is point inside
-            </summary>
-            <param name="v">point / vector</param>
-            <param name="eps">epsilon</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.IBoundingFacade`1">
-            <summary>
-            Bounding box facade for geometry objects or curves
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Math.Interfaces.IBoundingFacade`1.Bounding">
-            <summary>
-            Bounding box
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.ICloneable">
-            <summary>
-            Creates a new object that is a copy of the current instance.
-            </summary>
-        </member>
-        <member name="M:Math.Interfaces.ICloneable.Clone">
-            <summary>
-            A new object that is a copy of this instance.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.ICubicBezier`2">
-            <summary>
-            Interface of Bezier curves
-            </summary>
-            <typeparam name="T">Vector type</typeparam>
-            <typeparam name="S">Bezier type</typeparam>
-        </member>
-        <member name="T:Math.Interfaces.ICurve`2">
-            <summary>
-            Interface of a curve
-            </summary>
-            <typeparam name="T">Vector type</typeparam>
-            <typeparam name="S">Curve type</typeparam>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.Length(System.Double)">
-            <summary>
-            Length of the curve
-            </summary>
-            <param name="accuracy">Relative accuracy</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.Evaluate(System.Double)">
-            <summary>
-            Point at t
-            </summary>
-            <param name="t">parameter t, [0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.dEvaluate(System.Double)">
-            <summary>
-            Derivative at t
-            </summary>
-            <param name="t">parameter t, [0,1]</param>
-            <returns>Derivative</returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.d2Evaluate(System.Double)">
-            <summary>
-            2nd derivative at t
-            </summary>
-            <param name="t">parameter t, [0,1]</param>
-            <returns>2nd derivative</returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.Kappa(System.Double)">
-            <summary>
-            Curvature of the curve at t
-            </summary>
-            <param name="t">parameter t, [0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.Tangent(System.Double)">
-            <summary>
-            Tangent at t
-            </summary>
-            <param name="t">parameter t, [0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.ICurve`2.Split(System.Double)">
-            <summary>
-            Split curve into two parts at given split point
-            </summary>
-            <param name="t">split at t, [0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.IDimension">
-            <summary>
-            Interface of dimension of geometry object
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.IDimension.Dimensions">
-            <summary>
-            Dimension of object
-            </summary>
-        </member>
-        <member name="T:Math.Interfaces.IGeometryObject`1">
-            <summary>
-            Interface of geometry object
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:Math.Interfaces.IInterpolate`1">
-            <summary>
-            Interafce for interpolation between two objects of same type
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Math.Interfaces.IInterpolate`1.Interpolate(`0,System.Double)">
-            <summary>
-            Interpolation
-            </summary>
-            <param name="t"></param>
-            <param name="x">interpolate by x, [0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.IIsEqual`1">
-            <summary>
-            Interface is equal
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Math.Interfaces.IIsEqual`1.IsEqual(`0)">
-            <summary>
-            Is equal
-            </summary>
-            <param name="a"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IIsEqual`1.IsEqual(`0,System.Double)">
-            <summary>
-            Is equal with epsilon
-            </summary>
-            <param name="a"></param>
-            <param name="epsilon">epsilon</param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.INorm`1">
-            <summary>
-            Interface for norms
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Math.Interfaces.INorm`1.EuclideanNorm(`0)">
-            <summary>
-            Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
-            </summary>
-            <param name="d"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.INorm`1.ModifiedNorm(`0,System.Boolean)">
-            <summary>
-            Modified norm
-            </summary>
-            <param name="d"></param>
-            <param name="direction"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.ISegment`2">
-            <summary>
-            Interface line segment
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="S"></typeparam>
-        </member>
-        <member name="P:Math.Interfaces.ISegment`2.A">
-            <summary>
-            Start point A
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.ISegment`2.B">
-            <summary>
-            End point B
-            </summary>
-        </member>
-        <member name="M:Math.Interfaces.ISegment`2.Vector">
-            <summary>
-            Create new vector
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.ISegment`2.IsIntersecting(`1,System.Double)">
-            <summary>
-            Intersection bewteen two segmments
-            </summary>
-            <param name="s"></param>
-            <param name="eps"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Interfaces.IVector`1">
-            <summary>
-            Interface vector
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.IsEqual(`0)">
-            <summary>
-            Is equal
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.IsEqual(`0,System.Double)">
-            <summary>
-            Is equal with epsilon
-            </summary>
-            <param name="v"></param>
-            <param name="epsilon"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalize">
-            <summary>
-            Normalize vector
-            </summary>
-            <returns>Length of vector</returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalize(System.Double)">
-            <summary>
-            Normalize vector with epsilon
-            </summary>
-            <param name="epsilon"></param>
-            <returns>Length of vector</returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalized">
-            <summary>
-            Return normalized vector
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalized(System.Double)">
-            <summary>
-            Return normalized vector with epsilon
-            </summary>
-            <param name="epsilon"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Norm2">
-            <summary>
-            Squard norm of vector
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Norm">
-            <summary>
-            Norm
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Dot(`0)">
-            <summary>
-            Dot product
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.CrossNorm(`0)">
-            <summary>
-            Norm of cross product
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Angle(`0)">
-            <summary>
-            Angle between two vectors
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.AngleAbs(`0)">
-            <summary>
-            Unsigned angle between two vectors
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Add(`0)">
-            <summary>
-            Add vector
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Sub(`0)">
-            <summary>
-            Subract vector
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Mul(System.Double)">
-            <summary>
-            Multiply with a scalar
-            </summary>
-            <param name="c"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Div(System.Double)">
-            <summary>
-            Divide with a scalar
-            </summary>
-            <param name="c"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IVector`1.Interpolate(`0,System.Double)">
-            <summary>
-            Interpolate between two vectors
-            </summary>
-            <param name="v"></param>
-            <param name="x"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Math.Polynomial">
-            <summary> 
-            Representation of a polynomial of n-th degree by coefficients. Functions to evaluate the polynomial, and also 1st derivatives and its integral. 
-            </summary> 
-            <remarks> 
-            General root finder based on Laguerre's_method.
-            </remarks> 
-        </member>
-        <member name="M:Math.Polynomial.#ctor(System.Collections.Generic.IEnumerable{System.Double})">
-            <summary>
-            Defining a polynomial by coefficients of n-th degree.
-            </summary>
-            <param name="coefficients">Coefficients in decreasing order. E.g., 2x^2 + x + 3 as {2,1,3}.</param>
-        </member>
-        <member name="M:Math.Polynomial.p">
-            <summary>
-            Returns the polynomial coefficients 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.dp">
-            <summary>
-            Returns the 1st derivative of the polynomial 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.P">
-            <summary>
-            Returns the Integral of the polynomial 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.p(System.Double)">
-            <summary>
-            Evaluates the polynomial 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.dp(System.Double)">
-            <summary>
-            Evaluates for 1st derivative of polynomial 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.P(System.Double)">
-            <summary>
-            Evaluates for integral of polynomial 
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.p(System.Numerics.Complex)">
-            <summary>
-            Evaluates polynomial for complex numbers
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.dp(System.Numerics.Complex)">
-            <summary>
-            Evaluates 1st derivative of polynomial for complex numbers
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.P(System.Numerics.Complex)">
-            <summary>
-            Evaluates the integral of polynomial for complex numbers
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.FindRoot(System.Numerics.Complex)">
-            <summary>
-            Generic root solver based on Laguerre's_method.
-            </summary> 
-            <param name="x">Start point for finding a root.
-            </param>
-        </member>
-        <member name="M:Math.Polynomial.DivideByRoot(System.Double)">
-            <summary>
-            Returns the polynomial divided by a root
-            </summary> 
-        </member>
-        <member name="M:Math.Polynomial.DivideByRootAndConjugate(System.Numerics.Complex)">
-            <summary>
-            Returns the polynomial divided by a complex root and with its conjugated
-            </summary> 
-        </member>
-        <member name="T:Math.Utils">
-            <summary>
-            Utility class
-            </summary>
-        </member>
-        <member name="M:Math.Utils.Swap``1(``0@,``0@)">
-            <summary>
-            Swap two values of type T
-            </summary>
-        </member>
-    </members>
+  <assembly>
+    <name>Math</name>
+  </assembly>
+  <members>
+    <member name="T:Math.Clustering.DBScan`2">
+      <summary>
+        Density-based spatial clustering of applications with noise (DBSCAN) is a data clustering algorithm proposed by Martin Ester, Hans-Peter Kriegel, Jörg Sander and Xiaowei Xu in 1996. https://en.wikipedia.org/wiki/DBSCAN
+      </summary>
+      <typeparam name="T">Point type of dimension n, e.g., Vector3D</typeparam>
+      <typeparam name="S">A geometric object of dimension n with a norm based on point type T, e.g., Segment3D</typeparam>
+    </member>
+    <member name="M:Math.Clustering.DBScan`2.#ctor(System.Collections.Generic.IList{`1})">
+      <summary>
+        Defining a DBScan with a list of the geometric objects to be clustered.
+      </summary>
+      <param name="list">List of object of dimension n with a norm based on point type T, e.g., Segment3D.</param>
+    </member>
+    <member name="M:Math.Clustering.DBScan`2.Cluster(System.Double,System.Int32,System.Boolean)">
+      <summary>
+        Clustering the list of objects with a given epsilon and with a threshold.
+      </summary>
+      <param name="eps">Epsilon of neighborhood between to objects using objects (modified) norm.</param>
+      <param name="n">Minimum number of objects required to be recognized as a cluster.</param>
+      <param name="direction">Boolean defining if the direction for directional objects shall be considered when evaluating the norm between two objects, e.g., Trajectory Hausdorff distance.</param>
+      <returns>A list of cluster as list of object indices.</returns>
+    </member>
+    <member name="T:Math.Clustering.TraClus">
+      <summary>
+        Implementation of "Trajectory Clustering: A Partition-and-Group Framework", by Jae-Gil Lee, Jiawei Han and Kyu-Young Whang.
+      </summary>
+    </member>
+    <member
+      name="M:Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector2D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)">
+      <summary>
+        Clustering of 2D trajectories.
+      </summary>
+      <param name="tracks">List of tracks</param>
+      <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
+      <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
+      <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
+      <param name="minL">Minimum length of a segment</param>
+      <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector3D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)">
+      <summary>
+        Clustering of 3D trajectories.
+      </summary>
+      <param name="tracks">List of tracks</param>
+      <param name="n">Minimum number of common segments required to be recognized as a cluster.</param>
+      <param name="eps">Epsilon of neighborhood between to segments using trajectory Hausdorff distance.</param>
+      <param name="direction">Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance.</param>
+      <param name="minL">Minimum length of a segment</param>
+      <param name="mdlCostAdvantage">Maximum cost allowed for minimum description length (MDL).</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Clustering.TraClus.Result`1">
+      <summary>
+        Representative common segment.
+      </summary>
+      <typeparam name="T">Vector of dimension n, e.g., Vector2D or Vector3D.</typeparam>
+    </member>
+    <member name="M:Math.Clustering.TraClus.Result`1.#ctor">
+      <summary>
+        Representative common segment.
+      </summary>
+    </member>
+    <member name="P:Math.Clustering.TraClus.Result`1.PointIndices">
+      <summary>
+        Returns a list of tracks of point indices as sorted list, which were used during clustering.
+      </summary>
+    </member>
+    <member name="P:Math.Clustering.TraClus.Result`1.Segment">
+      <summary>
+        Returns the representative common segment as a polyline, list of points.
+      </summary>
+    </member>
+    <member name="P:Math.Clustering.TraClus.Result`1.SegmentIndices">
+      <summary>
+        Returns a list of tracks of list of segments (pair point index), which were used during clustering.
+      </summary>
+    </member>
+    <member name="T:Math.Interfaces.IArray">
+      <summary>
+        Interface geometry object for coordinate(s) in linear / array representation.
+        Either point object or 2-point (min-max) object
+      </summary>
+    </member>
+    <member name="P:Math.Interfaces.IArray.Array">
+      <summary>
+        Array representation of the coordinate(s)
+      </summary>
+    </member>
+    <member name="P:Math.Interfaces.IArray.Item(System.Int32)">
+      <summary>
+        Array access of the coordinate(s)
+      </summary>
+      <param name="i">index</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.IBounding`1">
+      <summary>
+        Interface of bounding box or reactangle
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="P:Math.Interfaces.IBounding`1.Min">
+      <summary>
+        Min
+      </summary>
+    </member>
+    <member name="P:Math.Interfaces.IBounding`1.Max">
+      <summary>
+        Max
+      </summary>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.IsEmpty">
+      <summary>
+        Is empty bounding box
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.Reset">
+      <summary>
+        Reset
+      </summary>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.Expand(`0)">
+      <summary>
+        Expand bounding box with vector / point
+      </summary>
+      <param name="v">vector / point</param>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.Expand(Math.Interfaces.IBounding{`0})">
+      <summary>
+        Expanding with another bounding box
+      </summary>
+      <param name="b"></param>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.ExpandLayer(System.Double)">
+      <summary>
+        Add layer aorund current bounding box
+      </summary>
+      <param name="r">radius</param>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.IsInside(`0)">
+      <summary>
+        Is point inside
+      </summary>
+      <param name="v">vector / point</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IBounding`1.IsInside(`0,System.Double)">
+      <summary>
+        Is point inside
+      </summary>
+      <param name="v">point / vector</param>
+      <param name="eps">epsilon</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.IBoundingFacade`1">
+      <summary>
+        Bounding box facade for geometry objects or curves
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Math.Interfaces.IBoundingFacade`1.Bounding">
+      <summary>
+        Bounding box
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.ICloneable">
+      <summary>
+        Creates a new object that is a copy of the current instance.
+      </summary>
+    </member>
+    <member name="M:Math.Interfaces.ICloneable.Clone">
+      <summary>
+        A new object that is a copy of this instance.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.ICubicBezier`2">
+      <summary>
+        Interface of Bezier curves
+      </summary>
+      <typeparam name="T">Vector type</typeparam>
+      <typeparam name="S">Bezier type</typeparam>
+    </member>
+    <member name="T:Math.Interfaces.ICurve`2">
+      <summary>
+        Interface of a curve
+      </summary>
+      <typeparam name="T">Vector type</typeparam>
+      <typeparam name="S">Curve type</typeparam>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.Length(System.Double)">
+      <summary>
+        Length of the curve
+      </summary>
+      <param name="accuracy">Relative accuracy</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.Evaluate(System.Double)">
+      <summary>
+        Point at t
+      </summary>
+      <param name="t">parameter t, [0,1]</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.dEvaluate(System.Double)">
+      <summary>
+        Derivative at t
+      </summary>
+      <param name="t">parameter t, [0,1]</param>
+      <returns>Derivative</returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.d2Evaluate(System.Double)">
+      <summary>
+        2nd derivative at t
+      </summary>
+      <param name="t">parameter t, [0,1]</param>
+      <returns>2nd derivative</returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.Kappa(System.Double)">
+      <summary>
+        Curvature of the curve at t
+      </summary>
+      <param name="t">parameter t, [0,1]</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.Tangent(System.Double)">
+      <summary>
+        Tangent at t
+      </summary>
+      <param name="t">parameter t, [0,1]</param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.ICurve`2.Split(System.Double)">
+      <summary>
+        Split curve into two parts at given split point
+      </summary>
+      <param name="t">split at t, [0,1]</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.IDimension">
+      <summary>
+        Interface of dimension of geometry object
+      </summary>
+    </member>
+    <member name="P:Math.Interfaces.IDimension.Dimensions">
+      <summary>
+        Dimension of object
+      </summary>
+    </member>
+    <member name="T:Math.Interfaces.IGeometryObject`1">
+      <summary>
+        Interface of geometry object
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="T:Math.Interfaces.IInterpolate`1">
+      <summary>
+        Interafce for interpolation between two objects of same type
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Math.Interfaces.IInterpolate`1.Interpolate(`0,System.Double)">
+      <summary>
+        Interpolation
+      </summary>
+      <param name="t"></param>
+      <param name="x">interpolate by x, [0,1]</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.IIsEqual`1">
+      <summary>
+        Interface is equal
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Math.Interfaces.IIsEqual`1.IsEqual(`0)">
+      <summary>
+        Is equal
+      </summary>
+      <param name="a"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IIsEqual`1.IsEqual(`0,System.Double)">
+      <summary>
+        Is equal with epsilon
+      </summary>
+      <param name="a"></param>
+      <param name="epsilon">epsilon</param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.INorm`1">
+      <summary>
+        Interface for norms
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Math.Interfaces.INorm`1.EuclideanNorm(`0)">
+      <summary>
+        Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
+      </summary>
+      <param name="d"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.INorm`1.ModifiedNorm(`0,System.Boolean)">
+      <summary>
+        Modified norm
+      </summary>
+      <param name="d"></param>
+      <param name="direction"></param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.ISegment`2">
+      <summary>
+        Interface line segment
+      </summary>
+      <typeparam name="T"></typeparam>
+      <typeparam name="S"></typeparam>
+    </member>
+    <member name="P:Math.Interfaces.ISegment`2.A">
+      <summary>
+        Start point A
+      </summary>
+    </member>
+    <member name="P:Math.Interfaces.ISegment`2.B">
+      <summary>
+        End point B
+      </summary>
+    </member>
+    <member name="M:Math.Interfaces.ISegment`2.Vector">
+      <summary>
+        Create new vector
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.ISegment`2.IsIntersecting(`1,System.Double)">
+      <summary>
+        Intersection bewteen two segmments
+      </summary>
+      <param name="s"></param>
+      <param name="eps"></param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Interfaces.IVector`1">
+      <summary>
+        Interface vector
+      </summary>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.IsEqual(`0)">
+      <summary>
+        Is equal
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.IsEqual(`0,System.Double)">
+      <summary>
+        Is equal with epsilon
+      </summary>
+      <param name="v"></param>
+      <param name="epsilon"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Normalize">
+      <summary>
+        Normalize vector
+      </summary>
+      <returns>Length of vector</returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Normalize(System.Double)">
+      <summary>
+        Normalize vector with epsilon
+      </summary>
+      <param name="epsilon"></param>
+      <returns>Length of vector</returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Normalized">
+      <summary>
+        Return normalized vector
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Normalized(System.Double)">
+      <summary>
+        Return normalized vector with epsilon
+      </summary>
+      <param name="epsilon"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Norm2">
+      <summary>
+        Squard norm of vector
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Norm">
+      <summary>
+        Norm
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Dot(`0)">
+      <summary>
+        Dot product
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.CrossNorm(`0)">
+      <summary>
+        Norm of cross product
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Angle(`0)">
+      <summary>
+        Angle between two vectors
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.AngleAbs(`0)">
+      <summary>
+        Unsigned angle between two vectors
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Add(`0)">
+      <summary>
+        Add vector
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Sub(`0)">
+      <summary>
+        Subract vector
+      </summary>
+      <param name="v"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Mul(System.Double)">
+      <summary>
+        Multiply with a scalar
+      </summary>
+      <param name="c"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Div(System.Double)">
+      <summary>
+        Divide with a scalar
+      </summary>
+      <param name="c"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Math.Interfaces.IVector`1.Interpolate(`0,System.Double)">
+      <summary>
+        Interpolate between two vectors
+      </summary>
+      <param name="v"></param>
+      <param name="x"></param>
+      <returns></returns>
+    </member>
+    <member name="T:Math.Polynomial">
+      <summary>
+        Representation of a polynomial of n-th degree by coefficients. Functions to evaluate the polynomial, and also 1st derivatives and its integral.
+      </summary>
+      <remarks>
+        General root finder based on Laguerre's_method.
+      </remarks>
+    </member>
+    <member name="M:Math.Polynomial.#ctor(System.Collections.Generic.IEnumerable{System.Double})">
+      <summary>
+        Defining a polynomial by coefficients of n-th degree.
+      </summary>
+      <param name="coefficients">Coefficients in decreasing order. E.g., 2x^2 + x + 3 as {2,1,3}.</param>
+    </member>
+    <member name="M:Math.Polynomial.p">
+      <summary>
+        Returns the polynomial coefficients
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.dp">
+      <summary>
+        Returns the 1st derivative of the polynomial
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.P">
+      <summary>
+        Returns the Integral of the polynomial
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.p(System.Double)">
+      <summary>
+        Evaluates the polynomial
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.dp(System.Double)">
+      <summary>
+        Evaluates for 1st derivative of polynomial
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.P(System.Double)">
+      <summary>
+        Evaluates for integral of polynomial
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.p(System.Numerics.Complex)">
+      <summary>
+        Evaluates polynomial for complex numbers
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.dp(System.Numerics.Complex)">
+      <summary>
+        Evaluates 1st derivative of polynomial for complex numbers
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.P(System.Numerics.Complex)">
+      <summary>
+        Evaluates the integral of polynomial for complex numbers
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.FindRoot(System.Numerics.Complex)">
+      <summary>
+        Generic root solver based on Laguerre's_method.
+      </summary>
+      <param name="x">
+        Start point for finding a root.
+      </param>
+    </member>
+    <member name="M:Math.Polynomial.DivideByRoot(System.Double)">
+      <summary>
+        Returns the polynomial divided by a root
+      </summary>
+    </member>
+    <member name="M:Math.Polynomial.DivideByRootAndConjugate(System.Numerics.Complex)">
+      <summary>
+        Returns the polynomial divided by a complex root and with its conjugated
+      </summary>
+    </member>
+    <member name="T:Math.Utils">
+      <summary>
+        Utility class
+      </summary>
+    </member>
+    <member name="M:Math.Utils.Swap``1(``0@,``0@)">
+      <summary>
+        Swap two values of type T
+      </summary>
+    </member>
+  </members>
 </doc>

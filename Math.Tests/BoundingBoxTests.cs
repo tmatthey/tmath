@@ -44,7 +44,7 @@ namespace Math.Tests
             var v = new Vector3D(2.2, 4.4, 5.5);
             var a = new BoundingBox(u);
             a.Expand(v);
-            var b = (BoundingBox) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.Min, b.Min).ShouldBe(false);
             ReferenceEquals(a.Max, b.Max).ShouldBe(false);

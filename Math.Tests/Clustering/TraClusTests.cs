@@ -216,6 +216,5 @@ namespace Math.Tests.Clustering
 
             BitmapFileWriter.PNG(TestUtils.OutputPath() + "cluster3D.png", bitmap.Pixels);
         }
-
     }
 }

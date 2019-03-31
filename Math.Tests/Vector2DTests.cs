@@ -179,7 +179,7 @@ namespace Math.Tests
         public void Clone()
         {
             var v = new Vector2D(1.1, 2.2);
-            var w = (Vector2D) v.Clone();
+            var w = v.Clone();
             ReferenceEquals(v, w).ShouldBe(false);
             v.Equals(w).ShouldBe(true);
             v.IsEqual(w).ShouldBe(true);

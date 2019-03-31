@@ -74,7 +74,7 @@ namespace Math.Tests
             var u = new Vector3D(1.2, 2.3, 3.4);
             var v = new Vector3D(1.1, 2.2, 3.3);
             var a = new Circle3D(u, v, 19.17);
-            var b = (Circle3D) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.Center, b.Center).ShouldBe(false);
             ReferenceEquals(a.Normal, b.Normal).ShouldBe(false);

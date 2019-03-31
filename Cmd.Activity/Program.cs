@@ -76,7 +76,7 @@ namespace Cmd.Activity
                     vel.Add(dist[j] / (seconds[j + 1] - seconds[j]));
                 }
 
-                gpsTrack = GpsFiltering.InterpolateDublicates(activity.GpsPoints().ToList(), seconds).ToList();
+                gpsTrack = GpsFiltering.InterpolateDuplicates(activity.GpsPoints().ToList(), seconds).ToList();
                 Console.WriteLine("Track {0} {1} {2} {3} {4}", activity.Name, i, gpsTrack.Count,
                     GpsFiltering.FindDuplicates(activity.GpsPoints().ToList()).Count(),
                     GpsFiltering.FindDuplicates(gpsTrack).Count());

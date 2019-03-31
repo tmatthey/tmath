@@ -190,7 +190,7 @@ namespace Math.Tests
             var u = new Vector3D(1.2, 2.3, 3.4);
             var v = new Vector3D(1.1, 2.2, 3.3);
             var a = new Segment3D(u, v);
-            var b = (Segment3D) a.Clone();
+            var b = a.Clone();
             ReferenceEquals(a, b).ShouldBe(false);
             ReferenceEquals(a.A, b.A).ShouldBe(false);
             ReferenceEquals(a.B, b.B).ShouldBe(false);
@@ -408,7 +408,7 @@ namespace Math.Tests
             s.Vector().ShouldBe(v1 - v0);
         }
 
-        [TestCase(1, 2, 3,6, 9,4, 0.5)]
+        [TestCase(1, 2, 3, 6, 9, 4, 0.5)]
         [TestCase(1, 24, 3, 6, 9, -84, 0.95)]
         public void Tangent(double x0, double y0, double z0, double x1, double y1, double z1, double p)
         {
@@ -441,7 +441,6 @@ namespace Math.Tests
             var s = new Segment3D(a, b);
             var v = s.Evaluate(0.0);
             (v - a).Norm().ShouldBeLessThan(1e-9);
-
         }
 
         [TestCase(1, 2, 3, 6, 9, 4)]
@@ -453,7 +452,6 @@ namespace Math.Tests
             var s = new Segment3D(a, b);
             var v = s.Evaluate(1.0);
             (v - b).Norm().ShouldBeLessThan(1e-9);
-
         }
 
         [TestCase(1, 2, 3, 6, 9, 4, 0.5)]
@@ -535,8 +533,6 @@ namespace Math.Tests
             {
                 (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
             }
-
         }
-
     }
 }
