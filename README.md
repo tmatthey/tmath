@@ -2,7 +2,7 @@
 
 A collection of mathematical function and data structures written in C#. 
 
-(c) 2016 Thierry Matthey (matthey@gmail.com) -  MIT license
+(c) 2016-2019 Thierry Matthey (matthey@gmail.com) -  MIT license
 
 ### Base ###
 * Floating point comparison and epsilon
@@ -15,8 +15,9 @@ A collection of mathematical function and data structures written in C#.
 * First and second order regression with optional weight
 
 ### Functions ###
+* Qudratic root
 * Cubic root
-* Quintic root
+* Quartic root
 * Fast sin evaluation [-PI/2, -PI/2]
 * Normalize angle
 * Nomerical stable sin-cos evaluation
@@ -44,6 +45,8 @@ A collection of mathematical function and data structures written in C#.
 * BoundingRect
 * Circle2D
 * Circle3D
+* CubicBezier2D
+* CubicBezier3D
 * Color
 * Polar3D
 * Polynomial
