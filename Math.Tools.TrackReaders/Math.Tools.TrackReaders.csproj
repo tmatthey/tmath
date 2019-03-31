@@ -4,7 +4,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.3.0</Version>
+    <Version>2.3.1</Version>
     <Authors>Thierry Matthey</Authors>
     <Copyright>Copyright © Matthey 2016-2019</Copyright>
     <Company />
@@ -17,7 +17,7 @@
     <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
     
     <PackageId>Math.Matthey.Tools.TrackReaders</PackageId>
-    <PackageReleaseNotes>Multiple platform support:Net40, .NET std  and .NET Core. Support parsing of KML and GPS files</PackageReleaseNotes>
+    <PackageReleaseNotes>Support of route for GPX</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <NeutralLanguage />
   </PropertyGroup>

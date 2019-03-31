@@ -4,7 +4,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
   <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-    <Version>2.3.0</Version>
+    <Version>2.3.1</Version>
     <Authors>Thierry Matthey</Authors>
     <Copyright>Copyright © Matthey 2016-2019</Copyright>
     <Company />
@@ -17,7 +17,7 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <PackageTags>math gps vector segment cluster kdtree dbscan polynomial rootsolver dotnetcore</PackageTags>
     <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
     <PackageId>Math.Matthey</PackageId>
-    <PackageReleaseNotes>Multiple platform support:Net40, .NET std  and .NET Core</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed Bezier Curve length</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
    </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">

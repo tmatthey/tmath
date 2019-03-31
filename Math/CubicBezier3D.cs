@@ -99,7 +99,17 @@ namespace Math
 
         public double Length(double accuracy = 1e-5)
         {
-            return 0.5 * ((P3 - P0).Norm() + (P0 - P1).Norm() + (P2 - P1).Norm() + (P3 - P2).Norm());
+            var a = (P3 - P0).Norm();
+            var b = (P0 - P1).Norm() + (P1 - P2).Norm() + (P2 - P1).Norm();
+            var l = 0.5 * (a + b);
+            if (a * (1.0+accuracy) < b)
+            {
+                var (b0, b1) = Split(0.5);
+                if (b1 != null)
+                    l = b0.Length(accuracy) + b1.Length(accuracy);
+            }
+
+            return l;
         }
 
         public Vector3D Evaluate(double t)

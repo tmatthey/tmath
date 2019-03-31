@@ -113,6 +113,30 @@ namespace Math.Tests
             bezier.Length().ShouldBe(150.0, 1e-5);
         }
 
+        [TestCase(1e-1)]
+        [TestCase(1e-2)]
+        [TestCase(1e-3)]
+        [TestCase(1e-4)]
+        [TestCase(1e-5)]
+        [TestCase(1e-6)]
+        [TestCase(1e-7)]
+        [TestCase(1e-8)]
+        public void Length_WithAccuracy(double accuracy)
+        {
+            var bezier = new CubicBezier2D
+            {
+                P0 = new Vector2D(160, 120),
+                P1 = new Vector2D(200, 35),
+                P2 = new Vector2D(260, 220),
+                P3 = new Vector2D(40, 220)
+            };
+            var a = (bezier.P3 - bezier.P0).Norm();
+            var b = (bezier.P0 - bezier.P1).Norm() + (bezier.P1 - bezier.P2).Norm() + (bezier.P2 - bezier.P1).Norm();
+            var l0 = 0.5 * (a + b);
+            var l1 = bezier.Length(accuracy);
+            l1.ShouldBeLessThanOrEqualTo(l0);
+        }
+
         [TestCase(0.5, 0.3)]
         [TestCase(0.5, 0.5)]
         [TestCase(0.3, 0.5)]
