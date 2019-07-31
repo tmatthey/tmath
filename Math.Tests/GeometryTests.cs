@@ -1137,7 +1137,7 @@ namespace Math.Tests
             {
                 Geometry.DiscLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
                 var l = c.Center.EuclideanNorm(p);
-                c.Radius.ShouldBeGreaterThanOrEqualTo(l);
+                c.Radius.ShouldBeGreaterThanOrEqualTo(l*.9999999);
                 if (Comparison.IsEqual(c.Radius, l))
                     n++;
             }

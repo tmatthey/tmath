@@ -3,6 +3,47 @@
 
 ## Contents
 
+- [BoundingBox](#T-Math-BoundingBox 'Math.BoundingBox')
+  - [#ctor()](#M-Math-BoundingBox-#ctor 'Math.BoundingBox.#ctor')
+  - [#ctor(v)](#M-Math-BoundingBox-#ctor-Math-Vector3D- 'Math.BoundingBox.#ctor(Math.Vector3D)')
+  - [#ctor(b)](#M-Math-BoundingBox-#ctor-Math-BoundingBox- 'Math.BoundingBox.#ctor(Math.BoundingBox)')
+  - [Max](#P-Math-BoundingBox-Max 'Math.BoundingBox.Max')
+  - [Min](#P-Math-BoundingBox-Min 'Math.BoundingBox.Min')
+  - [Clone()](#M-Math-BoundingBox-Clone 'Math.BoundingBox.Clone')
+  - [Equals()](#M-Math-BoundingBox-Equals-System-Object- 'Math.BoundingBox.Equals(System.Object)')
+  - [Expand()](#M-Math-BoundingBox-Expand-Math-Vector3D- 'Math.BoundingBox.Expand(Math.Vector3D)')
+  - [Expand()](#M-Math-BoundingBox-Expand-Math-Interfaces-IBounding{Math-Vector3D}- 'Math.BoundingBox.Expand(Math.Interfaces.IBounding{Math.Vector3D})')
+  - [ExpandLayer()](#M-Math-BoundingBox-ExpandLayer-System-Double- 'Math.BoundingBox.ExpandLayer(System.Double)')
+  - [ExpandX(x)](#M-Math-BoundingBox-ExpandX-System-Double- 'Math.BoundingBox.ExpandX(System.Double)')
+  - [ExpandY(y)](#M-Math-BoundingBox-ExpandY-System-Double- 'Math.BoundingBox.ExpandY(System.Double)')
+  - [ExpandZ(z)](#M-Math-BoundingBox-ExpandZ-System-Double- 'Math.BoundingBox.ExpandZ(System.Double)')
+  - [GetHashCode()](#M-Math-BoundingBox-GetHashCode 'Math.BoundingBox.GetHashCode')
+  - [IsEmpty()](#M-Math-BoundingBox-IsEmpty 'Math.BoundingBox.IsEmpty')
+  - [IsEqual()](#M-Math-BoundingBox-IsEqual-Math-BoundingBox- 'Math.BoundingBox.IsEqual(Math.BoundingBox)')
+  - [IsEqual()](#M-Math-BoundingBox-IsEqual-Math-BoundingBox,System-Double- 'Math.BoundingBox.IsEqual(Math.BoundingBox,System.Double)')
+  - [IsInside()](#M-Math-BoundingBox-IsInside-Math-Vector3D- 'Math.BoundingBox.IsInside(Math.Vector3D)')
+  - [IsInside()](#M-Math-BoundingBox-IsInside-Math-Vector3D,System-Double- 'Math.BoundingBox.IsInside(Math.Vector3D,System.Double)')
+  - [Reset()](#M-Math-BoundingBox-Reset 'Math.BoundingBox.Reset')
+- [BoundingRect](#T-Math-BoundingRect 'Math.BoundingRect')
+  - [#ctor()](#M-Math-BoundingRect-#ctor 'Math.BoundingRect.#ctor')
+  - [#ctor(v)](#M-Math-BoundingRect-#ctor-Math-Vector2D- 'Math.BoundingRect.#ctor(Math.Vector2D)')
+  - [#ctor(b)](#M-Math-BoundingRect-#ctor-Math-BoundingRect- 'Math.BoundingRect.#ctor(Math.BoundingRect)')
+  - [Max](#P-Math-BoundingRect-Max 'Math.BoundingRect.Max')
+  - [Min](#P-Math-BoundingRect-Min 'Math.BoundingRect.Min')
+  - [Clone()](#M-Math-BoundingRect-Clone 'Math.BoundingRect.Clone')
+  - [Equals()](#M-Math-BoundingRect-Equals-System-Object- 'Math.BoundingRect.Equals(System.Object)')
+  - [Expand()](#M-Math-BoundingRect-Expand-Math-Vector2D- 'Math.BoundingRect.Expand(Math.Vector2D)')
+  - [Expand()](#M-Math-BoundingRect-Expand-Math-Interfaces-IBounding{Math-Vector2D}- 'Math.BoundingRect.Expand(Math.Interfaces.IBounding{Math.Vector2D})')
+  - [ExpandLayer()](#M-Math-BoundingRect-ExpandLayer-System-Double- 'Math.BoundingRect.ExpandLayer(System.Double)')
+  - [ExpandX(x)](#M-Math-BoundingRect-ExpandX-System-Double- 'Math.BoundingRect.ExpandX(System.Double)')
+  - [ExpandY(y)](#M-Math-BoundingRect-ExpandY-System-Double- 'Math.BoundingRect.ExpandY(System.Double)')
+  - [GetHashCode()](#M-Math-BoundingRect-GetHashCode 'Math.BoundingRect.GetHashCode')
+  - [IsEmpty()](#M-Math-BoundingRect-IsEmpty 'Math.BoundingRect.IsEmpty')
+  - [IsEqual()](#M-Math-BoundingRect-IsEqual-Math-BoundingRect- 'Math.BoundingRect.IsEqual(Math.BoundingRect)')
+  - [IsEqual()](#M-Math-BoundingRect-IsEqual-Math-BoundingRect,System-Double- 'Math.BoundingRect.IsEqual(Math.BoundingRect,System.Double)')
+  - [IsInside()](#M-Math-BoundingRect-IsInside-Math-Vector2D- 'Math.BoundingRect.IsInside(Math.Vector2D)')
+  - [IsInside()](#M-Math-BoundingRect-IsInside-Math-Vector2D,System-Double- 'Math.BoundingRect.IsInside(Math.Vector2D,System.Double)')
+  - [Reset()](#M-Math-BoundingRect-Reset 'Math.BoundingRect.Reset')
 - [DBScan\`2](#T-Math-Clustering-DBScan`2 'Math.Clustering.DBScan`2')
   - [#ctor(list)](#M-Math-Clustering-DBScan`2-#ctor-System-Collections-Generic-IList{`1}- 'Math.Clustering.DBScan`2.#ctor(System.Collections.Generic.IList{`1})')
   - [Cluster(eps,n,direction)](#M-Math-Clustering-DBScan`2-Cluster-System-Double,System-Int32,System-Boolean- 'Math.Clustering.DBScan`2.Cluster(System.Double,System.Int32,System.Boolean)')
@@ -21,8 +62,8 @@
   - [IsInside(v)](#M-Math-Interfaces-IBounding`1-IsInside-`0- 'Math.Interfaces.IBounding`1.IsInside(`0)')
   - [IsInside(v,eps)](#M-Math-Interfaces-IBounding`1-IsInside-`0,System-Double- 'Math.Interfaces.IBounding`1.IsInside(`0,System.Double)')
   - [Reset()](#M-Math-Interfaces-IBounding`1-Reset 'Math.Interfaces.IBounding`1.Reset')
-- [ICloneable](#T-Math-Interfaces-ICloneable 'Math.Interfaces.ICloneable')
-  - [Clone()](#M-Math-Interfaces-ICloneable-Clone 'Math.Interfaces.ICloneable.Clone')
+- [ICloneable\`1](#T-Math-Interfaces-ICloneable`1 'Math.Interfaces.ICloneable`1')
+  - [Clone()](#M-Math-Interfaces-ICloneable`1-Clone 'Math.Interfaces.ICloneable`1.Clone')
 - [ICubicBezier\`2](#T-Math-Interfaces-ICubicBezier`2 'Math.Interfaces.ICubicBezier`2')
 - [ICurve\`2](#T-Math-Interfaces-ICurve`2 'Math.Interfaces.ICurve`2')
   - [Evaluate(t)](#M-Math-Interfaces-ICurve`2-Evaluate-System-Double- 'Math.Interfaces.ICurve`2.Evaluate(System.Double)')
@@ -90,6 +131,459 @@
   - [Cluster(tracks,n,eps,direction,minL,mdlCostAdvantage)](#M-Math-Clustering-TraClus-Cluster-System-Collections-Generic-IList{System-Collections-Generic-List{Math-Vector3D}},System-Int32,System-Double,System-Boolean,System-Double,System-Int32- 'Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector3D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)')
 - [Utils](#T-Math-Utils 'Math.Utils')
   - [Swap\`\`1()](#M-Math-Utils-Swap``1-``0@,``0@- 'Math.Utils.Swap``1(``0@,``0@)')
+
+<a name='T-Math-BoundingBox'></a>
+## BoundingBox `type`
+
+##### Namespace
+
+Math
+
+##### Summary
+
+3D bounding box
+
+<a name='M-Math-BoundingBox-#ctor'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+Empty bounding box
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-Math-BoundingBox-#ctor-Math-Vector3D-'></a>
+### #ctor(v) `constructor`
+
+##### Summary
+
+Bounding box with one point
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| v | [Math.Vector3D](#T-Math-Vector3D 'Math.Vector3D') |  |
+
+<a name='M-Math-BoundingBox-#ctor-Math-BoundingBox-'></a>
+### #ctor(b) `constructor`
+
+##### Summary
+
+Bounding box
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| b | [Math.BoundingBox](#T-Math-BoundingBox 'Math.BoundingBox') |  |
+
+<a name='P-Math-BoundingBox-Max'></a>
+### Max `property`
+
+##### Summary
+
+*Inherit from parent.*
+
+<a name='P-Math-BoundingBox-Min'></a>
+### Min `property`
+
+##### Summary
+
+*Inherit from parent.*
+
+<a name='M-Math-BoundingBox-Clone'></a>
+### Clone() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-Equals-System-Object-'></a>
+### Equals() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-Expand-Math-Vector3D-'></a>
+### Expand() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-Expand-Math-Interfaces-IBounding{Math-Vector3D}-'></a>
+### Expand() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-ExpandLayer-System-Double-'></a>
+### ExpandLayer() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-ExpandX-System-Double-'></a>
+### ExpandX(x) `method`
+
+##### Summary
+
+Expand by X-coordinate
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| x | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+
+<a name='M-Math-BoundingBox-ExpandY-System-Double-'></a>
+### ExpandY(y) `method`
+
+##### Summary
+
+Expand by Y-coordinate
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| y | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+
+<a name='M-Math-BoundingBox-ExpandZ-System-Double-'></a>
+### ExpandZ(z) `method`
+
+##### Summary
+
+Expand by Z-coordinate
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| z | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+
+<a name='M-Math-BoundingBox-GetHashCode'></a>
+### GetHashCode() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-IsEmpty'></a>
+### IsEmpty() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-IsEqual-Math-BoundingBox-'></a>
+### IsEqual() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-IsEqual-Math-BoundingBox,System-Double-'></a>
+### IsEqual() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-IsInside-Math-Vector3D-'></a>
+### IsInside() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-IsInside-Math-Vector3D,System-Double-'></a>
+### IsInside() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingBox-Reset'></a>
+### Reset() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Math-BoundingRect'></a>
+## BoundingRect `type`
+
+##### Namespace
+
+Math
+
+##### Summary
+
+2D bounding rectangle
+
+<a name='M-Math-BoundingRect-#ctor'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+Empty bounding rectangle
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-Math-BoundingRect-#ctor-Math-Vector2D-'></a>
+### #ctor(v) `constructor`
+
+##### Summary
+
+Bounding rectangle with one point
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| v | [Math.Vector2D](#T-Math-Vector2D 'Math.Vector2D') |  |
+
+<a name='M-Math-BoundingRect-#ctor-Math-BoundingRect-'></a>
+### #ctor(b) `constructor`
+
+##### Summary
+
+Bounding rectangle
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| b | [Math.BoundingRect](#T-Math-BoundingRect 'Math.BoundingRect') |  |
+
+<a name='P-Math-BoundingRect-Max'></a>
+### Max `property`
+
+##### Summary
+
+*Inherit from parent.*
+
+<a name='P-Math-BoundingRect-Min'></a>
+### Min `property`
+
+##### Summary
+
+*Inherit from parent.*
+
+<a name='M-Math-BoundingRect-Clone'></a>
+### Clone() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-Equals-System-Object-'></a>
+### Equals() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-Expand-Math-Vector2D-'></a>
+### Expand() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-Expand-Math-Interfaces-IBounding{Math-Vector2D}-'></a>
+### Expand() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-ExpandLayer-System-Double-'></a>
+### ExpandLayer() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-ExpandX-System-Double-'></a>
+### ExpandX(x) `method`
+
+##### Summary
+
+Expand by X-coordinate
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| x | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+
+<a name='M-Math-BoundingRect-ExpandY-System-Double-'></a>
+### ExpandY(y) `method`
+
+##### Summary
+
+Expand by Y-coordinate
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| y | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') |  |
+
+<a name='M-Math-BoundingRect-GetHashCode'></a>
+### GetHashCode() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-IsEmpty'></a>
+### IsEmpty() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-IsEqual-Math-BoundingRect-'></a>
+### IsEqual() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-IsEqual-Math-BoundingRect,System-Double-'></a>
+### IsEqual() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-IsInside-Math-Vector2D-'></a>
+### IsInside() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-IsInside-Math-Vector2D,System-Double-'></a>
+### IsInside() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Math-BoundingRect-Reset'></a>
+### Reset() `method`
+
+##### Summary
+
+*Inherit from parent.*
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-Math-Clustering-DBScan`2'></a>
 ## DBScan\`2 `type`
@@ -218,7 +712,7 @@ Math.Interfaces
 
 ##### Summary
 
-Interface of bounding box or reactangle
+Interface of bounding box or rectangle
 
 ##### Generic Types
 
@@ -340,8 +834,8 @@ Reset
 
 This method has no parameters.
 
-<a name='T-Math-Interfaces-ICloneable'></a>
-## ICloneable `type`
+<a name='T-Math-Interfaces-ICloneable`1'></a>
+## ICloneable\`1 `type`
 
 ##### Namespace
 
@@ -351,7 +845,7 @@ Math.Interfaces
 
 Creates a new object that is a copy of the current instance.
 
-<a name='M-Math-Interfaces-ICloneable-Clone'></a>
+<a name='M-Math-Interfaces-ICloneable`1-Clone'></a>
 ### Clone() `method`
 
 ##### Summary

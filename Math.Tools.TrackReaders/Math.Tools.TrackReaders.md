@@ -460,6 +460,7 @@
 - [gpx](#T-Math-Tools-TrackReaders-Gpx-gpx 'Math.Tools.TrackReaders.Gpx.gpx')
   - [creator](#P-Math-Tools-TrackReaders-Gpx-gpx-creator 'Math.Tools.TrackReaders.Gpx.gpx.creator')
   - [metadata](#P-Math-Tools-TrackReaders-Gpx-gpx-metadata 'Math.Tools.TrackReaders.Gpx.gpx.metadata')
+  - [rte](#P-Math-Tools-TrackReaders-Gpx-gpx-rte 'Math.Tools.TrackReaders.Gpx.gpx.rte')
   - [trk](#P-Math-Tools-TrackReaders-Gpx-gpx-trk 'Math.Tools.TrackReaders.Gpx.gpx.trk')
   - [version](#P-Math-Tools-TrackReaders-Gpx-gpx-version 'Math.Tools.TrackReaders.Gpx.gpx.version')
 - [gpxMetadata](#T-Math-Tools-TrackReaders-Gpx-gpxMetadata 'Math.Tools.TrackReaders.Gpx.gpxMetadata')
@@ -475,6 +476,57 @@
 - [gpxMetadataLink](#T-Math-Tools-TrackReaders-Gpx-gpxMetadataLink 'Math.Tools.TrackReaders.Gpx.gpxMetadataLink')
   - [href](#P-Math-Tools-TrackReaders-Gpx-gpxMetadataLink-href 'Math.Tools.TrackReaders.Gpx.gpxMetadataLink.href')
   - [text](#P-Math-Tools-TrackReaders-Gpx-gpxMetadataLink-text 'Math.Tools.TrackReaders.Gpx.gpxMetadataLink.text')
+- [gpxRte](#T-Math-Tools-TrackReaders-Gpx-gpxRte 'Math.Tools.TrackReaders.Gpx.gpxRte')
+  - [cmt](#P-Math-Tools-TrackReaders-Gpx-gpxRte-cmt 'Math.Tools.TrackReaders.Gpx.gpxRte.cmt')
+  - [desc](#P-Math-Tools-TrackReaders-Gpx-gpxRte-desc 'Math.Tools.TrackReaders.Gpx.gpxRte.desc')
+  - [link](#P-Math-Tools-TrackReaders-Gpx-gpxRte-link 'Math.Tools.TrackReaders.Gpx.gpxRte.link')
+  - [name](#P-Math-Tools-TrackReaders-Gpx-gpxRte-name 'Math.Tools.TrackReaders.Gpx.gpxRte.name')
+  - [number](#P-Math-Tools-TrackReaders-Gpx-gpxRte-number 'Math.Tools.TrackReaders.Gpx.gpxRte.number')
+  - [rtept](#P-Math-Tools-TrackReaders-Gpx-gpxRte-rtept 'Math.Tools.TrackReaders.Gpx.gpxRte.rtept')
+  - [src](#P-Math-Tools-TrackReaders-Gpx-gpxRte-src 'Math.Tools.TrackReaders.Gpx.gpxRte.src')
+  - [type](#P-Math-Tools-TrackReaders-Gpx-gpxRte-type 'Math.Tools.TrackReaders.Gpx.gpxRte.type')
+- [gpxRteLink](#T-Math-Tools-TrackReaders-Gpx-gpxRteLink 'Math.Tools.TrackReaders.Gpx.gpxRteLink')
+  - [href](#P-Math-Tools-TrackReaders-Gpx-gpxRteLink-href 'Math.Tools.TrackReaders.Gpx.gpxRteLink.href')
+  - [text](#P-Math-Tools-TrackReaders-Gpx-gpxRteLink-text 'Math.Tools.TrackReaders.Gpx.gpxRteLink.text')
+- [gpxRteRtept](#T-Math-Tools-TrackReaders-Gpx-gpxRteRtept 'Math.Tools.TrackReaders.Gpx.gpxRteRtept')
+  - [ageofdgpsdata](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ageofdgpsdata 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.ageofdgpsdata')
+  - [ageofdgpsdataSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ageofdgpsdataSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.ageofdgpsdataSpecified')
+  - [cmt](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-cmt 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.cmt')
+  - [desc](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-desc 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.desc')
+  - [dgpsid](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-dgpsid 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.dgpsid')
+  - [ele](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ele 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.ele')
+  - [eleSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-eleSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.eleSpecified')
+  - [fix](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-fix 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.fix')
+  - [fixSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-fixSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.fixSpecified')
+  - [geoidheight](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-geoidheight 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.geoidheight')
+  - [geoidheightSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-geoidheightSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.geoidheightSpecified')
+  - [hdop](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-hdop 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.hdop')
+  - [hdopSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-hdopSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.hdopSpecified')
+  - [lat](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-lat 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.lat')
+  - [link](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-link 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.link')
+  - [lon](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-lon 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.lon')
+  - [magvar](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-magvar 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.magvar')
+  - [magvarSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-magvarSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.magvarSpecified')
+  - [name](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-name 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.name')
+  - [pdop](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-pdop 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.pdop')
+  - [pdopSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-pdopSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.pdopSpecified')
+  - [sat](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-sat 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.sat')
+  - [src](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-src 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.src')
+  - [sym](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-sym 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.sym')
+  - [time](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-time 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.time')
+  - [timeSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-timeSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.timeSpecified')
+  - [type](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-type 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.type')
+  - [vdop](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-vdop 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.vdop')
+  - [vdopSpecified](#P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-vdopSpecified 'Math.Tools.TrackReaders.Gpx.gpxRteRtept.vdopSpecified')
+- [gpxRteRteptFix](#T-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix')
+  - [Item2d](#F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-Item2d 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix.Item2d')
+  - [Item3d](#F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-Item3d 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix.Item3d')
+  - [dgps](#F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-dgps 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix.dgps')
+  - [none](#F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-none 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix.none')
+  - [pps](#F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-pps 'Math.Tools.TrackReaders.Gpx.gpxRteRteptFix.pps')
+- [gpxRteRteptLink](#T-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink 'Math.Tools.TrackReaders.Gpx.gpxRteRteptLink')
+  - [href](#P-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink-href 'Math.Tools.TrackReaders.Gpx.gpxRteRteptLink.href')
+  - [text](#P-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink-text 'Math.Tools.TrackReaders.Gpx.gpxRteRteptLink.text')
 - [gpxTrk](#T-Math-Tools-TrackReaders-Gpx-gpxTrk 'Math.Tools.TrackReaders.Gpx.gpxTrk')
   - [link](#P-Math-Tools-TrackReaders-Gpx-gpxTrk-link 'Math.Tools.TrackReaders.Gpx.gpxTrk.link')
   - [src](#P-Math-Tools-TrackReaders-Gpx-gpxTrk-src 'Math.Tools.TrackReaders.Gpx.gpxTrk.src')
@@ -4254,6 +4306,13 @@ Math.Tools.TrackReaders.Gpx
 
 
 
+<a name='P-Math-Tools-TrackReaders-Gpx-gpx-rte'></a>
+### rte `property`
+
+##### Remarks
+
+
+
 <a name='P-Math-Tools-TrackReaders-Gpx-gpx-trk'></a>
 ### trk `property`
 
@@ -4369,6 +4428,383 @@ Math.Tools.TrackReaders.Gpx
 
 
 <a name='P-Math-Tools-TrackReaders-Gpx-gpxMetadataLink-text'></a>
+### text `property`
+
+##### Remarks
+
+
+
+<a name='T-Math-Tools-TrackReaders-Gpx-gpxRte'></a>
+## gpxRte `type`
+
+##### Namespace
+
+Math.Tools.TrackReaders.Gpx
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-cmt'></a>
+### cmt `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-desc'></a>
+### desc `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-link'></a>
+### link `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-name'></a>
+### name `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-number'></a>
+### number `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-rtept'></a>
+### rtept `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-src'></a>
+### src `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRte-type'></a>
+### type `property`
+
+##### Remarks
+
+
+
+<a name='T-Math-Tools-TrackReaders-Gpx-gpxRteLink'></a>
+## gpxRteLink `type`
+
+##### Namespace
+
+Math.Tools.TrackReaders.Gpx
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteLink-href'></a>
+### href `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteLink-text'></a>
+### text `property`
+
+##### Remarks
+
+
+
+<a name='T-Math-Tools-TrackReaders-Gpx-gpxRteRtept'></a>
+## gpxRteRtept `type`
+
+##### Namespace
+
+Math.Tools.TrackReaders.Gpx
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ageofdgpsdata'></a>
+### ageofdgpsdata `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ageofdgpsdataSpecified'></a>
+### ageofdgpsdataSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-cmt'></a>
+### cmt `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-desc'></a>
+### desc `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-dgpsid'></a>
+### dgpsid `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-ele'></a>
+### ele `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-eleSpecified'></a>
+### eleSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-fix'></a>
+### fix `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-fixSpecified'></a>
+### fixSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-geoidheight'></a>
+### geoidheight `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-geoidheightSpecified'></a>
+### geoidheightSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-hdop'></a>
+### hdop `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-hdopSpecified'></a>
+### hdopSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-lat'></a>
+### lat `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-link'></a>
+### link `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-lon'></a>
+### lon `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-magvar'></a>
+### magvar `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-magvarSpecified'></a>
+### magvarSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-name'></a>
+### name `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-pdop'></a>
+### pdop `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-pdopSpecified'></a>
+### pdopSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-sat'></a>
+### sat `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-src'></a>
+### src `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-sym'></a>
+### sym `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-time'></a>
+### time `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-timeSpecified'></a>
+### timeSpecified `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-type'></a>
+### type `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-vdop'></a>
+### vdop `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRtept-vdopSpecified'></a>
+### vdopSpecified `property`
+
+##### Remarks
+
+
+
+<a name='T-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix'></a>
+## gpxRteRteptFix `type`
+
+##### Namespace
+
+Math.Tools.TrackReaders.Gpx
+
+##### Remarks
+
+
+
+<a name='F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-Item2d'></a>
+### Item2d `constants`
+
+##### Remarks
+
+
+
+<a name='F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-Item3d'></a>
+### Item3d `constants`
+
+##### Remarks
+
+
+
+<a name='F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-dgps'></a>
+### dgps `constants`
+
+##### Remarks
+
+
+
+<a name='F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-none'></a>
+### none `constants`
+
+##### Remarks
+
+
+
+<a name='F-Math-Tools-TrackReaders-Gpx-gpxRteRteptFix-pps'></a>
+### pps `constants`
+
+##### Remarks
+
+
+
+<a name='T-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink'></a>
+## gpxRteRteptLink `type`
+
+##### Namespace
+
+Math.Tools.TrackReaders.Gpx
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink-href'></a>
+### href `property`
+
+##### Remarks
+
+
+
+<a name='P-Math-Tools-TrackReaders-Gpx-gpxRteRteptLink-text'></a>
 ### text `property`
 
 ##### Remarks

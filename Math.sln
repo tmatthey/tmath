@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math", "Math\Math.csproj", "{B2F86C5B-9543-4223-A934-66C4AA20C385}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Thomson", "Cmd.Thomson\Cmd.Thomson.csproj", "{FA2B2E07-7014-4BDA-B648-22B429A6BB01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Minetti", "Cmd.Minetti\Cmd.Minetti.csproj", "{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math.Tools.TrackReaders.Tests", "Math.Tools.TrackReaders.Tests\Math.Tools.TrackReaders.Tests.csproj", "{DFC08A7E-1147-4790-BFC0-1357A9AB1873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03BE5BC7-2E4F-438E-8742-46465EB6BFE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
