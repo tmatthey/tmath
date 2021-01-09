@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,9 +66,8 @@ namespace Math.Tools.TrackReaders
                                 foreach (var str in lineString)
                                 {
                                     var coordinates = str.Split(',');
-                                    double lat, lng;
-                                    if (coordinates.Length > 1 && double.TryParse(coordinates[0].Trim(), out lng) &&
-                                        double.TryParse(coordinates[1].Trim(), out lat))
+                                    if (coordinates.Length > 1 && double.TryParse(coordinates[0].Trim(), out var lng) &&
+                                        double.TryParse(coordinates[1].Trim(), out var lat))
                                     {
                                         var elev = 0.0;
                                         if (useElevation && !double.TryParse(coordinates[2].Trim(), out elev))

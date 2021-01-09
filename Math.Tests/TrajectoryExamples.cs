@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -36,11 +36,10 @@ namespace Math.Tests
         private static IList<List<Vector2D>> ReadTracks(string name)
         {
             var tracks = new List<List<Vector2D>>();
-            var reader = TestUtils.ReadResourceFile(name);
+            var lines = TestUtils.Resources(name).Trim().Split('\n');
 
             var l = 0;
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            foreach (var line in lines)
             {
                 l++;
                 if (l < 3)

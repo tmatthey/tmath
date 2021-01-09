@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -95,12 +95,11 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Equals_WihtNullptr_ReturnsFalse()
+        public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new BoundingBox(new Vector3D(1, 2, 3));
             v.Expand(new Vector3D(4, 5, 6));
-            BoundingBox u = null;
-            v.Equals(u).ShouldBe(false);
+            v.Equals(null).ShouldBe(false);
         }
 
         [Test]

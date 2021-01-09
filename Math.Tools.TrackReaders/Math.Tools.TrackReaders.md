@@ -283,6 +283,8 @@
   - [LastError](#P-Math-Tools-TrackReaders-PointLineKml-LastError 'Math.Tools.TrackReaders.PointLineKml.LastError')
   - [KMLDecode(fileName)](#M-Math-Tools-TrackReaders-PointLineKml-KMLDecode-System-String- 'Math.Tools.TrackReaders.PointLineKml.KMLDecode(System.String)')
   - [parseGeometryVal(tag_value)](#M-Math-Tools-TrackReaders-PointLineKml-parseGeometryVal-System-String- 'Math.Tools.TrackReaders.PointLineKml.parseGeometryVal(System.String)')
+  - [parseLine(tag_value)](#M-Math-Tools-TrackReaders-PointLineKml-parseLine-System-String- 'Math.Tools.TrackReaders.PointLineKml.parseLine(System.String)')
+  - [parsePoint(tag_value)](#M-Math-Tools-TrackReaders-PointLineKml-parsePoint-System-String- 'Math.Tools.TrackReaders.PointLineKml.parsePoint(System.String)')
   - [readKML(fileName)](#M-Math-Tools-TrackReaders-PointLineKml-readKML-System-String- 'Math.Tools.TrackReaders.PointLineKml.readKML(System.String)')
 - [PolyStyle](#T-Math-Tools-TrackReaders-Kml-PolyStyle 'Math.Tools.TrackReaders.Kml.PolyStyle')
   - [color](#P-Math-Tools-TrackReaders-Kml-PolyStyle-color 'Math.Tools.TrackReaders.Kml.PolyStyle.color')
@@ -1519,7 +1521,7 @@ Math.Tools.TrackReaders
 
 ##### Summary
 
-Reading activities containing GPS track by file, directory or string definition. Supported file formate: TCX, GPX and KML.
+Reading activities containing GPS track by file, directory or string definition. Supported file format: TCX, GPX and KML.
 
 <a name='M-Math-Tools-TrackReaders-Deserializer-Directory-System-String-'></a>
 ### Directory(path) `method`
@@ -2841,6 +2843,35 @@ HashTable
 ##### Summary
 
 Parse selected geometry based on type
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| tag_value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Value of geometry element. |
+
+<a name='M-Math-Tools-TrackReaders-PointLineKml-parseLine-System-String-'></a>
+### parseLine(tag_value) `method`
+
+##### Summary
+
+If geometry is line select element values:
+    COORDINATES - add lat and lan to List
+      add list to HashTable Line
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| tag_value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Value of geometry element. |
+
+<a name='M-Math-Tools-TrackReaders-PointLineKml-parsePoint-System-String-'></a>
+### parsePoint(tag_value) `method`
+
+##### Summary
+
+If geometry is point select element values:
+    COORDINATES - add lat and lan to HashTable Point
 
 ##### Parameters
 

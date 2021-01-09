@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,8 +40,7 @@ namespace Math.Tests.Gps
         public void DistanceVelocityAcceleration_EmptyList_ReturnsEmpty()
         {
             var track = new List<GpsPoint>();
-            List<double> d, v, a;
-            Tools.DistanceVelocityAcceleration(track, out d, out v, out a);
+            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
             d.Count.ShouldBe(0);
             v.Count.ShouldBe(0);
             a.Count.ShouldBe(0);
@@ -51,8 +50,7 @@ namespace Math.Tests.Gps
         public void DistanceVelocityAcceleration_OnePoint_ReturnsZero()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0)};
-            List<double> d, v, a;
-            Tools.DistanceVelocityAcceleration(track, out d, out v, out a);
+            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
             d.Count.ShouldBe(1);
             d[0].ShouldBe(0.0);
             v.Count.ShouldBe(1);
@@ -65,8 +63,7 @@ namespace Math.Tests.Gps
         public void DistanceVelocityAcceleration_ThreePoints_ReturnsExpected()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
-            List<double> d, v, a;
-            Tools.DistanceVelocityAcceleration(track, out d, out v, out a);
+            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
             d.Count.ShouldBe(3);
             d[0].ShouldBe(0.0);
             d[1].ShouldBe(Geodesy.DistanceOneDeg);
@@ -85,8 +82,7 @@ namespace Math.Tests.Gps
         public void DistanceVelocityAcceleration_TwoPoints_ReturnsZeroAndDistance()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            List<double> d, v, a;
-            Tools.DistanceVelocityAcceleration(track, out d, out v, out a);
+            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
             d.Count.ShouldBe(2);
             d[0].ShouldBe(0.0);
             d[1].ShouldBe(Geodesy.DistanceOneDeg);
@@ -102,8 +98,7 @@ namespace Math.Tests.Gps
         public void DistanceVelocityAcceleration_TwoSamePoints_ReturnsZero()
         {
             var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0, 0)};
-            List<double> d, v, a;
-            Tools.DistanceVelocityAcceleration(track, out d, out v, out a);
+            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
             d.Count.ShouldBe(2);
             d[0].ShouldBe(0.0);
             d[1].ShouldBe(0.0);

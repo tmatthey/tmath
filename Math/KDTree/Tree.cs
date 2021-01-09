@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -34,7 +34,7 @@ namespace Math.KDTree
 {
     internal class Tree<T, S> : ITree<T> where T : IArray where S : IArray, IDimension, IBoundingFacade<T>
     {
-        // Order of fields affetcs runtime +/- 10%
+        // Order of fields affects runtime +/- 10%
         private readonly double _cut;
         private readonly int _dim;
         private readonly bool _rightNotEmpty;

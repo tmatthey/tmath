@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -358,12 +358,24 @@ namespace Math.Tests
         [TestCase(-1, 2, 2.82842712474619)]
         [TestCase(0, 0, 1)]
         [TestCase(3, 0, 1)]
+        [TestCase(1.5, 0, 0)]
         public void PerpendicularSegmentDistance3D_ReturnsExpected(double x, double y, double l)
         {
             var a = new Vector3D(1, 0, 13);
             var b = new Vector3D(2, 0, 13);
             var p = new Vector3D(x, y, 13);
             Geometry.PerpendicularSegmentDistance(a, b, p).ShouldBe(l, 1e-13);
+        }
+
+        [Test]
+        public void PerpendicularSegmentDistance3D_ReturnsExpected_Test()
+        {      
+            var a = new Vector3D(0, 0, 0);
+            var b = new Vector3D(0, 5, 5);
+            var p = new Vector3D(0, 2, 2);
+
+            Geometry.PerpendicularSegmentDistance(a, b, p).ShouldBe(0, 1e-13);
+
         }
 
         [TestCase(0, 1, 0)]
@@ -408,12 +420,14 @@ namespace Math.Tests
         [Test]
         public void ConvexHullJarvismarch_FiveGpsTracks()
         {
-            var rawTracks = new List<List<GpsPoint>>();
-            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
+            var rawTracks = new List<List<GpsPoint>>
+            {
+                _gpsTrackExamples.TrackOne().ToList(),
+                _gpsTrackExamples.TrackTwo().ToList(),
+                _gpsTrackExamples.TrackThree().ToList(),
+                _gpsTrackExamples.TrackFour().ToList(),
+                _gpsTrackExamples.TrackFive().ToList()
+            };
             var gpsTracks = new List<GpsTrack>();
             var center = new Vector3D();
             foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))
@@ -673,12 +687,14 @@ namespace Math.Tests
         [Test]
         public void ConvexHullMonotoneChain_FiveGpsTracks()
         {
-            var rawTracks = new List<List<GpsPoint>>();
-            rawTracks.Add(_gpsTrackExamples.TrackOne().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackTwo().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackThree().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFour().ToList());
-            rawTracks.Add(_gpsTrackExamples.TrackFive().ToList());
+            var rawTracks = new List<List<GpsPoint>>
+            {
+                _gpsTrackExamples.TrackOne().ToList(),
+                _gpsTrackExamples.TrackTwo().ToList(),
+                _gpsTrackExamples.TrackThree().ToList(),
+                _gpsTrackExamples.TrackFour().ToList(),
+                _gpsTrackExamples.TrackFive().ToList()
+            };
             var gpsTracks = new List<GpsTrack>();
             var center = new Vector3D();
             foreach (var gpsTrack in rawTracks.Select(track => new GpsTrack(track)))

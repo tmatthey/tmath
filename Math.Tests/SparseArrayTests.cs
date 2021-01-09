@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,8 +40,7 @@ namespace Math.Tests
         [Test]
         public void Clear_WithNonEmptyArray_EmptyArray()
         {
-            var a = new SparseArray<int>();
-            a[1] = 17;
+            var a = new SparseArray<int> {[1] = 17};
             a.Count.ShouldBeGreaterThan(0);
             a.Clear();
             a.Count.ShouldBe(0);
@@ -59,8 +58,7 @@ namespace Math.Tests
         {
             var expected = 23;
             var index = 17;
-            var a = new SparseArray<int>();
-            a[index] = expected;
+            var a = new SparseArray<int> {[index] = expected};
             a.Contains(expected).ShouldBe(true);
         }
 
@@ -69,8 +67,7 @@ namespace Math.Tests
         {
             var expected = 23;
             var index = 17;
-            var a = new SparseArray<int>();
-            a[index] = expected;
+            var a = new SparseArray<int> {[index] = expected};
             a.Contains(expected + 1).ShouldBe(false);
         }
 
@@ -81,9 +78,7 @@ namespace Math.Tests
             var index1 = 19;
             var expected2 = 31;
             var index2 = 9;
-            var a = new SparseArray<int>();
-            a[index2] = expected2;
-            a[index1] = expected1;
+            var a = new SparseArray<int> {[index2] = expected2, [index1] = expected1};
             var list = new List<int>();
             foreach (var i in a)
             {
@@ -101,9 +96,7 @@ namespace Math.Tests
             var index1 = 19;
             var expected2 = 31;
             var index2 = 9;
-            var a = new SparseArray<int>();
-            a[index2] = expected2;
-            a[index1] = expected1;
+            var a = new SparseArray<int> {[index2] = expected2, [index1] = expected1};
             var list = a.Indices();
             list.Count.ShouldBe(2);
             list[0].ShouldBe(index2);
@@ -136,9 +129,7 @@ namespace Math.Tests
             var index1 = 19;
             var expected2 = 31;
             var index2 = 17;
-            var a = new SparseArray<int>();
-            a[index1] = expected1;
-            a[index2] = expected2;
+            var a = new SparseArray<int> {[index1] = expected1, [index2] = expected2};
 
             a.Count.ShouldBe(2);
             a.RemoveAt(index1);
@@ -154,8 +145,7 @@ namespace Math.Tests
         {
             var expected = 23;
             var index = 17;
-            var a = new SparseArray<int>();
-            a[index] = expected;
+            var a = new SparseArray<int> {[index] = expected};
             a.Count.ShouldBe(1);
             a[index].ShouldBe(expected);
         }
@@ -165,9 +155,7 @@ namespace Math.Tests
         {
             var expected = 23;
             var index = 17;
-            var a = new SparseArray<int>();
-            a[index] = expected - 1;
-            a[index] = expected;
+            var a = new SparseArray<int> {[index] = expected - 1, [index] = expected};
             a.Count.ShouldBe(1);
             a[index].ShouldBe(expected);
         }

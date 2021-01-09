@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -133,8 +133,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Vector3D();
-            double x;
-            Should.Throw<ArgumentException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => v[i]);
         }
 
         [TestCase(0, 0, 0)]
@@ -247,10 +246,7 @@ namespace Math.Tests
             var a = 17.0;
             var b = 19.0;
             var c = 23.0;
-            var u = new Vector3D();
-            u.X = a;
-            u.Y = b;
-            u.Z = c;
+            var u = new Vector3D {X = a, Y = b, Z = c};
             var v = new Vector3D(u);
             v.X.ShouldBe(a);
             v.Y.ShouldBe(b);
@@ -344,11 +340,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Equals_WihtNullptr_ReturnsFalse()
+        public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new Vector3D(1, 2, 3);
-            Vector2D u = null;
-            v.Equals(u).ShouldBe(false);
+            v.Equals(null).ShouldBe(false);
         }
 
         [Test]

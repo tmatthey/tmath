@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -52,7 +52,7 @@ namespace Math.Interfaces
         T Vector();
 
         /// <summary>
-        /// Intersection bewteen two segmments
+        /// Intersection between two segments
         /// </summary>
         /// <param name="s"></param>
         /// <param name="eps"></param>

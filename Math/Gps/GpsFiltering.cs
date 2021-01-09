@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -61,9 +61,7 @@ namespace Math.Gps
             var res = track.Select(gpsPoint => new GpsPoint(gpsPoint)).ToList();
             if (track.Count < 4)
                 return res;
-            List<int> startIdx;
-            List<int> endIdx;
-            var zeros = FindDuplicates(track, out startIdx, out endIdx);
+            var zeros = FindDuplicates(track, out var startIdx, out var endIdx);
 
             if (zeros == 0)
                 return res;

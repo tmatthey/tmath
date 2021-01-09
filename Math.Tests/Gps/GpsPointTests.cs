@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -107,8 +107,7 @@ namespace Math.Tests.Gps
         public void GridIndex(double latitude, double longitude, int resolution, int expectedI, int expectedJ)
         {
             var p = new GpsPoint {Latitude = latitude, Longitude = longitude};
-            int i, j;
-            p.GridIndex(resolution, out i, out j);
+            p.GridIndex(resolution, out var i, out var j);
             i.ShouldBe(expectedI);
             j.ShouldBe(expectedJ);
         }
@@ -139,8 +138,7 @@ namespace Math.Tests.Gps
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new GpsPoint();
-            double x;
-            Should.Throw<ArgumentException>(() => x = v[i]);
+            Should.Throw<ArgumentException>(() => v[i]);
         }
 
         [Test]
@@ -212,8 +210,7 @@ namespace Math.Tests.Gps
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new GpsPoint(12, 14);
-            GpsPoint q = null;
-            p.Equals(q).ShouldBe(false);
+            p.Equals(null).ShouldBe(false);
         }
 
         [Test]

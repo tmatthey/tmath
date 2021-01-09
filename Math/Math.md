@@ -869,14 +869,14 @@ Math.Interfaces
 
 ##### Summary
 
-Interface of Bezier curves
+Interface of Bézier curves
 
 ##### Generic Types
 
 | Name | Description |
 | ---- | ----------- |
 | T | Vector type |
-| S | Bezier type |
+| S | Bézier type |
 
 <a name='T-Math-Interfaces-ICurve`2'></a>
 ## ICurve\`2 `type`
@@ -1059,7 +1059,7 @@ Math.Interfaces
 
 ##### Summary
 
-Interafce for interpolation between two objects of same type
+Interface for interpolation between two objects of same type
 
 ##### Generic Types
 
@@ -1159,7 +1159,7 @@ Interface for norms
 
 ##### Summary
 
-Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
+Euclidean norm, minimal Euclidean norm between to geometry objects
 
 ##### Returns
 
@@ -1226,7 +1226,7 @@ End point B
 
 ##### Summary
 
-Intersection bewteen two segmments
+Intersection between two segments
 
 ##### Returns
 
@@ -1463,7 +1463,7 @@ This method has no parameters.
 
 ##### Summary
 
-Squard norm of vector
+Squared norm of vector
 
 ##### Returns
 
@@ -1542,7 +1542,7 @@ Return normalized vector with epsilon
 
 ##### Summary
 
-Subract vector
+Subtract vector
 
 ##### Returns
 

@@ -6,7 +6,7 @@
     <members>
         <member name="T:Math.Tools.TrackReaders.Deserializer">
             <summary>
-            Reading activities containing GPS track by file, directory or string definition. Supported file formate: TCX, GPX and KML.
+            Reading activities containing GPS track by file, directory or string definition. Supported file format: TCX, GPX and KML.
             </summary>
         </member>
         <member name="M:Math.Tools.TrackReaders.Deserializer.String(System.String)">
@@ -879,8 +879,21 @@
             </summary>
             <param name="tag_value">Value of geometry element.</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parsePoint(System.String)" -->
-        <!-- Badly formed XML comment ignored for member "M:Math.Tools.TrackReaders.PointLineKml.parseLine(System.String)" -->
+        <member name="M:Math.Tools.TrackReaders.PointLineKml.parsePoint(System.String)">
+            <summary>
+            If geometry is point select element values:
+                COORDINATES - add lat and lan to HashTable Point
+            </summary>
+            <param name="tag_value">Value of geometry element.</param>
+        </member>
+        <member name="M:Math.Tools.TrackReaders.PointLineKml.parseLine(System.String)">
+            <summary>
+            If geometry is line select element values:
+                COORDINATES - add lat and lan to List
+                              add list to HashTable Line
+            </summary>
+            <param name="tag_value">Value of geometry element.</param>
+        </member>
         <member name="T:Math.Tools.TrackReaders.SportType">
             <summary>
             Definition of activity types

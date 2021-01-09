@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -35,7 +35,7 @@ namespace Math.Interfaces
     public interface INorm<in T>
     {
         /// <summary>
-        /// Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
+        /// Euclidean norm, minimal Euclidean norm between to geometry objects
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>

@@ -1,10 +1,10 @@
 ﻿namespace Math.Interfaces
 {
     /// <summary>
-    /// Interface of Bezier curves
+    /// Interface of Bézier curves
     /// </summary>
     /// <typeparam name="T">Vector type</typeparam>
-    /// <typeparam name="S">Bezier type</typeparam>
+    /// <typeparam name="S">Bézier type</typeparam>
     public interface ICubicBezier<T, S> : ICurve<T, S>
     {
     }

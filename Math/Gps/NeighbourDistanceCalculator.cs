@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -47,13 +47,8 @@ namespace Math.Gps
         {
         }
 
-        public NeighbourDistanceCalculator(IList<Vector2D> reference, double gridSize)
+        public NeighbourDistanceCalculator(IList<Vector2D> reference, double gridSize = 50.0)
             : this(new FlatTrack(reference), gridSize)
-        {
-        }
-
-        public NeighbourDistanceCalculator(IList<Vector2D> reference)
-            : this(reference, 50.0)
         {
         }
     }

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -206,8 +206,7 @@ namespace Math.Tests
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            Circle3D q = null;
-            p.Equals(q).ShouldBe(false);
+            p.Equals(null).ShouldBe(false);
         }
 
         [Test]

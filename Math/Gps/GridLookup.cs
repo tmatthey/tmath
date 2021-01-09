@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -51,8 +51,7 @@ namespace Math.Gps
             var j0 = -1;
             for (var k = 0; k < flatTrack.Track.Count; k++)
             {
-                int i, j;
-                Index(flatTrack.Track[k], out i, out j);
+                Index(flatTrack.Track[k], out var i, out var j);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
                     // To handle corner case when two consecutive points do not share an edge or reside 
@@ -153,11 +152,9 @@ namespace Math.Gps
 
         private List<NeighbourDistancePoint> Find(Vector2D point, double radius, int referenceIndex)
         {
-            int minI, minJ;
             var dp = new Vector2D(radius + Size);
-            Index(point - dp, out minI, out minJ);
-            int maxI, maxJ;
-            Index(point + dp, out maxI, out maxJ);
+            Index(point - dp, out var minI, out var minJ);
+            Index(point + dp, out var maxI, out var maxJ);
             var list = new List<NeighbourDistancePoint>();
             if (maxI < 0 || maxJ < 0 || NX <= minI || NY <= minJ)
             {

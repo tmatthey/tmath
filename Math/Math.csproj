@@ -2,11 +2,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
-  <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
     <Version>2.3.2</Version>
     <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2016-2019</Copyright>
+    <Copyright>Copyright © Matthey 2016-2021</Copyright>
     <Company />
     <Product />
     <Description>A collection of mathematical function and data structures written in C#.
@@ -19,36 +19,17 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <PackageId>Math.Matthey</PackageId>
     <PackageReleaseNotes>Fixed Bezier Curve length</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NETCOREAPP;NETCOREAPP1_1</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
-    <DefineConstants>NETSTANDARD;NETSTANDARD1_5</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
-    <DefineConstants>NET;NET40</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.1|AnyCPU'">
-    <DocumentationFile>Math.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp1.1|AnyCPU'">
-    <DocumentationFile>Math.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'  OR '$(TargetFramework)'=='netstandard1.5'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
   </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-      <PackageReference Include="Vsxmd" Version="1.4.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+  <ItemGroup>
+      <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Vsxmd" Version="1.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
+  </ItemGroup>
 
 </Project>

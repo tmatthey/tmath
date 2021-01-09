@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -37,7 +37,7 @@ namespace Math.Tools.TrackReaders.Tests
         [Test]
         public void  Deserializer_WithGpx_ReturnsData()
         {
-            var data = TrackReaders.Deserializer.String("<?xml version=\"1.0\"?>\n<gpx version=\"1.1\" creator=\"gpxgenerator.com\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n<trk>\n<trkseg>\n<trkpt lat=\"50.089533\" lon=\"14.427098\">\n    <ele>190.20</ele>\n    <time>2019-03-29T12:31:34Z</time>\n</trkpt>\n</trkseg>\n</trk>\n</gpx>\n");
+            var data = Deserializer.String("<?xml version=\"1.0\"?>\n<gpx version=\"1.1\" creator=\"gpxgenerator.com\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n<trk>\n<trkseg>\n<trkpt lat=\"50.089533\" lon=\"14.427098\">\n    <ele>190.20</ele>\n    <time>2019-03-29T12:31:34Z</time>\n</trkpt>\n</trkseg>\n</trk>\n</gpx>\n");
             data.ShouldNotBeNull();
         }
 

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -34,10 +34,10 @@ namespace Math.Tools.Base
 {
     public class CommandLineParser
     {
-        private readonly IDictionary<string, string[]> _args;
-        private readonly IList<string> _error;
-        private readonly IList<string> _optionText;
-        private readonly IList<string> _helpText;
+        private readonly Dictionary<string, string[]> _args;
+        private readonly List<string> _error;
+        private readonly List<string> _optionText;
+        private readonly List<string> _helpText;
         private readonly string _cmd;
         private Action<string> _helpAction;
         private Action<string, string> _errorAction;

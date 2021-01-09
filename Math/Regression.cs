@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -31,7 +31,7 @@ using System.Linq;
 
 namespace Math
 {
-    public class Regression
+    public static class Regression
     {
         // First order regression without weight : a*x + b
         public static void Linear(IList<double> x, IList<double> y, out double a, out double b)

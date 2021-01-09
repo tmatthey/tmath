@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -53,8 +53,7 @@ namespace Math.Tests
                 u += dx;
             }
 
-            double ar, br, cr;
-            Regression.Quadratic(x, y, out ar, out br, out cr);
+            Regression.Quadratic(x, y, out var ar, out var br, out var cr);
             ar.ShouldBe(a);
             br.ShouldBe(b);
             cr.ShouldBe(c);
@@ -253,8 +252,7 @@ namespace Math.Tests
                 1056.51648,
                 1057.33712
             };
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(0.10744620592590301, 1e-1);
             b.ShouldBe(-21.916409170293342, 1e-1);
         }
@@ -264,8 +262,7 @@ namespace Math.Tests
         {
             var x = new List<double> {2.4};
             var y = new List<double> {225, 184, 220, 240, 180, 184, 186, 215};
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
         }
@@ -275,8 +272,7 @@ namespace Math.Tests
         {
             var x = new List<double> {1};
             var y = new List<double> {1};
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
         }
@@ -287,8 +283,7 @@ namespace Math.Tests
             // http://academic.macewan.ca/burok/Stat252/notes/regression1.pdf
             var x = new List<double> {2.4, 1.6, 2.0, 2.6, 1.4, 1.6, 2.0, 2.2};
             var y = new List<double> {225, 184, 220, 240, 180, 184, 186, 215};
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(62.65 / 1.235, 1e-10);
             b.ShouldBe(1634.0 / 8.0 - 62.65 / 1.235 * 15.8 / 8.0, 1e-10);
         }
@@ -298,8 +293,7 @@ namespace Math.Tests
         {
             var x = new List<double> {1, 2};
             var y = new List<double> {1, 1};
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(0.0);
             b.ShouldBe(1.0);
         }
@@ -309,8 +303,7 @@ namespace Math.Tests
         {
             var x = new List<double>();
             var y = new List<double>();
-            double a, b;
-            Regression.Linear(x, y, out a, out b);
+            Regression.Linear(x, y, out var a, out var b);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
         }
@@ -562,8 +555,7 @@ namespace Math.Tests
                 1056.51648,
                 1057.33712
             };
-            double a, b, c;
-            Regression.Quadratic(x, y, out a, out b, out c);
+            Regression.Quadratic(x, y, out var a, out var b, out var c);
             a.ShouldBe(0.00000069007667467649372, 1e-10);
             b.ShouldBe(0.09873161109050875, 1e-10);
             c.ShouldBe(1.2616993298251815, 1e-10);
@@ -574,8 +566,7 @@ namespace Math.Tests
         {
             var x = new List<double> {1, 2, 3, 4, 5, 6, 7};
             var y = new List<double> {1, 2, 3, 4, 5, 6, 7};
-            double a, b, c;
-            Regression.Quadratic(x, y, out a, out b, out c);
+            Regression.Quadratic(x, y, out var a, out var b, out var c);
             a.ShouldBe(0.0, 1e-10);
             b.ShouldBe(1.0, 1e-10);
             c.ShouldBe(0.0, 1e-10);
@@ -586,8 +577,7 @@ namespace Math.Tests
         {
             var x = new List<double> {1};
             var y = new List<double> {1};
-            double a, b, c;
-            Regression.Quadratic(x, y, out a, out b, out c);
+            Regression.Quadratic(x, y, out var a, out var b, out var c);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
             c.ShouldBe(double.NaN);
@@ -598,8 +588,7 @@ namespace Math.Tests
         {
             var x = new List<double> {1, 2};
             var y = new List<double> {1, 2};
-            double a, b, c;
-            Regression.Quadratic(x, y, out a, out b, out c);
+            Regression.Quadratic(x, y, out var a, out var b, out var c);
             a.ShouldBe(double.NaN);
             b.ShouldBe(double.NaN);
             c.ShouldBe(double.NaN);

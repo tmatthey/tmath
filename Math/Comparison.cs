@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -35,12 +35,7 @@ namespace Math
     {
         public const double Epsilon = 1e-13; //double.Epsilon;
 
-        public static bool IsEqual(double x, double y)
-        {
-            return IsEqual(x, y, Epsilon);
-        }
-
-        public static bool IsEqual(double x, double y, double eps)
+        public static bool IsEqual(double x, double y, double eps = Epsilon)
         {
             return System.Math.Abs(x - y) < eps ||
                    double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y) ||
@@ -52,62 +47,32 @@ namespace Math
             return !(double.IsNaN(x) || double.IsInfinity(x));
         }
 
-        public static bool IsZero(double x)
-        {
-            return IsZero(x, Epsilon);
-        }
-
-        public static bool IsZero(double x, double eps)
+        public static bool IsZero(double x, double eps = Epsilon)
         {
             return -eps <= x && x <= eps;
         }
 
-        public static bool IsPositive(double x)
-        {
-            return IsPositive(x, Epsilon);
-        }
-
-        public static bool IsPositive(double x, double eps)
+        public static bool IsPositive(double x, double eps = Epsilon)
         {
             return eps < x && x < double.PositiveInfinity;
         }
 
-        public static bool IsNegative(double x)
-        {
-            return IsNegative(x, Epsilon);
-        }
-
-        public static bool IsNegative(double x, double eps)
+        public static bool IsNegative(double x, double eps = Epsilon)
         {
             return double.NegativeInfinity < x && x < -eps;
         }
 
-        public static bool IsLessEqual(double x, double y)
-        {
-            return IsLessEqual(x, y, Epsilon);
-        }
-
-        public static bool IsLessEqual(double x, double y, double eps)
+        public static bool IsLessEqual(double x, double y, double eps = Epsilon)
         {
             return IsEqual(x, y, eps) || x <= y;
         }
 
-        public static bool IsLess(double x, double y)
-        {
-            return IsLess(x, y, Epsilon);
-        }
-
-        public static bool IsLess(double x, double y, double eps)
+        public static bool IsLess(double x, double y, double eps = Epsilon)
         {
             return x <= y && !IsEqual(x, y, eps);
         }
 
-        public static IList<double> UniqueAverageSorted(IList<double> v)
-        {
-            return UniqueAverageSorted(v, Epsilon);
-        }
-
-        public static IList<double> UniqueAverageSorted(IList<double> v, double eps)
+        public static IList<double> UniqueAverageSorted(IList<double> v, double eps = Epsilon)
         {
             var vTmp = new List<double>(v);
             vTmp.Sort();

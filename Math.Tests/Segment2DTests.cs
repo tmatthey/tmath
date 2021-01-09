@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,8 +40,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var s = new Segment2D();
-            double x;
-            Should.Throw<ArgumentException>(() => x = s[i]);
+            Should.Throw<ArgumentException>(() => s[i]);
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
@@ -177,11 +176,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Equals_WihtNullptr_ReturnsFalse()
+        public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
-            Segment2D u = null;
-            v.Equals(u).ShouldBe(false);
+            v.Equals(null).ShouldBe(false);
         }
 
         [Test]

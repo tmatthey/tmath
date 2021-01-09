@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -406,8 +406,7 @@ namespace Math
         public static double TrajectoryHausdorffDistance<T>(T a0, T a1, T b0, T b1, bool direction = true,
             double wPerpendicular = 1.0, double wParallel = 1.0, double wAngular = 1.0) where T : IVector<T>
         {
-            double perpendicular, parallel, angular;
-            TrajectoryHausdorffDistances(a0, a1, b0, b1, direction, out perpendicular, out parallel, out angular);
+            TrajectoryHausdorffDistances(a0, a1, b0, b1, direction, out var perpendicular, out var parallel, out var angular);
             return wPerpendicular * perpendicular + wParallel * parallel + wAngular * angular;
         }
 

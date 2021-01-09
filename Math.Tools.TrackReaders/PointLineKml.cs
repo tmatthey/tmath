@@ -142,7 +142,7 @@ namespace Math.Tools.TrackReaders
 
         /// <summary>
         /// If geometry is point select element values:
-        ///     COORDINATES - add lat & lan to HashTable Point
+        ///     COORDINATES - add lat and lan to HashTable Point
         /// </summary>
         /// <param name="tag_value">Value of geometry element.</param>
         protected void parsePoint(string tag_value)
@@ -163,7 +163,7 @@ namespace Math.Tools.TrackReaders
 
         /// <summary>
         /// If geometry is line select element values:
-        ///     COORDINATES - add lat & lan to List
+        ///     COORDINATES - add lat and lan to List
         ///                   add list to HashTable Line
         /// </summary>
         /// <param name="tag_value">Value of geometry element.</param>
@@ -180,11 +180,9 @@ namespace Math.Tools.TrackReaders
                     {
                         var coordinates = point.Split(',');
                         if (coordinates.Length < 2) LastError = "ERROR IN FORMAT OF LINESTRING COORDINATES";
-                        foreach (var unused in coordinates)
+                        foreach (var _ in coordinates)
                         {
-                            var linePoint = new Hashtable();
-                            linePoint.Add("LNG", coordinates[0]);
-                            linePoint.Add("LAT", coordinates[1]);
+                            var linePoint = new Hashtable {{"LNG", coordinates[0]}, {"LAT", coordinates[1]}};
                             value.Add(linePoint);
                         }
                     }

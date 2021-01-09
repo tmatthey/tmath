@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -26,7 +26,6 @@
  * ***** END LICENSE BLOCK *****
  */
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +38,7 @@ using Math.Tools.TrackReaders.Tcx;
 namespace Math.Tools.TrackReaders
 {
     /// <summary>
-    /// Reading activities containing GPS track by file, directory or string definition. Supported file formate: TCX, GPX and KML.
+    /// Reading activities containing GPS track by file, directory or string definition. Supported file format: TCX, GPX and KML.
     /// </summary>
     public static class Deserializer
     {

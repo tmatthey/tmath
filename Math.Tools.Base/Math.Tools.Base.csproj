@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net40;netstandard1.5</TargetFrameworks>
-  <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
     <Version>2.3.1</Version>
     <Authors>Thierry Matthey</Authors>
     <Copyright>Copyright © Matthey 2016-2018</Copyright>
@@ -17,21 +17,4 @@
     <PackageLicenseUrl>MIT</PackageLicenseUrl>
     <PackageId></PackageId>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
-    <DefineConstants>NETCOREAPP;NETCOREAPP1_1</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
-    <DefineConstants>NETSTANDARD;NETSTANDARD1_5</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
-    <DefineConstants>NET;NET40</DefineConstants>
-  </PropertyGroup>
-  
-
-    <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
 </Project>

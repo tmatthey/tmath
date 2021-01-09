@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -54,8 +54,7 @@ namespace Math.Tests
         [TestCase(0.0)]
         public void QudraticDerivative_ReturnsExpected(double x)
         {
-            double a2, a1, a0;
-            CreateEq(2.0, 3.0, out a2, out a1, out a0);
+            CreateEq(2.0, 3.0, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
             p.dp(x).ShouldBe(x * 2.0 * a2 + a1);
         }
@@ -65,8 +64,7 @@ namespace Math.Tests
         [TestCase(0.0)]
         public void QudraticIntegral_ReturnsExpected(double x)
         {
-            double a2, a1, a0;
-            CreateEq(2.0, 3.0, out a2, out a1, out a0);
+            CreateEq(2.0, 3.0, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
             p.P(x).ShouldBe(x * x * x / 3.0 * a2 + x * x / 2.0 * a1 + x * a0, 1e-10);
         }
@@ -80,8 +78,7 @@ namespace Math.Tests
         [TestCase(1.0, 1.0)]
         public void pWithRoot_ReturnsZero(double x0, double x1)
         {
-            double a2, a1, a0;
-            CreateEq(x0, x1, out a2, out a1, out a0);
+            CreateEq(x0, x1, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
 
             p.p(x0).ShouldBe(0.0);
@@ -97,8 +94,7 @@ namespace Math.Tests
         [TestCase(1.0, 1.0)]
         public void FindRoot_ReturnsRoot(double x0, double x1)
         {
-            double a2, a1, a0;
-            CreateEq(x0, x1, out a2, out a1, out a0);
+            CreateEq(x0, x1, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
 
             var u00 = p.FindRoot(x0 - 1e-5).Real;
@@ -121,8 +117,7 @@ namespace Math.Tests
         [TestCase(1.0, 1.0)]
         public void IntegrateDerivative_ReturnsPolynomial(double x0, double x1)
         {
-            double a2, a1, a0;
-            CreateEq(x0, x1, out a2, out a1, out a0);
+            CreateEq(x0, x1, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
             var res = new Polynomial(p.dp()).P();
             res.Count.ShouldBe(p.p().Count);
@@ -140,8 +135,7 @@ namespace Math.Tests
         [TestCase(1.0, 1.0)]
         public void DerivativeIntegrate_ReturnsPolynomial(double x0, double x1)
         {
-            double a2, a1, a0;
-            CreateEq(x0, x1, out a2, out a1, out a0);
+            CreateEq(x0, x1, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2});
             var res = new Polynomial(p.P()).dp();
             res.Count.ShouldBe(p.p().Count);
@@ -155,12 +149,10 @@ namespace Math.Tests
         [TestCase(-1.0, 2.0)]
         public void DivideByRootWithCubicEq_ReturnsExpectedReducedPolynomial(double x0, double x1)
         {
-            double a3, a2, a1, a0;
-            CreateEq(x0, x1, x1, out a3, out a2, out a1, out a0);
+            CreateEq(x0, x1, x1, out var a3, out var a2, out var a1, out var a0);
             var p = new Polynomial(new List<double> {a0, a1, a2, a3});
 
-            double b2, b1, b0;
-            CreateEq(x0, x1, out b2, out b1, out b0);
+            CreateEq(x0, x1, out var b2, out var b1, out var b0);
             var p0 = new Polynomial(new List<double> {b0, b1, b2});
 
             CreateEq(x1, x1, out b2, out b1, out b0);

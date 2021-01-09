@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -168,9 +168,8 @@ namespace Math
 
         public static implicit operator Vector3D(Polar3D p)
         {
-            double sinTheta, cosTheta, sinPhi, cosPhi;
-            Function.SinCos(p.Theta, out sinTheta, out cosTheta);
-            Function.SinCos(p.Phi, out sinPhi, out cosPhi);
+            Function.SinCos(p.Theta, out var sinTheta, out var cosTheta);
+            Function.SinCos(p.Phi, out var sinPhi, out var cosPhi);
 
             return new Vector3D(
                 p.R * sinPhi * cosTheta,

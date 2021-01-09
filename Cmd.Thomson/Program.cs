@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -38,7 +38,7 @@ namespace Cmd.Thomson
     //
     // https://en.wikipedia.org/wiki/Thomson_problem
     //
-    public class Program
+    public static class Program
     {
         private static void Main(string[] args)
         {

@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,6 +30,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Math.Tests
 {
@@ -49,37 +50,36 @@ namespace Math.Tests
             Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
         }
 
-        public static StreamReader ReadResourceFile(string name)
+        public static string Resources(string name)
         {
-#if NETCOREAPP1_1
-            const string assemblyName = "Math.Tests";
-            var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
-#elif NETSTANDARD1_5
-			const string assemblyName = "Math.Tests";
-            var assembly = typeof(TestUtils).GetTypeInfo().Assembly;
-#else
-            var assembly = Assembly.GetExecutingAssembly();
-            var assemblyName = assembly.GetName().Name;
-#endif
-            var filename = $"{assemblyName}.Resources.{name}";
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var assemblyName = assembly.GetName().Name;
 
-            return new StreamReader(assembly.GetManifestResourceStream(filename));
+                var filename = $"{assemblyName}.Resources.{name}";
+
+                var resourceStream = assembly.GetManifestResourceStream(filename);
+                if (resourceStream != null)
+                {
+                    using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return null;
         }
 
         public static string OutputPath()
         {
-#if NETCOREAPP1_1
-            var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
-            var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
-#elif NETSTANDARD1_5
-			var i = AppContext.BaseDirectory.IndexOf("\\bin\\", StringComparison.Ordinal);
-			var path = i >= 0 ? AppContext.BaseDirectory.Substring(0, i) + "\\Output\\" : "";
-#else
-			var path =
-Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
+            var path = Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
             path = path.Replace("file:///", "");
             path = path.Replace('/', '\\');
-#endif
+
             if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
                 Directory.CreateDirectory(path);
 

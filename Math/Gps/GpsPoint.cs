@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -227,8 +227,7 @@ namespace Math.Gps
 
         public int GridLinearIndex(int resolution)
         {
-            int i, j;
-            GridIndex(resolution, out i, out j);
+            GridIndex(resolution, out var i, out var j);
             return j * resolution + i;
         }
 

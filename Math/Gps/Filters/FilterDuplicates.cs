@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -65,8 +65,7 @@ namespace Math.Gps.Filters
                 {
                     var index = List.First().I;
                     var count = List.Last().I - index + 1;
-                    double vel, acc;
-                    Tools.Variance(List, time.GetRange(index, count), out vel, out acc);
+                    Tools.Variance(List, time.GetRange(index, count), out var vel, out var acc);
                     NewVelocityVariance = vel;
                     NewAccelerationVariance = acc;
                     Tools.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);

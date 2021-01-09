@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -80,7 +80,7 @@ namespace Math.Clustering
             where T : IVector<T>, new()
             where S : ISegment<T, S>
             where TE : IVectorExt, IVector<T>
-            where SE : ISegementExt<T>, ISegment<T, S>
+            where SE : ISegmentExt<T>, ISegment<T, S>
         {
             var result = new List<Result<T>>();
             foreach (var cluster in clusters)
@@ -184,7 +184,7 @@ namespace Math.Clustering
         private static List<List<SE>> DBScan<T, S, SE>(int n, double eps, bool direction, List<S> segments)
             where T : IVector<T>
             where S : ISegment<T, S>, INorm<S>
-            where SE : S, ISegementExt<T>
+            where SE : S, ISegmentExt<T>
         {
             var dbs = new DBScan<T, S>(segments);
             var clusterList = dbs.Cluster(eps, n, direction).ToList();
@@ -194,7 +194,7 @@ namespace Math.Clustering
         private static List<S> Partitioning<T, S, SE>(IList<List<T>> tracks, double minL, int mdlCostAdvantage)
             where T : IVector<T>
             where S : ISegment<T, S>
-            where SE : S, ISegementExt<T>, new()
+            where SE : S, ISegmentExt<T>, new()
         {
             var segments = new List<S>();
             var k = 0;
@@ -274,7 +274,7 @@ namespace Math.Clustering
             public SparseArray<IList<int>> SegmentIndices { get; set; }
         }
 
-        internal interface ISegementExt<T>
+        internal interface ISegmentExt<T>
             where T : IVector<T>
         {
             int IA { get; set; }
@@ -287,7 +287,7 @@ namespace Math.Clustering
             T V { get; set; }
         }
 
-        internal class Segment2DExt : Segment2D, ISegementExt<Vector2D>
+        internal class Segment2DExt : Segment2D, ISegmentExt<Vector2D>
         {
             public int IA { get; set; }
 
@@ -299,7 +299,7 @@ namespace Math.Clustering
             public Vector2D V { get; set; }
         }
 
-        internal class Segment3DExt : Segment3D, ISegementExt<Vector3D>
+        internal class Segment3DExt : Segment3D, ISegmentExt<Vector3D>
         {
             public int IA { get; set; }
 

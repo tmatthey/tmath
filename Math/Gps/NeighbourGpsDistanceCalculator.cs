@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -38,17 +38,12 @@ namespace Math.Gps
     {
         private readonly Vector3D _center;
 
-        public NeighbourGpsDistanceCalculator(IList<GpsPoint> reference, double gridSize)
+        public NeighbourGpsDistanceCalculator(IList<GpsPoint> reference, double gridSize = 50.0)
         {
             var gpsTrack = new GpsTrack(reference);
             _flatTrack = gpsTrack.CreateFlatTrack();
             _gridLookup = new GridLookup(_flatTrack, gridSize);
             _center = gpsTrack.Center;
-        }
-
-        public NeighbourGpsDistanceCalculator(IList<GpsPoint> reference)
-            : this(reference, 50.0)
-        {
         }
 
 

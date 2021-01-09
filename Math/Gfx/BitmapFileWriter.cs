@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,13 +28,10 @@
 
 using System.IO;
 using System.Text;
-#if NETCOREAPP1_1
-using Drawing = System.DrawingCore;
-#elif NETSTANDARD1_5
+#if NETSTANDARD2_0
 using Drawing = System.DrawingCore;
 #else
 using Drawing = System.Drawing;
-
 #endif
 
 namespace Math.Gfx

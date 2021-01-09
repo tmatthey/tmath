@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -147,12 +147,10 @@ namespace Math.Gps
         private static bool IsGridPointOccupied(ref Dictionary<int, int> grid, int resolution, int index, GpsPoint pt0,
             GpsPoint pt1)
         {
-            int i, j;
-            pt0.GridIndex(resolution, out i, out j);
+            pt0.GridIndex(resolution, out var i, out var j);
             var m = j * resolution + i;
 
-            int k, l;
-            pt1.GridIndex(resolution, out k, out l);
+            pt1.GridIndex(resolution, out var k, out var l);
             var n = l * resolution + k;
 
             // Find grid distance (di, dj)

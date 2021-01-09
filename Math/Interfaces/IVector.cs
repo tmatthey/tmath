@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2019 Thierry Matthey
+ * Copyright (c) 2016-2021 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -79,7 +79,7 @@ namespace Math.Interfaces
         T Normalized(double epsilon);
 
         /// <summary>
-        /// Squard norm of vector
+        /// Squared norm of vector
         /// </summary>
         /// <returns></returns>
         double Norm2();
@@ -126,7 +126,7 @@ namespace Math.Interfaces
         T Add(T v);
 
         /// <summary>
-        /// Subract vector
+        /// Subtract vector
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
