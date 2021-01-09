@@ -54,7 +54,7 @@ namespace Cmd.Activity
             var filenames = new List<string>();
             for (var i = 1; i < args.Length; ++i)
                 filenames.AddRange(Glob.Expand(args[i]).Select(f => f.FullName));
-            Console.WriteLine("Activity\tDistance\tTime\tMinetti\tHR Index");
+            Console.WriteLine("Activity\tDistance\tTime\tPace\tGAP\tMinetti\tHR Index");
 
             foreach (var filename in filenames)
             {
@@ -98,7 +98,7 @@ namespace Cmd.Activity
                     if (v > 0.01)
                     {
                         minettiFactor += minetti * dl;
-                        index += (hrm[i] - shr) / v * dt;
+                        index += (hrm[i] - shr) / v * dt / minetti;
                         ls += dl;
                         ts += dt;
                         l0 = l;
@@ -106,11 +106,18 @@ namespace Cmd.Activity
                         t0 = t;
                     }
                 }
-                var sec = time.Last() % 60;
-                var min = (time.Last() - sec) / 60;
-                Console.WriteLine($"{System.IO.Path.GetFileNameWithoutExtension(filename)}\t{System.Math.Round(dist.Last() / 1000.0, 2)}\t{min}:{sec}\t{System.Math.Round(minettiFactor / ls, 4)}\t{System.Math.Round(index / ts, 2)}");
+                var pace = time.Last() / (dist.Last() / 1000.0);
+                Console.WriteLine($"{System.IO.Path.GetFileNameWithoutExtension(filename)}\t{System.Math.Round(dist.Last() / 1000.0, 2)}\t{ToMinSec(time.Last())}\t{ToMinSec(pace)}\t{ToMinSec(pace / (minettiFactor / ls))}\t{System.Math.Round(minettiFactor / ls, 4)}\t{System.Math.Round(index / ts, 2)}");
 
             }
         }
+        private static string ToMinSec(double t)
+        {
+            var sec = t % 60.0;
+            var min = (t - sec) / 60.0;
+            return $"{((int)min)}:{(int)sec}";
+
+        }
+
     }
 }

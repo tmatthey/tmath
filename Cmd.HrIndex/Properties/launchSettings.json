@@ -2,7 +2,7 @@
   "profiles": {
     "Cmd.HrIndex": {
       "commandName": "Project",
-      "commandLineArgs": "60 C:\\Users\\tmatthey\\Desktop\\Afternoon_Run.gpx"
+      "commandLineArgs": "60 C:\\Users\\tmatthey\\Desktop\\*.gpx"
     }
   }
 }
