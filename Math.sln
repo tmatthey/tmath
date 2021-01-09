@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.Minetti", "Cmd.Minetti\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math.Tools.TrackReaders.Tests", "Math.Tools.TrackReaders.Tests\Math.Tools.TrackReaders.Tests.csproj", "{DFC08A7E-1147-4790-BFC0-1357A9AB1873}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd.HrIndex", "Cmd.HrIndex\Cmd.HrIndex.csproj", "{49F5A23D-1B9F-4BA5-8651-D0EDAE4D12B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFC08A7E-1147-4790-BFC0-1357A9AB1873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F5A23D-1B9F-4BA5-8651-D0EDAE4D12B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F5A23D-1B9F-4BA5-8651-D0EDAE4D12B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F5A23D-1B9F-4BA5-8651-D0EDAE4D12B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F5A23D-1B9F-4BA5-8651-D0EDAE4D12B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
