@@ -184,6 +184,11 @@
             <param name="direction">Boolean defining if the direction for directional objects shall be considered when evaluating the norm between two objects, e.g., Trajectory Hausdorff distance.</param>
             <returns>A list of cluster as list of object indices.</returns>
         </member>
+        <member name="T:Math.Clustering.PolylineNeighbours">
+            <summary>
+            Find neighbouring ploylines given minimum distance
+            </summary>
+        </member>
         <member name="T:Math.Clustering.TraClus">
             <summary>
             Implementation of "Trajectory Clustering: A Partition-and-Group Framework", by Jae-Gil Lee, Jiawei Han and Kyu-Young Whang.
@@ -342,10 +347,10 @@
         </member>
         <member name="T:Math.Interfaces.ICubicBezier`2">
             <summary>
-            Interface of Bézier curves
+            Interface of Bezier curves
             </summary>
             <typeparam name="T">Vector type</typeparam>
-            <typeparam name="S">Bézier type</typeparam>
+            <typeparam name="S">Bezier type</typeparam>
         </member>
         <member name="T:Math.Interfaces.ICurve`2">
             <summary>
@@ -421,7 +426,7 @@
         </member>
         <member name="T:Math.Interfaces.IInterpolate`1">
             <summary>
-            Interface for interpolation between two objects of same type
+            Interafce for interpolation between two objects of same type
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -462,7 +467,7 @@
         </member>
         <member name="M:Math.Interfaces.INorm`1.EuclideanNorm(`0)">
             <summary>
-            Euclidean norm, minimal Euclidean norm between to geometry objects
+            Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
             </summary>
             <param name="d"></param>
             <returns></returns>
@@ -500,7 +505,7 @@
         </member>
         <member name="M:Math.Interfaces.ISegment`2.IsIntersecting(`1,System.Double)">
             <summary>
-            Intersection between two segments
+            Intersection bewteen two segmments
             </summary>
             <param name="s"></param>
             <param name="eps"></param>
@@ -555,7 +560,7 @@
         </member>
         <member name="M:Math.Interfaces.IVector`1.Norm2">
             <summary>
-            Squared norm of vector
+            Squard norm of vector
             </summary>
             <returns></returns>
         </member>
@@ -602,7 +607,7 @@
         </member>
         <member name="M:Math.Interfaces.IVector`1.Sub(`0)">
             <summary>
-            Subtract vector
+            Subract vector
             </summary>
             <param name="v"></param>
             <returns></returns>

@@ -33,6 +33,9 @@ using Math.Interfaces;
 
 namespace Math.Clustering
 {
+    /// <summary>
+    /// Find neighbouring ploylines given minimum distance
+    /// </summary>
     public static class PolylineNeighbours
     {
         public static List<List<int>> Cluster(List<List<GpsPoint>> gpsTracks, double minDistance = 500.0)
@@ -48,6 +51,7 @@ namespace Math.Clustering
             if (polylines.Count == 1)
                 return new List<List<int>> {new List<int> {0}};
 
+            // Pre filtering by eps minDistance * 0.5
             var lineId = new List<int>();
             var points = new List<T>();
             for (var i = 0; i < polylines.Count; i++)

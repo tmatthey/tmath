@@ -107,6 +107,7 @@
   - [Normalized()](#M-Math-Interfaces-IVector`1-Normalized 'Math.Interfaces.IVector`1.Normalized')
   - [Normalized(epsilon)](#M-Math-Interfaces-IVector`1-Normalized-System-Double- 'Math.Interfaces.IVector`1.Normalized(System.Double)')
   - [Sub(v)](#M-Math-Interfaces-IVector`1-Sub-`0- 'Math.Interfaces.IVector`1.Sub(`0)')
+- [PolylineNeighbours](#T-Math-Clustering-PolylineNeighbours 'Math.Clustering.PolylineNeighbours')
 - [Polynomial](#T-Math-Polynomial 'Math.Polynomial')
   - [#ctor(coefficients)](#M-Math-Polynomial-#ctor-System-Collections-Generic-IEnumerable{System-Double}- 'Math.Polynomial.#ctor(System.Collections.Generic.IEnumerable{System.Double})')
   - [DivideByRoot()](#M-Math-Polynomial-DivideByRoot-System-Double- 'Math.Polynomial.DivideByRoot(System.Double)')
@@ -1553,6 +1554,17 @@ Subtract vector
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | v | [\`0](#T-`0 '`0') |  |
+
+<a name='T-Math-Clustering-PolylineNeighbours'></a>
+## PolylineNeighbours `type`
+
+##### Namespace
+
+Math.Clustering
+
+##### Summary
+
+Find neighbouring ploylines given minimum distance
 
 <a name='T-Math-Polynomial'></a>
 ## Polynomial `type`
