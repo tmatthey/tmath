@@ -27,6 +27,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Math.Tools.TrackReaders.Tcx;
 
@@ -44,34 +45,51 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track Convert(TrainingCenterDatabase_t data)
         {
-            if (data?.Activities?.Activity == null)
-            {
-                return null;
-            }
-
-            var activities = data.Activities.Activity;
-            var trackPoints = activities.SelectMany(a =>
-            {
-                return a.Lap
-                    .SelectMany(l => l.Track)
-                    .Where(t => t?.Position != null)
-                    .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
-                        t.AltitudeMeters,
-                        t.DistanceMeters,
-                        t.HeartRateBpm?.Value ?? (byte) 0,
-                        t.Time));
-            });
-
-            var activity = activities.FirstOrDefault();
-            var date = DateTime.Now;
+            IEnumerable<TrackPoint> trackPoints = null;
             var sport = SportType.Unknown;
-            if (activity != null)
+            var date = DateTime.Now;
+            if (data?.Activities?.Activity != null)
             {
-                date = activity.Id;
-                sport = FindSport(activity.Sport);
+
+
+                var activities = data.Activities.Activity;
+                trackPoints = activities.SelectMany(a =>
+                {
+                    return a.Lap
+                        .SelectMany(l => l.Track)
+                        .Where(t => t?.Position != null)
+                        .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
+                            t.AltitudeMeters,
+                            t.DistanceMeters,
+                            t.HeartRateBpm?.Value ?? (byte)0,
+                            t.Time));
+                });
+                var activity = activities.FirstOrDefault();
+                if (activity != null)
+                {
+                    date = activity.Id;
+                    sport = FindSport(activity.Sport);
+                }
+            }
+            else if (data?.Courses != null)
+            {
+                var courses = data.Courses;
+                trackPoints = courses.SelectMany(a =>
+                {
+                    return a.Track
+                        .Where(t => t?.Position != null)
+                        .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
+                            t.AltitudeMeters,
+                            t.DistanceMeters,
+                            t.HeartRateBpm?.Value ?? (byte)0,
+                            t.Time));
+                });
+                if (trackPoints.Any())
+                    date = trackPoints.First().Time;
             }
 
-            return new Track {Date = date, SportType = sport, TrackPoints = trackPoints.ToList()};
+
+            return new Track { Date = date, SportType = sport, TrackPoints = trackPoints.ToList() };
         }
 
         private static SportType FindSport(Sport_t sport)
