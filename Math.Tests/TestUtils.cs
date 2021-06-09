@@ -70,7 +70,9 @@ namespace Math.Tests
             }
             catch
             {
+                // ignored
             }
+
             return null;
         }
 

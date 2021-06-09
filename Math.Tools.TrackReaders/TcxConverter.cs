@@ -61,7 +61,7 @@ namespace Math.Tools.TrackReaders
                         .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
                             t.AltitudeMeters,
                             t.DistanceMeters,
-                            t.HeartRateBpm?.Value ?? (byte)0,
+                            t.HeartRateBpm?.Value ?? 0,
                             t.Time));
                 });
                 var activity = activities.FirstOrDefault();
@@ -81,7 +81,7 @@ namespace Math.Tools.TrackReaders
                         .Select(t => new TrackPoint(t.Position.LatitudeDegrees, t.Position.LongitudeDegrees,
                             t.AltitudeMeters,
                             t.DistanceMeters,
-                            t.HeartRateBpm?.Value ?? (byte)0,
+                            t.HeartRateBpm?.Value ?? 0,
                             t.Time));
                 });
                 if (trackPoints.Any())

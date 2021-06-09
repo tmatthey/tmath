@@ -92,7 +92,7 @@ namespace Cmd.Cluster
                     }
                 }
 
-                center /= (double) m;
+                center /= m;
                 var tracks = new List<List<Vector2D>>();
                 var size = new BoundingRect();
                 foreach (var i in cluster)

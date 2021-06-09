@@ -32,7 +32,6 @@ using System.Linq;
 using Math;
 using Math.Gps;
 using Math.Tools.TrackReaders;
-using Math.Tools.Base;
 using Ganss.IO;
 
 namespace Cmd.Activity
