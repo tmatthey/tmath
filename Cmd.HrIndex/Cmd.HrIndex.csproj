@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Glob.cs" Version="5.0.224" />
+    <PackageReference Include="Glob.cs" Version="5.1.766" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
