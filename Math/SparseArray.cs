@@ -94,7 +94,7 @@ namespace Math
 
         public T this[int index]
         {
-            get => ContainsKey(index) ? _table[index] : default;
+            get => ContainsKey(index) ? _table[index] : throw new IndexOutOfRangeException();
             set
             {
                 if (ContainsKey(index))

@@ -54,7 +54,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Containes_ValueContained_ReturnsTrue()
+        public void Contains_ValueContained_ReturnsTrue()
         {
             var expected = 23;
             var index = 17;
@@ -63,7 +63,7 @@ namespace Math.Tests
         }
 
         [Test]
-        public void Containes_ValueNotContained_ReturnsFalse()
+        public void Contains_ValueNotContained_ReturnsFalse()
         {
             var expected = 23;
             var index = 17;
