@@ -157,7 +157,7 @@ namespace Math.Tests
         [TestCase(60, 1548008755920)]
         public void FibonacciInt(int n, long f)
         {
-            Function.FibonacciInt(n).ShouldBe((ulong) f);
+            Function.FibonacciInt(n).ShouldBe((ulong)f);
         }
 
         [TestCase(0, 0)]
@@ -346,7 +346,7 @@ namespace Math.Tests
             var fmaxp1 = Function.FactorialInt(Function.MaxFactorialInt + 1);
             var fdmaxp1 = Function.Factorial(Function.MaxFactorialInt + 1);
             fmax.ShouldBeGreaterThan(fmaxp1);
-            ((double) fmax).ShouldBe(fdmax);
+            ((double)fmax).ShouldBe(fdmax);
             fmaxp1.ShouldBe(0ul);
             fdmaxp1.ShouldBe(fdmax * (Function.MaxFactorialInt + 1));
         }
@@ -360,7 +360,7 @@ namespace Math.Tests
             var fmaxp1 = Function.FibonacciInt(Function.MaxFibonacciInt + 1);
             var fdmaxp1 = Function.Fibonacci(Function.MaxFibonacciInt + 1);
             fmax.ShouldBeGreaterThan(fmaxp1);
-            ((double) fmax).ShouldBe(fdmax);
+            ((double)fmax).ShouldBe(fdmax);
             fmaxp1.ShouldBe(0ul);
             fdmaxp1.ShouldBe(fdmaxm1 + fdmax);
         }
@@ -447,6 +447,27 @@ namespace Math.Tests
                 var expected = primes.ToList().Exists(p => p == n);
                 isprime.ShouldBe(expected);
             }
+        }
+
+        [TestCase(30, 0, 0, 150.69)]
+        [TestCase(30, 10, 10, 929.50)]
+        [TestCase(30, -10, 10, -438.95)]
+        [TestCase(30, 10, -10, 774.73)]
+        [TestCase(30, -10, -10, -590.63)]
+        public void CyclingPowers(double velocity, double gradient, double headWind, double power)
+        {
+            Function.CyclingPowers(velocity * 1000.0 / 3600.0, 75, 8, gradient / 100, headWind * 1000.0 / 3600.0).power.ShouldBe(power, 1e-1);
+        }
+
+        [TestCase(30, 0, 0)]
+        [TestCase(30, 10, 10)]
+        [TestCase(39.961492169697827, -10, 10)]
+        [TestCase(30, 10, -10)]
+        [TestCase(83.946511929765663, -10, -10)]
+        public void CyclingVelocity(double velocity, double gradient, double headWind)
+        {
+            var power = Function.CyclingPowers(velocity * 1000.0 / 3600.0, 75, 10, gradient / 100, headWind * 1000.0 / 3600.0).power;
+            Function.CyclingVelocity(power, 75, 10, gradient / 100, headWind * 1000.0 / 3600.0).ShouldBe(velocity * 1000.0 / 3600.0, 1e-6);
         }
     }
 }

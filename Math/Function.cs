@@ -37,8 +37,8 @@ namespace Math
         private const double MinettiMaxX = 0.45f;
         public static readonly int MaxFactorialInt = 20;
         public static readonly int MaxFibonacciInt = 93;
-        private static readonly List<long> PrimesUpTo30 = new List<long> {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
-
+        private static readonly List<long> PrimesUpTo30 = new List<long> { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+        public const double GravitationalAcceleration = 9.80665;
         public static readonly double MinettiZero = MinettiRaw(0.0);
         private static readonly double MinettiMinA = MinettiDiv(MinettiMinX);
         private static readonly double MinettiMinB = MinettiRaw(MinettiMinX);
@@ -146,7 +146,7 @@ namespace Math
             ulong p = 1;
             for (var i = 1; i <= n; i++)
             {
-                p *= (ulong) i;
+                p *= (ulong)i;
             }
 
             return p;
@@ -223,7 +223,7 @@ namespace Math
                 if (n % p == 0) return false;
             }
 
-            var nsq = (long) System.Math.Sqrt(n) + 1;
+            var nsq = (long)System.Math.Sqrt(n) + 1;
             for (long i = 30; i < nsq; i += 30)
             {
                 if (n % (i + 1) == 0 ||
@@ -291,6 +291,114 @@ namespace Math
             }
 
             return MinettiRaw(g);
+        }
+
+        // https://www.gribble.org/cycling/power_v_speed.html
+        public static (double gravity, double rolling, double drag, double equilibriumVelocity) CyclingForces(double velocity, double riderWeight, double bikeWeight,
+            double gradient = 0.0, double headWind = 0.0, double rollingResistance = 0.005, double airDensity = 1.22601,
+            double area = 0.509, double dragCoefficient = 0.63)
+        {
+            var gravity = GravitationalAcceleration * (riderWeight + bikeWeight) * System.Math.Sin(System.Math.Atan(gradient));
+
+            var rolling = GravitationalAcceleration * (riderWeight + bikeWeight) * System.Math.Cos(System.Math.Atan(gradient)) * rollingResistance;
+            if (velocity < 0)
+            {
+                rolling *= -1.0;
+            }
+
+            var dragFac = 0.5 * area * dragCoefficient * airDensity;
+            var drag = dragFac * (velocity + headWind) * (velocity + headWind);
+            if (velocity + headWind < 0)
+            {
+                drag *= -1.0;
+            }
+
+            return (gravity, rolling, drag,  System.Math.Sqrt(-(rolling + gravity) / dragFac) - headWind);
+        }
+
+        public static (double power, double legPower, double wheelPower, double driveTrainLoss, double brakingPower, double equilibriumVelocity) CyclingPowers(double velocity, double riderWeight, double bikeWeight,
+            double gradient = 0.0, double headWind = 0.0, double rollingResistance = 0.005, double airDensity = 1.22601,
+            double area = 0.509, double dragCoefficient = 0.63, double driveTrainLossFactor = 0.02)
+        {
+            var (gravityForce, rollingForce, dragForce, equilibriumVelocity) = CyclingForces(velocity, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient);
+            var totalForce = gravityForce + rollingForce + dragForce;
+
+            var wheelPower = totalForce * (velocity);
+
+            var driveTrainFrac = 1.0;
+            if (wheelPower >= 0.0)
+            {
+                driveTrainFrac -= driveTrainLossFactor;
+            }
+            var legPower = wheelPower / driveTrainFrac;
+
+            double driveTrainLossPower, brakingPower, power;
+            if (legPower >= 0.0)
+            {
+                driveTrainLossPower = legPower - wheelPower;
+                brakingPower = 0.0;
+                power = legPower;
+            }
+            else
+            {
+                brakingPower = legPower * -1.0;
+                legPower = 0.0;
+                wheelPower = 0.0;
+                driveTrainLossPower = 0.0;
+                power = -brakingPower;
+            }
+
+            return (power, legPower, wheelPower, driveTrainLossPower, brakingPower, equilibriumVelocity);
+        }
+
+        public static double CyclingVelocity(double power, double riderWeight, double bikeWeight,
+            double gradient = 0.0, double headWind = 0.0, double rollingResistance = 0.005, double airDensity = 1.22601,
+            double area = 0.509, double dragCoefficient = 0.63, double driveTrainLoss = 0.02)
+        {
+            const double epsilon = 0.000001;
+            var low = -50.0;
+            var high = 50.0;
+            var (p, _, _, _, _, v) = CyclingPowers(0, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss);
+            
+            if (!double.IsNaN(v))
+            {
+                if (Comparison.IsZero(power))
+                {
+                    return v;
+                }
+                if (power < 0)
+                {
+                    high = v;
+                    low = 0.0;
+                }
+                else
+                {
+                    low = v;
+                }
+                v = (high + low) / 2.0;
+                
+            }
+            else
+            {
+                v = 0.0;
+            }
+            p = CyclingPowers(v, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss).power;
+            var n = 0;
+            do
+            {
+                if (System.Math.Abs(p - power) < epsilon)
+                    break;
+
+                if (p > power)
+                    high = v;
+                else
+                    low = v;
+
+                v = (high + low) / 2.0;
+                p = CyclingPowers(v, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss).power;
+            } while (n++ < 100);
+
+            return v;
         }
 
         private static double MinettiRaw(double g)
