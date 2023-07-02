@@ -67,7 +67,7 @@ namespace Math.Gfx
 
             if (a.X > b.X)
             {
-                Utils.Swap(ref a, ref b);
+                (b, a) = (a, b);
             }
 
             var dx = b.X - a.X;
@@ -144,7 +144,7 @@ namespace Math.Gfx
 
             if (a.X > b.X)
             {
-                Utils.Swap(ref a, ref b);
+                (b, a) = (a, b);
             }
 
             var dx = b.X - a.X;

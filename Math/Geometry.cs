@@ -335,7 +335,7 @@ namespace Math
                 else
                 {
                     n++;
-                    Utils.Swap(ref array[n], ref array[i]);
+                    (array[i],  array[n]) = ( array[n], array[i]);
                 }
             }
 
@@ -417,9 +417,9 @@ namespace Math
             var l2 = b0.EuclideanNorm(b1);
             if (l1 > l2)
             {
-                Utils.Swap(ref a0, ref b0);
-                Utils.Swap(ref a1, ref b1);
-                Utils.Swap(ref l1, ref l2);
+                (b0, a0) = (a0, b0);
+                (b1, a1) = (a1, b1);
+                (_, l1) = (l1, l2);
             }
 
             var dPerpA = PerpendicularDistance(b0, b1, a0);
