@@ -358,7 +358,7 @@ namespace Math
             const double epsilon = 0.000001;
             var low = -50.0;
             var high = 50.0;
-            var (p, _, _, _, _, v) = CyclingPowers(0, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss);
+            var v = CyclingPowers(0, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss).equilibriumVelocity;
             
             if (!double.IsNaN(v))
             {
@@ -382,7 +382,7 @@ namespace Math
             {
                 v = 0.0;
             }
-            p = CyclingPowers(v, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss).power;
+            var p = CyclingPowers(v, riderWeight, bikeWeight, gradient, headWind, rollingResistance, airDensity, area, dragCoefficient, driveTrainLoss).power;
             var n = 0;
             do
             {

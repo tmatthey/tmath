@@ -365,11 +365,8 @@ namespace Math.Tests
             fdmaxp1.ShouldBe(fdmaxm1 + fdmax);
         }
 
-        [Test]
-        public void IsPrime_1st1000Primes()
-        {
-            var primes = new[]
-            {
+        private readonly long[] Primes = new long[]
+         {
                 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
                 103,
                 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173,
@@ -440,11 +437,15 @@ namespace Math.Tests
                 7561, 7573, 7577, 7583, 7589, 7591, 7603, 7607, 7621, 7639, 7643, 7649, 7669, 7673, 7681, 7687, 7691,
                 7699, 7703, 7717, 7723, 7727, 7741, 7753, 7757, 7759, 7789, 7793,
                 7817, 7823, 7829, 7841, 7853, 7867, 7873, 7877, 7879, 7883, 7901, 7907, 7919
-            };
-            for (var n = 2; n < primes.Last(); n++)
+         };
+
+        [Test]
+        public void IsPrime_1st1000Primes()
+        {
+            for (var n = 2; n < Primes.Last(); n++)
             {
                 var isprime = Function.IsPrime(n);
-                var expected = primes.ToList().Exists(p => p == n);
+                var expected = Primes.ToList().Exists(p => p == n);
                 isprime.ShouldBe(expected);
             }
         }
