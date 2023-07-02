@@ -117,9 +117,8 @@ namespace Cmd.Match
                             var d = 0.0;
                             Tools.DistanceVelocityAcceleration(list[j], seconds, out var dist, out var vel, out _);
                             vel = Statistics.Arithmetic.CenteredMovingAverage(vel, 10.0);
-                            for (var l = 0; l < track.Indices.Count; l++)
+                            foreach (var i in track.Indices)
                             {
-                                var i = track.Indices[l];
                                 if (0 < i && i + 1 < list[j].Count)
                                 {
                                     var dt = (seconds[i + 1] - seconds[i - 1]) / 2.0;

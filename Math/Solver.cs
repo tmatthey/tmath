@@ -286,9 +286,7 @@ namespace Math
         {
             if (x1 < x0)
             {
-                var tmp = x0;
-                x0 = x1;
-                x1 = tmp;
+                (x0, x1) = (x1, x0);
             }
 
             var y0 = f(x0);

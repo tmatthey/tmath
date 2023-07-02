@@ -49,8 +49,7 @@ namespace Math.Tests
         [Test]
         public void Constructor()
         {
-            var a = new SparseArray<int>();
-            a.Count.ShouldBe(0);
+            new SparseArray<int>().Count.ShouldBe(0);
         }
 
         [Test]
