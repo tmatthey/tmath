@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
     <Version>2.5.0</Version>
     <Authors>Thierry Matthey</Authors>
@@ -21,7 +21,7 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
       <PackageReference Include="System.ValueTuple" Version="4.5.0" />
@@ -29,7 +29,6 @@ Numerical comparison, vector geometry, polynomial, root solver, statistics, GPS 
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
 
 </Project>

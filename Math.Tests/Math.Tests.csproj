@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
-    <ApplicationIcon></ApplicationIcon>
-    <Version>2.2.0</Version>
-    <Authors>Thierry Matthey</Authors>
-    <Copyright>Copyright © Matthey 2018</Copyright>
-    <Description />
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
-    <PackageReference Include="Shouldly" Version="3.0.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="Shouldly" Version="4.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Math\Math.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\*.*" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net462;net6.0</TargetFrameworks>
+		<ApplicationIcon></ApplicationIcon>
+		<Version>2.2.0</Version>
+		<Authors>Thierry Matthey</Authors>
+		<Copyright>Copyright © Matthey 2018</Copyright>
+		<Description />
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+		<PackageReference Include="NUnit" Version="3.13.3" />
+		<PackageReference Include="Shouldly" Version="4.2.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Math\Math.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\*.*" />
+	</ItemGroup>
 </Project>
