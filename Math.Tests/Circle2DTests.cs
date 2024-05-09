@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2021 Thierry Matthey
+ * Copyright (c) 2016-2024 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -108,7 +108,7 @@ namespace Math.Tests
         public void Center_IsCopied()
         {
             var center = new Vector2D(1, 2);
-            var p = new Circle2D(center, 0.2) {Center = {X = 0}};
+            _ = new Circle2D(center, 0.2) {Center = {X = 0}};
             center.X.ShouldBe(1);
         }
 

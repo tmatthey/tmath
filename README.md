@@ -2,7 +2,7 @@
 
 A collection of mathematical function and data structures written in C#. 
 
-(c) 2016-2019 Thierry Matthey (matthey@gmail.com) -  MIT license
+(c) 2016-2024 Thierry Matthey -  MIT license
 
 ### Base ###
 * Floating point comparison and epsilon
@@ -72,7 +72,7 @@ A collection of mathematical function and data structures written in C#.
 * * minimal circle on sphere - slow on 1st call to calculate min circle 
 
 ### Clustering ###
-* DBScan vector / segment for 2D / 3D
+* [DBScan](https://en.wikipedia.org/wiki/DBSCAN) vector / segment for 2D / 3D
 * TraClus (Trajectory Clustering: A Partition-and-Group Framework) for 2D and 3D
 * Finding trajectory neighborhoods for 2D and 3D
 * GPS segment clustering; finding common segments for locally collocated GPS tracks or globally
@@ -80,7 +80,7 @@ A collection of mathematical function and data structures written in C#.
 ### Gfx ###
 * PNG, PPM and PGM bitmap writer
 * Simple bitmap
-* Line draw - Bresenham and anti-aliasing (Xiaolin Wu's line algorithm)
+* Line draw - Bresenham and anti-aliasing ([Xiaolin Wu's line algorithm](https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm))
 * Point plot (anti-aliasing)
 * Heatmap for arbitrary set of GPS tracks with color schemes
 
@@ -90,5 +90,4 @@ A collection of mathematical function and data structures written in C#.
 * GPS activity
 * HR index
 
-
-![heatmap.png](https://bitbucket.org/repo/LEp4rd/images/2412494808-heatmap.png)
+![heatmap.png](./doc/2412494808-heatmap.png)

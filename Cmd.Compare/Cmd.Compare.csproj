@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>net462;net6.0</TargetFrameworks>
-    <AssemblyName>compare</AssemblyName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net462;net6.0</TargetFrameworks>
+		<AssemblyName>compare</AssemblyName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj" />
-    <ProjectReference Include="..\Math\Math.csproj" />
-    <ProjectReference Include="..\Math.Tools.Base\Math.Tools.Base.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Math.Tools.TrackReaders\Math.Tools.TrackReaders.csproj" />
+		<ProjectReference Include="..\Math\Math.csproj" />
+		<ProjectReference Include="..\Math.Tools.Base\Math.Tools.Base.csproj" />
+	</ItemGroup>
 
 </Project>
