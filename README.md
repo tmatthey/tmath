@@ -90,4 +90,4 @@ A collection of mathematical function and data structures written in C#.
 * GPS activity
 * HR index
 
-![heatmap.png](./doc/2412494808-heatmap.png)
+![heatmap.png](./Doc/2412494808-heatmap.png)
