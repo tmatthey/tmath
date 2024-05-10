@@ -1,5 +1,7 @@
 # Math #
 
+[![GitHub Actions CI](https://github.com/tmatthey/tmath/actions/workflows/dotnet.yml/badge.svg)](https://github.com/tmatthey/tmath/actions/workflows/dotnet.yml)
+
 A collection of mathematical function and data structures written in C#. 
 
 (c) 2016-2024 Thierry Matthey -  MIT license
