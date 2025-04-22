@@ -855,6 +855,11 @@
             <param name="data"></param>
             <returns></returns>
         </member>
+        <member name="T:Math.Tools.TrackReaders.PointLineKml">
+            <summary>
+            PointLineKml
+            </summary>
+        </member>
         <member name="P:Math.Tools.TrackReaders.PointLineKml.LastError">
             <summary>
             Last returned error

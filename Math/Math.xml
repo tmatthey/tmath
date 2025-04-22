@@ -347,10 +347,10 @@
         </member>
         <member name="T:Math.Interfaces.ICubicBezier`2">
             <summary>
-            Interface of Bezier curves
+            Interface of Bézier curves
             </summary>
             <typeparam name="T">Vector type</typeparam>
-            <typeparam name="S">Bezier type</typeparam>
+            <typeparam name="S">Bézier type</typeparam>
         </member>
         <member name="T:Math.Interfaces.ICurve`2">
             <summary>
@@ -426,7 +426,7 @@
         </member>
         <member name="T:Math.Interfaces.IInterpolate`1">
             <summary>
-            Interafce for interpolation between two objects of same type
+            Interface for interpolation between two objects of same type
             </summary>
             <typeparam name="T"></typeparam>
         </member>
@@ -467,7 +467,7 @@
         </member>
         <member name="M:Math.Interfaces.INorm`1.EuclideanNorm(`0)">
             <summary>
-            Euclidian norm, minimal Euclidean norm betweeen to geometry obejcts
+            Euclidean norm, minimal Euclidean norm between to geometry objects
             </summary>
             <param name="d"></param>
             <returns></returns>
@@ -505,7 +505,7 @@
         </member>
         <member name="M:Math.Interfaces.ISegment`2.IsIntersecting(`1,System.Double)">
             <summary>
-            Intersection bewteen two segmments
+            Intersection between two segments
             </summary>
             <param name="s"></param>
             <param name="eps"></param>
@@ -560,7 +560,7 @@
         </member>
         <member name="M:Math.Interfaces.IVector`1.Norm2">
             <summary>
-            Squard norm of vector
+            Squared norm of vector
             </summary>
             <returns></returns>
         </member>
@@ -607,7 +607,7 @@
         </member>
         <member name="M:Math.Interfaces.IVector`1.Sub(`0)">
             <summary>
-            Subract vector
+            Subtract vector
             </summary>
             <param name="v"></param>
             <returns></returns>
@@ -709,16 +709,6 @@
             <summary>
             Returns the polynomial divided by a complex root and with its conjugated
             </summary> 
-        </member>
-        <member name="T:Math.Utils">
-            <summary>
-            Utility class
-            </summary>
-        </member>
-        <member name="M:Math.Utils.Swap``1(``0@,``0@)">
-            <summary>
-            Swap two values of type T
-            </summary>
         </member>
     </members>
 </doc>

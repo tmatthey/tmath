@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2024 Thierry Matthey
+ * Copyright (c) 2016-2025 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -105,7 +105,7 @@ namespace Math.Gps
                     CalculateDistance();
                 }
 
-                return _distance.LastOrDefault();
+                return _distance?.LastOrDefault() ?? 0.0;
             }
         }
 

@@ -2813,6 +2813,10 @@ Math.Tools.TrackReaders.Kml
 
 Math.Tools.TrackReaders
 
+##### Summary
+
+PointLineKml
+
 <a name='P-Math-Tools-TrackReaders-PointLineKml-LastError'></a>
 ### LastError `property`
 

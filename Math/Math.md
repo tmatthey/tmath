@@ -130,8 +130,6 @@
 - [TraClus](#T-Math-Clustering-TraClus 'Math.Clustering.TraClus')
   - [Cluster(tracks,n,eps,direction,minL,mdlCostAdvantage)](#M-Math-Clustering-TraClus-Cluster-System-Collections-Generic-IList{System-Collections-Generic-List{Math-Vector2D}},System-Int32,System-Double,System-Boolean,System-Double,System-Int32- 'Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector2D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)')
   - [Cluster(tracks,n,eps,direction,minL,mdlCostAdvantage)](#M-Math-Clustering-TraClus-Cluster-System-Collections-Generic-IList{System-Collections-Generic-List{Math-Vector3D}},System-Int32,System-Double,System-Boolean,System-Double,System-Int32- 'Math.Clustering.TraClus.Cluster(System.Collections.Generic.IList{System.Collections.Generic.List{Math.Vector3D}},System.Int32,System.Double,System.Boolean,System.Double,System.Int32)')
-- [Utils](#T-Math-Utils 'Math.Utils')
-  - [Swap\`\`1()](#M-Math-Utils-Swap``1-``0@,``0@- 'Math.Utils.Swap``1(``0@,``0@)')
 
 <a name='T-Math-BoundingBox'></a>
 ## BoundingBox `type`
@@ -1831,25 +1829,3 @@ Clustering of 3D trajectories.
 | direction | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Boolean defining if the direction between two segments shall include in the trajectory Hausdorff distance. |
 | minL | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Minimum length of a segment |
 | mdlCostAdvantage | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Maximum cost allowed for minimum description length (MDL). |
-
-<a name='T-Math-Utils'></a>
-## Utils `type`
-
-##### Namespace
-
-Math
-
-##### Summary
-
-Utility class
-
-<a name='M-Math-Utils-Swap``1-``0@,``0@-'></a>
-### Swap\`\`1() `method`
-
-##### Summary
-
-Swap two values of type T
-
-##### Parameters
-
-This method has no parameters.

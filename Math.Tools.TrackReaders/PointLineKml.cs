@@ -9,6 +9,9 @@ using System.Xml;
 
 namespace Math.Tools.TrackReaders
 {
+    /// <summary>
+    /// PointLineKml
+    /// </summary>
     public class PointLineKml
     {
         private readonly Hashtable KMLCollection = new Hashtable(); //parsed KML

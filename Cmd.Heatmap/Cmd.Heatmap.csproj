@@ -3,7 +3,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFrameworks>net462;net6.0</TargetFrameworks>
+		<TargetFramework>net8.0</TargetFramework>
 		<AssemblyName>heatmap</AssemblyName>
 		<ApplicationIcon>map.ico</ApplicationIcon>
 	</PropertyGroup>

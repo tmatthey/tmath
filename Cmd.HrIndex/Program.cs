@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2024 Thierry Matthey
+ * Copyright (c) 2016-2025 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -29,12 +29,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ganss.IO;
 using Math;
 using Math.Gps;
 using Math.Tools.TrackReaders;
-using Ganss.IO;
 
-namespace Cmd.Activity
+namespace Cmd.HrIndex
 {
     public static class Program
     {
