@@ -342,6 +342,79 @@ namespace Math.Tests
             Function.MinettiFactor(x).ShouldBe(e / 3.389064903, 1e-10);
         }
 
+        [TestCase(0.00,  1.0)]
+        [TestCase(0.05,  1.2065)]
+        [TestCase(0.10,  1.436)]
+        [TestCase(0.20,  1.964)]
+        [TestCase(0.30,  2.584)]
+        [TestCase(-0.05, 0.9725)]
+        [TestCase(-0.10, 1.01)]
+        [TestCase(-0.15, 1.1125)]
+        [TestCase(-0.20, 1.28)]
+        [TestCase(-0.30, 1.81)]
+        public void Strava(double g, double e)
+        {
+            Function.Strava(g).ShouldBe(e, 1e-10);
+        }
+
+        [TestCase(0.0)]
+        [TestCase(0.45)]
+        [TestCase(-0.45)]
+        public void StravaFactor_EqualsStrava_GivenZeroIsOne(double g)
+        {
+            Function.StravaFactor(g).ShouldBe(Function.Strava(g), 1e-12);
+        }
+
+        [Test]
+        public void StravaZero_IsOne()
+        {
+            Function.StravaZero.ShouldBe(1.0, 1e-12);
+        }
+
+        [Test]
+        public void Strava_DownhillMinimum_NearMinusFivePercent()
+        {
+            const double gMin = -1.2 / 26.0;
+            var fMin = Function.Strava(gMin);
+            fMin.ShouldBeLessThan(1.0);
+            fMin.ShouldBeGreaterThan(0.95);
+            for (var i = 1; i <= 50; i++)
+            {
+                var g = gMin + i * 0.005;
+                if (g < 0.0)
+                {
+                    Function.Strava(g).ShouldBeGreaterThan(fMin - 1e-10);
+                }
+                var gn = gMin - i * 0.005;
+                if (gn > -0.45)
+                {
+                    Function.Strava(gn).ShouldBeGreaterThan(fMin - 1e-10);
+                }
+            }
+        }
+
+        [Test]
+        public void Strava_SteepDescent_IsPenalty()
+        {
+            Function.Strava(-0.15).ShouldBeGreaterThan(1.0);
+            Function.Strava(-0.20).ShouldBeGreaterThan(1.0);
+            Function.Strava(-0.30).ShouldBeGreaterThan(1.0);
+        }
+
+        [Test]
+        public void Strava_ExtrapolatesLinearlyOutsideDomain()
+        {
+            const double gMax = 0.45;
+            var fMax = Function.Strava(gMax);
+            var slopeMax = 3.9 + 9.2 * gMax;
+            Function.Strava(gMax + 0.10).ShouldBe(fMax + slopeMax * 0.10, 1e-10);
+
+            const double gMin = -0.45;
+            var fMin = Function.Strava(gMin);
+            var slopeMin = 1.2 + 26.0 * gMin;
+            Function.Strava(gMin - 0.10).ShouldBe(fMin + slopeMin * (-0.10), 1e-10);
+        }
+
 
         [Test]
         public void FactorialInt_Max()

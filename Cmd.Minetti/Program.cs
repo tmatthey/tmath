@@ -89,8 +89,10 @@ namespace Cmd.Minetti
 
             l0 = 0.0;
             h0 = 0.0;
-            var sum = 0.0;
-            Console.WriteLine("Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tEffort Factor\tTime factor");
+            var sumMinetti = 0.0;
+            var sumStrava = 0.0;
+            Console.WriteLine(
+                "Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tStrava\tStrava Avg\tEffort Factor\tTime factor");
             for (var i = 0; i < track.Count; i++)
             {
                 var l = dist[i];
@@ -104,14 +106,19 @@ namespace Cmd.Minetti
                 }
 
                 var minetti = Function.MinettiFactor(gradient);
+                var strava = Function.StravaFactor(gradient);
                 if (i == 0 || dl > 20 && l > 500)
                 {
                     var tf = time.Last() > 0 ? t / time.Last() : 0.0;
-                    sum += minetti * dl;
-                    var minettiAvg = sum > 0 ? sum / l : 1.0;
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", t, l, h, gradient,
-                        sum > 0 ? minetti : 1.0,
-                        minettiAvg, minettiAvg * l / minettiFactor, tf);
+                    sumMinetti += minetti * dl;
+                    sumStrava += strava * dl;
+                    var minettiAvg = sumMinetti > 0 ? sumMinetti / l : 1.0;
+                    var stravaAvg = sumStrava > 0 ? sumStrava / l : 1.0;
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}",
+                        t, l, h, gradient,
+                        sumMinetti > 0 ? minetti : 1.0, minettiAvg,
+                        sumStrava > 0 ? strava : 1.0, stravaAvg,
+                        minettiAvg * l / minettiFactor, tf);
                     l0 = l;
                     h0 = h;
                 }
