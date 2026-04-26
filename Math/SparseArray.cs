@@ -32,9 +32,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Math
-
 {
-    public class SparseArray<T> : IList<T>
+    /// <summary>
+    /// Index-keyed sparse container backed by a Dictionary. Intentionally does NOT implement
+    /// IList&lt;T&gt;: an IList is positional and contiguous, this collection is neither.
+    /// Earlier versions claimed IList&lt;T&gt; while throwing NotImplementedException for half
+    /// of its members, which broke generic IList consumers.
+    /// </summary>
+    public class SparseArray<T> : IEnumerable<T>
     {
         private readonly Dictionary<int, T> _table = new Dictionary<int, T>();
 
@@ -49,33 +54,6 @@ namespace Math
         }
 
         public int Count => _table.Count;
-
-        public bool IsReadOnly => false;
-
-        public void Add(T value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CopyTo(T[] array, int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOf(T value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, T value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(T value)
-        {
-            throw new NotImplementedException();
-        }
 
         public void RemoveAt(int index)
         {
@@ -95,17 +73,7 @@ namespace Math
         public T this[int index]
         {
             get => ContainsKey(index) ? _table[index] : throw new IndexOutOfRangeException();
-            set
-            {
-                if (ContainsKey(index))
-                {
-                    _table[index] = value;
-                }
-                else
-                {
-                    _table.Add(index, value);
-                }
-            }
+            set => _table[index] = value;
         }
 
         public IList<int> Indices()

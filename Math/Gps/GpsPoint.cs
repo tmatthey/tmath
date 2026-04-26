@@ -83,7 +83,7 @@ namespace Math.Gps
 
         public int Dimensions => 3;
 
-        public double[] Array => new[] {Latitude, Longitude, Elevation};
+        public double[] ToArray() => new[] {Latitude, Longitude, Elevation};
 
         public double this[int i]
         {
@@ -97,9 +97,11 @@ namespace Math.Gps
                         return Longitude;
                     case 2:
                         return Elevation;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i,
+                            "GpsPoint index must be 0 (Latitude), 1 (Longitude), or 2 (Elevation).");
                 }
-
-                throw new ArgumentException();
             }
         }
 
@@ -110,6 +112,7 @@ namespace Math.Gps
 
         public double ModifiedNorm(GpsPoint d, bool direction = true)
         {
+            _ = direction;
             var f = (System.Math.Min(Elevation, d.Elevation) + Geodesy.EarthRadius) / Geodesy.EarthRadius;
             return new Vector2D(HaversineDistance(d), Elevation - d.Elevation).Norm() * f;
         }
@@ -144,8 +147,8 @@ namespace Math.Gps
             if (!Comparison.IsEqual(Elevation, g.Elevation, epsilon))
                 return false;
 
-            return Function.NormalizeAngle(Conversion.DegToRad(Longitude - g.Longitude)) < epsilon &&
-                   Function.NormalizeAngle(Conversion.DegToRad(Latitude - g.Latitude)) < epsilon;
+            return System.Math.Abs(Function.NormalizeAnglePi(Conversion.DegToRad(Longitude - g.Longitude))) < epsilon &&
+                   System.Math.Abs(Function.NormalizeAnglePi(Conversion.DegToRad(Latitude - g.Latitude))) < epsilon;
         }
 
         public override bool Equals(object obj)
@@ -159,9 +162,9 @@ namespace Math.Gps
         {
             unchecked
             {
-                var hashCode = Elevation.GetHashCode();
-                hashCode = (hashCode * 397) ^ Latitude.GetHashCode();
-                hashCode = (hashCode * 397) ^ Longitude.GetHashCode();
+                var hashCode = Comparison.HashCode(Elevation);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Latitude);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Longitude);
                 return hashCode;
             }
         }

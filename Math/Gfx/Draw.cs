@@ -73,7 +73,7 @@ namespace Math.Gfx
             var dx = b.X - a.X;
             var dy = System.Math.Abs(b.Y - a.Y);
             var err = dx / 2.0;
-            var ystep = a.Y < b.Y ? 1 : -1;
+            var yStep = a.Y < b.Y ? 1 : -1;
             var y = (int) System.Math.Round(a.Y);
 
             var ax = (int) System.Math.Round(a.X);
@@ -103,7 +103,7 @@ namespace Math.Gfx
                 err -= dy;
                 if (err < 0)
                 {
-                    y += ystep;
+                    y += yStep;
                     err += dx;
                 }
             }
@@ -231,13 +231,12 @@ namespace Math.Gfx
 
         private static double FPart(double x)
         {
-            var f = x - System.Math.Floor(x);
-            return x < 0.0 ? 1.0 - f : f;
+            return x - System.Math.Floor(x);
         }
 
         private static int IPart(double x)
         {
-            return (int) x;
+            return (int) System.Math.Floor(x);
         }
 
         private static double RFPart(double x)

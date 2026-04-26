@@ -93,7 +93,7 @@ namespace Math
             return a;
         }
 
-        public double[] Array => new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z};
+        public double[] ToArray() => new[] {A.X, A.Y, A.Z, B.X, B.Y, B.Z};
 
         public double this[int i]
         {
@@ -113,9 +113,11 @@ namespace Math
                         return B.Y;
                     case 5:
                         return B.Z;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i,
+                            "Segment3D index must be in [0, 5] (A.X, A.Y, A.Z, B.X, B.Y, B.Z).");
                 }
-
-                throw new ArgumentException();
             }
         }
 

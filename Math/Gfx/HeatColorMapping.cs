@@ -53,7 +53,7 @@ namespace Math.Gfx
             if (c < c1)
             {
                 b = c * 3.0;
-                col0 = Gfx.Color.Default.LigthBlue;
+                col0 = Gfx.Color.Default.LightBlue;
                 col1 = Gfx.Color.Default.Green;
             }
             else if (c < c2)

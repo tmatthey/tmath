@@ -225,5 +225,14 @@ namespace Math.Tests
             bb.Min.ShouldBe(_min);
             bb.Max.ShouldBe(_max);
         }
+
+        [Test]
+        public void IsEmpty_AfterReset_True_A1_3()
+        {
+            var bb = new BoundingRect();
+            bb.Expand(Vector2D.One);
+            bb.Reset();
+            bb.IsEmpty().ShouldBeTrue();
+        }
     }
 }

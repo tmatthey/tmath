@@ -44,5 +44,13 @@ namespace Math.Tests.Gfx
             col.Green.ShouldBe(white);
             col.Blue.ShouldBe(white);
         }
+
+        [Test]
+        public void Default_White_IsFreshOnEachAccess_A1_2()
+        {
+            var w = Color.Default.White;
+            w.Red = 0;
+            Color.Default.White.Red.ShouldBe((byte) 255);
+        }
     }
 }

@@ -83,6 +83,7 @@ namespace Math
 
         public double ModifiedNorm(Circle2D c, bool direction = true)
         {
+            _ = direction;
             return EuclideanNorm(c);
         }
 
@@ -98,7 +99,7 @@ namespace Math
             unchecked
             {
                 var hashCode = Center.GetHashCode();
-                hashCode = (hashCode * 397) ^ Radius.GetHashCode();
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Radius);
                 return hashCode;
             }
         }
@@ -141,7 +142,7 @@ namespace Math
             var d0 = a.EuclideanNorm(b);
             var d1 = b.EuclideanNorm(c);
             var d2 = c.EuclideanNorm(a);
-            if (Comparison.IsEqual((b - a) * (c - a), 1) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
+            if (Comparison.IsZero(Vector2D.Cross(b - a, c - a)) || Comparison.IsZero(d0) || Comparison.IsZero(d1) ||
                 Comparison.IsZero(d2))
             {
                 return d0 >= d1 && d0 >= d2 ? Create(a, b) : d1 >= d0 && d1 >= d2 ? Create(b, c) : Create(c, a);

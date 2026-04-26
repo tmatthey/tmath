@@ -1,0 +1,58 @@
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Version: MIT
+ *
+ * Copyright (c) 2016-2025 Thierry Matthey
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * ***** END LICENSE BLOCK *****
+ */
+
+using System.IO;
+using System.Text;
+
+namespace Math.Gfx
+{
+    /// <summary>
+    /// Writes the bitmap as a binary Portable Greymap (P5) using
+    /// <see cref="IColorMapping.Grey(double)"/> for the per-pixel luminance.
+    /// </summary>
+    public sealed class PgmBitmapFormatWriter : IBitmapFormatWriter
+    {
+        public void Write(Stream stream, double[,] bitmap, IColorMapping colorMap)
+        {
+            var width = bitmap.GetLength(0);
+            var height = bitmap.GetLength(1);
+            var header = "P5\n" + width + " " + height + "\n255\n";
+            using (var writer = new BinaryWriter(stream, Encoding.ASCII, leaveOpen: true))
+            {
+                writer.Write(Encoding.ASCII.GetBytes(header));
+                for (var j = height - 1; j >= 0; j--)
+                {
+                    for (var i = 0; i < width; i++)
+                    {
+                        writer.Write(colorMap.Grey(bitmap[i, j]));
+                    }
+                }
+            }
+        }
+    }
+}

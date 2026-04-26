@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,69 +34,25 @@ namespace Math.Gps
 {
     public class GpsTrack
     {
-        private double _angle;
-        private Vector3D _center;
-        private double _minCircleAngle;
-        private Vector3D _minCircleCenter;
+        private readonly Lazy<(Vector3D Center, double Angle)> _centerAndAngle;
+        private readonly Lazy<(Vector3D Center, double Angle)> _minCircle;
 
         public GpsTrack(IList<GpsPoint> track)
         {
-            Track = track;
+            Track = new List<GpsPoint>(track);
+            _centerAndAngle = new Lazy<(Vector3D, double)>(CalculateCenter);
+            _minCircle = new Lazy<(Vector3D, double)>(CalculateMinCircle);
         }
 
-        public IList<GpsPoint> Track { get; }
+        public IReadOnlyList<GpsPoint> Track { get; }
 
-        public Vector3D Center
-        {
-            get
-            {
-                if (_center == null)
-                {
-                    CalculateCenter();
-                }
+        public Vector3D Center => _centerAndAngle.Value.Center;
 
-                return _center;
-            }
-        }
+        public double CenterAngle => _centerAndAngle.Value.Angle;
 
-        public double CenterAngle
-        {
-            get
-            {
-                if (_center == null)
-                {
-                    CalculateCenter();
-                }
+        public Vector3D MinCircleCenter => _minCircle.Value.Center;
 
-                return _angle;
-            }
-        }
-
-        public Vector3D MinCircleCenter
-        {
-            get
-            {
-                if (_minCircleCenter == null)
-                {
-                    CalculateMinCircle();
-                }
-
-                return _minCircleCenter;
-            }
-        }
-
-        public double MinCircleAngle
-        {
-            get
-            {
-                if (_minCircleCenter == null)
-                {
-                    CalculateMinCircle();
-                }
-
-                return _minCircleAngle;
-            }
-        }
+        public double MinCircleAngle => _minCircle.Value.Angle;
 
         public FlatTrack CreateFlatTrack()
         {
@@ -122,17 +79,19 @@ namespace Math.Gps
             return CreateLookup(gridSize, Center);
         }
 
-        private void CalculateMinCircle()
+        private (Vector3D Center, double Angle) CalculateMinCircle()
         {
+            if (Track.Count == 0)
+                return (new Vector3D(double.NaN, double.NaN, double.NaN), double.NaN);
+
             var c = Geometry.MinCircleOnSphere(Track.Select(p => ((Vector3D) p).Normalized()).ToList());
-            _minCircleCenter = c.Center.Normalized() * Geodesy.EarthRadius;
-            _minCircleAngle = System.Math.Asin(c.Radius);
+            return (c.Center.Normalized() * Geodesy.EarthRadius, System.Math.Asin(c.Radius));
         }
 
-        private void CalculateCenter()
+        private (Vector3D Center, double Angle) CalculateCenter()
         {
             var a = new Vector3D();
-            _angle = double.NaN;
+            var angle = double.NaN;
 
             var d = 0.0;
             var n = 0;
@@ -152,14 +111,14 @@ namespace Math.Gps
             {
                 a.Normalize();
                 a *= d / n;
-                _angle = a.Angle(Vector3D.E1);
+                angle = a.Angle(Vector3D.E1);
             }
             else
             {
                 a = new Vector3D(double.NaN);
             }
 
-            _center = a;
+            return (a, angle);
         }
     }
 }

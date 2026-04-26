@@ -202,7 +202,6 @@ namespace Math.Tests
         [TestCase(11, 39916800ul)]
         [TestCase(12, 479001600ul)]
         [TestCase(20, 2432902008176640000ul)]
-        [TestCase(21, 0ul)] // Overflow
         public void FactorialInt(int n, ulong f)
         {
             Function.FactorialInt(n).ShouldBe(f);
@@ -233,6 +232,12 @@ namespace Math.Tests
         [TestCase(36, 1, 1)]
         [TestCase(51, 3, 3)]
         [TestCase(81, 54, 27)]
+        [TestCase(12, 18, 6)]
+        [TestCase(-12, 18, 6)]
+        [TestCase(12, -18, 6)]
+        [TestCase(-12, -18, 6)]
+        [TestCase(0, 5, 5)]
+        [TestCase(5, 0, 5)]
         public void GCD(int a, int b, int gcd)
         {
             Function.GCD(a, b).ShouldBe(gcd);
@@ -322,7 +327,7 @@ namespace Math.Tests
         }
 
         [TestCase(0, 3.389064903)]
-        [TestCase(0.5, 21.3730459481406d)]
+        [TestCase(0.5, 21.373046000780683d)]
         [TestCase(-0.5, 4.23789082143744d)]
         public void Minetti(double x, double e)
         {
@@ -330,7 +335,7 @@ namespace Math.Tests
         }
 
         [TestCase(0, 3.389064903)]
-        [TestCase(0.5, 21.3730459481406d)]
+        [TestCase(0.5, 21.373046000780683d)]
         [TestCase(-0.5, 4.23789082143744d)]
         public void MinettiFactor(double x, double e)
         {
@@ -343,11 +348,10 @@ namespace Math.Tests
         {
             var fmax = Function.FactorialInt(Function.MaxFactorialInt);
             var fdmax = Function.Factorial(Function.MaxFactorialInt);
-            var fmaxp1 = Function.FactorialInt(Function.MaxFactorialInt + 1);
             var fdmaxp1 = Function.Factorial(Function.MaxFactorialInt + 1);
-            fmax.ShouldBeGreaterThan(fmaxp1);
             ((double)fmax).ShouldBe(fdmax);
-            fmaxp1.ShouldBe(0ul);
+            Should.Throw<System.OverflowException>(
+                () => Function.FactorialInt(Function.MaxFactorialInt + 1));
             fdmaxp1.ShouldBe(fdmax * (Function.MaxFactorialInt + 1));
         }
 
@@ -357,17 +361,16 @@ namespace Math.Tests
             var fdmaxm1 = Function.Fibonacci(Function.MaxFibonacciInt - 1);
             var fmax = Function.FibonacciInt(Function.MaxFibonacciInt);
             var fdmax = Function.Fibonacci(Function.MaxFibonacciInt);
-            var fmaxp1 = Function.FibonacciInt(Function.MaxFibonacciInt + 1);
             var fdmaxp1 = Function.Fibonacci(Function.MaxFibonacciInt + 1);
-            fmax.ShouldBeGreaterThan(fmaxp1);
             ((double)fmax).ShouldBe(fdmax);
-            fmaxp1.ShouldBe(0ul);
+            Should.Throw<System.OverflowException>(
+                () => Function.FibonacciInt(Function.MaxFibonacciInt + 1));
             fdmaxp1.ShouldBe(fdmaxm1 + fdmax);
         }
 
-        private readonly long[] Primes = new long[]
-         {
-                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
+        private readonly long[] Primes =
+        [
+            2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
                 103,
                 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173,
                 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283,
@@ -437,7 +440,7 @@ namespace Math.Tests
                 7561, 7573, 7577, 7583, 7589, 7591, 7603, 7607, 7621, 7639, 7643, 7649, 7669, 7673, 7681, 7687, 7691,
                 7699, 7703, 7717, 7723, 7727, 7741, 7753, 7757, 7759, 7789, 7793,
                 7817, 7823, 7829, 7841, 7853, 7867, 7873, 7877, 7879, 7883, 7901, 7907, 7919
-         };
+        ];
 
         [Test]
         public void IsPrime_1st1000Primes()

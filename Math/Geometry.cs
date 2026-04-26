@@ -171,15 +171,23 @@ namespace Math
 
             var i0 = list[0];
             var i1 = list[1];
-            var scale = n.Array[list[2]];
+            var nArr = n.ToArray();
+            var scale = nArr[list[2]];
             v0 /= scale;
             v1 /= scale;
 
-            var x = v0.Array[i0] * (p.Array[i1] - a.Array[i1]) - v0.Array[i1] * (p.Array[i0] - a.Array[i0]);
+            // Materialise the per-vector arrays once; the previous code allocated a fresh
+            // array on every .Array access (8 allocations for this triangle test).
+            var v0Arr = v0.ToArray();
+            var v1Arr = v1.ToArray();
+            var pArr = p.ToArray();
+            var aArr = a.ToArray();
+
+            var x = v0Arr[i0] * (pArr[i1] - aArr[i1]) - v0Arr[i1] * (pArr[i0] - aArr[i0]);
             if (Comparison.IsLess(x, 0.0) || Comparison.IsLess(1.0, x))
                 return false;
 
-            var y = v1.Array[i1] * (p.Array[i0] - a.Array[i0]) - v1.Array[i0] * (p.Array[i1] - a.Array[i1]);
+            var y = v1Arr[i1] * (pArr[i0] - aArr[i0]) - v1Arr[i0] * (pArr[i1] - aArr[i1]);
             if (Comparison.IsLess(y, 0.0) || Comparison.IsLess(1.0, y))
                 return false;
 
@@ -195,6 +203,12 @@ namespace Math
         // Minimal boundary circle based on Welzl's algorithm
         public static Circle2D MinCircle(IList<Vector2D> allPoints)
         {
+            if (allPoints == null)
+                throw new System.ArgumentNullException(nameof(allPoints));
+            if (allPoints.Count == 0)
+                throw new System.ArgumentException(
+                    "MinCircle is undefined for an empty point set.", nameof(allPoints));
+
             // Make unique, O(N) (?)
             var points = allPoints.Distinct().ToList();
 
@@ -202,8 +216,6 @@ namespace Math
             points = Eliminate(points);
 
             // Trival cases
-            if (points.Count == 0)
-                return new Circle2D(Vector2D.NaN, double.NaN);
             if (points.Count == 1)
                 return Circle2D.Create(points[0]);
             if (points.Count == 2)
@@ -213,18 +225,22 @@ namespace Math
 
             var array = new Vector2D[3];
 
-            return DoMinCricle(points, points.Count, array, 0);
+            return DoMinCircle(points, points.Count, array, 0);
         }
 
         // Minimal boundary circle based on Welzl's algorithm
         public static Circle3D MinCircleOnSphere(IList<Vector3D> allPoints)
         {
+            if (allPoints == null)
+                throw new System.ArgumentNullException(nameof(allPoints));
+            if (allPoints.Count == 0)
+                throw new System.ArgumentException(
+                    "MinCircleOnSphere is undefined for an empty point set.", nameof(allPoints));
+
             // Make unique, O(N) (?)
             var points = allPoints.Distinct().ToList();
 
             // Trival cases
-            if (points.Count == 0)
-                return new Circle3D(Vector3D.NaN, double.NaN);
             if (points.Count == 1)
                 return Circle3D.Create(points[0]);
             if (points.Count == 2)
@@ -234,10 +250,10 @@ namespace Math
 
             var array = new Vector3D[3];
 
-            return DoMinCricleOnSphere(points, points.Count, array, 0);
+            return DoMinCircleOnSphere(points, points.Count, array, 0);
         }
 
-        private static Circle2D DoMinCricle(IList<Vector2D> points, int n, Vector2D[] array, int k)
+        private static Circle2D DoMinCircle(IList<Vector2D> points, int n, Vector2D[] array, int k)
         {
             if (k == 3)
                 return Circle2D.Create(array[0], array[1], array[2]);
@@ -248,15 +264,15 @@ namespace Math
             if (n == 1 && k == 1)
                 return Circle2D.Create(array[0], points[0]);
 
-            var c = DoMinCricle(points, n - 1, array, k);
+            var c = DoMinCircle(points, n - 1, array, k);
             if (c.IsInside(points[n - 1]))
                 return c;
             array[k++] = points[n - 1];
-            c = DoMinCricle(points, n - 1, array, k);
+            c = DoMinCircle(points, n - 1, array, k);
             return c;
         }
 
-        private static Circle3D DoMinCricleOnSphere(IList<Vector3D> points, int n, Vector3D[] array, int k)
+        private static Circle3D DoMinCircleOnSphere(IList<Vector3D> points, int n, Vector3D[] array, int k)
         {
             if (k == 3)
                 return Circle3D.Create(array[0], array[1], array[2]);
@@ -267,11 +283,11 @@ namespace Math
             if (n == 1 && k == 1)
                 return Circle3D.Create(array[0], points[0]);
 
-            var c = DoMinCricleOnSphere(points, n - 1, array, k);
+            var c = DoMinCircleOnSphere(points, n - 1, array, k);
             if (DiscLineIntersect(c, Vector3D.Zero, points[n - 1]))
                 return c;
             array[k++] = points[n - 1];
-            c = DoMinCricleOnSphere(points, n - 1, array, k);
+            c = DoMinCircleOnSphere(points, n - 1, array, k);
             return c;
         }
 
@@ -289,7 +305,10 @@ namespace Math
             int i2, i3, i4;
             double a3, a4;
 
-            var i1 = i2 = i3 = i4 = 1;
+            // Seed indices to 0 because the seed values a1..a4 come from array[0]; initialising
+            // them to 1 produced an index/value mismatch when array[0] turned out to be a corner
+            // (no later point beat it in that quadrant) and the elimination box was wrong.
+            var i1 = i2 = i3 = i4 = 0;
             var a1 = a4 = array[0].X + array[0].Y;
             var a2 = a3 = array[0].X - array[0].Y;
 

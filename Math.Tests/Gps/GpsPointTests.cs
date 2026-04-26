@@ -138,7 +138,7 @@ namespace Math.Tests.Gps
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new GpsPoint();
-            Should.Throw<ArgumentException>(() => v[i]);
+            Should.Throw<ArgumentOutOfRangeException>(() => v[i]);
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace Math.Tests.Gps
             const double y = 0.2;
             const double z = 0.3;
             var v = new GpsPoint(x, y, z);
-            var c = v.Array;
+            var c = v.ToArray();
             c.Length.ShouldBe(v.Dimensions);
             c[0].ShouldBe(x);
             c[1].ShouldBe(y);
@@ -422,6 +422,14 @@ namespace Math.Tests.Gps
             v.X.ShouldBe(w.X, 1e-7);
             v.Y.ShouldBe(w.Y, 1e-7);
             v.Z.ShouldBe(w.Z, 1e-7);
+        }
+
+        [Test]
+        public void IsEqual_HandlesLongitudeWrapAcrossAntimeridian_A1_6()
+        {
+            var a = new GpsPoint {Latitude = 0.0, Longitude = 179.999999999, Elevation = 0.0};
+            var b = new GpsPoint {Latitude = 0.0, Longitude = -180.000000001, Elevation = 0.0};
+            a.IsEqual(b, 1e-6).ShouldBeTrue();
         }
     }
 }

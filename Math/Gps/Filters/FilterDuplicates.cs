@@ -55,24 +55,24 @@ namespace Math.Gps.Filters
         public void Filter(List<GpsPoint> track, List<double> time, IList<int> startIdx, List<int> endIdx)
         {
             Clear();
-            if (Takes() <= startIdx.Count &&
-                Takes() <= endIdx.Count &&
-                0 < startIdx[0] &&
-                endIdx[Takes() - 1] + 1 < track.Count)
-            {
-                List = Interpolate(track, time, startIdx, endIdx);
-                if (List.Count > 0)
-                {
-                    var index = List.First().I;
-                    var count = List.Last().I - index + 1;
-                    Tools.Variance(List, time.GetRange(index, count), out var vel, out var acc);
-                    NewVelocityVariance = vel;
-                    NewAccelerationVariance = acc;
-                    Tools.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);
-                    OldVelocityVariance = vel;
-                    OldAccelerationVariance = acc;
-                }
-            }
+            if (Takes() > startIdx.Count ||
+                Takes() > endIdx.Count ||
+                0 >= startIdx[0] ||
+                endIdx[Takes() - 1] + 1 >= track.Count)
+                return;
+            List = Interpolate(track, time, startIdx, endIdx);
+
+            if (List.Count <= 0)
+                return;
+
+            var index = List.First().I;
+            var count = List.Last().I - index + 1;
+            Tools.Variance(List, time.GetRange(index, count), out var vel, out var acc);
+            NewVelocityVariance = vel;
+            NewAccelerationVariance = acc;
+            Tools.Variance(track.GetRange(index, count), time.GetRange(index, count), out vel, out acc);
+            OldVelocityVariance = vel;
+            OldAccelerationVariance = acc;
         }
 
         protected abstract List<GpsPointExt> Interpolate(IList<GpsPoint> track, IList<double> time, IList<int> startIdx,

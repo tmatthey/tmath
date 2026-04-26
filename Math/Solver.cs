@@ -158,7 +158,13 @@ namespace Math
             }
             else
             {
-                var z = CubicEq(1.0, -1.0 / 2.0 * p, -r, 1.0 / 2.0 * r * p - 1.0 / 8 * q * q)[0];
+                var resolvent = CubicEq(1.0, -1.0 / 2.0 * p, -r, 1.0 / 2.0 * r * p - 1.0 / 8 * q * q);
+                if (resolvent.Count == 0)
+                {
+                    return res;
+                }
+
+                var z = resolvent[0];
                 var u = z * z - r;
                 var v = 2 * z - p;
                 if (Comparison.IsZero(u)) u = 0.0;
@@ -182,17 +188,30 @@ namespace Math
             return res;
         }
 
-        public static List<double> PolynomialEq(List<double> coffecients)
+        /// <summary>
+        /// Returns the (deduplicated, sorted) list of real roots of the polynomial described by
+        /// <paramref name="coefficients"/>, where coefficients are stored constant-first
+        /// (coefficients[i] is the factor of x^i).
+        /// </summary>
+        /// <remarks>
+        /// Zero-root handling: when the constant term is (near) zero, x=0 is recorded once and the
+        /// polynomial is divided by x^k where k is the multiplicity of zero. The returned list
+        /// therefore reports distinct real roots only - it does not encode multiplicity.
+        /// Constant or empty inputs produce an empty list (no real roots in the conventional sense).
+        /// </remarks>
+        public static List<double> PolynomialEq(List<double> coefficients)
         {
             var res = new List<double>();
-            var p = new Polynomial(coffecients).p();
-            // Less than linear
+            var p = new Polynomial(coefficients).p();
+            // Less than linear (constant or empty after trimming high-degree zeros): no roots.
             if (p.Count < 2)
             {
                 return res;
             }
 
-            // Handle zero roots and remove them
+            // x = 0 is a root iff the constant term is zero. Record it once and deflate by x^k
+            // (which is what the trim-from-the-front loop does); the remainder polynomial has the
+            // same set of non-zero real roots as the original.
             if (Comparison.IsZero(p[0]))
             {
                 res.Add(0.0);
@@ -261,6 +280,11 @@ namespace Math
             // http://en.wikipedia.org/wiki/Secant_method
             for (var i = 0; i < n; i++)
             {
+                if (Comparison.IsZero(y1 - y0, eps))
+                {
+                    return Comparison.IsZero(y1, eps) ? x1 : double.NaN;
+                }
+
                 var x = x1 - (x1 - x0) / (y1 - y0) * y1;
                 var y = f(x);
                 if (!Comparison.IsNumber(y))

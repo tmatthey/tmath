@@ -33,8 +33,8 @@ namespace Math.Gps
 {
     public static class Geodesy
     {
-        public static readonly double EarthRadius = 6367000.0;
-        public static readonly double DistanceOneDeg = EarthRadius * System.Math.PI / 180.0;
+        public const double EarthRadius = 6367000.0;
+        public const double DistanceOneDeg = EarthRadius * System.Math.PI / 180.0;
 
         public static class Distance
         {

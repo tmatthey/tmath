@@ -74,9 +74,9 @@ namespace Math.Tests.Gps
                     var r = p.Reference;
                     var c = p.Current;
                     r.ShouldBeGreaterThanOrEqualTo(0);
-                    r.ShouldBeLessThan(analyzer.ReferenceFlattendTrack.Track.Count);
+                    r.ShouldBeLessThan(analyzer.ReferenceFlattenedTrack.Track.Count);
                     c.ShouldBeGreaterThanOrEqualTo(0);
-                    c.ShouldBeLessThan(current.FlattendTrack.Track.Count);
+                    c.ShouldBeLessThan(current.FlattenedTrack.Track.Count);
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace Math.Tests.Gps
             var analyzer = new NeighbourGpsDistanceCalculator(one);
             var two = _gpsTrackExamples.TrackTwo();
             var current = analyzer.Analyze(two, 50.0);
-            analyzer.ReferenceFlattendTrack.TotalDistance.ShouldBe(
+            analyzer.ReferenceFlattenedTrack.TotalDistance.ShouldBe(
                 Geodesy.Distance.HaversineTotal(one), 1e-1);
             current.TotalDistance.ShouldBe(Geodesy.Distance.HaversineTotal(two), 1e-1);
         }

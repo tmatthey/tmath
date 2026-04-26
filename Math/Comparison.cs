@@ -35,11 +35,49 @@ namespace Math
     {
         public const double Epsilon = 1e-13; //double.Epsilon;
 
+        /// <summary>
+        /// Default relative tolerance for <see cref="IsEqualRelative(double,double,double)"/> /
+        /// <see cref="IsZeroRelative(double,double,double)"/>. Chosen ~3 orders of magnitude
+        /// looser than <see cref="Epsilon"/> so that the absolute tolerance at unit scale
+        /// (1.0) stays at 1e-13 while large-magnitude values automatically get a proportional
+        /// tolerance (e.g. 1e-7 m at Earth-radius scale 6.37e6 m).
+        /// </summary>
+        public const double RelativeEpsilon = 1e-13;
+
         public static bool IsEqual(double x, double y, double eps = Epsilon)
         {
             return System.Math.Abs(x - y) < eps ||
                    double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y) ||
                    double.IsPositiveInfinity(x) && double.IsPositiveInfinity(y);
+        }
+
+        /// <summary>
+        /// Epsilon-tolerant equality scaled by the larger operand magnitude. Equivalent to
+        /// <c>|x - y| &lt; relEps * max(|x|, |y|, 1)</c>: callers do not have to pre-scale
+        /// their epsilon when comparing two large numbers (e.g. metres at Earth-radius
+        /// scale). The unit-scale baseline (the trailing <c>1</c>) keeps behaviour close to
+        /// the absolute <see cref="IsEqual(double,double,double)"/> for small operands.
+        /// Infinities of the same sign compare equal, just like <see cref="IsEqual(double,double,double)"/>.
+        /// </summary>
+        public static bool IsEqualRelative(double x, double y, double relEps = RelativeEpsilon)
+        {
+            if (double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y)) return true;
+            if (double.IsPositiveInfinity(x) && double.IsPositiveInfinity(y)) return true;
+            var scale = System.Math.Max(1.0, System.Math.Max(System.Math.Abs(x), System.Math.Abs(y)));
+            return System.Math.Abs(x - y) < relEps * scale;
+        }
+
+        /// <summary>
+        /// Relative-tolerance "is zero" with an explicit reference scale. Returns true iff
+        /// <c>|x| &lt; relEps * max(|scale|, 1)</c>, i.e. <paramref name="x"/> is small
+        /// compared to <paramref name="scale"/>. Useful for testing residuals of length-scaled
+        /// quantities (e.g. metres) where the absolute <see cref="Epsilon"/> 1e-13 would be
+        /// meaninglessly tight.
+        /// </summary>
+        public static bool IsZeroRelative(double x, double scale, double relEps = RelativeEpsilon)
+        {
+            var s = System.Math.Max(1.0, System.Math.Abs(scale));
+            return System.Math.Abs(x) < relEps * s;
         }
 
         public static bool IsNumber(double x)
@@ -52,11 +90,29 @@ namespace Math
             return -eps <= x && x <= eps;
         }
 
+        /// <summary>
+        /// Returns true iff <paramref name="x"/> is a finite value strictly greater than <paramref name="eps"/>.
+        /// </summary>
+        /// <remarks>
+        /// Returns false for <see cref="double.NaN"/>, <see cref="double.PositiveInfinity"/>,
+        /// <see cref="double.NegativeInfinity"/>, zero, and any value within +/- <paramref name="eps"/> of zero.
+        /// Infinity is intentionally excluded so that "positive" implies "finite numeric magnitude
+        /// the rest of the library can safely arithmetic on" - callers that genuinely want to admit
+        /// +Infinity should test it explicitly with <see cref="double.IsPositiveInfinity(double)"/>.
+        /// </remarks>
         public static bool IsPositive(double x, double eps = Epsilon)
         {
             return eps < x && x < double.PositiveInfinity;
         }
 
+        /// <summary>
+        /// Returns true iff <paramref name="x"/> is a finite value strictly less than -<paramref name="eps"/>.
+        /// </summary>
+        /// <remarks>
+        /// Returns false for <see cref="double.NaN"/>, <see cref="double.PositiveInfinity"/>,
+        /// <see cref="double.NegativeInfinity"/>, zero, and any value within +/- <paramref name="eps"/> of zero.
+        /// Infinity is intentionally excluded; see <see cref="IsPositive(double,double)"/>.
+        /// </remarks>
         public static bool IsNegative(double x, double eps = Epsilon)
         {
             return double.NegativeInfinity < x && x < -eps;
@@ -70,6 +126,22 @@ namespace Math
         public static bool IsLess(double x, double y, double eps = Epsilon)
         {
             return x <= y && !IsEqual(x, y, eps);
+        }
+
+        /// <summary>
+        /// Returns a hash code for <paramref name="x"/> that is consistent with epsilon-tolerant <see cref="IsEqual(double,double,double)"/>:
+        /// values within the snap granularity hash to the same bucket. Granularity is chosen much coarser
+        /// than <see cref="Epsilon"/> so that any two values reported equal by <see cref="IsEqual(double,double,double)"/>
+        /// in the common case produce the same hash, satisfying the GetHashCode contract.
+        /// </summary>
+        public static int HashCode(double x)
+        {
+            if (double.IsNaN(x)) return 0;
+            if (double.IsPositiveInfinity(x)) return int.MaxValue;
+            if (double.IsNegativeInfinity(x)) return int.MinValue;
+            // Snap to a grid 3 orders of magnitude coarser than Epsilon (1e-10 vs 1e-13).
+            const double scale = 1e10;
+            return ((long) System.Math.Round(x * scale)).GetHashCode();
         }
 
         public static IList<double> UniqueAverageSorted(IList<double> v, double eps = Epsilon)

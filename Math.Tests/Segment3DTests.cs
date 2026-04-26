@@ -40,7 +40,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var s = new Segment3D();
-            Should.Throw<ArgumentException>(() => s[i]);
+            Should.Throw<ArgumentOutOfRangeException>(() => s[i]);
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
@@ -155,7 +155,7 @@ namespace Math.Tests
             const double y1 = 0.2;
             const double z1 = 0.3;
             var s = new Segment3D(new Vector3D(x0, y0, z0), new Vector3D(x1, y1, z1));
-            var c = s.Array;
+            var c = s.ToArray();
             c.Length.ShouldBe(s.Dimensions * 2);
             c[0].ShouldBe(x0);
             c[1].ShouldBe(y0);

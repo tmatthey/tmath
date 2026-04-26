@@ -62,10 +62,8 @@ namespace Math.Tests
                 var resourceStream = assembly.GetManifestResourceStream(filename);
                 if (resourceStream != null)
                 {
-                    using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
-                    {
-                        return reader.ReadToEnd();
-                    }
+                    using var reader = new StreamReader(resourceStream, Encoding.UTF8);
+                    return reader.ReadToEnd();
                 }
             }
             catch

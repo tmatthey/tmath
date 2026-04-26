@@ -73,7 +73,7 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public IEnumerable<int> HeartRates()
         {
-            return TrackPoints.Select(trackPoint => (int) trackPoint.HeartRate);
+            return TrackPoints.Select(trackPoint => (int)trackPoint.HeartRate);
         }
 
         /// <summary>
@@ -100,9 +100,10 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public IEnumerable<double> ElapsedSeconds()
         {
-            return TrackPoints?.FirstOrDefault() == null
+            return
+                TrackPoints?.FirstOrDefault() == null
                 ? new List<double>()
-                : TrackPoints.Select(trackPoint => trackPoint.Second - TrackPoints.FirstOrDefault().Second);
+                : TrackPoints.Select(trackPoint => trackPoint.Second - TrackPoints.First().Second);
         }
     }
 }

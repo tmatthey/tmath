@@ -216,6 +216,29 @@ namespace Math.Tests
             result.ShouldBe(expected);
         }
 
+        [TestCase(1.0, 1.0, true)]
+        [TestCase(1.0, 1.0 + 1e-14, true)]
+        [TestCase(1.0, 1.0 + 1e-12, false)]
+        [TestCase(6367000.0, 6367000.0 + 1e-7, true)]
+        [TestCase(6367000.0, 6367000.5, false)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, true)]
+        [TestCase(double.NegativeInfinity, double.NegativeInfinity, true)]
+        [TestCase(double.PositiveInfinity, double.NegativeInfinity, false)]
+        public void IsEqualRelative(double x, double y, bool expected)
+        {
+            Comparison.IsEqualRelative(x, y).ShouldBe(expected);
+        }
+
+        [TestCase(0.0, 1.0, true)]
+        [TestCase(1e-14, 1.0, true)]
+        [TestCase(1.0, 1.0, false)]
+        [TestCase(1e-7, 6367000.0, true)]
+        [TestCase(0.001, 6367000.0, false)]
+        public void IsZeroRelative(double x, double scale, bool expected)
+        {
+            Comparison.IsZeroRelative(x, scale).ShouldBe(expected);
+        }
+
         [Test]
         public void UniqueAverageSorted()
         {
@@ -235,6 +258,14 @@ namespace Math.Tests
             res.Count.ShouldBe(2);
             res[1].ShouldBe((1.02 + 1.01 + 0.99) / 3.0, 1e-10);
             res[0].ShouldBe(-1.2);
+        }
+
+        [Test]
+        public void HashCode_StableForNanAndInfinity_A1_1()
+        {
+            Comparison.HashCode(double.NaN).ShouldBe(0);
+            Comparison.HashCode(double.PositiveInfinity).ShouldBe(int.MaxValue);
+            Comparison.HashCode(double.NegativeInfinity).ShouldBe(int.MinValue);
         }
     }
 }

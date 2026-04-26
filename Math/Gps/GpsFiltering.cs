@@ -34,13 +34,16 @@ namespace Math.Gps
 {
     public static class GpsFiltering
     {
-        private static readonly List<FilterDuplicates> TheFileterList = new List<FilterDuplicates>
+        private static List<FilterDuplicates> CreateDefaultFilters()
         {
-            new FilterDuplicatesBeginSpike(),
-            new FilterDuplicatesBegin(),
-            new FilterDuplicatesEnd(),
-            new FilterDuplicatesDouble()
-        };
+            return new List<FilterDuplicates>
+            {
+                new FilterDuplicatesBeginSpike(),
+                new FilterDuplicatesBegin(),
+                new FilterDuplicatesEnd(),
+                new FilterDuplicatesDouble()
+            };
+        }
 
         public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track)
         {
@@ -52,7 +55,7 @@ namespace Math.Gps
 
         public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track, IList<double> time)
         {
-            return InterpolateDuplicates(track, time, TheFileterList);
+            return InterpolateDuplicates(track, time, CreateDefaultFilters());
         }
 
         public static IList<GpsPoint> InterpolateDuplicates(IList<GpsPoint> track, IList<double> time,
@@ -66,6 +69,8 @@ namespace Math.Gps
             if (zeros == 0)
                 return res;
 
+            var timeList = time as List<double> ?? time.ToList();
+
             for (var i = 0; i < startIdx.Count; i++)
             {
                 var i0 = startIdx[i];
@@ -76,7 +81,7 @@ namespace Math.Gps
                 var filters = new List<FilterDuplicates>();
                 foreach (var aFilter in theFilterList)
                 {
-                    aFilter.Filter(res, time.ToList(), startIdx.GetRange(i, startIdx.Count - i),
+                    aFilter.Filter(res, timeList, startIdx.GetRange(i, startIdx.Count - i),
                         endIdx.GetRange(i, endIdx.Count - i));
                     if (aFilter.HasDetected() &&
                         Comparison.IsLess(aFilter.NewVelocityVariance, aFilter.OldVelocityVariance))

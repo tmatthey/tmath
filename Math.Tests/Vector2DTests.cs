@@ -72,7 +72,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Vector2D();
-            Should.Throw<ArgumentException>(() => v[i]);
+            Should.Throw<ArgumentOutOfRangeException>(() => v[i]);
         }
 
         [TestCase(0, 13, 0)]
@@ -158,7 +158,7 @@ namespace Math.Tests
             const double x = 0.1;
             const double y = 0.2;
             var v = new Vector2D(x, y);
-            var c = v.Array;
+            var c = v.ToArray();
             c.Length.ShouldBe(v.Dimensions);
             c[0].ShouldBe(x);
             c[1].ShouldBe(y);
@@ -539,6 +539,24 @@ namespace Math.Tests
         {
             Vector2D.One.X.ShouldBe(1);
             Vector2D.One.Y.ShouldBe(1);
+        }
+
+        [Test]
+        public void EpsilonEqualValuesHashSame_A1_1()
+        {
+            var a = new Vector2D(1.0, 2.0);
+            var b = new Vector2D(1.0 + Comparison.Epsilon * 0.5,
+                2.0 - Comparison.Epsilon * 0.5);
+            a.IsEqual(b).ShouldBeTrue();
+            a.GetHashCode().ShouldBe(b.GetHashCode());
+        }
+
+        [Test]
+        public void Zero_IsFreshOnEachAccess_A1_2()
+        {
+            var z = Vector2D.Zero;
+            z.X = 42.0;
+            Vector2D.Zero.X.ShouldBe(0.0);
         }
     }
 }

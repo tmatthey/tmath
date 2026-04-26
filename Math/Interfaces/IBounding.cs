@@ -29,63 +29,24 @@
 namespace Math.Interfaces
 {
     /// <summary>
-    /// Interface of bounding box or rectangle
+    /// Mutable axis-aligned bounding region. Extends the read-only view in
+    /// <see cref="IReadOnlyBounding{T}"/> with growth operations (Reset, Expand, ExpandLayer).
+    /// Consumers that only need to read bounds should depend on <see cref="IReadOnlyBounding{T}"/>
+    /// instead so they cannot accidentally widen the box (Interface Segregation).
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IBounding<T>
+    /// <typeparam name="T">Coordinate type (Vector2D, Vector3D, ...).</typeparam>
+    public interface IBounding<T> : IReadOnlyBounding<T>
     {
-        /// <summary>
-        /// Min
-        /// </summary>
-        T Min { get; }
-
-        /// <summary>
-        /// Max
-        /// </summary>
-        T Max { get; }
-
-        /// <summary>
-        /// Is empty bounding box
-        /// </summary>
-        /// <returns></returns>
-        bool IsEmpty();
-
-        /// <summary>
-        /// Reset
-        /// </summary>
+        /// <summary>Resets the bounding region to the empty state.</summary>
         void Reset();
 
-        /// <summary>
-        /// Expand bounding box with vector / point
-        /// </summary>
-        /// <param name="v">vector / point</param>
+        /// <summary>Expands the bounding region to cover <paramref name="v"/>.</summary>
         void Expand(T v);
 
-        /// <summary>
-        /// Expanding with another bounding box
-        /// </summary>
-        /// <param name="b"></param>
+        /// <summary>Expands the bounding region to cover another bounding region.</summary>
         void Expand(IBounding<T> b);
 
-        /// <summary>
-        /// Add layer aorund current bounding box
-        /// </summary>
-        /// <param name="r">radius</param>
+        /// <summary>Adds an isotropic margin of width <paramref name="r"/> around the current region.</summary>
         void ExpandLayer(double r);
-
-        /// <summary>
-        /// Is point inside
-        /// </summary>
-        /// <param name="v">vector / point</param>
-        /// <returns></returns>
-        bool IsInside(T v);
-
-        /// <summary>
-        /// Is point inside
-        /// </summary>
-        /// <param name="v">point / vector</param>
-        /// <param name="eps">epsilon</param>
-        /// <returns></returns>
-        bool IsInside(T v, double eps);
     }
 }

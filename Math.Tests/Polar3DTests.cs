@@ -141,7 +141,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var v = new Polar3D();
-            Should.Throw<ArgumentException>(() => v[i]);
+            Should.Throw<ArgumentOutOfRangeException>(() => v[i]);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace Math.Tests
             const double y = 0.2;
             const double z = 0.3;
             var v = new Polar3D(x, y, z);
-            var c = v.Array;
+            var c = v.ToArray();
             c.Length.ShouldBe(v.Dimensions);
             c[0].ShouldBe(x);
             c[1].ShouldBe(y);

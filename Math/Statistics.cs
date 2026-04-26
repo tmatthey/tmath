@@ -76,6 +76,9 @@ namespace Math
 
             public static List<double> CenteredMovingAverage(List<double> x, double size)
             {
+                if (size < 0.0 || double.IsNaN(size))
+                    throw new System.ArgumentOutOfRangeException(nameof(size),
+                        "Window size must be non-negative.");
                 var res = new List<double>(x);
                 if (x.Count < 2 || Comparison.IsLessEqual(size, 1.0))
                     return res;
@@ -115,6 +118,14 @@ namespace Math
 
             public static List<double> CenteredMovingAverage(List<double> x, double size, List<double> w)
             {
+                if (size < 0.0 || double.IsNaN(size))
+                    throw new System.ArgumentOutOfRangeException(nameof(size),
+                        "Window size must be non-negative.");
+                if (w == null)
+                    throw new System.ArgumentNullException(nameof(w));
+                if (w.Count != x.Count)
+                    throw new System.ArgumentException(
+                        "Weight list must have the same length as the data list.", nameof(w));
                 var res = new List<double>(x);
                 if (x.Count < 2)
                     return res;
@@ -147,7 +158,9 @@ namespace Math
                         j--;
                     }
 
-                    res[i] = sum / l;
+                    // Avoid 0/0 if all weights in the window were zero - leave the original sample.
+                    if (Comparison.IsPositive(l))
+                        res[i] = sum / l;
                 }
 
                 return res;

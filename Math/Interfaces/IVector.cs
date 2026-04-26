@@ -29,129 +29,31 @@
 namespace Math.Interfaces
 {
     /// <summary>
-    /// Interface vector
+    /// Aggregated contract for full vector-like types. Composed from smaller capabilities so that
+    /// downstream code can ask for the narrowest interface it actually needs (Interface
+    /// Segregation):
+    /// <list type="bullet">
+    /// <item><description><see cref="IGeometryObject{T}"/> - dimensionality + array indexing + INorm</description></item>
+    /// <item><description><see cref="IBoundingFacade{T}"/> - axis-aligned bounding box</description></item>
+    /// <item><description><see cref="IIsEqual{T}"/> - epsilon-tolerant equality</description></item>
+    /// <item><description><see cref="INormalizable{T}"/> - length and unit-length scaling</description></item>
+    /// <item><description><see cref="IInnerProduct{T}"/> - dot, cross-norm, angles</description></item>
+    /// <item><description><see cref="IVectorArith{T}"/> - Add/Sub/Mul/Div</description></item>
+    /// <item><description><see cref="IInterpolate{T}"/> - linear interpolation</description></item>
+    /// </list>
+    /// Existing implementations (Vector2D, Vector3D, GpsPoint, ...) already provide every
+    /// member; the split is source-compatible.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IVector<T> : IGeometryObject<T>, IBoundingFacade<T>
+    public interface IVector<T> :
+        IGeometryObject<T>,
+        IBoundingFacade<T>,
+        IIsEqual<T>,
+        INormalizable<T>,
+        IInnerProduct<T>,
+        IVectorArith<T>,
+        IInterpolate<T>
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>X coordinate (mutable; preserved from the original IVector contract).</summary>
         double X { get; set; }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        /// <summary>
-        /// Is equal
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        bool IsEqual(T v);
-
-        /// <summary>
-        /// Is equal with epsilon
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="epsilon"></param>
-        /// <returns></returns>
-        bool IsEqual(T v, double epsilon);
-
-        /// <summary>
-        /// Normalize vector
-        /// </summary>
-        /// <returns>Length of vector</returns>
-        double Normalize();
-
-        /// <summary>
-        /// Normalize vector with epsilon
-        /// </summary>
-        /// <param name="epsilon"></param>
-        /// <returns>Length of vector</returns>
-        double Normalize(double epsilon);
-
-        /// <summary>
-        /// Return normalized vector
-        /// </summary>
-        /// <returns></returns>
-        T Normalized();
-
-        /// <summary>
-        /// Return normalized vector with epsilon
-        /// </summary>
-        /// <param name="epsilon"></param>
-        /// <returns></returns>
-        T Normalized(double epsilon);
-
-        /// <summary>
-        /// Squared norm of vector
-        /// </summary>
-        /// <returns></returns>
-        double Norm2();
-
-        /// <summary>
-        /// Norm
-        /// </summary>
-        /// <returns></returns>
-        double Norm();
-
-        /// <summary>
-        /// Dot product
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        double Dot(T v);
-
-        /// <summary>
-        /// Norm of cross product
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        double CrossNorm(T v);
-
-        /// <summary>
-        /// Angle between two vectors
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        double Angle(T v);
-
-        /// <summary>
-        /// Unsigned angle between two vectors
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        double AngleAbs(T v);
-
-        /// <summary>
-        /// Add vector
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        T Add(T v);
-
-        /// <summary>
-        /// Subtract vector
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        T Sub(T v);
-
-        /// <summary>
-        /// Multiply with a scalar
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        T Mul(double c);
-
-        /// <summary>
-        /// Divide with a scalar
-        /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        T Div(double c);
-
-        /// <summary>
-        /// Interpolate between two vectors
-        /// </summary>
-        /// <param name="v"></param>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        T Interpolate(T v, double x);
     }
 }

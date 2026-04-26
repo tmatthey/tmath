@@ -32,6 +32,13 @@ using Math.Interfaces;
 
 namespace Math.KDTree
 {
+    /// <summary>
+    /// Builds k-d trees for any payload type that exposes an axis-aligned bounding box via
+    /// <see cref="IBoundingFacade{T}"/>. The OCP entry point is the generic
+    /// <see cref="Build{T,S}(IEnumerable{S}, int)"/>; the four typed overloads below are pure
+    /// ergonomic shortcuts so callers do not have to spell out the type parameters for the
+    /// first-party Vector/Segment combinations.
+    /// </summary>
     public static class TreeBuilder
     {
         public const int MaxNLeaf = 3;
@@ -56,7 +63,12 @@ namespace Math.KDTree
             return Build<Vector3D, Segment3D>(list, maxLeaf);
         }
 
-
+        /// <summary>
+        /// Generic builder accepting any payload <typeparamref name="S"/> that can produce a
+        /// <typeparamref name="T"/>-valued bounding box. Adding a new geometric primitive to the
+        /// k-d tree only requires implementing <see cref="IBoundingFacade{T}"/> on it - the
+        /// builder itself does not need to change (Open/Closed Principle).
+        /// </summary>
         public static ITree<T> Build<T, S>(IEnumerable<S> list, int maxLeaf = MaxNLeaf)
             where T : IArray, IDimension
             where S : IArray, IDimension, IBoundingFacade<T>
@@ -69,7 +81,7 @@ namespace Math.KDTree
             where S : IArray, IDimension, IBoundingFacade<T>
         {
             var list = data as IList<KeyValuePair<S, int>> ?? data.ToList();
-            if (list.Any() == false)
+            if (!list.Any())
                 return new EmptyTree<T>();
 
             if (list.Count <= maxLeaf)
@@ -79,27 +91,29 @@ namespace Math.KDTree
             }
 
             var k = list.First().Key.Dimensions;
-            var l = list.First().Key.Array.Length;
+            var l = list.First().Key.ToArray().Length;
             var dim0 = depth % k;
             if (k == l)
             {
-                var sorted = list.OrderBy(p => p.Key[dim0]);
+                // Materialize the sorted sequence ONCE; previously OrderBy + Count + ElementAt
+                // + Take + Skip walked and sorted the IOrderedEnumerable up to four times.
+                var sorted = list.OrderBy(p => p.Key[dim0]).ToList();
 
-                var index = sorted.Count() / 2;
-                var median = sorted.ElementAt(index);
+                var index = sorted.Count / 2;
+                var median = sorted[index];
 
-                var leftTree = Build<T, S>(sorted.Take(index), depth + 1, maxLeaf);
-                var rightTree = Build<T, S>(sorted.Skip(index + 1), depth + 1, maxLeaf);
+                var leftTree = Build<T, S>(sorted.GetRange(0, index), depth + 1, maxLeaf);
+                var rightTree = Build<T, S>(sorted.GetRange(index + 1, sorted.Count - index - 1), depth + 1, maxLeaf);
                 return new Tree<T, S>(depth, new List<S> {median.Key}, median.Key[dim0], new List<int> {median.Value},
                     leftTree, rightTree);
             }
             else
             {
                 var dim1 = (dim0 + k) % l;
-                var sorted = list.OrderBy(p => p.Key[dim0] + p.Key[dim1]);
+                var sorted = list.OrderBy(p => p.Key[dim0] + p.Key[dim1]).ToList();
 
-                var index = sorted.Count() / 2;
-                var median = sorted.ElementAt(index);
+                var index = sorted.Count / 2;
+                var median = sorted[index];
                 var left = new List<KeyValuePair<S, int>>();
                 var right = new List<KeyValuePair<S, int>>();
                 var medianValue = 0.5 * (median.Key[dim0] + median.Key[dim1]);

@@ -27,17 +27,24 @@
  */
 
 using System.IO;
-using System.Text;
-#if NETSTANDARD2_0
-using Drawing = System.DrawingCore;
-#else
-using Drawing = System.Drawing;
-#endif
 
 namespace Math.Gfx
 {
+    /// <summary>
+    /// Path-based facade over <see cref="IBitmapFormatWriter"/> strategies. The four overloads
+    /// are kept for source compatibility; new format implementations can plug in by adding a
+    /// fresh <see cref="IBitmapFormatWriter"/> without modifying this type (Open/Closed).
+    /// All <see cref="System.Drawing"/> usage in this assembly is delegated to the
+    /// <c>Png*</c> strategies (<see cref="PngBitmapFormatWriter"/>,
+    /// <see cref="PngTripleChannelBitmapWriter"/>) so that a future assembly split (DIP) only
+    /// has to relocate those files.
+    /// </summary>
     public static class BitmapFileWriter
     {
+        public static readonly IBitmapFormatWriter Pgm = new PgmBitmapFormatWriter();
+        public static readonly IBitmapFormatWriter Ppm = new PpmBitmapFormatWriter();
+        public static readonly IBitmapFormatWriter Png = new PngBitmapFormatWriter();
+
         public static void PGM(string fileName, double[,] bitmap)
         {
             PGM(fileName, bitmap, GreyMapping.Default);
@@ -45,37 +52,12 @@ namespace Math.Gfx
 
         public static void PGM(string fileName, double[,] bitmap, IColorMapping colorMap)
         {
-            var width = bitmap.GetLength(0);
-            var height = bitmap.GetLength(1);
-            var header = "P5\n" + width + " " + height + "\n255\n";
-            var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
-            writer.Write(Encoding.ASCII.GetBytes(header));
-            for (var j = height - 1; j >= 0; j--)
-            {
-                for (var i = 0; i < width; i++)
-                {
-                    writer.Write(colorMap.Grey(bitmap[i, j]));
-                }
-            }
+            WriteToFile(fileName, bitmap, colorMap, Pgm);
         }
 
         public static void PPM(string fileName, double[,] bitmap, IColorMapping colorMap)
         {
-            var width = bitmap.GetLength(0);
-            var height = bitmap.GetLength(1);
-            var header = "P6\n" + width + " " + height + "\n255\n";
-            var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create));
-            writer.Write(Encoding.ASCII.GetBytes(header));
-            for (var j = height - 1; j >= 0; j--)
-            {
-                for (var i = 0; i < width; i++)
-                {
-                    var col = colorMap.Color(bitmap[i, j]);
-                    writer.Write(col.Red);
-                    writer.Write(col.Green);
-                    writer.Write(col.Blue);
-                }
-            }
+            WriteToFile(fileName, bitmap, colorMap, Ppm);
         }
 
         public static void PNG(string fileName, double[,] bitmap)
@@ -85,38 +67,28 @@ namespace Math.Gfx
 
         public static void PNG(string fileName, double[,] bitmap, IColorMapping colorMap)
         {
-            var width = bitmap.GetLength(0);
-            var height = bitmap.GetLength(1);
-            var image = new Drawing.Bitmap(width, height);
-            for (var j = 0; j < height; j++)
-            {
-                for (var i = 0; i < width; i++)
-                {
-                    var c = colorMap.Color(bitmap[i, j]);
-                    image.SetPixel(i, height - j - 1, Drawing.Color.FromArgb(c.Red, c.Green, c.Blue));
-                }
-            }
-
-            image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
+            WriteToFile(fileName, bitmap, colorMap, Png);
         }
 
         public static void PNG(string fileName, double[,] red, double[,] green, double[,] blue)
         {
-            var width = red.GetLength(0);
-            var height = red.GetLength(1);
-            var image = new Drawing.Bitmap(width, height);
-            var colorMap = GreenMapping.Default;
-            for (var j = 0; j < height; j++)
+            // The 3-channel PNG path mixes three intensity rasters through the GreenMapping grey
+            // ramp, which is not expressible through the single-channel IBitmapFormatWriter
+            // contract. Delegate to PngTripleChannelBitmapWriter so all System.Drawing usage in
+            // this assembly stays confined to the Png* strategy files.
+            using (var stream = new FileStream(fileName, FileMode.Create))
             {
-                for (var i = 0; i < width; i++)
-                {
-                    image.SetPixel(i, height - j - 1,
-                        Drawing.Color.FromArgb(colorMap.Grey(red[i, j]), colorMap.Grey(green[i, j]),
-                            colorMap.Grey(blue[i, j])));
-                }
+                PngTripleChannelBitmapWriter.Write(stream, red, green, blue);
             }
+        }
 
-            image.Save(new FileStream(fileName, FileMode.Create), Drawing.Imaging.ImageFormat.Png);
+        private static void WriteToFile(string fileName, double[,] bitmap, IColorMapping colorMap,
+            IBitmapFormatWriter writer)
+        {
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            {
+                writer.Write(stream, bitmap, colorMap);
+            }
         }
     }
 }

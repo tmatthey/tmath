@@ -35,15 +35,21 @@ namespace Math.Interfaces
     public interface IArray
     {
         /// <summary>
-        /// Array representation of the coordinate(s)
+        /// Array representation of the coordinate(s).
+        /// Allocates a new array on every call; prefer the indexer for single-element access.
         /// </summary>
-        double[] Array { get; }
+        double[] ToArray();
 
         /// <summary>
-        /// Array access of the coordinate(s)
+        /// Array access of the coordinate(s).
         /// </summary>
-        /// <param name="i">index</param>
-        /// <returns></returns>
+        /// <param name="i">Component index.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="i"/> is outside the implementation's component range.
+        /// All concrete implementations in this library throw
+        /// <see cref="System.ArgumentOutOfRangeException"/> rather than the older bare
+        /// <see cref="System.ArgumentException"/>; tests should assert the more specific type.
+        /// </exception>
         double this[int i] { get; }
     }
 }

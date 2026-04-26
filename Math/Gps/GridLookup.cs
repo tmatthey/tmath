@@ -39,14 +39,14 @@ namespace Math.Gps
             Min = new Vector2D(flatTrack.Size.Min);
             Max = new Vector2D(flatTrack.Size.Max);
             Size = gridSize;
-            FlattendTrack = flatTrack;
+            FlattenedTrack = flatTrack;
             Index(Max, out var nx, out var ny);
             NX = nx + 1;
             NY = ny + 1;
-            Grid = new List<int>[NX, NY];
+            var sets = new HashSet<int>[NX, NY];
             for (var i = 0; i < NX; ++i)
             for (var j = 0; j < NY; j++)
-                Grid[i, j] = new List<int>();
+                sets[i, j] = new HashSet<int>();
             var i0 = -1;
             var j0 = -1;
             for (var k = 0; k < flatTrack.Track.Count; k++)
@@ -54,8 +54,8 @@ namespace Math.Gps
                 Index(flatTrack.Track[k], out var i, out var j);
                 if (k > 0 && System.Math.Abs(i - i0) + System.Math.Abs(j - j0) > 1)
                 {
-                    // To handle corner case when two consecutive points do not share an edge or reside 
-                    // in the same grid point. Normally the grid size is superior to the distance between 
+                    // To handle corner case when two consecutive points do not share an edge or reside
+                    // in the same grid point. Normally the grid size is superior to the distance between
                     // to consecutive points.
                     var l = k;
                     var i1 = i0;
@@ -67,31 +67,33 @@ namespace Math.Gps
                             {
                                 if (x == i1 && y == j1)
                                 {
-                                    Grid[x, y].Add(l - 1);
+                                    sets[x, y].Add(l - 1);
                                 }
                                 else if (x == i && y == j)
                                 {
-                                    Grid[x, y].Add(l);
+                                    sets[x, y].Add(l);
                                 }
                                 else
                                 {
-                                    Grid[x, y].Add(l);
-                                    Grid[x, y].Add(l - 1);
+                                    sets[x, y].Add(l);
+                                    sets[x, y].Add(l - 1);
                                 }
-
-                                Grid[x, y] = Grid[x, y].Distinct().ToList();
                             }
                         });
                 }
                 else
                 {
-                    Grid[i, j].Add(k);
-                    Grid[i, j] = Grid[i, j].Distinct().ToList();
+                    sets[i, j].Add(k);
                 }
 
                 i0 = i;
                 j0 = j;
             }
+
+            Grid = new List<int>[NX, NY];
+            for (var i = 0; i < NX; ++i)
+            for (var j = 0; j < NY; j++)
+                Grid[i, j] = new List<int>(sets[i, j]);
         }
 
         public List<int>[,] Grid { get; }
@@ -100,7 +102,7 @@ namespace Math.Gps
         public Vector2D Min { get; }
         public Vector2D Max { get; }
         public double Size { get; }
-        public FlatTrack FlattendTrack { get; }
+        public FlatTrack FlattenedTrack { get; }
 
         public IList<NeighbourDistancePoint> Find(Vector2D point, double radius)
         {
@@ -173,7 +175,7 @@ namespace Math.Gps
                         Grid[i, j].Select(
                             k =>
                                 new NeighbourDistancePoint(k, referenceIndex,
-                                    point.EuclideanNorm(FlattendTrack.Track[k]))));
+                                    point.EuclideanNorm(FlattenedTrack.Track[k]))));
                 }
             }
 

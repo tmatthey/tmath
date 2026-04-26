@@ -32,18 +32,18 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Vector2D : IVector<Vector2D>, ICloneable<Vector2D>, IIsEqual<Vector2D>, IInterpolate<Vector2D>
+    public class Vector2D : IVector<Vector2D>, ICloneable<Vector2D>
     {
-        public static readonly Vector2D Zero = new Vector2D(0, 0);
-        public static readonly Vector2D One = new Vector2D(1, 1);
-        public static readonly Vector2D E1 = new Vector2D(1, 0);
-        public static readonly Vector2D E2 = new Vector2D(0, 1);
-        public static readonly Vector2D NaN = new Vector2D(double.NaN, double.NaN);
+        public static Vector2D Zero => new Vector2D(0, 0);
+        public static Vector2D One => new Vector2D(1, 1);
+        public static Vector2D E1 => new Vector2D(1, 0);
+        public static Vector2D E2 => new Vector2D(0, 1);
+        public static Vector2D NaN => new Vector2D(double.NaN, double.NaN);
 
-        public static readonly Vector2D PositiveInfinity =
+        public static Vector2D PositiveInfinity =>
             new Vector2D(double.PositiveInfinity, double.PositiveInfinity);
 
-        public static readonly Vector2D NegativeInfinity =
+        public static Vector2D NegativeInfinity =>
             new Vector2D(double.NegativeInfinity, double.NegativeInfinity);
 
         public Vector2D()
@@ -131,8 +131,14 @@ namespace Math
             return Norm(v.X - X, v.Y - Y);
         }
 
+        /// <summary>
+        /// For a directionless 2D point the modified norm coincides with the Euclidean norm, so
+        /// <paramref name="direction"/> is intentionally ignored. The parameter exists to satisfy
+        /// the <see cref="INorm{T}"/> contract shared with directional types like Segment2D.
+        /// </summary>
         public double ModifiedNorm(Vector2D v, bool direction = true)
         {
+            _ = direction;
             return EuclideanNorm(v);
         }
 
@@ -183,7 +189,7 @@ namespace Math
 
         public int Dimensions => 2;
 
-        public double[] Array => new[] {X, Y};
+        public double[] ToArray() => new[] {X, Y};
 
         public double this[int i]
         {
@@ -195,9 +201,10 @@ namespace Math
                         return X;
                     case 1:
                         return Y;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i, "Vector2D index must be 0 (X) or 1 (Y).");
                 }
-
-                throw new ArgumentException();
             }
         }
 
@@ -217,8 +224,8 @@ namespace Math
         {
             unchecked
             {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
+                var hashCode = Comparison.HashCode(X);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Y);
                 return hashCode;
             }
         }

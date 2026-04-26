@@ -48,7 +48,7 @@ namespace Math.Tests.Gps
             };
             var center = new GpsPoint {Longitude = 180, Latitude = 0};
 
-            var flatTrackCluster = new FlatTrackCluster(new List<List<GpsPoint>> {track});
+            var flatTrackCluster = new FlatTrackCluster([track]);
             flatTrackCluster.Center.EuclideanNorm(center).ShouldBeLessThan(1e-7);
             flatTrackCluster.Size.Min.X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);
             flatTrackCluster.Size.Min.Y.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);

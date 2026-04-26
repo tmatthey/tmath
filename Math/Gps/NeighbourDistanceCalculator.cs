@@ -38,7 +38,7 @@ namespace Math.Gps
     {
         public NeighbourDistanceCalculator(GridLookup reference)
         {
-            _flatTrack = reference.FlattendTrack;
+            _flatTrack = reference.FlattenedTrack;
             _gridLookup = reference;
         }
 

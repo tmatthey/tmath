@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System.Collections.Generic;
 using Math.Gfx;
 using NUnit.Framework;
 using Shouldly;
@@ -460,6 +461,18 @@ namespace Math.Tests.Gfx
             bitmap.Pixels[0, 4].ShouldBe(0.0);
             bitmap.Pixels[1, 4].ShouldBe(0.0);
             bitmap.Pixels[2, 4].ShouldBe(0.0);
+        }
+
+        [Test]
+        public void Bresenham_NegativeCoordinates_PlotsWholeDiagonal_A1_7()
+        {
+            var pixels = new HashSet<(int, int)>();
+            Draw.Bresenham(new Vector2D(-3, -3), new Vector2D(3, 3),
+                (x, y, c, cMax) => pixels.Add((x, y)));
+            for (var k = -3; k <= 3; k++)
+            {
+                pixels.ShouldContain((k, k), $"Bresenham must plot the diagonal pixel ({k},{k}).");
+            }
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Math
 
         public int Dimensions => 3;
 
-        public double[] Array => new[] {Theta, Phi, R};
+        public double[] ToArray() => new[] {Theta, Phi, R};
 
         public double this[int i]
         {
@@ -97,9 +97,10 @@ namespace Math
                         return Phi;
                     case 2:
                         return R;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i, "Polar3D index must be 0 (Theta), 1 (Phi), or 2 (R).");
                 }
-
-                throw new ArgumentException();
             }
         }
 
@@ -108,8 +109,12 @@ namespace Math
             return ((Vector3D) this).EuclideanNorm(d);
         }
 
+        /// <summary>
+        /// Polar points carry no orientation, so <paramref name="direction"/> is ignored.
+        /// </summary>
         public double ModifiedNorm(Polar3D d, bool direction = true)
         {
+            _ = direction;
             return EuclideanNorm(d);
         }
 
@@ -141,9 +146,9 @@ namespace Math
         {
             unchecked
             {
-                var hashCode = R.GetHashCode();
-                hashCode = (hashCode * 397) ^ Theta.GetHashCode();
-                hashCode = (hashCode * 397) ^ Phi.GetHashCode();
+                var hashCode = Comparison.HashCode(R);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Theta);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Phi);
                 return hashCode;
             }
         }

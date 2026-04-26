@@ -45,7 +45,7 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track Convert(TrainingCenterDatabase_t data)
         {
-            IEnumerable<TrackPoint> trackPoints = null;
+            List<TrackPoint> trackPoints = null;
             var sport = SportType.Unknown;
             var date = DateTime.Now;
             if (data?.Activities?.Activity != null)
@@ -63,7 +63,7 @@ namespace Math.Tools.TrackReaders
                             t.DistanceMeters,
                             t.HeartRateBpm?.Value ?? 0,
                             t.Time));
-                });
+                }).ToList();
                 var activity = activities.FirstOrDefault();
                 if (activity != null)
                 {
@@ -83,13 +83,13 @@ namespace Math.Tools.TrackReaders
                             t.DistanceMeters,
                             t.HeartRateBpm?.Value ?? 0,
                             t.Time));
-                });
+                }).ToList();
                 if (trackPoints.Any())
                     date = trackPoints.First().Time;
             }
 
 
-            return new Track { Date = date, SportType = sport, TrackPoints = trackPoints.ToList() };
+            return new Track { Date = date, SportType = sport, TrackPoints = trackPoints };
         }
 
         private static SportType FindSport(Sport_t sport)

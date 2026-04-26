@@ -71,12 +71,12 @@ namespace Math.Gfx
 
         public void PixelSet(int x, int y, double c)
         {
-            if (IsInRange(x, y))
-            {
-                _red.Pixels[x, y] = c * (255 - Color.Red) / 255.0;
-                _green.Pixels[x, y] = c * (255 - Color.Green) / 255.0;
-                _blue.Pixels[x, y] = c * (255 - Color.Blue) / 255.0;
-            }
+            if (!IsInRange(x, y))
+                return;
+
+            _red.Pixels[x, y] = c * (255 - Color.Red) / 255.0;
+            _green.Pixels[x, y] = c * (255 - Color.Green) / 255.0;
+            _blue.Pixels[x, y] = c * (255 - Color.Blue) / 255.0;
         }
 
         public double PickRed(int x, int y)

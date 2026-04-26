@@ -330,14 +330,14 @@ namespace Math.Tests
         [Test]
         public void PolynomialEq_EmptyCoefficients_ReturnsEmpty()
         {
-            var root = Solver.PolynomialEq(new List<double>());
+            var root = Solver.PolynomialEq([]);
             root.Count.ShouldBe(0);
         }
 
         [Test]
         public void PolynomialEq_OneNonZeroCoefficients_ReturnsZero()
         {
-            var root = Solver.PolynomialEq(new List<double> { 0.0, 0.0, 0.0, 17.0, 0.0 });
+            var root = Solver.PolynomialEq([0.0, 0.0, 0.0, 17.0, 0.0]);
             root.Count.ShouldBe(1);
             root[0].ShouldBe(0.0);
         }
@@ -345,7 +345,7 @@ namespace Math.Tests
         [Test]
         public void PolynomialEq_CubicOneRootAndZeroRoot_ReturnsTwoRoots()
         {
-            var root = Solver.PolynomialEq(new List<double> { 0.0, 0.0, -87.0, 41.0, -7.0, 1.0 });
+            var root = Solver.PolynomialEq([0.0, 0.0, -87.0, 41.0, -7.0, 1.0]);
             root.Count.ShouldBe(2);
             root[0].ShouldBe(0.0);
             root[1].ShouldBe(3.0, 1e-13);
@@ -354,7 +354,7 @@ namespace Math.Tests
         [Test]
         public void PolynomialEq_QudraticAndMultipleZeroRoot_ReturnsExpected()
         {
-            var root = Solver.PolynomialEq(new List<double> { 0.0, 0.0, 0.0, 2.0, -3.0, 1.0 });
+            var root = Solver.PolynomialEq([0.0, 0.0, 0.0, 2.0, -3.0, 1.0]);
             root.Count.ShouldBe(3);
             root[0].ShouldBe(0.0);
             root[1].ShouldBe(1.0);
@@ -410,7 +410,7 @@ namespace Math.Tests
         [Test]
         public void PolynomialEq_ZeroCoefficients_ReturnsEmpty()
         {
-            var root = Solver.PolynomialEq(new List<double> { 0.0, 0.0, 0.0 });
+            var root = Solver.PolynomialEq([0.0, 0.0, 0.0]);
             root.Count.ShouldBe(0);
         }
 
@@ -568,6 +568,20 @@ namespace Math.Tests
             var p = new Polynomial(new List<double> { 2, -3, 1 });
             var x = Solver.Secant(10, 1e-15, 1.4, 2.5, p.p);
             x.ShouldBe(2, 1e-5);
+        }
+
+        [Test]
+        public void Secant_StagnationDoesNotProduceInfinity_A2_2()
+        {
+            var x = Solver.Secant(50, 1e-10, 0.0, 1.0, _ => 1.0);
+            double.IsInfinity(x).ShouldBeFalse();
+        }
+
+        [Test]
+        public void QuarticEq_EmptyCubicResolvent_DoesNotThrow_A2_3()
+        {
+            var roots = Solver.QuarticEq(1.0, 0.0, 0.0, 0.0, 1.0);
+            foreach (var r in roots) double.IsNaN(r).ShouldBeFalse();
         }
 
         private static (double a, double b, double c, double d, double e) CreateQuarticEq(double x0, double x1, double x2, double x3)

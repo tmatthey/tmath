@@ -73,7 +73,7 @@ namespace Math
         /// <inheritdoc />
         public bool IsEmpty()
         {
-            return Min.X > Max.X && Min.Y > Max.Y && Min.Z > Max.Z;
+            return Min.X > Max.X || Min.Y > Max.Y || Min.Z > Max.Z;
         }
 
         /// <inheritdoc />
@@ -98,8 +98,10 @@ namespace Math
         /// <inheritdoc />
         public void ExpandLayer(double r)
         {
-            var min = (!IsEmpty() ? Min : Vector3D.Zero) - Vector3D.One * r;
-            var max = (!IsEmpty() ? Max : Vector3D.Zero) + Vector3D.One * r;
+            if (IsEmpty())
+                return;
+            var min = Min - Vector3D.One * r;
+            var max = Max + Vector3D.One * r;
             Expand(min);
             Expand(max);
         }

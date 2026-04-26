@@ -41,13 +41,19 @@ namespace Math
     /// </remarks> 
     public class Polynomial : ICloneable<Polynomial>
     {
+        // Laguerre's method "fractional step" sequence (Numerical Recipes ch.9.5). Every
+        // _laguerreIterationsPerCycle steps the algorithm applies one of these fractions to
+        // dx in order to escape limit cycles around stationary points.
+        private const int LaguerreIterationsPerCycle = 10;
+
+        private static readonly IReadOnlyList<double> LaguerreFractions =
+            new List<double> {0.0, 0.5, 0.25, 0.13, 0.38, 0.62, 0.88, 1.0};
+
         private readonly IList<double> _dp;
         private readonly IList<double> _dp2;
-        private readonly IList<double> _frac = new List<double> {0.0, 0.5, 0.25, 0.13, 0.38, 0.62, 0.88, 1.0};
         private readonly IList<double> _p;
-        private readonly IList<double> _P;
-        private readonly int MR;
-        private readonly int MT = 10;
+        private readonly IList<double> _integral;
+        private readonly int _laguerreCycles;
 
         /// <summary>
         /// Defining a polynomial by coefficients of n-th degree.
@@ -55,7 +61,7 @@ namespace Math
         /// <param name="coefficients">Coefficients in decreasing order. E.g., 2x^2 + x + 3 as {2,1,3}.</param>
         public Polynomial(IEnumerable<double> coefficients)
         {
-            MR = _frac.Count - 1;
+            _laguerreCycles = LaguerreFractions.Count - 1;
 
             // Polynomial
             _p = new List<double>(coefficients);
@@ -81,10 +87,10 @@ namespace Math
             }
 
             // Integral
-            _P = new List<double> {0.0};
+            _integral = new List<double> {0.0};
             for (var i = 0; i < _p.Count; i++)
             {
-                _P.Add(_p[i] / (i + 1));
+                _integral.Add(_p[i] / (i + 1));
             }
         }
 
@@ -118,7 +124,7 @@ namespace Math
         /// </summary> 
         public IList<double> P()
         {
-            return _P;
+            return _integral;
         }
 
         /// <summary>
@@ -166,7 +172,7 @@ namespace Math
         /// </summary> 
         public Complex P(Complex x)
         {
-            return Eval(x, _P);
+            return Eval(x, _integral);
         }
 
         /// <summary>
@@ -180,7 +186,7 @@ namespace Math
             // Numerical Recipes
             var n = new Complex(_p.Count - 1, 0.0);
             var n1 = new Complex(_p.Count - 2, 0.0);
-            for (var i = 0; i < MT * MR; i++)
+            for (var i = 0; i < LaguerreIterationsPerCycle * _laguerreCycles; i++)
             {
                 var y0 = Eval(x, _p);
                 if (y0.Magnitude <= double.Epsilon)
@@ -202,13 +208,13 @@ namespace Math
                     break;
                 }
 
-                if ((i + 1) % MT != 0)
+                if ((i + 1) % LaguerreIterationsPerCycle != 0)
                 {
                     x -= dx;
                 }
                 else
                 {
-                    x -= _frac[(i + 1) / MT] * dx;
+                    x -= LaguerreFractions[(i + 1) / LaguerreIterationsPerCycle] * dx;
                 }
             }
 

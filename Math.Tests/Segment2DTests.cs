@@ -40,7 +40,7 @@ namespace Math.Tests
         public void ArrayOp_WithOutOfBoundIndex_Throws(int i)
         {
             var s = new Segment2D();
-            Should.Throw<ArgumentException>(() => s[i]);
+            Should.Throw<ArgumentOutOfRangeException>(() => s[i]);
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
@@ -82,7 +82,7 @@ namespace Math.Tests
             const double x1 = 0.1;
             const double y1 = 0.2;
             var s = new Segment2D(new Vector2D(x0, y0), new Vector2D(x1, y1));
-            var c = s.Array;
+            var c = s.ToArray();
             c.Length.ShouldBe(s.Dimensions * 2);
             c[0].ShouldBe(x0);
             c[1].ShouldBe(y0);

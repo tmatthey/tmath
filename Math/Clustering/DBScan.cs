@@ -47,12 +47,12 @@ namespace Math.Clustering
         private ITree<T> _tree;
 
         /// <summary>
-        /// Defining a DBScan with a list of the geometric objects to be clustered.
+        /// Defining a DBScan with a list of the geometric objects to be clustered. The constructor takes a defensive copy of the input list.
         /// </summary>
         /// <param name="list">List of object of dimension n with a norm based on point type T, e.g., Segment3D.</param>
         public DBScan(IList<S> list)
         {
-            _list = list;
+            _list = new List<S>(list);
             _tree = null;
             _data = null;
         }
@@ -92,27 +92,41 @@ namespace Math.Clustering
                     continue;
                 p.ClusterId = Classification.Noise;
 
-                var seeds = EpsNeighborhood(p, eps, direction);
-                if (seeds.Count < n)
+                var initialSeeds = EpsNeighborhood(p, eps, direction);
+                if (initialSeeds.Count < n)
                     continue;
 
                 var region = new List<int>();
-                for (var i = 0; i < seeds.Count; i++)
+                var queue = new Queue<int>();
+                var visited = new HashSet<int>();
+                foreach (var s in initialSeeds)
                 {
-                    var j = seeds[i];
+                    if (visited.Add(s))
+                        queue.Enqueue(s);
+                }
+
+                while (queue.Count > 0)
+                {
+                    var j = queue.Dequeue();
                     if (_data[j].ClusterId == Classification.UnVisited)
                     {
                         _data[j].ClusterId = Classification.Noise;
                         var newSeeds = EpsNeighborhood(_data[j], eps, direction);
                         if (newSeeds.Count >= n)
-                            seeds = seeds.Union(newSeeds).ToList();
+                        {
+                            foreach (var s in newSeeds)
+                            {
+                                if (visited.Add(s))
+                                    queue.Enqueue(s);
+                            }
+                        }
                     }
 
-                    if (_data[j].ClusterId < Classification.Classified)
-                    {
-                        _data[j].ClusterId = clusterId;
-                        region.Add(j);
-                    }
+                    if (_data[j].ClusterId >= Classification.Classified) 
+                        continue;
+                    
+                    _data[j].ClusterId = clusterId;
+                    region.Add(j);
                 }
 
                 clusters.Add(region);

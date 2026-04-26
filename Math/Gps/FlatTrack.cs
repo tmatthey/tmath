@@ -26,6 +26,7 @@
  * ***** END LICENSE BLOCK *****
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,15 +34,12 @@ namespace Math.Gps
 {
     public class FlatTrack
     {
-        private List<double> _displacement;
-        private List<double> _distance;
+        private readonly Lazy<(List<double> Distance, List<double> Displacement)> _distances;
 
         public FlatTrack(IEnumerable<GpsPoint> gpsTrack, Vector3D center)
         {
             Size = new BoundingRect();
             Track = new List<Vector2D>();
-            _distance = null;
-            _displacement = null;
 
             Polar3D c = center;
             foreach (var g in gpsTrack)
@@ -50,18 +48,20 @@ namespace Math.Gps
                 Track.Add(v);
                 Size.Expand(v);
             }
+
+            _distances = new Lazy<(List<double>, List<double>)>(CalculateDistance);
         }
 
         public FlatTrack(IEnumerable<Vector2D> track)
         {
             Size = new BoundingRect();
             Track = track.ToList();
-            _distance = null;
-            _displacement = null;
             foreach (var pt in Track)
             {
                 Size.Expand(pt);
             }
+
+            _distances = new Lazy<(List<double>, List<double>)>(CalculateDistance);
         }
 
         public List<Vector2D> Track { get; }
@@ -70,51 +70,18 @@ namespace Math.Gps
 
         public Vector2D Max => Size.Max;
 
-        public IList<double> Distance
-        {
-            get
-            {
-                if (_distance == null)
-                {
-                    CalculateDistance();
-                }
+        public IList<double> Distance => _distances.Value.Distance;
 
-                return _distance;
-            }
-        }
+        public IList<double> Displacement => _distances.Value.Displacement;
 
-        public IList<double> Displacement
-        {
-            get
-            {
-                if (_displacement == null)
-                {
-                    CalculateDistance();
-                }
-
-                return _displacement;
-            }
-        }
-
-        public double TotalDistance
-        {
-            get
-            {
-                if (_distance == null)
-                {
-                    CalculateDistance();
-                }
-
-                return _distance?.LastOrDefault() ?? 0.0;
-            }
-        }
+        public double TotalDistance => _distances.Value.Distance.LastOrDefault();
 
         public BoundingRect Size { get; }
 
-        private void CalculateDistance()
+        private (List<double> Distance, List<double> Displacement) CalculateDistance()
         {
-            _distance = new List<double>();
-            _displacement = new List<double>();
+            var distance = new List<double>();
+            var displacement = new List<double>();
             var d = 0.0;
             for (var i = 0; i < Track.Count; i++)
             {
@@ -125,9 +92,11 @@ namespace Math.Gps
                 }
 
                 d += ds;
-                _distance.Add(d);
-                _displacement.Add(ds);
+                distance.Add(d);
+                displacement.Add(ds);
             }
+
+            return (distance, displacement);
         }
     }
 }

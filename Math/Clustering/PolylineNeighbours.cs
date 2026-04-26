@@ -40,7 +40,7 @@ namespace Math.Clustering
     {
         public static List<List<int>> Cluster(List<List<GpsPoint>> gpsTracks, double minDistance = 500.0)
         {
-            return Cluster(gpsTracks.Select(l => l.Select(pt => (Vector3D) pt).ToList()).ToList(), minDistance);
+            return Cluster(gpsTracks.Select(l => l.Select(pt => (Vector3D)pt).ToList()).ToList(), minDistance);
         }
 
         public static List<List<int>> Cluster<T>(List<List<T>> polylines, double minDistance = 500.0)
@@ -49,7 +49,7 @@ namespace Math.Clustering
             if (polylines.Count == 0)
                 return new List<List<int>>();
             if (polylines.Count == 1)
-                return new List<List<int>> {new List<int> {0}};
+                return new List<List<int>> { new List<int> { 0 } };
 
             // Pre filtering by eps minDistance * 0.5
             var lineId = new List<int>();
@@ -57,21 +57,21 @@ namespace Math.Clustering
             for (var i = 0; i < polylines.Count; i++)
             {
                 var polyline = polylines[i];
-                if (polyline.Count > 0)
+                if (polyline.Count <= 0)
+                    continue;
+
+                var a = polyline[0];
+                points.Add(a);
+                lineId.Add(i);
+                for (var j = 1; j < polyline.Count; j++)
                 {
-                    var a = polyline[0];
-                    points.Add(a);
+                    var b = polyline[j];
+                    if (Comparison.IsLess(a.EuclideanNorm(b), minDistance * 0.5))
+                        continue;
+
+                    points.Add(b);
                     lineId.Add(i);
-                    for (var j = 1; j < polyline.Count; j++)
-                    {
-                        var b = polyline[j];
-                        if (Comparison.IsLessEqual(minDistance * 0.5, a.EuclideanNorm(b)))
-                        {
-                            points.Add(b);
-                            lineId.Add(i);
-                            a = b;
-                        }
-                    }
+                    a = b;
                 }
             }
 
@@ -83,9 +83,7 @@ namespace Math.Clustering
             {
                 var set = new HashSet<int>();
                 foreach (var k in cluster)
-                {
                     set.Add(lineId[k]);
-                }
 
                 polyClusters.Insert(0, set);
                 for (var m = 0; m + 1 < polyClusters.Count; m++)

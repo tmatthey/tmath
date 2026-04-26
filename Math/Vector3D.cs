@@ -31,20 +31,20 @@ using Math.Interfaces;
 
 namespace Math
 {
-    public class Vector3D : IVector<Vector3D>, ICloneable<Vector3D>, IIsEqual<Vector3D>, IInterpolate<Vector3D>
+    public class Vector3D : IVector<Vector3D>, ICloneable<Vector3D>
     {
-        public static readonly Vector3D Zero = new Vector3D(0, 0, 0);
-        public static readonly Vector3D One = new Vector3D(1, 1, 1);
-        public static readonly Vector3D E1 = new Vector3D(1, 0, 0);
-        public static readonly Vector3D E2 = new Vector3D(0, 1, 0);
-        public static readonly Vector3D E3 = new Vector3D(0, 0, 1);
-        public static readonly Vector3D NaN = new Vector3D(double.NaN, double.NaN, double.NaN);
+        public static Vector3D Zero => new Vector3D(0, 0, 0);
+        public static Vector3D One => new Vector3D(1, 1, 1);
+        public static Vector3D E1 => new Vector3D(1, 0, 0);
+        public static Vector3D E2 => new Vector3D(0, 1, 0);
+        public static Vector3D E3 => new Vector3D(0, 0, 1);
+        public static Vector3D NaN => new Vector3D(double.NaN, double.NaN, double.NaN);
 
-        public static readonly Vector3D PositiveInfinity = new Vector3D(double.PositiveInfinity,
+        public static Vector3D PositiveInfinity => new Vector3D(double.PositiveInfinity,
             double.PositiveInfinity,
             double.PositiveInfinity);
 
-        public static readonly Vector3D NegativeInfinity = new Vector3D(double.NegativeInfinity,
+        public static Vector3D NegativeInfinity => new Vector3D(double.NegativeInfinity,
             double.NegativeInfinity,
             double.NegativeInfinity);
 
@@ -140,8 +140,13 @@ namespace Math
             return Norm(v.X - X, v.Y - Y, v.Z - Z);
         }
 
+        /// <summary>
+        /// For a directionless 3D point the modified norm coincides with the Euclidean norm;
+        /// <paramref name="direction"/> is ignored. See <see cref="Vector2D.ModifiedNorm"/>.
+        /// </summary>
         public double ModifiedNorm(Vector3D v, bool direction = true)
         {
+            _ = direction;
             return EuclideanNorm(v);
         }
 
@@ -194,7 +199,7 @@ namespace Math
 
         public int Dimensions => 3;
 
-        public double[] Array => new[] {X, Y, Z};
+        public double[] ToArray() => new[] {X, Y, Z};
 
 
         public double this[int i]
@@ -209,9 +214,10 @@ namespace Math
                         return Y;
                     case 2:
                         return Z;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i, "Vector3D index must be 0 (X), 1 (Y), or 2 (Z).");
                 }
-
-                throw new ArgumentException();
             }
         }
 
@@ -231,9 +237,9 @@ namespace Math
         {
             unchecked
             {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                var hashCode = Comparison.HashCode(X);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Y);
+                hashCode = (hashCode * 397) ^ Comparison.HashCode(Z);
                 return hashCode;
             }
         }

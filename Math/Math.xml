@@ -171,7 +171,7 @@
         </member>
         <member name="M:Math.Clustering.DBScan`2.#ctor(System.Collections.Generic.IList{`1})">
             <summary>
-            Defining a DBScan with a list of the geometric objects to be clustered.
+            Defining a DBScan with a list of the geometric objects to be clustered. The constructor takes a defensive copy of the input list.
             </summary>
             <param name="list">List of object of dimension n with a norm based on point type T, e.g., Segment3D.</param>
         </member>
@@ -244,83 +244,222 @@
             Returns a list of tracks of list of segments (pair point index), which were used during clustering.
             </summary>
         </member>
+        <member name="F:Math.Comparison.RelativeEpsilon">
+            <summary>
+            Default relative tolerance for <see cref="M:Math.Comparison.IsEqualRelative(System.Double,System.Double,System.Double)"/> /
+            <see cref="M:Math.Comparison.IsZeroRelative(System.Double,System.Double,System.Double)"/>. Chosen ~3 orders of magnitude
+            looser than <see cref="F:Math.Comparison.Epsilon"/> so that the absolute tolerance at unit scale
+            (1.0) stays at 1e-13 while large-magnitude values automatically get a proportional
+            tolerance (e.g. 1e-7 m at Earth-radius scale 6.37e6 m).
+            </summary>
+        </member>
+        <member name="M:Math.Comparison.IsEqualRelative(System.Double,System.Double,System.Double)">
+            <summary>
+            Epsilon-tolerant equality scaled by the larger operand magnitude. Equivalent to
+            <c>|x - y| &lt; relEps * max(|x|, |y|, 1)</c>: callers do not have to pre-scale
+            their epsilon when comparing two large numbers (e.g. metres at Earth-radius
+            scale). The unit-scale baseline (the trailing <c>1</c>) keeps behaviour close to
+            the absolute <see cref="M:Math.Comparison.IsEqual(System.Double,System.Double,System.Double)"/> for small operands.
+            Infinities of the same sign compare equal, just like <see cref="M:Math.Comparison.IsEqual(System.Double,System.Double,System.Double)"/>.
+            </summary>
+        </member>
+        <member name="M:Math.Comparison.IsZeroRelative(System.Double,System.Double,System.Double)">
+            <summary>
+            Relative-tolerance "is zero" with an explicit reference scale. Returns true iff
+            <c>|x| &lt; relEps * max(|scale|, 1)</c>, i.e. <paramref name="x"/> is small
+            compared to <paramref name="scale"/>. Useful for testing residuals of length-scaled
+            quantities (e.g. metres) where the absolute <see cref="F:Math.Comparison.Epsilon"/> 1e-13 would be
+            meaninglessly tight.
+            </summary>
+        </member>
+        <member name="M:Math.Comparison.IsPositive(System.Double,System.Double)">
+            <summary>
+            Returns true iff <paramref name="x"/> is a finite value strictly greater than <paramref name="eps"/>.
+            </summary>
+            <remarks>
+            Returns false for <see cref="F:System.Double.NaN"/>, <see cref="F:System.Double.PositiveInfinity"/>,
+            <see cref="F:System.Double.NegativeInfinity"/>, zero, and any value within +/- <paramref name="eps"/> of zero.
+            Infinity is intentionally excluded so that "positive" implies "finite numeric magnitude
+            the rest of the library can safely arithmetic on" - callers that genuinely want to admit
+            +Infinity should test it explicitly with <see cref="M:System.Double.IsPositiveInfinity(System.Double)"/>.
+            </remarks>
+        </member>
+        <member name="M:Math.Comparison.IsNegative(System.Double,System.Double)">
+            <summary>
+            Returns true iff <paramref name="x"/> is a finite value strictly less than -<paramref name="eps"/>.
+            </summary>
+            <remarks>
+            Returns false for <see cref="F:System.Double.NaN"/>, <see cref="F:System.Double.PositiveInfinity"/>,
+            <see cref="F:System.Double.NegativeInfinity"/>, zero, and any value within +/- <paramref name="eps"/> of zero.
+            Infinity is intentionally excluded; see <see cref="M:Math.Comparison.IsPositive(System.Double,System.Double)"/>.
+            </remarks>
+        </member>
+        <member name="M:Math.Comparison.HashCode(System.Double)">
+            <summary>
+            Returns a hash code for <paramref name="x"/> that is consistent with epsilon-tolerant <see cref="M:Math.Comparison.IsEqual(System.Double,System.Double,System.Double)"/>:
+            values within the snap granularity hash to the same bucket. Granularity is chosen much coarser
+            than <see cref="F:Math.Comparison.Epsilon"/> so that any two values reported equal by <see cref="M:Math.Comparison.IsEqual(System.Double,System.Double,System.Double)"/>
+            in the common case produce the same hash, satisfying the GetHashCode contract.
+            </summary>
+        </member>
+        <member name="T:Math.Function">
+            <summary>
+            Math facade. The implementation is split across files by responsibility:
+            <list type="bullet">
+            <item><description><c>Function.Numeric.cs</c> - roots, factorials, Fibonacci, GCD, primes, interpolation</description></item>
+            <item><description><c>Function.Angles.cs</c> - SinCos, FastSin, NormalizeAngle*</description></item>
+            <item><description><c>Function.Cycling.cs</c> - cycling-power model (forces, powers, equilibrium velocity)</description></item>
+            <item><description><c>Function.Energetics.cs</c> - Minetti walking-energy cost model</description></item>
+            </list>
+            The <c>partial</c> split is purely organisational; existing callers continue to use
+            <c>Math.Function.Xxx</c> unchanged.
+            </summary>
+        </member>
+        <member name="M:Math.Function.FastSin(System.Double)">
+            <summary>
+            Cheap polynomial approximation of sin(x) on x in [-pi/2, pi/2] with absolute error &lt; 0.0205.
+            </summary>
+            <remarks>
+            Outside [-pi/2, pi/2] the polynomial diverges quickly: it is the caller's responsibility
+            to range-reduce the argument first (e.g. via <see cref="M:Math.Function.NormalizeAnglePi(System.Double)"/> and a
+            half-period reflection). The function does not assert this in release builds to keep
+            "fast" honest, but a debug-only assertion guards against accidental misuse.
+            </remarks>
+        </member>
+        <member name="T:Math.Gfx.BitmapFileWriter">
+            <summary>
+            Path-based facade over <see cref="T:Math.Gfx.IBitmapFormatWriter"/> strategies. The four overloads
+            are kept for source compatibility; new format implementations can plug in by adding a
+            fresh <see cref="T:Math.Gfx.IBitmapFormatWriter"/> without modifying this type (Open/Closed).
+            All <see cref="N:System.Drawing"/> usage in this assembly is delegated to the
+            <c>Png*</c> strategies (<see cref="T:Math.Gfx.PngBitmapFormatWriter"/>,
+            <see cref="T:Math.Gfx.PngTripleChannelBitmapWriter"/>) so that a future assembly split (DIP) only
+            has to relocate those files.
+            </summary>
+        </member>
+        <member name="T:Math.Gfx.IBitmapFormatWriter">
+            <summary>
+            Strategy interface for serialising a <c>double[,]</c> intensity raster to a stream in a
+            specific bitmap container format (PGM, PPM, PNG, ...). Implementations are expected to be
+            stateless and thread-safe so that <see cref="T:Math.Gfx.BitmapFileWriter"/> can pick a writer based
+            on file extension or caller intent without coupling the call site to a specific format.
+            </summary>
+        </member>
+        <member name="M:Math.Gfx.IBitmapFormatWriter.Write(System.IO.Stream,System.Double[0:,0:],Math.Gfx.IColorMapping)">
+            <summary>
+            Writes <paramref name="bitmap"/> to <paramref name="stream"/> using
+            <paramref name="colorMap"/> to translate intensities into pixel values. The caller
+            retains ownership of the stream and is responsible for disposing it.
+            </summary>
+        </member>
+        <member name="T:Math.Gfx.PgmBitmapFormatWriter">
+            <summary>
+            Writes the bitmap as a binary Portable Greymap (P5) using
+            <see cref="M:Math.Gfx.IColorMapping.Grey(System.Double)"/> for the per-pixel luminance.
+            </summary>
+        </member>
+        <member name="T:Math.Gfx.PngBitmapFormatWriter">
+            <summary>
+            Writes the bitmap as a PNG using <see cref="N:System.Drawing"/>. This is the only writer
+            that pulls in the System.Drawing dependency, so isolating it here keeps the PGM/PPM
+            writers (and any future cross-platform alternatives) free of that coupling.
+            </summary>
+        </member>
+        <member name="T:Math.Gfx.PngTripleChannelBitmapWriter">
+            <summary>
+            Three-channel PNG writer: each input raster supplies one of R, G, B mixed through the
+            shared <see cref="T:Math.Gfx.GreenMapping"/> grey ramp. Kept as a separate writer so that all
+            <see cref="N:System.Drawing"/> usage in the Math assembly is confined to the two
+            <c>Png*BitmapWriter</c> files - a future split into a separate
+            <c>Math.Gfx.SystemDrawing</c> assembly only has to relocate this file and
+            <see cref="T:Math.Gfx.PngBitmapFormatWriter"/>.
+            </summary>
+        </member>
+        <member name="T:Math.Gfx.PpmBitmapFormatWriter">
+            <summary>
+            Writes the bitmap as a binary Portable Pixmap (P6) using
+            <see cref="M:Math.Gfx.IColorMapping.Color(System.Double)"/> for the per-pixel RGB triplet.
+            </summary>
+        </member>
+        <member name="T:Math.Gps.ANeighbourDistanceCalculator">
+            <summary>
+            Aggregates all points which are at least as close (perpendicular distance) as a given
+            radius to the reference track. The four pipeline stages live in dedicated helpers:
+            <list type="number">
+            <item><description>grid candidate lookup - <see cref="M:Math.Gps.GridLookup.Find(Math.Vector2D,System.Double)"/></description></item>
+            <item><description>perpendicular projection - <see cref="T:Math.Gps.PerpendicularDistanceProjector"/></description></item>
+            <item><description>radius cut-off - <see cref="T:Math.Gps.RadiusCutOff"/></description></item>
+            <item><description>disconnected-point pruning - <see cref="T:Math.Gps.DisconnectedPointPruner"/></description></item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:Math.Gps.DisconnectedPointPruner">
+            <summary>
+            Pipeline stage 4 of <see cref="M:Math.Gps.ANeighbourDistanceCalculator.Analyze(Math.Gps.FlatTrack,System.Double)"/>:
+            remove faulty neighbour reference points - detours, cross-overs, opposite direction matches,
+            start/end mix-ups - by grouping points into arc-length-connected segments and keeping the
+            segment whose centroid is closest to the rolling reference index. Pure, stateless helper.
+            </summary>
+        </member>
+        <member name="T:Math.Gps.PerpendicularDistanceProjector">
+            <summary>
+            Pipeline stage 2 of <see cref="M:Math.Gps.ANeighbourDistanceCalculator.Analyze(Math.Gps.FlatTrack,System.Double)"/>:
+            for each candidate (reference, current) point pairing produced by the grid lookup, snap
+            the current point onto the closer of the two adjacent reference segments and recompute the
+            distance metric and reference-track arc-length parameterisation. Pure, stateless helper.
+            </summary>
+        </member>
+        <member name="T:Math.Gps.RadiusCutOff">
+            <summary>
+            Pipeline stage 3 of <see cref="M:Math.Gps.ANeighbourDistanceCalculator.Analyze(Math.Gps.FlatTrack,System.Double)"/>:
+            drop projected pairings whose perpendicular distance exceeds <c>radius</c> and remove
+            reference buckets that became empty as a result. Pure, stateless helper.
+            </summary>
+        </member>
         <member name="T:Math.Interfaces.IArray">
             <summary>
             Interface geometry object for coordinate(s) in linear / array representation.
             Either point object or 2-point (min-max) object 
             </summary>
         </member>
-        <member name="P:Math.Interfaces.IArray.Array">
+        <member name="M:Math.Interfaces.IArray.ToArray">
             <summary>
-            Array representation of the coordinate(s)
+            Array representation of the coordinate(s).
+            Allocates a new array on every call; prefer the indexer for single-element access.
             </summary>
         </member>
         <member name="P:Math.Interfaces.IArray.Item(System.Int32)">
             <summary>
-            Array access of the coordinate(s)
+            Array access of the coordinate(s).
             </summary>
-            <param name="i">index</param>
-            <returns></returns>
+            <param name="i">Component index.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="i"/> is outside the implementation's component range.
+            All concrete implementations in this library throw
+            <see cref="T:System.ArgumentOutOfRangeException"/> rather than the older bare
+            <see cref="T:System.ArgumentException"/>; tests should assert the more specific type.
+            </exception>
         </member>
         <member name="T:Math.Interfaces.IBounding`1">
             <summary>
-            Interface of bounding box or rectangle
+            Mutable axis-aligned bounding region. Extends the read-only view in
+            <see cref="T:Math.Interfaces.IReadOnlyBounding`1"/> with growth operations (Reset, Expand, ExpandLayer).
+            Consumers that only need to read bounds should depend on <see cref="T:Math.Interfaces.IReadOnlyBounding`1"/>
+            instead so they cannot accidentally widen the box (Interface Segregation).
             </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:Math.Interfaces.IBounding`1.Min">
-            <summary>
-            Min
-            </summary>
-        </member>
-        <member name="P:Math.Interfaces.IBounding`1.Max">
-            <summary>
-            Max
-            </summary>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsEmpty">
-            <summary>
-            Is empty bounding box
-            </summary>
-            <returns></returns>
+            <typeparam name="T">Coordinate type (Vector2D, Vector3D, ...).</typeparam>
         </member>
         <member name="M:Math.Interfaces.IBounding`1.Reset">
-            <summary>
-            Reset
-            </summary>
+            <summary>Resets the bounding region to the empty state.</summary>
         </member>
         <member name="M:Math.Interfaces.IBounding`1.Expand(`0)">
-            <summary>
-            Expand bounding box with vector / point
-            </summary>
-            <param name="v">vector / point</param>
+            <summary>Expands the bounding region to cover <paramref name="v"/>.</summary>
         </member>
         <member name="M:Math.Interfaces.IBounding`1.Expand(Math.Interfaces.IBounding{`0})">
-            <summary>
-            Expanding with another bounding box
-            </summary>
-            <param name="b"></param>
+            <summary>Expands the bounding region to cover another bounding region.</summary>
         </member>
         <member name="M:Math.Interfaces.IBounding`1.ExpandLayer(System.Double)">
-            <summary>
-            Add layer aorund current bounding box
-            </summary>
-            <param name="r">radius</param>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsInside(`0)">
-            <summary>
-            Is point inside
-            </summary>
-            <param name="v">vector / point</param>
-            <returns></returns>
-        </member>
-        <member name="M:Math.Interfaces.IBounding`1.IsInside(`0,System.Double)">
-            <summary>
-            Is point inside
-            </summary>
-            <param name="v">point / vector</param>
-            <param name="eps">epsilon</param>
-            <returns></returns>
+            <summary>Adds an isotropic margin of width <paramref name="r"/> around the current region.</summary>
         </member>
         <member name="T:Math.Interfaces.IBoundingFacade`1">
             <summary>
@@ -424,6 +563,25 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="T:Math.Interfaces.IInnerProduct`1">
+            <summary>
+            Inner-product / angular operations on a vector type. Lifted out of <see cref="T:Math.Interfaces.IVector`1"/>
+            so callers that only need pairwise dot products and angles can depend on this narrower
+            surface (Interface Segregation).
+            </summary>
+        </member>
+        <member name="M:Math.Interfaces.IInnerProduct`1.Dot(`0)">
+            <summary>Dot product.</summary>
+        </member>
+        <member name="M:Math.Interfaces.IInnerProduct`1.CrossNorm(`0)">
+            <summary>Norm of the cross product (well-defined in 2D and 3D).</summary>
+        </member>
+        <member name="M:Math.Interfaces.IInnerProduct`1.Angle(`0)">
+            <summary>Signed angle between this vector and <paramref name="v"/>.</summary>
+        </member>
+        <member name="M:Math.Interfaces.IInnerProduct`1.AngleAbs(`0)">
+            <summary>Unsigned angle between this vector and <paramref name="v"/>.</summary>
+        </member>
         <member name="T:Math.Interfaces.IInterpolate`1">
             <summary>
             Interface for interpolation between two objects of same type
@@ -480,6 +638,56 @@
             <param name="direction"></param>
             <returns></returns>
         </member>
+        <member name="T:Math.Interfaces.INormalizable`1">
+            <summary>
+            Capability of having a (Euclidean) length and being scaled to unit length. Split out of
+            the previous monolithic <see cref="T:Math.Interfaces.IVector`1"/> so callers that only need a "I have a
+            magnitude" view of a value can ask for it without dragging in arithmetic and inner-product
+            dependencies (Interface Segregation).
+            </summary>
+            <typeparam name="T">Concrete vector type returned by <see cref="M:Math.Interfaces.INormalizable`1.Normalized"/>.</typeparam>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Norm2">
+            <summary>Squared norm of the vector.</summary>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Norm">
+            <summary>Norm of the vector.</summary>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Normalize">
+            <summary>Normalise this vector in place; returns the original length.</summary>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Normalize(System.Double)">
+            <summary>Normalise this vector in place using <paramref name="epsilon"/>; returns the original length.</summary>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Normalized">
+            <summary>Returns a normalised copy.</summary>
+        </member>
+        <member name="M:Math.Interfaces.INormalizable`1.Normalized(System.Double)">
+            <summary>Returns a normalised copy using <paramref name="epsilon"/>.</summary>
+        </member>
+        <member name="T:Math.Interfaces.IReadOnlyBounding`1">
+            <summary>
+            Read-only view of an axis-aligned bounding box / rectangle. Lets callers ask "where are
+            you and is point P inside?" without inheriting permission to mutate the box (Interface
+            Segregation). The full mutable contract lives in <see cref="T:Math.Interfaces.IBounding`1"/>.
+            </summary>
+            <typeparam name="T">Coordinate type (Vector2D, Vector3D, ...).</typeparam>
+        </member>
+        <member name="P:Math.Interfaces.IReadOnlyBounding`1.Min">
+            <summary>Lower-left corner of the bounding region.</summary>
+        </member>
+        <member name="P:Math.Interfaces.IReadOnlyBounding`1.Max">
+            <summary>Upper-right corner of the bounding region.</summary>
+        </member>
+        <member name="M:Math.Interfaces.IReadOnlyBounding`1.IsEmpty">
+            <summary>True iff the region carries no points (Min &gt; Max in some dimension).</summary>
+        </member>
+        <member name="M:Math.Interfaces.IReadOnlyBounding`1.IsInside(`0)">
+            <summary>Tests whether <paramref name="v"/> lies inside the bounding region.</summary>
+        </member>
+        <member name="M:Math.Interfaces.IReadOnlyBounding`1.IsInside(`0,System.Double)">
+            <summary>Tests whether <paramref name="v"/> lies inside the region within <paramref name="eps"/>.</summary>
+        </member>
         <member name="T:Math.Interfaces.ISegment`2">
             <summary>
             Interface line segment
@@ -513,126 +721,101 @@
         </member>
         <member name="T:Math.Interfaces.IVector`1">
             <summary>
-            Interface vector
+            Aggregated contract for full vector-like types. Composed from smaller capabilities so that
+            downstream code can ask for the narrowest interface it actually needs (Interface
+            Segregation):
+            <list type="bullet">
+            <item><description><see cref="T:Math.Interfaces.IGeometryObject`1"/> - dimensionality + array indexing + INorm</description></item>
+            <item><description><see cref="T:Math.Interfaces.IBoundingFacade`1"/> - axis-aligned bounding box</description></item>
+            <item><description><see cref="T:Math.Interfaces.IIsEqual`1"/> - epsilon-tolerant equality</description></item>
+            <item><description><see cref="T:Math.Interfaces.INormalizable`1"/> - length and unit-length scaling</description></item>
+            <item><description><see cref="T:Math.Interfaces.IInnerProduct`1"/> - dot, cross-norm, angles</description></item>
+            <item><description><see cref="T:Math.Interfaces.IVectorArith`1"/> - Add/Sub/Mul/Div</description></item>
+            <item><description><see cref="T:Math.Interfaces.IInterpolate`1"/> - linear interpolation</description></item>
+            </list>
+            Existing implementations (Vector2D, Vector3D, GpsPoint, ...) already provide every
+            member; the split is source-compatible.
             </summary>
-            <typeparam name="T"></typeparam>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.IsEqual(`0)">
-            <summary>
-            Is equal
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
+        <member name="P:Math.Interfaces.IVector`1.X">
+            <summary>X coordinate (mutable; preserved from the original IVector contract).</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.IsEqual(`0,System.Double)">
+        <member name="T:Math.Interfaces.IVectorArith`1">
             <summary>
-            Is equal with epsilon
+            Vector-space arithmetic operations. Pulled out of <see cref="T:Math.Interfaces.IVector`1"/> so callers
+            that only need add/sub or scaling can depend on this narrower surface (Interface
+            Segregation).
             </summary>
-            <param name="v"></param>
-            <param name="epsilon"></param>
-            <returns></returns>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalize">
-            <summary>
-            Normalize vector
-            </summary>
-            <returns>Length of vector</returns>
+        <member name="M:Math.Interfaces.IVectorArith`1.Add(`0)">
+            <summary>Returns this + v.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalize(System.Double)">
-            <summary>
-            Normalize vector with epsilon
-            </summary>
-            <param name="epsilon"></param>
-            <returns>Length of vector</returns>
+        <member name="M:Math.Interfaces.IVectorArith`1.Sub(`0)">
+            <summary>Returns this - v.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalized">
-            <summary>
-            Return normalized vector
-            </summary>
-            <returns></returns>
+        <member name="M:Math.Interfaces.IVectorArith`1.Mul(System.Double)">
+            <summary>Returns this * c.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Normalized(System.Double)">
-            <summary>
-            Return normalized vector with epsilon
-            </summary>
-            <param name="epsilon"></param>
-            <returns></returns>
+        <member name="M:Math.Interfaces.IVectorArith`1.Div(System.Double)">
+            <summary>Returns this / c.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Norm2">
+        <member name="T:Math.KDTree.TreeBuilder">
             <summary>
-            Squared norm of vector
+            Builds k-d trees for any payload type that exposes an axis-aligned bounding box via
+            <see cref="T:Math.Interfaces.IBoundingFacade`1"/>. The OCP entry point is the generic
+            <see cref="M:Math.KDTree.TreeBuilder.Build``2(System.Collections.Generic.IEnumerable{``1},System.Int32)"/>; the four typed overloads below are pure
+            ergonomic shortcuts so callers do not have to spell out the type parameters for the
+            first-party Vector/Segment combinations.
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Norm">
+        <member name="M:Math.KDTree.TreeBuilder.Build``2(System.Collections.Generic.IEnumerable{``1},System.Int32)">
             <summary>
-            Norm
+            Generic builder accepting any payload <typeparamref name="S"/> that can produce a
+            <typeparamref name="T"/>-valued bounding box. Adding a new geometric primitive to the
+            k-d tree only requires implementing <see cref="T:Math.Interfaces.IBoundingFacade`1"/> on it - the
+            builder itself does not need to change (Open/Closed Principle).
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Dot(`0)">
+        <member name="T:Math.PhysicalConstants">
             <summary>
-            Dot product
+            Centralized physical constants used by the geodesy / dynamics models.
             </summary>
-            <param name="v"></param>
-            <returns></returns>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.CrossNorm(`0)">
-            <summary>
-            Norm of cross product
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
+        <member name="F:Math.PhysicalConstants.GravitationalAcceleration">
+            <summary>Standard gravity, m/s^2 (CGPM definition).</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Angle(`0)">
-            <summary>
-            Angle between two vectors
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
+        <member name="F:Math.PhysicalConstants.AirDensitySeaLevel">
+            <summary>Air density at 15 C, sea level, dry-air ISA model, kg/m^3.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.AngleAbs(`0)">
+        <member name="T:Math.CyclistDefaults">
             <summary>
-            Unsigned angle between two vectors
+            Sensible defaults for the cycling power/velocity model. The values are sourced from
+            gribble.org's analysis (https://www.gribble.org/cycling/power_v_speed.html) and match
+            the historical literal arguments of <see cref="M:Math.Function.CyclingForces(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)"/> /
+            <see cref="M:Math.Function.CyclingPowers(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)"/> / <see cref="M:Math.Function.CyclingVelocity(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)"/>. They
+            are exposed here so callers can refer to them by name instead of repeating literals
+            at every call site.
             </summary>
-            <param name="v"></param>
-            <returns></returns>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Add(`0)">
-            <summary>
-            Add vector
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
+        <member name="F:Math.CyclistDefaults.RollingResistance">
+            <summary>Coefficient of rolling resistance (Crr) for a road bike on tarmac.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Sub(`0)">
-            <summary>
-            Subtract vector
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
+        <member name="F:Math.CyclistDefaults.FrontalArea">
+            <summary>Frontal area, m^2 (drops/hoods average).</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Mul(System.Double)">
-            <summary>
-            Multiply with a scalar
-            </summary>
-            <param name="c"></param>
-            <returns></returns>
+        <member name="F:Math.CyclistDefaults.DragCoefficient">
+            <summary>Aerodynamic drag coefficient, dimensionless.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Div(System.Double)">
-            <summary>
-            Divide with a scalar
-            </summary>
-            <param name="c"></param>
-            <returns></returns>
+        <member name="F:Math.CyclistDefaults.DriveTrainLoss">
+            <summary>Mechanical loss across the drive train (chain + bearings), dimensionless.</summary>
         </member>
-        <member name="M:Math.Interfaces.IVector`1.Interpolate(`0,System.Double)">
+        <member name="F:Math.CyclistDefaults.AirDensity">
+            <summary>Air density default - alias for <see cref="F:Math.PhysicalConstants.AirDensitySeaLevel"/>.</summary>
+        </member>
+        <member name="M:Math.Polar3D.ModifiedNorm(Math.Polar3D,System.Boolean)">
             <summary>
-            Interpolate between two vectors
+            Polar points carry no orientation, so <paramref name="direction"/> is ignored.
             </summary>
-            <param name="v"></param>
-            <param name="x"></param>
-            <returns></returns>
         </member>
         <member name="T:Math.Polynomial">
             <summary> 
@@ -709,6 +892,40 @@
             <summary>
             Returns the polynomial divided by a complex root and with its conjugated
             </summary> 
+        </member>
+        <member name="M:Math.Solver.PolynomialEq(System.Collections.Generic.List{System.Double})">
+            <summary>
+            Returns the (deduplicated, sorted) list of real roots of the polynomial described by
+            <paramref name="coefficients"/>, where coefficients are stored constant-first
+            (coefficients[i] is the factor of x^i).
+            </summary>
+            <remarks>
+            Zero-root handling: when the constant term is (near) zero, x=0 is recorded once and the
+            polynomial is divided by x^k where k is the multiplicity of zero. The returned list
+            therefore reports distinct real roots only - it does not encode multiplicity.
+            Constant or empty inputs produce an empty list (no real roots in the conventional sense).
+            </remarks>
+        </member>
+        <member name="T:Math.SparseArray`1">
+            <summary>
+            Index-keyed sparse container backed by a Dictionary. Intentionally does NOT implement
+            IList&lt;T&gt;: an IList is positional and contiguous, this collection is neither.
+            Earlier versions claimed IList&lt;T&gt; while throwing NotImplementedException for half
+            of its members, which broke generic IList consumers.
+            </summary>
+        </member>
+        <member name="M:Math.Vector2D.ModifiedNorm(Math.Vector2D,System.Boolean)">
+            <summary>
+            For a directionless 2D point the modified norm coincides with the Euclidean norm, so
+            <paramref name="direction"/> is intentionally ignored. The parameter exists to satisfy
+            the <see cref="T:Math.Interfaces.INorm`1"/> contract shared with directional types like Segment2D.
+            </summary>
+        </member>
+        <member name="M:Math.Vector3D.ModifiedNorm(Math.Vector3D,System.Boolean)">
+            <summary>
+            For a directionless 3D point the modified norm coincides with the Euclidean norm;
+            <paramref name="direction"/> is ignored. See <see cref="M:Math.Vector2D.ModifiedNorm(Math.Vector2D,System.Boolean)"/>.
+            </summary>
         </member>
     </members>
 </doc>

@@ -305,9 +305,9 @@ namespace Math.Tests.Gps
             };
             var res = GpsFiltering.InterpolateDuplicates(track);
             var f0 = new FilterDuplicatesBegin();
-            f0.Filter(track, new List<double> {0, 1, 2, 3}, new List<int> {0}, new List<int> {3});
+            f0.Filter(track, [0, 1, 2, 3], new List<int> {0}, [3]);
             var f1 = new FilterDuplicatesBegin();
-            f1.Filter(res.ToList(), new List<double> {0, 1, 2, 3}, new List<int> {0}, new List<int> {3});
+            f1.Filter(res.ToList(), [0, 1, 2, 3], new List<int> {0}, [3]);
             f0.NewAccelerationVariance.ShouldBe(f1.OldAccelerationVariance);
             f0.NewVelocityVariance.ShouldBe(f1.OldVelocityVariance);
         }

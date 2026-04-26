@@ -145,13 +145,15 @@ namespace Math.Clustering
 
                     if (lineSegments.Count >= n &&
                         (r.Segment.Count < 1 ||
-                         Comparison.IsLessEqual(minL / 1.414, System.Math.Abs(current.X - prevValue))))
+                         Comparison.IsLessEqual(minL / System.Math.Sqrt(2.0), System.Math.Abs(current.X - prevValue))))
                     {
                         var sum = new T();
                         foreach (var seg in lineSegments)
                         {
                             var s = cluster[seg];
-                            var c = (current.X - s.U.X) / (s.V.X - s.U.X);
+                            var dx = s.V.X - s.U.X;
+                            if (Comparison.IsZero(dx)) continue;
+                            var c = (current.X - s.U.X) / dx;
                             var y = s.U.Add(s.V.Sub(s.U).Mul(c));
                             y.X = current.X;
                             sum = sum.Add(y);
@@ -213,7 +215,6 @@ namespace Math.Clustering
                         B = track[i1],
                         IA = i0,
                         IB = i1,
-                        //J = j / 2,
                         K = k
                     };
                     segments.Add(s);
@@ -278,10 +279,7 @@ namespace Math.Clustering
             where T : IVector<T>
         {
             int IA { get; set; }
-
             int IB { get; set; }
-
-            //int J { get; set; }
             int K { get; set; }
             T U { get; set; }
             T V { get; set; }
@@ -290,10 +288,7 @@ namespace Math.Clustering
         internal class Segment2DExt : Segment2D, ISegmentExt<Vector2D>
         {
             public int IA { get; set; }
-
             public int IB { get; set; }
-
-            //public int J { get; set; }
             public int K { get; set; }
             public Vector2D U { get; set; }
             public Vector2D V { get; set; }
@@ -302,10 +297,7 @@ namespace Math.Clustering
         internal class Segment3DExt : Segment3D, ISegmentExt<Vector3D>
         {
             public int IA { get; set; }
-
             public int IB { get; set; }
-
-            //public int J { get; set; }
             public int K { get; set; }
             public Vector3D U { get; set; }
             public Vector3D V { get; set; }
@@ -313,9 +305,7 @@ namespace Math.Clustering
 
         internal interface IVectorExt
         {
-            //int I { get; set; }
             int J { get; set; }
-            //int K { get; set; }
         }
 
         internal class Vector2DExt : Vector2D, IVectorExt
@@ -323,14 +313,10 @@ namespace Math.Clustering
             public Vector2DExt(Vector2D v, int i, int j, int k)
                 : base(v)
             {
-                //I = i;
                 J = j;
-                //K = k;
             }
 
-            //public int I { get; set; }
             public int J { get; set; }
-            // int K { get; set; }
         }
 
         internal class Vector3DExt : Vector3D, IVectorExt
@@ -338,14 +324,10 @@ namespace Math.Clustering
             public Vector3DExt(Vector3D v, int i, int j, int k)
                 : base(v)
             {
-                //I = i;
                 J = j;
-                //K = k;
             }
 
-            //public int I { get; set; }
             public int J { get; set; }
-            //public int K { get; set; }
         }
 
         internal interface ICreateVectorExt<in T, out S>
@@ -405,7 +387,8 @@ namespace Math.Clustering
 
             public void Set(Vector3D v)
             {
-                _axis = (Vector3D.E1 ^ v).Normalized();
+                var cross = Vector3D.E1 ^ v;
+                _axis = Comparison.IsZero(cross.Norm()) ? Vector3D.E2 : cross.Normalized();
                 _angle = Vector3D.E1.Angle(v);
             }
 

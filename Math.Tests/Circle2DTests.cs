@@ -275,5 +275,26 @@ namespace Math.Tests
             var q = new Circle2D(new Vector2D(1, 2), 0.201);
             (p != q).ShouldBe(true);
         }
+
+        [Test]
+        public void Create_StrictlyCollinearTriple_DegradesToLongestPair_A1_4()
+        {
+            var a = new Vector2D(0, 0);
+            var b = new Vector2D(1, 0);
+            var c = new Vector2D(2, 0);
+            var circle = Circle2D.Create(a, b, c);
+            circle.ShouldNotBeNull();
+            circle.Radius.ShouldBe(1.0, Comparison.Epsilon);
+            circle.Center.IsEqual(new Vector2D(1, 0)).ShouldBeTrue();
+        }
+
+        [Test]
+        public void Create_RightTriangleTriple_ProducesCircumcircle_A1_4()
+        {
+            var c = Circle2D.Create(new Vector2D(0, 0), new Vector2D(2, 0), new Vector2D(2, 2));
+            c.ShouldNotBeNull();
+            c.Radius.ShouldBe(System.Math.Sqrt(2.0), 1e-12);
+            c.Center.IsEqual(new Vector2D(1, 1)).ShouldBeTrue();
+        }
     }
 }

@@ -999,13 +999,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void MinCircle_EmptyList_returnsNaNCircle()
+        public void MinCircle_EmptyList_throws()
         {
             var points = new List<Vector2D>();
-            var c = Geometry.MinCircle(points);
-            c.Center.X.ShouldBe(double.NaN);
-            c.Center.Y.ShouldBe(double.NaN);
-            c.Radius.ShouldBe(double.NaN);
+            Should.Throw<System.ArgumentException>(() => Geometry.MinCircle(points));
         }
 
         [Test]
@@ -1098,13 +1095,10 @@ namespace Math.Tests
         }
 
         [Test]
-        public void MinCircleOnSphere_EmptyList_returnsNaNCircle()
+        public void MinCircleOnSphere_EmptyList_throws()
         {
             var points = new List<Vector3D>();
-            var c = Geometry.MinCircleOnSphere(points);
-            c.Center.X.ShouldBe(double.NaN);
-            c.Center.Y.ShouldBe(double.NaN);
-            c.Radius.ShouldBe(double.NaN);
+            Should.Throw<System.ArgumentException>(() => Geometry.MinCircleOnSphere(points));
         }
 
         [Test]

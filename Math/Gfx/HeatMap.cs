@@ -45,7 +45,7 @@ namespace Math.Gfx
         }
 
 
-        public void Add(IList<GpsPoint> track)
+        public void Add(IEnumerable<GpsPoint> track)
         {
             _tracks.Add(track.ToList());
         }
@@ -64,29 +64,29 @@ namespace Math.Gfx
             var bitmap = new Bitmap(flatTracks.Size.Min, flatTracks.Size.Max, pixelSize, maxLength);
             foreach (var track in flatTracks.FlatTracks)
             {
-                if (track.Track.Any())
-                {
-                    var prev = bitmap.Add.Converter(track.Track[0]);
-                    Vector2D last = null;
-                    for (var i = 1; i < track.Track.Count; i++)
-                    {
-                        var a = last ?? prev;
-                        var b = bitmap.Add.Converter(track.Track[i]);
-                        var l = a.EuclideanNorm(b);
-                        var k = System.Math.Abs((int) a.X - (int) b.X) + System.Math.Abs((int) a.Y - (int) b.Y);
-                        if (i + 1 < track.Track.Count && (Comparison.IsLess(l, 2.0) || k < 2))
-                        {
-                            if (last == null)
-                                last = prev;
-                        }
-                        else
-                        {
-                            Draw.XiaolinWu(a, b, bitmap.Add.Plot);
-                            last = null;
-                        }
+                if (!track.Track.Any())
+                    continue;
 
-                        prev = b;
+                var prev = bitmap.Add.Converter(track.Track[0]);
+                Vector2D last = null;
+                for (var i = 1; i < track.Track.Count; i++)
+                {
+                    var a = last ?? prev;
+                    var b = bitmap.Add.Converter(track.Track[i]);
+                    var l = a.EuclideanNorm(b);
+                    var k = System.Math.Abs((int)a.X - (int)b.X) + System.Math.Abs((int)a.Y - (int)b.Y);
+                    if (i + 1 < track.Track.Count && (Comparison.IsLess(l, 2.0) || k < 2))
+                    {
+                        if (last == null)
+                            last = prev;
                     }
+                    else
+                    {
+                        Draw.XiaolinWu(a, b, bitmap.Add.Plot);
+                        last = null;
+                    }
+
+                    prev = b;
                 }
             }
 

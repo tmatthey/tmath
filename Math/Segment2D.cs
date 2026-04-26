@@ -120,7 +120,7 @@ namespace Math
 
         public int Dimensions => A.Dimensions;
 
-        public double[] Array => new[] {A.X, A.Y, B.X, B.Y};
+        public double[] ToArray() => new[] {A.X, A.Y, B.X, B.Y};
 
         public double this[int i]
         {
@@ -136,9 +136,10 @@ namespace Math
                         return B.X;
                     case 3:
                         return B.Y;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            nameof(i), i, "Segment2D index must be in [0, 3] (A.X, A.Y, B.X, B.Y).");
                 }
-
-                throw new ArgumentException();
             }
         }
 

@@ -52,8 +52,8 @@ namespace Math.KDTree
         {
             _dim = depth % keys.First().Dimensions;
             _cut = cut;
-            _min = keys.Select(key => key.Bounding().Min.Array).ToList();
-            _max = keys.Select(key => key.Bounding().Max.Array).ToList();
+            _min = keys.Select(key => key.Bounding().Min.ToArray()).ToList();
+            _max = keys.Select(key => key.Bounding().Max.ToArray()).ToList();
             _indices = indices;
             _left = left;
             _right = right;
@@ -67,8 +67,8 @@ namespace Math.KDTree
                     b.Expand(key.Bounding());
                 }
 
-                _minMin = b.Min.Array;
-                _maxMax = b.Max.Array;
+                _minMin = b.Min.ToArray();
+                _maxMax = b.Max.ToArray();
             }
             else
             {
@@ -88,14 +88,10 @@ namespace Math.KDTree
                     yield return index;
             }
 
-            if (_skipBoundingTest || _minMin.Select((coord, i) => new {i}).All(x =>
-                min[x.i] <= _maxMax[x.i] &&
-                _minMin[x.i] <= max[x.i]))
+            if (_skipBoundingTest || BoundsOverlap(min, max, _minMin, _maxMax))
             {
                 for (var j = 0; j < _indices.Count; j++)
-                    if (_min[j].Select((coord, i) => new {i}).All(x =>
-                        min[x.i] <= _max[j][x.i] &&
-                        _min[j][x.i] <= max[x.i]))
+                    if (BoundsOverlap(min, max, _min[j], _max[j]))
                         yield return _indices[j];
             }
 
@@ -104,6 +100,17 @@ namespace Math.KDTree
                 foreach (var index in _right.Search(min, max))
                     yield return index;
             }
+        }
+
+        private static bool BoundsOverlap(T qMin, T qMax, double[] bMin, double[] bMax)
+        {
+            for (var i = 0; i < bMin.Length; i++)
+            {
+                if (qMin[i] > bMax[i] || bMin[i] > qMax[i])
+                    return false;
+            }
+
+            return true;
         }
 
         public int Depth()
