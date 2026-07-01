@@ -1,57 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<ApplicationIcon>sqrtpi.ico</ApplicationIcon>
-		<Version>5.0.0</Version>
-		<Authors>Thierry Matthey</Authors>
-		<Copyright>Copyright © Matthey 2016-2025</Copyright>
-		<Company />
-		<Product />
-		<Description>A collection of GPS track readers suporting GPX, TCX and KML. Source can either be a string, file or directory.</Description>
-		<PackageProjectUrl>https://github.com/tmatthey/tmath</PackageProjectUrl>
-		<PackageIcon>sqrtpi.png</PackageIcon>
-		<PackageLicenseUrl>MIT</PackageLicenseUrl>
-		<RepositoryUrl></RepositoryUrl>
-		<PackageTags>gpx tcx kml reader parser dotnetcore</PackageTags>
-		<License>https://mit-license.org/</License>
-		<PackageId>Math.Matthey</PackageId>
-		<PackageReleaseNotes>Support of route for GPX</PackageReleaseNotes>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageOutputPath>..\</PackageOutputPath>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ApplicationIcon>sqrtpi.ico</ApplicationIcon>
+        <Version>5.0.3</Version>
+        <Authors>Thierry Matthey</Authors>
+        <Copyright>Copyright © Matthey 2016-2026</Copyright>
+        <Company />
+        <Product />
+        <Description>
+            A collection of mathematical function and data structures written in C#.
+            Numerical comparison, vector geometry, polynomial, root solver, statistics,
+            GPS and clustering, and abstract bitmap and draw functions. GPS track readers
+            suporting GPX, TCX and KML. Source can either be a string, file or directory.
+        </Description>
+        <PackageProjectUrl>https://github.com/tmatthey/tmath</PackageProjectUrl>
+        <PackageIcon>sqrtpi.png</PackageIcon>
+        <PackageLicenseUrl>MIT</PackageLicenseUrl>
+        <RepositoryUrl></RepositoryUrl>
+        <PackageTags>gpx tcx kml reader parser dotnetcore</PackageTags>
+        <License>https://mit-license.org/</License>
+        <PackageId>Math.Matthey</PackageId>
+        <PackageReleaseNotes>Support of route for GPX</PackageReleaseNotes>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageOutputPath>..\</PackageOutputPath>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<DocumentationFile>Math.Tools.TrackReaders.xml</DocumentationFile>
-	</PropertyGroup>
-	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
-		<ItemGroup>
-			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-		</ItemGroup>
-	</Target>
-	<ItemGroup>
-		<None Include="..\Math\Math.xml" Pack="true" PackagePath="\lib\netstandard2.0\" />
-		<None Include="..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\sqrtpi.png" Pack="true" PackagePath="\" />
-		<None Include="..\sqrtpi.ico" Pack="true" PackagePath="\" />
-	</ItemGroup>
+    <PropertyGroup>
+        <DocumentationFile>Math.Tools.TrackReaders.xml</DocumentationFile>
+    </PropertyGroup>
+    <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+        </ItemGroup>
+    </Target>
+    <ItemGroup>
+        <None Include="..\Math\Math.xml" Pack="true" PackagePath="\lib\netstandard2.0\" />
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\sqrtpi.png" Pack="true" PackagePath="\" />
+        <None Include="..\sqrtpi.ico" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
-
-	<ItemGroup>
-		<PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Vsxmd" Version="1.4.5">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Math\Math.csproj"  PrivateAssets="All"  />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Vsxmd" Version="1.4.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Math\Math.csproj"  PrivateAssets="All"  />
+    </ItemGroup>
 
 </Project>

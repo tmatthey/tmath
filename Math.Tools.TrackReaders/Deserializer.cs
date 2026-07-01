@@ -2,7 +2,7 @@
  * ***** BEGIN LICENSE BLOCK *****
  * Version: MIT
  *
- * Copyright (c) 2016-2025 Thierry Matthey
+ * Copyright (c) 2016-2026 Thierry Matthey
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -57,7 +57,7 @@ namespace Math.Tools.TrackReaders
                     if (track != null)
                         return track;
                 }
-                catch 
+                catch
                 {
                     //
                 }
@@ -70,7 +70,7 @@ namespace Math.Tools.TrackReaders
                     if (track != null)
                         return track;
                 }
-                catch 
+                catch
                 {
                     //
                 }
@@ -83,7 +83,7 @@ namespace Math.Tools.TrackReaders
                     if (track != null)
                         return track;
                 }
-                catch 
+                catch
                 {
                     //
                 }
@@ -100,36 +100,37 @@ namespace Math.Tools.TrackReaders
         public static Track File(string filename)
         {
             Track track = null;
-            if (System.IO.File.Exists(filename))
-            {
-                var extension = Path.GetExtension(filename);
-                if (extension == null)
-                    return null;
-                try
-                {
-                    using (var reader = System.IO.File.OpenText(filename))
-                    {
-                        if (extension.Contains("tcx"))
-                        {
-                            track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(reader));
-                        }
-                        else if (extension.Contains("gpx"))
-                        {
-                            track = GpxConverter.Convert(Parse<gpx>(reader));
-                        }
-                        else if (extension.Contains("kml"))
-                        {
-                            track = KmlConverter.Convert(Parse<kml>(reader));
-                        }
-                    }
+            if (!System.IO.File.Exists(filename))
+                return track;
 
-                    if (track != null && track.Name == null)
-                        track.Name = Path.GetFileNameWithoutExtension(filename);
-                }
-                catch
+            var extension = Path.GetExtension(filename);
+            if (extension == null)
+                return null;
+
+            try
+            {
+                using (var reader = System.IO.File.OpenText(filename))
                 {
-                    // ignored
+                    if (extension.Contains("tcx"))
+                    {
+                        track = TcxConverter.Convert(Parse<TrainingCenterDatabase_t>(reader));
+                    }
+                    else if (extension.Contains("gpx"))
+                    {
+                        track = GpxConverter.Convert(Parse<gpx>(reader));
+                    }
+                    else if (extension.Contains("kml"))
+                    {
+                        track = KmlConverter.Convert(Parse<kml>(reader));
+                    }
                 }
+
+                if (track != null && track.Name == null)
+                    track.Name = Path.GetFileNameWithoutExtension(filename);
+            }
+            catch
+            {
+                // ignored
             }
 
             return track;
@@ -170,14 +171,10 @@ namespace Math.Tools.TrackReaders
                 // ignored
             }
 
-            foreach (var file in files)
-            {
-                var track = File(file);
-                if (track != null && track.GpsPoints().Any())
-                {
-                    yield return track;
-                }
-            }
+            foreach (var track in files
+                         .Select(File)
+                         .Where(track => track != null && track.GpsPoints().Any()))
+                yield return track;
         }
 
         private static T Parse<T>(TextReader input) where T : class
