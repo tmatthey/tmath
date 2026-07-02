@@ -27,11 +27,7 @@
  */
 
 using System.IO;
-#if NETSTANDARD2_0
 using Drawing = System.DrawingCore;
-#else
-using Drawing = System.Drawing;
-#endif
 
 namespace Math.Gfx
 {
