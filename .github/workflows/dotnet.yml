@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    - name: Install native dependencies for System.Drawing
+      run: sudo apt-get update && sudo apt-get install -y libgdiplus    
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
