@@ -29,224 +29,223 @@
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+[TestFixture]
+public class Circle3DTests
 {
-    [TestFixture]
-    public class Circle3DTests
+    [TestCase(0.0)]
+    [TestCase(1.0)]
+    [TestCase(13.17)]
+    [TestCase(-13.17)]
+    public void Constructor_WithRadius_ZeroCenterAndSetRadius(double r)
     {
-        [TestCase(0.0)]
-        [TestCase(1.0)]
-        [TestCase(13.17)]
-        [TestCase(-13.17)]
-        public void Constructor_WithRadius_ZeroCenterAndSetRadius(double r)
-        {
-            var c = new Circle3D(r);
-            c.Radius.ShouldBe(r);
-            c.Center.ShouldBe(Vector3D.Zero);
-            c.Normal.ShouldBe(Vector3D.E3);
-        }
+        var c = new Circle3D(r);
+        c.Radius.ShouldBe(r);
+        c.Center.ShouldBe(Vector3D.Zero);
+        c.Normal.ShouldBe(Vector3D.E3);
+    }
 
-        [TestCase(false, false)]
-        [TestCase(true, false)]
-        [TestCase(false, true)]
-        [TestCase(true, true)]
-        public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
-        {
-            var x = a ? new Circle3D() : null;
-            var y = b ? new Circle3D() : null;
-            (x == y).ShouldBe(a == b);
-        }
+    [TestCase(false, false)]
+    [TestCase(true, false)]
+    [TestCase(false, true)]
+    [TestCase(true, true)]
+    public void OpEqual_NullPointer_ReturnsExpected(bool a, bool b)
+    {
+        var x = a ? new Circle3D() : null;
+        var y = b ? new Circle3D() : null;
+        (x == y).ShouldBe(a == b);
+    }
 
-        [TestCase(false, false)]
-        [TestCase(true, false)]
-        [TestCase(false, true)]
-        [TestCase(true, true)]
-        public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
-        {
-            var x = a ? new Circle3D() : null;
-            var y = b ? new Circle3D() : null;
-            (x != y).ShouldBe(a != b);
-        }
+    [TestCase(false, false)]
+    [TestCase(true, false)]
+    [TestCase(false, true)]
+    [TestCase(true, true)]
+    public void OpNotEqual_NullPointer_ReturnsExpected(bool a, bool b)
+    {
+        var x = a ? new Circle3D() : null;
+        var y = b ? new Circle3D() : null;
+        (x != y).ShouldBe(a != b);
+    }
 
-        [Test]
-        public void Clone()
-        {
-            var u = new Vector3D(1.2, 2.3, 3.4);
-            var v = new Vector3D(1.1, 2.2, 3.3);
-            var a = new Circle3D(u, v, 19.17);
-            var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBeFalse();
-            ReferenceEquals(a.Center, b.Center).ShouldBeFalse();
-            ReferenceEquals(a.Normal, b.Normal).ShouldBeFalse();
-            a.Equals(b).ShouldBeTrue();
-            a.Center.Equals(b.Center).ShouldBeTrue();
-            a.Normal.Equals(b.Normal).ShouldBeTrue();
-            a.IsEqual(b).ShouldBeTrue();
-            a.Center.IsEqual(b.Center).ShouldBeTrue();
-            a.Normal.IsEqual(b.Normal).ShouldBeTrue();
-        }
+    [Test]
+    public void Clone()
+    {
+        var u = new Vector3D(1.2, 2.3, 3.4);
+        var v = new Vector3D(1.1, 2.2, 3.3);
+        var a = new Circle3D(u, v, 19.17);
+        var b = a.Clone();
+        ReferenceEquals(a, b).ShouldBeFalse();
+        ReferenceEquals(a.Center, b.Center).ShouldBeFalse();
+        ReferenceEquals(a.Normal, b.Normal).ShouldBeFalse();
+        a.Equals(b).ShouldBeTrue();
+        a.Center.Equals(b.Center).ShouldBeTrue();
+        a.Normal.Equals(b.Normal).ShouldBeTrue();
+        a.IsEqual(b).ShouldBeTrue();
+        a.Center.IsEqual(b.Center).ShouldBeTrue();
+        a.Normal.IsEqual(b.Normal).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Constructor_WithCenterRadius_CreatesExpected()
-        {
-            var r = 13.17;
-            var v = new Vector3D(12, -14.3, 15);
-            var n = new Vector3D(12.3, 14.3, 15);
-            var c = new Circle3D(v, n, r);
-            c.Radius.ShouldBe(r);
-            c.Center.ShouldBe(v);
-            c.Normal.ShouldBe(n);
-        }
+    [Test]
+    public void Constructor_WithCenterRadius_CreatesExpected()
+    {
+        var r = 13.17;
+        var v = new Vector3D(12, -14.3, 15);
+        var n = new Vector3D(12.3, 14.3, 15);
+        var c = new Circle3D(v, n, r);
+        c.Radius.ShouldBe(r);
+        c.Center.ShouldBe(v);
+        c.Normal.ShouldBe(n);
+    }
 
-        [Test]
-        public void Constructor_ZeroCenterAndRadius()
-        {
-            var c = new Circle3D();
-            c.Radius.ShouldBe(0.0);
-            c.Center.ShouldBe(Vector3D.Zero);
-        }
+    [Test]
+    public void Constructor_ZeroCenterAndRadius()
+    {
+        var c = new Circle3D();
+        c.Radius.ShouldBe(0.0);
+        c.Center.ShouldBe(Vector3D.Zero);
+    }
 
-        [Test]
-        public void Create_WithOnePoint_returnsCorrectCircle()
-        {
-            var u = new Vector3D(0.1, 0.2, -45.8);
-            var c = Circle3D.Create(u);
-            c.Center.ShouldBe(u);
-            c.Normal.ShouldBe(u);
-            c.Radius.ShouldBe(0.0);
-        }
+    [Test]
+    public void Create_WithOnePoint_returnsCorrectCircle()
+    {
+        var u = new Vector3D(0.1, 0.2, -45.8);
+        var c = Circle3D.Create(u);
+        c.Center.ShouldBe(u);
+        c.Normal.ShouldBe(u);
+        c.Radius.ShouldBe(0.0);
+    }
 
-        [Test]
-        public void Create_WithThreePoints_returnsCorrectCircle()
-        {
-            var u = new Vector3D(0, 0, 2);
-            var v = new Vector3D(1, 1, 2);
-            var w = new Vector3D(2, 0, 2);
-            var c = Circle3D.Create(u, v, w);
-            c.Center.ShouldBe(new Vector3D(1, 0, 2));
-            c.Normal.ShouldBe(-Vector3D.E3);
-            c.Radius.ShouldBe(1.0);
-        }
+    [Test]
+    public void Create_WithThreePoints_returnsCorrectCircle()
+    {
+        var u = new Vector3D(0, 0, 2);
+        var v = new Vector3D(1, 1, 2);
+        var w = new Vector3D(2, 0, 2);
+        var c = Circle3D.Create(u, v, w);
+        c.Center.ShouldBe(new Vector3D(1, 0, 2));
+        c.Normal.ShouldBe(-Vector3D.E3);
+        c.Radius.ShouldBe(1.0);
+    }
 
-        [Test]
-        public void Create_WithThreePointsBigCircle_returnsCorrectCircle()
-        {
-            var u = new Vector3D(0, 0, 2);
-            var v = new Vector3D(1, 1e-5, 2);
-            var w = new Vector3D(2, 0, 2);
-            var c = Circle3D.Create(u, v, w);
-            c.Center.X.ShouldBe(1, 1e-7);
-            c.Radius.ShouldBe(50000, 1e-5);
-            c.Normal.ShouldBe(-Vector3D.E3);
-        }
+    [Test]
+    public void Create_WithThreePointsBigCircle_returnsCorrectCircle()
+    {
+        var u = new Vector3D(0, 0, 2);
+        var v = new Vector3D(1, 1e-5, 2);
+        var w = new Vector3D(2, 0, 2);
+        var c = Circle3D.Create(u, v, w);
+        c.Center.X.ShouldBe(1, 1e-7);
+        c.Radius.ShouldBe(50000, 1e-5);
+        c.Normal.ShouldBe(-Vector3D.E3);
+    }
 
-        [Test]
-        public void Create_WithThreePointsCollinear_returnsCorrectCircleTwoPoints()
-        {
-            var u = new Vector3D(1, 2, 2);
-            var v = new Vector3D(2, 1, 2);
-            var w = new Vector3D(1.5, 1.5, 2);
-            var c = Circle3D.Create(u, v, w);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
-        }
+    [Test]
+    public void Create_WithThreePointsCollinear_returnsCorrectCircleTwoPoints()
+    {
+        var u = new Vector3D(1, 2, 2);
+        var v = new Vector3D(2, 1, 2);
+        var w = new Vector3D(1.5, 1.5, 2);
+        var c = Circle3D.Create(u, v, w);
+        c.Center.ShouldBe((u + v) * 0.5);
+        c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+    }
 
-        [Test]
-        public void Create_WithTwoPoints_returnsCorrectCircle()
-        {
-            var u = new Vector3D(1, 2, 2);
-            var v = new Vector3D(2, 1, 2);
-            var c = Circle3D.Create(u, v);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
-        }
+    [Test]
+    public void Create_WithTwoPoints_returnsCorrectCircle()
+    {
+        var u = new Vector3D(1, 2, 2);
+        var v = new Vector3D(2, 1, 2);
+        var c = Circle3D.Create(u, v);
+        c.Center.ShouldBe((u + v) * 0.5);
+        c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+    }
 
-        [Test]
-        public void Create_WithTwoSamePoints_returnsCorrectCenterZeroRadius()
-        {
-            var u = new Vector3D(1, 2, 2);
-            var c = Circle3D.Create(u, u);
-            c.Center.ShouldBe(u);
-            c.Radius.ShouldBe(0.0);
-        }
+    [Test]
+    public void Create_WithTwoSamePoints_returnsCorrectCenterZeroRadius()
+    {
+        var u = new Vector3D(1, 2, 2);
+        var c = Circle3D.Create(u, u);
+        c.Center.ShouldBe(u);
+        c.Radius.ShouldBe(0.0);
+    }
 
-        [Test]
-        public void Create_WithTwoSamePointsOneDiffrent_returnsCorrectCircleTwoPoints()
-        {
-            var u = new Vector3D(1, 2, 2);
-            var v = new Vector3D(2, 1, 2);
-            var c = Circle3D.Create(u, v, v);
-            c.Center.ShouldBe((u + v) * 0.5);
-            c.Radius.ShouldBe(System.Math.Sqrt(0.5));
-        }
+    [Test]
+    public void Create_WithTwoSamePointsOneDiffrent_returnsCorrectCircleTwoPoints()
+    {
+        var u = new Vector3D(1, 2, 2);
+        var v = new Vector3D(2, 1, 2);
+        var c = Circle3D.Create(u, v, v);
+        c.Center.ShouldBe((u + v) * 0.5);
+        c.Radius.ShouldBe(System.Math.Sqrt(0.5));
+    }
 
-        [Test]
-        public void Dimension_Is3()
-        {
-            var v = new Circle3D();
-            v.Dimensions.ShouldBe(3);
-        }
+    [Test]
+    public void Dimension_Is3()
+    {
+        var v = new Circle3D();
+        v.Dimensions.ShouldBe(3);
+    }
 
-        [Test]
-        public void Equals_WithDiffrentRef_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            p.Equals(q).ShouldBeTrue();
-        }
+    [Test]
+    public void Equals_WithDiffrentRef_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        p.Equals(q).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Equals_WithItself_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), 0.2);
-            p.Equals(p).ShouldBeTrue();
-        }
+    [Test]
+    public void Equals_WithItself_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), 0.2);
+        p.Equals(p).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Equals_WithNull_ReturnsFalse()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            p.Equals(null).ShouldBeFalse();
-        }
+    [Test]
+    public void Equals_WithNull_ReturnsFalse()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        p.Equals(null).ShouldBeFalse();
+    }
 
-        [Test]
-        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 3), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 3), 0.201);
-            p.GetHashCode().ShouldNotBe(q.GetHashCode());
-        }
+    [Test]
+    public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 3), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2, 3), 0.201);
+        p.GetHashCode().ShouldNotBe(q.GetHashCode());
+    }
 
-        [Test]
-        public void OpEqual_WithDiffrentRef_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            (p == q).ShouldBeTrue();
-        }
+    [Test]
+    public void OpEqual_WithDiffrentRef_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        (p == q).ShouldBeTrue();
+    }
 
-        [Test]
-        public void OpEqual_WithDiffrentRefColinearNormal_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(-4, -2, 0), 0.2);
-            (p == q).ShouldBeTrue();
-        }
+    [Test]
+    public void OpEqual_WithDiffrentRefColinearNormal_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(-4, -2, 0), 0.2);
+        (p == q).ShouldBeTrue();
+    }
 
-        [Test]
-        public void OpNotEqual_NotEqualCenter_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2.01, 2), new Vector3D(2, 1, 0), 0.2);
-            (p != q).ShouldBeTrue();
-        }
+    [Test]
+    public void OpNotEqual_NotEqualCenter_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2.01, 2), new Vector3D(2, 1, 0), 0.2);
+        (p != q).ShouldBeTrue();
+    }
 
-        [Test]
-        public void OpNotEqual_NotEqualRadius_ReturnsTrue()
-        {
-            var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.201);
-            (p != q).ShouldBeTrue();
-        }
+    [Test]
+    public void OpNotEqual_NotEqualRadius_ReturnsTrue()
+    {
+        var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
+        var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.201);
+        (p != q).ShouldBeTrue();
     }
 }

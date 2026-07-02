@@ -30,27 +30,26 @@ using Math.Gfx;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gfx
-{
-    [TestFixture]
-    public class ColorTests
-    {
-        [Test]
-        public void DefaultConstructor_ReturnsWhite()
-        {
-            var col = new Color();
-            byte white = 255;
-            col.Red.ShouldBe(white);
-            col.Green.ShouldBe(white);
-            col.Blue.ShouldBe(white);
-        }
+namespace Math.Tests.Gfx;
 
-        [Test]
-        public void Default_White_IsFreshOnEachAccess_A1_2()
-        {
-            var w = Color.Default.White;
-            w.Red = 0;
-            Color.Default.White.Red.ShouldBe((byte) 255);
-        }
+[TestFixture]
+public class ColorTests
+{
+    [Test]
+    public void DefaultConstructor_ReturnsWhite()
+    {
+        var col = new Color();
+        byte white = 255;
+        col.Red.ShouldBe(white);
+        col.Green.ShouldBe(white);
+        col.Blue.ShouldBe(white);
+    }
+
+    [Test]
+    public void Default_White_IsFreshOnEachAccess_A1_2()
+    {
+        var w = Color.Default.White;
+        w.Red = 0;
+        Color.Default.White.Red.ShouldBe((byte) 255);
     }
 }

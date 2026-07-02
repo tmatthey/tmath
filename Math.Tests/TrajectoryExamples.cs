@@ -29,47 +29,46 @@
 using System;
 using System.Collections.Generic;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+public static class TrajectoryExamples
 {
-    public static class TrajectoryExamples
+    private static IList<List<Vector2D>> ReadTracks(string name)
     {
-        private static IList<List<Vector2D>> ReadTracks(string name)
+        var tracks = new List<List<Vector2D>>();
+        var lines = TestUtils.Resources(name).Trim().Split('\n');
+
+        var l = 0;
+        foreach (var line in lines)
         {
-            var tracks = new List<List<Vector2D>>();
-            var lines = TestUtils.Resources(name).Trim().Split('\n');
+            l++;
+            if (l < 3)
+                continue;
 
-            var l = 0;
-            foreach (var line in lines)
+            var array = line.Split(' ');
+            var list = new List<Vector2D>();
+            for (var i = 2; i + 1 < array.Length; i += 2)
             {
-                l++;
-                if (l < 3)
-                    continue;
-
-                var array = line.Split(' ');
-                var list = new List<Vector2D>();
-                for (var i = 2; i + 1 < array.Length; i += 2)
-                {
-                    var x = Convert.ToDouble(array[i]);
-                    var y = Convert.ToDouble(array[i + 1]);
-                    list.Add(new Vector2D(x, y));
-                }
-
-                tracks.Add(list);
+                var x = Convert.ToDouble(array[i]);
+                var y = Convert.ToDouble(array[i + 1]);
+                list.Add(new Vector2D(x, y));
             }
 
-
-            return tracks;
+            tracks.Add(list);
         }
 
-        public static IList<List<Vector2D>> deer_1995()
-        {
-            return ReadTracks("deer_1995.tra");
-        }
 
-        //public static IList<List<Vector2D>> hurricane1950_2006()
-
-        //{
-        //    return ReadTracks("hurricane1950_2006.tra");
-        //}
+        return tracks;
     }
+
+    public static IList<List<Vector2D>> deer_1995()
+    {
+        return ReadTracks("deer_1995.tra");
+    }
+
+    //public static IList<List<Vector2D>> hurricane1950_2006()
+
+    //{
+    //    return ReadTracks("hurricane1950_2006.tra");
+    //}
 }

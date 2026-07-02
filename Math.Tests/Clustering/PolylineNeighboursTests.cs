@@ -34,96 +34,95 @@ using Math.Tests.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Clustering
+namespace Math.Tests.Clustering;
+
+[TestFixture]
+public class PolylineNeighboursTests
 {
-    [TestFixture]
-    public class PolylineNeighboursTests
+    private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+    [Test]
+    public void Neighbours_5TracksSameStartEnd_OneCluster()
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
-        [Test]
-        public void Neighbours_5TracksSameStartEnd_OneCluster()
+        var list = new List<List<GpsPoint>>
         {
-            var list = new List<List<GpsPoint>>
-            {
-                _gpsTrackExamples.TrackOne().ToList(),
-                _gpsTrackExamples.TrackTwo().ToList(),
-                _gpsTrackExamples.TrackThree().ToList(),
-                _gpsTrackExamples.TrackFour().ToList(),
-                _gpsTrackExamples.TrackFive().ToList()
-            };
+            _gpsTrackExamples.TrackOne().ToList(),
+            _gpsTrackExamples.TrackTwo().ToList(),
+            _gpsTrackExamples.TrackThree().ToList(),
+            _gpsTrackExamples.TrackFour().ToList(),
+            _gpsTrackExamples.TrackFive().ToList()
+        };
 
-            var res = PolylineNeighbours.Cluster(list, 100);
-            res.Count.ShouldBe(1);
-            res[0].Count.ShouldBe(5);
-            res[0][0].ShouldBe(0);
-            res[0][1].ShouldBe(1);
-            res[0][2].ShouldBe(2);
-            res[0][3].ShouldBe(3);
-            res[0][4].ShouldBe(4);
-        }
+        var res = PolylineNeighbours.Cluster(list, 100);
+        res.Count.ShouldBe(1);
+        res[0].Count.ShouldBe(5);
+        res[0][0].ShouldBe(0);
+        res[0][1].ShouldBe(1);
+        res[0][2].ShouldBe(2);
+        res[0][3].ShouldBe(3);
+        res[0][4].ShouldBe(4);
+    }
 
-        [Test]
-        public void Neighbours_5TracksSameStartEndWithSmallEps_OneCluster()
+    [Test]
+    public void Neighbours_5TracksSameStartEndWithSmallEps_OneCluster()
+    {
+        var list = new List<List<GpsPoint>>
         {
-            var list = new List<List<GpsPoint>>
-            {
-                _gpsTrackExamples.TrackOne().ToList(),
-                _gpsTrackExamples.TrackTwo().ToList(),
-                _gpsTrackExamples.TrackThree().ToList(),
-                _gpsTrackExamples.TrackFour().ToList(),
-                _gpsTrackExamples.TrackFive().ToList()
-            };
+            _gpsTrackExamples.TrackOne().ToList(),
+            _gpsTrackExamples.TrackTwo().ToList(),
+            _gpsTrackExamples.TrackThree().ToList(),
+            _gpsTrackExamples.TrackFour().ToList(),
+            _gpsTrackExamples.TrackFive().ToList()
+        };
 
-            var res = PolylineNeighbours.Cluster(list, 1);
-            res.Count.ShouldBe(1);
-            res[0].Count.ShouldBe(5);
-            res[0][0].ShouldBe(0);
-            res[0][1].ShouldBe(1);
-            res[0][2].ShouldBe(2);
-            res[0][3].ShouldBe(3);
-            res[0][4].ShouldBe(4);
-        }
+        var res = PolylineNeighbours.Cluster(list, 1);
+        res.Count.ShouldBe(1);
+        res[0].Count.ShouldBe(5);
+        res[0][0].ShouldBe(0);
+        res[0][1].ShouldBe(1);
+        res[0][2].ShouldBe(2);
+        res[0][3].ShouldBe(3);
+        res[0][4].ShouldBe(4);
+    }
 
-        [Test]
-        public void Neighbours_EmptyList_ReturnsEmpty()
-        {
-            var list = new List<List<Vector2D>>();
-            var res = PolylineNeighbours.Cluster(list);
-            res.Count.ShouldBe(0);
-        }
+    [Test]
+    public void Neighbours_EmptyList_ReturnsEmpty()
+    {
+        var list = new List<List<Vector2D>>();
+        var res = PolylineNeighbours.Cluster(list);
+        res.Count.ShouldBe(0);
+    }
 
-        [Test]
-        public void Neighbours_OnePolyline_ReturnsOne()
-        {
-            var list = new List<List<Vector2D>> {new List<Vector2D> {new Vector2D()}};
-            var res = PolylineNeighbours.Cluster(list);
-            res.Count.ShouldBe(1);
-            res[0].Count.ShouldBe(1);
-            res[0][0].ShouldBe(0);
-        }
+    [Test]
+    public void Neighbours_OnePolyline_ReturnsOne()
+    {
+        var list = new List<List<Vector2D>> {new List<Vector2D> {new Vector2D()}};
+        var res = PolylineNeighbours.Cluster(list);
+        res.Count.ShouldBe(1);
+        res[0].Count.ShouldBe(1);
+        res[0][0].ShouldBe(0);
+    }
 
-        [Test]
-        public void Neighbours_TwoPolylineAway_ReturnsTwo()
-        {
-            var list = new List<List<Vector2D>> {new List<Vector2D> {Vector2D.Zero}, new List<Vector2D> {Vector2D.One}};
-            var res = PolylineNeighbours.Cluster(list, 0.1);
-            res.Count.ShouldBe(2);
-            res[0].Count.ShouldBe(1);
-            res[1].Count.ShouldBe(1);
-            res[0][0].ShouldBe(0);
-            res[1][0].ShouldBe(1);
-        }
+    [Test]
+    public void Neighbours_TwoPolylineAway_ReturnsTwo()
+    {
+        var list = new List<List<Vector2D>> {new List<Vector2D> {Vector2D.Zero}, new List<Vector2D> {Vector2D.One}};
+        var res = PolylineNeighbours.Cluster(list, 0.1);
+        res.Count.ShouldBe(2);
+        res[0].Count.ShouldBe(1);
+        res[1].Count.ShouldBe(1);
+        res[0][0].ShouldBe(0);
+        res[1][0].ShouldBe(1);
+    }
 
-        [Test]
-        public void Neighbours_TwoPolylineClose_ReturnsOne()
-        {
-            var list = new List<List<Vector2D>> {new List<Vector2D> {Vector2D.Zero}, new List<Vector2D> {Vector2D.One}};
-            var res = PolylineNeighbours.Cluster(list, 2.0);
-            res.Count.ShouldBe(1);
-            res[0].Count.ShouldBe(2);
-            res[0][0].ShouldBe(0);
-            res[0][1].ShouldBe(1);
-        }
+    [Test]
+    public void Neighbours_TwoPolylineClose_ReturnsOne()
+    {
+        var list = new List<List<Vector2D>> {new List<Vector2D> {Vector2D.Zero}, new List<Vector2D> {Vector2D.One}};
+        var res = PolylineNeighbours.Cluster(list, 2.0);
+        res.Count.ShouldBe(1);
+        res[0].Count.ShouldBe(2);
+        res[0][0].ShouldBe(0);
+        res[0][1].ShouldBe(1);
     }
 }

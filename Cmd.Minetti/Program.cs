@@ -34,94 +34,93 @@ using Math.Tools.TrackReaders;
 using Math.Tools.Base;
 
 
-namespace Cmd.Minetti
+namespace Cmd.Minetti;
+
+public static class Program
 {
-    public static class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
+        var p = new CommandLineParser("minetti", args);
+
+        p.SetupHelp(helpText =>
         {
-            var p = new CommandLineParser("minetti", args);
+            Console.WriteLine(helpText);
+            Environment.Exit(0);
+        }).SetupError((helpText, errorText) =>
+        {
+            Console.WriteLine(errorText);
+            Console.WriteLine(helpText);
+            Environment.Exit(0);
+        }).Setup("f", "File name", out string f);
 
-            p.SetupHelp(helpText =>
+        p.Parse();
+
+
+        var input = Deserializer.File(f);
+        if (input == null || input.TrackPoints.Count == 0)
+            return;
+
+        var track = input.GpsPoints().ToList();
+        var time = input.ElapsedSeconds().ToList();
+        var dist = Geodesy.Distance.HaversineAccumulated(track);
+        var height = track.Select(pt => pt.Elevation).ToList();
+        var l0 = 0.0;
+        var h0 = 0.0;
+        var minettiFactor = 0.0;
+        for (var i = 0; i < track.Count; i++)
+        {
+            var l = dist[i];
+            var h = height[i];
+            var gradient = 0.0;
+            var dl = l - l0;
+            if (i > 0 && dl > 0)
             {
-                Console.WriteLine(helpText);
-                Environment.Exit(0);
-            }).SetupError((helpText, errorText) =>
-            {
-                Console.WriteLine(errorText);
-                Console.WriteLine(helpText);
-                Environment.Exit(0);
-            }).Setup("f", "File name", out string f);
-
-            p.Parse();
-
-
-            var input = Deserializer.File(f);
-            if (input == null || input.TrackPoints.Count == 0)
-                return;
-
-            var track = input.GpsPoints().ToList();
-            var time = input.ElapsedSeconds().ToList();
-            var dist = Geodesy.Distance.HaversineAccumulated(track);
-            var height = track.Select(pt => pt.Elevation).ToList();
-            var l0 = 0.0;
-            var h0 = 0.0;
-            var minettiFactor = 0.0;
-            for (var i = 0; i < track.Count; i++)
-            {
-                var l = dist[i];
-                var h = height[i];
-                var gradient = 0.0;
-                var dl = l - l0;
-                if (i > 0 && dl > 0)
-                {
-                    gradient = (h - h0) / dl;
-                }
-
-                var minetti = Function.MinettiFactor(gradient);
-                if (i == 0 || dl > 20 && l > 500)
-                {
-                    minettiFactor += minetti * dl;
-                    l0 = l;
-                    h0 = h;
-                }
+                gradient = (h - h0) / dl;
             }
 
-            l0 = 0.0;
-            h0 = 0.0;
-            var sumMinetti = 0.0;
-            var sumStrava = 0.0;
-            Console.WriteLine(
-                "Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tStrava\tStrava Avg\tEffort Factor\tTime factor");
-            for (var i = 0; i < track.Count; i++)
+            var minetti = Function.MinettiFactor(gradient);
+            if (i == 0 || dl > 20 && l > 500)
             {
-                var l = dist[i];
-                var h = height[i];
-                var t = time[i];
-                var gradient = 0.0;
-                var dl = l - l0;
-                if (i > 0 && dl > 0)
-                {
-                    gradient = (h - h0) / dl;
-                }
+                minettiFactor += minetti * dl;
+                l0 = l;
+                h0 = h;
+            }
+        }
 
-                var minetti = Function.MinettiFactor(gradient);
-                var strava = Function.StravaFactor(gradient);
-                if (i == 0 || dl > 20 && l > 500)
-                {
-                    var tf = time.Last() > 0 ? t / time.Last() : 0.0;
-                    sumMinetti += minetti * dl;
-                    sumStrava += strava * dl;
-                    var minettiAvg = sumMinetti > 0 ? sumMinetti / l : 1.0;
-                    var stravaAvg = sumStrava > 0 ? sumStrava / l : 1.0;
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}",
-                        t, l, h, gradient,
-                        sumMinetti > 0 ? minetti : 1.0, minettiAvg,
-                        sumStrava > 0 ? strava : 1.0, stravaAvg,
-                        minettiAvg * l / minettiFactor, tf);
-                    l0 = l;
-                    h0 = h;
-                }
+        l0 = 0.0;
+        h0 = 0.0;
+        var sumMinetti = 0.0;
+        var sumStrava = 0.0;
+        Console.WriteLine(
+            "Time\tDistance\tElevation\tGradient\tMinetti\tMinetti Avg\tStrava\tStrava Avg\tEffort Factor\tTime factor");
+        for (var i = 0; i < track.Count; i++)
+        {
+            var l = dist[i];
+            var h = height[i];
+            var t = time[i];
+            var gradient = 0.0;
+            var dl = l - l0;
+            if (i > 0 && dl > 0)
+            {
+                gradient = (h - h0) / dl;
+            }
+
+            var minetti = Function.MinettiFactor(gradient);
+            var strava = Function.StravaFactor(gradient);
+            if (i == 0 || dl > 20 && l > 500)
+            {
+                var tf = time.Last() > 0 ? t / time.Last() : 0.0;
+                sumMinetti += minetti * dl;
+                sumStrava += strava * dl;
+                var minettiAvg = sumMinetti > 0 ? sumMinetti / l : 1.0;
+                var stravaAvg = sumStrava > 0 ? sumStrava / l : 1.0;
+                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}",
+                    t, l, h, gradient,
+                    sumMinetti > 0 ? minetti : 1.0, minettiAvg,
+                    sumStrava > 0 ? strava : 1.0, stravaAvg,
+                    minettiAvg * l / minettiFactor, tf);
+                l0 = l;
+                h0 = h;
             }
         }
     }

@@ -33,60 +33,59 @@ using NUnit.Framework;
 using Shouldly;
 using BitmapFileWriter = Math.Gfx.BitmapFileWriter;
 
-namespace Math.Tests.Gfx
+namespace Math.Tests.Gfx;
+
+[TestFixture]
+public class HeatMapTests
 {
-    [TestFixture]
-    public class HeatMapTests
+    private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+    [Test]
+    public void HeatMap_Log_GeneratesHeatmap()
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+        var heatMap = new HeatMap();
+        heatMap.Add(_gpsTrackExamples.TrackOne());
+        heatMap.Add(_gpsTrackExamples.TrackTwo());
+        heatMap.Add(_gpsTrackExamples.TrackThree());
+        heatMap.Add(_gpsTrackExamples.TrackFour());
+        heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
+        var bitmap = heatMap.Log(2.5);
+        BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.log.png", bitmap, HeatColorMapping.Default);
+    }
 
-        [Test]
-        public void HeatMap_Log_GeneratesHeatmap()
-        {
-            var heatMap = new HeatMap();
-            heatMap.Add(_gpsTrackExamples.TrackOne());
-            heatMap.Add(_gpsTrackExamples.TrackTwo());
-            heatMap.Add(_gpsTrackExamples.TrackThree());
-            heatMap.Add(_gpsTrackExamples.TrackFour());
-            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
-            var bitmap = heatMap.Log(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.log.png", bitmap, HeatColorMapping.Default);
-        }
+    [Test]
+    public void HeatMap_Median_GeneratesHeatmap()
+    {
+        var heatMap = new HeatMap();
+        heatMap.Add(_gpsTrackExamples.TrackOne());
+        heatMap.Add(_gpsTrackExamples.TrackTwo());
+        heatMap.Add(_gpsTrackExamples.TrackThree());
+        heatMap.Add(_gpsTrackExamples.TrackFour());
+        heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
+        var bitmap = heatMap.Median(2.5);
+        BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.median.png", bitmap, HeatColorMapping.Default);
+    }
 
-        [Test]
-        public void HeatMap_Median_GeneratesHeatmap()
-        {
-            var heatMap = new HeatMap();
-            heatMap.Add(_gpsTrackExamples.TrackOne());
-            heatMap.Add(_gpsTrackExamples.TrackTwo());
-            heatMap.Add(_gpsTrackExamples.TrackThree());
-            heatMap.Add(_gpsTrackExamples.TrackFour());
-            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
-            var bitmap = heatMap.Median(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.median.png", bitmap, HeatColorMapping.Default);
-        }
+    [Test]
+    public void HeatMap_Normalized_GeneratesHeatmap()
+    {
+        var heatMap = new HeatMap();
+        heatMap.Add(_gpsTrackExamples.TrackOne());
+        heatMap.Add(_gpsTrackExamples.TrackTwo());
+        heatMap.Add(_gpsTrackExamples.TrackThree());
+        heatMap.Add(_gpsTrackExamples.TrackFour());
+        heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
+        var bitmap = heatMap.Normalized(2.5);
+        BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.normalized.png", bitmap,
+            HeatColorMapping.Default);
+    }
 
-        [Test]
-        public void HeatMap_Normalized_GeneratesHeatmap()
-        {
-            var heatMap = new HeatMap();
-            heatMap.Add(_gpsTrackExamples.TrackOne());
-            heatMap.Add(_gpsTrackExamples.TrackTwo());
-            heatMap.Add(_gpsTrackExamples.TrackThree());
-            heatMap.Add(_gpsTrackExamples.TrackFour());
-            heatMap.Add(new GpsTrack(_gpsTrackExamples.TrackFive()));
-            var bitmap = heatMap.Normalized(2.5);
-            BitmapFileWriter.PNG(TestUtils.OutputPath() + "heatMapCenter.normalized.png", bitmap,
-                HeatColorMapping.Default);
-        }
-
-        [Test]
-        public void HeatMap_NoTracks_ReturnsNull()
-        {
-            var heatMap = new HeatMap();
-            heatMap.Normalized(2.5).ShouldBe(null);
-            heatMap.Log(2.5).ShouldBe(null);
-            heatMap.Median(2.5).ShouldBe(null);
-        }
+    [Test]
+    public void HeatMap_NoTracks_ReturnsNull()
+    {
+        var heatMap = new HeatMap();
+        heatMap.Normalized(2.5).ShouldBe(null);
+        heatMap.Log(2.5).ShouldBe(null);
+        heatMap.Median(2.5).ShouldBe(null);
     }
 }

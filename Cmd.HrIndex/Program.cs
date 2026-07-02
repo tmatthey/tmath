@@ -34,89 +34,88 @@ using Math;
 using Math.Gps;
 using Math.Tools.TrackReaders;
 
-namespace Cmd.HrIndex
+namespace Cmd.HrIndex;
+
+public static class Program
 {
-    public static class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
+        if (args.Length < 2)
         {
-            if (args.Length < 2)
+            Console.WriteLine("Heart Read Index");
+            Console.WriteLine("Usage: hrindex <double standing heart rate> [GPX/TCX [...]]");
+            Environment.Exit(0);
+        }
+
+
+
+        var shr = double.Parse(args[0]);
+        var filenames = new List<string>();
+        for (var i = 1; i < args.Length; ++i)
+            filenames.AddRange(Glob.Expand(args[i]).Select(f => f.FullName));
+        Console.WriteLine("Activity\tDistance\tTime\tPace\tGAP\tMinetti\tHR Index");
+
+        foreach (var filename in filenames)
+        {
+            var input = Deserializer.File(filename);
+            if (input == null || input.TrackPoints.Count == 0 || !input.HeartRates().Any())
+                return;
+
+            var track = input.GpsPoints().ToList();
+            var time = input.ElapsedSeconds().ToList();
+            var dist = Geodesy.Distance.HaversineAccumulated(track);
+            var height = track.Select(pt => pt.Elevation).ToList();
+            var hrm = input.HeartRates().ToList();
+            var l0 = 0.0;
+            var h0 = 0.0;
+            var t0 = 0.0;
+            var minettiFactor = 0.0;
+            var index = 0.0;
+            var ls = 0.0;
+            var ts = 0.0;
+            for (var i = 0; i < track.Count; i++)
             {
-                Console.WriteLine("Heart Read Index");
-                Console.WriteLine("Usage: hrindex <double standing heart rate> [GPX/TCX [...]]");
-                Environment.Exit(0);
-            }
-
-
-
-            var shr = double.Parse(args[0]);
-            var filenames = new List<string>();
-            for (var i = 1; i < args.Length; ++i)
-                filenames.AddRange(Glob.Expand(args[i]).Select(f => f.FullName));
-            Console.WriteLine("Activity\tDistance\tTime\tPace\tGAP\tMinetti\tHR Index");
-
-            foreach (var filename in filenames)
-            {
-                var input = Deserializer.File(filename);
-                if (input == null || input.TrackPoints.Count == 0 || !input.HeartRates().Any())
-                    return;
-
-                var track = input.GpsPoints().ToList();
-                var time = input.ElapsedSeconds().ToList();
-                var dist = Geodesy.Distance.HaversineAccumulated(track);
-                var height = track.Select(pt => pt.Elevation).ToList();
-                var hrm = input.HeartRates().ToList();
-                var l0 = 0.0;
-                var h0 = 0.0;
-                var t0 = 0.0;
-                var minettiFactor = 0.0;
-                var index = 0.0;
-                var ls = 0.0;
-                var ts = 0.0;
-                for (var i = 0; i < track.Count; i++)
+                var l = dist[i];
+                var h = height[i];
+                var t = time[i];
+                if (i == 0)
                 {
-                    var l = dist[i];
-                    var h = height[i];
-                    var t = time[i];
-                    if (i == 0)
-                    {
-                        l0 = l;
-                        h0 = h;
-                        t0 = t;
-                        continue;
-                    }
-                    var gradient = 0.0;
-                    var dl = l - l0;
-                    var dt = t - t0;
-                    if (i > 0 && dl > 0)
-                    {
-                        gradient = (h - h0) / dl;
-                    }
-                    var minetti = Function.MinettiFactor(gradient);
-                    var v = dt > 0 ? dl / dt : 0.0;
-                    if (v > 0.01)
-                    {
-                        minettiFactor += minetti * dl;
-                        index += (hrm[i] - shr) / v * dt / minetti;
-                        ls += dl;
-                        ts += dt;
-                        l0 = l;
-                        h0 = h;
-                        t0 = t;
-                    }
+                    l0 = l;
+                    h0 = h;
+                    t0 = t;
+                    continue;
                 }
-                var pace = time.Last() / (dist.Last() / 1000.0);
-                Console.WriteLine($"{System.IO.Path.GetFileNameWithoutExtension(filename)}\t{System.Math.Round(dist.Last() / 1000.0, 2)}\t{ToMinSec(time.Last())}\t{ToMinSec(pace)}\t{ToMinSec(pace / (minettiFactor / ls))}\t{System.Math.Round(minettiFactor / ls, 4)}\t{System.Math.Round(index / ts, 2)}");
-
+                var gradient = 0.0;
+                var dl = l - l0;
+                var dt = t - t0;
+                if (i > 0 && dl > 0)
+                {
+                    gradient = (h - h0) / dl;
+                }
+                var minetti = Function.MinettiFactor(gradient);
+                var v = dt > 0 ? dl / dt : 0.0;
+                if (v > 0.01)
+                {
+                    minettiFactor += minetti * dl;
+                    index += (hrm[i] - shr) / v * dt / minetti;
+                    ls += dl;
+                    ts += dt;
+                    l0 = l;
+                    h0 = h;
+                    t0 = t;
+                }
             }
-        }
-        private static string ToMinSec(double t)
-        {
-            var sec = t % 60.0;
-            var min = (t - sec) / 60.0;
-            return $"{((int)min)}:{(int)sec}";
+            var pace = time.Last() / (dist.Last() / 1000.0);
+            Console.WriteLine($"{System.IO.Path.GetFileNameWithoutExtension(filename)}\t{System.Math.Round(dist.Last() / 1000.0, 2)}\t{ToMinSec(time.Last())}\t{ToMinSec(pace)}\t{ToMinSec(pace / (minettiFactor / ls))}\t{System.Math.Round(minettiFactor / ls, 4)}\t{System.Math.Round(index / ts, 2)}");
 
         }
+    }
+    private static string ToMinSec(double t)
+    {
+        var sec = t % 60.0;
+        var min = (t - sec) / 60.0;
+        return $"{((int)min)}:{(int)sec}";
 
     }
+
 }

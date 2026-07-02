@@ -32,119 +32,118 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+[TestFixture]
+public class SparseArrayTests
 {
-    [TestFixture]
-    public class SparseArrayTests
+    [Test]
+    public void Clear_WithNonEmptyArray_EmptyArray()
     {
-        [Test]
-        public void Clear_WithNonEmptyArray_EmptyArray()
+        var a = new SparseArray<int> { [1] = 17 };
+        a.Count.ShouldBeGreaterThan(0);
+        a.Clear();
+        a.Count.ShouldBe(0);
+    }
+
+    [Test]
+    public void Constructor()
+    {
+        new SparseArray<int>().Count.ShouldBe(0);
+    }
+
+    [Test]
+    public void Contains_ValueContained_ReturnsTrue()
+    {
+        var expected = 23;
+        var index = 17;
+        var a = new SparseArray<int> { [index] = expected };
+        a.Contains(expected).ShouldBeTrue();
+    }
+
+    [Test]
+    public void Contains_ValueNotContained_ReturnsFalse()
+    {
+        var expected = 23;
+        var index = 17;
+        var a = new SparseArray<int> { [index] = expected };
+        a.Contains(expected + 1).ShouldBeFalse();
+    }
+
+    [Test]
+    public void Enumerator_Iterates()
+    {
+        var expected1 = 23;
+        var index1 = 19;
+        var expected2 = 31;
+        var index2 = 9;
+        var a = new SparseArray<int> { [index2] = expected2, [index1] = expected1 };
+        var list = new List<int>();
+        foreach (var i in a)
         {
-            var a = new SparseArray<int> { [1] = 17 };
-            a.Count.ShouldBeGreaterThan(0);
-            a.Clear();
-            a.Count.ShouldBe(0);
+            list.Add(i);
         }
 
-        [Test]
-        public void Constructor()
-        {
-            new SparseArray<int>().Count.ShouldBe(0);
-        }
 
-        [Test]
-        public void Contains_ValueContained_ReturnsTrue()
-        {
-            var expected = 23;
-            var index = 17;
-            var a = new SparseArray<int> { [index] = expected };
-            a.Contains(expected).ShouldBeTrue();
-        }
+        list.Count.ShouldBe(2);
+    }
 
-        [Test]
-        public void Contains_ValueNotContained_ReturnsFalse()
-        {
-            var expected = 23;
-            var index = 17;
-            var a = new SparseArray<int> { [index] = expected };
-            a.Contains(expected + 1).ShouldBeFalse();
-        }
+    [Test]
+    public void Indices_ReturnsList()
+    {
+        var expected1 = 23;
+        var index1 = 19;
+        var expected2 = 31;
+        var index2 = 9;
+        var a = new SparseArray<int> { [index2] = expected2, [index1] = expected1 };
+        var list = a.Indices();
+        list.Count.ShouldBe(2);
+        list[0].ShouldBe(index2);
+        list[1].ShouldBe(index1);
+    }
 
-        [Test]
-        public void Enumerator_Iterates()
-        {
-            var expected1 = 23;
-            var index1 = 19;
-            var expected2 = 31;
-            var index2 = 9;
-            var a = new SparseArray<int> { [index2] = expected2, [index1] = expected1 };
-            var list = new List<int>();
-            foreach (var i in a)
-            {
-                list.Add(i);
-            }
+    [Test]
+    public void OverrideDefinitions()
+    {
+        using var b = ((IEnumerable)new SparseArray<int>()).GetEnumerator() as IDisposable;
+        b.ShouldNotBe(null);
+    }
 
+    [Test]
+    public void RemoveAt()
+    {
+        var expected1 = 23;
+        var index1 = 19;
+        var expected2 = 31;
+        var index2 = 17;
+        var a = new SparseArray<int> { [index1] = expected1, [index2] = expected2 };
 
-            list.Count.ShouldBe(2);
-        }
+        a.Count.ShouldBe(2);
+        a.RemoveAt(index1);
+        a.Count.ShouldBe(1);
+        a.RemoveAt(index1);
+        a.Count.ShouldBe(1);
+        a.RemoveAt(index2);
+        a.Count.ShouldBe(0);
+    }
 
-        [Test]
-        public void Indices_ReturnsList()
-        {
-            var expected1 = 23;
-            var index1 = 19;
-            var expected2 = 31;
-            var index2 = 9;
-            var a = new SparseArray<int> { [index2] = expected2, [index1] = expected1 };
-            var list = a.Indices();
-            list.Count.ShouldBe(2);
-            list[0].ShouldBe(index2);
-            list[1].ShouldBe(index1);
-        }
+    [Test]
+    public void SetGetValue_ValueAtExpectedIndex()
+    {
+        var expected = 23;
+        var index = 17;
+        var a = new SparseArray<int> { [index] = expected };
+        a.Count.ShouldBe(1);
+        a[index].ShouldBe(expected);
+    }
 
-        [Test]
-        public void OverrideDefinitions()
-        {
-            using var b = ((IEnumerable)new SparseArray<int>()).GetEnumerator() as IDisposable;
-            b.ShouldNotBe(null);
-        }
-
-        [Test]
-        public void RemoveAt()
-        {
-            var expected1 = 23;
-            var index1 = 19;
-            var expected2 = 31;
-            var index2 = 17;
-            var a = new SparseArray<int> { [index1] = expected1, [index2] = expected2 };
-
-            a.Count.ShouldBe(2);
-            a.RemoveAt(index1);
-            a.Count.ShouldBe(1);
-            a.RemoveAt(index1);
-            a.Count.ShouldBe(1);
-            a.RemoveAt(index2);
-            a.Count.ShouldBe(0);
-        }
-
-        [Test]
-        public void SetGetValue_ValueAtExpectedIndex()
-        {
-            var expected = 23;
-            var index = 17;
-            var a = new SparseArray<int> { [index] = expected };
-            a.Count.ShouldBe(1);
-            a[index].ShouldBe(expected);
-        }
-
-        [Test]
-        public void SetTwiceGetValue_ValueAtExpectedIndex()
-        {
-            var expected = 23;
-            var index = 17;
-            var a = new SparseArray<int> { [index] = expected - 1, [index] = expected };
-            a.Count.ShouldBe(1);
-            a[index].ShouldBe(expected);
-        }
+    [Test]
+    public void SetTwiceGetValue_ValueAtExpectedIndex()
+    {
+        var expected = 23;
+        var index = 17;
+        var a = new SparseArray<int> { [index] = expected - 1, [index] = expected };
+        a.Count.ShouldBe(1);
+        a[index].ShouldBe(expected);
     }
 }

@@ -29,150 +29,149 @@
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+[TestFixture]
+public class CubicBezier3DTests
 {
-    [TestFixture]
-    public class CubicBezier3DTests
+    [Test]
+    public void Example()
     {
-        [Test]
-        public void Example()
+        var P0 = new Vector3D(160, 120, 0);
+        var P1 = new Vector3D(200, 35, 0);
+        var P2 = new Vector3D(260, 220, 0);
+        var P3 = new Vector3D(40, 220, 0);
+
+        var bezier = new CubicBezier3D(P0, P1, P2, P3);
+
+        // Point
+        (bezier.Evaluate(0) - P0).Norm().ShouldBeLessThan(1e-9);
+        (bezier.Evaluate(1) - P3).Norm().ShouldBeLessThan(1e-9);
+
+        // Bounding rect
+        var bb = bezier.Bounding() as BoundingBox;
+        bb.Min.X.ShouldBe(P3.X);
+        bb.Max.Y.ShouldBe(P3.Y);
+
+        // Tangent
+        var t0 = bezier.Tangent(0);
+        t0.Norm().ShouldBe(1, 1e-9);
+        var t1 = bezier.Tangent(1);
+        t1.X.ShouldBe(-1);
+        t1.Y.ShouldBe(0);
+
+        // Derivatives
+        var d = bezier.dEvaluate(1);
+        (d - (P3 - P2) * 3).Norm().ShouldBeLessThan(1e-9);
+        var d2 = bezier.d2Evaluate(1);
+        d2.X.ShouldNotBe(0.0);
+        d2.Y.ShouldNotBe(0.0);
+
+        // Kappa
+        var k = bezier.Kappa(0);
+        k.ShouldBeGreaterThan(0.0);
+
+        bezier.Dimensions.ShouldBe(3);
+
+        var l = bezier.Length();
+        var approximated = ((P3 - P0).Norm() + (P0 - P1).Norm() + (P1 - P2).Norm() + (P2 - P1).Norm()) * 0.5;
+        l.ShouldNotBe(approximated);
+    }
+
+    [Test]
+    public void CloneAndIsEqual()
+    {
+        var bezier = new CubicBezier3D
         {
-            var P0 = new Vector3D(160, 120, 0);
-            var P1 = new Vector3D(200, 35, 0);
-            var P2 = new Vector3D(260, 220, 0);
-            var P3 = new Vector3D(40, 220, 0);
+            P0 = new Vector3D(160, 120, 1),
+            P1 = new Vector3D(200, 35, 2),
+            P2 = new Vector3D(260, 220, -18),
+            P3 = new Vector3D(40, 220, 19)
+        };
 
-            var bezier = new CubicBezier3D(P0, P1, P2, P3);
+        var clone = bezier.Clone();
+        clone.IsEqual(bezier).ShouldBeTrue();
+        bezier.GetHashCode().ShouldBe(clone.GetHashCode());
 
-            // Point
-            (bezier.Evaluate(0) - P0).Norm().ShouldBeLessThan(1e-9);
-            (bezier.Evaluate(1) - P3).Norm().ShouldBeLessThan(1e-9);
+        clone.P3.Y += 0.1;
 
-            // Bounding rect
-            var bb = bezier.Bounding() as BoundingBox;
-            bb.Min.X.ShouldBe(P3.X);
-            bb.Max.Y.ShouldBe(P3.Y);
+        clone.IsEqual(bezier).ShouldBeFalse();
+        bezier.GetHashCode().ShouldNotBe(clone.GetHashCode());
+    }
 
-            // Tangent
-            var t0 = bezier.Tangent(0);
-            t0.Norm().ShouldBe(1, 1e-9);
-            var t1 = bezier.Tangent(1);
-            t1.X.ShouldBe(-1);
-            t1.Y.ShouldBe(0);
+    [Test]
+    public void Length_StraightLine()
+    {
+        var bezier = new CubicBezier3D
+        {
+            P0 = new Vector3D(0, 0, 18),
+            P1 = new Vector3D(50, 0, 18),
+            P2 = new Vector3D(100, 0, 18),
+            P3 = new Vector3D(150, 0, 18)
+        };
 
-            // Derivatives
-            var d = bezier.dEvaluate(1);
-            (d - (P3 - P2) * 3).Norm().ShouldBeLessThan(1e-9);
-            var d2 = bezier.d2Evaluate(1);
-            d2.X.ShouldNotBe(0.0);
-            d2.Y.ShouldNotBe(0.0);
+        bezier.Length().ShouldBe(150.0, 1e-5);
+    }
 
-            // Kappa
-            var k = bezier.Kappa(0);
-            k.ShouldBeGreaterThan(0.0);
+    [TestCase(1e-1)]
+    [TestCase(1e-2)]
+    [TestCase(1e-3)]
+    [TestCase(1e-4)]
+    [TestCase(1e-5)]
+    [TestCase(1e-6)]
+    [TestCase(1e-7)]
+    public void Length_WithAccuracy(double accuracy)
+    {
+        var bezier = new CubicBezier3D
+        {
+            P0 = new Vector3D(160, 120, 0),
+            P1 = new Vector3D(200, 35, 17),
+            P2 = new Vector3D(260, 220, -19),
+            P3 = new Vector3D(40, 220, 31)
+        };
+        var a = (bezier.P3 - bezier.P0).Norm();
+        var b = (bezier.P0 - bezier.P1).Norm() + (bezier.P1 - bezier.P2).Norm() + (bezier.P2 - bezier.P1).Norm();
+        var l0 = 0.5 * (a + b); 
+        var l1 = bezier.Length(accuracy);
+        l1.ShouldBeLessThanOrEqualTo(l0);
+    }
 
-            bezier.Dimensions.ShouldBe(3);
+    [TestCase(0.5, 0.3)]
+    [TestCase(0.5, 0.5)]
+    [TestCase(0.3, 0.5)]
+    [TestCase(-0.1, 0.5)]
+    [TestCase(0, 0.5)]
+    [TestCase(1, 0.5)]
+    [TestCase(1.1, 0.5)]
+    public void Split(double split, double t)
+    {
+        var bezier = new CubicBezier3D
+        {
+            P0 = new Vector3D(160, 120, 15),
+            P1 = new Vector3D(200, 35, -31),
+            P2 = new Vector3D(260, 220, 17),
+            P3 = new Vector3D(40, 220, -19)
+        };
+        var p = bezier.Evaluate(t);
 
-            var l = bezier.Length();
-            var approximated = ((P3 - P0).Norm() + (P0 - P1).Norm() + (P1 - P2).Norm() + (P2 - P1).Norm()) * 0.5;
-            l.ShouldNotBe(approximated);
+        var (b0, b1) = bezier.Split(split);
+        if (Comparison.IsLessEqual(split, 0) || Comparison.IsLessEqual(1.0, split))
+        {
+            b0.IsEqual(bezier).ShouldBeTrue();
+            b1.ShouldBeNull();
         }
-
-        [Test]
-        public void CloneAndIsEqual()
+        else if (Comparison.IsEqual(split, t))
         {
-            var bezier = new CubicBezier3D
-            {
-                P0 = new Vector3D(160, 120, 1),
-                P1 = new Vector3D(200, 35, 2),
-                P2 = new Vector3D(260, 220, -18),
-                P3 = new Vector3D(40, 220, 19)
-            };
-
-            var clone = bezier.Clone();
-            clone.IsEqual(bezier).ShouldBeTrue();
-            bezier.GetHashCode().ShouldBe(clone.GetHashCode());
-
-            clone.P3.Y += 0.1;
-
-            clone.IsEqual(bezier).ShouldBeFalse();
-            bezier.GetHashCode().ShouldNotBe(clone.GetHashCode());
+            (b0.Evaluate(1) - p).Norm().ShouldBeLessThan(1e-9);
+            (b1.Evaluate(0) - p).Norm().ShouldBeLessThan(1e-9);
         }
-
-        [Test]
-        public void Length_StraightLine()
+        else if (t < split)
         {
-            var bezier = new CubicBezier3D
-            {
-                P0 = new Vector3D(0, 0, 18),
-                P1 = new Vector3D(50, 0, 18),
-                P2 = new Vector3D(100, 0, 18),
-                P3 = new Vector3D(150, 0, 18)
-            };
-
-            bezier.Length().ShouldBe(150.0, 1e-5);
+            (b0.Evaluate(t / split) - p).Norm().ShouldBeLessThan(1e-9);
         }
-
-        [TestCase(1e-1)]
-        [TestCase(1e-2)]
-        [TestCase(1e-3)]
-        [TestCase(1e-4)]
-        [TestCase(1e-5)]
-        [TestCase(1e-6)]
-        [TestCase(1e-7)]
-        public void Length_WithAccuracy(double accuracy)
+        else
         {
-            var bezier = new CubicBezier3D
-            {
-                 P0 = new Vector3D(160, 120, 0),
-                 P1 = new Vector3D(200, 35, 17),
-                 P2 = new Vector3D(260, 220, -19),
-                 P3 = new Vector3D(40, 220, 31)
-            };
-            var a = (bezier.P3 - bezier.P0).Norm();
-            var b = (bezier.P0 - bezier.P1).Norm() + (bezier.P1 - bezier.P2).Norm() + (bezier.P2 - bezier.P1).Norm();
-            var l0 = 0.5 * (a + b); 
-            var l1 = bezier.Length(accuracy);
-            l1.ShouldBeLessThanOrEqualTo(l0);
-        }
-
-        [TestCase(0.5, 0.3)]
-        [TestCase(0.5, 0.5)]
-        [TestCase(0.3, 0.5)]
-        [TestCase(-0.1, 0.5)]
-        [TestCase(0, 0.5)]
-        [TestCase(1, 0.5)]
-        [TestCase(1.1, 0.5)]
-        public void Split(double split, double t)
-        {
-            var bezier = new CubicBezier3D
-            {
-                P0 = new Vector3D(160, 120, 15),
-                P1 = new Vector3D(200, 35, -31),
-                P2 = new Vector3D(260, 220, 17),
-                P3 = new Vector3D(40, 220, -19)
-            };
-            var p = bezier.Evaluate(t);
-
-            var (b0, b1) = bezier.Split(split);
-            if (Comparison.IsLessEqual(split, 0) || Comparison.IsLessEqual(1.0, split))
-            {
-                b0.IsEqual(bezier).ShouldBeTrue();
-                b1.ShouldBeNull();
-            }
-            else if (Comparison.IsEqual(split, t))
-            {
-                (b0.Evaluate(1) - p).Norm().ShouldBeLessThan(1e-9);
-                (b1.Evaluate(0) - p).Norm().ShouldBeLessThan(1e-9);
-            }
-            else if (t < split)
-            {
-                (b0.Evaluate(t / split) - p).Norm().ShouldBeLessThan(1e-9);
-            }
-            else
-            {
-                (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
-            }
+            (b1.Evaluate((t - split) / (1.0 - split)) - p).Norm().ShouldBeLessThan(1e-9);
         }
     }
 }

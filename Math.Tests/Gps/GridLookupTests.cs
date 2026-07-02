@@ -31,118 +31,117 @@ using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Tests.Gps;
+
+[TestFixture]
+public class GridLookupTests
 {
-    [TestFixture]
-    public class GridLookupTests
+    private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+    [Test]
+    public void CurrentOrdering_ReturnsCorretOrderedList()
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
-        [Test]
-        public void CurrentOrdering_ReturnsCorretOrderedList()
+        var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
+        var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
+        var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
+        var neighboursCur = _lookup.Find(trackCur.Track, trackCur.Displacement, _lookup.Size);
+        var i = -1;
+        foreach (var point in neighboursCur)
         {
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
-            var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
-            var neighboursCur = _lookup.Find(trackCur.Track, trackCur.Displacement, _lookup.Size);
-            var i = -1;
-            foreach (var point in neighboursCur)
+            var j = -1;
+            foreach (var distance in point)
             {
-                var j = -1;
-                foreach (var distance in point)
+                if (j < 0)
                 {
-                    if (j < 0)
-                    {
-                        j = distance.Current;
-                    }
-                    else
-                    {
-                        distance.Current.ShouldBe(j);
-                    }
+                    j = distance.Current;
                 }
-
-                j.ShouldBeGreaterThan(i);
-                i = j;
-            }
-        }
-
-        [Test]
-        public void Find_WithDifferentGridSize_ReturnsSameList()
-        {
-            const double radius = 50.0;
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var _lookup = gpsTrackRef.CreateLookup(0.5, gpsTrackRef.Center);
-            var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
-            TestUtils.StartTimer();
-            var neighboursCur1 = _lookup.Find(trackCur.Track, trackCur.Displacement, radius);
-            TestUtils.StopTimer();
-            _lookup = gpsTrackRef.CreateLookup(radius, gpsTrackRef.Center);
-            var neighboursCur2 = _lookup.Find(trackCur.Track, trackCur.Displacement, radius);
-
-            neighboursCur1 =
-                neighboursCur1.Select(
-                        points =>
-                            (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
-                            .ToList())
-                    .Where(newPoints => newPoints.Count > 0)
-                    .ToList();
-            neighboursCur2 =
-                neighboursCur2.Select(
-                        points =>
-                            (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
-                            .ToList())
-                    .Where(newPoints => newPoints.Count > 0)
-                    .ToList();
-
-            neighboursCur1.Count.ShouldBe(neighboursCur2.Count);
-            for (var i = 0; i < neighboursCur1.Count; i++)
-            {
-                neighboursCur1[i].Count.ShouldBe(neighboursCur2[i].Count);
-                for (var j = 0; j < neighboursCur1[i].Count; j++)
+                else
                 {
-                    neighboursCur1[i][j].IsEqual(neighboursCur2[i][j]).ShouldBeTrue();
+                    distance.Current.ShouldBe(j);
                 }
             }
-        }
 
-        [Test]
-        public void Find_WithPointFarAway_ReturnsEmptyList()
-        {
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
-            _lookup.Find(new Vector2D(-10000.0, -10000.0), 10.0).Count.ShouldBe(0);
+            j.ShouldBeGreaterThan(i);
+            i = j;
         }
+    }
 
-        [Test]
-        public void ReferenceOrdering_ReturnsCorretOrderedList()
+    [Test]
+    public void Find_WithDifferentGridSize_ReturnsSameList()
+    {
+        const double radius = 50.0;
+        var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var _lookup = gpsTrackRef.CreateLookup(0.5, gpsTrackRef.Center);
+        var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
+        var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
+        TestUtils.StartTimer();
+        var neighboursCur1 = _lookup.Find(trackCur.Track, trackCur.Displacement, radius);
+        TestUtils.StopTimer();
+        _lookup = gpsTrackRef.CreateLookup(radius, gpsTrackRef.Center);
+        var neighboursCur2 = _lookup.Find(trackCur.Track, trackCur.Displacement, radius);
+
+        neighboursCur1 =
+            neighboursCur1.Select(
+                    points =>
+                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
+                        .ToList())
+                .Where(newPoints => newPoints.Count > 0)
+                .ToList();
+        neighboursCur2 =
+            neighboursCur2.Select(
+                    points =>
+                        (from d in points where d.MinDistance <= radius select new NeighbourDistancePoint(d))
+                        .ToList())
+                .Where(newPoints => newPoints.Count > 0)
+                .ToList();
+
+        neighboursCur1.Count.ShouldBe(neighboursCur2.Count);
+        for (var i = 0; i < neighboursCur1.Count; i++)
         {
-            var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
-            var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
-            var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
-            var neighboursCur = _lookup.Find(trackCur.Track, trackCur.Displacement, _lookup.Size);
-            var neighboursRef = GridLookup.ReferenceOrdering(neighboursCur);
-            var i = -1;
-            foreach (var point in neighboursRef)
+            neighboursCur1[i].Count.ShouldBe(neighboursCur2[i].Count);
+            for (var j = 0; j < neighboursCur1[i].Count; j++)
             {
-                var j = -1;
-                foreach (var distance in point)
-                {
-                    if (j < 0)
-                    {
-                        j = distance.Reference;
-                    }
-                    else
-                    {
-                        distance.Reference.ShouldBe(j);
-                    }
-                }
-
-                j.ShouldBeGreaterThan(i);
-                i = j;
+                neighboursCur1[i][j].IsEqual(neighboursCur2[i][j]).ShouldBeTrue();
             }
+        }
+    }
+
+    [Test]
+    public void Find_WithPointFarAway_ReturnsEmptyList()
+    {
+        var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
+        _lookup.Find(new Vector2D(-10000.0, -10000.0), 10.0).Count.ShouldBe(0);
+    }
+
+    [Test]
+    public void ReferenceOrdering_ReturnsCorretOrderedList()
+    {
+        var gpsTrackRef = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var _lookup = gpsTrackRef.CreateLookup(50.0, gpsTrackRef.Center);
+        var gpsTrackCur = new GpsTrack(_gpsTrackExamples.TrackTwo());
+        var trackCur = new FlatTrack(gpsTrackCur.Track, gpsTrackRef.Center);
+        var neighboursCur = _lookup.Find(trackCur.Track, trackCur.Displacement, _lookup.Size);
+        var neighboursRef = GridLookup.ReferenceOrdering(neighboursCur);
+        var i = -1;
+        foreach (var point in neighboursRef)
+        {
+            var j = -1;
+            foreach (var distance in point)
+            {
+                if (j < 0)
+                {
+                    j = distance.Reference;
+                }
+                else
+                {
+                    distance.Reference.ShouldBe(j);
+                }
+            }
+
+            j.ShouldBeGreaterThan(i);
+            i = j;
         }
     }
 }

@@ -31,83 +31,82 @@ using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Tests.Gps;
+
+[TestFixture]
+public class ToolsTests
 {
-    [TestFixture]
-    public class ToolsTests
+    [Test]
+    public void DistanceVelocityAcceleration_EmptyList_ReturnsEmpty()
     {
-        [Test]
-        public void DistanceVelocityAcceleration_EmptyList_ReturnsEmpty()
-        {
-            var track = new List<GpsPoint>();
-            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
-            d.Count.ShouldBe(0);
-            v.Count.ShouldBe(0);
-            a.Count.ShouldBe(0);
-        }
+        var track = new List<GpsPoint>();
+        Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
+        d.Count.ShouldBe(0);
+        v.Count.ShouldBe(0);
+        a.Count.ShouldBe(0);
+    }
 
-        [Test]
-        public void DistanceVelocityAcceleration_OnePoint_ReturnsZero()
-        {
-            var track = new List<GpsPoint> {new GpsPoint(0, 0)};
-            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
-            d.Count.ShouldBe(1);
-            d[0].ShouldBe(0.0);
-            v.Count.ShouldBe(1);
-            v[0].ShouldBe(0.0);
-            a.Count.ShouldBe(1);
-            a[0].ShouldBe(0.0);
-        }
+    [Test]
+    public void DistanceVelocityAcceleration_OnePoint_ReturnsZero()
+    {
+        var track = new List<GpsPoint> {new GpsPoint(0, 0)};
+        Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
+        d.Count.ShouldBe(1);
+        d[0].ShouldBe(0.0);
+        v.Count.ShouldBe(1);
+        v[0].ShouldBe(0.0);
+        a.Count.ShouldBe(1);
+        a[0].ShouldBe(0.0);
+    }
 
-        [Test]
-        public void DistanceVelocityAcceleration_ThreePoints_ReturnsExpected()
-        {
-            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
-            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
-            d.Count.ShouldBe(3);
-            d[0].ShouldBe(0.0);
-            d[1].ShouldBe(Geodesy.DistanceOneDeg);
-            d[2].ShouldBe(Geodesy.DistanceOneDeg * 2.0);
-            v.Count.ShouldBe(3);
-            v[0].ShouldBe(0.0);
-            v[1].ShouldBe(Geodesy.DistanceOneDeg);
-            v[2].ShouldBe(0.0);
-            a.Count.ShouldBe(3);
-            a[0].ShouldBe(0.0);
-            a[1].ShouldBe(0.0);
-            a[2].ShouldBe(0.0);
-        }
+    [Test]
+    public void DistanceVelocityAcceleration_ThreePoints_ReturnsExpected()
+    {
+        var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0), new GpsPoint(2, 0)};
+        Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
+        d.Count.ShouldBe(3);
+        d[0].ShouldBe(0.0);
+        d[1].ShouldBe(Geodesy.DistanceOneDeg);
+        d[2].ShouldBe(Geodesy.DistanceOneDeg * 2.0);
+        v.Count.ShouldBe(3);
+        v[0].ShouldBe(0.0);
+        v[1].ShouldBe(Geodesy.DistanceOneDeg);
+        v[2].ShouldBe(0.0);
+        a.Count.ShouldBe(3);
+        a[0].ShouldBe(0.0);
+        a[1].ShouldBe(0.0);
+        a[2].ShouldBe(0.0);
+    }
 
-        [Test]
-        public void DistanceVelocityAcceleration_TwoPoints_ReturnsZeroAndDistance()
-        {
-            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
-            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
-            d.Count.ShouldBe(2);
-            d[0].ShouldBe(0.0);
-            d[1].ShouldBe(Geodesy.DistanceOneDeg);
-            v.Count.ShouldBe(2);
-            v[0].ShouldBe(0.0);
-            v[1].ShouldBe(0.0);
-            a.Count.ShouldBe(2);
-            a[0].ShouldBe(0.0);
-            a[1].ShouldBe(0.0);
-        }
+    [Test]
+    public void DistanceVelocityAcceleration_TwoPoints_ReturnsZeroAndDistance()
+    {
+        var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(1, 0)};
+        Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
+        d.Count.ShouldBe(2);
+        d[0].ShouldBe(0.0);
+        d[1].ShouldBe(Geodesy.DistanceOneDeg);
+        v.Count.ShouldBe(2);
+        v[0].ShouldBe(0.0);
+        v[1].ShouldBe(0.0);
+        a.Count.ShouldBe(2);
+        a[0].ShouldBe(0.0);
+        a[1].ShouldBe(0.0);
+    }
 
-        [Test]
-        public void DistanceVelocityAcceleration_TwoSamePoints_ReturnsZero()
-        {
-            var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0, 0)};
-            Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
-            d.Count.ShouldBe(2);
-            d[0].ShouldBe(0.0);
-            d[1].ShouldBe(0.0);
-            v.Count.ShouldBe(2);
-            v[0].ShouldBe(0.0);
-            v[1].ShouldBe(0.0);
-            a.Count.ShouldBe(2);
-            a[0].ShouldBe(0.0);
-            a[1].ShouldBe(0.0);
-        }
+    [Test]
+    public void DistanceVelocityAcceleration_TwoSamePoints_ReturnsZero()
+    {
+        var track = new List<GpsPoint> {new GpsPoint(0, 0), new GpsPoint(0, 0)};
+        Tools.DistanceVelocityAcceleration(track, out var d, out var v, out var a);
+        d.Count.ShouldBe(2);
+        d[0].ShouldBe(0.0);
+        d[1].ShouldBe(0.0);
+        v.Count.ShouldBe(2);
+        v[0].ShouldBe(0.0);
+        v[1].ShouldBe(0.0);
+        a.Count.ShouldBe(2);
+        a[0].ShouldBe(0.0);
+        a[1].ShouldBe(0.0);
     }
 }

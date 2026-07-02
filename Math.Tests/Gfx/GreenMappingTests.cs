@@ -30,48 +30,47 @@ using Math.Gfx;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gfx
-{
-    [TestFixture]
-    public class GreenMappingTests
-    {
-        [TestCase(-0.1, 255)]
-        [TestCase(0.0, 255)]
-        [TestCase(0.0001, 229)]
-        [TestCase(0.1, 209)]
-        [TestCase(0.2, 188)]
-        [TestCase(0.3, 168)]
-        [TestCase(0.4, 147)]
-        [TestCase(0.5, 127)]
-        [TestCase(0.6, 107)]
-        [TestCase(0.7, 86)]
-        [TestCase(0.8, 66)]
-        [TestCase(0.9, 45)]
-        [TestCase(0.999, 25)]
-        [TestCase(1.0, 25)]
-        [TestCase(1.1, 25)]
-        public void GreyRedGreenBlue_ReturnsExpected(double c, byte expected)
-        {
-            var map = new GreenMapping(0.1, 0.9);
-            map.Grey(c).ShouldBe(expected);
-            map.Color(c).Red.ShouldBe(expected);
-            map.Color(c).Green.ShouldBe((byte) 255);
-            map.Color(c).Blue.ShouldBe(expected);
-        }
+namespace Math.Tests.Gfx;
 
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(0.5)]
-        [TestCase(0.9)]
-        [TestCase(1.0)]
-        public void DefaultValues(double c)
-        {
-            var m0 = new GreenMapping();
-            var m1 = new GreenMapping(0.001);
-            var m2 = new GreenMapping(0.001, 1.0);
-            m0.Grey(c).ShouldBe(m1.Grey(c));
-            m1.Grey(c).ShouldBe(m2.Grey(c));
-            m2.Grey(c).ShouldBe(GreenMapping.Default.Grey(c));
-        }
+[TestFixture]
+public class GreenMappingTests
+{
+    [TestCase(-0.1, 255)]
+    [TestCase(0.0, 255)]
+    [TestCase(0.0001, 229)]
+    [TestCase(0.1, 209)]
+    [TestCase(0.2, 188)]
+    [TestCase(0.3, 168)]
+    [TestCase(0.4, 147)]
+    [TestCase(0.5, 127)]
+    [TestCase(0.6, 107)]
+    [TestCase(0.7, 86)]
+    [TestCase(0.8, 66)]
+    [TestCase(0.9, 45)]
+    [TestCase(0.999, 25)]
+    [TestCase(1.0, 25)]
+    [TestCase(1.1, 25)]
+    public void GreyRedGreenBlue_ReturnsExpected(double c, byte expected)
+    {
+        var map = new GreenMapping(0.1, 0.9);
+        map.Grey(c).ShouldBe(expected);
+        map.Color(c).Red.ShouldBe(expected);
+        map.Color(c).Green.ShouldBe((byte) 255);
+        map.Color(c).Blue.ShouldBe(expected);
+    }
+
+    [TestCase(0.0)]
+    [TestCase(0.1)]
+    [TestCase(0.5)]
+    [TestCase(0.9)]
+    [TestCase(1.0)]
+    public void DefaultValues(double c)
+    {
+        var m0 = new GreenMapping();
+        var m1 = new GreenMapping(0.001);
+        var m2 = new GreenMapping(0.001, 1.0);
+        m0.Grey(c).ShouldBe(m1.Grey(c));
+        m1.Grey(c).ShouldBe(m2.Grey(c));
+        m2.Grey(c).ShouldBe(GreenMapping.Default.Grey(c));
     }
 }

@@ -32,58 +32,57 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+public static class TestUtils
 {
-    public static class TestUtils
+    private static Stopwatch _stopwatch;
+
+    public static void StartTimer()
     {
-        private static Stopwatch _stopwatch;
+        _stopwatch = new Stopwatch();
+        _stopwatch.Start();
+    }
 
-        public static void StartTimer()
-        {
-            _stopwatch = new Stopwatch();
-            _stopwatch.Start();
-        }
+    public static void StopTimer()
+    {
+        _stopwatch.Stop();
+        Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
+    }
 
-        public static void StopTimer()
+    public static string Resources(string name)
+    {
+        try
         {
-            _stopwatch.Stop();
-            Console.WriteLine("Time elapsed: {0}", _stopwatch.Elapsed);
-        }
+            var assembly = Assembly.GetExecutingAssembly();
+            var assemblyName = assembly.GetName().Name;
 
-        public static string Resources(string name)
-        {
-            try
+            var filename = $"{assemblyName}.Resources.{name}";
+
+            var resourceStream = assembly.GetManifestResourceStream(filename);
+            if (resourceStream != null)
             {
-                var assembly = Assembly.GetExecutingAssembly();
-                var assemblyName = assembly.GetName().Name;
-
-                var filename = $"{assemblyName}.Resources.{name}";
-
-                var resourceStream = assembly.GetManifestResourceStream(filename);
-                if (resourceStream != null)
-                {
-                    using var reader = new StreamReader(resourceStream, Encoding.UTF8);
-                    return reader.ReadToEnd();
-                }
+                using var reader = new StreamReader(resourceStream, Encoding.UTF8);
+                return reader.ReadToEnd();
             }
-            catch
-            {
-                // ignored
-            }
-
-            return null;
         }
-
-        public static string OutputPath()
+        catch
         {
-            var path = Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
-            path = path.Replace("file:///", "");
-            path = path.Replace('/', '\\');
-
-            if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            return path;
+            // ignored
         }
+
+        return null;
+    }
+
+    public static string OutputPath()
+    {
+        var path = Assembly.GetExecutingAssembly().CodeBase.Substring(0, Assembly.GetExecutingAssembly().CodeBase.IndexOf("/bin/")) + "/Output/";
+        path = path.Replace("file:///", "");
+        path = path.Replace('/', '\\');
+
+        if (!string.IsNullOrWhiteSpace(path) && !Directory.Exists(path))
+            Directory.CreateDirectory(path);
+
+        return path;
     }
 }

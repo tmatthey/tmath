@@ -32,201 +32,200 @@ using Math.KDTree;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.KDTree
+namespace Math.Tests.KDTree;
+
+[TestFixture]
+public class KDTreeTests
 {
-    [TestFixture]
-    public class KDTreeTests
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(17)]
+    [TestCase(19)]
+    public void NoTree_WitnNElements_ReturnsList0ToNMinusOne(int n)
     {
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(17)]
-        [TestCase(19)]
-        public void NoTree_WitnNElements_ReturnsList0ToNMinusOne(int n)
-        {
-            var list = Enumerable.Range(100, n).ToList();
-            var tree = new NoTree<int, int>(list);
-            var res = tree.Search(1, 2).ToList();
-            res.Count.ShouldBe(n);
-            for (var i = 0; i < res.Count; i++)
-                res[i].ShouldBe(i);
-        }
+        var list = Enumerable.Range(100, n).ToList();
+        var tree = new NoTree<int, int>(list);
+        var res = tree.Search(1, 2).ToList();
+        res.Count.ShouldBe(n);
+        for (var i = 0; i < res.Count; i++)
+            res[i].ShouldBe(i);
+    }
 
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        public void Builder_WithListSegment3DOnE1AndSegmentRange_ReturnsTheSegment(int n)
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    [TestCase(4)]
+    [TestCase(5)]
+    public void Builder_WithListSegment3DOnE1AndSegmentRange_ReturnsTheSegment(int n)
+    {
+        var list = new List<Segment3D>
         {
-            var list = new List<Segment3D>
-            {
-                new Segment3D(Vector3D.E1 * 0.1, Vector3D.E1 * 1.0),
-                new Segment3D(Vector3D.E1 * 1.1, Vector3D.E1 * 2.0),
-                new Segment3D(Vector3D.E1 * 2.1, Vector3D.E1 * 3.0),
-                new Segment3D(Vector3D.E1 * 3.1, Vector3D.E1 * 4.0),
-                new Segment3D(Vector3D.E1 * 4.1, Vector3D.E1 * 5.0),
-                new Segment3D(Vector3D.E1 * 5.1, Vector3D.E1 * 6.0)
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(list[n].A, list[n].B).ToList().Distinct().ToList();
-            res.Count.ShouldBe(1);
-            res[0].ShouldBe(n);
-        }
+            new Segment3D(Vector3D.E1 * 0.1, Vector3D.E1 * 1.0),
+            new Segment3D(Vector3D.E1 * 1.1, Vector3D.E1 * 2.0),
+            new Segment3D(Vector3D.E1 * 2.1, Vector3D.E1 * 3.0),
+            new Segment3D(Vector3D.E1 * 3.1, Vector3D.E1 * 4.0),
+            new Segment3D(Vector3D.E1 * 4.1, Vector3D.E1 * 5.0),
+            new Segment3D(Vector3D.E1 * 5.1, Vector3D.E1 * 6.0)
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(list[n].A, list[n].B).ToList().Distinct().ToList();
+        res.Count.ShouldBe(1);
+        res[0].ShouldBe(n);
+    }
 
-        [Test]
-        public void Builder_WithEmptyListVector2DAndInfRange_ReturnsEmpty()
-        {
-            var list = new List<Vector2D>();
-            var tree = TreeBuilder.Build(list);
-            tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).Count().ShouldBe(0);
-        }
+    [Test]
+    public void Builder_WithEmptyListVector2DAndInfRange_ReturnsEmpty()
+    {
+        var list = new List<Vector2D>();
+        var tree = TreeBuilder.Build(list);
+        tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).Count().ShouldBe(0);
+    }
 
-        [Test]
-        public void Builder_WithEmptyListVector3DAndInfRange_ReturnsEmpty()
-        {
-            var list = new List<Vector3D>();
-            var tree = TreeBuilder.Build(list);
-            tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity)
-                .Count()
-                .ShouldBe(0);
-        }
+    [Test]
+    public void Builder_WithEmptyListVector3DAndInfRange_ReturnsEmpty()
+    {
+        var list = new List<Vector3D>();
+        var tree = TreeBuilder.Build(list);
+        tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity)
+            .Count()
+            .ShouldBe(0);
+    }
 
-        [Test]
-        public void Builder_WithListOneOutSideSegment2DAndUnitCubeRange_ReturnsListMinusOne()
+    [Test]
+    public void Builder_WithListOneOutSideSegment2DAndUnitCubeRange_ReturnsListMinusOne()
+    {
+        var list = new List<Segment2D>
         {
-            var list = new List<Segment2D>
-            {
-                new Segment2D(Vector2D.E1 * 0.5, Vector2D.E2 * 1.5),
-                new Segment2D(Vector2D.E1 * 1.5, Vector2D.E1 * 1.5 + Vector2D.E2 * 1.5)
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct().ToList();
-            res.Count.ShouldBe(list.Count - 1);
-            res.Contains(1).ShouldBeFalse();
-        }
+            new Segment2D(Vector2D.E1 * 0.5, Vector2D.E2 * 1.5),
+            new Segment2D(Vector2D.E1 * 1.5, Vector2D.E1 * 1.5 + Vector2D.E2 * 1.5)
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct().ToList();
+        res.Count.ShouldBe(list.Count - 1);
+        res.Contains(1).ShouldBeFalse();
+    }
 
-        [Test]
-        public void Builder_WithListOneOutSideSegment3DAndUnitCubeRange_ReturnsListMinusOne()
+    [Test]
+    public void Builder_WithListOneOutSideSegment3DAndUnitCubeRange_ReturnsListMinusOne()
+    {
+        var list = new List<Segment3D>
         {
-            var list = new List<Segment3D>
-            {
-                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
-                new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0),
-                new Segment3D(Vector3D.E1 * 1.5, Vector3D.E1 * 1.5 + Vector3D.E2 * 1.5),
-                new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
-                new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5),
-                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
-                new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0)
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
-            res.Count.ShouldBe(list.Count - 1);
-            res.Contains(2).ShouldBeFalse();
-        }
+            new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+            new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0),
+            new Segment3D(Vector3D.E1 * 1.5, Vector3D.E1 * 1.5 + Vector3D.E2 * 1.5),
+            new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
+            new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5),
+            new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+            new Segment3D(Vector3D.E1 * 5.0, Vector3D.E2 * 5.0)
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
+        res.Count.ShouldBe(list.Count - 1);
+        res.Contains(2).ShouldBeFalse();
+    }
 
-        [Test]
-        public void Builder_WithListOneOutSideVector2DAndUnitCubeRange_ReturnsListMinusOne()
+    [Test]
+    public void Builder_WithListOneOutSideVector2DAndUnitCubeRange_ReturnsListMinusOne()
+    {
+        var list = new List<Vector3D>
         {
-            var list = new List<Vector3D>
-            {
-                Vector3D.E1 * 0.5,
-                Vector3D.E1 * 1.5
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
-            res.Count.ShouldBe(list.Count - 1);
-            res.Contains(1).ShouldBeFalse();
-        }
+            Vector3D.E1 * 0.5,
+            Vector3D.E1 * 1.5
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct().ToList();
+        res.Count.ShouldBe(list.Count - 1);
+        res.Contains(1).ShouldBeFalse();
+    }
 
-        [Test]
-        public void Builder_WithListSegment3DAndUnitCubeRange_ReturnsList()
+    [Test]
+    public void Builder_WithListSegment3DAndUnitCubeRange_ReturnsList()
+    {
+        var list = new List<Segment3D>
         {
-            var list = new List<Segment3D>
-            {
-                new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
-                new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
-                new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5)
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
-            res.Count().ShouldBe(list.Count);
-        }
+            new Segment3D(Vector3D.E1 * 0.5, Vector3D.E2 * 1.5),
+            new Segment3D(Vector3D.E2 * 0.5, Vector3D.E3 * 1.5),
+            new Segment3D(Vector3D.E3 * 0.5, Vector3D.E1 * 1.5)
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
+        res.Count().ShouldBe(list.Count);
+    }
 
-        [Test]
-        public void Builder_WithListVector2DAndInfRange_ReturnsList()
-        {
-            var list = new List<Vector2D> {Vector2D.E1, Vector2D.E2, Vector2D.Zero, Vector2D.One};
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).ToList().Distinct();
-            res.Count().ShouldBe(list.Count);
-        }
+    [Test]
+    public void Builder_WithListVector2DAndInfRange_ReturnsList()
+    {
+        var list = new List<Vector2D> {Vector2D.E1, Vector2D.E2, Vector2D.Zero, Vector2D.One};
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector2D.NegativeInfinity, Vector2D.PositiveInfinity).ToList().Distinct();
+        res.Count().ShouldBe(list.Count);
+    }
 
-        [Test]
-        public void Builder_WithListVector2DAndUnitCubeRange_ReturnsList()
-        {
-            var list = new List<Vector2D> {Vector2D.E1, Vector2D.E2, Vector2D.Zero, Vector2D.One};
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct();
-            res.Count().ShouldBe(list.Count);
-        }
+    [Test]
+    public void Builder_WithListVector2DAndUnitCubeRange_ReturnsList()
+    {
+        var list = new List<Vector2D> {Vector2D.E1, Vector2D.E2, Vector2D.Zero, Vector2D.One};
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector2D.Zero, Vector2D.One).ToList().Distinct();
+        res.Count().ShouldBe(list.Count);
+    }
 
-        [Test]
-        public void Builder_WithListVector3DAndInfRange_ReturnsList()
+    [Test]
+    public void Builder_WithListVector3DAndInfRange_ReturnsList()
+    {
+        var list = new List<Vector3D>
         {
-            var list = new List<Vector3D>
-            {
-                Vector3D.E1,
-                Vector3D.E2,
-                Vector3D.E3,
-                Vector3D.Zero,
-                Vector3D.One,
-                Vector3D.E2,
-                Vector3D.E3
-            };
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity).ToList().Distinct();
-            res.Count().ShouldBe(list.Count);
-        }
+            Vector3D.E1,
+            Vector3D.E2,
+            Vector3D.E3,
+            Vector3D.Zero,
+            Vector3D.One,
+            Vector3D.E2,
+            Vector3D.E3
+        };
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector3D.NegativeInfinity, Vector3D.PositiveInfinity).ToList().Distinct();
+        res.Count().ShouldBe(list.Count);
+    }
 
-        [Test]
-        public void Builder_WithListVector3DAndUnitCubeRange_ReturnsList()
-        {
-            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
-            var tree = TreeBuilder.Build(list);
-            var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
-            res.Count().ShouldBe(list.Count);
-        }
+    [Test]
+    public void Builder_WithListVector3DAndUnitCubeRange_ReturnsList()
+    {
+        var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+        var tree = TreeBuilder.Build(list);
+        var res = tree.Search(Vector3D.Zero, Vector3D.One).ToList().Distinct();
+        res.Count().ShouldBe(list.Count);
+    }
 
-        [Test]
-        public void Depth_BuilderWith5Elements_Returns3()
-        {
-            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
-            var tree = TreeBuilder.Build(list);
-            tree.Depth().ShouldBe(2);
-        }
+    [Test]
+    public void Depth_BuilderWith5Elements_Returns3()
+    {
+        var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+        var tree = TreeBuilder.Build(list);
+        tree.Depth().ShouldBe(2);
+    }
 
-        [Test]
-        public void Depth_BuilderWithEmptyList_Returns1()
-        {
-            var list = new List<Vector3D>();
-            var tree = TreeBuilder.Build(list);
-            tree.Depth().ShouldBe(0);
-        }
+    [Test]
+    public void Depth_BuilderWithEmptyList_Returns1()
+    {
+        var list = new List<Vector3D>();
+        var tree = TreeBuilder.Build(list);
+        tree.Depth().ShouldBe(0);
+    }
 
-        [Test]
-        public void Depth_NoTree_Returns1()
-        {
-            var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
-            var tree = new NoTree<int, Vector3D>(list);
-            tree.Depth().ShouldBe(1);
-        }
+    [Test]
+    public void Depth_NoTree_Returns1()
+    {
+        var list = new List<Vector3D> {Vector3D.E1, Vector3D.E2, Vector3D.E3, Vector3D.Zero, Vector3D.One};
+        var tree = new NoTree<int, Vector3D>(list);
+        tree.Depth().ShouldBe(1);
+    }
 
-        [Test]
-        public void Depth_NoTreeEmpty_Returns0()
-        {
-            var tree = new NoTree<int, Vector3D>(new List<Vector3D>());
-            tree.Depth().ShouldBe(0);
-        }
+    [Test]
+    public void Depth_NoTreeEmpty_Returns0()
+    {
+        var tree = new NoTree<int, Vector3D>(new List<Vector3D>());
+        tree.Depth().ShouldBe(0);
     }
 }

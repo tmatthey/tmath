@@ -30,67 +30,66 @@ using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Tests.Gps;
+
+[TestFixture]
+public class NeighbourGpsDistanceCalculatorTests
 {
-    [TestFixture]
-    public class NeighbourGpsDistanceCalculatorTests
+    private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+    [Test]
+    public void Analyze_WithDifferentGridSize_ReturnsSameList()
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+        TestUtils.StartTimer();
+        var analyzer1 = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne(), 4.56);
+        var current1 = analyzer1.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+        TestUtils.StopTimer();
+        TestUtils.StartTimer();
+        var analyzer2 = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne(), 51.37);
+        var current2 = analyzer2.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+        TestUtils.StopTimer();
 
-        [Test]
-        public void Analyze_WithDifferentGridSize_ReturnsSameList()
+        current1.Neighbours.Count.ShouldBe(current2.Neighbours.Count);
+        for (var i = 0; i < System.Math.Min(current1.Neighbours.Count, current2.Neighbours.Count); i++)
         {
-            TestUtils.StartTimer();
-            var analyzer1 = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne(), 4.56);
-            var current1 = analyzer1.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            TestUtils.StopTimer();
-            TestUtils.StartTimer();
-            var analyzer2 = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne(), 51.37);
-            var current2 = analyzer2.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            TestUtils.StopTimer();
-
-            current1.Neighbours.Count.ShouldBe(current2.Neighbours.Count);
-            for (var i = 0; i < System.Math.Min(current1.Neighbours.Count, current2.Neighbours.Count); i++)
+            current1.Neighbours[i].Count.ShouldBe(current2.Neighbours[i].Count);
+            for (var j = 0; j < System.Math.Min(current1.Neighbours[i].Count, current2.Neighbours[i].Count); j++)
             {
-                current1.Neighbours[i].Count.ShouldBe(current2.Neighbours[i].Count);
-                for (var j = 0; j < System.Math.Min(current1.Neighbours[i].Count, current2.Neighbours[i].Count); j++)
-                {
-                    current1.Neighbours[i][j].IsEqual(current2.Neighbours[i][j]).ShouldBeTrue();
-                }
+                current1.Neighbours[i][j].IsEqual(current2.Neighbours[i][j]).ShouldBeTrue();
             }
         }
+    }
 
-        [Test]
-        public void ListOfNeighbours_InRange()
+    [Test]
+    public void ListOfNeighbours_InRange()
+    {
+        TestUtils.StartTimer();
+        var analyzer = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne());
+        var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
+        TestUtils.StopTimer();
+        foreach (var point in current.Neighbours)
         {
-            TestUtils.StartTimer();
-            var analyzer = new NeighbourGpsDistanceCalculator(_gpsTrackExamples.TrackOne());
-            var current = analyzer.Analyze(_gpsTrackExamples.TrackTwo(), 50.0);
-            TestUtils.StopTimer();
-            foreach (var point in current.Neighbours)
+            foreach (var p in point)
             {
-                foreach (var p in point)
-                {
-                    var r = p.Reference;
-                    var c = p.Current;
-                    r.ShouldBeGreaterThanOrEqualTo(0);
-                    r.ShouldBeLessThan(analyzer.ReferenceFlattenedTrack.Track.Count);
-                    c.ShouldBeGreaterThanOrEqualTo(0);
-                    c.ShouldBeLessThan(current.FlattenedTrack.Track.Count);
-                }
+                var r = p.Reference;
+                var c = p.Current;
+                r.ShouldBeGreaterThanOrEqualTo(0);
+                r.ShouldBeLessThan(analyzer.ReferenceFlattenedTrack.Track.Count);
+                c.ShouldBeGreaterThanOrEqualTo(0);
+                c.ShouldBeLessThan(current.FlattenedTrack.Track.Count);
             }
         }
+    }
 
-        [Test]
-        public void TotalDistance_ReturnsExpected()
-        {
-            var one = _gpsTrackExamples.TrackOne();
-            var analyzer = new NeighbourGpsDistanceCalculator(one);
-            var two = _gpsTrackExamples.TrackTwo();
-            var current = analyzer.Analyze(two, 50.0);
-            analyzer.ReferenceFlattenedTrack.TotalDistance.ShouldBe(
-                Geodesy.Distance.HaversineTotal(one), 1e-1);
-            current.TotalDistance.ShouldBe(Geodesy.Distance.HaversineTotal(two), 1e-1);
-        }
+    [Test]
+    public void TotalDistance_ReturnsExpected()
+    {
+        var one = _gpsTrackExamples.TrackOne();
+        var analyzer = new NeighbourGpsDistanceCalculator(one);
+        var two = _gpsTrackExamples.TrackTwo();
+        var current = analyzer.Analyze(two, 50.0);
+        analyzer.ReferenceFlattenedTrack.TotalDistance.ShouldBe(
+            Geodesy.Distance.HaversineTotal(one), 1e-1);
+        current.TotalDistance.ShouldBe(Geodesy.Distance.HaversineTotal(two), 1e-1);
     }
 }

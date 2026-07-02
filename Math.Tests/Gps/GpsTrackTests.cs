@@ -31,112 +31,111 @@ using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
+namespace Math.Tests.Gps;
+
+[TestFixture]
+public class GpsTrackTests
 {
-    [TestFixture]
-    public class GpsTrackTests
+    private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
+
+    [TestCase(1.0)]
+    [TestCase(0.5)]
+    [TestCase(0.1)]
+    [TestCase(0.01)]
+    public void MinCircleAngle_ReturnsExpected(double f)
     {
-        private readonly GpsTrackExamples _gpsTrackExamples = new GpsTrackExamples();
-
-        [TestCase(1.0)]
-        [TestCase(0.5)]
-        [TestCase(0.1)]
-        [TestCase(0.01)]
-        public void MinCircleAngle_ReturnsExpected(double f)
-        {
-            var gpsTrack =
-                new GpsTrack(new List<GpsPoint>
-                {
-                    new GpsPoint {Latitude = 0, Longitude = 180},
-                    new GpsPoint {Latitude = 90 * f, Longitude = 180}
-                });
-            gpsTrack.MinCircleAngle.ShouldBe(System.Math.PI * 0.25 * f, 1e-13);
-        }
-
-        [Test]
-        public void Center_ReturnsExpected()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var sum = new Vector3D();
-            var d = 0.0;
-            foreach (var g in gpsTrack.Track)
+        var gpsTrack =
+            new GpsTrack(new List<GpsPoint>
             {
-                Vector3D v = g;
-                sum += v.Normalized();
-                d += v.Norm();
-            }
+                new GpsPoint {Latitude = 0, Longitude = 180},
+                new GpsPoint {Latitude = 90 * f, Longitude = 180}
+            });
+        gpsTrack.MinCircleAngle.ShouldBe(System.Math.PI * 0.25 * f, 1e-13);
+    }
 
-            sum.Normalize();
-            sum *= d / _gpsTrackExamples.TrackOne().Count;
-            sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
-            sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
-            sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);
-        }
-
-        [Test]
-        public void Constructor_CorrectTrack()
+    [Test]
+    public void Center_ReturnsExpected()
+    {
+        var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var sum = new Vector3D();
+        var d = 0.0;
+        foreach (var g in gpsTrack.Track)
         {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            gpsTrack.Track.Count.ShouldBe(_gpsTrackExamples.TrackOne().Count);
+            Vector3D v = g;
+            sum += v.Normalized();
+            d += v.Norm();
         }
 
-        [Test]
-        public void CreateLookup_WithPixelSize_ReturnsSameAsPixelSizeAndCenter()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var lookup0 = gpsTrack.CreateLookup(5.0, gpsTrack.Center);
-            var lookup1 = gpsTrack.CreateLookup(5.0);
-            lookup0.Max.ShouldBe(lookup1.Max);
-            lookup0.Min.ShouldBe(lookup1.Min);
-        }
+        sum.Normalize();
+        sum *= d / _gpsTrackExamples.TrackOne().Count;
+        sum.X.ShouldBe(gpsTrack.Center.X, 1e-7);
+        sum.Y.ShouldBe(gpsTrack.Center.Y, 1e-7);
+        sum.Z.ShouldBe(gpsTrack.Center.Z, 1e-7);
+    }
 
-        [Test]
-        public void EmptyTrack_CenterAndRotation_ReturnsNaN()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint>());
-            gpsTrack.Center.X.ShouldBe(double.NaN);
-            gpsTrack.Center.Y.ShouldBe(double.NaN);
-            gpsTrack.Center.Z.ShouldBe(double.NaN);
-            gpsTrack.CenterAngle.ShouldBe(double.NaN);
-        }
+    [Test]
+    public void Constructor_CorrectTrack()
+    {
+        var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+        gpsTrack.Track.Count.ShouldBe(_gpsTrackExamples.TrackOne().Count);
+    }
 
-        [Test]
-        public void EmptyTrack_MinCircleCenter_ReturnsNaN()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint>());
-            var c = gpsTrack.MinCircleCenter;
-            c.X.ShouldBe(double.NaN);
-            c.Y.ShouldBe(double.NaN);
-            c.Z.ShouldBe(double.NaN);
-            gpsTrack.MinCircleAngle.ShouldBe(double.NaN);
-        }
+    [Test]
+    public void CreateLookup_WithPixelSize_ReturnsSameAsPixelSizeAndCenter()
+    {
+        var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var lookup0 = gpsTrack.CreateLookup(5.0, gpsTrack.Center);
+        var lookup1 = gpsTrack.CreateLookup(5.0);
+        lookup0.Max.ShouldBe(lookup1.Max);
+        lookup0.Min.ShouldBe(lookup1.Min);
+    }
 
-        [Test]
-        public void MinCircleAngle_WithOnePoint_ReturnsExpected()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
-            gpsTrack.MinCircleAngle.ShouldBe(0.0);
-        }
+    [Test]
+    public void EmptyTrack_CenterAndRotation_ReturnsNaN()
+    {
+        var gpsTrack = new GpsTrack(new List<GpsPoint>());
+        gpsTrack.Center.X.ShouldBe(double.NaN);
+        gpsTrack.Center.Y.ShouldBe(double.NaN);
+        gpsTrack.Center.Z.ShouldBe(double.NaN);
+        gpsTrack.CenterAngle.ShouldBe(double.NaN);
+    }
 
-        [Test]
-        public void MinCircleCenter_SimilarAsCenter()
-        {
-            var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
-            var c = gpsTrack.Center;
-            var d = gpsTrack.MinCircleCenter;
-            var e = d.EuclideanNorm(c);
-            e.ShouldBeLessThan(500.0);
-            var cl = c.Norm();
-            var dl = d.Norm();
-            var f = System.Math.Abs(cl - dl);
-            f.ShouldBeLessThan(1e-8);
-        }
+    [Test]
+    public void EmptyTrack_MinCircleCenter_ReturnsNaN()
+    {
+        var gpsTrack = new GpsTrack(new List<GpsPoint>());
+        var c = gpsTrack.MinCircleCenter;
+        c.X.ShouldBe(double.NaN);
+        c.Y.ShouldBe(double.NaN);
+        c.Z.ShouldBe(double.NaN);
+        gpsTrack.MinCircleAngle.ShouldBe(double.NaN);
+    }
 
-        [Test]
-        public void RotationAngle_ReturnsExpected()
-        {
-            var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
-            gpsTrack.CenterAngle.ShouldBe(0.0);
-        }
+    [Test]
+    public void MinCircleAngle_WithOnePoint_ReturnsExpected()
+    {
+        var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 180}});
+        gpsTrack.MinCircleAngle.ShouldBe(0.0);
+    }
+
+    [Test]
+    public void MinCircleCenter_SimilarAsCenter()
+    {
+        var gpsTrack = new GpsTrack(_gpsTrackExamples.TrackOne());
+        var c = gpsTrack.Center;
+        var d = gpsTrack.MinCircleCenter;
+        var e = d.EuclideanNorm(c);
+        e.ShouldBeLessThan(500.0);
+        var cl = c.Norm();
+        var dl = d.Norm();
+        var f = System.Math.Abs(cl - dl);
+        f.ShouldBeLessThan(1e-8);
+    }
+
+    [Test]
+    public void RotationAngle_ReturnsExpected()
+    {
+        var gpsTrack = new GpsTrack(new List<GpsPoint> {new GpsPoint {Latitude = 0, Longitude = 0}});
+        gpsTrack.CenterAngle.ShouldBe(0.0);
     }
 }

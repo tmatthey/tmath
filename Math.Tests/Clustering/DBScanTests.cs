@@ -32,18 +32,17 @@ using Math.Clustering;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Clustering
+namespace Math.Tests.Clustering;
+
+[TestFixture]
+public class DBScanTests
 {
-    [TestFixture]
-    public class DBScanTests
+    [Test]
+    public void DBScan_EmptyList_ReturnsEmpty()
     {
-        [Test]
-        public void DBScan_EmptyList_ReturnsEmpty()
-        {
-            var list = new List<Segment2D> {new Segment2D(Vector2D.E1, Vector2D.E2)};
-            var dbs = new DBScan<Vector2D, Segment2D>(list);
-            var res = dbs.Cluster().ToList();
-            res.Count.ShouldBe(0);
-        }
+        var list = new List<Segment2D> {new Segment2D(Vector2D.E1, Vector2D.E2)};
+        var dbs = new DBScan<Vector2D, Segment2D>(list);
+        var res = dbs.Cluster().ToList();
+        res.Count.ShouldBe(0);
     }
 }

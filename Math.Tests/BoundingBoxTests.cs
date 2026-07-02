@@ -29,210 +29,209 @@
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+[TestFixture]
+public class BoundingBoxTests
 {
-    [TestFixture]
-    public class BoundingBoxTests
+    private readonly Vector3D _min = Vector3D.PositiveInfinity;
+    private readonly Vector3D _max = Vector3D.NegativeInfinity;
+
+    [Test]
+    public void Clone()
     {
-        private readonly Vector3D _min = Vector3D.PositiveInfinity;
-        private readonly Vector3D _max = Vector3D.NegativeInfinity;
+        var u = new Vector3D(1.1, 3.3, 4.4);
+        var v = new Vector3D(2.2, 4.4, 5.5);
+        var a = new BoundingBox(u);
+        a.Expand(v);
+        var b = a.Clone();
+        ReferenceEquals(a, b).ShouldBeFalse();
+        ReferenceEquals(a.Min, b.Min).ShouldBeFalse();
+        ReferenceEquals(a.Max, b.Max).ShouldBeFalse();
+        a.Equals(b).ShouldBeTrue();
+        a.Min.Equals(b.Min).ShouldBeTrue();
+        a.Min.Equals(b.Min).ShouldBeTrue();
+        a.Max.IsEqual(b.Max).ShouldBeTrue();
+        a.Max.IsEqual(b.Max).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Clone()
-        {
-            var u = new Vector3D(1.1, 3.3, 4.4);
-            var v = new Vector3D(2.2, 4.4, 5.5);
-            var a = new BoundingBox(u);
-            a.Expand(v);
-            var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBeFalse();
-            ReferenceEquals(a.Min, b.Min).ShouldBeFalse();
-            ReferenceEquals(a.Max, b.Max).ShouldBeFalse();
-            a.Equals(b).ShouldBeTrue();
-            a.Min.Equals(b.Min).ShouldBeTrue();
-            a.Min.Equals(b.Min).ShouldBeTrue();
-            a.Max.IsEqual(b.Max).ShouldBeTrue();
-            a.Max.IsEqual(b.Max).ShouldBeTrue();
-        }
+    [Test]
+    public void Constructor_Empty_True()
+    {
+        var bb = new BoundingBox();
+        bb.IsEmpty().ShouldBeTrue();
+    }
 
-        [Test]
-        public void Constructor_Empty_True()
-        {
-            var bb = new BoundingBox();
-            bb.IsEmpty().ShouldBeTrue();
-        }
+    [Test]
+    public void Constructor_Max_returnsNegInfitity()
+    {
+        var bb = new BoundingBox();
+        bb.Max.ShouldBe(_max);
+    }
 
-        [Test]
-        public void Constructor_Max_returnsNegInfitity()
-        {
-            var bb = new BoundingBox();
-            bb.Max.ShouldBe(_max);
-        }
+    [Test]
+    public void Constructor_Min_returnsPosInfitity()
+    {
+        var bb = new BoundingBox();
+        bb.Min.ShouldBe(_min);
+    }
 
-        [Test]
-        public void Constructor_Min_returnsPosInfitity()
-        {
-            var bb = new BoundingBox();
-            bb.Min.ShouldBe(_min);
-        }
+    [Test]
+    public void Equals_SameBoundingBox_ReturnsTrue()
+    {
+        var v = new BoundingBox(new Vector3D(1, 2, 3));
+        v.Expand(new Vector3D(4, 5, 6));
+        var u = new BoundingBox(v);
+        v.Equals(u).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Equals_SameBoundingBox_ReturnsTrue()
-        {
-            var v = new BoundingBox(new Vector3D(1, 2, 3));
-            v.Expand(new Vector3D(4, 5, 6));
-            var u = new BoundingBox(v);
-            v.Equals(u).ShouldBeTrue();
-        }
+    [Test]
+    public void Equals_SameRefBoundingBox_ReturnsTrue()
+    {
+        var v = new BoundingBox(new Vector3D(1, 2, 3));
+        v.Expand(new Vector3D(4, 5, 6));
+        var u = v;
+        v.Equals(u).ShouldBeTrue();
+    }
 
-        [Test]
-        public void Equals_SameRefBoundingBox_ReturnsTrue()
-        {
-            var v = new BoundingBox(new Vector3D(1, 2, 3));
-            v.Expand(new Vector3D(4, 5, 6));
-            var u = v;
-            v.Equals(u).ShouldBeTrue();
-        }
+    [Test]
+    public void Equals_WithNullptr_ReturnsFalse()
+    {
+        var v = new BoundingBox(new Vector3D(1, 2, 3));
+        v.Expand(new Vector3D(4, 5, 6));
+        v.Equals(null).ShouldBeFalse();
+    }
 
-        [Test]
-        public void Equals_WithNullptr_ReturnsFalse()
-        {
-            var v = new BoundingBox(new Vector3D(1, 2, 3));
-            v.Expand(new Vector3D(4, 5, 6));
-            v.Equals(null).ShouldBeFalse();
-        }
+    [Test]
+    public void Expand_EmptyWithEmptyBoundingBox_IsEmptyTrue()
+    {
+        var bb = new BoundingBox();
+        bb.Expand(new BoundingBox());
+        bb.Min.ShouldBe(_min);
+        bb.Max.ShouldBe(_max);
+        bb.IsEmpty().ShouldBeTrue();
+    }
 
-        [Test]
-        public void Expand_EmptyWithEmptyBoundingBox_IsEmptyTrue()
-        {
-            var bb = new BoundingBox();
-            bb.Expand(new BoundingBox());
-            bb.Min.ShouldBe(_min);
-            bb.Max.ShouldBe(_max);
-            bb.IsEmpty().ShouldBeTrue();
-        }
+    [Test]
+    public void Expand_EmptyWithNonEmptyBoundingBox_returnsVector3D()
+    {
+        var bb = new BoundingBox();
+        var v = new Vector3D(1, -2, 3);
+        var bb2 = new BoundingBox();
+        bb2.Expand(v);
+        bb.Expand(bb2);
+        bb.Min.ShouldBe(v);
+        bb.Max.ShouldBe(v);
+        bb.IsEmpty().ShouldBeFalse();
+    }
 
-        [Test]
-        public void Expand_EmptyWithNonEmptyBoundingBox_returnsVector3D()
-        {
-            var bb = new BoundingBox();
-            var v = new Vector3D(1, -2, 3);
-            var bb2 = new BoundingBox();
-            bb2.Expand(v);
-            bb.Expand(bb2);
-            bb.Min.ShouldBe(v);
-            bb.Max.ShouldBe(v);
-            bb.IsEmpty().ShouldBeFalse();
-        }
+    [Test]
+    public void Expand_NonEmptyWithEmptyBoundingBox_returnsVector3D()
+    {
+        var bb = new BoundingBox();
+        var v = new Vector3D(1, -2, 3);
+        var bb2 = new BoundingBox();
+        bb.Expand(v);
+        bb.Expand(bb2);
+        bb.Min.ShouldBe(v);
+        bb.Max.ShouldBe(v);
+        bb.IsEmpty().ShouldBeFalse();
+    }
 
-        [Test]
-        public void Expand_NonEmptyWithEmptyBoundingBox_returnsVector3D()
-        {
-            var bb = new BoundingBox();
-            var v = new Vector3D(1, -2, 3);
-            var bb2 = new BoundingBox();
-            bb.Expand(v);
-            bb.Expand(bb2);
-            bb.Min.ShouldBe(v);
-            bb.Max.ShouldBe(v);
-            bb.IsEmpty().ShouldBeFalse();
-        }
+    [Test]
+    public void Expand_WithTwoVector3D_returnsExpectedMinMax()
+    {
+        var bb = new BoundingBox();
+        var u = new Vector3D(1, -2, 3);
+        var v = new Vector3D(2, -1, 4);
+        bb.Expand(u);
+        bb.Expand(v);
+        bb.Min.ShouldBe(u);
+        bb.Max.ShouldBe(v);
+    }
 
-        [Test]
-        public void Expand_WithTwoVector3D_returnsExpectedMinMax()
-        {
-            var bb = new BoundingBox();
-            var u = new Vector3D(1, -2, 3);
-            var v = new Vector3D(2, -1, 4);
-            bb.Expand(u);
-            bb.Expand(v);
-            bb.Min.ShouldBe(u);
-            bb.Max.ShouldBe(v);
-        }
+    [Test]
+    public void Expand_WithVector3D_returnsMinMaxVector3D()
+    {
+        var bb = new BoundingBox();
+        var v = new Vector3D(1, -2, 3);
+        bb.Expand(v);
+        bb.Min.ShouldBe(v);
+        bb.Max.ShouldBe(v);
+    }
 
-        [Test]
-        public void Expand_WithVector3D_returnsMinMaxVector3D()
-        {
-            var bb = new BoundingBox();
-            var v = new Vector3D(1, -2, 3);
-            bb.Expand(v);
-            bb.Min.ShouldBe(v);
-            bb.Max.ShouldBe(v);
-        }
+    [Test]
+    public void ExpandLayer_ReturnExpandedBounding()
+    {
+        var bb = new BoundingBox();
+        var u = new Vector3D(1, -2, -0.1);
+        var v = new Vector3D(2, -1, 0.1);
+        var r = 10.0;
+        bb.Expand(u);
+        bb.Expand(v);
+        var min = new Vector3D(bb.Min);
+        var max = new Vector3D(bb.Max);
 
-        [Test]
-        public void ExpandLayer_ReturnExpandedBounding()
-        {
-            var bb = new BoundingBox();
-            var u = new Vector3D(1, -2, -0.1);
-            var v = new Vector3D(2, -1, 0.1);
-            var r = 10.0;
-            bb.Expand(u);
-            bb.Expand(v);
-            var min = new Vector3D(bb.Min);
-            var max = new Vector3D(bb.Max);
+        bb.ExpandLayer(r);
 
-            bb.ExpandLayer(r);
+        bb.Min.ShouldBe(min - Vector3D.One * r);
+        bb.Max.ShouldBe(max + Vector3D.One * r);
+    }
 
-            bb.Min.ShouldBe(min - Vector3D.One * r);
-            bb.Max.ShouldBe(max + Vector3D.One * r);
-        }
+    [Test]
+    public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
+    {
+        var b0 = new BoundingBox(Vector3D.E1);
+        var b1 = new BoundingBox(Vector3D.E2);
+        b0.GetHashCode().ShouldNotBe(b1.GetHashCode());
+    }
 
-        [Test]
-        public void GetHashCode_DifferentObjects_ReturnsDifferentHashCode()
-        {
-            var b0 = new BoundingBox(Vector3D.E1);
-            var b1 = new BoundingBox(Vector3D.E2);
-            b0.GetHashCode().ShouldNotBe(b1.GetHashCode());
-        }
+    [Test]
+    public void IsInside_EmptyBox_ReturnsFalse()
+    {
+        var bb = new BoundingBox();
+        bb.IsInside(Vector3D.E1).ShouldBeFalse();
+    }
 
-        [Test]
-        public void IsInside_EmptyBox_ReturnsFalse()
-        {
-            var bb = new BoundingBox();
-            bb.IsInside(Vector3D.E1).ShouldBeFalse();
-        }
+    [Test]
+    public void IsInside_MidpointOfBox_ReturnsTrue()
+    {
+        var bb = new BoundingBox();
+        var u = new Vector3D(1, -2, -0.1);
+        var v = new Vector3D(2, -1, 0.1);
+        bb.Expand(u);
+        bb.Expand(v);
+        bb.IsInside((bb.Min + bb.Max) * 0.5).ShouldBeTrue();
+    }
 
-        [Test]
-        public void IsInside_MidpointOfBox_ReturnsTrue()
-        {
-            var bb = new BoundingBox();
-            var u = new Vector3D(1, -2, -0.1);
-            var v = new Vector3D(2, -1, 0.1);
-            bb.Expand(u);
-            bb.Expand(v);
-            bb.IsInside((bb.Min + bb.Max) * 0.5).ShouldBeTrue();
-        }
+    [Test]
+    public void IsInside_OutSidetOfBox_ReturnsFalse()
+    {
+        var bb = new BoundingBox();
+        var u = new Vector3D(1, -2, -0.1);
+        var v = new Vector3D(2, -1, 0.1);
+        bb.Expand(u);
+        bb.Expand(v);
+        bb.IsInside(bb.Min - bb.Max).ShouldBeFalse();
+    }
 
-        [Test]
-        public void IsInside_OutSidetOfBox_ReturnsFalse()
-        {
-            var bb = new BoundingBox();
-            var u = new Vector3D(1, -2, -0.1);
-            var v = new Vector3D(2, -1, 0.1);
-            bb.Expand(u);
-            bb.Expand(v);
-            bb.IsInside(bb.Min - bb.Max).ShouldBeFalse();
-        }
+    [Test]
+    public void Reset_MinMax_returnsInfitity()
+    {
+        var bb = new BoundingBox();
+        bb.Expand(Vector3D.E1);
+        bb.Reset();
 
-        [Test]
-        public void Reset_MinMax_returnsInfitity()
-        {
-            var bb = new BoundingBox();
-            bb.Expand(Vector3D.E1);
-            bb.Reset();
+        bb.Min.ShouldBe(_min);
+        bb.Max.ShouldBe(_max);
+    }
 
-            bb.Min.ShouldBe(_min);
-            bb.Max.ShouldBe(_max);
-        }
-
-        [Test]
-        public void IsEmpty_AfterReset_True_A1_3()
-        {
-            var bb = new BoundingBox();
-            bb.Expand(Vector3D.One);
-            bb.Reset();
-            bb.IsEmpty().ShouldBeTrue();
-        }
+    [Test]
+    public void IsEmpty_AfterReset_True_A1_3()
+    {
+        var bb = new BoundingBox();
+        bb.Expand(Vector3D.One);
+        bb.Reset();
+        bb.IsEmpty().ShouldBeTrue();
     }
 }

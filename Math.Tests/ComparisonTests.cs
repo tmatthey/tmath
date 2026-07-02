@@ -30,242 +30,241 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests
+namespace Math.Tests;
+
+[TestFixture]
+public class ComparisonTests
 {
-    [TestFixture]
-    public class ComparisonTests
+    private const double Epsilon = double.Epsilon;
+
+    [TestCase(0, true)]
+    [TestCase(Comparison.Epsilon, true)]
+    [TestCase(-Comparison.Epsilon, true)]
+    [TestCase(2.0 * Comparison.Epsilon, true)]
+    [TestCase(-2.0 * Comparison.Epsilon, true)]
+    [TestCase(13.34, true)]
+    [TestCase(-13.34, true)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsNumber(double x, bool expected)
     {
-        private const double Epsilon = double.Epsilon;
+        var result = Comparison.IsNumber(x);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, true)]
-        [TestCase(Comparison.Epsilon, true)]
-        [TestCase(-Comparison.Epsilon, true)]
-        [TestCase(2.0 * Comparison.Epsilon, true)]
-        [TestCase(-2.0 * Comparison.Epsilon, true)]
-        [TestCase(13.34, true)]
-        [TestCase(-13.34, true)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsNumber(double x, bool expected)
-        {
-            var result = Comparison.IsNumber(x);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, true)]
+    [TestCase(Comparison.Epsilon, true)]
+    [TestCase(-Comparison.Epsilon, true)]
+    [TestCase(2.0 * Comparison.Epsilon, false)]
+    [TestCase(-2.0 * Comparison.Epsilon, false)]
+    [TestCase(13.34, false)]
+    [TestCase(-13.34, false)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsZero(double x, bool expected)
+    {
+        var result = Comparison.IsZero(x);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, true)]
-        [TestCase(Comparison.Epsilon, true)]
-        [TestCase(-Comparison.Epsilon, true)]
-        [TestCase(2.0 * Comparison.Epsilon, false)]
-        [TestCase(-2.0 * Comparison.Epsilon, false)]
-        [TestCase(13.34, false)]
-        [TestCase(-13.34, false)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsZero(double x, bool expected)
-        {
-            var result = Comparison.IsZero(x);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, false)]
+    [TestCase(Comparison.Epsilon, false)]
+    [TestCase(-Comparison.Epsilon, false)]
+    [TestCase(2.0 * Comparison.Epsilon, true)]
+    [TestCase(-2.0 * Comparison.Epsilon, false)]
+    [TestCase(13.34, true)]
+    [TestCase(-13.34, false)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsPositive(double x, bool expected)
+    {
+        var result = Comparison.IsPositive(x);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, false)]
-        [TestCase(Comparison.Epsilon, false)]
-        [TestCase(-Comparison.Epsilon, false)]
-        [TestCase(2.0 * Comparison.Epsilon, true)]
-        [TestCase(-2.0 * Comparison.Epsilon, false)]
-        [TestCase(13.34, true)]
-        [TestCase(-13.34, false)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsPositive(double x, bool expected)
-        {
-            var result = Comparison.IsPositive(x);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, false)]
+    [TestCase(Comparison.Epsilon, false)]
+    [TestCase(-Comparison.Epsilon, false)]
+    [TestCase(2.0 * Comparison.Epsilon, false)]
+    [TestCase(-2.0 * Comparison.Epsilon, true)]
+    [TestCase(13.34, false)]
+    [TestCase(-13.34, true)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsNegative(double x, bool expected)
+    {
+        var result = Comparison.IsNegative(x);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, false)]
-        [TestCase(Comparison.Epsilon, false)]
-        [TestCase(-Comparison.Epsilon, false)]
-        [TestCase(2.0 * Comparison.Epsilon, false)]
-        [TestCase(-2.0 * Comparison.Epsilon, true)]
-        [TestCase(13.34, false)]
-        [TestCase(-13.34, true)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsNegative(double x, bool expected)
-        {
-            var result = Comparison.IsNegative(x);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, true)]
+    [TestCase(Epsilon, true)]
+    [TestCase(-Epsilon, true)]
+    [TestCase(2.0 * Epsilon, false)]
+    [TestCase(-2.0 * Epsilon, false)]
+    [TestCase(13.34, false)]
+    [TestCase(-13.34, false)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsZeroWithUserDefinedEpsilon(double x, bool expected)
+    {
+        var result = Comparison.IsZero(x, Epsilon);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, true)]
-        [TestCase(Epsilon, true)]
-        [TestCase(-Epsilon, true)]
-        [TestCase(2.0 * Epsilon, false)]
-        [TestCase(-2.0 * Epsilon, false)]
-        [TestCase(13.34, false)]
-        [TestCase(-13.34, false)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsZeroWithUserDefinedEpsilon(double x, bool expected)
-        {
-            var result = Comparison.IsZero(x, Epsilon);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, false)]
+    [TestCase(Epsilon, false)]
+    [TestCase(-Epsilon, false)]
+    [TestCase(2.0 * Epsilon, true)]
+    [TestCase(-2.0 * Epsilon, false)]
+    [TestCase(13.34, true)]
+    [TestCase(-13.34, false)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsPositiveWithUserDefinedEpsilon(double x, bool expected)
+    {
+        var result = Comparison.IsPositive(x, Epsilon);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, false)]
-        [TestCase(Epsilon, false)]
-        [TestCase(-Epsilon, false)]
-        [TestCase(2.0 * Epsilon, true)]
-        [TestCase(-2.0 * Epsilon, false)]
-        [TestCase(13.34, true)]
-        [TestCase(-13.34, false)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsPositiveWithUserDefinedEpsilon(double x, bool expected)
-        {
-            var result = Comparison.IsPositive(x, Epsilon);
-            result.ShouldBe(expected);
-        }
+    [TestCase(0, false)]
+    [TestCase(Epsilon, false)]
+    [TestCase(-Epsilon, false)]
+    [TestCase(2.0 * Epsilon, false)]
+    [TestCase(-2.0 * Epsilon, true)]
+    [TestCase(13.34, false)]
+    [TestCase(-13.34, true)]
+    [TestCase(double.NaN, false)]
+    [TestCase(double.PositiveInfinity, false)]
+    [TestCase(double.NegativeInfinity, false)]
+    public void IsNegativeWithUserDefinedEpsilon(double x, bool expected)
+    {
+        var result = Comparison.IsNegative(x, Epsilon);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(0, false)]
-        [TestCase(Epsilon, false)]
-        [TestCase(-Epsilon, false)]
-        [TestCase(2.0 * Epsilon, false)]
-        [TestCase(-2.0 * Epsilon, true)]
-        [TestCase(13.34, false)]
-        [TestCase(-13.34, true)]
-        [TestCase(double.NaN, false)]
-        [TestCase(double.PositiveInfinity, false)]
-        [TestCase(double.NegativeInfinity, false)]
-        public void IsNegativeWithUserDefinedEpsilon(double x, bool expected)
-        {
-            var result = Comparison.IsNegative(x, Epsilon);
-            result.ShouldBe(expected);
-        }
+    [TestCase(11.0, 11.0, true)]
+    [TestCase(13.0, 13.05, false)]
+    [TestCase(0.0, 1e-13, false)]
+    [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
+    [TestCase(0.0, 1e-14, true)]
+    public void IsEqual(double x, double y, bool expected)
+    {
+        var result = Comparison.IsEqual(x, y);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(11.0, 11.0, true)]
-        [TestCase(13.0, 13.05, false)]
-        [TestCase(0.0, 1e-13, false)]
-        [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
-        [TestCase(0.0, 1e-14, true)]
-        public void IsEqual(double x, double y, bool expected)
-        {
-            var result = Comparison.IsEqual(x, y);
-            result.ShouldBe(expected);
-        }
+    [TestCase(12.0, 12.0, 0.1, true)]
+    [TestCase(12.0, 12.05, 0.1, true)]
+    [TestCase(12.0, 12.05, double.Epsilon, false)]
+    [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
+    public void IsEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
+    {
+        var result = Comparison.IsEqual(x, y, eps);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(12.0, 12.0, 0.1, true)]
-        [TestCase(12.0, 12.05, 0.1, true)]
-        [TestCase(12.0, 12.05, double.Epsilon, false)]
-        [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
-        public void IsEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
-        {
-            var result = Comparison.IsEqual(x, y, eps);
-            result.ShouldBe(expected);
-        }
+    [TestCase(11.0, 11.0, true)]
+    [TestCase(13.05, 13.0, false)]
+    [TestCase(1e-13, 0.0, false)]
+    [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
+    [TestCase(0.0, 1e-14, true)]
+    [TestCase(5.0, 6.0, true)]
+    public void IsLessEqual(double x, double y, bool expected)
+    {
+        var result = Comparison.IsLessEqual(x, y);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(11.0, 11.0, true)]
-        [TestCase(13.05, 13.0, false)]
-        [TestCase(1e-13, 0.0, false)]
-        [TestCase(12.0 + double.Epsilon * 2.0, 12.0 + double.Epsilon * 2.01, true)]
-        [TestCase(0.0, 1e-14, true)]
-        [TestCase(5.0, 6.0, true)]
-        public void IsLessEqual(double x, double y, bool expected)
-        {
-            var result = Comparison.IsLessEqual(x, y);
-            result.ShouldBe(expected);
-        }
+    [TestCase(11.0, 11.0, false)]
+    [TestCase(13.05, 13.0, false)]
+    [TestCase(1e-13, 0.0, false)]
+    [TestCase(-1e-11, 0.0, true)]
+    [TestCase(0.0, 1e-11, true)]
+    [TestCase(5.0, 6.0, true)]
+    public void IsLess(double x, double y, bool expected)
+    {
+        var result = Comparison.IsLess(x, y);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(11.0, 11.0, false)]
-        [TestCase(13.05, 13.0, false)]
-        [TestCase(1e-13, 0.0, false)]
-        [TestCase(-1e-11, 0.0, true)]
-        [TestCase(0.0, 1e-11, true)]
-        [TestCase(5.0, 6.0, true)]
-        public void IsLess(double x, double y, bool expected)
-        {
-            var result = Comparison.IsLess(x, y);
-            result.ShouldBe(expected);
-        }
+    [TestCase(12.0, 12.0, 0.1, true)]
+    [TestCase(12.0, 12.05, 0.1, true)]
+    [TestCase(12.05, 12.0, double.Epsilon, false)]
+    [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
+    [TestCase(5.0, 6.0, 0.1, true)]
+    [TestCase(6.01, 6.0, 0.1, true)]
+    public void IsLessEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
+    {
+        var result = Comparison.IsLessEqual(x, y, eps);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(12.0, 12.0, 0.1, true)]
-        [TestCase(12.0, 12.05, 0.1, true)]
-        [TestCase(12.05, 12.0, double.Epsilon, false)]
-        [TestCase(double.Epsilon * 2.0, double.Epsilon * 2.01, double.Epsilon, true)]
-        [TestCase(5.0, 6.0, 0.1, true)]
-        [TestCase(6.01, 6.0, 0.1, true)]
-        public void IsLessEqualWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
-        {
-            var result = Comparison.IsLessEqual(x, y, eps);
-            result.ShouldBe(expected);
-        }
+    [TestCase(5.0, 6.0, 0.1, true)]
+    [TestCase(6.01, 6.0, 0.1, false)]
+    [TestCase(5.99, 6.0, 0.1, false)]
+    [TestCase(5.89, 6.0, 0.1, true)]
+    public void IsLessWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
+    {
+        var result = Comparison.IsLess(x, y, eps);
+        result.ShouldBe(expected);
+    }
 
-        [TestCase(5.0, 6.0, 0.1, true)]
-        [TestCase(6.01, 6.0, 0.1, false)]
-        [TestCase(5.99, 6.0, 0.1, false)]
-        [TestCase(5.89, 6.0, 0.1, true)]
-        public void IsLessWithUserDefinedEpsilon(double x, double y, double eps, bool expected)
-        {
-            var result = Comparison.IsLess(x, y, eps);
-            result.ShouldBe(expected);
-        }
+    [TestCase(1.0, 1.0, true)]
+    [TestCase(1.0, 1.0 + 1e-14, true)]
+    [TestCase(1.0, 1.0 + 1e-12, false)]
+    [TestCase(6367000.0, 6367000.0 + 1e-7, true)]
+    [TestCase(6367000.0, 6367000.5, false)]
+    [TestCase(double.PositiveInfinity, double.PositiveInfinity, true)]
+    [TestCase(double.NegativeInfinity, double.NegativeInfinity, true)]
+    [TestCase(double.PositiveInfinity, double.NegativeInfinity, false)]
+    public void IsEqualRelative(double x, double y, bool expected)
+    {
+        Comparison.IsEqualRelative(x, y).ShouldBe(expected);
+    }
 
-        [TestCase(1.0, 1.0, true)]
-        [TestCase(1.0, 1.0 + 1e-14, true)]
-        [TestCase(1.0, 1.0 + 1e-12, false)]
-        [TestCase(6367000.0, 6367000.0 + 1e-7, true)]
-        [TestCase(6367000.0, 6367000.5, false)]
-        [TestCase(double.PositiveInfinity, double.PositiveInfinity, true)]
-        [TestCase(double.NegativeInfinity, double.NegativeInfinity, true)]
-        [TestCase(double.PositiveInfinity, double.NegativeInfinity, false)]
-        public void IsEqualRelative(double x, double y, bool expected)
-        {
-            Comparison.IsEqualRelative(x, y).ShouldBe(expected);
-        }
+    [TestCase(0.0, 1.0, true)]
+    [TestCase(1e-14, 1.0, true)]
+    [TestCase(1.0, 1.0, false)]
+    [TestCase(1e-7, 6367000.0, true)]
+    [TestCase(0.001, 6367000.0, false)]
+    public void IsZeroRelative(double x, double scale, bool expected)
+    {
+        Comparison.IsZeroRelative(x, scale).ShouldBe(expected);
+    }
 
-        [TestCase(0.0, 1.0, true)]
-        [TestCase(1e-14, 1.0, true)]
-        [TestCase(1.0, 1.0, false)]
-        [TestCase(1e-7, 6367000.0, true)]
-        [TestCase(0.001, 6367000.0, false)]
-        public void IsZeroRelative(double x, double scale, bool expected)
-        {
-            Comparison.IsZeroRelative(x, scale).ShouldBe(expected);
-        }
+    [Test]
+    public void UniqueAverageSorted()
+    {
+        var vec = new List<double> {1.02, 1.0, 1.0 + 1e-14, 3.0};
+        var res = Comparison.UniqueAverageSorted(vec);
+        res.Count.ShouldBe(3);
+        res[0].ShouldBe(1.0 + 0.5e-15, 1e-10);
+        res[1].ShouldBe(1.02);
+        res[2].ShouldBe(3.0);
+    }
 
-        [Test]
-        public void UniqueAverageSorted()
-        {
-            var vec = new List<double> {1.02, 1.0, 1.0 + 1e-14, 3.0};
-            var res = Comparison.UniqueAverageSorted(vec);
-            res.Count.ShouldBe(3);
-            res[0].ShouldBe(1.0 + 0.5e-15, 1e-10);
-            res[1].ShouldBe(1.02);
-            res[2].ShouldBe(3.0);
-        }
+    [Test]
+    public void UniqueAverageSortedWithUserDefinedEpsilon()
+    {
+        var vec = new List<double> {-1.2, 1.02, 1.01, 0.99};
+        var res = Comparison.UniqueAverageSorted(vec, 0.1);
+        res.Count.ShouldBe(2);
+        res[1].ShouldBe((1.02 + 1.01 + 0.99) / 3.0, 1e-10);
+        res[0].ShouldBe(-1.2);
+    }
 
-        [Test]
-        public void UniqueAverageSortedWithUserDefinedEpsilon()
-        {
-            var vec = new List<double> {-1.2, 1.02, 1.01, 0.99};
-            var res = Comparison.UniqueAverageSorted(vec, 0.1);
-            res.Count.ShouldBe(2);
-            res[1].ShouldBe((1.02 + 1.01 + 0.99) / 3.0, 1e-10);
-            res[0].ShouldBe(-1.2);
-        }
-
-        [Test]
-        public void HashCode_StableForNanAndInfinity_A1_1()
-        {
-            Comparison.HashCode(double.NaN).ShouldBe(0);
-            Comparison.HashCode(double.PositiveInfinity).ShouldBe(int.MaxValue);
-            Comparison.HashCode(double.NegativeInfinity).ShouldBe(int.MinValue);
-        }
+    [Test]
+    public void HashCode_StableForNanAndInfinity_A1_1()
+    {
+        Comparison.HashCode(double.NaN).ShouldBe(0);
+        Comparison.HashCode(double.PositiveInfinity).ShouldBe(int.MaxValue);
+        Comparison.HashCode(double.NegativeInfinity).ShouldBe(int.MinValue);
     }
 }

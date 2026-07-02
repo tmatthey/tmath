@@ -33,62 +33,61 @@ using Math.Gps;
 using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 
-namespace Cmd.Compare
+namespace Cmd.Compare;
+
+public static class Program
 {
-    public static class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
-        {
-            var p = new CommandLineParser("compare", args);
-            p.SetupHelp(helpText =>
-                {
-                    Console.WriteLine(helpText);
-                    Environment.Exit(0);
-                }).SetupError((helpText, errorText) =>
-                {
-                    Console.WriteLine(errorText);
-                    Console.WriteLine(helpText);
-                    Environment.Exit(0);
-                }).Setup("r", "GPX/TCX reference file", out string refFile)
-                .Setup("c", "GPX/TCX to compared file", out string curFile)
-                .Setup("e", "Neighborhood/epsilon distance", out var eps, 10.0);
-
-            p.Parse();
-
-            var refInput = Deserializer.File(refFile);
-            var curInput = Deserializer.File(curFile);
-            if (refInput == null || refInput.TrackPoints.Count == 0 || curInput == null ||
-                curInput.TrackPoints.Count == 0)
-                return;
-
-            Console.WriteLine("compare {0} vs {1}", refInput.Name, curInput.Name);
-            Console.WriteLine("Time\tDist\tElev\tTime\tDist\tElev\tEps\tdt\tndt");
-            var refTrack = refInput.GpsPoints().ToList();
-            var refTime = refInput.ElapsedSeconds().ToList();
-            var refDist = Geodesy.Distance.HaversineAccumulated(refTrack);
-            var curTrack = curInput.GpsPoints().ToList();
-            var curTime = curInput.ElapsedSeconds().ToList();
-            var curDist = Geodesy.Distance.HaversineAccumulated(curTrack);
-            var analyzer = new NeighbourGpsDistanceCalculator(refTrack, System.Math.Max(eps, 50.0));
-            var current = analyzer.Analyze(curTrack, eps);
-            var f = (curTime.Last() - refTime.Last()) / curDist.Last();
-            foreach (var neighbour in current.Neighbours)
+        var p = new CommandLineParser("compare", args);
+        p.SetupHelp(helpText =>
             {
-                var first = neighbour.First();
-                var i = first.Current;
-                var j = first.Reference;
-                var ct = curTime[i];
-                var cd = curDist[i];
-                var ca = curTrack[i].Elevation;
-                var a = first.Fraction;
-                var rt = Function.Interpolate(a, refTime[j], refTime[j + 1]);
-                var rd = Function.Interpolate(a, refDist[j], refDist[j + 1]);
-                var ra = Function.Interpolate(a, refTrack[j].Elevation, refTrack[j + 1].Elevation);
-                var dt = ct - rt;
-                var ndt = dt - cd * f;
-                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}", rt, rd, ra, ct, cd, ca,
-                    first.MinDistance, dt, ndt);
-            }
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).SetupError((helpText, errorText) =>
+            {
+                Console.WriteLine(errorText);
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).Setup("r", "GPX/TCX reference file", out string refFile)
+            .Setup("c", "GPX/TCX to compared file", out string curFile)
+            .Setup("e", "Neighborhood/epsilon distance", out var eps, 10.0);
+
+        p.Parse();
+
+        var refInput = Deserializer.File(refFile);
+        var curInput = Deserializer.File(curFile);
+        if (refInput == null || refInput.TrackPoints.Count == 0 || curInput == null ||
+            curInput.TrackPoints.Count == 0)
+            return;
+
+        Console.WriteLine("compare {0} vs {1}", refInput.Name, curInput.Name);
+        Console.WriteLine("Time\tDist\tElev\tTime\tDist\tElev\tEps\tdt\tndt");
+        var refTrack = refInput.GpsPoints().ToList();
+        var refTime = refInput.ElapsedSeconds().ToList();
+        var refDist = Geodesy.Distance.HaversineAccumulated(refTrack);
+        var curTrack = curInput.GpsPoints().ToList();
+        var curTime = curInput.ElapsedSeconds().ToList();
+        var curDist = Geodesy.Distance.HaversineAccumulated(curTrack);
+        var analyzer = new NeighbourGpsDistanceCalculator(refTrack, System.Math.Max(eps, 50.0));
+        var current = analyzer.Analyze(curTrack, eps);
+        var f = (curTime.Last() - refTime.Last()) / curDist.Last();
+        foreach (var neighbour in current.Neighbours)
+        {
+            var first = neighbour.First();
+            var i = first.Current;
+            var j = first.Reference;
+            var ct = curTime[i];
+            var cd = curDist[i];
+            var ca = curTrack[i].Elevation;
+            var a = first.Fraction;
+            var rt = Function.Interpolate(a, refTime[j], refTime[j + 1]);
+            var rd = Function.Interpolate(a, refDist[j], refDist[j + 1]);
+            var ra = Function.Interpolate(a, refTrack[j].Elevation, refTrack[j + 1].Elevation);
+            var dt = ct - rt;
+            var ndt = dt - cd * f;
+            Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}", rt, rd, ra, ct, cd, ca,
+                first.MinDistance, dt, ndt);
         }
     }
 }

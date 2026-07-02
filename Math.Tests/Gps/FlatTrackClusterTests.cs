@@ -31,29 +31,28 @@ using Math.Gps;
 using NUnit.Framework;
 using Shouldly;
 
-namespace Math.Tests.Gps
-{
-    [TestFixture]
-    public class FlatTrackClusterTests
-    {
-        [Test]
-        public void Constructor()
-        {
-            var track = new List<GpsPoint>
-            {
-                new GpsPoint {Longitude = 179, Latitude = 1},
-                new GpsPoint {Longitude = 179, Latitude = -1},
-                new GpsPoint {Longitude = 181, Latitude = -1},
-                new GpsPoint {Longitude = 181, Latitude = 1}
-            };
-            var center = new GpsPoint {Longitude = 180, Latitude = 0};
+namespace Math.Tests.Gps;
 
-            var flatTrackCluster = new FlatTrackCluster([track]);
-            flatTrackCluster.Center.EuclideanNorm(center).ShouldBeLessThan(1e-7);
-            flatTrackCluster.Size.Min.X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);
-            flatTrackCluster.Size.Min.Y.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);
-            flatTrackCluster.Size.Max.X.ShouldBe(Geodesy.DistanceOneDeg, 1e-5);
-            flatTrackCluster.Size.Max.Y.ShouldBe(Geodesy.DistanceOneDeg, 1e-5);
-        }
+[TestFixture]
+public class FlatTrackClusterTests
+{
+    [Test]
+    public void Constructor()
+    {
+        var track = new List<GpsPoint>
+        {
+            new GpsPoint {Longitude = 179, Latitude = 1},
+            new GpsPoint {Longitude = 179, Latitude = -1},
+            new GpsPoint {Longitude = 181, Latitude = -1},
+            new GpsPoint {Longitude = 181, Latitude = 1}
+        };
+        var center = new GpsPoint {Longitude = 180, Latitude = 0};
+
+        var flatTrackCluster = new FlatTrackCluster([track]);
+        flatTrackCluster.Center.EuclideanNorm(center).ShouldBeLessThan(1e-7);
+        flatTrackCluster.Size.Min.X.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);
+        flatTrackCluster.Size.Min.Y.ShouldBe(-Geodesy.DistanceOneDeg, 1e-5);
+        flatTrackCluster.Size.Max.X.ShouldBe(Geodesy.DistanceOneDeg, 1e-5);
+        flatTrackCluster.Size.Max.Y.ShouldBe(Geodesy.DistanceOneDeg, 1e-5);
     }
 }

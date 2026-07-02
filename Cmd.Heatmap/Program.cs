@@ -34,82 +34,81 @@ using Math.Tools.Base;
 using Math.Tools.TrackReaders;
 using BitmapFileWriter = Math.Gfx.BitmapFileWriter;
 
-namespace Cmd.Heatmap
+namespace Cmd.Heatmap;
+
+public static class Program
 {
-    public static class Program
+    private static void Main(string[] args)
     {
-        private static void Main(string[] args)
+        var p = new CommandLineParser("heatmap", args);
+
+        p.SetupHelp(helpText =>
+            {
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).SetupError((helpText, errorText) =>
+            {
+                Console.WriteLine(errorText);
+                Console.WriteLine(helpText);
+                Environment.Exit(0);
+            }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
+            .Setup("n", "Output name of heatmap maps.", out var name, "heatmap").Setup("c",
+                "Coloring scheme: log (default), median and normalized.", out var coloring, ColorMap.log);
+
+        p.Parse();
+
+
+        Console.WriteLine("Heatmap");
+
+        var activities = Deserializer.Directory(path);
+        var list = activities.Select(a => a.GpsPoints().ToList()).ToList();
+
+        Console.WriteLine("Tracks: {0}", list.Count);
+        Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
+
+        Timer.Start();
+        var clusters = PolylineNeighbours.Cluster(list);
+        Timer.Stop();
+
+        var k = 0;
+        Console.WriteLine("Maps: {0}", clusters.Count);
+        foreach (var cluster in clusters)
         {
-            var p = new CommandLineParser("heatmap", args);
+            var heatMap = new HeatMap();
+            foreach (var i in cluster)
+            {
+                heatMap.Add(list[i]);
+            }
 
-            p.SetupHelp(helpText =>
-                {
-                    Console.WriteLine(helpText);
-                    Environment.Exit(0);
-                }).SetupError((helpText, errorText) =>
-                {
-                    Console.WriteLine(errorText);
-                    Console.WriteLine(helpText);
-                    Environment.Exit(0);
-                }).Setup("d", "directory with *.tcx and *.gpx files.", out var path, "./")
-                .Setup("n", "Output name of heatmap maps.", out var name, "heatmap").Setup("c",
-                    "Coloring scheme: log (default), median and normalized.", out var coloring, ColorMap.log);
-
-            p.Parse();
-
-
-            Console.WriteLine("Heatmap");
-
-            var activities = Deserializer.Directory(path);
-            var list = activities.Select(a => a.GpsPoints().ToList()).ToList();
-
-            Console.WriteLine("Tracks: {0}", list.Count);
-            Console.WriteLine("Points: {0}", list.Sum(t => t.Count));
-
+            Console.WriteLine("Map {0}: {1}", k, cluster.Count);
+            double[,] bitmap;
             Timer.Start();
-            var clusters = PolylineNeighbours.Cluster(list);
+            switch (coloring)
+            {
+                case ColorMap.log:
+                    bitmap = heatMap.Log(5.0, 8000);
+                    break;
+                case ColorMap.median:
+                    bitmap = heatMap.Median(5.0, 8000);
+                    break;
+                case ColorMap.normalized:
+                    bitmap = heatMap.Normalized(5.0, 8000);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             Timer.Stop();
 
-            var k = 0;
-            Console.WriteLine("Maps: {0}", clusters.Count);
-            foreach (var cluster in clusters)
-            {
-                var heatMap = new HeatMap();
-                foreach (var i in cluster)
-                {
-                    heatMap.Add(list[i]);
-                }
-
-                Console.WriteLine("Map {0}: {1}", k, cluster.Count);
-                double[,] bitmap;
-                Timer.Start();
-                switch (coloring)
-                {
-                    case ColorMap.log:
-                        bitmap = heatMap.Log(5.0, 8000);
-                        break;
-                    case ColorMap.median:
-                        bitmap = heatMap.Median(5.0, 8000);
-                        break;
-                    case ColorMap.normalized:
-                        bitmap = heatMap.Normalized(5.0, 8000);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                Timer.Stop();
-
-                BitmapFileWriter.PNG($"{name}.{k}.png", bitmap, HeatColorMapping.Default);
-                k++;
-            }
+            BitmapFileWriter.PNG($"{name}.{k}.png", bitmap, HeatColorMapping.Default);
+            k++;
         }
+    }
 
-        private enum ColorMap
-        {
-            median = 1,
-            log = 2,
-            normalized = 3
-        }
+    private enum ColorMap
+    {
+        median = 1,
+        log = 2,
+        normalized = 3
     }
 }
