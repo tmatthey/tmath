@@ -99,14 +99,14 @@ namespace Math.Tools.TrackReaders
         /// <returns></returns>
         public static Track File(string filename)
         {
-            Track track = null;
             if (!System.IO.File.Exists(filename))
-                return track;
+                return null;
 
             var extension = Path.GetExtension(filename);
             if (extension == null)
                 return null;
 
+            Track track = null;
             try
             {
                 using (var reader = System.IO.File.OpenText(filename))

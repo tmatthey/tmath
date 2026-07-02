@@ -179,9 +179,9 @@ namespace Math.Tests
         {
             var v = new Vector2D(1.1, 2.2);
             var w = v.Clone();
-            ReferenceEquals(v, w).ShouldBe(false);
-            v.Equals(w).ShouldBe(true);
-            v.IsEqual(w).ShouldBe(true);
+            ReferenceEquals(v, w).ShouldBeFalse();
+            v.Equals(w).ShouldBeTrue();
+            v.IsEqual(w).ShouldBeTrue();
             w.X.ShouldBe(v.X);
             w.Y.ShouldBe(v.Y);
         }
@@ -253,7 +253,7 @@ namespace Math.Tests
         {
             var v = new Vector2D(1, 2);
             var u = v;
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
@@ -261,14 +261,14 @@ namespace Math.Tests
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new Vector2D(1, 2);
-            v.Equals(null).ShouldBe(false);
+            v.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -398,7 +398,7 @@ namespace Math.Tests
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(1, 2.1);
-            (v != u).ShouldBe(true);
+            (v != u).ShouldBeTrue();
         }
 
         [Test]
@@ -406,7 +406,7 @@ namespace Math.Tests
         {
             var v = new Vector2D(1, 2);
             var u = new Vector2D(v);
-            (v == u).ShouldBe(true);
+            (v == u).ShouldBeTrue();
         }
 
         [Test]

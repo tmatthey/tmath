@@ -118,12 +118,12 @@ namespace Math.Tests
             var u = new Vector2D(1.2, 2.3);
             var a = new Circle2D(u, 19.17);
             var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBe(false);
-            ReferenceEquals(a.Center, b.Center).ShouldBe(false);
-            a.Equals(b).ShouldBe(true);
-            a.Center.Equals(b.Center).ShouldBe(true);
-            a.IsEqual(b).ShouldBe(true);
-            a.Center.IsEqual(b.Center).ShouldBe(true);
+            ReferenceEquals(a, b).ShouldBeFalse();
+            ReferenceEquals(a.Center, b.Center).ShouldBeFalse();
+            a.Equals(b).ShouldBeTrue();
+            a.Center.Equals(b.Center).ShouldBeTrue();
+            a.IsEqual(b).ShouldBeTrue();
+            a.Center.IsEqual(b.Center).ShouldBeTrue();
         }
 
         [Test]
@@ -227,21 +227,21 @@ namespace Math.Tests
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
             var q = new Circle2D(new Vector2D(1, 2), 0.2);
-            p.Equals(q).ShouldBe(true);
+            p.Equals(q).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
-            p.Equals(p).ShouldBe(true);
+            p.Equals(p).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
-            p.Equals(null).ShouldBe(false);
+            p.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -257,7 +257,7 @@ namespace Math.Tests
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
             var q = new Circle2D(new Vector2D(1, 2), 0.2);
-            (p == q).ShouldBe(true);
+            (p == q).ShouldBeTrue();
         }
 
         [Test]
@@ -265,7 +265,7 @@ namespace Math.Tests
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
             var q = new Circle2D(new Vector2D(1, 2.01), 0.2);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]
@@ -273,7 +273,7 @@ namespace Math.Tests
         {
             var p = new Circle2D(new Vector2D(1, 2), 0.2);
             var q = new Circle2D(new Vector2D(1, 2), 0.201);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]

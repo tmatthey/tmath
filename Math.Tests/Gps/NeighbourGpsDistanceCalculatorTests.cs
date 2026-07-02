@@ -55,7 +55,7 @@ namespace Math.Tests.Gps
                 current1.Neighbours[i].Count.ShouldBe(current2.Neighbours[i].Count);
                 for (var j = 0; j < System.Math.Min(current1.Neighbours[i].Count, current2.Neighbours[i].Count); j++)
                 {
-                    current1.Neighbours[i][j].IsEqual(current2.Neighbours[i][j]).ShouldBe(true);
+                    current1.Neighbours[i][j].IsEqual(current2.Neighbours[i][j]).ShouldBeTrue();
                 }
             }
         }

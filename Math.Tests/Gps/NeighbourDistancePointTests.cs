@@ -72,21 +72,21 @@ namespace Math.Tests.Gps
         public void Equals_Nullptr_ReturnFalse()
         {
             var d = new NeighbourDistancePoint(1, 2, 13.17);
-            d.Equals(null).ShouldBe(false);
+            d.Equals(null).ShouldBeFalse();
         }
 
         [Test]
         public void Equals_SameRef_ReturnTrue()
         {
             var d = new NeighbourDistancePoint(1, 2, 13.17);
-            d.Equals(d).ShouldBe(true);
+            d.Equals(d).ShouldBeTrue();
         }
 
         [Test]
         public void IsEqual_Nullptr_ReturnFalse()
         {
             var d = new NeighbourDistancePoint(1, 2, 13.17);
-            d.IsEqual(null).ShouldBe(false);
+            d.IsEqual(null).ShouldBeFalse();
         }
     }
 }

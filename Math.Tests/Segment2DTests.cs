@@ -111,15 +111,15 @@ namespace Math.Tests
             var v = new Vector2D(1.1, 2.2);
             var a = new Segment2D(u, v);
             var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBe(false);
-            ReferenceEquals(a.A, b.A).ShouldBe(false);
-            ReferenceEquals(a.B, b.B).ShouldBe(false);
-            a.Equals(b).ShouldBe(true);
-            a.A.Equals(b.A).ShouldBe(true);
-            a.B.Equals(b.B).ShouldBe(true);
-            a.IsEqual(b).ShouldBe(true);
-            a.A.IsEqual(b.A).ShouldBe(true);
-            a.B.IsEqual(b.B).ShouldBe(true);
+            ReferenceEquals(a, b).ShouldBeFalse();
+            ReferenceEquals(a.A, b.A).ShouldBeFalse();
+            ReferenceEquals(a.B, b.B).ShouldBeFalse();
+            a.Equals(b).ShouldBeTrue();
+            a.A.Equals(b.A).ShouldBeTrue();
+            a.B.Equals(b.B).ShouldBeTrue();
+            a.IsEqual(b).ShouldBeTrue();
+            a.A.IsEqual(b.A).ShouldBeTrue();
+            a.B.IsEqual(b.B).ShouldBeTrue();
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace Math.Tests
         {
             var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
             var u = v;
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
@@ -172,14 +172,14 @@ namespace Math.Tests
         {
             var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
             var u = new Segment2D(v);
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new Segment2D(new Vector2D(1, 2), new Vector2D(4, 5));
-            v.Equals(null).ShouldBe(false);
+            v.Equals(null).ShouldBeFalse();
         }
 
         [Test]

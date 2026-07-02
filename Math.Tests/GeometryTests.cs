@@ -955,28 +955,28 @@ namespace Math.Tests
         public void DiscLineIntersect_Coplanar_ReturnsFalse()
         {
             var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 1), new Vector3D(-1, -1, 1)).ShouldBe(false);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 1), new Vector3D(-1, -1, 1)).ShouldBeFalse();
         }
 
         [Test]
         public void DiscLineIntersect_PlanarCrossesCenter_ReturnsTrue()
         {
             var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 0), new Vector3D(-1, -1, 0)).ShouldBe(true);
+            Geometry.DiscLineIntersect(c, new Vector3D(1, 1, 0), new Vector3D(-1, -1, 0)).ShouldBeTrue();
         }
 
         [Test]
         public void DiscLineIntersect_PlanarInside_ReturnsTrue()
         {
             var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(17, 1, 0), new Vector3D(-13, -1.1, 0)).ShouldBe(true);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1, 0), new Vector3D(-13, -1.1, 0)).ShouldBeTrue();
         }
 
         [Test]
         public void DiscLineIntersect_PlanarOutside_ReturnsFalse()
         {
             var c = new Circle3D(Vector3D.Zero, Vector3D.E3, 1);
-            Geometry.DiscLineIntersect(c, new Vector3D(17, 1.01, 0), new Vector3D(-13, 1.01, 0)).ShouldBe(false);
+            Geometry.DiscLineIntersect(c, new Vector3D(17, 1.01, 0), new Vector3D(-13, 1.01, 0)).ShouldBeFalse();
         }
 
         [Test]
@@ -1145,7 +1145,7 @@ namespace Math.Tests
             var n = 0;
             foreach (var p in points)
             {
-                Geometry.DiscLineIntersect(c, Vector3D.Zero, p).ShouldBe(true);
+                Geometry.DiscLineIntersect(c, Vector3D.Zero, p).ShouldBeTrue();
                 var l = c.Center.EuclideanNorm(p);
                 c.Radius.ShouldBeGreaterThanOrEqualTo(l*.9999999);
                 if (Comparison.IsEqual(c.Radius, l))
@@ -1900,7 +1900,7 @@ namespace Math.Tests
             var c = new Vector3D(3, 1, 0);
             var p = new Vector3D(2, 2, 1.0);
 
-            Geometry.TrianglePointIntersect(a, b, c, p).ShouldBe(false);
+            Geometry.TrianglePointIntersect(a, b, c, p).ShouldBeFalse();
         }
     }
 }

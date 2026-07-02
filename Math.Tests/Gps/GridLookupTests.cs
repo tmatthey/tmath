@@ -102,7 +102,7 @@ namespace Math.Tests.Gps
                 neighboursCur1[i].Count.ShouldBe(neighboursCur2[i].Count);
                 for (var j = 0; j < neighboursCur1[i].Count; j++)
                 {
-                    neighboursCur1[i][j].IsEqual(neighboursCur2[i][j]).ShouldBe(true);
+                    neighboursCur1[i][j].IsEqual(neighboursCur2[i][j]).ShouldBeTrue();
                 }
             }
         }

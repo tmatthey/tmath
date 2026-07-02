@@ -107,7 +107,7 @@ namespace Math.Tests
             var d = c + 0.1;
             var s0 = new Segment3D(new Vector3D(x0, y0, c), new Vector3D(x1, y1, c));
             var s1 = new Segment3D(new Vector3D(u0, v0, d), new Vector3D(u1, v1, d));
-            s0.IsIntersecting(s1).ShouldBe(false);
+            s0.IsIntersecting(s1).ShouldBeFalse();
         }
 
         [TestCase(-1, -1, 0, 0, 0, 0, 1, 1, true)]
@@ -190,15 +190,15 @@ namespace Math.Tests
             var v = new Vector3D(1.1, 2.2, 3.3);
             var a = new Segment3D(u, v);
             var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBe(false);
-            ReferenceEquals(a.A, b.A).ShouldBe(false);
-            ReferenceEquals(a.B, b.B).ShouldBe(false);
-            a.Equals(b).ShouldBe(true);
-            a.A.Equals(b.A).ShouldBe(true);
-            a.B.Equals(b.B).ShouldBe(true);
-            a.IsEqual(b).ShouldBe(true);
-            a.A.IsEqual(b.A).ShouldBe(true);
-            a.B.IsEqual(b.B).ShouldBe(true);
+            ReferenceEquals(a, b).ShouldBeFalse();
+            ReferenceEquals(a.A, b.A).ShouldBeFalse();
+            ReferenceEquals(a.B, b.B).ShouldBeFalse();
+            a.Equals(b).ShouldBeTrue();
+            a.A.Equals(b.A).ShouldBeTrue();
+            a.B.Equals(b.B).ShouldBeTrue();
+            a.IsEqual(b).ShouldBeTrue();
+            a.A.IsEqual(b.A).ShouldBeTrue();
+            a.B.IsEqual(b.B).ShouldBeTrue();
         }
 
         [Test]
@@ -243,7 +243,7 @@ namespace Math.Tests
         {
             var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
             var u = v;
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
@@ -251,14 +251,14 @@ namespace Math.Tests
         {
             var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
             var u = new Segment3D(v);
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNullptr_ReturnsFalse()
         {
             var v = new Segment3D(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6));
-            v.Equals(null).ShouldBe(false);
+            v.Equals(null).ShouldBeFalse();
         }
 
         [Test]

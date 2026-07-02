@@ -58,7 +58,7 @@ namespace Math.Tests
             var expected = 23;
             var index = 17;
             var a = new SparseArray<int> { [index] = expected };
-            a.Contains(expected).ShouldBe(true);
+            a.Contains(expected).ShouldBeTrue();
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Math.Tests
             var expected = 23;
             var index = 17;
             var a = new SparseArray<int> { [index] = expected };
-            a.Contains(expected + 1).ShouldBe(false);
+            a.Contains(expected + 1).ShouldBeFalse();
         }
 
         [Test]

@@ -213,7 +213,7 @@ namespace Math.Tests
         {
             var p = new Polynomial(new List<double> {1.112, 1.07, 1.9});
             var q = p.Clone();
-            ReferenceEquals(p, q).ShouldBe(false);
+            ReferenceEquals(p, q).ShouldBeFalse();
             p.p().ShouldBe(q.p());
             p.P().ShouldBe(q.P());
             p.dp().ShouldBe(q.dp());

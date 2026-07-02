@@ -75,15 +75,15 @@ namespace Math.Tests
             var v = new Vector3D(1.1, 2.2, 3.3);
             var a = new Circle3D(u, v, 19.17);
             var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBe(false);
-            ReferenceEquals(a.Center, b.Center).ShouldBe(false);
-            ReferenceEquals(a.Normal, b.Normal).ShouldBe(false);
-            a.Equals(b).ShouldBe(true);
-            a.Center.Equals(b.Center).ShouldBe(true);
-            a.Normal.Equals(b.Normal).ShouldBe(true);
-            a.IsEqual(b).ShouldBe(true);
-            a.Center.IsEqual(b.Center).ShouldBe(true);
-            a.Normal.IsEqual(b.Normal).ShouldBe(true);
+            ReferenceEquals(a, b).ShouldBeFalse();
+            ReferenceEquals(a.Center, b.Center).ShouldBeFalse();
+            ReferenceEquals(a.Normal, b.Normal).ShouldBeFalse();
+            a.Equals(b).ShouldBeTrue();
+            a.Center.Equals(b.Center).ShouldBeTrue();
+            a.Normal.Equals(b.Normal).ShouldBeTrue();
+            a.IsEqual(b).ShouldBeTrue();
+            a.Center.IsEqual(b.Center).ShouldBeTrue();
+            a.Normal.IsEqual(b.Normal).ShouldBeTrue();
         }
 
         [Test]
@@ -192,21 +192,21 @@ namespace Math.Tests
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            p.Equals(q).ShouldBe(true);
+            p.Equals(q).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), 0.2);
-            p.Equals(p).ShouldBe(true);
+            p.Equals(p).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            p.Equals(null).ShouldBe(false);
+            p.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace Math.Tests
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
-            (p == q).ShouldBe(true);
+            (p == q).ShouldBeTrue();
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace Math.Tests
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(-4, -2, 0), 0.2);
-            (p == q).ShouldBe(true);
+            (p == q).ShouldBeTrue();
         }
 
         [Test]
@@ -238,7 +238,7 @@ namespace Math.Tests
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2.01, 2), new Vector3D(2, 1, 0), 0.2);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace Math.Tests
         {
             var p = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.2);
             var q = new Circle3D(new Vector3D(1, 2, 2), new Vector3D(2, 1, 0), 0.201);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
     }
 }

@@ -188,9 +188,9 @@ namespace Math.Tests
         {
             var v = new Polar3D(1.1, 2.2, 2.3);
             var w = v.Clone();
-            ReferenceEquals(v, w).ShouldBe(false);
-            v.Equals(w).ShouldBe(true);
-            v.IsEqual(w).ShouldBe(true);
+            ReferenceEquals(v, w).ShouldBeFalse();
+            v.Equals(w).ShouldBeTrue();
+            v.IsEqual(w).ShouldBeTrue();
             w.R.ShouldBe(v.R);
             w.Theta.ShouldBe(v.Theta);
             w.Phi.ShouldBe(v.Phi);
@@ -223,14 +223,14 @@ namespace Math.Tests
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new Polar3D(0.1, 0.2);
-            p.Equals(p).ShouldBe(true);
+            p.Equals(p).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new Polar3D(0.1, 0.2);
-            p.Equals(null).ShouldBe(false);
+            p.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -269,7 +269,7 @@ namespace Math.Tests
             var p = new Polar3D(0.1, 0.2);
             var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.0);
             p.R.ShouldBe(1.0);
-            (p == q).ShouldBe(true);
+            (p == q).ShouldBeTrue();
         }
 
         [Test]
@@ -278,7 +278,7 @@ namespace Math.Tests
             var p = new Polar3D(0.1, 0.2);
             var q = new Polar3D(0.1, 0.2 + System.Math.PI * 2.0, 1.1);
             p.R.ShouldBe(1.0);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]

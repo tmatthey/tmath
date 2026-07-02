@@ -184,9 +184,9 @@ namespace Math.Tests.Gps
         {
             var v = new GpsPoint(1.1, 2.2, 3.3);
             var w = v.Clone();
-            ReferenceEquals(v, w).ShouldBe(false);
-            v.Equals(w).ShouldBe(true);
-            v.IsEqual(w).ShouldBe(true);
+            ReferenceEquals(v, w).ShouldBeFalse();
+            v.Equals(w).ShouldBeTrue();
+            v.IsEqual(w).ShouldBeTrue();
             w.Elevation.ShouldBe(v.Elevation);
             w.Latitude.ShouldBe(v.Latitude);
             w.Longitude.ShouldBe(v.Longitude);
@@ -203,14 +203,14 @@ namespace Math.Tests.Gps
         public void Equals_WithItself_ReturnsTrue()
         {
             var p = new GpsPoint(12, 14, 17);
-            p.Equals(p).ShouldBe(true);
+            p.Equals(p).ShouldBeTrue();
         }
 
         [Test]
         public void Equals_WithNull_ReturnsFalse()
         {
             var p = new GpsPoint(12, 14);
-            p.Equals(null).ShouldBe(false);
+            p.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, 17);
             var q = new GpsPoint(12, 14, 17);
-            p.Equals(q).ShouldBe(true);
+            p.Equals(q).ShouldBeTrue();
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, -Geodesy.EarthRadius);
             var q = new GpsPoint(12, 14.1, -Geodesy.EarthRadius);
-            p.IsEqual(q).ShouldBe(true);
+            p.IsEqual(q).ShouldBeTrue();
         }
 
         [Test]
@@ -363,7 +363,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, 17.1);
             var q = new GpsPoint(12, 14, 17.1);
-            (p == q).ShouldBe(true);
+            (p == q).ShouldBeTrue();
         }
 
         [Test]
@@ -371,7 +371,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, 17);
             var q = new GpsPoint(12, 14, 17.1);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]
@@ -379,7 +379,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, 17.1);
             var q = new GpsPoint(12, 14.1, 17.1);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]
@@ -387,7 +387,7 @@ namespace Math.Tests.Gps
         {
             var p = new GpsPoint(12, 14, 17.1);
             var q = new GpsPoint(12, 14.1, 17.1);
-            (p != q).ShouldBe(true);
+            (p != q).ShouldBeTrue();
         }
 
         [Test]

@@ -45,21 +45,21 @@ namespace Math.Tests
             var a = new BoundingBox(u);
             a.Expand(v);
             var b = a.Clone();
-            ReferenceEquals(a, b).ShouldBe(false);
-            ReferenceEquals(a.Min, b.Min).ShouldBe(false);
-            ReferenceEquals(a.Max, b.Max).ShouldBe(false);
-            a.Equals(b).ShouldBe(true);
-            a.Min.Equals(b.Min).ShouldBe(true);
-            a.Min.Equals(b.Min).ShouldBe(true);
-            a.Max.IsEqual(b.Max).ShouldBe(true);
-            a.Max.IsEqual(b.Max).ShouldBe(true);
+            ReferenceEquals(a, b).ShouldBeFalse();
+            ReferenceEquals(a.Min, b.Min).ShouldBeFalse();
+            ReferenceEquals(a.Max, b.Max).ShouldBeFalse();
+            a.Equals(b).ShouldBeTrue();
+            a.Min.Equals(b.Min).ShouldBeTrue();
+            a.Min.Equals(b.Min).ShouldBeTrue();
+            a.Max.IsEqual(b.Max).ShouldBeTrue();
+            a.Max.IsEqual(b.Max).ShouldBeTrue();
         }
 
         [Test]
         public void Constructor_Empty_True()
         {
             var bb = new BoundingBox();
-            bb.IsEmpty().ShouldBe(true);
+            bb.IsEmpty().ShouldBeTrue();
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Math.Tests
             var v = new BoundingBox(new Vector3D(1, 2, 3));
             v.Expand(new Vector3D(4, 5, 6));
             var u = new BoundingBox(v);
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Math.Tests
             var v = new BoundingBox(new Vector3D(1, 2, 3));
             v.Expand(new Vector3D(4, 5, 6));
             var u = v;
-            v.Equals(u).ShouldBe(true);
+            v.Equals(u).ShouldBeTrue();
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Math.Tests
         {
             var v = new BoundingBox(new Vector3D(1, 2, 3));
             v.Expand(new Vector3D(4, 5, 6));
-            v.Equals(null).ShouldBe(false);
+            v.Equals(null).ShouldBeFalse();
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Math.Tests
             bb.Expand(new BoundingBox());
             bb.Min.ShouldBe(_min);
             bb.Max.ShouldBe(_max);
-            bb.IsEmpty().ShouldBe(true);
+            bb.IsEmpty().ShouldBeTrue();
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace Math.Tests
             bb.Expand(bb2);
             bb.Min.ShouldBe(v);
             bb.Max.ShouldBe(v);
-            bb.IsEmpty().ShouldBe(false);
+            bb.IsEmpty().ShouldBeFalse();
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Math.Tests
             bb.Expand(bb2);
             bb.Min.ShouldBe(v);
             bb.Max.ShouldBe(v);
-            bb.IsEmpty().ShouldBe(false);
+            bb.IsEmpty().ShouldBeFalse();
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace Math.Tests
         public void IsInside_EmptyBox_ReturnsFalse()
         {
             var bb = new BoundingBox();
-            bb.IsInside(Vector3D.E1).ShouldBe(false);
+            bb.IsInside(Vector3D.E1).ShouldBeFalse();
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace Math.Tests
             var v = new Vector3D(2, -1, 0.1);
             bb.Expand(u);
             bb.Expand(v);
-            bb.IsInside((bb.Min + bb.Max) * 0.5).ShouldBe(true);
+            bb.IsInside((bb.Min + bb.Max) * 0.5).ShouldBeTrue();
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace Math.Tests
             var v = new Vector3D(2, -1, 0.1);
             bb.Expand(u);
             bb.Expand(v);
-            bb.IsInside(bb.Min - bb.Max).ShouldBe(false);
+            bb.IsInside(bb.Min - bb.Max).ShouldBeFalse();
         }
 
         [Test]
